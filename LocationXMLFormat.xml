@@ -1,0 +1,15 @@
+<!--N = name of location, H = hebrew name (optional), I = is the location in Israel? [Y = yes] (optional)-->
+<L N="Ofakim" H="אופקים" I="Y"> 
+    <!--Time zone: hour offset from UTC (AKA GMT) -->
+    <T>2</T>     
+    <!--Elevation in meters (optional)-->
+    <E>170</E>     
+    <!--Latitude-->
+    <LT>31.32</LT> 
+    <!--Longitude-->
+    <LN>-34.62</LN>
+    <!--Candle-lighting: minutes before sunset (optional)-->    
+    <CL>30</CL> 
+    <!--Time zone name (optional)-->
+    <TZN>Israel Standard Time</TZN> 
+</L>

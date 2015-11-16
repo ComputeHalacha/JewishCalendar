@@ -1,0 +1,256 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>The Jewish Calendar Library</title>
+    <style>
+        body { font-family: Verdana, Geneva, Tahoma, sans-serif; color: #321; }
+        h1, h2, h3, h4, h5, h6 { color: #655; }
+        a { color: #877; }
+    </style>
+</head>
+<body>
+
+    <h1>Jewish Calendar Library</h1>
+    <blockquote>
+        <p>
+            <em>JewishCalendar</em> is an open source .NET library for
+            Jewish calendar functions and calculations.
+        </p>
+        The following are the classes of the library:
+        <ul>
+            <li><strong><a href="#JewishDate">JewishDate</a></strong> - Represents a single day in the Jewish Calendar. The calculations are based on System.Globalization.HebrewCalendar.</li>
+            <li><strong><a href="#JewishDateMicro">JewishDateMicro</a></strong> - - Represents a single day in the Jewish Calendar. The calculations are not dependent on any other .NET class.</li>
+            <li><strong><a href="#Zmanim">Zmanim</a></strong> - Computes the daily Zmanim and Yomim Tovim for a single Jewish date</li>
+            <li><strong><a href="#Sedra">Sedra</a></strong> - Computes the sedra of the week for any Jewish date</li>
+            <li><strong><a href="#DafYomi">DafYomi</a></strong> - Does the calculations for ascertaining the Daf Yomi for any Jewish date since Daf Yomi was initiated.</li>
+            <li><strong><a href="#JewishDateCalculations">JewishDateCalculations</a></strong> - Static class that contains functions for Jewish calendar calculations.</li>
+            <li><strong><a href="#Location">Location</a></strong> - Represents a place or location. Needed for calculating the zmanim.</li>
+            <li><strong><a href="#SpecialDay">SpecialDay</a></strong>  - Represents a yomtov, fast or any other special day</li>
+            <li><strong><a href="#HourMinute">HourMinute</a></strong>  - Represents a very simple time of day - just hour and minute</li>
+        </ul>
+        <h2>JewishDate &amp; JewishDateMicro</h2>
+        <blockquote>
+            <p>
+                <a name="JewishDate">In the JewishCalendar library, a single day of the Jewish
+            calendar is represented by an instance of the <strong><em>JewishDate</em></strong> class.
+                </a>
+            </p>
+            <p>
+                There are 2 versions of the <em>JewishDate </em>class, JewishDate
+            and JewishDateMicro:
+            </p>
+            <h5>JewishCalendar.JewishDate</h5>
+            <blockquote>
+                Based on the standard .NET class System.Globalization.HebrewCalendar, which
+            we found to be very efficient.<p>There 2 limitations caused by this:  </p>
+                <ul>
+                    <li>This class can only represent dates for the years 5343 through
+                5999. This is because System.Globalization.HebrewCalendar is limited to those
+                dates.
+                        <br />
+                        <br />
+                    </li>
+                    <li>This class cannot be used for projects that do not have access
+                to System.Globalization.HebrewCalendar. So for projects such as a .NET Micro Framework
+                projects etc., you will need to use the alternative class, JewishDateMicro. You
+                will also need to remove (or comment out) the file <em>JewishDate.cs</em> before
+                compiling.
+                    </li>
+                </ul>
+                <p>
+                    Even though the JewishDate class’s
+                underlying calculations are directly based on System.Globalization.HebrewCalendar,
+                there is a major difference between the System.Globalization.HebrewCalendar
+                class and the JewishDate class.
+                </p>
+                <p>
+                    The System.Globalization.HebrewCalendar class
+                has Tishrei as month number one, while JewishDate has Nissan as the first month.
+                </p>
+                <p>
+                    We have found that having Tishrei as the
+                first month becomes very confusing, as all the months after Adar do not have a
+                set number. They will all get a different number, depending on whether or not the
+                year is a leap year.
+                </p>
+                <p>
+                    Additionally, calling Tishrei as month
+                number one is inherently incorrect. The Torah specifically instructs us to call
+                <em>Nissan</em> the first month. (See Ramban in his Drasha for Rosh Hashana).
+                </p>
+                <p>
+                    So the JewishDate class has Nissan as month
+                number one.  All the months are always numbered correctly and Adar Sheini will
+                be month number 13.
+                </p>
+            </blockquote>
+            <h5><a name="JewishDateMicro">JewishCalendar.JewishDateMicro</a></h5>
+            <blockquote>
+                This class is somewhat less efficient than the <em>JewishDate</em> class but can
+            represent any Jewish date from the date of creation  of the world (either JD 1-1-0001
+            or JD 7-1-0001) onwards. It also has no dependence on the System.Globalization.HebrewCalendar
+            so it can be used for .NET Micro Framework projects etc.
+            </blockquote>
+            <p style="font-weight: bold;">
+                Otherwise, the functionality of both classes
+            are identical.
+            </p>
+            <h4>JewishDate Constructors</h4>
+            <p>
+                The following are the different ways you can create an
+            instance of the JewishDate or JewishDateMicro classes:
+            </p>
+            <ul>
+                <li><code><strong>JewishDate()</strong></code> - <em>Empty constructor.</em>
+                    Creates a new object based on the current system date.
+                    <br />
+                    <br />
+                </li>
+
+                <li><code><strong>JewishDate(int year, int month, int
+                day)</strong></code> – creates a new Jewish date for the given Jewish year,
+                month and day.
+                <p>For example: </p>
+                    <p>
+                        <code>iJewishDate jd = new JewishDate(5767, 7, 29);
+                        </code>
+                    </p>
+                    <p>
+                        This will give you an instance representing
+                    the 29<sup>th</sup> day of Tishrei in the year תשס&quot;ז (5767).
+                    </p>
+                </li>
+                <li><code><strong>JewishDate(System.DateTime date)</strong></code> - 
+                    Creates a Jewish date corresponding to the given secular date
+                    <p>For example:</p>
+                    <p>
+                        <code>iJewishDate jd = new JewishDate(new DateTime(2015, 10, 16));
+                        </code>
+                    </p>
+                    <p>
+                        This will get you a Jewish date object for
+                    the 3<sup>rd</sup> of Cheshvan 5776.
+                    </p>
+                    <p>
+                        Note: as the location is not specified
+                    here, we cannot determine what time sunset is. So if the given time is after
+                    sunset, the Jewish date will be a Jewish Day too early.
+                    </p>
+                </li>
+                <li><code><strong>JewishDate(Location location)</strong></code>
+                    - Gives you a JewishDate for the current system date and time at the given
+                <em>Location</em>. 
+                    <p>
+                        This constructor checks the time of sunset at the given
+                location. If the current system time is after sunset, it adds a day to the
+                JewishDate object it creates. This, of course, is because the Jewish Date
+                begins at sunset, not at midnight.
+                    </p>
+                </li>
+                <li><code><strong>JewishDate(System.DateTime date, Location location)</strong></code>
+                    – Creates a JewishDate for the given secular date and time at the given location. 
+                    <p>
+                        This constructor checks the time
+                of sunset at the given location. If the given time is after sunset, it adds a
+                day to the JewishDate object it creates. The Jewish Date begins at sunset, not
+                at midnight.
+                    </p>
+                </li>
+            </ul>
+
+            <h3>JewishDate Properties</h3>
+            <p>
+                Both JewishDate classes implement the <em>JewishCalendar.IJewishDate</em>
+                interface which gives them the following properties:
+            </p>
+            <ul>
+                <li>
+                    <code><strong>Day</strong></code> - The Day in the month
+                for this Jewish Date.
+                </li>
+
+                <li><code><strong>Month</strong></code> - The number of the Jewish
+                Month for this Jewish Date. As in the Torah, Nissan is month number one.
+                </li>
+                <li><code><strong>MonthName</strong></code> - The name of
+                the current Jewish Month (in English).
+                </li>
+                <li><code><strong>Year</strong></code> – The number of years
+                since creation for this Jewish Date.
+                </li>
+                <li><code><strong>DayOfWeek</strong></code> - The day of the
+                week for this Jewish Date.
+                </li>
+                <li><code><strong>GregorianDate</strong></code> – A regular
+                System.DateTime containing the secular date on this Jewish Date.
+                </li>
+                <li><code><strong>AbsoluteDate</strong></code> - The number
+                of days that elapsed since the theoretical Gregorian date Sunday, December 31,
+                1 BCE. Since there is no year 0 in the calendar, the year following 1 BCE is 1
+                CE. So, the Gregorian date January 1, 1 CE is absolute date number 1.  
+                <br />
+                    Note: This property is mostly used for internal
+                calculations but can be used for very quick date calculations.            
+                </li>
+            </ul>
+
+            <h3>JewishDate Functions</h3>
+            Both JewishDate classes also have the following functions:
+            <ul>
+                <li>
+                <li><code><strong>ToString()</strong></code> - Returns the
+                Jewish date in the format: Adar 14, 5775.
+                </li>
+                <li><code><strong>ToLongDateString()</strong></code> - Returns
+                the Jewish date in the format: The 14th day of Adar, 5775.
+                </li>
+                <li><code><code><strong>ToShortDateString()</strong></code></code> –
+                Identical to ToString(), returns the Jewish date in the format: Adar 14, 5775.
+                </li>
+                <li><code><strong>ToLongDateStringHeb()</strong></code>
+                    - Returns the Jewish date in the format: יום&nbsp;חמישי כ&quot;ט תשרי תשע&quot;ה.
+                </li>
+                <li><code><strong>ToShortDateStringHeb()</strong></code>
+                    - Returns the Jewish date in the format: כ&quot;ו אלול תשע&quot;ה.
+                </li>
+            </ul>
+            <h3>JewishDate Operators</h3>
+            Both JewishDate classes also define the following operator functions:
+            <ul>
+                <li><code><strong>iJewishDate jd1 == iJewishDate jd2</strong></code> -
+                Returns true if both iJewishDate objects have the same day, month and year. You
+                can also use the Equals(obj jd2) method or the extension method IsSameDate(iJewishDate
+                js) for the same purpose.
+                </li>
+                <li><code><strong>iJewishDate jd1 != iJewishDate jd2</strong></code>
+                    - Returns true if both iJewishDate objects do not have the same day, month and year.                        
+                </li>
+                <li><code><strong>iJewishDate jd1 &gt; iJewishDate jd2</strong></code>
+                    - Returns true if the current iJewishDate object (left side) is chronologically after the
+                second iJewishDate object (the one on the right).
+                </li>
+                <li><code><strong>iJewishDate jd1 &lt; iJewishDate jd2</strong></code>
+                    - Returns true if the current iJewishDate object (left side) is chronologically before
+                the second iJewishDate object (the one on the right).
+                </li>
+                <li><code><strong>iJewishDate jd1 &gt;= iJewishDate jd2</strong></code> -
+                Returns true if the current iJewishDate object (left side) is not chronologically
+                earlier than the second iJewishDate object (the one on the right).</li>
+                <li><code><strong>iJewishDate jd1 &lt;= iJewishDate jd2</strong></code> -
+                Returns true if the current iJewishDate object (left side) is not chronologically
+                later than the second iJewishDate object (the one on the right).</li>
+                <li><code><strong>iJewishDate jd1 + int days</strong></code>
+                    – Adds the specified number of days to the current iJewishDate object (the one on the left)
+                and returns it as new JewishDate object.</li>
+                <li><code><strong>iJewishDate jd1 - int days</strong></code> – Subtracts the
+                specified number of days from the current iJewishDate object (the one on the
+                left) and returns it as new JewishDate object.</li>
+                <li><code><strong>iJewishDate jd1 - iJewishDate j2</strong></code> – Gets the
+                difference in days between two Jewish dates.
+                </li>
+            </ul>
+        </blockquote>
+    </blockquote>
+</body>
+</html>
