@@ -299,6 +299,18 @@ namespace LuachProject
         private void pnlMain_MouseMove(object sender, MouseEventArgs e)
         {
             this._pnlMouseLocation = e.Location;
+
+            var sdi = this.GetSingleDateInfoFromLocation(this._pnlMouseLocation);
+            if (sdi != null)
+            {                
+                var occ = this.GetUserOccasionFromLocation(this._pnlMouseLocation, sdi);
+                if (occ != null)
+                {
+                    this.pnlMain.Cursor = Cursors.Hand;
+                    return;
+                }
+            }
+            this.pnlMain.Cursor = Cursors.Default;
         }
 
         private void pnlMain_MouseClick(object sender, MouseEventArgs e)
@@ -306,8 +318,15 @@ namespace LuachProject
             var sdi = this.GetSingleDateInfoFromLocation(this._pnlMouseLocation);
 
             if (sdi != null)
-            {                
+            {
                 this.SelectSingleDay(sdi);
+                var occ = this.GetUserOccasionFromLocation(this._pnlMouseLocation, sdi);
+
+                if (occ != null && this.splitContainer1.Panel2.Controls.Count > 0)
+                {
+                    var f = this.splitContainer1.Panel2.Controls[0] as frmDailyInfoEng;
+                    f.EditOccasion(occ);
+                }
             }
 
             this.EnableArrows();
@@ -394,7 +413,6 @@ namespace LuachProject
             var rect = new RectangleF(currX, currY, width, height);
             var text = currDate.Day.ToNumberHeb();
             var holidays = Zmanim.GetHolidays(currDate, this._currentLocation.IsInIsrael);
-            var occasions = UserOccasionColection.FromSettings(currDate);
 
             SingleDateInfo sdi = new SingleDateInfo(currDate, new RectangleF(rect.Location, rect.Size));
 
@@ -457,9 +475,9 @@ namespace LuachProject
                 textZmanim += Zmanim.GetHolidaysText(holidays, "\n", false);
             }
 
-            if (occasions.Any(bc => bc.BackColor != Color.Empty))
+            if (sdi.UserOccasions.Any(bc => bc.BackColor != Color.Empty))
             {
-                g.FillRectangle(new SolidBrush(occasions.First(bc => bc.BackColor.Color != Color.Empty).BackColor), rect);
+                g.FillRectangle(new SolidBrush(sdi.UserOccasions.First(bc => bc.BackColor.Color != Color.Empty).BackColor), rect);
             }
             if (this._selectedDay != null && currDate == this._selectedDay)
             {
@@ -484,7 +502,7 @@ namespace LuachProject
             float offsetTop = 0f;
 
             //Padding top - varies according to what needs to be displayed beneath it
-            rect.Y = currY + (rect.Height / (occasions.Count + holidays.Count > 1 ? 20 : 10));
+            rect.Y = currY + (rect.Height / (sdi.UserOccasions.Count + holidays.Count > 1 ? 20 : 10));
 
             //Hebrew day will be on the left, so we cut the rectangle in half.
             rect.Width /= 2;
@@ -504,10 +522,17 @@ namespace LuachProject
 
             offsetTop += rect.Height / (holidays.Count > 1 ? 5 : 3);
 
-            foreach (var o in occasions)
+            foreach (var o in sdi.UserOccasions)
             {
+                //Get the text size for this occasions label.
+                var textSize = g.MeasureString(o.Name, this._userOccasionFont, (int)rect.Width, Program.StringFormat);
+                
+                //Move the Y position down to empty space.
                 rect.Y = currY + offsetTop;
-                rect.Height = g.MeasureString(o.Name, this._userOccasionFont, (int)rect.Width, Program.StringFormat).Height;
+                rect.Height = textSize.Height;
+                //Save the exact position of the occasion label so when the user clicks on it afterwards, we can open the occasion for editing.
+                //Note: the occasion labels are centered in the days box, so we can't use the X position of rect (which is always 0).
+                o.Rectangle = new RectangleF((rect.Width /2) - (textSize.Width / 2), rect.Y, textSize.Width, textSize.Height);
                 g.DrawString(o.Name, this._userOccasionFont, new SolidBrush(o.Color), rect, Program.StringFormat);
                 offsetTop += rect.Height;
             }
@@ -553,6 +578,15 @@ namespace LuachProject
                 t.RectangleF.Right > location.X &&
                 t.RectangleF.Top < location.Y &&
                 t.RectangleF.Bottom > location.Y);
+        }
+
+        private UserOccasion GetUserOccasionFromLocation(Point location, SingleDateInfo sdi)
+        {
+            return sdi.UserOccasions.FirstOrDefault(t =>
+                t.Rectangle.Left < location.X &&
+                t.Rectangle.Right > location.X &&
+                t.Rectangle.Top < location.Y &&
+                t.Rectangle.Bottom > location.Y);
         }
 
         private void ShowSingleDayInfo(SingleDateInfo sdi)
@@ -723,7 +757,7 @@ namespace LuachProject
         {
             //For some odd reason, the focus only works if we go traveling around the form a bit.
             this.llSecularCalendar.Focus();
-           
+
             this.splitContainer2.Focus();
         }
 

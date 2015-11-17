@@ -279,20 +279,22 @@ namespace LuachProject
                 LinkColor = occ.Color,
                 AutoSize = false,
                 AutoEllipsis = true,
+                Tag = occ,
                 LinkBehavior = LinkBehavior.HoverUnderline
             };
             this.toolTip1.SetToolTip(l, occ.Notes);
 
             l.MouseClick += delegate
             {
-                this.EditOccasion(occ, l);
+                this.EditOccasion(occ);
             };
             this.flowLayoutPanel1.Controls.Add(l);
         }
 
-        private void EditOccasion(UserOccasion occ, LinkLabel l)
+        public void EditOccasion(UserOccasion occ)
         {
             var frmAo = new frmAddOccasionEng(occ);
+            LinkLabel l = this.flowLayoutPanel1.Controls.OfType<LinkLabel>().First(ll => ll.Tag == occ);
             this.PositionAddOccasion(frmAo);
 
             frmAo.OccasionWasChanged += delegate(object sndr, UserOccasion uo)
