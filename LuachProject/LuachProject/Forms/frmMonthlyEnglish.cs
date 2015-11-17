@@ -302,15 +302,25 @@ namespace LuachProject
 
             var sdi = this.GetSingleDateInfoFromLocation(this._pnlMouseLocation);
             if (sdi != null)
-            {                
+            {
                 var occ = this.GetUserOccasionFromLocation(this._pnlMouseLocation, sdi);
                 if (occ != null)
                 {
                     this.pnlMain.Cursor = Cursors.Hand;
+                    
+                    string currTText = this.toolTip1.GetToolTip(this.pnlMain),
+                        tot = occ.Name + " - Click to edit" + 
+                            ((!string.IsNullOrWhiteSpace(occ.Notes)) ? "\r\nNotes:\r\n" + occ.Notes : "");
+                    
+                    if(string.IsNullOrEmpty(currTText) || currTText != tot)
+                    {
+                        this.toolTip1.SetToolTip(this.pnlMain, tot);                                            
+                    }
                     return;
                 }
             }
             this.pnlMain.Cursor = Cursors.Default;
+            this.toolTip1.SetToolTip(this.pnlMain, null);
         }
 
         private void pnlMain_MouseClick(object sender, MouseEventArgs e)
@@ -526,13 +536,13 @@ namespace LuachProject
             {
                 //Get the text size for this occasions label.
                 var textSize = g.MeasureString(o.Name, this._userOccasionFont, (int)rect.Width, Program.StringFormat);
-                
+
                 //Move the Y position down to empty space.
                 rect.Y = currY + offsetTop;
                 rect.Height = textSize.Height;
                 //Save the exact position of the occasion label so when the user clicks on it afterwards, we can open the occasion for editing.
                 //Note: the occasion labels are centered in the days box, so we can't use the X position of rect (which is always 0).
-                o.Rectangle = new RectangleF((rect.Width /2) - (textSize.Width / 2), rect.Y, textSize.Width, textSize.Height);
+                o.Rectangle = new RectangleF((rect.Width / 2) - (textSize.Width / 2), rect.Y, textSize.Width, textSize.Height);
                 g.DrawString(o.Name, this._userOccasionFont, new SolidBrush(o.Color), rect, Program.StringFormat);
                 offsetTop += rect.Height;
             }
