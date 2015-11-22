@@ -264,6 +264,7 @@ namespace LuachProject
                 LinkColor = occ.Color,                
                 AutoSize = false,
                 AutoEllipsis = true,
+                Tag = occ,            
                 LinkBehavior = LinkBehavior.HoverUnderline
             };
             
@@ -271,30 +272,36 @@ namespace LuachProject
 
             l.MouseClick += delegate
             {
-                var frmAo = new frmAddOccasionHeb(occ);
-                this.PositionAddOccasion(frmAo);
-                frmAo.OccasionWasChanged += delegate(object sndr, UserOccasion uo)
-               {
-                   if (OccasionWasChanged != null)
-                   {
-                       OccasionWasChanged(this,  (uo != null ? uo.JewishDate : this._displayingJewishDate));
-                   }
-                   if (frmAo.UserOccasion == null || 
-                   (!UserOccasionColection.FromSettings(this._displayingJewishDate).Contains(frmAo.UserOccasion)))
-                   {
-                       this.toolTip1.SetToolTip(l, null);
-                       this.flowLayoutPanel1.Controls.Remove(l);
-                   }
-                   else
-                   {
-                       l.Text = frmAo.UserOccasion.Name;
-                       l.LinkColor = frmAo.UserOccasion.Color;
-                       this.toolTip1.SetToolTip(l, frmAo.UserOccasion.Notes);
-                       this.flowLayoutPanel1.BackColor = (uo.BackColor != Color.Empty ? uo.BackColor.Color : Color.GhostWhite);
-                   }
-               };
+                this.EditOccasion(occ);
             };
             this.flowLayoutPanel1.Controls.Add(l);
+        }
+
+        public void EditOccasion(UserOccasion occ)
+        {
+            var frmAo = new frmAddOccasionHeb(occ);
+            LinkLabel l = this.flowLayoutPanel1.Controls.OfType<LinkLabel>().First(ll => ll.Tag == occ);
+            this.PositionAddOccasion(frmAo);
+            frmAo.OccasionWasChanged += delegate(object sndr, UserOccasion uo)
+            {
+                if (OccasionWasChanged != null)
+                {
+                    OccasionWasChanged(this, (uo != null ? uo.JewishDate : this._displayingJewishDate));
+                }
+                if (frmAo.UserOccasion == null ||
+                (!UserOccasionColection.FromSettings(this._displayingJewishDate).Contains(frmAo.UserOccasion)))
+                {
+                    this.toolTip1.SetToolTip(l, null);
+                    this.flowLayoutPanel1.Controls.Remove(l);
+                }
+                else
+                {
+                    l.Text = frmAo.UserOccasion.Name;
+                    l.LinkColor = frmAo.UserOccasion.Color;
+                    this.toolTip1.SetToolTip(l, frmAo.UserOccasion.Notes);
+                    this.flowLayoutPanel1.BackColor = (uo.BackColor != Color.Empty ? uo.BackColor.Color : Color.GhostWhite);
+                }
+            };
         }
 
         private void AddLine(string header, string value)

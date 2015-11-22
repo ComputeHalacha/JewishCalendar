@@ -28,28 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMonthlyHebrew));
-            this.pnlMain = new System.Windows.Forms.Panel();
             this.lblMonthName = new System.Windows.Forms.Label();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.llSecularCalendar = new System.Windows.Forms.LinkLabel();
+            this.llSefirah = new System.Windows.Forms.LinkLabel();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.splitContainer1 = new LuachProject.CuelessSplitContainer();
+            this.splitContainer2 = new LuachProject.CuelessSplitContainer();
+            this.pnlMain = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.jewishDatePicker1 = new JewishDatePicker.JewishDatePicker();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.cmbLocation = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.rbInIsrael = new System.Windows.Forms.RadioButton();
             this.rbInChul = new System.Windows.Forms.RadioButton();
+            this.label2 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.splitContainer1 = new LuachProject.CuelessSplitContainer();
-            this.splitContainer2 = new LuachProject.CuelessSplitContainer();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.jewishDatePicker1 = new JewishDatePicker.JewishDatePicker();
-            this.llSecularCalendar = new System.Windows.Forms.LinkLabel();
-            this.llSefirah = new System.Windows.Forms.LinkLabel();
-            this.panel1.SuspendLayout();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -58,23 +59,8 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // pnlMain
-            // 
-            this.pnlMain.BackColor = System.Drawing.Color.White;
-            this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlMain.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.pnlMain.Location = new System.Drawing.Point(7, 0);
-            this.pnlMain.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(878, 540);
-            this.pnlMain.TabIndex = 0;
-            this.pnlMain.TabStop = true;
-            this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
-            this.pnlMain.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseClick);
-            this.pnlMain.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseDoubleClick);
-            this.pnlMain.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseMove);
             // 
             // lblMonthName
             // 
@@ -88,175 +74,6 @@
             this.lblMonthName.Text = "label1";
             this.lblMonthName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // cmbLocation
-            // 
-            this.cmbLocation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbLocation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cmbLocation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cmbLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbLocation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmbLocation.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.cmbLocation.FormattingEnabled = true;
-            this.cmbLocation.Location = new System.Drawing.Point(534, 121);
-            this.cmbLocation.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmbLocation.Name = "cmbLocation";
-            this.cmbLocation.Size = new System.Drawing.Size(351, 26);
-            this.cmbLocation.Sorted = true;
-            this.cmbLocation.TabIndex = 5;
-            this.cmbLocation.SelectedIndexChanged += new System.EventHandler(this.cmbLocation_SelectedIndexChanged);
-            // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.rbInIsrael);
-            this.panel1.Controls.Add(this.rbInChul);
-            this.panel1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.panel1.Location = new System.Drawing.Point(657, 88);
-            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(228, 29);
-            this.panel1.TabIndex = 11;
-            // 
-            // rbInIsrael
-            // 
-            this.rbInIsrael.Checked = global::LuachProject.Properties.Settings.Default.rbInIsraelChecked;
-            this.rbInIsrael.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::LuachProject.Properties.Settings.Default, "rbInIsraelChecked", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.rbInIsrael.Location = new System.Drawing.Point(3, 3);
-            this.rbInIsrael.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.rbInIsrael.Name = "rbInIsrael";
-            this.rbInIsrael.Size = new System.Drawing.Size(67, 21);
-            this.rbInIsrael.TabIndex = 0;
-            this.rbInIsrael.TabStop = true;
-            this.rbInIsrael.Text = "ארץ ישראל";
-            this.rbInIsrael.UseVisualStyleBackColor = true;
-            this.rbInIsrael.CheckedChanged += new System.EventHandler(this.rbInIsrael_CheckedChanged);
-            // 
-            // rbInChul
-            // 
-            this.rbInChul.Location = new System.Drawing.Point(84, 4);
-            this.rbInChul.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.rbInChul.Name = "rbInChul";
-            this.rbInChul.Size = new System.Drawing.Size(102, 20);
-            this.rbInChul.TabIndex = 1;
-            this.rbInChul.Text = "חו\"ל";
-            this.rbInChul.UseVisualStyleBackColor = true;
-            // 
-            // label6
-            // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.label6.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label6.ForeColor = System.Drawing.Color.GhostWhite;
-            this.label6.Location = new System.Drawing.Point(534, 58);
-            this.label6.Name = "label6";
-            this.label6.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
-            this.label6.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label6.Size = new System.Drawing.Size(351, 24);
-            this.label6.TabIndex = 10;
-            this.label6.Text = ":מיקום";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // button3
-            // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button3.BackColor = System.Drawing.Color.White;
-            this.button3.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.button3.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.button3.Location = new System.Drawing.Point(172, 60);
-            this.button3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button3.Name = "button3";
-            this.button3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button3.Size = new System.Drawing.Size(141, 87);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "היום";
-            this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button2
-            // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button2.BackColor = System.Drawing.Color.Lavender;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Tahoma", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.button2.ForeColor = System.Drawing.Color.LightSlateGray;
-            this.button2.Location = new System.Drawing.Point(319, 60);
-            this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button2.Name = "button2";
-            this.button2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button2.Size = new System.Drawing.Size(158, 39);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "חודש הקודם →";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.BackColor = System.Drawing.Color.Lavender;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Tahoma", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.button1.ForeColor = System.Drawing.Color.LightSlateGray;
-            this.button1.Location = new System.Drawing.Point(10, 60);
-            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button1.Name = "button1";
-            this.button1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button1.Size = new System.Drawing.Size(158, 39);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "← חודש הבא";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button4
-            // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button4.BackColor = System.Drawing.Color.Lavender;
-            this.button4.FlatAppearance.BorderSize = 0;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Font = new System.Drawing.Font("Tahoma", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.button4.ForeColor = System.Drawing.Color.LightSlateGray;
-            this.button4.Location = new System.Drawing.Point(319, 108);
-            this.button4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button4.Name = "button4";
-            this.button4.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button4.Size = new System.Drawing.Size(158, 39);
-            this.button4.TabIndex = 4;
-            this.button4.Text = "שנה הקודם →";
-            this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // button5
-            // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button5.BackColor = System.Drawing.Color.Lavender;
-            this.button5.FlatAppearance.BorderSize = 0;
-            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button5.Font = new System.Drawing.Font("Tahoma", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.button5.ForeColor = System.Drawing.Color.LightSlateGray;
-            this.button5.Location = new System.Drawing.Point(10, 108);
-            this.button5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button5.Name = "button5";
-            this.button5.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button5.Size = new System.Drawing.Size(158, 39);
-            this.button5.TabIndex = 2;
-            this.button5.Text = "← שנה הבא";
-            this.button5.UseVisualStyleBackColor = false;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // label2
-            // 
-            this.label2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label2.ForeColor = System.Drawing.Color.DimGray;
-            this.label2.Location = new System.Drawing.Point(0, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(895, 18);
-            this.label2.TabIndex = 17;
-            this.label2.Text = "לחץ על יום לראות פרטי היום   |   לחץ פעמיים להוסיף אירוע   |   לנווט בין הימים הש" +
-    "תמשו בלחצני החיצים";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
             // linkLabel1
             // 
             this.linkLabel1.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
@@ -268,6 +85,44 @@
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "English";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // llSecularCalendar
+            // 
+            this.llSecularCalendar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.llSecularCalendar.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.llSecularCalendar.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.llSecularCalendar.Location = new System.Drawing.Point(1040, 2);
+            this.llSecularCalendar.Name = "llSecularCalendar";
+            this.llSecularCalendar.Size = new System.Drawing.Size(134, 16);
+            this.llSecularCalendar.TabIndex = 0;
+            this.llSecularCalendar.TabStop = true;
+            this.llSecularCalendar.Text = "לוח לועזי";
+            this.llSecularCalendar.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.llSecularCalendar.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llSecularCalendar_LinkClicked);
+            // 
+            // llSefirah
+            // 
+            this.llSefirah.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.llSefirah.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.llSefirah.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.llSefirah.LinkColor = System.Drawing.Color.Maroon;
+            this.llSefirah.Location = new System.Drawing.Point(1020, 18);
+            this.llSefirah.Name = "llSefirah";
+            this.llSefirah.Size = new System.Drawing.Size(154, 17);
+            this.llSefirah.TabIndex = 4;
+            this.llSefirah.TabStop = true;
+            this.llSefirah.Text = "הוסף תזכורת ספירת העומר";
+            this.llSefirah.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.llSefirah.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llSefira_LinkClicked);
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.AutomaticDelay = 0;
+            this.toolTip1.BackColor = System.Drawing.Color.GhostWhite;
+            this.toolTip1.ForeColor = System.Drawing.Color.LightSlateGray;
+            this.toolTip1.IsBalloon = true;
+            this.toolTip1.UseAnimation = false;
+            this.toolTip1.UseFading = false;
             // 
             // splitContainer1
             // 
@@ -325,6 +180,22 @@
             this.splitContainer2.TabIndex = 0;
             this.splitContainer2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.splitContainer2_KeyDown);
             // 
+            // pnlMain
+            // 
+            this.pnlMain.BackColor = System.Drawing.Color.White;
+            this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlMain.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.pnlMain.Location = new System.Drawing.Point(7, 0);
+            this.pnlMain.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pnlMain.Name = "pnlMain";
+            this.pnlMain.Size = new System.Drawing.Size(878, 540);
+            this.pnlMain.TabIndex = 0;
+            this.pnlMain.TabStop = true;
+            this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
+            this.pnlMain.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseClick);
+            this.pnlMain.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseDoubleClick);
+            this.pnlMain.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseMove);
+            // 
             // panel2
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -351,34 +222,174 @@
             this.jewishDatePicker1.TabIndex = 18;
             this.jewishDatePicker1.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.Value")));
             // 
-            // llSecularCalendar
+            // button4
             // 
-            this.llSecularCalendar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.llSecularCalendar.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.llSecularCalendar.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.llSecularCalendar.Location = new System.Drawing.Point(1040, 2);
-            this.llSecularCalendar.Name = "llSecularCalendar";
-            this.llSecularCalendar.Size = new System.Drawing.Size(134, 16);
-            this.llSecularCalendar.TabIndex = 0;
-            this.llSecularCalendar.TabStop = true;
-            this.llSecularCalendar.Text = "לוח לועזי";
-            this.llSecularCalendar.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.llSecularCalendar.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llSecularCalendar_LinkClicked);
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button4.BackColor = System.Drawing.Color.Lavender;
+            this.button4.FlatAppearance.BorderSize = 0;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Font = new System.Drawing.Font("Tahoma", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.button4.ForeColor = System.Drawing.Color.LightSlateGray;
+            this.button4.Location = new System.Drawing.Point(319, 108);
+            this.button4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button4.Name = "button4";
+            this.button4.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.button4.Size = new System.Drawing.Size(158, 39);
+            this.button4.TabIndex = 4;
+            this.button4.Text = "שנה הקודם →";
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // llSefirah
+            // button2
             // 
-            this.llSefirah.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.llSefirah.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.llSefirah.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.llSefirah.LinkColor = System.Drawing.Color.Maroon;
-            this.llSefirah.Location = new System.Drawing.Point(1020, 18);
-            this.llSefirah.Name = "llSefirah";
-            this.llSefirah.Size = new System.Drawing.Size(154, 17);
-            this.llSefirah.TabIndex = 4;
-            this.llSefirah.TabStop = true;
-            this.llSefirah.Text = "הוסף תזכורת ספירת העומר";
-            this.llSefirah.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.llSefirah.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llSefira_LinkClicked);
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button2.BackColor = System.Drawing.Color.Lavender;
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Tahoma", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.button2.ForeColor = System.Drawing.Color.LightSlateGray;
+            this.button2.Location = new System.Drawing.Point(319, 60);
+            this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button2.Name = "button2";
+            this.button2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.button2.Size = new System.Drawing.Size(158, 39);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "חודש הקודם →";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // cmbLocation
+            // 
+            this.cmbLocation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbLocation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbLocation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmbLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbLocation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbLocation.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.cmbLocation.FormattingEnabled = true;
+            this.cmbLocation.Location = new System.Drawing.Point(534, 121);
+            this.cmbLocation.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmbLocation.Name = "cmbLocation";
+            this.cmbLocation.Size = new System.Drawing.Size(351, 26);
+            this.cmbLocation.Sorted = true;
+            this.cmbLocation.TabIndex = 5;
+            this.cmbLocation.SelectedIndexChanged += new System.EventHandler(this.cmbLocation_SelectedIndexChanged);
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.rbInIsrael);
+            this.panel1.Controls.Add(this.rbInChul);
+            this.panel1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.panel1.Location = new System.Drawing.Point(657, 88);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(228, 29);
+            this.panel1.TabIndex = 11;
+            // 
+            // rbInIsrael
+            // 
+            this.rbInIsrael.Checked = global::LuachProject.Properties.Settings.Default.rbInIsraelChecked;
+            this.rbInIsrael.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::LuachProject.Properties.Settings.Default, "rbInIsraelChecked", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.rbInIsrael.Location = new System.Drawing.Point(3, 3);
+            this.rbInIsrael.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.rbInIsrael.Name = "rbInIsrael";
+            this.rbInIsrael.Size = new System.Drawing.Size(67, 21);
+            this.rbInIsrael.TabIndex = 0;
+            this.rbInIsrael.TabStop = true;
+            this.rbInIsrael.Text = "ארץ ישראל";
+            this.rbInIsrael.UseVisualStyleBackColor = true;
+            this.rbInIsrael.CheckedChanged += new System.EventHandler(this.rbInIsrael_CheckedChanged);
+            // 
+            // rbInChul
+            // 
+            this.rbInChul.Location = new System.Drawing.Point(84, 4);
+            this.rbInChul.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.rbInChul.Name = "rbInChul";
+            this.rbInChul.Size = new System.Drawing.Size(102, 20);
+            this.rbInChul.TabIndex = 1;
+            this.rbInChul.Text = "חו\"ל";
+            this.rbInChul.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label2.ForeColor = System.Drawing.Color.DimGray;
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(895, 18);
+            this.label2.TabIndex = 17;
+            this.label2.Text = "לחץ על יום לראות פרטי היום   |   לחץ פעמיים להוסיף אירוע   |   לנווט בין הימים הש" +
+    "תמשו בלחצני החיצים";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.label6.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label6.ForeColor = System.Drawing.Color.GhostWhite;
+            this.label6.Location = new System.Drawing.Point(534, 58);
+            this.label6.Name = "label6";
+            this.label6.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
+            this.label6.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label6.Size = new System.Drawing.Size(351, 24);
+            this.label6.TabIndex = 10;
+            this.label6.Text = ":מיקום";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // button3
+            // 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button3.BackColor = System.Drawing.Color.White;
+            this.button3.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.button3.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.button3.Location = new System.Drawing.Point(172, 60);
+            this.button3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button3.Name = "button3";
+            this.button3.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.button3.Size = new System.Drawing.Size(141, 87);
+            this.button3.TabIndex = 3;
+            this.button3.Text = "היום";
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button5
+            // 
+            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button5.BackColor = System.Drawing.Color.Lavender;
+            this.button5.FlatAppearance.BorderSize = 0;
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button5.Font = new System.Drawing.Font("Tahoma", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.button5.ForeColor = System.Drawing.Color.LightSlateGray;
+            this.button5.Location = new System.Drawing.Point(10, 108);
+            this.button5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button5.Name = "button5";
+            this.button5.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.button5.Size = new System.Drawing.Size(158, 39);
+            this.button5.TabIndex = 2;
+            this.button5.Text = "← שנה הבא";
+            this.button5.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button1.BackColor = System.Drawing.Color.Lavender;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Tahoma", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.button1.ForeColor = System.Drawing.Color.LightSlateGray;
+            this.button1.Location = new System.Drawing.Point(10, 60);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button1.Name = "button1";
+            this.button1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.button1.Size = new System.Drawing.Size(158, 39);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "← חודש הבא";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // frmMonthlyHebrew
             // 
@@ -402,7 +413,6 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmMonthlyHebrew_FormClosed);
             this.Load += new System.EventHandler(this.frmMonthlyHebrew_Load);
             this.Resize += new System.EventHandler(this.frmMonthlyHebrew_Resize);
-            this.panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -412,6 +422,7 @@
             this.splitContainer2.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -438,5 +449,6 @@
         private System.Windows.Forms.LinkLabel llSefirah;
         private JewishDatePicker.JewishDatePicker jewishDatePicker1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

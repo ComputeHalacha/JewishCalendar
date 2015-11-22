@@ -298,6 +298,27 @@ namespace LuachProject
         private void pnlMain_MouseMove(object sender, MouseEventArgs e)
         {
             this._pnlMouseLocation = e.Location;
+            var sdi = this.GetSingleDateInfoFromLocation(this._pnlMouseLocation);
+            if (sdi != null)
+            {
+                var occ = this.GetUserOccasionFromLocation(this._pnlMouseLocation, sdi);
+                if (occ != null)
+                {
+                    this.pnlMain.Cursor = Cursors.Hand;
+                    
+                    string currTText = this.toolTip1.GetToolTip(this.pnlMain),
+                        tot = occ.Name + " - לחץ לעדכן, לשנות או למחוק" +
+                            ((!string.IsNullOrWhiteSpace(occ.Notes)) ? "\r\nהערות:\r\n" + occ.Notes : "");                    
+                    
+                    if(string.IsNullOrEmpty(currTText) || currTText != tot)
+                    {
+                        this.toolTip1.SetToolTip(this.pnlMain, tot);                                            
+                    }
+                    return;
+                }
+            }
+            this.pnlMain.Cursor = Cursors.Default;
+            this.toolTip1.SetToolTip(this.pnlMain, null);
         }
 
         private void pnlMain_MouseClick(object sender, MouseEventArgs e)
@@ -307,6 +328,13 @@ namespace LuachProject
             if (sdi != null)
             {
                 this.SelectSingleDay(sdi);
+                var occ = this.GetUserOccasionFromLocation(this._pnlMouseLocation, sdi);
+
+                if (occ != null && this.splitContainer1.Panel1.Controls.Count > 0)
+                {
+                    var f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
+                    f.EditOccasion(occ);
+                }
             }
 
             this.EnableArrows();
@@ -505,8 +533,15 @@ namespace LuachProject
 
             foreach (var o in occasions)
             {
+                //Get the text size for this occasions label.
+                var textSize = g.MeasureString(o.Name, this._userOccasionFont, (int)rect.Width, Program.StringFormat);
+
+                //Move the Y position down to empty space.
                 rect.Y = currY + offsetTop;
-                rect.Height = g.MeasureString(o.Name, this._userOccasionFont, (int)rect.Width, Program.StringFormat).Height;
+                rect.Height = textSize.Height;
+                //Save the exact position of the occasion label so when the user clicks on it afterwards, we can open the occasion for editing.
+                //Note: the occasion labels are centered in the days box, so we need to find the beginning of the centered text.
+                o.Rectangle = new RectangleF(rect.X + ((rect.Width / 2) - (textSize.Width / 2)), rect.Y, textSize.Width, textSize.Height);
                 g.DrawString(o.Name, this._userOccasionFont, new SolidBrush(o.Color), rect, Program.StringFormat);
                 offsetTop += rect.Height;
             }
@@ -554,6 +589,14 @@ namespace LuachProject
                 t.RectangleF.Bottom > location.Y);
         }
 
+        private UserOccasion GetUserOccasionFromLocation(Point location, SingleDateInfo sdi)
+        {
+            return sdi.UserOccasions.FirstOrDefault(t =>
+                t.Rectangle.Left < location.X &&
+                t.Rectangle.Right > location.X &&
+                t.Rectangle.Top < location.Y &&
+                t.Rectangle.Bottom > location.Y);
+        }
         private void ShowSingleDayInfo(SingleDateInfo sdi)
         {
             if (sdi == null)
