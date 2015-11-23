@@ -103,15 +103,15 @@ namespace LuachProject
 
         private void button1_Click(object sender, EventArgs e)
         {
-            AddNewOccasion();
+            AddNewOccasion(null);
         }
         #endregion
 
         #region private functions
-        public void AddNewOccasion()
+        public void AddNewOccasion(Point? parentPoint)
         {
             var frmAo = new frmAddOccasionEng { JewishDate = this._displayingJewishDate };
-            this.PositionAddOccasion(frmAo);
+            this.PositionAddOccasion(frmAo, parentPoint);
             frmAo.OccasionWasChanged += delegate(object sndr, UserOccasion uo)
             {
                 if (OccasionWasChanged != null)
@@ -208,7 +208,7 @@ namespace LuachProject
                     this.richTextBox1.SelectedText = Environment.NewLine;
                     this.richTextBox1.SelectionFont = this._sefirahFont;
                     this.richTextBox1.SelectionColor = Color.SteelBlue;
-                    this.richTextBox1.SelectedText = Utils.GetOmerNusach(this._displayingJewishDate.GetDayOfOmer(), true, false) + Environment.NewLine;                    
+                    this.richTextBox1.SelectedText = Utils.GetOmerNusach(this._displayingJewishDate.GetDayOfOmer(), true, false) + Environment.NewLine;
                 }
             }
         }
@@ -236,7 +236,7 @@ namespace LuachProject
             this.richTextBox1.SelectionBackColor = this.richTextBox1.BackColor;
             this.richTextBox1.SelectedText = Environment.NewLine + Environment.NewLine;
 
-            if(netz == HourMinute.NoValue)
+            if (netz == HourMinute.NoValue)
             {
                 this.AddLine("Netz Hachama", "The does not rise");
             }
@@ -250,11 +250,11 @@ namespace LuachProject
                 this.AddLine("Zeman Tefillah - MG\"A", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString());
                 this.AddLine("Zeman Tefillah - GR\"A", (netz + (int)Math.Floor(shaaZmanis * 4D)).ToString());
             }
-            
-            if(netz != HourMinute.NoValue && shkia!= HourMinute.NoValue)
+
+            if (netz != HourMinute.NoValue && shkia != HourMinute.NoValue)
             {
                 this.AddLine("Chatzos - Day & Night", chatzos.ToString());
-                this.AddLine("Mincha Gedolah", (chatzos + (int)(shaaZmanis * 0.5)).ToString());            
+                this.AddLine("Mincha Gedolah", (chatzos + (int)(shaaZmanis * 0.5)).ToString());
             }
 
             if (shkia == HourMinute.NoValue)
@@ -286,16 +286,16 @@ namespace LuachProject
 
             l.MouseClick += delegate
             {
-                this.EditOccasion(occ);
+                this.EditOccasion(occ, null);
             };
             this.flowLayoutPanel1.Controls.Add(l);
         }
 
-        public void EditOccasion(UserOccasion occ)
+        public void EditOccasion(UserOccasion occ, Point? parentPoint)
         {
             var frmAo = new frmAddOccasionEng(occ);
             LinkLabel l = this.flowLayoutPanel1.Controls.OfType<LinkLabel>().First(ll => ll.Tag == occ);
-            this.PositionAddOccasion(frmAo);
+            this.PositionAddOccasion(frmAo, parentPoint);
 
             frmAo.OccasionWasChanged += delegate(object sndr, UserOccasion uo)
             {
@@ -330,29 +330,67 @@ namespace LuachProject
             this.richTextBox1.SelectedText = value.Trim() + Environment.NewLine;
         }
 
-        private void PositionAddOccasion(Form frmAo)
+        private void PositionAddOccasion(frmAddOccasionEng frmAo, Point? parentPoint)
         {
-            frmAo.Show(this);
             frmAo.StartPosition = FormStartPosition.Manual;
-            var pointZero = new Point(this.ParentForm.Right, this.ParentForm.Bottom - frmAo.Height - 7);
-            frmAo.Location = pointZero;
-            var a = 0;
-            while (true)
+            frmAo.SuspendLayout();
+
+            if (parentPoint == null)
             {
-                if (frmAo.Width - a < 50)
+                Point pointZero = new Point(this.ParentForm.Right, this.ParentForm.Bottom - frmAo.Height - 7);
+                int a = 0;
+
+                frmAo.Location = pointZero;
+                frmAo.Show(this);
+            
+                while (true)
                 {
-                    frmAo.Location = new Point(pointZero.X - frmAo.Width - 10, pointZero.Y);
-                    break;
+                    if (frmAo.Width - a < 50)
+                    {
+                        frmAo.Location = new Point(pointZero.X - frmAo.Width - 10, pointZero.Y);
+                        break;
+                    }
+                    else
+                    {
+                        frmAo.Location = new Point(pointZero.X - a, pointZero.Y);
+                        frmAo.Refresh();
+                        a += 50;
+                    }
                 }
-                else
+                frmAo.BringToFront();
+            }
+            else
+            {
+                frmAo.FadeOut = true;
+                frmAo.Opacity = 0;
+
+                var point = parentPoint.Value;
+                
+                if (point.X < 0)
                 {
-                    frmAo.Location = new Point(pointZero.X - a, pointZero.Y);
-                    frmAo.Refresh();
-                    a += 50;
+                    point.X = 10;
+                }
+                else if ((point.X + frmAo.Width) > this.ParentForm.Right)
+                {
+                    point.X = this.ParentForm.Right - frmAo.Width - 10;
+                }
+
+                if ((point.Y + frmAo.Height) > (this.ParentForm.Bottom - 7))
+                {
+                    point.Y = this.ParentForm.Bottom - frmAo.Height - 7;
+                }
+
+                frmAo.Location = point;                            
+                frmAo.BringToFront();
+                frmAo.Show(this);
+
+                while (frmAo.Opacity < 1.0)
+                {
+                    frmAo.Opacity += 0.05;
                 }
             }
 
-            frmAo.BringToFront();
+            frmAo.ResumeLayout();
         }
 
         private void DisplayDateDiff()

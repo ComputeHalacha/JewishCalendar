@@ -14,6 +14,8 @@ namespace LuachProject
         private Color _selectedForeColor = Color.Red;
         private Color _selectedBackColor = Color.Empty;
 
+        public bool FadeOut { get; set; }
+
         public JewishDate JewishDate
         {
             get
@@ -247,10 +249,21 @@ namespace LuachProject
 
         private void frmAddOccasionEng_FormClosing(object sender, FormClosingEventArgs e)
         {
-            while (this.Left < this.Owner.Right)
+            if (this.FadeOut)
             {
-                this.Location = new Point(this.Left + 50, this.Top);
-                this.Refresh();
+                while(this.Opacity > 0)
+                {
+                    this.Opacity -= 0.05;
+                    this.Refresh();
+                }
+            }
+            else
+            {
+                while (this.Left < this.Owner.Right)
+                {
+                    this.Location = new Point(this.Left + 50, this.Top);
+                    this.Refresh();
+                }
             }
         }
 
@@ -268,6 +281,6 @@ namespace LuachProject
             this.rbJewishMonthly.Text = "Monthly event on the " + jdDay + " day of each Jewish month";
             this.rbSecularYearly.Text = "Yearly event on the " + sdDay + " day of " + sdMonth;
             this.rbSecularMonthly.Text = "Monthly event on the " + sdDay + " day of each Secular month";
-        }
+        }        
     }
 }

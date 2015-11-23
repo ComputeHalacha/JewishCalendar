@@ -158,7 +158,7 @@ namespace LuachProject
             {
                 return;
             }
-
+            this.pnlMain.SuspendLayout();
             var currDate = this._displayedJewishMonth;
             float dayWidth = (this.pnlMain.Width / 7f) + 1f;
             var eachDayHeight = (this.pnlMain.Height - 26f) / this._currentMonthWeeks;
@@ -206,6 +206,7 @@ namespace LuachProject
                 }
                 this.pnlMain.Invalidate();
             }
+            this.pnlMain.ResumeLayout();
         }
 
         private void frmMonthlyEnglish_Resize(object sender, EventArgs e)
@@ -278,7 +279,7 @@ namespace LuachProject
                     if (this.splitContainer1.Panel2.Controls.Count > 0)
                     {
                         var f = this.splitContainer1.Panel2.Controls[0] as frmDailyInfoEng;
-                        f.AddNewOccasion();
+                        f.AddNewOccasion(null);
                     }
                     break;
             }
@@ -307,14 +308,14 @@ namespace LuachProject
                 if (occ != null)
                 {
                     this.pnlMain.Cursor = Cursors.Hand;
-                    
+
                     string currTText = this.toolTip1.GetToolTip(this.pnlMain),
-                        tot = occ.Name + " - Click to edit" + 
+                        tot = occ.Name + " - Click to edit" +
                             ((!string.IsNullOrWhiteSpace(occ.Notes)) ? "\r\nNotes:\r\n" + occ.Notes : "");
-                    
-                    if(string.IsNullOrEmpty(currTText) || currTText != tot)
+
+                    if (string.IsNullOrEmpty(currTText) || currTText != tot)
                     {
-                        this.toolTip1.SetToolTip(this.pnlMain, tot);                                            
+                        this.toolTip1.SetToolTip(this.pnlMain, tot);
                     }
                     return;
                 }
@@ -335,7 +336,7 @@ namespace LuachProject
                 if (occ != null && this.splitContainer1.Panel2.Controls.Count > 0)
                 {
                     var f = this.splitContainer1.Panel2.Controls[0] as frmDailyInfoEng;
-                    f.EditOccasion(occ);
+                    f.EditOccasion(occ, new Point((int)(sdi.RectangleF.X + sdi.RectangleF.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
                 }
             }
 
@@ -351,7 +352,7 @@ namespace LuachProject
                 if (this.splitContainer1.Panel2.Controls.Count > 0)
                 {
                     var f = this.splitContainer1.Panel2.Controls[0] as frmDailyInfoEng;
-                    f.AddNewOccasion();
+                    f.AddNewOccasion(new Point((int)(sdi.RectangleF.X + sdi.RectangleF.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
                 }
             }
         }

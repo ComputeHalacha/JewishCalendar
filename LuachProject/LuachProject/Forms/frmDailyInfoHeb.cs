@@ -103,15 +103,15 @@ namespace LuachProject
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            this.AddNewOccasion();
+            this.AddNewOccasion(null);
         }
         #endregion
 
         #region private functions
-        public void AddNewOccasion()
+        public void AddNewOccasion(Point? parentPoint)
         {
             var frm = new frmAddOccasionHeb { JewishDate = this._displayingJewishDate };
-            this.PositionAddOccasion(frm);
+            this.PositionAddOccasion(frm, parentPoint);
             frm.OccasionWasChanged += delegate(object sndr, UserOccasion uo)
             {
                 if (OccasionWasChanged != null)
@@ -272,16 +272,16 @@ namespace LuachProject
 
             l.MouseClick += delegate
             {
-                this.EditOccasion(occ);
+                this.EditOccasion(occ, null);
             };
             this.flowLayoutPanel1.Controls.Add(l);
         }
 
-        public void EditOccasion(UserOccasion occ)
+        public void EditOccasion(UserOccasion occ, Point? parentPoint)
         {
             var frmAo = new frmAddOccasionHeb(occ);
             LinkLabel l = this.flowLayoutPanel1.Controls.OfType<LinkLabel>().First(ll => ll.Tag == occ);
-            this.PositionAddOccasion(frmAo);
+            this.PositionAddOccasion(frmAo, parentPoint);
             frmAo.OccasionWasChanged += delegate(object sndr, UserOccasion uo)
             {
                 if (OccasionWasChanged != null)
@@ -314,31 +314,70 @@ namespace LuachProject
             this.richTextBox1.SelectedText = value.Trim() + Environment.NewLine;
         }
 
-        private void PositionAddOccasion(Form frmAo)
-        {
-            frmAo.Show(this);
+        private void PositionAddOccasion(frmAddOccasionHeb frmAo, Point? parentPoint)
+        {            
             frmAo.StartPosition = FormStartPosition.Manual;
-            var pointZero = new Point(-frmAo.Width, this.ParentForm.Bottom - frmAo.Height - 7);
+            frmAo.SuspendLayout();
 
-            frmAo.Location = pointZero;
-
-            var a = 0;
-            while (true)
+            if (parentPoint == null)
             {
-                if (frmAo.Width - a < 50)
+                var pointZero = new Point(-frmAo.Width, this.ParentForm.Bottom - frmAo.Height - 7);
+
+                frmAo.Location = pointZero;
+                frmAo.Show(this);
+                var a = 0;
+                while (true)
                 {
-                    frmAo.Location = new Point(0, pointZero.Y);
-                    break;
+                    if (frmAo.Width - a < 50)
+                    {
+                        frmAo.Location = new Point(0, pointZero.Y);
+                        break;
+                    }
+                    else
+                    {
+                        frmAo.Location = new Point(pointZero.X + a, pointZero.Y);
+                        frmAo.Refresh();
+                        a += 50;
+                    }
                 }
-                else
+
+                frmAo.BringToFront();
+            }
+            else
+            {                
+                frmAo.FadeOut = true;
+                //Opacity is not supported on Right-To-Left
+                //frmAo.RightToLeft = RightToLeft.No;
+                frmAo.Opacity = 0;
+                
+                var point = parentPoint.Value;
+
+                if ( point.X < 0)
                 {
-                    frmAo.Location = new Point(pointZero.X + a, pointZero.Y);
-                    frmAo.Refresh();
-                    a += 50;
+                    point.X = 10;
                 }
+                else if ((point.X + frmAo.Width) > this.ParentForm.Right)
+                {
+                    point.X = this.ParentForm.Right - frmAo.Width - 10;
+                }
+
+                if ((point.Y + frmAo.Height) > (this.ParentForm.Bottom - 7))
+                {
+                    point.Y = this.ParentForm.Bottom - frmAo.Height - 7;
+                }
+
+                frmAo.Location = point;
+                frmAo.Show(this);
+                frmAo.BringToFront();
+
+                while (frmAo.Opacity < 1.0)
+                {
+                    frmAo.Opacity += 0.05;
+                }
+                //frmAo.RightToLeft = RightToLeft.Yes;
             }
 
-            frmAo.BringToFront();
+            frmAo.ResumeLayout();
         }
 
         private void SetDateDiff()

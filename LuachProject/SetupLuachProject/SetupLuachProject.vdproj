@@ -28,13 +28,13 @@
         "Entry"
         {
         "MsmKey" = "8:_0ED5855A1712C76B96DEFF56B0FF83CC"
-        "OwnerKey" = "8:_18D1445C0D8D27AC2DE830851137FCCA"
+        "OwnerKey" = "8:_907BC84D88CBC4F08C58472A8DDB502B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_0ED5855A1712C76B96DEFF56B0FF83CC"
-        "OwnerKey" = "8:_907BC84D88CBC4F08C58472A8DDB502B"
+        "OwnerKey" = "8:_18D1445C0D8D27AC2DE830851137FCCA"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -118,13 +118,13 @@
         "Entry"
         {
         "MsmKey" = "8:_F93F0315FF6088C51C70D6A0792F7B5B"
-        "OwnerKey" = "8:_58A5B13B1CC244E198188C3CC9027262"
+        "OwnerKey" = "8:_3EF577859B15DAD78261F0130821DDF9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_F93F0315FF6088C51C70D6A0792F7B5B"
-        "OwnerKey" = "8:_3EF577859B15DAD78261F0130821DDF9"
+        "OwnerKey" = "8:_58A5B13B1CC244E198188C3CC9027262"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -136,43 +136,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_58A5B13B1CC244E198188C3CC9027262"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C3442445A242E750EB3417D8B88BE467"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_907BC84D88CBC4F08C58472A8DDB502B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_18D1445C0D8D27AC2DE830851137FCCA"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0ED5855A1712C76B96DEFF56B0FF83CC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_09080A02D51B49738DDF657C3710EBBA"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_6D43D8360A68CE79DF27CF0D9940259F"
+        "OwnerKey" = "8:_F93F0315FF6088C51C70D6A0792F7B5B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -184,7 +148,43 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F93F0315FF6088C51C70D6A0792F7B5B"
+        "OwnerKey" = "8:_6D43D8360A68CE79DF27CF0D9940259F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_09080A02D51B49738DDF657C3710EBBA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_0ED5855A1712C76B96DEFF56B0FF83CC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_18D1445C0D8D27AC2DE830851137FCCA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_907BC84D88CBC4F08C58472A8DDB502B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C3442445A242E750EB3417D8B88BE467"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_58A5B13B1CC244E198188C3CC9027262"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -371,11 +371,6 @@
             "AssemblyAsmDisplayName" = "8:JewishDatePicker, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_3EF577859B15DAD78261F0130821DDF9"
-                    {
-                    "Name" = "8:JewishDatePicker.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:JewishDatePicker.dll"
             "TargetName" = "8:"
@@ -442,11 +437,6 @@
             "AssemblyAsmDisplayName" = "8:Itenso.TimePeriod, Version=1.4.11.0, Culture=neutral, PublicKeyToken=d7f23b760ed5c748, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_6D43D8360A68CE79DF27CF0D9940259F"
-                    {
-                    "Name" = "8:Itenso.TimePeriod.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Itenso.TimePeriod.dll"
             "TargetName" = "8:"
@@ -524,11 +514,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.Win32.TaskScheduler, Version=2.5.3.0, Culture=neutral, PublicKeyToken=0d013ddd5178a2ae, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_C3442445A242E750EB3417D8B88BE467"
-                    {
-                    "Name" = "8:Microsoft.Win32.TaskScheduler.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Microsoft.Win32.TaskScheduler.dll"
             "TargetName" = "8:"
@@ -575,11 +560,6 @@
             "AssemblyAsmDisplayName" = "8:System.Xml.Serialization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
                 "ScatterAssemblies"
                 {
-                    "_EF006AE0196DB54771A2B8A1B484E8D5"
-                    {
-                    "Name" = "8:System.Xml.Serialization.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.Xml.Serialization.dll"
             "TargetName" = "8:"
@@ -606,11 +586,6 @@
             "AssemblyAsmDisplayName" = "8:JewishDate, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F93F0315FF6088C51C70D6A0792F7B5B"
-                    {
-                    "Name" = "8:JewishDate.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:JewishDate.dll"
             "TargetName" = "8:"
@@ -708,15 +683,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:The Luach Project"
-        "ProductCode" = "8:{F45EC656-78C4-4F1C-9EEA-0922A939746B}"
-        "PackageCode" = "8:{E32C48C3-1701-403C-B1E4-EA5319B6ED7E}"
+        "ProductCode" = "8:{05EA5BA3-EC30-4D05-8B28-F7DF2DEEED81}"
+        "PackageCode" = "8:{EA6AE293-3783-425C-9AC6-E43945F50C61}"
         "UpgradeCode" = "8:{94EC422E-1AFA-46ED-A945-710704E8EE9F}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.1.2"
+        "ProductVersion" = "8:1.1.6"
         "Manufacturer" = "8:Compute Software Solutions"
         "ARPHELPTELEPHONE" = "8:+972-8-974-1364"
         "ARPHELPLINK" = "8:"

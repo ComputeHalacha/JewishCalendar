@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMonthlySecular));
             this.lblMonthName = new System.Windows.Forms.Label();
             this.llChangeLanguage = new System.Windows.Forms.LinkLabel();
@@ -50,6 +51,7 @@
             this.btnNextYear = new System.Windows.Forms.Button();
             this.btnPreviousMonth = new System.Windows.Forms.Button();
             this.lblInstructions = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -150,7 +152,7 @@
             this.splitContainer2.Panel2.Controls.Add(this.lblInstructions);
             this.splitContainer2.Panel2MinSize = 100;
             this.splitContainer2.Size = new System.Drawing.Size(966, 690);
-            this.splitContainer2.SplitterDistance = 543;
+            this.splitContainer2.SplitterDistance = 546;
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 1;
             this.splitContainer2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.splitContainer2_KeyDown);
@@ -162,7 +164,7 @@
             this.pnlMain.Location = new System.Drawing.Point(9, 0);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(957, 543);
+            this.pnlMain.Size = new System.Drawing.Size(957, 546);
             this.pnlMain.TabIndex = 0;
             this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
             this.pnlMain.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseClick);
@@ -182,7 +184,7 @@
             this.pnlControls.Controls.Add(this.btnNextYear);
             this.pnlControls.Controls.Add(this.btnPreviousMonth);
             this.pnlControls.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlControls.Location = new System.Drawing.Point(0, 26);
+            this.pnlControls.Location = new System.Drawing.Point(0, 23);
             this.pnlControls.Name = "pnlControls";
             this.pnlControls.Size = new System.Drawing.Size(966, 120);
             this.pnlControls.TabIndex = 19;
@@ -441,5 +443,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel pnlControls;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

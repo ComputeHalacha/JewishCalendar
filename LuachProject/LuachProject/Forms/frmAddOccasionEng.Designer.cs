@@ -122,15 +122,19 @@
             // 
             // jewishDatePicker1
             // 
+            this.jewishDatePicker1.AutoSize = true;
             this.jewishDatePicker1.BackColor = System.Drawing.Color.White;
             this.jewishDatePicker1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.jewishDatePicker1.Language = JewishDatePicker.JewishDatePicker.Languages.English;
             this.jewishDatePicker1.Location = new System.Drawing.Point(515, 55);
             this.jewishDatePicker1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.jewishDatePicker1.MaxDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MaxDate")));
+            this.jewishDatePicker1.MinDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MinDate")));
             this.jewishDatePicker1.Name = "jewishDatePicker1";
             this.jewishDatePicker1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.jewishDatePicker1.Size = new System.Drawing.Size(301, 29);
-            this.jewishDatePicker1.TabIndex = 7;            
+            this.jewishDatePicker1.TabIndex = 7;
+            this.jewishDatePicker1.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.Value")));
             this.jewishDatePicker1.ValueChanged += new System.EventHandler(this.jewishDatePicker1_ValueChanged);
             // 
             // label1
@@ -314,6 +318,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.jewishDatePicker1);
             this.Controls.Add(this.panel1);
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Century Gothic", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -323,9 +328,9 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Add Occasion or Event";
+            this.Text = "re";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmAddOccasionEng_FormClosing);
-            this.Load += new System.EventHandler(this.frmAddOccasionEng_Load);
+            this.Load += new System.EventHandler(this.frmAddOccasionEng_Load);            
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);

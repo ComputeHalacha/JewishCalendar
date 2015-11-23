@@ -158,6 +158,7 @@ namespace LuachProject
             {
                 return;
             }
+            this.pnlMain.SuspendLayout();
             var currDate = this._displayedJewishMonth;
             float dayWidth = (this.pnlMain.Width / 7f) + 1f;
             var eachDayHeight = (this.pnlMain.Height - 26f) / this._currentMonthWeeks;
@@ -205,6 +206,7 @@ namespace LuachProject
                 }
                 this.pnlMain.Invalidate();
             }
+            this.pnlMain.ResumeLayout();
         }
 
         private void frmMonthlyHebrew_Resize(object sender, EventArgs e)
@@ -289,7 +291,7 @@ namespace LuachProject
                     if (this.splitContainer1.Panel1.Controls.Count > 0)
                     {
                         var f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
-                        f.AddNewOccasion();
+                        f.AddNewOccasion(null);
                     }
                     break;
             }
@@ -333,7 +335,7 @@ namespace LuachProject
                 if (occ != null && this.splitContainer1.Panel1.Controls.Count > 0)
                 {
                     var f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
-                    f.EditOccasion(occ);
+                    f.EditOccasion(occ, new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
                 }
             }
 
@@ -349,7 +351,7 @@ namespace LuachProject
                 if (this.splitContainer1.Panel1.Controls.Count > 0)
                 {
                     var f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
-                    f.AddNewOccasion();
+                    f.AddNewOccasion(new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
                 }
             }
         }
