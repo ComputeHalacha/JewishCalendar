@@ -690,8 +690,7 @@ namespace LuachProject
             {
                 ((frmDailyInfoEng)f).OccasionWasChanged += delegate(object sender, JewishDate jd)
                 {
-                    this.RedrawSingleDay(this._singleDateInfoList.FirstOrDefault(d =>
-                        d.JewishDate == jd));
+                    this.RefreshDay(jd);
                 };
                 ((frmDailyInfoEng)f).FormClosed += delegate
                 {
@@ -702,13 +701,26 @@ namespace LuachProject
             {
                 ((frmDailyInfoHeb)f).OccasionWasChanged += delegate(object sender, JewishDate jd)
                 {
-                    this.RedrawSingleDay(this._singleDateInfoList.FirstOrDefault(d =>
-                        d.JewishDate == jd));
+                    this.RefreshDay(jd);
                 };
                 ((frmDailyInfoHeb)f).FormClosed += delegate
                 {
                     this.splitContainer1.Panel2Collapsed = true;
                 };
+            }
+        }
+
+        /// <summary>
+        /// This function is run after adding or editing a UserOccasion
+        /// </summary>
+        /// <param name="jd"></param>
+        private void RefreshDay(JewishDate jd)
+        {
+            var sd = this._singleDateInfoList.FirstOrDefault(d => d.JewishDate == jd);
+            if (sd != null)
+            {
+                sd.UserOccasions = UserOccasionColection.FromSettings(jd);
+                this.RedrawSingleDay(sd);
             }
         }
 

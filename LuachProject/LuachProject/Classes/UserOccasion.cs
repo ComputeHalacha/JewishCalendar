@@ -17,7 +17,7 @@ namespace LuachProject
                                (uo.UserOccasionType == UserOccasionTypes.HebrewDateRecurringMonthly && (uo.JewishDate.Day == currDate.Day)) ||
                                (uo.UserOccasionType == UserOccasionTypes.SecularDateRecurringYearly && (uo.SecularDate.Month == currDate.GregorianDate.Month && uo.SecularDate.Day == currDate.GregorianDate.Day)) ||
                                (uo.UserOccasionType == UserOccasionTypes.SecularDateRecurringMonthly && (uo.SecularDate.Day == currDate.GregorianDate.Day))
-                         select uo);  
+                         select uo);
             return col;
         }
     }
@@ -34,13 +34,20 @@ namespace LuachProject
     [Serializable]
     public class UserOccasion
     {
+        [NonSerialized]
+        private System.Drawing.RectangleF _rectangle;
+
         public UserOccasionTypes UserOccasionType { get; set; }
         public JewishDate JewishDate { get; set; }
         public DateTime SecularDate { get; set; }
         public string Name { get; set; }
-        public string Notes { get; set; }       
+        public string Notes { get; set; }
         public ColorXML Color { get; set; }
         public ColorXML BackColor { get; set; }
-        public System.Drawing.RectangleF Rectangle { get; set; }
+        public System.Drawing.RectangleF Rectangle
+        {
+            get { return this._rectangle; }
+            set { this._rectangle = value; }
+        }
     }
 }

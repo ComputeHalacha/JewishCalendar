@@ -8,7 +8,7 @@ namespace LuachProject
     {
         public JewishDate JewishDate { get; private set; }                       
         public RectangleF RectangleF { get; private set; }
-        public List<UserOccasion> UserOccasions { get; private set; }
+        public List<UserOccasion> UserOccasions { get; set; }
 
         public SingleDateInfo(JewishDate jDate, RectangleF rect)
         {

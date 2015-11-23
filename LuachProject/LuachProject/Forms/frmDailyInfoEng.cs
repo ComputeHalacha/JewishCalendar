@@ -114,15 +114,15 @@ namespace LuachProject
             this.PositionAddOccasion(frmAo, parentPoint);
             frmAo.OccasionWasChanged += delegate(object sndr, UserOccasion uo)
             {
-                if (OccasionWasChanged != null)
-                {
-                    OccasionWasChanged(this, (uo != null ? uo.JewishDate : this._displayingJewishDate));
-                }
-
                 if (UserOccasionColection.FromSettings(this.JewishDate).Contains(uo))
                 {
                     this.AddOccasion(uo);
                     this.flowLayoutPanel1.BackColor = (uo.BackColor != Color.Empty ? uo.BackColor.Color : Color.GhostWhite);
+                }
+
+                if (OccasionWasChanged != null)
+                {
+                    OccasionWasChanged(this, (uo != null ? uo.JewishDate : this._displayingJewishDate));
                 }
             };
         }
@@ -295,8 +295,6 @@ namespace LuachProject
         {
             var frmAo = new frmAddOccasionEng(occ);
             LinkLabel l = this.flowLayoutPanel1.Controls.OfType<LinkLabel>().First(ll => ll.Tag == occ);
-            this.PositionAddOccasion(frmAo, parentPoint);
-
             frmAo.OccasionWasChanged += delegate(object sndr, UserOccasion uo)
             {
                 if (OccasionWasChanged != null)
@@ -318,6 +316,7 @@ namespace LuachProject
                     this.flowLayoutPanel1.BackColor = (uo.BackColor != Color.Empty ? uo.BackColor.Color : Color.GhostWhite);
                 }
             };
+            this.PositionAddOccasion(frmAo, parentPoint);
         }
 
         private void AddLine(string header, string value)
@@ -334,7 +333,7 @@ namespace LuachProject
         {
             frmAo.StartPosition = FormStartPosition.Manual;
             frmAo.SuspendLayout();
-
+            
             if (parentPoint == null)
             {
                 Point pointZero = new Point(this.ParentForm.Right, this.ParentForm.Bottom - frmAo.Height - 7);
@@ -342,7 +341,7 @@ namespace LuachProject
 
                 frmAo.Location = pointZero;
                 frmAo.Show(this);
-            
+
                 while (true)
                 {
                     if (frmAo.Width - a < 50)
@@ -362,10 +361,9 @@ namespace LuachProject
             else
             {
                 frmAo.FadeOut = true;
-                frmAo.Opacity = 0;
 
                 var point = parentPoint.Value;
-                
+
                 if (point.X < 0)
                 {
                     point.X = 10;
@@ -380,19 +378,13 @@ namespace LuachProject
                     point.Y = this.ParentForm.Bottom - frmAo.Height - 7;
                 }
 
-                frmAo.Location = point;                            
-                frmAo.BringToFront();
+                frmAo.Location = point;
                 frmAo.Show(this);
-
-                while (frmAo.Opacity < 1.0)
-                {
-                    frmAo.Opacity += 0.05;
-                }
             }
-
+          
             frmAo.ResumeLayout();
         }
-
+       
         private void DisplayDateDiff()
         {
             JewishDate now = new JewishDate(this._zmanim.Location);

@@ -543,7 +543,8 @@ namespace LuachProject
                 rect.Height = textSize.Height;
                 //Save the exact position of the occasion label so when the user clicks on it afterwards, we can open the occasion for editing.
                 //Note: the occasion labels are centered in the days box, so we can't use the X position of rect (which is always 0).
-                o.Rectangle = new RectangleF((rect.Width / 2) - (textSize.Width / 2), rect.Y, textSize.Width, textSize.Height);
+                o.Rectangle = new RectangleF(rect.X + ((rect.Width / 2) - (textSize.Width / 2)),
+                    rect.Y, textSize.Width, textSize.Height);
                 g.DrawString(o.Name, this._userOccasionFont, new SolidBrush(o.Color), rect, Program.StringFormat);
                 offsetTop += rect.Height;
             }
@@ -614,8 +615,12 @@ namespace LuachProject
                 f.Parent = this;
                 f.OccasionWasChanged += delegate(object sender, JewishDate jd)
                 {
-                    this.RedrawSingleDay(this._singleDateInfoList.FirstOrDefault(d =>
-                        d.JewishDate == jd));
+                    var sd = this._singleDateInfoList.FirstOrDefault(d => d.JewishDate == jd);
+                    if (sd != null)
+                    {
+                        sd.UserOccasions = UserOccasionColection.FromSettings(jd);
+                        this.RedrawSingleDay(sd);                     
+                    }
                 };
                 f.FormClosed += delegate
                 {

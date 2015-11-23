@@ -307,14 +307,14 @@ namespace LuachProject
                 if (occ != null)
                 {
                     this.pnlMain.Cursor = Cursors.Hand;
-                    
+
                     string currTText = this.toolTip1.GetToolTip(this.pnlMain),
                         tot = occ.Name + " - לחץ לעדכן, לשנות או למחוק" +
-                            ((!string.IsNullOrWhiteSpace(occ.Notes)) ? "\r\nהערות:\r\n" + occ.Notes : "");                    
-                    
-                    if(string.IsNullOrEmpty(currTText) || currTText != tot)
+                            ((!string.IsNullOrWhiteSpace(occ.Notes)) ? "\r\nהערות:\r\n" + occ.Notes : "");
+
+                    if (string.IsNullOrEmpty(currTText) || currTText != tot)
                     {
-                        this.toolTip1.SetToolTip(this.pnlMain, tot);                                            
+                        this.toolTip1.SetToolTip(this.pnlMain, tot);
                     }
                     return;
                 }
@@ -613,8 +613,12 @@ namespace LuachProject
                 f.Parent = this;
                 f.OccasionWasChanged += delegate(object sender, JewishDate jd)
                 {
-                    this.RedrawSingleDay(this._singleDateInfoList.FirstOrDefault(d =>
-                        d.JewishDate == jd));
+                    var sd = this._singleDateInfoList.FirstOrDefault(d => d.JewishDate == jd);
+                    if (sd != null)
+                    {
+                        sd.UserOccasions = UserOccasionColection.FromSettings(jd);
+                        this.RedrawSingleDay(sd);
+                    }
                 };
                 f.FormClosed += delegate
                 {

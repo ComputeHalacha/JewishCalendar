@@ -58,6 +58,7 @@
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.Controls.Add(this.rbSecularMonthly);
             this.panel1.Controls.Add(this.rbSecularYearly);
             this.panel1.Controls.Add(this.rbJewishMonthly);
@@ -140,6 +141,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Location = new System.Drawing.Point(515, 36);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(83, 16);
@@ -157,6 +159,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Location = new System.Drawing.Point(515, 124);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(90, 16);
@@ -189,6 +192,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Location = new System.Drawing.Point(31, 36);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(201, 16);
@@ -205,6 +209,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Location = new System.Drawing.Point(31, 187);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(141, 16);
@@ -226,6 +231,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.Location = new System.Drawing.Point(515, 220);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(84, 16);
@@ -234,7 +240,7 @@
             // 
             // btnColor
             // 
-            this.btnColor.BackColor = System.Drawing.Color.Red;
+            this.btnColor.BackColor = System.Drawing.Color.SteelBlue;
             this.btnColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnColor.Location = new System.Drawing.Point(515, 240);
             this.btnColor.Name = "btnColor";
@@ -257,6 +263,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
             this.label6.Location = new System.Drawing.Point(666, 220);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(151, 16);
@@ -266,6 +273,7 @@
             // llClearBackColor
             // 
             this.llClearBackColor.AutoSize = true;
+            this.llClearBackColor.BackColor = System.Drawing.Color.Transparent;
             this.llClearBackColor.Location = new System.Drawing.Point(720, 280);
             this.llClearBackColor.Name = "llClearBackColor";
             this.llClearBackColor.Size = new System.Drawing.Size(42, 16);
@@ -286,6 +294,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.Location = new System.Drawing.Point(31, 94);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(186, 16);
@@ -328,9 +337,11 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "re";
+            this.Text = "Add New Occasion or Event";
+            this.TransparencyKey = System.Drawing.Color.GhostWhite;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmAddOccasionEng_FormClosing);
-            this.Load += new System.EventHandler(this.frmAddOccasionEng_Load);            
+            this.Load += new System.EventHandler(this.frmAddOccasionEng_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.frmAddOccasionEng_Paint);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
