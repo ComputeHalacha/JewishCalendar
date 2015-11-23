@@ -618,7 +618,7 @@ namespace LuachProject
                     var sd = this._singleDateInfoList.FirstOrDefault(d => d.JewishDate == jd);
                     if (sd != null)
                     {
-                        sd.UserOccasions = UserOccasionColection.FromSettings(jd);
+                        sd.UpdateOccasions();
                         this.RedrawSingleDay(sd);                     
                     }
                 };

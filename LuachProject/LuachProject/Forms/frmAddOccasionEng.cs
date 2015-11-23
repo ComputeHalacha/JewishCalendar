@@ -9,13 +9,20 @@ namespace LuachProject
 {
     public partial class frmAddOccasionEng : Form
     {
+        public enum CloseStyles
+        {
+            Fade,
+            Slide,
+            None
+        }
+
         public event EventHandler<UserOccasion> OccasionWasChanged;
 
         private bool _loading;
         private Color _selectedForeColor = Color.Maroon;
         private Color _selectedBackColor = Color.Empty;
 
-        public bool FadeOut { get; set; }
+        public CloseStyles CloseStyle { get; set; }
 
         public JewishDate JewishDate
         {
@@ -277,20 +284,23 @@ namespace LuachProject
 
         private void frmAddOccasionEng_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (this.FadeOut)
+            if (e.CloseReason == CloseReason.UserClosing)
             {
-                while (this.Opacity > 0)
+                if (this.CloseStyle == CloseStyles.Fade)
                 {
-                    this.Opacity -= 0.1;
-                    this.Refresh();
+                    while (this.Opacity > 0)
+                    {
+                        this.Opacity -= 0.1;
+                        this.Refresh();
+                    }
                 }
-            }
-            else
-            {
-                while (this.Left < this.Owner.Right)
+                else if(this.CloseStyle == CloseStyles.Slide)
                 {
-                    this.Location = new Point(this.Left + 50, this.Top);
-                    this.Refresh();
+                    while (this.Left < this.Owner.Right)
+                    {
+                        this.Location = new Point(this.Left + 50, this.Top);
+                        this.Refresh();
+                    }
                 }
             }
         }

@@ -58,6 +58,7 @@
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.Controls.Add(this.rbSecularMonthly);
             this.panel1.Controls.Add(this.rbSecularYearly);
             this.panel1.Controls.Add(this.rbJewishMonthly);
@@ -128,18 +129,23 @@
             // 
             // jewishDatePicker1
             // 
+            this.jewishDatePicker1.AutoSize = true;
             this.jewishDatePicker1.BackColor = System.Drawing.Color.White;
             this.jewishDatePicker1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.jewishDatePicker1.Location = new System.Drawing.Point(512, 55);
             this.jewishDatePicker1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.jewishDatePicker1.MaxDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MaxDate")));
+            this.jewishDatePicker1.MinDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MinDate")));
             this.jewishDatePicker1.Name = "jewishDatePicker1";
             this.jewishDatePicker1.Size = new System.Drawing.Size(301, 29);
-            this.jewishDatePicker1.TabIndex = 7;            
+            this.jewishDatePicker1.TabIndex = 7;
+            this.jewishDatePicker1.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.Value")));
             this.jewishDatePicker1.ValueChanged += new System.EventHandler(this.jewishDatePicker1_ValueChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Location = new System.Drawing.Point(512, 36);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(89, 17);
@@ -157,6 +163,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Location = new System.Drawing.Point(512, 132);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(90, 17);
@@ -189,6 +196,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Location = new System.Drawing.Point(41, 36);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(74, 17);
@@ -205,6 +213,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Location = new System.Drawing.Point(43, 215);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(75, 17);
@@ -226,6 +235,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.Location = new System.Drawing.Point(512, 220);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(90, 17);
@@ -257,6 +267,7 @@
             // llClearBackColor
             // 
             this.llClearBackColor.AutoSize = true;
+            this.llClearBackColor.BackColor = System.Drawing.Color.Transparent;
             this.llClearBackColor.Location = new System.Drawing.Point(780, 260);
             this.llClearBackColor.Name = "llClearBackColor";
             this.llClearBackColor.Size = new System.Drawing.Size(33, 17);
@@ -269,6 +280,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
             this.label6.Location = new System.Drawing.Point(654, 220);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(134, 17);
@@ -286,6 +298,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.Location = new System.Drawing.Point(41, 94);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(144, 17);
@@ -318,15 +331,19 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.jewishDatePicker1);
             this.Controls.Add(this.panel1);
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "frmAddOccasionHeb";
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "אירוע";
+            this.TransparencyKey = System.Drawing.Color.GhostWhite;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmAddOccasionEng_FormClosing);
             this.Load += new System.EventHandler(this.frmAddOccasionHeb_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.frmAddOccasionHeb_Paint);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);

@@ -3,6 +3,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
+using System.Drawing.Drawing2D;
 
 namespace LuachProject
 {
@@ -10,7 +11,7 @@ namespace LuachProject
     {
         public event EventHandler<UserOccasion> OccasionWasChanged;
         private bool _loading;
-        private Color _selectedForeColor = Color.Red;
+        private Color _selectedForeColor = Color.Maroon;
         private Color _selectedBackColor = Color.Empty;
 
         public bool FadeOut { get; set; }
@@ -104,7 +105,23 @@ namespace LuachProject
             this.btnBGColor.BackColor = this.txtName.BackColor = this._selectedBackColor;
             this.llClearBackColor.Visible = (this._selectedBackColor != Color.Empty);
             this.SetLabels();
+            //Repaint the background
+            this.Invalidate();
         }
+
+        private void frmAddOccasionHeb_Paint(object sender, PaintEventArgs e)
+        {
+            //I'm Not sure why 0, 0 doesn't work (not enough time to investigate and it works fine this way :))
+            RectangleF r = new RectangleF(-23, -22, this.Width + 30, this.Height + 22);
+            GraphicsPath path = new GraphicsPath();
+
+            path.AddRectangle(r);
+            e.Graphics.FillRectangle(new PathGradientBrush(path)
+            {
+                CenterColor = Color.FromArgb(50, this._selectedForeColor.R, this._selectedForeColor.G, this._selectedForeColor.B) /*Color.FromArgb(255, 192, 212, 238)*/,
+                SurroundColors = new Color[] { this._selectedBackColor == Color.Empty ? Color.GhostWhite : this._selectedBackColor }
+            }, r);
+        }        
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
@@ -138,6 +155,8 @@ namespace LuachProject
             if (this.colorDialog1.ShowDialog(this) == DialogResult.OK)
             {
                 this.btnColor.BackColor = this.txtName.ForeColor =this._selectedForeColor= this.colorDialog1.Color;
+                //Repaint the background
+                this.Invalidate();
             }
         }
         
@@ -148,6 +167,8 @@ namespace LuachProject
             {
                 this.btnBGColor.BackColor = this.txtName.BackColor = this._selectedBackColor = this.colorDialog1.Color;
                 this.llClearBackColor.Visible = (this._selectedBackColor != Color.Empty);
+                //Repaint the background
+                this.Invalidate();
             }
         }
 
@@ -155,6 +176,8 @@ namespace LuachProject
         {
             this.btnBGColor.BackColor = this.txtName.BackColor = this._selectedBackColor = Color.Empty;
             this.llClearBackColor.Visible = (this._selectedBackColor != Color.Empty);
+            //Repaint the background
+            this.Invalidate();  
         }
         
         private void btnAdd_Click(object sender, EventArgs e)
@@ -251,7 +274,7 @@ namespace LuachProject
             {
                 while (this.Opacity > 0)
                 {
-                    this.Opacity -= 0.05;
+                    this.Opacity -= 0.3;
                     this.Refresh();
                 }
             }
