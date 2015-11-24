@@ -268,7 +268,7 @@
             // 
             this.llClearBackColor.AutoSize = true;
             this.llClearBackColor.BackColor = System.Drawing.Color.Transparent;
-            this.llClearBackColor.Location = new System.Drawing.Point(780, 260);
+            this.llClearBackColor.Location = new System.Drawing.Point(698, 280);
             this.llClearBackColor.Name = "llClearBackColor";
             this.llClearBackColor.Size = new System.Drawing.Size(33, 17);
             this.llClearBackColor.TabIndex = 18;
@@ -283,9 +283,9 @@
             this.label6.BackColor = System.Drawing.Color.Transparent;
             this.label6.Location = new System.Drawing.Point(654, 220);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(134, 17);
+            this.label6.Size = new System.Drawing.Size(139, 17);
             this.label6.TabIndex = 17;
-            this.label6.Text = "צבע רקע היום בלוח";
+            this.label6.Text = "צבע רקע היום בלוח:";
             // 
             // txtNotes
             // 
@@ -310,7 +310,7 @@
             this.AcceptButton = this.btnAdd;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.GhostWhite;
+            this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(848, 421);
             this.Controls.Add(this.txtNotes);
@@ -331,7 +331,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.jewishDatePicker1);
             this.Controls.Add(this.panel1);
-            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;

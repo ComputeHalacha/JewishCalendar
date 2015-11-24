@@ -1,20 +1,28 @@
 ﻿using JewishCalendar;
 using System;
 using System.Drawing;
-using System.Windows.Forms;
-using System.Linq;
 using System.Drawing.Drawing2D;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace LuachProject
 {
     public partial class frmAddOccasionHeb : Form
     {
+        public enum CloseStyles
+        {
+            Fade,
+            Slide,
+            None
+        }
+
         public event EventHandler<UserOccasion> OccasionWasChanged;
+        
         private bool _loading;
         private Color _selectedForeColor = Color.Maroon;
         private Color _selectedBackColor = Color.Empty;
 
-        public bool FadeOut { get; set; }
+        public CloseStyles CloseStyle { get; set; }
 
         public JewishDate JewishDate
         {
@@ -109,6 +117,11 @@ namespace LuachProject
             this.Invalidate();
         }
 
+        /// <summary>
+        /// Draws the fancy gradient background colors
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>        
         private void frmAddOccasionHeb_Paint(object sender, PaintEventArgs e)
         {
             //I'm Not sure why 0, 0 doesn't work (not enough time to investigate and it works fine this way :))
@@ -270,20 +283,23 @@ namespace LuachProject
 
         private void frmAddOccasionEng_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (this.FadeOut)
+            if (e.CloseReason == CloseReason.UserClosing)
             {
-                while (this.Opacity > 0)
+                if (this.CloseStyle == CloseStyles.Fade)
                 {
-                    this.Opacity -= 0.3;
-                    this.Refresh();
+                    while (this.Opacity > 0)
+                    {
+                        this.Opacity -= 0.3;
+                        this.Refresh();
+                    }
                 }
-            }
-            else
-            {
-                while (this.Left > -this.Width)
+                else if (this.CloseStyle == CloseStyles.Slide)
                 {
-                    this.Location = new Point(this.Left - 50, this.Top);
-                    this.Refresh();
+                    while (this.Left > -this.Width)
+                    {
+                        this.Location = new Point(this.Left - 50, this.Top);
+                        this.Refresh();
+                    }
                 }
             }
         }

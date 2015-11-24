@@ -22,6 +22,7 @@ namespace LuachProject
         private Font _dateDiffDaysFont;
         private Font _dateDiffExpFont;
         private Font _sefirahFont;
+        private frmAddOccasionHeb _frmAddOccasionHeb;
         #endregion
 
         public frmDailyInfoHeb(JewishDate jd, Location location)
@@ -110,9 +111,14 @@ namespace LuachProject
         #region private functions
         public void AddNewOccasion(Point? parentPoint)
         {
-            var frm = new frmAddOccasionHeb { JewishDate = this._displayingJewishDate };
-            this.PositionAddOccasion(frm, parentPoint);
-            frm.OccasionWasChanged += delegate(object sndr, UserOccasion uo)
+            if (this._frmAddOccasionHeb != null)
+            {
+                this._frmAddOccasionHeb.CloseStyle = frmAddOccasionHeb.CloseStyles.None;
+                this._frmAddOccasionHeb.Close();
+            }
+            this._frmAddOccasionHeb = new frmAddOccasionHeb { JewishDate = this._displayingJewishDate };
+            this.PositionAddOccasion(parentPoint);
+            this._frmAddOccasionHeb.OccasionWasChanged += delegate(object sndr, UserOccasion uo)
             {
                 if (OccasionWasChanged != null)
                 {
@@ -144,7 +150,7 @@ namespace LuachProject
             this.richTextBox1.Clear();
             this.richTextBox1.SelectionFont = this._lineValueFont;
             this.richTextBox1.SelectionColor = Color.RoyalBlue;
-            this.richTextBox1.SelectedText = this._displayingSecularDate.ToString("D", Program.HebrewCultureInfo) + 
+            this.richTextBox1.SelectedText = this._displayingSecularDate.ToString("D", Program.HebrewCultureInfo) +
                 Environment.NewLine;
             //If the secular day is a day behind as day being displayed is todays date and it is after sunset, 
             //the user may get confused as the secular date for today and tomorrow will be the same.
@@ -168,13 +174,13 @@ namespace LuachProject
                         var molad = Molad.GetMolad(nextMonth.Month, nextMonth.Year);
                         var dim = JewishDateCalculations.DaysInJewishMonth(this._displayingJewishDate.Year, this._displayingJewishDate.Month);
                         var dow = dim - this._displayingJewishDate.Day;
-                        if(dim == 30)
+                        if (dim == 30)
                         {
                             dow--;
                         }
                         this.richTextBox1.SelectedText = Environment.NewLine + "המולד: " + molad.ToStringHeb(this._zmanim.GetShkia());
                         this.richTextBox1.SelectedText = Environment.NewLine + "ראש חודש: " +
-                            Utils.JewishDOWNames[dow] + (dim == 30 ? ", " + 
+                            Utils.JewishDOWNames[dow] + (dim == 30 ? ", " +
                                 Utils.JewishDOWNames[(dow + 1) % 7] : "");
                     }
                     else if (h.NameEnglish.Contains("Sefiras Ha'omer"))
@@ -186,7 +192,7 @@ namespace LuachProject
                     }
                 }
                 this.richTextBox1.SelectedText = Environment.NewLine;
-                if (shkia != HourMinute.NoValue && 
+                if (shkia != HourMinute.NoValue &&
                     this._holidays.Any(h => h.DayType.HasFlag(SpecialDay.SpecialDayTypes.HasCandleLighting)))
                 {
                     this.AddLine("הדלקת נרות", (shkia - this._zmanim.Location.CandleLighting).ToString24H());
@@ -261,13 +267,13 @@ namespace LuachProject
                 Text = occ.Name,
                 Font = this._lblOccasionFont,
                 Width = this.flowLayoutPanel1.Width,
-                LinkColor = occ.Color,                
+                LinkColor = occ.Color,
                 AutoSize = false,
                 AutoEllipsis = true,
-                Tag = occ,            
+                Tag = occ,
                 LinkBehavior = LinkBehavior.HoverUnderline
             };
-            
+
             this.toolTip1.SetToolTip(l, occ.Notes);
 
             l.MouseClick += delegate
@@ -279,26 +285,31 @@ namespace LuachProject
 
         public void EditOccasion(UserOccasion occ, Point? parentPoint)
         {
-            var frmAo = new frmAddOccasionHeb(occ);
+            if (this._frmAddOccasionHeb != null)
+            {
+                this._frmAddOccasionHeb.CloseStyle = frmAddOccasionHeb.CloseStyles.None;
+                this._frmAddOccasionHeb.Close();
+            }
+            this._frmAddOccasionHeb = new frmAddOccasionHeb(occ);
             LinkLabel l = this.flowLayoutPanel1.Controls.OfType<LinkLabel>().First(ll => ll.Tag == occ);
-            this.PositionAddOccasion(frmAo, parentPoint);
-            frmAo.OccasionWasChanged += delegate(object sndr, UserOccasion uo)
+            this.PositionAddOccasion(parentPoint);
+            this._frmAddOccasionHeb.OccasionWasChanged += delegate(object sndr, UserOccasion uo)
             {
                 if (OccasionWasChanged != null)
                 {
                     OccasionWasChanged(this, (uo != null ? uo.JewishDate : this._displayingJewishDate));
                 }
-                if (frmAo.UserOccasion == null ||
-                (!UserOccasionColection.FromSettings(this._displayingJewishDate).Contains(frmAo.UserOccasion)))
+                if (this._frmAddOccasionHeb.UserOccasion == null ||
+                (!UserOccasionColection.FromSettings(this._displayingJewishDate).Contains(this._frmAddOccasionHeb.UserOccasion)))
                 {
                     this.toolTip1.SetToolTip(l, null);
                     this.flowLayoutPanel1.Controls.Remove(l);
                 }
                 else
                 {
-                    l.Text = frmAo.UserOccasion.Name;
-                    l.LinkColor = frmAo.UserOccasion.Color;
-                    this.toolTip1.SetToolTip(l, frmAo.UserOccasion.Notes);
+                    l.Text = this._frmAddOccasionHeb.UserOccasion.Name;
+                    l.LinkColor = this._frmAddOccasionHeb.UserOccasion.Color;
+                    this.toolTip1.SetToolTip(l, this._frmAddOccasionHeb.UserOccasion.Notes);
                     this.flowLayoutPanel1.BackColor = (uo.BackColor != Color.Empty ? uo.BackColor.Color : Color.GhostWhite);
                 }
             };
@@ -314,70 +325,72 @@ namespace LuachProject
             this.richTextBox1.SelectedText = value.Trim() + Environment.NewLine;
         }
 
-        private void PositionAddOccasion(frmAddOccasionHeb frmAo, Point? parentPoint)
-        {            
-            frmAo.StartPosition = FormStartPosition.Manual;
-            frmAo.SuspendLayout();
+        private void PositionAddOccasion(Point? parentPoint)
+        {
+            this._frmAddOccasionHeb.StartPosition = FormStartPosition.Manual;
+            this._frmAddOccasionHeb.SuspendLayout();
 
             if (parentPoint == null)
-            {
-                var pointZero = new Point(-frmAo.Width, this.ParentForm.Bottom - frmAo.Height - 7);
+            {               
+                var pointZero = new Point(-this._frmAddOccasionHeb.Width, this.ParentForm.Bottom - this._frmAddOccasionHeb.Height - 7);
 
-                frmAo.Location = pointZero;
-                frmAo.Show(this);
+                this._frmAddOccasionHeb.CloseStyle = frmAddOccasionHeb.CloseStyles.Slide;                
+                this._frmAddOccasionHeb.Location = pointZero;
+                this._frmAddOccasionHeb.Show(this);
                 var a = 0;
                 while (true)
                 {
-                    if (frmAo.Width - a < 50)
+                    if (this._frmAddOccasionHeb.Width - a < 50)
                     {
-                        frmAo.Location = new Point(0, pointZero.Y);
+                        this._frmAddOccasionHeb.Location = new Point(0, pointZero.Y);
                         break;
                     }
                     else
                     {
-                        frmAo.Location = new Point(pointZero.X + a, pointZero.Y);
-                        frmAo.Refresh();
+                        this._frmAddOccasionHeb.Location = new Point(pointZero.X + a, pointZero.Y);
+                        this._frmAddOccasionHeb.Refresh();
                         a += 50;
                     }
                 }
 
-                frmAo.BringToFront();
+                this._frmAddOccasionHeb.BringToFront();
             }
             else
-            {                
-                frmAo.FadeOut = true;
-                //Opacity is not supported on Right-To-Left
-                //frmAo.RightToLeft = RightToLeft.No;
-                frmAo.Opacity = 0;
+            {
+                this._frmAddOccasionHeb.CloseStyle = frmAddOccasionHeb.CloseStyles.Fade;
                 
+                //Opacity is not supported on Right-To-Left
+                //this._frmAddOccasionHeb.RightToLeft = RightToLeft.No;
+                this._frmAddOccasionHeb.Opacity = 0;
+
                 var point = parentPoint.Value;
 
-                if ( point.X < 0)
+                if (point.X < 0)
                 {
                     point.X = 10;
                 }
-                else if ((point.X + frmAo.Width) > this.ParentForm.Right)
+                else if ((point.X + this._frmAddOccasionHeb.Width) > this.ParentForm.Right)
                 {
-                    point.X = this.ParentForm.Right - frmAo.Width - 10;
+                    point.X = this.ParentForm.Right - this._frmAddOccasionHeb.Width - 10;
                 }
 
-                if ((point.Y + frmAo.Height) > (this.ParentForm.Bottom - 7))
+                if ((point.Y + this._frmAddOccasionHeb.Height) > (this.ParentForm.Bottom - 7))
                 {
-                    point.Y = this.ParentForm.Bottom - frmAo.Height - 7;
+                    point.Y = this.ParentForm.Bottom - this._frmAddOccasionHeb.Height - 7;
                 }
 
-                frmAo.Location = point;
-                frmAo.Show(this);
-                frmAo.BringToFront();
+                this._frmAddOccasionHeb.Location = point;
+                this._frmAddOccasionHeb.Show(this);
+                this._frmAddOccasionHeb.BringToFront();
 
-                while (frmAo.Opacity < 1.0)
+                while (this._frmAddOccasionHeb.Opacity < 1.0)
                 {
-                    frmAo.Opacity += 0.05;
+                    this._frmAddOccasionHeb.Opacity += 0.05;
                 }
-                //frmAo.RightToLeft = RightToLeft.Yes;
+                //this._frmAddOccasionHeb.RightToLeft = RightToLeft.Yes;
             }
 
-            frmAo.ResumeLayout();
+            this._frmAddOccasionHeb.ResumeLayout();
         }
 
         private void SetDateDiff()

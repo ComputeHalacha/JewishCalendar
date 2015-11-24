@@ -270,6 +270,7 @@
             this.cmbLocation.Location = new System.Drawing.Point(534, 121);
             this.cmbLocation.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbLocation.Name = "cmbLocation";
+            this.cmbLocation.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.cmbLocation.Size = new System.Drawing.Size(351, 26);
             this.cmbLocation.Sorted = true;
             this.cmbLocation.TabIndex = 5;
@@ -284,6 +285,7 @@
             this.panel1.Location = new System.Drawing.Point(657, 88);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
+            this.panel1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.panel1.Size = new System.Drawing.Size(228, 29);
             this.panel1.TabIndex = 11;
             // 
@@ -291,10 +293,11 @@
             // 
             this.rbInIsrael.Checked = global::LuachProject.Properties.Settings.Default.rbInIsraelChecked;
             this.rbInIsrael.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::LuachProject.Properties.Settings.Default, "rbInIsraelChecked", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.rbInIsrael.Location = new System.Drawing.Point(3, 3);
+            this.rbInIsrael.Dock = System.Windows.Forms.DockStyle.Right;
+            this.rbInIsrael.Location = new System.Drawing.Point(102, 0);
             this.rbInIsrael.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rbInIsrael.Name = "rbInIsrael";
-            this.rbInIsrael.Size = new System.Drawing.Size(67, 21);
+            this.rbInIsrael.Size = new System.Drawing.Size(126, 29);
             this.rbInIsrael.TabIndex = 0;
             this.rbInIsrael.TabStop = true;
             this.rbInIsrael.Text = "ארץ ישראל";
@@ -303,10 +306,11 @@
             // 
             // rbInChul
             // 
-            this.rbInChul.Location = new System.Drawing.Point(84, 4);
+            this.rbInChul.Dock = System.Windows.Forms.DockStyle.Left;
+            this.rbInChul.Location = new System.Drawing.Point(0, 0);
             this.rbInChul.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rbInChul.Name = "rbInChul";
-            this.rbInChul.Size = new System.Drawing.Size(102, 20);
+            this.rbInChul.Size = new System.Drawing.Size(78, 29);
             this.rbInChul.TabIndex = 1;
             this.rbInChul.Text = "חו\"ל";
             this.rbInChul.UseVisualStyleBackColor = true;

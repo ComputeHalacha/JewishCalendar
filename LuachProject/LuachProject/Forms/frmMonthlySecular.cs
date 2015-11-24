@@ -901,7 +901,8 @@ namespace LuachProject
                 this.Font = new Font("Tahoma", 7.8f);
                 this._dayHeadersFont = new Font(this.pnlMain.Font.FontFamily, 10, FontStyle.Regular);
                 this._zmanimFont = new Font("Tahoma", 8, FontStyle.Regular);
-                this.cmbLocation.Font = new Font("Tahoma", 9f);
+                this.cmbLocation.Font = this.btnNextMonth.Font = this.btnPreviousMonth.Font = 
+                    this.btnNextYear.Font = this.btnPreviousYear.Font = new Font("Tahoma", 9f);
                 this.lblMonthName.Font = new Font("Tahoma", 18f, FontStyle.Bold);
                 this.lblInstructions.Text = "לחץ על יום לראות פרטי היום   |   לחץ פעמיים להוסיף אירוע   |   לנווט בין הימים השתמשו בלחצני החיצים";
                 this.lblLocationHeader.Text = "מיקום:";
@@ -910,11 +911,11 @@ namespace LuachProject
                 this.rbInIsrael.Text = "ארץ ישראל";
                 this.btnToday.Text = "היום";
                 this.btnNextMonth.Text = "← חודש הבא";
-                this.btnNextMonth.Left = this.btnPreviousMonth.Left;
+                this.btnNextMonth.Left = this.lblNavigationHeader.Left;
                 this.btnPreviousMonth.Text = "חודש הקודם →";
-                this.btnPreviousMonth.Left = this.btnNextYear.Left;
+                this.btnPreviousMonth.Left = this.lblNavigationHeader.Right - this.btnPreviousMonth.Width;
                 this.btnNextYear.Text = "← שנה הבא";
-                this.btnNextYear.Left = this.btnPreviousYear.Left;
+                this.btnNextYear.Left = this.btnNextMonth.Left;
                 this.btnPreviousYear.Text = "שנה הקודם →";
                 this.btnPreviousYear.Left = this.btnPreviousMonth.Left;
                 this.llChangeLanguage.Text = "English";
@@ -935,7 +936,8 @@ namespace LuachProject
                    this.lblNavigationHeader.RightToLeft = this.panel1.RightToLeft =
                    this.pnlControls.RightToLeft = RightToLeft.No;
                 this.RightToLeftLayout = false;
-                this.Font = new Font("Century Gothic", 7.8f);
+                this.Font = this.btnNextMonth.Font = this.btnPreviousMonth.Font =
+                    this.btnNextYear.Font = this.btnPreviousYear.Font = new Font("Century Gothic", 7.8f);
                 this.pnlControls.Left = 5;
                 this._zmanimFont = new Font(this.Font.FontFamily, 8, FontStyle.Regular);
                 this._dayHeadersFont = new Font(this.pnlMain.Font.FontFamily, 10, FontStyle.Regular);
