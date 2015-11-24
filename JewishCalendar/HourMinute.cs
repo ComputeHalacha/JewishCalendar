@@ -1,8 +1,8 @@
 namespace JewishCalendar
 {
     /// <summary>
-    /// A simpler TimeSpan. Represents just the hour and the minute.
-    /// Explicitly interchangeable with System.TimeSpan.
+    /// A simpler Time Span. Represents just the hour and the minute.
+    /// Explicitly cast-able to and from System.TimeSpan.
     /// </summary>    
     public struct HourMinute
     {

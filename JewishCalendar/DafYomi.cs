@@ -1,8 +1,8 @@
 ﻿/***********************************************************************************************************
  * Computes the Day Yomi for the given day.
- * Sample of use: (will get you: בבא קמא דף ט"ו)
- *     var daf = DafYomi.GetDafYomi(iJewishdate);
- *     string strDaf = daf.ToStringHeb();
+ * Sample of use:
+ *     Daf dafOfDay = DafYomi.GetDafYomi(iJewishdate);
+ *     string strDafOfDay = dafOfDay.ToStringHeb();
  * The code was converted to C# and tweaked by CBS.
  * It is directly based on the C code in Danny Sadinoff's HebCal - Copyright (C) 1994.
  * The HebCal code for dafyomi was adapted by Aaron Peromsik from Bob Newell's public domain daf.el.

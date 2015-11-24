@@ -44,7 +44,7 @@ namespace JewishCalendar
         /// <returns></returns>
         string ToLongDateString();
         /// <summary>
-        /// Returns the day of the Omer for the given Jewish date. If the given day is not during Sefirah, 0 is returned
+        /// Returns the day of the Omer for this Jewish date. If it is not during Sefirah, 0 is returned
         /// </summary>        
         /// <returns></returns>
         int GetDayOfOmer();

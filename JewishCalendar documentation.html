@@ -43,23 +43,23 @@
             <h5>JewishCalendar.JewishDate</h5>
             <blockquote>
                 Based on the standard .NET class System.Globalization.HebrewCalendar, which
-            we found to be very efficient.<p>There 2 limitations caused by this:  </p>
+            was found to be very efficient.
                 <ul>
-                    <li>This class can only represent dates for the years 5343 through
+                    <li>The JewishDate class can only represent dates for the years 5343 through
                 5999. This is because System.Globalization.HebrewCalendar is limited to those
                 dates.
                         <br />
                         <br />
                     </li>
-                    <li>This class cannot be used for projects that do not have access
+                    <li>The JewishDate class cannot be used for projects that do not have access
                 to System.Globalization.HebrewCalendar. So for projects such as a .NET Micro Framework
-                projects etc., you will need to use the alternative class, JewishDateMicro. You
+                project etc., you will need to use the alternative class, JewishDateMicro. You
                 will also need to remove (or comment out) the file <em>JewishDate.cs</em> before
                 compiling.
                     </li>
                 </ul>
                 <p>
-                    Even though the JewishDate class’s
+                    Even though the JewishDate class's
                 underlying calculations are directly based on System.Globalization.HebrewCalendar,
                 there is a major difference between the System.Globalization.HebrewCalendar
                 class and the JewishDate class.
@@ -183,7 +183,13 @@
                 week for this Jewish Date.
                 </li>
                 <li><code><strong>GregorianDate</strong></code> – A regular
-                System.DateTime containing the secular date on this Jewish Date.
+                    System.DateTime containing the secular date on this Jewish Date.
+                    <br />
+                    Important note: In the JewishDate class, if the location was supplied in the constructor 
+                    and the time at object creation was between sunset and midnight for that location, 
+                    the GregorianDate will be incorrect, as it will be the next day – 
+                    which is only correct for the Jewish Date. To get the proper Secular Date, use the <code>GetSecularDate</code>
+                    function.
                 </li>
                 <li><code><strong>AbsoluteDate</strong></code> - The number
                 of days that elapsed since the theoretical Gregorian date Sunday, December 31,

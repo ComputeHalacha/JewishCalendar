@@ -1,12 +1,13 @@
 ﻿/*****************************************************************************************************************************
  * By CBS. 
+ * Represents a single day in the Jewish Calendar.
  * The regular .NET class System.Globalization.HebrewCalendar has Tishrei as month #1. 
  * This becomes confusing, as months after Adar get a different number - 
  * depending on whether the year is a leap year or not.
  * The Torah also instructs us to call Nissan the first month. (See Ramban in drasha for Rosh Hashana)
- * So, we created a "Nissan first" Jewish Date class -
- * with all the logic still based on System.Globalization.HebrewCalendar (which we found to be very efficient).
- * This class can not be used with the .NET micro framework as it does not have access to System.Globalization.HebrewCalendar.
+ * So, we created this "Nissan first" Jewish Date class -
+ * with all the underlying logic based on System.Globalization.HebrewCalendar (which was found to be very efficient).
+ * This class cannot be used with the .NET micro framework as it does not have access to System.Globalization.HebrewCalendar.
  * To use this project with the .NET Micro Framework, you will need to remove this file before compiling.
  *****************************************************************************************************************************/
 using System;
@@ -69,12 +70,17 @@ namespace JewishCalendar
         /// The secular date at midnight of this Jewish Date.
         /// </summary>
         /// <remarks>
-        /// If the current object was constructed with a "Location" and the time of day portion of 
-        /// the DateTime was after sunset, a day was added to the GregorianDate property. 
-        /// This is because the correct Jewish date is tomorrow, but the JewishDate
-        /// class's calculations use the System.Globalization.HebrewCalendar functions - which are based on System DateTime.
-        /// If you have a Location and a time of day, you can get the correct secular date
-        /// by using the GetSecularDate(HourMinute, Location) function.        
+        /// If the current object was constructed with a constructor that takes a "Location" 
+        /// and the DateTime used by the constructor was after sunset but before midnight, 
+        /// the GregorianDate will be a day late as a day was added by the constructor. 
+        /// This anomaly is caused by the following un-mixable elements:
+        ///     1. The correct Jewish date changes at sunset - so in Jewish, it is the next day.
+        ///     2. The JewishDate class's calculations are based on the System.Globalization.HebrewCalendar functions - 
+        ///        which use System DateTime and do not consider sunset as a factor.... 
+        ///        So in order to change the Jewish Date to the next day, we need to add a day to the 
+        ///        GregorianDate property as this class's connection to the functions of
+        ///        System.Globalization.HebrewCalendar are all through it's GregorianDate property.
+        /// To get the correct and proper Secular Date, use the GetSecularDate(HourMinute, Location) function.        
         /// </remarks>
         public DateTime GregorianDate
         {
