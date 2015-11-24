@@ -156,6 +156,9 @@
   <PropertyGroup>
     <OptionStrict>Off</OptionStrict>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Win32.TaskScheduler">
       <HintPath>Dlls\Microsoft.Win32.TaskScheduler.dll</HintPath>
@@ -311,7 +314,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
-    <PostBuildEvent>robocopy $(TargetDir) $(SolutionDir)\LuachProject\Bin\Release\ /XX</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
