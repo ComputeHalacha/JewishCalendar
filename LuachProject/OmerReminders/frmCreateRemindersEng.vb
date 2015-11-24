@@ -1,4 +1,4 @@
-Imports System.Linq
+ï»¿Imports System.Linq
 Imports JewishCalendar
 Imports Microsoft.Win32
 Imports Microsoft.Win32.TaskScheduler
@@ -78,7 +78,7 @@ Public Class frmCreateRemindersEng
                     If rbEnglish.Checked Then
                         subs = "Sefiras Ha'omer - Day " & dayOfOmer
                     Else
-                        subs = "ñôéøú äòåîø - éåí " & dayOfOmer
+                        subs = "×¡×¤×™×¨×ª ×”×¢×•××¨ - ×™×•× " & dayOfOmer
                     End If
 
                     count += 1
@@ -101,7 +101,7 @@ Public Class frmCreateRemindersEng
                     objApt.AllDayEvent = False
                     objApt.Start = Me.GetAlarmDateTime(yesterday.GregorianDate, jd.GregorianDate, alarmTime)
                     objApt.ReminderMinutesBeforeStart = 0
-                    objApt.Subject = If(rbEnglish.Checked, "Count ", "ìñôåø ") & subs &
+                    objApt.Subject = If(rbEnglish.Checked, "Count ", "×œ×¡×¤×•×¨ ") & subs &
                         " - " & nusach
                     objApt.Body = nusach
                     objApt.Save()
@@ -131,7 +131,7 @@ Public Class frmCreateRemindersEng
             For i As Integer = 0 To 5
                 For Each objApt In oNameSpace.GetDefaultFolder(Outlook.OlDefaultFolders.olFolderCalendar).Items
                     If objApt.Start.Year = DateTime.Now.Year AndAlso
-                        (objApt.Subject.Contains("Sefiras Ha'omer") OrElse objApt.Subject.Contains("ñôéøú äòåîø")) Then
+                        (objApt.Subject.Contains("Sefiras Ha'omer") OrElse objApt.Subject.Contains("×¡×¤×™×¨×ª ×”×¢×•××¨")) Then
                         objApt.Delete()
                         count += 1
                     End If

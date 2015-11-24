@@ -1,4 +1,4 @@
-Imports System.Linq
+ο»ΏImports System.Linq
 Imports JewishCalendar
 Imports Microsoft.Win32
 Imports Microsoft.Win32.TaskScheduler
@@ -42,8 +42,8 @@ Public Class frmCreateRemindersHeb
         Me.Cursor = Cursors.WaitCursor
 
         If Not Me.IsOutlookInstalled() Then
-            MessageBox.Show("ϊελπιϊ ΰεθμεχ μΰ πξφΰ αξηωα ζδ.",
-                            "ϊζλεψϊ ρτιψϊ δςεξψ",
+            MessageBox.Show("ΧªΧ•Χ›Χ Χª ΧΧ•ΧΧΧ•Χ§ ΧΧ Χ ΧΧ¦Χ Χ‘ΧΧ—Χ©Χ‘ Χ–Χ”.",
+                            "ΧªΧ–Χ›Χ•Χ¨Χª Χ΅Χ¤Χ™Χ¨Χª Χ”ΧΆΧ•ΧΧ¨",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Information)
             Return
@@ -72,7 +72,7 @@ Public Class frmCreateRemindersHeb
                     Dim nusach As String = Utils.GetOmerNusach(dayOfOmer, Me.rbLaOmer.Checked, Me.rbSfardi.Checked)
                     Dim yesterday As JewishDate = jd - 1
                     Dim alarmTime As TimeSpan = Me.dtpTime.Value.TimeOfDay
-                    Dim subs As String = "ρτιψϊ δςεξψ - ιεν " & dayOfOmer
+                    Dim subs As String = "Χ΅Χ¤Χ™Χ¨Χª Χ”ΧΆΧ•ΧΧ¨ - Χ™Χ•Χ " & dayOfOmer
 
                     count += 1
 
@@ -94,7 +94,7 @@ Public Class frmCreateRemindersHeb
                     objApt.AllDayEvent = False
                     objApt.Start = Me.GetAlarmDateTime(yesterday.GregorianDate, jd.GregorianDate, alarmTime)
                     objApt.ReminderMinutesBeforeStart = 0
-                    objApt.Subject = "μρτεψ " & subs &
+                    objApt.Subject = "ΧΧ΅Χ¤Χ•Χ¨ " & subs &
                         " - " & nusach
                     objApt.Body = nusach
                     objApt.Save()
@@ -103,9 +103,9 @@ Public Class frmCreateRemindersHeb
                 End If
             Next i
             Me.Cursor = Cursors.Default
-            MessageBox.Show(count.ToString() & " ϊζλεψεϊ ιεφψε αδφμηδ.")
+            MessageBox.Show(count.ToString() & " ΧªΧ–Χ›Χ•Χ¨Χ•Χª Χ™Χ•Χ¦Χ¨Χ• Χ‘Χ”Χ¦ΧΧ—Χ”.")
         Catch ex As System.Exception
-            MessageBox.Show("ΰψςδ ϊχμδ αςϊ ιφιψϊ δϊζλεψεϊ." & vbCrLf & ex.Message)
+            MessageBox.Show("ΧΧ¨ΧΆΧ” ΧªΧ§ΧΧ” Χ‘ΧΆΧª Χ™Χ¦Χ™Χ¨Χª Χ”ΧªΧ–Χ›Χ•Χ¨Χ•Χª." & vbCrLf & ex.Message)
         Finally
             Me.Cursor = Cursors.Default
             olApp = Nothing
@@ -124,7 +124,7 @@ Public Class frmCreateRemindersHeb
             For i As Integer = 0 To 5
                 For Each objApt In oNameSpace.GetDefaultFolder(Outlook.OlDefaultFolders.olFolderCalendar).Items
                     If objApt.Start.Year = DateTime.Now.Year AndAlso
-                        (objApt.Subject.Contains("Sefiras Ha'omer") OrElse objApt.Subject.Contains("ρτιψϊ δςεξψ")) Then
+                        (objApt.Subject.Contains("Sefiras Ha'omer") OrElse objApt.Subject.Contains("Χ΅Χ¤Χ™Χ¨Χª Χ”ΧΆΧ•ΧΧ¨")) Then
                         objApt.Delete()
                         count += 1
                     End If
@@ -135,9 +135,9 @@ Public Class frmCreateRemindersHeb
             oNameSpace = Nothing
             objApt = Nothing
             Me.Cursor = Cursors.Default
-            MessageBox.Show("πξηχε " & count.ToString() & " ϊζλεψεϊ ΰε ΰιψεςι ιεν ωμ ρτιψϊ δςεξψ.")
+            MessageBox.Show("Χ ΧΧ—Χ§Χ• " & count.ToString() & " ΧªΧ–Χ›Χ•Χ¨Χ•Χª ΧΧ• ΧΧ™Χ¨Χ•ΧΆΧ™ Χ™Χ•Χ Χ©Χ Χ΅Χ¤Χ™Χ¨Χª Χ”ΧΆΧ•ΧΧ¨.")
         Catch ex As System.Exception
-            MessageBox.Show("ΰψςδ ϊχμδ αςϊ δρψϊ δϊζλεψεϊ." & vbCrLf & ex.Message)
+            MessageBox.Show("ΧΧ¨ΧΆΧ” ΧªΧ§ΧΧ” Χ‘ΧΆΧª Χ”Χ΅Χ¨Χª Χ”ΧªΧ–Χ›Χ•Χ¨Χ•Χª." & vbCrLf & ex.Message)
         Finally
             Me.Cursor = Cursors.Default
         End Try
@@ -189,23 +189,23 @@ Public Class frmCreateRemindersHeb
 
                 ts.RootFolder.RegisterTaskDefinition("Omer Reminders", td)
 
-                MessageBox.Show("δϊζλεψεϊ δεψωξε αδφμηδ.",
-                "ϊζλεψϊ ρτιψϊ δςεξψ",
+                MessageBox.Show("Χ”ΧªΧ–Χ›Χ•Χ¨Χ•Χª Χ”Χ•Χ¨Χ©ΧΧ• Χ‘Χ”Χ¦ΧΧ—Χ”.",
+                "ΧªΧ–Χ›Χ•Χ¨Χª Χ΅Χ¤Χ™Χ¨Χª Χ”ΧΆΧ•ΧΧ¨",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information)
             Catch nse As TSNotSupportedException
-                MessageBox.Show("ΰι ΰτωψ μψωεν ϊζλεψεϊ αβιψρϊ ημεπεϊ ωδεϊχπδ αξηωα ζδ." &
+                MessageBox.Show("ΧΧ™ ΧΧ¤Χ©Χ¨ ΧΧ¨Χ©Χ•Χ ΧªΧ–Χ›Χ•Χ¨Χ•Χª Χ‘Χ’Χ™Χ¨Χ΅Χª Χ—ΧΧ•Χ Χ•Χª Χ©Χ”Χ•ΧªΧ§Χ Χ” Χ‘ΧΧ—Χ©Χ‘ Χ–Χ”." &
                                Environment.NewLine &
                                nse.Message,
-                           "ϊζλεψϊ ρτιψϊ δςεξψ",
+                           "ΧªΧ–Χ›Χ•Χ¨Χª Χ΅Χ¤Χ™Χ¨Χª Χ”ΧΆΧ•ΧΧ¨",
                            MessageBoxButtons.OK,
                            MessageBoxIcon.Error)
 
             Catch ex As Exception
-                MessageBox.Show("ΰψςδ ϊχμδ αςϊ δψωξϊ δϊζεψεϊ." &
+                MessageBox.Show("ΧΧ¨ΧΆΧ” ΧªΧ§ΧΧ” Χ‘ΧΆΧª Χ”Χ¨Χ©ΧΧª Χ”ΧªΧ–Χ•Χ¨Χ•Χª." &
                                 Environment.NewLine &
                                 If(ex.InnerException IsNot Nothing, ex.InnerException.Message, ex.Message),
-                            "ϊζλεψϊ ρτιψϊ δςεξψ",
+                            "ΧªΧ–Χ›Χ•Χ¨Χª Χ΅Χ¤Χ™Χ¨Χª Χ”ΧΆΧ•ΧΧ¨",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error)
             End Try
@@ -216,10 +216,10 @@ Public Class frmCreateRemindersHeb
             ts.Dispose()
 
         Catch ex As Exception
-            MessageBox.Show("ΰψςδ ϊχμδ αςϊ δψωξϊ δϊζεψεϊ" &
+            MessageBox.Show("ΧΧ¨ΧΆΧ” ΧªΧ§ΧΧ” Χ‘ΧΆΧª Χ”Χ¨Χ©ΧΧª Χ”ΧªΧ–Χ•Χ¨Χ•Χª" &
                                 Environment.NewLine &
                                 If(ex.InnerException IsNot Nothing, ex.InnerException.Message, ex.Message),
-                            "ϊζλεψϊ ρτιψϊ δςεξψ",
+                            "ΧªΧ–Χ›Χ•Χ¨Χª Χ΅Χ¤Χ™Χ¨Χª Χ”ΧΆΧ•ΧΧ¨",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error)
 
@@ -233,13 +233,13 @@ Public Class frmCreateRemindersHeb
         Try
             Dim ts As New TaskService()
             ts.RootFolder.DeleteTask("Omer Reminders")
-            MessageBox.Show("δϊζλεψεϊ δερψε αδφμηδ.",
-                                "ϊζλεψϊ ρτιψϊ δςεξψ",
+            MessageBox.Show("Χ”ΧªΧ–Χ›Χ•Χ¨Χ•Χª Χ”Χ•Χ΅Χ¨Χ• Χ‘Χ”Χ¦ΧΧ—Χ”.",
+                                "ΧªΧ–Χ›Χ•Χ¨Χª Χ΅Χ¤Χ™Χ¨Χª Χ”ΧΆΧ•ΧΧ¨",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Information)
         Catch ex As Exception
-            MessageBox.Show("ΰψςδ ϊχμδ αςϊ δρψϊ δϊζλεψεϊ." & Environment.NewLine & ex.Message,
-                            "ϊζλεψϊ ρτιψϊ δςεξψ",
+            MessageBox.Show("ΧΧ¨ΧΆΧ” ΧªΧ§ΧΧ” Χ‘ΧΆΧª Χ”Χ΅Χ¨Χª Χ”ΧªΧ–Χ›Χ•Χ¨Χ•Χª." & Environment.NewLine & ex.Message,
+                            "ΧªΧ–Χ›Χ•Χ¨Χª Χ΅Χ¤Χ™Χ¨Χª Χ”ΧΆΧ•ΧΧ¨",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error)
         Finally
@@ -327,7 +327,7 @@ Public Class frmCreateRemindersHeb
         Dim currentDayOfOmer As Integer = Me._todayJD.GetDayOfOmer()
         If currentDayOfOmer > 0 Then
             Me.llPreviewToday.Visible = True
-            Me.llPreviewToday.Text = "διεν ιεν ξρτψ " & currentDayOfOmer.ToString() & ". δχμχ λΰο μδφβϊ δϊζλεψϊ."
+            Me.llPreviewToday.Text = "Χ”Χ™Χ•Χ Χ™Χ•Χ ΧΧ΅Χ¤Χ¨ " & currentDayOfOmer.ToString() & ". Χ”Χ§ΧΧ§ Χ›ΧΧ ΧΧ”Χ¦Χ’Χª Χ”ΧªΧ–Χ›Χ•Χ¨Χª."
         Else
             Me.llPreviewToday.Visible = False
         End If
@@ -339,8 +339,8 @@ Public Class frmCreateRemindersHeb
 
     Private Function FieldsAreValid() As Boolean
         If Not (Me.rbLaOmer.Checked OrElse Me.rbBaOmer.Checked OrElse Me.rbSfardi.Checked) Then
-            MessageBox.Show("ΰπΰ αηψε περη.",
-                "ϊζλεψϊ ρτιψϊ δςεξψ",
+            MessageBox.Show("ΧΧ Χ Χ‘Χ—Χ¨Χ• Χ Χ•Χ΅Χ—.",
+                "ΧªΧ–Χ›Χ•Χ¨Χª Χ΅Χ¤Χ™Χ¨Χª Χ”ΧΆΧ•ΧΧ¨",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Warning)
             Return False

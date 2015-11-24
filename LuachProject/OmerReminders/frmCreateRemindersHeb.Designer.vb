@@ -1,4 +1,4 @@
-<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+ο»Ώ<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmCreateRemindersHeb
     Inherits System.Windows.Forms.Form
 
@@ -63,7 +63,7 @@ Partial Class frmCreateRemindersHeb
         Me.btnCreateOutlookReminders.Name = "btnCreateOutlookReminders"
         Me.btnCreateOutlookReminders.Size = New System.Drawing.Size(195, 31)
         Me.btnCreateOutlookReminders.TabIndex = 0
-        Me.btnCreateOutlookReminders.Text = "ιφψ ϊζλεψεϊ ΰεθμεχ"
+        Me.btnCreateOutlookReminders.Text = "Χ™Χ¦Χ¨ ΧªΧ–Χ›Χ•Χ¨Χ•Χª ΧΧ•ΧΧΧ•Χ§"
         Me.btnCreateOutlookReminders.UseVisualStyleBackColor = True
         '
         'btnDeleteOutlookReminders
@@ -75,7 +75,7 @@ Partial Class frmCreateRemindersHeb
         Me.btnDeleteOutlookReminders.Name = "btnDeleteOutlookReminders"
         Me.btnDeleteOutlookReminders.Size = New System.Drawing.Size(195, 31)
         Me.btnDeleteOutlookReminders.TabIndex = 3
-        Me.btnDeleteOutlookReminders.Text = "δρψ ϊζλεψεϊ ΰεθμεχ"
+        Me.btnDeleteOutlookReminders.Text = "Χ”Χ΅Χ¨ ΧªΧ–Χ›Χ•Χ¨Χ•Χª ΧΧ•ΧΧΧ•Χ§"
         Me.btnDeleteOutlookReminders.UseVisualStyleBackColor = True
         '
         'Label2
@@ -87,7 +87,7 @@ Partial Class frmCreateRemindersHeb
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(94, 14)
         Me.Label2.TabIndex = 10
-        Me.Label2.Text = "ωςϊ δϊζλεψϊ"
+        Me.Label2.Text = "Χ©ΧΆΧª Χ”ΧªΧ–Χ›Χ•Χ¨Χª"
         '
         'Label3
         '
@@ -98,7 +98,7 @@ Partial Class frmCreateRemindersHeb
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(28, 14)
         Me.Label3.TabIndex = 11
-        Me.Label3.Text = "ςιψ"
+        Me.Label3.Text = "ΧΆΧ™Χ¨"
         '
         'PictureBox1
         '
@@ -120,7 +120,7 @@ Partial Class frmCreateRemindersHeb
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(369, 11)
         Me.Label4.TabIndex = 14
-        Me.Label4.Text = "λγι μηωαο αΰιζδ ϊΰψικ ςαψι πετμ ωςϊ δϊζλεψϊ, φψιλιν μγςϊ ωςϊ ωχιςϊ δηξδ."
+        Me.Label4.Text = "Χ›Χ“Χ™ ΧΧ—Χ©Χ‘Χ Χ‘ΧΧ™Χ–Χ” ΧªΧΧ¨Χ™Χ ΧΆΧ‘Χ¨Χ™ Χ Χ•Χ¤Χ Χ©ΧΆΧª Χ”ΧªΧ–Χ›Χ•Χ¨Χª, Χ¦Χ¨Χ™Χ›Χ™Χ ΧΧ“ΧΆΧª Χ©ΧΆΧª Χ©Χ§Χ™ΧΆΧª Χ”Χ—ΧΧ”."
         '
         'Label6
         '
@@ -131,7 +131,7 @@ Partial Class frmCreateRemindersHeb
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(179, 14)
         Me.Label6.TabIndex = 16
-        Me.Label6.Text = "δερσ ""ΰιψες ιεξιϊ"" αΰεθμεχ"
+        Me.Label6.Text = "Χ”Χ•Χ΅Χ£ ""ΧΧ™Χ¨Χ•ΧΆ Χ™Χ•ΧΧ™Χª"" Χ‘ΧΧ•ΧΧΧ•Χ§"
         '
         'Panel2
         '
@@ -153,7 +153,7 @@ Partial Class frmCreateRemindersHeb
         Me.rbSfardi.Name = "rbSfardi"
         Me.rbSfardi.Size = New System.Drawing.Size(94, 18)
         Me.rbSfardi.TabIndex = 13
-        Me.rbSfardi.Text = "ςγεϊ δξζψη"
+        Me.rbSfardi.Text = "ΧΆΧ“Χ•Χª Χ”ΧΧ–Χ¨Χ—"
         Me.rbSfardi.UseVisualStyleBackColor = True
         '
         'rbBaOmer
@@ -164,7 +164,7 @@ Partial Class frmCreateRemindersHeb
         Me.rbBaOmer.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.rbBaOmer.Size = New System.Drawing.Size(109, 18)
         Me.rbBaOmer.TabIndex = 12
-        Me.rbBaOmer.Text = "ΰωλπζ (αςεξψ)"
+        Me.rbBaOmer.Text = "ΧΧ©Χ›Χ Χ– (Χ‘ΧΆΧ•ΧΧ¨)"
         Me.rbBaOmer.UseVisualStyleBackColor = True
         '
         'rbLaOmer
@@ -177,7 +177,7 @@ Partial Class frmCreateRemindersHeb
         Me.rbLaOmer.Size = New System.Drawing.Size(104, 18)
         Me.rbLaOmer.TabIndex = 11
         Me.rbLaOmer.TabStop = True
-        Me.rbLaOmer.Text = "ρτψγ (μςεξψ)" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+        Me.rbLaOmer.Text = "Χ΅Χ¤Χ¨Χ“ (ΧΧΆΧ•ΧΧ¨)" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         Me.rbLaOmer.UseVisualStyleBackColor = True
         '
         'Label9
@@ -189,7 +189,7 @@ Partial Class frmCreateRemindersHeb
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(88, 14)
         Me.Label9.TabIndex = 22
-        Me.Label9.Text = "περη δρτιψδ"
+        Me.Label9.Text = "Χ Χ•Χ΅Χ— Χ”Χ΅Χ¤Χ™Χ¨Χ”"
         '
         'btnDeleteWindowsReminders
         '
@@ -200,7 +200,7 @@ Partial Class frmCreateRemindersHeb
         Me.btnDeleteWindowsReminders.Name = "btnDeleteWindowsReminders"
         Me.btnDeleteWindowsReminders.Size = New System.Drawing.Size(195, 31)
         Me.btnDeleteWindowsReminders.TabIndex = 24
-        Me.btnDeleteWindowsReminders.Text = "δρψ ϊζλεψεϊ αημεπεϊ"
+        Me.btnDeleteWindowsReminders.Text = "Χ”Χ΅Χ¨ ΧªΧ–Χ›Χ•Χ¨Χ•Χª Χ‘Χ—ΧΧ•Χ Χ•Χª"
         Me.btnDeleteWindowsReminders.UseVisualStyleBackColor = True
         '
         'btnCreateWindowsReminders
@@ -212,7 +212,7 @@ Partial Class frmCreateRemindersHeb
         Me.btnCreateWindowsReminders.Name = "btnCreateWindowsReminders"
         Me.btnCreateWindowsReminders.Size = New System.Drawing.Size(195, 31)
         Me.btnCreateWindowsReminders.TabIndex = 23
-        Me.btnCreateWindowsReminders.Text = "ιφψ ϊζλεψεϊ αημεπεϊ"
+        Me.btnCreateWindowsReminders.Text = "Χ™Χ¦Χ¨ ΧªΧ–Χ›Χ•Χ¨Χ•Χª Χ‘Χ—ΧΧ•Χ Χ•Χª"
         Me.btnCreateWindowsReminders.UseVisualStyleBackColor = True
         '
         'PictureBox2
@@ -234,7 +234,7 @@ Partial Class frmCreateRemindersHeb
         Me.llPreviewToday.Size = New System.Drawing.Size(370, 14)
         Me.llPreviewToday.TabIndex = 26
         Me.llPreviewToday.TabStop = True
-        Me.llPreviewToday.Text = "δφβ δϊζλεψϊ ωμ διεν"
+        Me.llPreviewToday.Text = "Χ”Χ¦Χ’ Χ”ΧªΧ–Χ›Χ•Χ¨Χª Χ©Χ Χ”Χ™Χ•Χ"
         Me.llPreviewToday.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Panel3
@@ -275,7 +275,7 @@ Partial Class frmCreateRemindersHeb
         Me.rbIsrael.Size = New System.Drawing.Size(99, 18)
         Me.rbIsrael.TabIndex = 1
         Me.rbIsrael.TabStop = True
-        Me.rbIsrael.Text = "ςψιν αιωψΰμ"
+        Me.rbIsrael.Text = "ΧΆΧ¨Χ™Χ Χ‘Χ™Χ©Χ¨ΧΧ"
         Me.rbIsrael.UseVisualStyleBackColor = True
         '
         'rbWorld
@@ -285,7 +285,7 @@ Partial Class frmCreateRemindersHeb
         Me.rbWorld.Name = "rbWorld"
         Me.rbWorld.Size = New System.Drawing.Size(87, 18)
         Me.rbWorld.TabIndex = 0
-        Me.rbWorld.Text = "ςψιν αηε""μ"
+        Me.rbWorld.Text = "ΧΆΧ¨Χ™Χ Χ‘Χ—Χ•""Χ"
         Me.rbWorld.UseVisualStyleBackColor = True
         '
         'cbLocations
@@ -321,7 +321,7 @@ Partial Class frmCreateRemindersHeb
         Me.cbAddAlldayEvent.Name = "cbAddAlldayEvent"
         Me.cbAddAlldayEvent.Size = New System.Drawing.Size(453, 18)
         Me.cbAddAlldayEvent.TabIndex = 17
-        Me.cbAddAlldayEvent.Text = "απερσ μϊζλεψϊ δψβιμ, ϊβγιψ ιεν ΰιψες αΰεθμεχ μλμ ΰηγ ξιξι ρτιψϊ δςεξψ."
+        Me.cbAddAlldayEvent.Text = "Χ‘Χ Χ•Χ΅Χ£ ΧΧªΧ–Χ›Χ•Χ¨Χª Χ”Χ¨Χ’Χ™Χ, ΧªΧ’Χ“Χ™Χ¨ Χ™Χ•Χ ΧΧ™Χ¨Χ•ΧΆ Χ‘ΧΧ•ΧΧΧ•Χ§ ΧΧ›Χ ΧΧ—Χ“ ΧΧ™ΧΧ™ Χ΅Χ¤Χ™Χ¨Χª Χ”ΧΆΧ•ΧΧ¨."
         Me.cbAddAlldayEvent.UseVisualStyleBackColor = True
         '
         'Label5
@@ -334,7 +334,7 @@ Partial Class frmCreateRemindersHeb
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(359, 30)
         Me.Label5.TabIndex = 29
-        Me.Label5.Text = "...ερτψϊν μλν ξξηψϊ δωαϊ"
+        Me.Label5.Text = "...Χ•Χ΅Χ¤Χ¨ΧªΧ ΧΧ›Χ ΧΧΧ—Χ¨Χª Χ”Χ©Χ‘Χª"
         '
         'Label10
         '
@@ -346,7 +346,7 @@ Partial Class frmCreateRemindersHeb
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(368, 30)
         Me.Label10.TabIndex = 30
-        Me.Label10.Text = "ωας ωαϊεϊ ϊξιξεϊ ϊδιιπδ..."
+        Me.Label10.Text = "Χ©Χ‘ΧΆ Χ©Χ‘ΧªΧ•Χª ΧªΧΧ™ΧΧ•Χª ΧªΧ”Χ™Χ™Χ Χ”..."
         '
         'frmCreateRemindersHeb
         '
@@ -372,7 +372,7 @@ Partial Class frmCreateRemindersHeb
         Me.RightToLeftLayout = True
         Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "ϊζλεψϊ ρτιψϊ δςεξψ"
+        Me.Text = "ΧªΧ–Χ›Χ•Χ¨Χª Χ΅Χ¤Χ™Χ¨Χª Χ”ΧΆΧ•ΧΧ¨"
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()

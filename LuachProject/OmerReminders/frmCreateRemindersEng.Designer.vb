@@ -1,4 +1,4 @@
-<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+ï»¿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmCreateRemindersEng
     Inherits System.Windows.Forms.Form
 
@@ -215,7 +215,7 @@ Partial Class frmCreateRemindersEng
         Me.rbSfardi.Name = "rbSfardi"
         Me.rbSfardi.Size = New System.Drawing.Size(89, 20)
         Me.rbSfardi.TabIndex = 10
-        Me.rbSfardi.Text = "òãåú äîæøç"
+        Me.rbSfardi.Text = "×¢×“×•×ª ×”××–×¨×—"
         Me.rbSfardi.UseVisualStyleBackColor = True
         '
         'rbBaOmer
@@ -225,7 +225,7 @@ Partial Class frmCreateRemindersEng
         Me.rbBaOmer.Name = "rbBaOmer"
         Me.rbBaOmer.Size = New System.Drawing.Size(102, 20)
         Me.rbBaOmer.TabIndex = 9
-        Me.rbBaOmer.Text = "(àùëğæ (áòåîø"
+        Me.rbBaOmer.Text = "(××©×›× ×– (×‘×¢×•××¨"
         Me.rbBaOmer.UseVisualStyleBackColor = True
         '
         'rbLaOmer
@@ -238,7 +238,7 @@ Partial Class frmCreateRemindersEng
         Me.rbLaOmer.Size = New System.Drawing.Size(98, 20)
         Me.rbLaOmer.TabIndex = 8
         Me.rbLaOmer.TabStop = True
-        Me.rbLaOmer.Text = "(ñôøã (ìòåîø" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+        Me.rbLaOmer.Text = "(×¡×¤×¨×“ (×œ×¢×•××¨" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         Me.rbLaOmer.UseVisualStyleBackColor = True
         '
         'Label9
@@ -411,7 +411,7 @@ Partial Class frmCreateRemindersEng
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(375, 31)
         Me.Label5.TabIndex = 29
-        Me.Label5.Text = "...åñôøúí ìëí îîçøú äùáú"
+        Me.Label5.Text = "...×•×¡×¤×¨×ª× ×œ×›× ×××—×¨×ª ×”×©×‘×ª"
         '
         'Label10
         '
@@ -423,7 +423,7 @@ Partial Class frmCreateRemindersEng
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(384, 31)
         Me.Label10.TabIndex = 30
-        Me.Label10.Text = "ùáò ùáúåú úîéîåú úäééğä..."
+        Me.Label10.Text = "×©×‘×¢ ×©×‘×ª×•×ª ×ª××™××•×ª ×ª×”×™×™× ×”..."
         '
         'frmCreateRemindersEng
         '

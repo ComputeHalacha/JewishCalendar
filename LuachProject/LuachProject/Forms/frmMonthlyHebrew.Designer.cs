@@ -271,7 +271,7 @@
             this.cmbLocation.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbLocation.Name = "cmbLocation";
             this.cmbLocation.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.cmbLocation.Size = new System.Drawing.Size(351, 26);
+            this.cmbLocation.Size = new System.Drawing.Size(351, 22);
             this.cmbLocation.Sorted = true;
             this.cmbLocation.TabIndex = 5;
             this.cmbLocation.SelectedIndexChanged += new System.EventHandler(this.cmbLocation_SelectedIndexChanged);
@@ -397,7 +397,7 @@
             // 
             // frmMonthlyHebrew
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.ClientSize = new System.Drawing.Size(1183, 736);

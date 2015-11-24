@@ -1,4 +1,4 @@
-using System;
+ο»Ώusing System;
 using System.Collections;
 using System.Text;
 
@@ -9,24 +9,24 @@ namespace JewishCalendar
     /// </summary>
     public static class Utils
     {
-        private static char[] _sings = new char[] { 'ΰ', 'α', 'β', 'γ', 'δ', 'ε', 'ζ', 'η', 'θ' };
-        private static char[] _tens = new char[] { 'ι', 'λ', 'μ', 'ξ', 'π', 'ρ', 'ς', 'τ', 'φ' };
-        private static char[] _hundreds = new char[] { 'χ', 'ψ', 'ω', 'ϊ' };
-        private static string[] _hebsingles = { "", "ΰηγ", "ωπιν", "ωμωδ", "ΰψαςδ", "ηξωδ", "ωωδ", "ωαςδ", "ωξεπδ", "ϊωςδ" };
-        private static string[] _hebTens = { "", "ςωψ", "ςωψιν", "ωμεωιν", "ΰψαςιν" };
+        private static char[] _sings = new char[] { 'Χ', 'Χ‘', 'Χ’', 'Χ“', 'Χ”', 'Χ•', 'Χ–', 'Χ—', 'Χ' };
+        private static char[] _tens = new char[] { 'Χ™', 'Χ›', 'Χ', 'Χ', 'Χ ', 'Χ΅', 'ΧΆ', 'Χ¤', 'Χ¦' };
+        private static char[] _hundreds = new char[] { 'Χ§', 'Χ¨', 'Χ©', 'Χª' };
+        private static string[] _hebsingles = { "", "ΧΧ—Χ“", "Χ©Χ Χ™Χ", "Χ©ΧΧ©Χ”", "ΧΧ¨Χ‘ΧΆΧ”", "Χ—ΧΧ©Χ”", "Χ©Χ©Χ”", "Χ©Χ‘ΧΆΧ”", "Χ©ΧΧ•Χ Χ”", "ΧªΧ©ΧΆΧ”" };
+        private static string[] _hebTens = { "", "ΧΆΧ©Χ¨", "ΧΆΧ©Χ¨Χ™Χ", "Χ©ΧΧ•Χ©Χ™Χ", "ΧΧ¨Χ‘ΧΆΧ™Χ" };
 
         /// <summary>
         /// Array of name of the Jewish Months. Month numbers correspond to the array index, so  Nissan is JewishMonthNamesEnglish[1] etc.
         /// </summary>
         public static string[] JewishMonthNamesEnglish = { "", "Nissan", "Iyar", "Sivan", "Tamuz", "Av", "Ellul", "Tishrei", "Cheshvan", "Kislev", "Teves", "Shvat", "Adar", "Adar Sheini" };
         /// <summary>
-        /// Array of Hebrew names of the Jewish Months. Month numbers correspond to the array index, so  πιρο is JewishMonthNamesHebrew[1] etc.
+        /// Array of Hebrew names of the Jewish Months. Month numbers correspond to the array index, so  Χ Χ™Χ΅Χ is JewishMonthNamesHebrew[1] etc.
         /// </summary>
-        public static string[] JewishMonthNamesHebrew = { "", "πιρο", "ΰιιψ", "ριεο", "ϊξεζ", "ΰα", "ΰμεμ", "ϊωψι", "ηωεο", "λρμε", "θαϊ", "ωαθ", "ΰγψ", "ΰγψ ωπι" };
+        public static string[] JewishMonthNamesHebrew = { "", "Χ Χ™Χ΅Χ", "ΧΧ™Χ™Χ¨", "Χ΅Χ™Χ•Χ", "ΧªΧΧ•Χ–", "ΧΧ‘", "ΧΧΧ•Χ", "ΧªΧ©Χ¨Χ™", "Χ—Χ©Χ•Χ", "Χ›Χ΅ΧΧ•", "ΧΧ‘Χª", "Χ©Χ‘Χ", "ΧΧ“Χ¨", "ΧΧ“Χ¨ Χ©Χ Χ™" };
         /// <summary>
-        /// Names of days of week in Hebrew. ιεν ψΰωεο is JewishDOWNames[0].
+        /// Names of days of week in Hebrew. Χ™Χ•Χ Χ¨ΧΧ©Χ•Χ is JewishDOWNames[0].
         /// </summary>
-        public static string[] JewishDOWNames = { "ιεν ψΰωεο", "ιεν ωπι", "ιεν ωμιωι", "ιεν ψαιςι", "ιεν ηξιωι", "ςψα ωαϊ χεγω", "ωαϊ χεγω" };
+        public static string[] JewishDOWNames = { "Χ™Χ•Χ Χ¨ΧΧ©Χ•Χ", "Χ™Χ•Χ Χ©Χ Χ™", "Χ™Χ•Χ Χ©ΧΧ™Χ©Χ™", "Χ™Χ•Χ Χ¨Χ‘Χ™ΧΆΧ™", "Χ™Χ•Χ Χ—ΧΧ™Χ©Χ™", "ΧΆΧ¨Χ‘ Χ©Χ‘Χª Χ§Χ•Χ“Χ©", "Χ©Χ‘Χª Χ§Χ•Χ“Χ©" };
         /// <summary>
         /// The Jewish names for the days of the week in English as an array. For example, DaysOfWeek[5] is Erev Shabbos
         /// </summary>
@@ -139,9 +139,9 @@ namespace JewishCalendar
         }
 
         /// <summary>
-        /// Converts a number into its jewish number equivalent. I.E. 254 is ψλ"γ
+        /// Converts a number into its jewish number equivalent. I.E. 254 is Χ¨Χ›"Χ“
         /// NOTE: The exact thousands numbers (1000, 2000, 3000 etc.) 
-        /// will look awfully similar to the single digits, but will be formatted with an apostrophe I.E. 2000 = "'α"        
+        /// will look awfully similar to the single digits, but will be formatted with an apostrophe I.E. 2000 = "'Χ‘"        
         /// </summary>
         /// <param name="number"></param>
         /// <returns></returns>
@@ -168,7 +168,7 @@ namespace JewishCalendar
 
             while (n >= 400)
             {
-                retval.Append('ϊ');
+                retval.Append('Χª');
                 n -= 400;
             }
 
@@ -180,11 +180,11 @@ namespace JewishCalendar
 
             if (n == 15)
             {
-                retval.Append("θε");
+                retval.Append("ΧΧ•");
             }
             else if (n == 16)
             {
-                retval.Append("θζ");
+                retval.Append("ΧΧ–");
             }
             else
             {
@@ -219,23 +219,23 @@ namespace JewishCalendar
         {
             int weeks = Convert.ToInt32(dayOfOmer / 7),
                 days = dayOfOmer % 7;
-            string nusach = "διεν ";
+            string nusach = "Χ”Χ™Χ•Χ ";
 
             if (dayOfOmer == 1)
             {
-                nusach += "ιεν ΰηγ ";
+                nusach += "Χ™Χ•Χ ΧΧ—Χ“ ";
             }
             else
             {
                 if (dayOfOmer == 2)
                 {
-                    nusach += "ωπι ";
+                    nusach += "Χ©Χ Χ™ ";
                 }
                 else
                 {
                     if (dayOfOmer == 10)
                     {
-                        nusach += "ςωψδ ";
+                        nusach += "ΧΆΧ©Χ¨Χ” ";
                     }
                     else
                     {
@@ -244,49 +244,49 @@ namespace JewishCalendar
                         {
                             if (dayOfOmer > 20 && ((dayOfOmer % 10) > 0))
                             {
-                                nusach += "ε";
+                                nusach += "Χ•";
                             }
                             nusach += _hebTens[dayOfOmer / 10] + " ";
                         }
                     }
                 }
-                nusach += (dayOfOmer >= 11 ? "ιεν" : "ιξιν") + " ";
+                nusach += (dayOfOmer >= 11 ? "Χ™Χ•Χ" : "Χ™ΧΧ™Χ") + " ";
 
                 if (sfardi)
-                    nusach += "μςεξψ" + " ";
+                    nusach += "ΧΧΆΧ•ΧΧ¨" + " ";
 
                 if (dayOfOmer >= 7)
                 {
-                    nusach += "ωδν ";
+                    nusach += "Χ©Χ”Χ ";
                     if (weeks == 1)
                     {
-                        nusach += "ωαες ΰηγ ";
+                        nusach += "Χ©Χ‘Χ•ΧΆ ΧΧ—Χ“ ";
                     }
                     else if (weeks == 2)
                     {
-                        nusach += "ωπι ωαεςεϊ ";
+                        nusach += "Χ©Χ Χ™ Χ©Χ‘Χ•ΧΆΧ•Χª ";
                     }
                     else if (weeks > 0)
                     {
-                        nusach += _hebsingles[weeks] + " ωαεςεϊ ";
+                        nusach += _hebsingles[weeks] + " Χ©Χ‘Χ•ΧΆΧ•Χª ";
                     }
                     if (days == 1)
                     {
-                        nusach += "ειεν ΰηγ ";
+                        nusach += "Χ•Χ™Χ•Χ ΧΧ—Χ“ ";
                     }
                     else if (days == 2)
                     {
-                        nusach += "εωπι ιξιν ";
+                        nusach += "Χ•Χ©Χ Χ™ Χ™ΧΧ™Χ ";
                     }
                     else if (days > 0)
                     {
-                        nusach += "ε" + _hebsingles[days] + " ιξιν ";
+                        nusach += "Χ•" + _hebsingles[days] + " Χ™ΧΧ™Χ ";
                     }
                 }
             }
             if (!sfardi)
             {
-                nusach += (laOmer ? "μ" : "α") + "ςεξψ";
+                nusach += (laOmer ? "Χ" : "Χ‘") + "ΧΆΧ•ΧΧ¨";
             }
             return nusach;
         } 
