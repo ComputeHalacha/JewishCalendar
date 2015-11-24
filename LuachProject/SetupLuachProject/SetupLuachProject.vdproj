@@ -136,18 +136,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_58A5B13B1CC244E198188C3CC9027262"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FDCB8E56DA6FEC520423FC10CFDE728B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_907BC84D88CBC4F08C58472A8DDB502B"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -166,6 +154,24 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_58A5B13B1CC244E198188C3CC9027262"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_FDCB8E56DA6FEC520423FC10CFDE728B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_93D5FAC673C8F780F1ED18536F29A107"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_7785830D84AC57FD959DFA14676B7234"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -173,12 +179,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_DD2F2DB2F05A08F27941112B4F124649"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_93D5FAC673C8F780F1ED18536F29A107"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -709,7 +709,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:The Luach Project"
         "ProductCode" = "8:{874A7A91-E979-4967-891A-B1775473BF85}"
-        "PackageCode" = "8:{68287182-DC51-4E6A-B3FA-0F55A4BECA97}"
+        "PackageCode" = "8:{A05CC314-A185-4E8D-B894-722B17151AF0}"
         "UpgradeCode" = "8:{94EC422E-1AFA-46ED-A945-710704E8EE9F}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -841,20 +841,6 @@
             "Folder" = "8:_490E8834A5654F5EB85CED1884342CFE"
             "WorkingFolder" = "8:_19E9DA74A9084C23805177D4BE46ED91"
             "Icon" = "8:_09080A02D51B49738DDF657C3710EBBA"
-            "Feature" = "8:"
-            }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_8495EC7CA4B84F7B9E257178065CF411"
-            {
-            "Name" = "8:Shortcut to Primary output from LuachProject (Active)"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_09080A02D51B49738DDF657C3710EBBA"
-            "Folder" = "8:_19E9DA74A9084C23805177D4BE46ED91"
-            "WorkingFolder" = "8:_19E9DA74A9084C23805177D4BE46ED91"
-            "Icon" = "8:"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_B8E8A77C84E74093AE25AB2A967DD0F2"
@@ -1334,62 +1320,6 @@
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{C64D9352-8941-4BD3-AD32-1A9FCE522810}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_7035994EA6F44B3BB8C84A6DC1B6557E"
-            {
-            "SourcePath" = "8:"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_19E9DA74A9084C23805177D4BE46ED91"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:ContentFiles"
-            "OutputProjectGuid" = "8:{F603DE04-489B-4CE4-B949-8BA8BB5DFA6B}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_E5FFAAB5104C4585BF8EFD417AF72C9A"
-            {
-            "SourcePath" = "8:"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_19E9DA74A9084C23805177D4BE46ED91"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:ContentFiles"
             "OutputProjectGuid" = "8:{C64D9352-8941-4BD3-AD32-1A9FCE522810}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
