@@ -210,15 +210,16 @@
             // 
             this.jewishDatePicker1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.jewishDatePicker1.AutoSize = true;
+            this.jewishDatePicker1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.jewishDatePicker1.BackColor = System.Drawing.Color.LightSteelBlue;
             this.jewishDatePicker1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.jewishDatePicker1.ForeColor = System.Drawing.Color.White;
-            this.jewishDatePicker1.Location = new System.Drawing.Point(80, -3);
+            this.jewishDatePicker1.Location = new System.Drawing.Point(154, -3);
             this.jewishDatePicker1.Margin = new System.Windows.Forms.Padding(0);
             this.jewishDatePicker1.MaxDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MaxDate")));
             this.jewishDatePicker1.MinDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MinDate")));
             this.jewishDatePicker1.Name = "jewishDatePicker1";
-            this.jewishDatePicker1.Size = new System.Drawing.Size(386, 25);
+            this.jewishDatePicker1.Size = new System.Drawing.Size(312, 30);
             this.jewishDatePicker1.TabIndex = 18;
             this.jewishDatePicker1.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.Value")));
             // 
@@ -271,7 +272,7 @@
             this.cmbLocation.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbLocation.Name = "cmbLocation";
             this.cmbLocation.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.cmbLocation.Size = new System.Drawing.Size(351, 22);
+            this.cmbLocation.Size = new System.Drawing.Size(351, 26);
             this.cmbLocation.Sorted = true;
             this.cmbLocation.TabIndex = 5;
             this.cmbLocation.SelectedIndexChanged += new System.EventHandler(this.cmbLocation_SelectedIndexChanged);
@@ -397,7 +398,7 @@
             // 
             // frmMonthlyHebrew
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.ClientSize = new System.Drawing.Size(1183, 736);

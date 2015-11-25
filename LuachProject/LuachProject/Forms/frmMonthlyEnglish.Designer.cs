@@ -41,8 +41,8 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.cmbLocation = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.jewishDatePicker1 = new JewishDatePicker.JewishDatePicker();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.rbInIsrael = new System.Windows.Forms.RadioButton();
             this.rbInChul = new System.Windows.Forms.RadioButton();
@@ -162,9 +162,9 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.panel3);
             this.splitContainer2.Panel2.Controls.Add(this.label2);
-            this.splitContainer2.Panel2MinSize = 100;
+            this.splitContainer2.Panel2MinSize = 155;
             this.splitContainer2.Size = new System.Drawing.Size(897, 690);
-            this.splitContainer2.SplitterDistance = 546;
+            this.splitContainer2.SplitterDistance = 535;
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 19;
             this.splitContainer2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.splitContainer2_KeyDown);
@@ -176,7 +176,7 @@
             this.pnlMain.Location = new System.Drawing.Point(9, 0);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(888, 546);
+            this.pnlMain.Size = new System.Drawing.Size(888, 535);
             this.pnlMain.TabIndex = 0;
             this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
             this.pnlMain.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseClick);
@@ -195,7 +195,7 @@
             this.panel3.Controls.Add(this.button3);
             this.panel3.Controls.Add(this.button5);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 23);
+            this.panel3.Location = new System.Drawing.Point(0, 34);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(897, 120);
             this.panel3.TabIndex = 19;
@@ -218,12 +218,31 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.jewishDatePicker1);
+            this.panel2.Controls.Add(this.label1);
             this.panel2.Location = new System.Drawing.Point(374, 1);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(469, 32);
             this.panel2.TabIndex = 18;
+            // 
+            // jewishDatePicker1
+            // 
+            this.jewishDatePicker1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.jewishDatePicker1.AutoSize = true;
+            this.jewishDatePicker1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.jewishDatePicker1.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.jewishDatePicker1.Font = new System.Drawing.Font("Century Gothic", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.jewishDatePicker1.ForeColor = System.Drawing.Color.White;
+            this.jewishDatePicker1.Language = JewishDatePicker.JewishDatePicker.Languages.English;
+            this.jewishDatePicker1.Location = new System.Drawing.Point(122, 2);
+            this.jewishDatePicker1.Margin = new System.Windows.Forms.Padding(0);
+            this.jewishDatePicker1.MaxDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MaxDate")));
+            this.jewishDatePicker1.MinDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MinDate")));
+            this.jewishDatePicker1.Name = "jewishDatePicker1";
+            this.jewishDatePicker1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.jewishDatePicker1.Size = new System.Drawing.Size(343, 29);
+            this.jewishDatePicker1.TabIndex = 17;
+            this.jewishDatePicker1.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.Value")));
             // 
             // label1
             // 
@@ -238,24 +257,6 @@
             this.label1.TabIndex = 18;
             this.label1.Text = "Navigate:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // jewishDatePicker1
-            // 
-            this.jewishDatePicker1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.jewishDatePicker1.AutoSize = true;
-            this.jewishDatePicker1.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.jewishDatePicker1.Font = new System.Drawing.Font("Century Gothic", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.jewishDatePicker1.ForeColor = System.Drawing.Color.White;
-            this.jewishDatePicker1.Language = JewishDatePicker.JewishDatePicker.Languages.English;
-            this.jewishDatePicker1.Location = new System.Drawing.Point(106, 2);
-            this.jewishDatePicker1.Margin = new System.Windows.Forms.Padding(0);
-            this.jewishDatePicker1.MaxDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MaxDate")));
-            this.jewishDatePicker1.MinDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MinDate")));
-            this.jewishDatePicker1.Name = "jewishDatePicker1";
-            this.jewishDatePicker1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.jewishDatePicker1.Size = new System.Drawing.Size(403, 29);
-            this.jewishDatePicker1.TabIndex = 17;
-            this.jewishDatePicker1.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.Value")));
             // 
             // panel1
             // 
