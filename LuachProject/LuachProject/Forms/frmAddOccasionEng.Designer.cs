@@ -124,8 +124,11 @@
             // jewishDatePicker1
             // 
             this.jewishDatePicker1.AutoSize = true;
+            this.jewishDatePicker1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.jewishDatePicker1.BackColor = System.Drawing.Color.White;
             this.jewishDatePicker1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.jewishDatePicker1.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.jewishDatePicker1.ForeColor = System.Drawing.Color.Black;
             this.jewishDatePicker1.Language = JewishDatePicker.JewishDatePicker.Languages.English;
             this.jewishDatePicker1.Location = new System.Drawing.Point(515, 55);
             this.jewishDatePicker1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -133,7 +136,7 @@
             this.jewishDatePicker1.MinDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MinDate")));
             this.jewishDatePicker1.Name = "jewishDatePicker1";
             this.jewishDatePicker1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.jewishDatePicker1.Size = new System.Drawing.Size(301, 29);
+            this.jewishDatePicker1.Size = new System.Drawing.Size(247, 31);
             this.jewishDatePicker1.TabIndex = 7;
             this.jewishDatePicker1.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.Value")));
             this.jewishDatePicker1.ValueChanged += new System.EventHandler(this.jewishDatePicker1_ValueChanged);
@@ -152,7 +155,7 @@
             // 
             this.dateTimePicker1.Location = new System.Drawing.Point(515, 144);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(302, 24);
+            this.dateTimePicker1.Size = new System.Drawing.Size(247, 24);
             this.dateTimePicker1.TabIndex = 8;
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 

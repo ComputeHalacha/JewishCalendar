@@ -23,7 +23,7 @@ namespace JewishCalendar
         /// <summary>
         /// Returns the time of the molad as a string in the format: Monday Night, 8:33 PM and 12 Chalakim
         /// NOTE: the cutoff time to be considered "night" is 8 PM. 
-        /// To specify another nightfall time, use the function: ToString(HourMinute nightfall)
+        /// To specify another nightfall time (such as the real sunset time), use the function: ToString(HourMinute nightfall)
         /// </summary>
         /// <returns></returns>
         public override string ToString()

@@ -34,7 +34,7 @@ namespace LuachProject
 
             InitializeComponent();
 
-            this._lblOccasionFont = this.flowLayoutPanel1.Font;
+            this._lblOccasionFont = new Font(this.Font, FontStyle.Bold);
             this._lineValueFont = new Font(this.richTextBox1.Font, FontStyle.Bold);
             this._dateDiffDaysFont = new Font(this.richTextBox1.Font.FontFamily, 9f, FontStyle.Bold);
             this._dateDiffExpFont = new Font(this.richTextBox1.Font.FontFamily, 7.3f, FontStyle.Italic);
@@ -65,7 +65,7 @@ namespace LuachProject
                     this._zmanim.SecularDate = this._displayingSecularDate;
                     this._holidays = Zmanim.GetHolidays(value, this._zmanim.Location.IsInIsrael).Cast<SpecialDay>();
                     this._occasions = UserOccasionColection.FromSettings(this._displayingJewishDate);
-                    this.flowLayoutPanel1.Controls.Clear();
+                    this.tableLayoutPanel1.Controls.Clear();
                     this.ShowDateData();
                 }
             }
@@ -123,7 +123,7 @@ namespace LuachProject
                 if (UserOccasionColection.FromSettings(this.JewishDate).Contains(uo))
                 {
                     this.AddOccasion(uo);
-                    this.flowLayoutPanel1.BackColor = (uo.BackColor != Color.Empty ? uo.BackColor.Color : Color.GhostWhite);
+                    this.tableLayoutPanel1.BackColor = (uo.BackColor != Color.Empty ? uo.BackColor.Color : Color.GhostWhite);
                 }
 
                 if (OccasionWasChanged != null)
@@ -154,7 +154,7 @@ namespace LuachProject
                       where o.BackColor != Color.Empty
                       select o.BackColor).FirstOrDefault();
 
-            this.flowLayoutPanel1.BackColor = (bg != Color.Empty ? bg.Color : Color.GhostWhite);
+            this.tableLayoutPanel1.BackColor = (bg != Color.Empty ? bg.Color : Color.GhostWhite);
 
             this.Cursor = Cursors.Default;
         }
@@ -277,24 +277,30 @@ namespace LuachProject
 
         private void AddOccasion(UserOccasion occ)
         {
-            var l = new LinkLabel
+            var lnkLbl = new LinkLabel
             {
                 Text = occ.Name,
                 Font = this._lblOccasionFont,
-                Width = this.flowLayoutPanel1.Width,
-                LinkColor = occ.Color,
-                AutoSize = false,
-                AutoEllipsis = true,
+                LinkColor = occ.Color,                
                 Tag = occ,
                 LinkBehavior = LinkBehavior.HoverUnderline
             };
-            this.toolTip1.SetToolTip(l, occ.Notes);
-
-            l.MouseClick += delegate
+            var lbl = new Label
+            {
+                Text = occ.Notes
+            };
+            
+            lnkLbl.MouseClick += delegate
             {
                 this.EditOccasion(occ, null);
             };
-            this.flowLayoutPanel1.Controls.Add(l);
+            lbl.MouseClick += delegate
+            {
+                this.EditOccasion(occ, null);
+            };
+            
+            this.tableLayoutPanel1.Controls.Add(lnkLbl);
+            this.tableLayoutPanel1.Controls.Add(lbl);
         }
 
         public void EditOccasion(UserOccasion occ, Point? parentPoint)
@@ -305,7 +311,10 @@ namespace LuachProject
                 this._frmAddOccasionEng.Close();
             }
             this._frmAddOccasionEng = new frmAddOccasionEng(occ);
-            LinkLabel l = this.flowLayoutPanel1.Controls.OfType<LinkLabel>().First(ll => ll.Tag == occ);
+            
+            LinkLabel lnkLbl = this.tableLayoutPanel1.Controls.OfType<LinkLabel>().First(ll => ll.Tag == occ);
+            Label lbl = (Label)this.tableLayoutPanel1.Controls[this.tableLayoutPanel1.Controls.IndexOf(lnkLbl) + 1];
+
             this._frmAddOccasionEng.OccasionWasChanged += delegate(object sndr, UserOccasion uo)
             {
                 if (OccasionWasChanged != null)
@@ -316,15 +325,16 @@ namespace LuachProject
                 if (this._frmAddOccasionEng.UserOccasion == null ||
                     (!UserOccasionColection.FromSettings(this._displayingJewishDate).Contains(this._frmAddOccasionEng.UserOccasion)))
                 {
-                    this.toolTip1.SetToolTip(l, null);
-                    this.flowLayoutPanel1.Controls.Remove(l);
+                    this.tableLayoutPanel1.Controls.Remove(lbl);
+                    this.tableLayoutPanel1.Controls.Remove(lnkLbl);                    
+                    this.tableLayoutPanel1.RowCount -= 1;
                 }
                 else
                 {
-                    l.Text = this._frmAddOccasionEng.UserOccasion.Name;
-                    l.LinkColor = this._frmAddOccasionEng.UserOccasion.Color;
-                    this.toolTip1.SetToolTip(l, this._frmAddOccasionEng.UserOccasion.Notes);
-                    this.flowLayoutPanel1.BackColor = (uo.BackColor != Color.Empty ? uo.BackColor.Color : Color.GhostWhite);
+                    lnkLbl.Text = this._frmAddOccasionEng.UserOccasion.Name;
+                    lnkLbl.LinkColor = this._frmAddOccasionEng.UserOccasion.Color;
+                    lbl.Text = this._frmAddOccasionEng.UserOccasion.Notes;
+                    this.tableLayoutPanel1.BackColor = (uo.BackColor != Color.Empty ? uo.BackColor.Color : Color.GhostWhite);
                 }
             };
             this.PositionAddOccasion(parentPoint);
