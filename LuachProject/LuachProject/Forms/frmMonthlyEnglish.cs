@@ -11,6 +11,7 @@ namespace LuachProject
     public partial class frmMonthlyEnglish : Form
     {
         #region Private Fields
+
         private bool _isFirstOpen = true;
         private JewishDate _displayedJewishMonth;
         private JewishDate _todayJewishDate;
@@ -27,9 +28,11 @@ namespace LuachProject
         private Point _pnlMouseLocation;
         private JewishDate _selectedDay;
         private bool _isResizing;
-        #endregion
+
+        #endregion Private Fields
 
         #region Properties
+
         public JewishDate DisplayedJewishMonth
         {
             get
@@ -93,9 +96,11 @@ namespace LuachProject
                 }
             }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Constructors
+
         public frmMonthlyEnglish()
         {
             Properties.Settings.Default.LastLanguage = "English";
@@ -113,9 +118,11 @@ namespace LuachProject
             this._userOccasionFont = this._zmanimFont;
             this.jewishDatePicker1.DataBindings.Add("Value", this, "SelectedJewishDate", true, DataSourceUpdateMode.OnPropertyChanged);
         }
-        #endregion
+
+        #endregion Constructors
 
         #region Event Handlers
+
         private void frmMonthlyEnglish_Load(object sender, EventArgs e)
         {
             this.SetLocationDataSource();
@@ -266,15 +273,19 @@ namespace LuachProject
                 case Keys.Right:
                     this.NavigateToDay(this._selectedDay + 1);
                     break;
+
                 case Keys.Left:
                     this.NavigateToDay(this._selectedDay - 1);
                     break;
+
                 case Keys.Up:
                     this.NavigateToDay(this._selectedDay - 7);
                     break;
+
                 case Keys.Down:
                     this.NavigateToDay(this._selectedDay + 7);
                     break;
+
                 case Keys.Enter:
                     if (this.splitContainer1.Panel2.Controls.Count > 0)
                     {
@@ -400,9 +411,11 @@ namespace LuachProject
             }.Show();
             this.Hide();
         }
-        #endregion
+
+        #endregion Event Handlers
 
         #region Private Functions
+
         private void DrawDayHeader(Graphics g, float dayWidth, float currX, float currY, DayOfWeek dow)
         {
             var rect = new RectangleF(currX, currY, dayWidth, 25f);
@@ -501,12 +514,12 @@ namespace LuachProject
             {
                 var eh = rect.Height / 3.3f;
                 var ew = rect.Width / 3.3f;
-                g.FillClosedCurve(Program.DayHeadersBGBrush, new PointF[] 
-                { 
-                    new PointF(rect.X + ew, rect.Y + eh), 
+                g.FillClosedCurve(Program.DayHeadersBGBrush, new PointF[]
+                {
+                    new PointF(rect.X + ew, rect.Y + eh),
                     new PointF(rect.X + (rect.Width - ew), rect.Y + eh),
                     new PointF(rect.X + (rect.Width - ew), rect.Y + (rect.Height - eh)),
-                    new PointF(rect.X + ew, rect.Y + (rect.Height - eh))                    
+                    new PointF(rect.X + ew, rect.Y + (rect.Height - eh))
                 }, System.Drawing.Drawing2D.FillMode.Alternate, 3f);
             }
             //accumulative height of all text rectangles - keeps track of current Y position in box.
@@ -613,13 +626,13 @@ namespace LuachProject
                 f = new frmDailyInfoEng(sdi.JewishDate, this._currentLocation);
                 f.TopLevel = false;
                 f.Parent = this;
-                f.OccasionWasChanged += delegate(object sender, JewishDate jd)
+                f.OccasionWasChanged += delegate (object sender, JewishDate jd)
                 {
                     var sd = this._singleDateInfoList.FirstOrDefault(d => d.JewishDate == jd);
                     if (sd != null)
                     {
                         sd.UpdateOccasions();
-                        this.RedrawSingleDay(sd);                     
+                        this.RedrawSingleDay(sd);
                     }
                 };
                 f.FormClosed += delegate
@@ -719,7 +732,6 @@ namespace LuachProject
             if (firstDayGMonth.Month == lastDayGMonth.Month)
             {
                 caption += firstDayGMonth.ToString("MMMM yyyy");
-
             }
             else if (firstDayGMonth.Year == lastDayGMonth.Year)
             {
@@ -777,6 +789,6 @@ namespace LuachProject
             this.splitContainer2.Focus();
         }
 
-        #endregion
+        #endregion Private Functions
     }
 }

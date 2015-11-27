@@ -10,6 +10,7 @@ namespace LuachProject
     public partial class frmMonthlySecular : Form
     {
         #region Private Fields
+
         private bool _isFirstOpen = true;
         private DateTime _dateBeingDisplayed;
         private DateTime _todayDate = DateTime.Now.Date;
@@ -27,9 +28,11 @@ namespace LuachProject
         private DateTime? _selectedDay;
         private bool _isResizing;
         private bool _displayHebrew;
-        #endregion
+
+        #endregion Private Fields
 
         #region Properties
+
         public bool DisplayHebrew
         {
             get
@@ -105,9 +108,11 @@ namespace LuachProject
                 }
             }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Constructors
+
         public frmMonthlySecular()
         {
             Properties.Settings.Default.LastLanguage = "SecularEnglish";
@@ -127,9 +132,11 @@ namespace LuachProject
             this.SetCurrentMonth(this._todayDate);
             this.dateTimePicker1.DataBindings.Add("Value", this, "SelectedDate", true, DataSourceUpdateMode.OnPropertyChanged);
         }
-        #endregion
+
+        #endregion Constructors
 
         #region Event Handlers
+
         private void frmMonthlySecular_Load(object sender, EventArgs e)
         {
             this.SetLocationDataSource();
@@ -326,7 +333,7 @@ namespace LuachProject
                     else
                     {
                         (this.splitContainer1.Panel2.Controls[0] as frmDailyInfoEng).EditOccasion(occ, new Point((int)(sdi.RectangleF.X + sdi.RectangleF.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
-                    }                    
+                    }
                 }
             }
 
@@ -404,15 +411,19 @@ namespace LuachProject
                 case Keys.Right:
                     this.NavigateToDay(this._selectedDay.GetValueOrDefault().AddDays(1));
                     break;
+
                 case Keys.Left:
                     this.NavigateToDay(this._selectedDay.GetValueOrDefault().AddDays(-1));
                     break;
+
                 case Keys.Up:
                     this.NavigateToDay(this._selectedDay.GetValueOrDefault().AddDays(-7));
                     break;
+
                 case Keys.Down:
                     this.NavigateToDay(this._selectedDay.GetValueOrDefault().AddDays(7));
                     break;
+
                 case Keys.Enter:
                     if (this.splitContainer1.Panel2.Controls.Count > 0)
                     {
@@ -428,9 +439,11 @@ namespace LuachProject
                     break;
             }
         }
-        #endregion
+
+        #endregion Event Handlers
 
         #region Private Functions
+
         private void DrawDayHeader(Graphics g, float dayWidth, float currX, float currY, DayOfWeek dow)
         {
             var rect = new RectangleF(currX, currY, dayWidth, 25f);
@@ -454,7 +467,7 @@ namespace LuachProject
             var rect = new RectangleF(currX, currY, width, height);
             var text = currDate.Day.ToString();
             var holidays = Zmanim.GetHolidays(jDate, this._currentLocation.IsInIsrael);
-            
+
             SingleDateInfo sdi = new SingleDateInfo(jDate, new RectangleF(rect.Location, rect.Size));
 
             this._singleDateInfoList.Add(sdi);
@@ -546,12 +559,12 @@ namespace LuachProject
             {
                 var eh = rect.Height / 3.3f;
                 var ew = rect.Width / 3.3f;
-                g.FillClosedCurve(Program.DayHeadersBGBrush, new PointF[] 
-                { 
-                    new PointF(rect.X + ew, rect.Y + eh), 
+                g.FillClosedCurve(Program.DayHeadersBGBrush, new PointF[]
+                {
+                    new PointF(rect.X + ew, rect.Y + eh),
                     new PointF(rect.X + (rect.Width - ew), rect.Y + eh),
                     new PointF(rect.X + (rect.Width - ew), rect.Y + (rect.Height - eh)),
-                    new PointF(rect.X + ew, rect.Y + (rect.Height - eh))                    
+                    new PointF(rect.X + ew, rect.Y + (rect.Height - eh))
                 }, System.Drawing.Drawing2D.FillMode.Alternate, 3f);
             }
             //accumulative height of all text rectangles - keeps track of current Y position in box.
@@ -688,7 +701,7 @@ namespace LuachProject
         {
             if (f is frmDailyInfoEng)
             {
-                ((frmDailyInfoEng)f).OccasionWasChanged += delegate(object sender, JewishDate jd)
+                ((frmDailyInfoEng)f).OccasionWasChanged += delegate (object sender, JewishDate jd)
                 {
                     this.RefreshDay(jd);
                 };
@@ -699,7 +712,7 @@ namespace LuachProject
             }
             else
             {
-                ((frmDailyInfoHeb)f).OccasionWasChanged += delegate(object sender, JewishDate jd)
+                ((frmDailyInfoHeb)f).OccasionWasChanged += delegate (object sender, JewishDate jd)
                 {
                     this.RefreshDay(jd);
                 };
@@ -901,7 +914,7 @@ namespace LuachProject
                 this.Font = new Font("Tahoma", 7.8f);
                 this._dayHeadersFont = new Font(this.pnlMain.Font.FontFamily, 10, FontStyle.Regular);
                 this._zmanimFont = new Font("Tahoma", 8, FontStyle.Regular);
-                this.cmbLocation.Font = this.btnNextMonth.Font = this.btnPreviousMonth.Font = 
+                this.cmbLocation.Font = this.btnNextMonth.Font = this.btnPreviousMonth.Font =
                     this.btnNextYear.Font = this.btnPreviousYear.Font = new Font("Tahoma", 9f);
                 this.lblMonthName.Font = new Font("Tahoma", 18f, FontStyle.Bold);
                 this.lblInstructions.Text = "לחץ על יום לראות פרטי היום   |   לחץ פעמיים להוסיף אירוע   |   לנווט בין הימים השתמשו בלחצני החיצים";
@@ -979,6 +992,7 @@ namespace LuachProject
             this.CurrentDate = jd;
             this.SelectSingleDay(jd);
         }
-        #endregion
+
+        #endregion Private Functions
     }
 }

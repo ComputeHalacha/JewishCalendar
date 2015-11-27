@@ -8,10 +8,11 @@ using System.Windows.Forms;
 namespace JewishDatePicker
 {
     [DefaultProperty("Value")]
-    [DefaultEvent("ValueChanged")]    
+    [DefaultEvent("ValueChanged")]
     public partial class JewishDatePicker : UserControl
     {
         public enum Languages { Hebrew, English };
+
         public event EventHandler ValueChanged;
 
         private JewishDate _value = new JewishDate();
@@ -46,9 +47,9 @@ namespace JewishDatePicker
             }
         }
 
-       public JewishDate MinDate { get; set; }
+        public JewishDate MinDate { get; set; }
 
-       public JewishDate MaxDate { get; set; }
+        public JewishDate MaxDate { get; set; }
 
         [DefaultValue(Languages.Hebrew)]
         public Languages Language
@@ -78,7 +79,6 @@ namespace JewishDatePicker
                     this.cmbJMonth.SelectedIndexChanged += new System.EventHandler(this.cmbJMonth_SelectedIndexChanged);
                     this.cmbJDay.SelectedIndexChanged += new System.EventHandler(this.cmbJDay_SelectedIndexChanged);
                 }
-
             }
         }
 
@@ -118,11 +118,11 @@ namespace JewishDatePicker
             set
             {
                 base.RightToLeft = value;
-                this.flowLayoutPanel1.RightToLeft = 
-                    this.cmbJYear.RightToLeft = 
-                    this.cmbJMonth.RightToLeft = 
+                this.flowLayoutPanel1.RightToLeft =
+                    this.cmbJYear.RightToLeft =
+                    this.cmbJMonth.RightToLeft =
                     this.cmbJDay.RightToLeft = value;
-            }                
+            }
         }
 
         [DefaultValue("Color.White")]
@@ -150,7 +150,7 @@ namespace JewishDatePicker
             }
             set
             {
-                this.cmbJYear.FlatStyle = this.cmbJMonth.FlatStyle = this.cmbJDay.FlatStyle = value;                
+                this.cmbJYear.FlatStyle = this.cmbJMonth.FlatStyle = this.cmbJDay.FlatStyle = value;
             }
         }
 
@@ -158,9 +158,9 @@ namespace JewishDatePicker
         {
             this.MinDate = JewishDate.MinDate;
             this.MaxDate = JewishDate.MaxDate;
-            
+
             InitializeComponent();
-            
+
             this.cmbJYear.DisplayMember = "Value";
             this.cmbJYear.ValueMember = "Key";
             this.cmbJMonth.DisplayMember = "Value";
@@ -178,7 +178,7 @@ namespace JewishDatePicker
         }
 
         private void JewishDatePicker_Load(object sender, EventArgs e)
-        {            
+        {
         }
 
         public virtual void RaiseValueChanged()
@@ -232,14 +232,14 @@ namespace JewishDatePicker
         {
             for (int i = this.MinDate.Year; i <= this.MaxDate.Year; i++)
             {
-                this.cmbJYear.Items.Add(new KeyValuePair<int, string>(i, 
+                this.cmbJYear.Items.Add(new KeyValuePair<int, string>(i,
                     this._language == Languages.Hebrew ? i.ToNumberHeb() : i.ToString()));
             }
         }
 
         private void FillJewishDaysCombo()
         {
-            if(this._value == null)
+            if (this._value == null)
             {
                 return;
             }
@@ -249,7 +249,7 @@ namespace JewishDatePicker
             int d = JewishDateCalculations.DaysInJewishMonth(this._value.Year, this._value.Month);
             for (int i = 1; i <= d; i++)
             {
-                this.cmbJDay.Items.Add(new KeyValuePair<int, string>(i, 
+                this.cmbJDay.Items.Add(new KeyValuePair<int, string>(i,
                     this._language == Languages.Hebrew ? i.ToNumberHeb() : i.ToString()));
             }
         }
@@ -260,19 +260,19 @@ namespace JewishDatePicker
             bool m = JewishDateCalculations.IsJewishLeapYear(this.Value.Year);
             for (int i = 1; i <= (m ? 13 : 12); i++)
             {
-                this.cmbJMonth.Items.Add(new KeyValuePair<int, string>(i, 
+                this.cmbJMonth.Items.Add(new KeyValuePair<int, string>(i,
                     this._language == Languages.Hebrew ? Utils.JewishMonthNamesHebrew[i] : Utils.JewishMonthNamesEnglish[i]));
             }
         }
 
         private void SetCombosToShowValue()
         {
-            if(this._value == null)
+            if (this._value == null)
             {
                 return;
             }
 
-            if (this.cmbJYear.SelectedItem == null || 
+            if (this.cmbJYear.SelectedItem == null ||
                 ((KeyValuePair<int, string>)this.cmbJYear.SelectedItem).Key != this._value.Year)
             {
                 foreach (KeyValuePair<int, string> kvp in this.cmbJYear.Items)
@@ -284,7 +284,7 @@ namespace JewishDatePicker
                     }
                 }
             }
-            if (this.cmbJMonth.SelectedItem == null || 
+            if (this.cmbJMonth.SelectedItem == null ||
                 ((KeyValuePair<int, string>)this.cmbJMonth.SelectedItem).Key != this._value.Month)
             {
                 foreach (KeyValuePair<int, string> kvp in this.cmbJMonth.Items)
@@ -296,7 +296,7 @@ namespace JewishDatePicker
                     }
                 }
             }
-            if (this.cmbJDay.SelectedItem == null || 
+            if (this.cmbJDay.SelectedItem == null ||
                 ((KeyValuePair<int, string>)this.cmbJDay.SelectedItem).Key != this._value.Day)
             {
                 foreach (KeyValuePair<int, string> kvp in this.cmbJDay.Items)

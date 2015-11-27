@@ -9,7 +9,7 @@ namespace LuachProject
         protected override bool ShowFocusCues
         {
             get
-            {                
+            {
                 return false;
             }
         }
@@ -20,7 +20,6 @@ namespace LuachProject
             {
                 return false;
             }
-
         }
 
         public override bool Focused

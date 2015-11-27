@@ -76,18 +76,22 @@ namespace LuachProject
                         this.JewishDate = this.UserOccasion.JewishDate;
                         this.rbOneTime.Checked = true;
                         break;
+
                     case UserOccasionTypes.HebrewDateRecurringYearly:
                         this.JewishDate = this.UserOccasion.JewishDate;
                         this.rbJewishYearly.Checked = true;
                         break;
+
                     case UserOccasionTypes.HebrewDateRecurringMonthly:
                         this.JewishDate = this.UserOccasion.JewishDate;
                         this.rbJewishMonthly.Checked = true;
                         break;
+
                     case UserOccasionTypes.SecularDateRecurringYearly:
                         this.SecularDate = this.UserOccasion.SecularDate;
                         this.rbSecularYearly.Checked = true;
                         break;
+
                     case UserOccasionTypes.SecularDateRecurringMonthly:
                         this.SecularDate = this.UserOccasion.SecularDate;
                         this.rbSecularMonthly.Checked = true;
@@ -105,8 +109,8 @@ namespace LuachProject
 
             this.txtName.ForeColor = this.btnColor.BackColor = this._selectedForeColor;
 
-            //As each day can only have a single background color, 
-            //we get this occasions back color from any occasion in the list for the day. 
+            //As each day can only have a single background color,
+            //we get this occasions back color from any occasion in the list for the day.
             //What exactly is this "Day" is determined by the occasion type.
             this._selectedBackColor = (from o in UserOccasionColection.FromSettings(this.JewishDate)
                                        where o.BackColor != Color.Empty
@@ -171,7 +175,7 @@ namespace LuachProject
                 this.btnColor.BackColor = this.txtName.ForeColor = this._selectedForeColor = this.colorDialog1.Color;
                 //Repaint the background
                 this.Invalidate();
-            }            
+            }
         }
 
         private void btnBGColor_Click(object sender, EventArgs e)
@@ -294,7 +298,7 @@ namespace LuachProject
                         this.Refresh();
                     }
                 }
-                else if(this.CloseStyle == CloseStyles.Slide)
+                else if (this.CloseStyle == CloseStyles.Slide)
                 {
                     while (this.Left < this.Owner.Right)
                     {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Text;
 
 namespace JewishCalendar
@@ -19,14 +18,17 @@ namespace JewishCalendar
         /// Array of name of the Jewish Months. Month numbers correspond to the array index, so  Nissan is JewishMonthNamesEnglish[1] etc.
         /// </summary>
         public static string[] JewishMonthNamesEnglish = { "", "Nissan", "Iyar", "Sivan", "Tamuz", "Av", "Ellul", "Tishrei", "Cheshvan", "Kislev", "Teves", "Shvat", "Adar", "Adar Sheini" };
+
         /// <summary>
         /// Array of Hebrew names of the Jewish Months. Month numbers correspond to the array index, so  ניסן is JewishMonthNamesHebrew[1] etc.
         /// </summary>
         public static string[] JewishMonthNamesHebrew = { "", "ניסן", "אייר", "סיון", "תמוז", "אב", "אלול", "תשרי", "חשון", "כסלו", "טבת", "שבט", "אדר", "אדר שני" };
+
         /// <summary>
         /// Names of days of week in Hebrew. יום ראשון is JewishDOWNames[0].
         /// </summary>
         public static string[] JewishDOWNames = { "יום ראשון", "יום שני", "יום שלישי", "יום רביעי", "יום חמישי", "ערב שבת קודש", "שבת קודש" };
+
         /// <summary>
         /// The Jewish names for the days of the week in English as an array. For example, DaysOfWeek[5] is Erev Shabbos
         /// </summary>
@@ -59,12 +61,15 @@ namespace JewishCalendar
                     case '1':
                         suffix = "st";
                         break;
+
                     case '2':
                         suffix = "nd";
                         break;
+
                     case '3':
                         suffix = "rd";
                         break;
+
                     default:
                         suffix = "th";
                         break;
@@ -100,7 +105,7 @@ namespace JewishCalendar
             {
                 return true;
             }
-            //DST starts at 2:00 AM on the second Sunday in March                
+            //DST starts at 2:00 AM on the second Sunday in March
             else if (month == 3)
             {
                 //Gets day of week on March 1st
@@ -140,8 +145,8 @@ namespace JewishCalendar
 
         /// <summary>
         /// Converts a number into its jewish number equivalent. I.E. 254 is רכ"ד
-        /// NOTE: The exact thousands numbers (1000, 2000, 3000 etc.) 
-        /// will look awfully similar to the single digits, but will be formatted with an apostrophe I.E. 2000 = "'ב"        
+        /// NOTE: The exact thousands numbers (1000, 2000, 3000 etc.)
+        /// will look awfully similar to the single digits, but will be formatted with an apostrophe I.E. 2000 = "'ב"
         /// </summary>
         /// <param name="number"></param>
         /// <returns></returns>
@@ -289,6 +294,6 @@ namespace JewishCalendar
                 nusach += (laOmer ? "ל" : "ב") + "עומר";
             }
             return nusach;
-        } 
+        }
     }
 }

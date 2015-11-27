@@ -1,6 +1,4 @@
-﻿using JewishCalendar;
-
-namespace JewishCalendar
+﻿namespace JewishCalendar
 {
     /// <summary>
     /// Represents the molad for a single month
@@ -11,10 +9,12 @@ namespace JewishCalendar
         /// The date of the molad
         /// </summary>
         public JewishDateMicro JewishDate { get; set; }
+
         /// <summary>
         /// Represents the time of the molad - not including the chalakim
         /// </summary>
         public HourMinute Time { get; set; }
+
         /// <summary>
         /// Represents the Chalakim (1/1080 of an hour) part of the molad
         /// </summary>
@@ -22,7 +22,7 @@ namespace JewishCalendar
 
         /// <summary>
         /// Returns the time of the molad as a string in the format: Monday Night, 8:33 PM and 12 Chalakim
-        /// NOTE: the cutoff time to be considered "night" is 8 PM. 
+        /// NOTE: the cutoff time to be considered "night" is 8 PM.
         /// To specify another nightfall time (such as the real sunset time), use the function: ToString(HourMinute nightfall)
         /// </summary>
         /// <returns></returns>
@@ -32,14 +32,14 @@ namespace JewishCalendar
         }
 
         /// <summary>
-        /// Returns the time of the molad as a string in the format: Monday Night, 8:33 PM and 12 Chalakim 
+        /// Returns the time of the molad as a string in the format: Monday Night, 8:33 PM and 12 Chalakim
         /// </summary>
         /// <param name="nightfall">Used to determine when to display "Night" or "Motzai Shabbos" etc.</param>
         /// <returns></returns>
         public string ToString(HourMinute nightfall)
         {
             var sb = new System.Text.StringBuilder();
-            
+
             if (nightfall == HourMinute.NoValue)
             {
                 sb.Append(Utils.DaysOfWeek[this.JewishDate.DayInWeek]);
@@ -75,7 +75,6 @@ namespace JewishCalendar
             var sb = new System.Text.StringBuilder();
             if (this.JewishDate.DayOfWeek == System.DayOfWeek.Saturday)
             {
-
                 sb.Append(this.Time >= nightfall ? "מוצאי שב\"ק" : "יום שב\"ק");
             }
             else if (this.JewishDate.DayOfWeek == System.DayOfWeek.Friday)

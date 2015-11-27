@@ -68,7 +68,6 @@ Public Class frmRemindEng
                 .HideSelection = True
             End With
 
-
         Catch ex As Exception
             MessageBox.Show("There was a problem during the display of the Omer Reminder:" & Environment.NewLine & ex.Message,
                                         "Show Windows Reminder",

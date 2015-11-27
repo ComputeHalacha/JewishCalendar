@@ -25,7 +25,7 @@ namespace JewishCalendar
             return GetSingleDaf(date.AbsoluteDate);
         }
 
-        private static Masechta[] masechtaList = new Masechta[] 
+        private static Masechta[] masechtaList = new Masechta[]
         {
             new Masechta ("Berachos", "ברכות", 64),
             new Masechta ("Shabbos", "שבת", 157),
@@ -116,12 +116,15 @@ namespace JewishCalendar
                         case 36:
                             blatt = blatt + 21;
                             break;
+
                         case 37:
                             blatt = blatt + 24;
                             break;
+
                         case 38:
                             blatt = blatt + 33;
                             break;
+
                         default:
                             break;
                     }
@@ -144,14 +147,17 @@ namespace JewishCalendar
         /// The name of the masechta in English
         /// </summary>
         public string NameEnglish;
+
         /// <summary>
         /// The name of the masechta in Hebrew
         /// </summary>
         public string NameHebrew;
+
         /// <summary>
         /// The number of dappim in the current masechta
         /// </summary>
         public int Dappim;
+
         /// <summary>
         /// Create a new Masechta
         /// </summary>
@@ -170,10 +176,12 @@ namespace JewishCalendar
         /// The masechta this daf is in
         /// </summary>
         public Masechta Masechta { get; private set; }
+
         /// <summary>
         /// The number of this daf
         /// </summary>
         public int DafNumber { get; private set; }
+
         /// <summary>
         /// Create a new Daf object
         /// </summary>

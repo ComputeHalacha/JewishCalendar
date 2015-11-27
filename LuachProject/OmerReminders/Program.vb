@@ -13,13 +13,13 @@ Module Program
 
     ''' <summary>
     ''' Loads the locations from the settings.
-    ''' Note: the xml format for each locations is:          
-    '''     <L N="Ofakim" H="אופקים" I="Y">    <!--N = name of location, H = hebrew name (optional), I = is the location in Israel? [Y = yes] (optional)-->       
-    '''         <T>2</T>    <!--Time zone: hour offset from UTC (AKA GMT) -->                
+    ''' Note: the xml format for each locations is:
+    '''     <L N="Ofakim" H="אופקים" I="Y">    <!--N = name of location, H = hebrew name (optional), I = is the location in Israel? [Y = yes] (optional)-->
+    '''         <T>2</T>    <!--Time zone: hour offset from UTC (AKA GMT) -->
     '''         <E>170</E>    <!--Elevation in meters (optional)-->
-    '''         <LT>31.32</LT>    <!--Latitude-->                
-    '''         <LN>-34.62</LN>   <!--Longitude-->                
-    '''         <CL>30</CL>    <!--Candle-lighting: minutes before sunset (optional)-->                    
+    '''         <LT>31.32</LT>    <!--Latitude-->
+    '''         <LN>-34.62</LN>   <!--Longitude-->
+    '''         <CL>30</CL>    <!--Candle-lighting: minutes before sunset (optional)-->
     '''         <TZN>Israel Standard Time</TZN>    <!--Time zone name (optional)-->
     '''     </L>
     ''' </summary>

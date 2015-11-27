@@ -121,7 +121,7 @@
                     the 29<sup>th</sup> day of Tishrei in the year תשס&quot;ז (5767).
                     </p>
                 </li>
-                <li><code><strong>JewishDate(System.DateTime date)</strong></code> - 
+                <li><code><strong>JewishDate(System.DateTime date)</strong></code> -
                     Creates a Jewish date corresponding to the given secular date
                     <p>For example:</p>
                     <p>
@@ -140,7 +140,7 @@
                 </li>
                 <li><code><strong>JewishDate(Location location)</strong></code>
                     - Gives you a JewishDate for the current system date and time at the given
-                <em>Location</em>. 
+                <em>Location</em>.
                     <p>
                         This constructor checks the time of sunset at the given
                 location. If the current system time is after sunset, it adds a day to the
@@ -149,7 +149,7 @@
                     </p>
                 </li>
                 <li><code><strong>JewishDate(System.DateTime date, Location location)</strong></code>
-                    – Creates a JewishDate for the given secular date and time at the given location. 
+                    – Creates a JewishDate for the given secular date and time at the given location.
                     <p>
                         This constructor checks the time
                 of sunset at the given location. If the given time is after sunset, it adds a
@@ -185,9 +185,9 @@
                 <li><code><strong>GregorianDate</strong></code> – A regular
                     System.DateTime containing the secular date on this Jewish Date.
                     <br />
-                    Important note: In the JewishDate class, if the location was supplied in the constructor 
-                    and the time at object creation was between sunset and midnight for that location, 
-                    the GregorianDate will be incorrect, as it will be the next day – 
+                    Important note: In the JewishDate class, if the location was supplied in the constructor
+                    and the time at object creation was between sunset and midnight for that location,
+                    the GregorianDate will be incorrect, as it will be the next day –
                     which is only correct for the Jewish Date. To get the proper Secular Date, use the <code>GetSecularDate</code>
                     function.
                 </li>
@@ -197,7 +197,7 @@
                 CE. So, the Gregorian date January 1, 1 CE is absolute date number 1.  
                 <br />
                     Note: This property is mostly used for internal
-                calculations but can be used for very quick date calculations.            
+                calculations but can be used for very quick date calculations.
                 </li>
             </ul>
 
@@ -230,7 +230,7 @@
                 js) for the same purpose.
                 </li>
                 <li><code><strong>iJewishDate jd1 != iJewishDate jd2</strong></code>
-                    - Returns true if both iJewishDate objects do not have the same day, month and year.                        
+                    - Returns true if both iJewishDate objects do not have the same day, month and year.
                 </li>
                 <li><code><strong>iJewishDate jd1 &gt; iJewishDate jd2</strong></code>
                     - Returns true if the current iJewishDate object (left side) is chronologically after the

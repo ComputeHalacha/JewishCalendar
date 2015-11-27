@@ -17,7 +17,7 @@ namespace LuachProject
         }
 
         public event EventHandler<UserOccasion> OccasionWasChanged;
-        
+
         private bool _loading;
         private Color _selectedForeColor = Color.Maroon;
         private Color _selectedBackColor = Color.Empty;
@@ -75,25 +75,29 @@ namespace LuachProject
                         this.JewishDate = this.UserOccasion.JewishDate;
                         this.rbOneTime.Checked = true;
                         break;
+
                     case UserOccasionTypes.HebrewDateRecurringYearly:
                         this.JewishDate = this.UserOccasion.JewishDate;
                         this.rbJewishYearly.Checked = true;
                         break;
+
                     case UserOccasionTypes.HebrewDateRecurringMonthly:
                         this.JewishDate = this.UserOccasion.JewishDate;
                         this.rbJewishMonthly.Checked = true;
                         break;
+
                     case UserOccasionTypes.SecularDateRecurringYearly:
                         this.SecularDate = this.UserOccasion.SecularDate;
                         this.rbSecularYearly.Checked = true;
                         break;
+
                     case UserOccasionTypes.SecularDateRecurringMonthly:
                         this.SecularDate = this.UserOccasion.SecularDate;
                         this.rbSecularMonthly.Checked = true;
                         break;
                 }
                 this.btnAdd.Text = "עדכן";
-                this.btnDelete.Visible = true;                
+                this.btnDelete.Visible = true;
                 this._selectedForeColor = this.UserOccasion.Color;
             }
             else
@@ -103,9 +107,9 @@ namespace LuachProject
             }
 
             this.txtName.ForeColor = this.btnColor.BackColor = this._selectedForeColor;
-            
-            //As each day can only have a single background color, 
-            //we get this occasions back color from any occasion in the list for the day. 
+
+            //As each day can only have a single background color,
+            //we get this occasions back color from any occasion in the list for the day.
             //What exactly is this "Day" is determined by the occasion type.
             this._selectedBackColor = (from o in UserOccasionColection.FromSettings(this.JewishDate)
                                        where o.BackColor != Color.Empty
@@ -121,7 +125,7 @@ namespace LuachProject
         /// Draws the fancy gradient background colors
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>        
+        /// <param name="e"></param>
         private void frmAddOccasionHeb_Paint(object sender, PaintEventArgs e)
         {
             //I'm Not sure why 0, 0 doesn't work (not enough time to investigate and it works fine this way :))
@@ -134,7 +138,7 @@ namespace LuachProject
                 CenterColor = Color.FromArgb(50, this._selectedForeColor.R, this._selectedForeColor.G, this._selectedForeColor.B) /*Color.FromArgb(255, 192, 212, 238)*/,
                 SurroundColors = new Color[] { this._selectedBackColor == Color.Empty ? Color.GhostWhite : this._selectedBackColor }
             }, r);
-        }        
+        }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
@@ -167,12 +171,12 @@ namespace LuachProject
             this.colorDialog1.Color = this._selectedForeColor;
             if (this.colorDialog1.ShowDialog(this) == DialogResult.OK)
             {
-                this.btnColor.BackColor = this.txtName.ForeColor =this._selectedForeColor= this.colorDialog1.Color;
+                this.btnColor.BackColor = this.txtName.ForeColor = this._selectedForeColor = this.colorDialog1.Color;
                 //Repaint the background
                 this.Invalidate();
             }
         }
-        
+
         private void btnBGColor_Click(object sender, EventArgs e)
         {
             this.colorDialog1.Color = this._selectedBackColor;
@@ -190,9 +194,9 @@ namespace LuachProject
             this.btnBGColor.BackColor = this.txtName.BackColor = this._selectedBackColor = Color.Empty;
             this.llClearBackColor.Visible = (this._selectedBackColor != Color.Empty);
             //Repaint the background
-            this.Invalidate();  
+            this.Invalidate();
         }
-        
+
         private void btnAdd_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(this.txtName.Text))
@@ -322,6 +326,6 @@ namespace LuachProject
                 " לחודש " + Program.HebrewCultureInfo.DateTimeFormat.MonthNames[sdMonth];
             this.rbSecularMonthly.Text = "אירוע חודשי בכל " + sdDay.ToString() +
                 " לחודש הלועזי";
-        }        
+        }
     }
 }

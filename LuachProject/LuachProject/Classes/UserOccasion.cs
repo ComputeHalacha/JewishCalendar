@@ -44,6 +44,7 @@ namespace LuachProject
         public string Notes { get; set; }
         public ColorXML Color { get; set; }
         public ColorXML BackColor { get; set; }
+
         public System.Drawing.RectangleF Rectangle
         {
             get { return this._rectangle; }

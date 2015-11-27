@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace LuachProject
 {
-    static class Program
+    internal static class Program
     {
         internal static List<Location> LocationsList;
         internal static System.Globalization.CultureInfo HebrewCultureInfo = new System.Globalization.CultureInfo("he-il");
@@ -16,6 +16,7 @@ namespace LuachProject
         internal static Brush DayTextBrush = Brushes.DarkBlue;
         internal static Brush ZmanimBrush = Brushes.RoyalBlue;
         internal static Brush SecularDayBrush = Brushes.DarkBlue;
+
         internal static StringFormat StringFormat = new StringFormat
         {
             Trimming = StringTrimming.EllipsisCharacter,
@@ -23,6 +24,7 @@ namespace LuachProject
             LineAlignment = StringAlignment.Center,
             FormatFlags = StringFormatFlags.LineLimit | StringFormatFlags.FitBlackBox
         };
+
         internal static Brush ShabbosBrush = Brushes.LightSteelBlue;
         internal static Brush SelectedDayBackgroundBrush = new SolidBrush(Color.FromArgb(100, 100, 200, 255));
         internal static Brush YomtovBrush = Brushes.GhostWhite;
@@ -40,7 +42,7 @@ namespace LuachProject
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             if (Properties.Settings.Default.NeedsUpdate)
             {
@@ -59,12 +61,15 @@ namespace LuachProject
                     case "English":
                         form = new frmMonthlyEnglish();
                         break;
+
                     case "Hebrew":
                         form = new frmMonthlyHebrew();
                         break;
+
                     case "SecularEnglish":
                         form = new frmMonthlySecular();
                         break;
+
                     case "SecularHebrew":
                         form = new frmMonthlySecular { DisplayHebrew = true };
                         break;
@@ -77,14 +82,17 @@ namespace LuachProject
                     case "English":
                         form = new frmMonthlyEnglish();
                         break;
+
                     case "Hebrew":
                         form = new frmMonthlyHebrew();
                         break;
+
                     case "SecularEnglish":
                         form = new frmMonthlySecular();
                         break;
+
                     case "SecularHebrew":
-                        form = new frmMonthlySecular { DisplayHebrew = true};
+                        form = new frmMonthlySecular { DisplayHebrew = true };
                         break;
                 }
             }
@@ -93,15 +101,16 @@ namespace LuachProject
 
         /// <summary>
         /// Loads the locations from the settings.
-        /* Note: the xml format for each locations is:          
-            <L N="Ofakim" H="אופקים" I="Y">    <!--N = name of location, H = hebrew name (optional), I = is the location in Israel? [Y = yes] (optional)-->       
-                <T>2</T>    <!--Time zone: hour offset from UTC (AKA GMT) -->                
+        /* Note: the xml format for each locations is:
+            <L N="Ofakim" H="אופקים" I="Y">    <!--N = name of location, H = hebrew name (optional), I = is the location in Israel? [Y = yes] (optional)-->
+                <T>2</T>    <!--Time zone: hour offset from UTC (AKA GMT) -->
                 <E>170</E>    <!--Elevation in meters (optional)-->
-                <LT>31.32</LT>    <!--Latitude-->                
-                <LN>-34.62</LN>   <!--Longitude-->                
-                <CL>30</CL>    <!--Candle-lighting: minutes before sunset (optional)-->                    
+                <LT>31.32</LT>    <!--Latitude-->
+                <LN>-34.62</LN>   <!--Longitude-->
+                <CL>30</CL>    <!--Candle-lighting: minutes before sunset (optional)-->
                 <TZN>Israel Standard Time</TZN>    <!--Time zone name (optional)-->
             </L>     */
+
         /// </summary>
         public static void LoadLocations()
         {
@@ -117,9 +126,9 @@ namespace LuachProject
                         string heb = xr.GetAttribute("H") ?? name;
                         bool inIsrael = xr.GetAttribute("I") == "Y";
                         int timeZone;
-                        int elevation = 0;                                                
+                        int elevation = 0;
                         double latitude;
-                        double longitute;                        
+                        double longitute;
                         int candleLighting;
                         string timeZoneName = null;
 
@@ -164,6 +173,6 @@ namespace LuachProject
                 }
                 ms.Close();
             }
-        }        
+        }
     }
 }

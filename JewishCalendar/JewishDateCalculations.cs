@@ -1,11 +1,12 @@
-﻿/***************************************************************************************************************************** 
- * Does much of the actual Jewish Date calculations. 
+﻿/*****************************************************************************************************************************
+ * Does much of the actual Jewish Date calculations.
  * Does not rely on System.Globalization.HebrewCalendar so can be safely used with .NET micro projects.
- * 
- * Most of the Jewish date logic and calculations were translated from the C code by CBS - 
- * which in turn were translated from the Lisp code in "Calendrical Calculations" by Nachum Dershowitz and Edward M. Reingold 
+ *
+ * Most of the Jewish date logic and calculations were translated from the C code by CBS -
+ * which in turn were translated from the Lisp code in "Calendrical Calculations" by Nachum Dershowitz and Edward M. Reingold
  * in Software---Practice & Experience, vol. 20, no. 9 (September, 1990), pp. 899--928.
  *****************************************************************************************************************************/
+
 namespace JewishCalendar
 {
     /// <summary>
@@ -105,11 +106,11 @@ namespace JewishCalendar
         {
             if (jd2 == null) return false;
             return jd1.Year == jd2.Year && jd1.Month == jd2.Month && jd1.Day == jd2.Day;
-        }        
+        }
 
         /// <summary>
-        /// The number of days elapsed since the theoretical Gregorian date Sunday, December 31, 1 BCE. 
-        /// Since there is no year 0 in the calendar, the year following 1 BCE is 1 CE. 
+        /// The number of days elapsed since the theoretical Gregorian date Sunday, December 31, 1 BCE.
+        /// Since there is no year 0 in the calendar, the year following 1 BCE is 1 CE.
         /// So, the Gregorian date January 1, 1 CE is absolute date number 1.
         /// NOTE: This function should only be used if you don't have access to System.Globalization.HebrewCalendar.
         /// </summary>
@@ -146,7 +147,7 @@ namespace JewishCalendar
         }
 
         /// <summary>
-        /// Computed the absolute date for the given Gregorian Year, Month and Day 
+        /// Computed the absolute date for the given Gregorian Year, Month and Day
         /// NOTE: If you are not using the .NET micro framework, do not use this function!
         /// Use the following instead: (int)((YOUR_DATETIME.Subtract(new DateTime(1, 1, 1)).TotalDays + 1));
         /// </summary>
@@ -188,6 +189,7 @@ namespace JewishCalendar
                         return 29;
                     else
                         return 28;
+
                 case 4:
                 case 6:
                 case 9:

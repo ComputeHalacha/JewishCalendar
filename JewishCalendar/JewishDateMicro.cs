@@ -1,12 +1,13 @@
-﻿/********************************************************************************************************** 
- * By CBS. 
- * The regular .NET HebrewCalendar is  not available in the .NET Micro Framework, 
- * so we concocted our own based on alternative open source code. 
- * NOTE: for non micro framework projects, use JewishCalendar.JewishDate which is 
- * based on the System.Globalization.HebrewCalendar - 
- * the calculations are much more efficient (hence much faster) than most of the functions in this class.  * 
+﻿/**********************************************************************************************************
+ * By CBS.
+ * The regular .NET HebrewCalendar is  not available in the .NET Micro Framework,
+ * so we concocted our own based on alternative open source code.
+ * NOTE: for non micro framework projects, use JewishCalendar.JewishDate which is
+ * based on the System.Globalization.HebrewCalendar -
+ * the calculations are much more efficient (hence much faster) than most of the functions in this class.  *
  * To use the dll with the .NET Micro Framework, remove the file JewishDate.cs before compiling.
  **********************************************************************************************************/
+
 namespace JewishCalendar
 {
     /// <summary>
@@ -15,42 +16,51 @@ namespace JewishCalendar
     public class JewishDateMicro : IJewishDate
     {
         #region Public Properties
+
         /// <summary>
         /// The number of years since creation
         /// </summary>
         public int Year { get; private set; }
+
         /// <summary>
         /// The Jewish Month. As in the Torah, Nissan is month 1
         /// </summary>
         public int Month { get; private set; }
+
         /// <summary>
-        /// The Day in the month for this Jewish Date. 
+        /// The Day in the month for this Jewish Date.
         /// NOTE: Not always correct; from nightfall until midnight should really be the next Jewish day.
         /// </summary>
         public int Day { get; private set; }
+
         /// <summary>
-        /// The number of days elapsed since the theoretical Gregorian date Sunday, December 31, 1 BCE. 
-        /// Since there is no year 0 in the calendar, the year following 1 BCE is 1 CE. 
+        /// The number of days elapsed since the theoretical Gregorian date Sunday, December 31, 1 BCE.
+        /// Since there is no year 0 in the calendar, the year following 1 BCE is 1 CE.
         /// So, the Gregorian date January 1, 1 CE is absolute date number 1.
         /// </summary>
         public int AbsoluteDate { get; private set; }
+
         /// <summary>
         /// The index of the day of the week for this Jewish Date. Sunday is 0.
         /// </summary>
         public int DayInWeek { get { return System.Math.Abs(this.AbsoluteDate % 7); } }
+
         /// <summary>
         /// The day of the week for this Jewish Date (from Midnight to Midnight)
         /// </summary>
         public System.DayOfWeek DayOfWeek { get { return (System.DayOfWeek)this.DayInWeek; } }
+
         /// <summary>
         /// The name of the current Jewish Month (in English)
         /// </summary>
         public string MonthName { get { return Utils.JewishMonthNamesEnglish[this.Month]; } }
-        #endregion
+
+        #endregion Public Properties
 
         #region Constructors
+
         /// <summary>
-        /// Empty constructor. Sets the date to the current system date. 
+        /// Empty constructor. Sets the date to the current system date.
         /// </summary>
         public JewishDateMicro() : this(System.DateTime.Now) { }
 
@@ -79,7 +89,8 @@ namespace JewishCalendar
         /// </summary>
         /// <param name="date">The Gregorian date from which to create the Jewish Date</param>
         public JewishDateMicro(System.DateTime date) :
-            this(JewishDateCalculations.GetAbsoluteFromGregorianDate(date.Year, date.Month, date.Day)) { }
+            this(JewishDateCalculations.GetAbsoluteFromGregorianDate(date.Year, date.Month, date.Day))
+        { }
 
         /// <summary>
         /// Creates a Jewish date that corresponds to the given Gregorian date in the given location. Cut-off time is sunset.
@@ -101,8 +112,8 @@ namespace JewishCalendar
         /// Creates a Hebrew date from the "absolute date".
         /// In other words, the Hebrew date on the day that is the given number of days after/before December 31st, 1 BCE
         /// </summary>
-        /// <param name="absoluteDate">The number of days elapsed since the theoretical Gregorian date Sunday, December 31, 1 BCE. 
-        /// Since there is no year 0 in the calendar, the year following 1 BCE is 1 CE. 
+        /// <param name="absoluteDate">The number of days elapsed since the theoretical Gregorian date Sunday, December 31, 1 BCE.
+        /// Since there is no year 0 in the calendar, the year following 1 BCE is 1 CE.
         /// So, the Gregorian date January 1, 1 CE is absolute date number 1.</param>
         public JewishDateMicro(int absoluteDate)
         {
@@ -110,9 +121,9 @@ namespace JewishCalendar
         }
 
         /// <summary>
-        /// Sets the current Jewish date to the date represented by the given "Absolute Date" - 
+        /// Sets the current Jewish date to the date represented by the given "Absolute Date" -
         /// which is the number of days after/before December 31st, 1 BCE.
-        /// The logic here was translated from the C code - which in turn were translated 
+        /// The logic here was translated from the C code - which in turn were translated
         /// from the Lisp code in ''Calendrical Calculations'' by Nachum Dershowitz and Edward M. Reingold in
         /// Software---Practice &amp; Experience, vol. 20, no. 9 (September, 1990), pp. 899--928.
         /// </summary>
@@ -142,9 +153,11 @@ namespace JewishCalendar
             // Calculate the day by subtraction.
             this.Day = (absoluteDate - new JewishDateMicro(this.Year, this.Month, 1).AbsoluteDate + 1);
         }
-        #endregion
+
+        #endregion Constructors
 
         #region Public Functions
+
         /// <summary>
         /// Returns the Jewish date in the format: Adar 14, 5775
         /// </summary>
@@ -165,7 +178,7 @@ namespace JewishCalendar
 
         /// <summary>
         /// Returns the day of the Omer for the given Jewish date. If the given day is not during Sefirah, 0 is returned
-        /// </summary>        
+        /// </summary>
         /// <returns></returns>
         public int GetDayOfOmer()
         {
@@ -193,7 +206,7 @@ namespace JewishCalendar
                 return true;
             }
             return this.IsSameDate((IJewishDate)jd2);
-        }       
+        }
 
         /// <summary>
         /// Returns the Jewish date in the format: Adar 14, 5775
@@ -238,7 +251,7 @@ namespace JewishCalendar
         }
 
         /// <summary>
-        /// Returns the Jewish date in the format: כ"ו אלול תשע"ה 
+        /// Returns the Jewish date in the format: כ"ו אלול תשע"ה
         /// </summary>
         /// <returns></returns>
         public string ToShortDateStringHeb()
@@ -290,9 +303,11 @@ namespace JewishCalendar
                 this.SetFromAbsoluteDate(absoluteDate);
             }
         }
-        #endregion
+
+        #endregion Public Functions
 
         #region Operator Functions
+
         /// <summary>
         /// Returns true if both objects have the same day, month and year. You can also use the Equals function or the extension method IsSameDate(iJewishDate js) for the same purpose.
         /// </summary>
@@ -459,6 +474,7 @@ namespace JewishCalendar
         {
             return hd.AbsoluteDate - hd2.AbsoluteDate;
         }
-        #endregion
+
+        #endregion Operator Functions
     }
 }

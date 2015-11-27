@@ -10,10 +10,13 @@ namespace LuachProject
     public partial class frmDailyInfoHeb : Form
     {
         #region events
+
         public event EventHandler<JewishDate> OccasionWasChanged;
-        #endregion
+
+        #endregion events
 
         #region private fields
+
         private DateTime _displayingSecularDate;
         private JewishDate _displayingJewishDate;
         private JewishCalendar.Zmanim _zmanim;
@@ -25,9 +28,11 @@ namespace LuachProject
         private Font _dateDiffExpFont;
         private Font _sefirahFont;
         private frmAddOccasionHeb _frmAddOccasionHeb;
-        #endregion
+
+        #endregion private fields
 
         #region constructor
+
         public frmDailyInfoHeb(JewishDate jd, Location location)
         {
             this._displayingJewishDate = jd;
@@ -43,15 +48,16 @@ namespace LuachProject
             this._dateDiffExpFont = new Font(this.richTextBox1.Font.FontFamily, 7.3f, FontStyle.Italic);
             this._sefirahFont = new Font(this.richTextBox1.Font.FontFamily, 9f);
         }
-        #endregion
+
+        #endregion constructor
 
         #region properties
+
         public JewishDate JewishDate
         {
             get
             {
                 return this._displayingJewishDate;
-
             }
             set
             {
@@ -90,9 +96,11 @@ namespace LuachProject
                 this.ShowDateData();
             }
         }
-        #endregion
+
+        #endregion properties
 
         #region event handlers
+
         private void Form1_Load(object sender, EventArgs e)
         {
             //If we are displaying todays date for the current time zone, we will show the "proper" secular date.
@@ -108,13 +116,16 @@ namespace LuachProject
 
             this.ShowDateData();
         }
+
         private void button1_Click(object sender, EventArgs e)
         {
             this.AddNewOccasion(null);
         }
-        #endregion
+
+        #endregion event handlers
 
         #region private functions
+
         public void AddNewOccasion(Point? parentPoint)
         {
             if (this._frmAddOccasionHeb != null)
@@ -157,7 +168,7 @@ namespace LuachProject
             this.richTextBox1.SelectionColor = Color.RoyalBlue;
             this.richTextBox1.SelectedText = this._displayingSecularDate.ToString("D", Program.HebrewCultureInfo) +
                 Environment.NewLine;
-            //If the secular day is a day behind as day being displayed is todays date and it is after sunset, 
+            //If the secular day is a day behind as day being displayed is todays date and it is after sunset,
             //the user may get confused as the secular date for today and tomorrow will be the same.
             //So we esplain'in it to them...
             if (this._displayingSecularDate.Date != this._displayingJewishDate.GregorianDate.Date)
@@ -289,7 +300,6 @@ namespace LuachProject
             {
                 this.EditOccasion(occ, null);
             };
-
 
             lbl.MouseClick += delegate
             {
@@ -423,13 +433,11 @@ namespace LuachProject
                 this.richTextBox1.SelectedText = "היום" + Environment.NewLine;
                 return;
             }
-
             else if (diffDays == 1)
             {
                 this.richTextBox1.SelectedText = "מחר" + Environment.NewLine;
                 return;
             }
-
             else if (diffDays == 2)
             {
                 this.richTextBox1.SelectedText = "מחרתיים" + Environment.NewLine;
@@ -501,8 +509,8 @@ namespace LuachProject
             return this._zmanim.Location.TimeZoneInfo != null &&
                 TimeZoneInfo.Local.Id == this._zmanim.Location.TimeZoneInfo.Id &&
                 new JewishDate(DateTime.Now, this._zmanim.Location) == this._displayingJewishDate;
-
         }
-        #endregion
+
+        #endregion private functions
     }
 }

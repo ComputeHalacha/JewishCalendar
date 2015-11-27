@@ -66,7 +66,6 @@ Public Class frmCreateRemindersHeb
             For i As Integer = 1 To 49
                 Dim jd As JewishDate = firstDayOfPesach + i
 
-
                 If jd >= Me._todayJD Then
                     Dim dayOfOmer As Integer = jd.GetDayOfOmer()
                     Dim nusach As String = Utils.GetOmerNusach(dayOfOmer, Me.rbLaOmer.Checked, Me.rbSfardi.Checked)
@@ -173,8 +172,8 @@ Public Class frmCreateRemindersHeb
                     td.RegistrationInfo.Date = DateTime.Now
                     td.RegistrationInfo.Author = "CBS - Compute.co.il"
                     td.RegistrationInfo.Version = New Version("6.1.3")
-                    td.RegistrationInfo.Description = "This task was created by the Omer Reminder application. " & _
-                        "It runs each day at the time specified and shows a reminder to count Sefiras Ha'omer. " & _
+                    td.RegistrationInfo.Description = "This task was created by the Omer Reminder application. " &
+                        "It runs each day at the time specified and shows a reminder to count Sefiras Ha'omer. " &
                         "After the 49th day of the Omer, the task will be automatically deleted."
                     td.Settings.AllowDemandStart = True
                     td.Settings.AllowHardTerminate = True

@@ -17,6 +17,7 @@ namespace JewishCalendar
             /// North of the equator
             /// </summary>
             North,
+
             /// <summary>
             /// South of the equator
             /// </summary>
@@ -32,6 +33,7 @@ namespace JewishCalendar
             /// East of Greenwich England
             /// </summary>
             East,
+
             /// <summary>
             /// West of Greenwich England
             /// </summary>
@@ -72,42 +74,52 @@ namespace JewishCalendar
         /// The english name for this place
         /// </summary>
         public string Name { get; set; }
+
         /// <summary>
         /// The name of this place in Hebrew
         /// </summary>
         public string NameHebrew { get; set; }
+
         /// <summary>
         /// Is this location in Israel?
         /// </summary>
         public bool IsInIsrael { get; set; }
+
         /// <summary>
         /// Number of latitude degrees
         /// </summary>
         public int LatitudeDegrees { get; set; }
+
         /// <summary>
         /// Number of latitude minutes
         /// </summary>
         public double LatitudeMinutes { get; set; }
+
         /// <summary>
         /// Is this place above or below the equator?
         /// </summary>
         public LatitudeTypes LatitudeType { get; set; }
+
         /// <summary>
         /// Number of longitude degrees
         /// </summary>
         public int LongitudeDegrees { get; set; }
+
         /// <summary>
         /// Number of longitude minutes
         /// </summary>
         public double LongitudeMinutes { get; set; }
+
         /// <summary>
         /// Is this east or West of Greenwich England
         /// </summary>
         public LongitudeTypes LongitudeType { get; set; }
+
         /// <summary>
-        /// Time zone in relation to GMT 
+        /// Time zone in relation to GMT
         /// </summary>
         public int TimeZone { get; set; }
+
         /// <summary>
         /// Needed for figuring out date of transition to DST.
         /// </summary>
@@ -127,14 +139,17 @@ namespace JewishCalendar
                 }
             }
         }
+
         /// <summary>
         /// Needed for figuring out date of transition to DST.
         /// </summary>
         public TimeZoneInfo TimeZoneInfo { get; set; }
+
         /// <summary>
         /// Elevation of this location in meters
         /// </summary>
         public int Elevation { get; set; }
+
         /// <summary>
         /// Number of minutes before sunset is candle lighting.
         /// The default for this is, in Israel 30 minutes and in Chutz La'aretz 18 minutes.

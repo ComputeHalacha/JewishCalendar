@@ -10,10 +10,13 @@ namespace LuachProject
     public partial class frmDailyInfoEng : Form
     {
         #region events
+
         public event EventHandler<JewishDate> OccasionWasChanged;
-        #endregion
+
+        #endregion events
 
         #region private fields
+
         private DateTime _displayingSecularDate;
         private JewishDate _displayingJewishDate;
         private JewishCalendar.Zmanim _zmanim;
@@ -25,9 +28,11 @@ namespace LuachProject
         private Font _dateDiffExpFont;
         private Font _sefirahFont;
         private frmAddOccasionEng _frmAddOccasionEng;
-        #endregion
+
+        #endregion private fields
 
         #region constructor
+
         public frmDailyInfoEng(JewishDate jd, Location location)
         {
             this._displayingJewishDate = jd;
@@ -43,9 +48,11 @@ namespace LuachProject
             this._dateDiffExpFont = new Font(this.richTextBox1.Font.FontFamily, 7.3f, FontStyle.Italic);
             this._sefirahFont = new Font("Tahoma", 9f);
         }
-        #endregion
+
+        #endregion constructor
 
         #region properties
+
         public JewishDate JewishDate
         {
             get
@@ -89,9 +96,11 @@ namespace LuachProject
                 this.ShowDateData();
             }
         }
-        #endregion
+
+        #endregion properties
 
         #region event handlers
+
         private void Form1_Load(object sender, EventArgs e)
         {
             //If we are displaying todays date for the current time zone, we will show the "proper" secular date.
@@ -112,9 +121,11 @@ namespace LuachProject
         {
             AddNewOccasion(null);
         }
-        #endregion
+
+        #endregion event handlers
 
         #region private functions
+
         public void AddNewOccasion(Point? parentPoint)
         {
             if (this._frmAddOccasionEng != null)
@@ -124,7 +135,7 @@ namespace LuachProject
             }
             this._frmAddOccasionEng = new frmAddOccasionEng { JewishDate = this._displayingJewishDate };
             this.PositionAddOccasion(parentPoint);
-            this._frmAddOccasionEng.OccasionWasChanged += delegate(object sndr, UserOccasion uo)
+            this._frmAddOccasionEng.OccasionWasChanged += delegate (object sndr, UserOccasion uo)
             {
                 if (UserOccasionColection.FromSettings(this.JewishDate).Contains(uo))
                 {
@@ -174,7 +185,7 @@ namespace LuachProject
             this.richTextBox1.SelectionColor = Color.RoyalBlue;
             this.richTextBox1.SelectedText = this._displayingSecularDate.ToString("D", System.Threading.Thread.CurrentThread.CurrentCulture) +
                 Environment.NewLine;
-            //If the secular day is a day behind as day being displayed is todays date and it is after sunset, 
+            //If the secular day is a day behind as day being displayed is todays date and it is after sunset,
             //the user may get confused as the secular date for today and tomorrow will be the same.
             //So we esplain'in it to them...
             if (this._displayingSecularDate.Date != this._displayingJewishDate.GregorianDate.Date)
@@ -290,14 +301,14 @@ namespace LuachProject
                 LinkColor = occ.Color,
                 Tag = occ,
                 AutoSize = true,
-                AutoEllipsis=true,                
+                AutoEllipsis = true,
                 LinkBehavior = LinkBehavior.HoverUnderline
             };
             var lbl = new Label
             {
                 Text = occ.Notes
             };
-            
+
             lnkLbl.MouseClick += delegate
             {
                 this.EditOccasion(occ, null);
@@ -306,7 +317,7 @@ namespace LuachProject
             {
                 this.EditOccasion(occ, null);
             };
-            
+
             this.tableLayoutPanel1.Controls.Add(lnkLbl);
             this.tableLayoutPanel1.Controls.Add(lbl);
         }
@@ -319,11 +330,11 @@ namespace LuachProject
                 this._frmAddOccasionEng.Close();
             }
             this._frmAddOccasionEng = new frmAddOccasionEng(occ);
-            
+
             LinkLabel lnkLbl = this.tableLayoutPanel1.Controls.OfType<LinkLabel>().First(ll => ll.Tag == occ);
             Label lbl = (Label)this.tableLayoutPanel1.Controls[this.tableLayoutPanel1.Controls.IndexOf(lnkLbl) + 1];
 
-            this._frmAddOccasionEng.OccasionWasChanged += delegate(object sndr, UserOccasion uo)
+            this._frmAddOccasionEng.OccasionWasChanged += delegate (object sndr, UserOccasion uo)
             {
                 if (OccasionWasChanged != null)
                 {
@@ -334,7 +345,7 @@ namespace LuachProject
                     (!UserOccasionColection.FromSettings(this._displayingJewishDate).Contains(this._frmAddOccasionEng.UserOccasion)))
                 {
                     this.tableLayoutPanel1.Controls.Remove(lbl);
-                    this.tableLayoutPanel1.Controls.Remove(lnkLbl);                    
+                    this.tableLayoutPanel1.Controls.Remove(lnkLbl);
                     this.tableLayoutPanel1.RowCount -= 1;
                 }
                 else
@@ -362,7 +373,7 @@ namespace LuachProject
         {
             this._frmAddOccasionEng.StartPosition = FormStartPosition.Manual;
             this._frmAddOccasionEng.SuspendLayout();
-            
+
             if (parentPoint == null)
             {
                 this._frmAddOccasionEng.CloseStyle = frmAddOccasionEng.CloseStyles.Slide;
@@ -391,7 +402,7 @@ namespace LuachProject
             }
             else
             {
-                this._frmAddOccasionEng.CloseStyle =  frmAddOccasionEng.CloseStyles.Fade;
+                this._frmAddOccasionEng.CloseStyle = frmAddOccasionEng.CloseStyles.Fade;
 
                 var point = parentPoint.Value;
 
@@ -412,10 +423,10 @@ namespace LuachProject
                 this._frmAddOccasionEng.Location = point;
                 this._frmAddOccasionEng.Show(this);
             }
-          
+
             this._frmAddOccasionEng.ResumeLayout();
         }
-       
+
         private void DisplayDateDiff()
         {
             JewishDate now = new JewishDate(this._zmanim.Location);
@@ -490,8 +501,8 @@ namespace LuachProject
             return this._zmanim.Location.TimeZoneInfo != null &&
                 TimeZoneInfo.Local.Id == this._zmanim.Location.TimeZoneInfo.Id &&
                 new JewishDate(DateTime.Now, this._zmanim.Location) == this._displayingJewishDate;
-
         }
-        #endregion
+
+        #endregion private functions
     }
 }

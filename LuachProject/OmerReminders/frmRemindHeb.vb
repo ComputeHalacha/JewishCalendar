@@ -33,7 +33,6 @@ Public Class frmRemindHeb
             Dim harachaman As String = If(sfardi, "הרחמן הוא יחזיר עבודת בית המקדש למקומה במהרה בימינו. אמן:",
                                            "הרחמן הוא יחזיר לנו עבודת בית המקדש למקומה במהרה בימינו, אמן סלה:")
 
-
             lblCaption.Text = "לספור ספירת העומר - יום " & dayOfOmer
 
             Me.Text = Me.lblCaption.Text

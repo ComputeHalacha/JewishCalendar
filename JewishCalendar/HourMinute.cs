@@ -3,13 +3,14 @@ namespace JewishCalendar
     /// <summary>
     /// A simpler Time Span. Represents just the hour and the minute.
     /// Explicitly cast-able to and from System.TimeSpan.
-    /// </summary>    
+    /// </summary>
     public struct HourMinute
     {
         /// <summary>
         /// The hour
         /// </summary>
         public int Hour;
+
         /// <summary>
         /// The minute
         /// </summary>
@@ -33,8 +34,8 @@ namespace JewishCalendar
         {
             get
             {
-                //-1 minutes is pretty meaningless. 
-                //(negative hours is pretty meaningless too, 
+                //-1 minutes is pretty meaningless.
+                //(negative hours is pretty meaningless too,
                 //but using negative hours can sometimes be useful for calculations)
                 return new HourMinute { Minute = -1 };
             }

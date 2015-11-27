@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace JewishCalendar
 {
     /// <summary>
@@ -16,22 +17,27 @@ namespace JewishCalendar
             /// Shabbos
             /// </summary>
             Shabbos = 2,
+
             /// <summary>
             /// Major Yom Tov - where melacha is prohibited
             /// </summary>
             MajorYomTov = 4,
+
             /// <summary>
             /// Minor Yom Tov - where Melacha is permitted
             /// </summary>
             MinorYomtov = 16,
+
             /// <summary>
             /// A fast day
             /// </summary>
             FastDay = 32,
+
             /// <summary>
             /// Extra day information
             /// </summary>
             Information = 64,
+
             /// <summary>
             /// Erev shabbos or yomtov
             /// </summary>
@@ -42,10 +48,12 @@ namespace JewishCalendar
         /// Name of this special day in English
         /// </summary>
         public string NameEnglish { get; set; }
+
         /// <summary>
         /// Name of this special day in Hebrew
         /// </summary>
         public string NameHebrew { get; set; }
+
         /// <summary>
         /// Type of special day. Can have multiple values.
         /// </summary>
