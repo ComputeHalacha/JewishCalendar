@@ -9,7 +9,9 @@ namespace LuachProject
 {
     public partial class frmDailyInfoEng : Form
     {
+        #region events
         public event EventHandler<JewishDate> OccasionWasChanged;
+        #endregion
 
         #region private fields
         private DateTime _displayingSecularDate;
@@ -25,6 +27,7 @@ namespace LuachProject
         private frmAddOccasionEng _frmAddOccasionEng;
         #endregion
 
+        #region constructor
         public frmDailyInfoEng(JewishDate jd, Location location)
         {
             this._displayingJewishDate = jd;
@@ -40,7 +43,9 @@ namespace LuachProject
             this._dateDiffExpFont = new Font(this.richTextBox1.Font.FontFamily, 7.3f, FontStyle.Italic);
             this._sefirahFont = new Font("Tahoma", 9f);
         }
+        #endregion
 
+        #region properties
         public JewishDate JewishDate
         {
             get
@@ -84,6 +89,7 @@ namespace LuachProject
                 this.ShowDateData();
             }
         }
+        #endregion
 
         #region event handlers
         private void Form1_Load(object sender, EventArgs e)
@@ -281,8 +287,10 @@ namespace LuachProject
             {
                 Text = occ.Name,
                 Font = this._lblOccasionFont,
-                LinkColor = occ.Color,                
+                LinkColor = occ.Color,
                 Tag = occ,
+                AutoSize = true,
+                AutoEllipsis=true,                
                 LinkBehavior = LinkBehavior.HoverUnderline
             };
             var lbl = new Label

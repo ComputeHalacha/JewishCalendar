@@ -9,7 +9,9 @@ namespace LuachProject
 {
     public partial class frmDailyInfoHeb : Form
     {
+        #region events
         public event EventHandler<JewishDate> OccasionWasChanged;
+        #endregion
 
         #region private fields
         private DateTime _displayingSecularDate;
@@ -25,6 +27,7 @@ namespace LuachProject
         private frmAddOccasionHeb _frmAddOccasionHeb;
         #endregion
 
+        #region constructor
         public frmDailyInfoHeb(JewishDate jd, Location location)
         {
             this._displayingJewishDate = jd;
@@ -34,13 +37,15 @@ namespace LuachProject
 
             InitializeComponent();
 
-            this._lblOccasionFont = this.flowLayoutPanel1.Font;
+            this._lblOccasionFont = new Font(this.tableLayoutPanel1.Font, FontStyle.Bold);
             this._lineValueFont = new Font(this.richTextBox1.Font, FontStyle.Bold);
             this._dateDiffDaysFont = new Font(this.richTextBox1.Font.FontFamily, 9f, FontStyle.Bold);
             this._dateDiffExpFont = new Font(this.richTextBox1.Font.FontFamily, 7.3f, FontStyle.Italic);
             this._sefirahFont = new Font(this.richTextBox1.Font.FontFamily, 9f);
         }
+        #endregion
 
+        #region properties
         public JewishDate JewishDate
         {
             get
@@ -66,7 +71,7 @@ namespace LuachProject
                     this._zmanim.SecularDate = this._displayingSecularDate;
                     this._holidays = Zmanim.GetHolidays(value, this._zmanim.Location.IsInIsrael).Cast<SpecialDay>();
                     this._occasions = UserOccasionColection.FromSettings(this._displayingJewishDate);
-                    this.flowLayoutPanel1.Controls.Clear();
+                    this.tableLayoutPanel1.Controls.Clear();
                     this.ShowDateData();
                 }
             }
@@ -85,6 +90,7 @@ namespace LuachProject
                 this.ShowDateData();
             }
         }
+        #endregion
 
         #region event handlers
         private void Form1_Load(object sender, EventArgs e)
@@ -118,17 +124,16 @@ namespace LuachProject
             }
             this._frmAddOccasionHeb = new frmAddOccasionHeb { JewishDate = this._displayingJewishDate };
             this.PositionAddOccasion(parentPoint);
-            this._frmAddOccasionHeb.OccasionWasChanged += delegate(object sndr, UserOccasion uo)
+            this._frmAddOccasionHeb.OccasionWasChanged += delegate (object sndr, UserOccasion uo)
             {
-                if (OccasionWasChanged != null)
-                {
-                    OccasionWasChanged(this, (uo != null ? uo.JewishDate : this._displayingJewishDate));
-                }
-
                 if (UserOccasionColection.FromSettings(this.JewishDate).Contains(uo))
                 {
                     this.AddOccasion(uo);
-                    this.flowLayoutPanel1.BackColor = (uo.BackColor != Color.Empty ? uo.BackColor.Color : Color.GhostWhite);
+                    this.tableLayoutPanel1.BackColor = (uo.BackColor != Color.Empty ? uo.BackColor.Color : Color.GhostWhite);
+                }
+                if (OccasionWasChanged != null)
+                {
+                    OccasionWasChanged(this, (uo != null ? uo.JewishDate : this._displayingJewishDate));
                 }
             };
         }
@@ -255,32 +260,44 @@ namespace LuachProject
                       where o.BackColor != Color.Empty
                       select o.BackColor).FirstOrDefault();
 
-            this.flowLayoutPanel1.BackColor = (bg != Color.Empty ? bg.Color : Color.GhostWhite);
+            this.tableLayoutPanel1.BackColor = (bg != Color.Empty ? bg.Color : Color.GhostWhite);
 
             this.Cursor = Cursors.Default;
         }
 
         private void AddOccasion(UserOccasion occ)
         {
-            var l = new LinkLabel
+            var lnkLbl = new LinkLabel
             {
                 Text = occ.Name,
                 Font = this._lblOccasionFont,
-                Width = this.flowLayoutPanel1.Width,
+
                 LinkColor = occ.Color,
-                AutoSize = false,
-                AutoEllipsis = true,
                 Tag = occ,
+                AutoSize = true,
+
+                AutoEllipsis = true,
+
                 LinkBehavior = LinkBehavior.HoverUnderline
             };
+            var lbl = new Label
+            {
+                Text = occ.Notes
+            };
 
-            this.toolTip1.SetToolTip(l, occ.Notes);
-
-            l.MouseClick += delegate
+            lnkLbl.MouseClick += delegate
             {
                 this.EditOccasion(occ, null);
             };
-            this.flowLayoutPanel1.Controls.Add(l);
+
+
+            lbl.MouseClick += delegate
+            {
+                this.EditOccasion(occ, null);
+            };
+
+            this.tableLayoutPanel1.Controls.Add(lnkLbl);
+            this.tableLayoutPanel1.Controls.Add(lbl);
         }
 
         public void EditOccasion(UserOccasion occ, Point? parentPoint)
@@ -291,9 +308,10 @@ namespace LuachProject
                 this._frmAddOccasionHeb.Close();
             }
             this._frmAddOccasionHeb = new frmAddOccasionHeb(occ);
-            LinkLabel l = this.flowLayoutPanel1.Controls.OfType<LinkLabel>().First(ll => ll.Tag == occ);
-            this.PositionAddOccasion(parentPoint);
-            this._frmAddOccasionHeb.OccasionWasChanged += delegate(object sndr, UserOccasion uo)
+            LinkLabel lnkLbl = this.tableLayoutPanel1.Controls.OfType<LinkLabel>().First(ll => ll.Tag == occ);
+            Label lbl = (Label)this.tableLayoutPanel1.Controls[this.tableLayoutPanel1.Controls.IndexOf(lnkLbl) + 1];
+
+            this._frmAddOccasionHeb.OccasionWasChanged += delegate (object sndr, UserOccasion uo)
             {
                 if (OccasionWasChanged != null)
                 {
@@ -302,17 +320,19 @@ namespace LuachProject
                 if (this._frmAddOccasionHeb.UserOccasion == null ||
                 (!UserOccasionColection.FromSettings(this._displayingJewishDate).Contains(this._frmAddOccasionHeb.UserOccasion)))
                 {
-                    this.toolTip1.SetToolTip(l, null);
-                    this.flowLayoutPanel1.Controls.Remove(l);
+                    this.tableLayoutPanel1.Controls.Remove(lbl);
+                    this.tableLayoutPanel1.Controls.Remove(lnkLbl);
+                    this.tableLayoutPanel1.RowCount -= 1;
                 }
                 else
                 {
-                    l.Text = this._frmAddOccasionHeb.UserOccasion.Name;
-                    l.LinkColor = this._frmAddOccasionHeb.UserOccasion.Color;
-                    this.toolTip1.SetToolTip(l, this._frmAddOccasionHeb.UserOccasion.Notes);
-                    this.flowLayoutPanel1.BackColor = (uo.BackColor != Color.Empty ? uo.BackColor.Color : Color.GhostWhite);
+                    lnkLbl.Text = this._frmAddOccasionHeb.UserOccasion.Name;
+                    lnkLbl.LinkColor = this._frmAddOccasionHeb.UserOccasion.Color;
+                    lbl.Text = this._frmAddOccasionHeb.UserOccasion.Notes;
+                    this.tableLayoutPanel1.BackColor = (uo.BackColor != Color.Empty ? uo.BackColor.Color : Color.GhostWhite);
                 }
             };
+            this.PositionAddOccasion(parentPoint);
         }
 
         private void AddLine(string header, string value)
@@ -331,10 +351,10 @@ namespace LuachProject
             this._frmAddOccasionHeb.SuspendLayout();
 
             if (parentPoint == null)
-            {               
+            {
                 var pointZero = new Point(-this._frmAddOccasionHeb.Width, this.ParentForm.Bottom - this._frmAddOccasionHeb.Height - 7);
 
-                this._frmAddOccasionHeb.CloseStyle = frmAddOccasionHeb.CloseStyles.Slide;                
+                this._frmAddOccasionHeb.CloseStyle = frmAddOccasionHeb.CloseStyles.Slide;
                 this._frmAddOccasionHeb.Location = pointZero;
                 this._frmAddOccasionHeb.Show(this);
                 var a = 0;
@@ -358,7 +378,7 @@ namespace LuachProject
             else
             {
                 this._frmAddOccasionHeb.CloseStyle = frmAddOccasionHeb.CloseStyles.Fade;
-                
+
                 //Opacity is not supported on Right-To-Left
                 //this._frmAddOccasionHeb.RightToLeft = RightToLeft.No;
                 this._frmAddOccasionHeb.Opacity = 0;
