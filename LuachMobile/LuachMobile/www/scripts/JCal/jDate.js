@@ -698,3 +698,158 @@ Sedra.getSedraOrder = function (year, israel) {
 
     return retobj;
 };
+
+function Location(name, israel, latitude, longitude, utcOffset, elevation) {
+    return {
+        Name: name,
+        Israel: !!israel,
+        LatitudeDeg: parseInt(latitude),
+        LatitudeMin: latitude - parseInt(latitude) * 60,
+        LongitudeDeg: parseInt(longitude),
+        LongitudeMin: longitude - parseInt(longitude) * 60,
+        UTCOffset: utcOffset,
+        Elevation: elevation
+    };
+}
+
+function Zmanim(sd, location) {
+}
+
+Zmanim.GetNetzShkia = function (date, location, considerElevation) {
+    considerElevation = considerElevation !== false;
+
+    var sunrise, sunset, day = Zmanim.GetDayOfYear(date),
+        zeninthDeg = 90, zenithMin = 50, lonHour = 0, longitude = 0, latitude = 0, cosLat = 0, sinLat = 0, cosZen = 0, sinDec = 0, cosDec = 0,
+        xmRise = 0, xmSet = 0, xlRise = 0, xlSet = 0, aRise = 0, aSet = 0, ahrRise = 0, ahrSet = 0,
+        hRise = 0, hSet = 0, tRise = 0, tSet = 0, utRise = 0, utSet = 0, earthRadius = 6356900,
+        zenithAtElevation = Zmanim.DegToDec(zeninthDeg, zenithMin) + Zmanim.DegToDec(Math.acos(earthRadius / (earthRadius +
+            (considerElevation ? location.Elevation : 0))));
+
+    zeninthDeg = Math.floor(zenithAtElevation);
+    zenithMin = (zenithAtElevation - Math.floor(zenithAtElevation)) * 60;
+    cosZen = Math.cos(0.01745 * Zmanim.DegToDec(zeninthDeg, zenithMin));
+    longitude = Zmanim.DegToDec(location.LongitudeDeg, location.LongitudeMin) *
+        (location.LongitudeDeg > 0 ? 1 : -1);
+    lonHour = longitude / 15;
+    latitude = Zmanim.DegToDec(location.LatitudeDeg, location.LatitudeMin) *
+        (location.LatitudeType > 0 ? 1 : -1);
+    cosLat = Math.cos(0.01745 * latitude);
+    sinLat = Math.sin(0.01745 * latitude);
+    tRise = day + (6 + lonHour) / 24;
+    tSet = day + (18 + lonHour) / 24;
+    xmRise = Zmanim.M(tRise);
+    xlRise = Zmanim.L(xmRise);
+    xmSet = Zmanim.M(tSet);
+    xlSet = Zmanim.L(xmSet);
+    aRise = 57.29578 * Math.atan(0.91746 * Math.tan(0.01745 * xlRise));
+    aSet = 57.29578 * Math.atan(0.91746 * Math.tan(0.01745 * xlSet));
+    if (Math.abs(aRise + 360 - xlRise) > 90) {
+        aRise += 180;
+    }
+    if (aRise > 360) {
+        aRise -= 360;
+    }
+    if (Math.abs(aSet + 360 - xlSet) > 90) {
+        aSet += 180;
+    }
+    if (aSet > 360) {
+        aSet -= 360;
+    }
+    ahrRise = aRise / 15;
+    sinDec = 0.39782 * Math.sin(0.01745 * xlRise);
+    cosDec = Math.sqrt(1 - sinDec * sinDec);
+    hRise = (cosZen - sinDec * sinLat) / (cosDec * cosLat);
+    ahrSet = aSet / 15;
+    sinDec = 0.39782 * Math.sin(0.01745 * xlSet);
+    cosDec = Math.sqrt(1 - sinDec * sinDec);
+    hSet = (cosZen - sinDec * sinLat) / (cosDec * cosLat);
+    if (Math.abs(hRise) <= 1) {
+        hRise = 57.29578 * Math.acos(hRise);
+        utRise = ((360 - hRise) / 15) + ahrRise + Adj(tRise) + lonHour;
+        sunrise = Zmanim.TimeAdj(utRise + location.UTCOffset, date, location);
+        while (sunrise.hour > 12) {
+            sunrise.hour -= 12;
+        }
+    }
+
+    if (Math.abs(hSet) <= 1) {
+        hSet = 57.29578 * Math.acos(hSet);
+        utSet = (hRise / 15) + ahrSet + Zmanim.Adj(tSet) + lonHour;
+        sunset = Zmanim.TimeAdj(utSet + location.UTCOffset, date, location);
+        while (sunset.hour < 12) {
+            sunset.hour += 12;
+        }
+    }
+
+    return { sunrise: sunrise, sunset: sunset };
+};
+
+Zmanim.IsSecularLeapYear = function (year) {
+    if (year % 400 == 0) {
+        return true;
+    }
+    if (year % 100 != 0) {
+        if (year % 4 == 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
+Zmanim.GetDayOfYear = function (date) {
+    var monCount = [0, 1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366];
+    if ((date.getMonth() + 1 > 2) && (Zmanim.IsSecularLeapYear(date.getYear()))) {
+        return monCount[date.getMonth() + 1] + date.getDate() + 1;
+    }
+    else {
+        return monCount[date.getMonth() + 1] + date.getDate();
+    }
+};
+
+Zmanim.DegToDec = function (deg, min) {
+    return (deg + min / 60);
+};
+
+Zmanim.M = function (x) {
+    return (0.9856 * x - 3.251);
+};
+
+Zmanim.L = function (x) {
+    return (x + 1.916 * Math.sin(0.01745 * x) + 0.02 * Math.sin(2 * 0.01745 * x) + 282.565);
+};
+
+Zmanim.Adj = function (x) {
+    return (-0.06571 * x - 6.62);
+};
+
+Zmanim.RadToDeg = function (rad) {
+    return 57.29578 * rad;
+};
+
+Zmanim.TimeAdj = function (time, date, location) {
+    var hour, min;
+
+    if (time < 0) {
+        time += 24;
+    }
+
+    hour = parseInt(Math.trunc(Math.floor(time)));
+    min = parseInt(Math.trunc(Math.floor((time - hour) * 60 + 0.5)));
+
+    if (min >= 60) {
+        hour += 1;
+        min -= 60;
+    }
+
+    if (hour > 24) {
+        hour -= 24;
+    }
+
+    var hm = { hour: hour, minute: min };
+
+    if (Utils.IsDateTimeDST(date.Date.AddHours(hour), location)) {
+        hm += 60;
+    }
+
+    return hm;
+};
