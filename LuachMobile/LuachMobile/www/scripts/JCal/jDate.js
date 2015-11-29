@@ -584,6 +584,7 @@ Sedra.thu_long_leap = [52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
 Sedra.getDayOnOrBefore = function (day_of_week, date) {
     return date - ((date - day_of_week) % 7);
 };
+
 Sedra.getSedraOrder = function (year, israel) {
     //If the last call is within the same year as this one, we reuse the data.
     //If memory is an issue, remove these next few lines
