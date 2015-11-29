@@ -20,8 +20,30 @@
     <script src="scripts/jquery.mobile-1.4.5.min.js"></script>
 </head>
 <body>
-    <p>Hello, your application is ready!</p>
-    <input type="button" id="btn" value="TEST" />
+    <div data-role="page" id="divMainPage">
+        <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="a">
+            <div class="divPageHeading">
+                <img src="images/scroll.png" />
+                The Luach Project
+            </div>
+        </div>
+        <div data-role="content" data-theme="a">
+            <h2 id="h2Header">The Luach Project</h2>
+            Please check you authorization and authentication information.
+            <br />
+            If you have enabled the Special High Security Setting for your account,
+            please <a href="mailto:bitsadmin@compute.co.il" target="_blank">contact us</a>
+            for an explanation about how to log in after setting this option.
+            <br />
+            <h5 id="h5Header">
+                You will be automatically redirected to the login page in
+                <span id="spnAuthFailRedirectSec">15</span>
+                seconds...<span id="spnAuthFailDots"></span>
+            </h5>
+            <br />
+            <a href="javascript:void(0);" data-inline="true" data-role="button" data-icon="back" onclick="logout(); return false;">Log out and try again</a>
+        </div>
+    </div>
 
     <!-- Cordova reference, this is added to your app when it's built. -->
     <script src="cordova.js"></script>

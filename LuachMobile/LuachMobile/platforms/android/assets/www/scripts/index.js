@@ -8,16 +8,13 @@
 
     document.addEventListener('deviceready', onDeviceReady.bind(this), false);
 
-    //Test jDate functionality
-    $(function () {
-        $('#btn').val(new jDate(new Date()).toStringHeb());
-    });
-
     function onDeviceReady() {
         // Handle the Cordova pause and resume events
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
         // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
+
+        $('#h2Header').html(new jDate(new Date()).toStringHeb());
     };
 
     function onPause() {

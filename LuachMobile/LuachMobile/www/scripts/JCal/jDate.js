@@ -1,5 +1,4 @@
 ﻿"use strict";
-
 /*You can create a jDate with any of the following:
  *  new jDate(javascriptDateObject) - Sets to the Jewish date on the given Gregorian date
  *  new Date("January 1 2045") - same as above. Accepts any valid javascript Date string (uses Date.parse)
@@ -18,26 +17,16 @@ function jDate(arg, month, day) {
     self.Year = NaN;
     self.AbsoluteDate = NaN;
 
-    self.setFromAbsolute = function () {
-        var getDate = jDate.getFromAbsolute(self.AbsoluteDate);
-        self.Year = getDate.year;
-        self.Month = getDate.month;
-        self.Day = getDate.day;
-    };
-
     if (arg instanceof Date) {
-        self.AbsoluteDate = jDate.absoluteFromSDate(arg);
-        self.setFromAbsolute();
+        setFromAbsolute(jDate.absoluteFromSDate(arg));
     }
     else if (arg instanceof String) {
-        self.AbsoluteDate = jDate.absoluteFromSDate(Date.parse(arg));
-        self.setFromAbsolute();
+        setFromAbsolute(jDate.absoluteFromSDate(Date.parse(arg)));
     }
     else if (typeof arg === 'number') {
         //if no month and day was supplied, we assume that the first argument is an absolute date
         if (typeof month === 'undefined') {
-            self.AbsoluteDate = arg;
-            self.setFromAbsolute();
+            setFromAbsolute(arg);
         }
         else {
             self.Year = arg;
@@ -52,6 +41,14 @@ function jDate(arg, month, day) {
         self.Year = arg.year;
         self.AbsoluteDate = jDate.absoluteFromJDate(self.Year, self.Month, self.Day);
     }
+
+    function setFromAbsolute(absolute) {
+        var getDate = jDate.getFromAbsolute(absolute);
+        self.Year = getDate.year;
+        self.Month = getDate.month;
+        self.Day = getDate.day;
+        self.AbsoluteDate = absolute;
+    };
 }
 
 jDate.prototype = {
@@ -87,6 +84,12 @@ jDate.prototype = {
             dayOfOmer = this.getDiff(new jDate(this.Year, 1, 15));
         }
         return dayOfOmer;
+    },
+    getHolidays: function (israel, hebrew) {
+        return jDate.getHoldidays(this, israel, hebrew);
+    },
+    getSedra: function (israel) {
+        return new Sedra(this, israel);
     }
 };
 
@@ -307,4 +310,390 @@ jDate.toJNumber = function (number) {
         retval = (retval.slice(0, -1) + "\"" + retval[retval.length - 1]);
     }
     return retval;
+};
+jDate.getHoldidays = function (jd, israel, hebrew) {
+    var list = [],
+        jYear = jd.Year,
+        jMonth = jd.Month,
+        jDay = jd.Day,
+        dayOfWeek = jd.DayOfWeek,
+        isLeapYear = jDate.isJewishLeapYear(jYear),
+        secDate = jd.getSecularDate();
+
+    if (dayOfWeek === 5) {
+        list.push(!hebrew ? "Erev Shabbos" : "ערב שבת");
+    }
+    else if (dayOfWeek === 6) {
+        list.push(!hebrew ? "Shabbos Kodesh" : "שבת קודש");
+        if (jMonth != 6 && jDay > 22 && jDay < 30)
+            list.push(!hebrew ? "Shabbos Mevarchim" : "מברכים החודש");
+    }
+    if (jDay === 30) {
+        var monthIndex = (jMonth === 12 && !isLeapYear) || jMonth === 13 ? 1 : jMonth + 1;
+        list.push(!hebrew ? "Rosh Chodesh " + jDate.jewishMonthsEng[monthIndex] : "ראש חודש " + jDate.jewishMonthsHeb[monthIndex]);
+    } else if (jDay === 1 && jMonth != 7) {
+        list.push(!hebrew ? "Rosh Chodesh " + jDate.jewishMonthsEng[jMonth] : "ראש חודש " + jDate.jewishMonthsHeb[jMonth]);
+    }
+    //V'sain Tal U'Matar in Chutz La'aretz is according to the secular date
+    if (secDate.getMonth() == 11 && !israel) {
+        var sday = secDate.getDate();
+        if (sday === 5 || sday === 6) {
+            var nextYearIsLeap = jDate.isJewishLeapYear(jYear + 1);
+            if (((sday == 5 && !nextYearIsLeap)) || (sday == 6 && nextYearIsLeap))
+                list.push(!hebrew ? "V'sain Tal U'Matar" : "ותן טל ומטר");
+        }
+    }
+    switch (jMonth) {
+        case 1: //Nissan
+            if (dayOfWeek === 6 && jDay > 7 && jDay < 15)
+                list.push(!hebrew ? "Shabbos HaGadol" : "שבת הגדול");
+            if (jDay === 12 && dayOfWeek === 4)
+                list.push(!hebrew ? "Bedikas Chametz" : "בדיקת חמץ");
+            else if (jDay === 13 && dayOfWeek != DayOfWeek.Friday)
+                list.push(!hebrew ? "Bedikas Chametz" : "בדיקת חמץ");
+            else if (jDay === 14)
+                list.push(!hebrew ? "Erev Pesach" : "ערב פסח");
+            else if (jDay === 15)
+                list.push(!hebrew ? "First Day of Pesach" : "פסח - יום ראשון");
+            else if (jDay === 16)
+                list.push(israel ?
+                    (!hebrew ? "Pesach - Chol HaMoed" : "פסח - חול המועד") :
+                    (!hebrew ? "Pesach - Second Day" : "פסח - יום שני"));
+            else if (jDay.In(17, 18, 19))
+                list.push(!hebrew ? "Pesach - Chol Ha'moed - Erev Yomtov" : "פסח - חול המועד");
+            else if (jDay === 20)
+                list.push(!hebrew ? "Pesach - Chol Ha'moed - Erev Yomtov" : "פסח - חול המועד - ערב יו\"ט");
+            else if (jDay === 21)
+                list.push(!hebrew ? "7th Day of Pesach" : "שביעי של פסח");
+            else if (jDay === 22 && !israel)
+                list.push(!hebrew ? "Last Day of Pesach" : "אחרון של פסח");
+            break;
+        case 2: //Iyar
+            if (dayOfWeek === 1 && jDay > 2 && jDay < 12) {
+                list.push(!hebrew ? "Baha\"b" : "תענית שני קמא");
+            }
+            else if (dayOfWeek === 4 && jDay > 5 && jDay < 13) {
+                list.push(!hebrew ? "Baha\"b" : "תענית חמישי");
+            }
+            else if (dayOfWeek === 1 && jDay > 9 && jDay < 17) {
+                list.push(!hebrew ? "Baha\"b" : "תענית שני בתרא");
+            }
+            if (jDay === 14)
+                list.push(!hebrew ? "Pesach Sheini" : "פסח שני");
+            else if (jDay === 18)
+                list.push(!hebrew ? "Lag BaOmer" : "ל\"ג בעומר");
+            break;
+        case 3: //Sivan
+            if (jDay === 5)
+                list.push(!hebrew ? "Erev Shavuos" : "ערב שבועות");
+            else if (jDay === 6)
+                list.push((israel ? (!hebrew ? "Shavuos" : "חג השבועות") :
+                    (!hebrew ? "Shavuos - First Day" : "שבועות - יום ראשון")));
+            if (jDay === 7 && !israel)
+                list.push(!hebrew ? "Shavuos - Second Day" : "שבועות - יום שני");
+            break;
+        case 4: //Tamuz
+            if (jDay === 17 && dayOfWeek !== 6) {
+                list.push(!hebrew ? "Fast - 17th of Tammuz" : "צום י\"ז בתמוז");
+            }
+            else if (jDay === 18 && dayOfWeek === 0) {
+                list.push(!hebrew ? "Fast - 17th of Tammuz" : "צום י\"ז בתמוז");
+            } break;
+        case 5: //Av
+            if (jDay === 9 && dayOfWeek !== 6)
+                list.push(!hebrew ? "Tisha B'Av" : "תשעה באב");
+            else if (jDay === 10 && dayOfWeek === 0)
+                list.push(!hebrew ? "Tisha B'Av" : "תשעה באב");
+            else if (jDay === 15)
+                list.push(!hebrew ? "Tu B'Av" : "ט\"ו באב");
+            break;
+        case 6: //Ellul
+            if (jDay === 29)
+                list.push(!hebrew ? "Erev Rosh Hashana" : "ערב ראש השנה");
+            break;
+        case 7: //Tishrei
+            if (jDay === 1)
+                list.push(!hebrew ? "Rosh Hashana - First Day" : "ראש השנה");
+            else if (jDay === 2)
+                list.push(!hebrew ? "Rosh Hashana - Second Day" : "ראש השנה");
+            else if (jDay === 3 && dayOfWeek !== 6)
+                list.push(!hebrew ? "Tzom Gedalia" : "צום גדליה");
+            else if (jDay === 4 && dayOfWeek === 0)
+                list.push(!hebrew ? "Tzom Gedalia" : "צום גדליה");
+            else if (jDay === 9)
+                list.push(!hebrew ? "Erev Yom Kippur" : "ערב יום הכיפורים");
+            else if (jDay === 10)
+                list.push(!hebrew ? "Yom Kippur" : "יום הכיפורים");
+            else if (jDay === 14)
+                list.push(!hebrew ? "Erev Sukkos" : "ערב חג הסוכות");
+            else if (jDay === 15)
+                list.push(!hebrew ? "First Day of Sukkos" : "חג הסוכות");
+            else if (jDay === 16)
+                list.push(israel ? (!hebrew ? "Sukkos - Chol HaMoed" : "סוכות - חול המועד") : (!hebrew ? "Sukkos - Second Day" : "יום שני - חג הסוכות"));
+            else if (jDay.In(17, 18, 19, 20))
+                list.push(!hebrew ? "Sukkos - Chol HaMoed" : "סוכות - חול המועד");
+            else if (jDay === 21)
+                list.push(!hebrew ? "Hoshana Rabba - Erev Yomtov" : "הושענא רבה - ערב יו\"ט");
+            else if (jDay === 22) {
+                list.push(!hebrew ? "Shmini Atzeres" : "שמיני עצרת");
+                if (israel)
+                    list.push(!hebrew ? "Simchas Torah" : "שמחת תורה");
+            }
+            else if (jDay === 23 && !israel)
+                list.push(!hebrew ? "Simchas Torah" : "שמחת תורה");
+            break;
+        case 8: //Cheshvan
+            if (dayOfWeek === 1 && jDay > 2 && jDay < 12) {
+                list.push(!hebrew ? "Baha\"b" : "תענית שני קמא");
+            }
+            else if (dayOfWeek === 4 && jDay > 5 && jDay < 13) {
+                list.push(!hebrew ? "Baha\"b" : "תענית חמישי");
+            }
+            else if (dayOfWeek === 1 && jDay > 9 && jDay < 17) {
+                list.push(!hebrew ? "Baha\"b" : "תענית שני בתרא");
+            }
+            if (jDay === 7 && israel)
+                list.push(!hebrew ? "V'sain Tal U'Matar" : "ותן טל ומטר");
+            break;
+        case 9: //Kislev
+            if (jDay === 25)
+                list.push(!hebrew ? "Chanuka - One Candle" : "'חנוכה - נר א");
+            else if (jDay === 26)
+                list.push(!hebrew ? "Chanuka - Two Candles" : "'חנוכה - נר ב");
+            else if (jDay === 27)
+                list.push(!hebrew ? "Chanuka - Three Candles" : "'חנוכה - נר ג");
+            else if (jDay === 28)
+                list.push(!hebrew ? "Chanuka - Four Candles" : "'חנוכה - נר ד");
+            else if (jDay === 29)
+                list.push(!hebrew ? "Chanuka - Five Candles" : "'חנוכה - נר ה");
+            else if (jDay === 30)
+                list.push(!hebrew ? "Chanuka - Six Candles" : "'חנוכה - נר ו");
+            break;
+        case 10: //Teves
+            if (jDate.isShortKislev(jYear)) {
+                if (jDay === 1)
+                    list.push(!hebrew ? "Chanuka - Six Candles" : "'חנוכה - נר ו");
+                else if (jDay === 2)
+                    list.push(!hebrew ? "Chanuka - Seven Candles" : "'חנוכה - נר ז");
+                else if (jDay === 3)
+                    list.push(!hebrew ? "Chanuka - Eight Candles" : "'חנוכה - נר ח");
+            }
+            else {
+                if (jDay === 1)
+                    list.push(!hebrew ? "Chanuka - Seven Candles" : "'חנוכה - נר ז");
+                else if (jDay === 2)
+                    list.push(!hebrew ? "Chanuka - Eight Candles" : "'חנוכה - נר ח");
+            }
+            if (jDay === 10)
+                list.push(!hebrew ? "Fast - 10th of Teves" : "צום עשרה בטבת");
+            break;
+        case 11: //Shvat
+            if (jDay === 15)
+                list.push(!hebrew ? "Tu B'Shvat" : "ט\"ו בשבט");
+            break;
+        case 12: //Adars case 13:
+            if (jMonth === 12 && isLeapYear) {
+                if (jDay === 14)
+                    list.push(!hebrew ? "Purim Katan" : "פורים קטן");
+                else if (jDay === 15)
+                    list.push(!hebrew ? "Shushan Purim Katan" : "שושן פורים קטן");
+            }
+            else {
+                if (jDay === 11 && dayOfWeek === 4)
+                    list.push(!hebrew ? "Fast - Taanis Esther" : "תענית אסתר");
+                else if (jDay === 13 && dayOfWeek !== 6)
+                    list.push(!hebrew ? "Fast - Taanis Esther" : "תענית אסתר");
+                else if (jDay === 14)
+                    list.push(!hebrew ? "Purim" : "פורים");
+                else if (jDay === 15)
+                    list.push(!hebrew ? "Shushan Purim" : "שושן פורים");
+            }
+            break;
+    }
+    if ((jMonth === 1 && jDay > 15) || jMonth === 2 || (jMonth === 3 && jDay < 6)) {
+        var dayOfSefirah = jd.getDayOfOmer();
+        if (dayOfSefirah > 0) {
+            list.push(!hebrew ? "Sefiras Ha'omer - Day " + dayOfSefirah.toString() : "ספירת העומר - יום " + dayOfSefirah.toString());
+        }
+    }
+
+    return list;
+}
+
+//Gets an array of sedras for the given jewish date
+function Sedra(jd, israel) {
+    //If we are between the first day of Sukkos and Simchas Torah, the sedra will always be Vezos Habracha.
+    if (jd.Month === 7 && jd.Day >= 15 && jd.Day < (israel ? 23 : 24)) {
+        return [Sedra.sedraList[53]];
+    }
+
+    var sedraArray = [],
+        sedraOrder = Sedra.getSedraOrder(jd.Year, israel),
+        absDate = jd.AbsoluteDate,
+        index,
+        weekNum;
+
+    /* find the first saturday on or after today's date */
+    absDate = Sedra.getDayOnOrBefore(6, absDate + 6);
+
+    weekNum = (absDate - sedraOrder.firstSatInYear) / 7;
+
+    if (weekNum >= sedraOrder.sedraArray.length) {
+        var indexLast = sedraOrder.sedraArray[sedraOrder.sedraArray.length - 1];
+        if (indexLast < 0) {
+            /* advance 2 parashiyot ahead after a doubled week */
+            index = (-indexLast) + 2;
+        }
+        else {
+            index = indexLast + 1;
+        }
+    }
+    else {
+        index = sedraOrder.sedraArray[weekNum];
+    }
+
+    if (index >= 0) {
+        sedraArray = [Sedra.sedraList[index]];
+    }
+    else {
+        var i = -index;      /* undouble the sedra */
+        sedraArray = [Sedra.sedraList[i], Sedra.sedraList[i + 1]];
+    }
+    return sedraArray;
+}
+
+Sedra.lastCalculatedYear = null;
+
+Sedra.sedraList = [{ eng: "Bereshis", heb: "בראשית" }, { eng: "Noach", heb: "נח" }, { eng: "Lech-Lecha", heb: "לך לך" }, { eng: "Vayera", heb: "וירא" }, { eng: "Chayei Sara", heb: "חיי שרה" }, { eng: "Toldos", heb: "תולדות" }, { eng: "Vayetzei", heb: "ויצא" }, { eng: "Vayishlach", heb: "וישלח" }, { eng: "Vayeishev", heb: "וישב" }, { eng: "Mikeitz", heb: "מקץ" }, { eng: "Vayigash", heb: "ויגש" }, { eng: "Vayechi", heb: "ויחי" }, { eng: "Shemos", heb: "שמות" }, { eng: "Va'era", heb: "וארא" }, { eng: "Bo", heb: "בא" }, { eng: "Beshalach", heb: "בשלח" }, { eng: "Yisro", heb: "יתרו" }, { eng: "Mishpatim", heb: "משפטים" }, { eng: "Terumah", heb: "תרומה" }, { eng: "Tetzaveh", heb: "תצוה" }, { eng: "Ki Sisa", heb: "כי תשא" }, { eng: "Vayakhel", heb: "ויקהל" }, { eng: "Pekudei", heb: "פקודי" }, { eng: "Vayikra", heb: "ויקרא" }, { eng: "Tzav", heb: "צו" }, { eng: "Shmini", heb: "שמיני" }, { eng: "Tazria", heb: "תזריע" }, { eng: "Metzora", heb: "מצורע" }, { eng: "Achrei Mos", heb: "אחרי מות" }, { eng: "Kedoshim", heb: "קדושים" }, { eng: "Emor", heb: "אמור" }, { eng: "Behar", heb: "בהר" }, { eng: "Bechukosai", heb: "בחקותי" }, { eng: "Bamidbar", heb: "במדבר" }, { eng: "Nasso", heb: "נשא" }, { eng: "Beha'aloscha", heb: "בהעלתך" }, { eng: "Sh'lach", heb: "שלח" }, { eng: "Korach", heb: "קרח" }, { eng: "Chukas", heb: "חקת" }, { eng: "Balak", heb: "בלק" }, { eng: "Pinchas", heb: "פינחס" }, { eng: "Matos", heb: "מטות" }, { eng: "Masei", heb: "מסעי" }, { eng: "Devarim", heb: "דברים" }, { eng: "Va'eschanan", heb: "ואתחנן" }, { eng: "Eikev", heb: "עקב" }, { eng: "Re'eh", heb: "ראה" }, { eng: "Shoftim", heb: "שופטים" }, { eng: "Ki Seitzei", heb: "כי תצא" }, { eng: "Ki Savo", heb: "כי תבא" }, { eng: "Nitzavim", heb: "נצבים" }, { eng: "Vayeilech", heb: "וילך" }, { eng: "Ha'Azinu", heb: "האזינו" }, { eng: "Vezos Habracha", heb: "וזאת הברכה" }];
+Sedra.shabbos_short = [52, 52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, -21, 23, 24, 25, 25, -26, -28, 30, -31, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, 50];
+Sedra.shabbos_long = [52, 52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, -21, 23, 24, 25, 25, -26, -28, 30, -31, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
+Sedra.mon_short = [51, 52, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, -21, 23, 24, 25, 25, -26, -28, 30, -31, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
+Sedra.mon_long = [51, 52, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, -21, 23, 24, 25, 25, -26, -28, 30, -31, 33, 34, 34, 35, 36, 37, -38, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
+Sedra.thu_normal = [52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, -21, 23, 24, 25, 25, 25, -26, -28, 30, -31, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, 50];
+Sedra.thu_normal_Israel = [52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, -21, 23, 24, 25, 25, -26, -28, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, 50];
+Sedra.thu_long = [52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 25, -26, -28, 30, -31, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, 50];
+Sedra.shabbos_short_leap = [52, 52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
+Sedra.shabbos_long_leap = [52, 52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 28, 29, 30, 31, 32, 33, 34, 34, 35, 36, 37, -38, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
+Sedra.mon_short_leap = [51, 52, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 28, 29, 30, 31, 32, 33, 34, 34, 35, 36, 37, -38, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
+Sedra.mon_short_leap_Israel = [51, 52, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
+Sedra.mon_long_leap = [51, 52, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 28, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, 50];
+Sedra.mon_long_leap_Israel = [51, 52, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50];
+Sedra.thu_short_leap = [52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50];
+Sedra.thu_long_leap = [52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, -50];
+
+Sedra.getDayOnOrBefore = function (day_of_week, date) {
+    return date - ((date - day_of_week) % 7);
+};
+Sedra.getSedraOrder = function (year, israel) {
+    //If the last call is within the same year as this one, we reuse the data.
+    //If memory is an issue, remove these next few lines
+    if (Sedra.lastCalculatedYear != null && Sedra.lastCalculatedYear.year === year && Sedra.lastCalculatedYear.israel === israel) {
+        return Sedra.lastCalculatedYear;
+    }
+
+    var longCheshvon = jDate.isLongCheshvan(year),
+        shortKislev = jDate.isShortKislev(year),
+        roshHashana = jDate.absoluteFromJDate(year, 7, 1),
+        roshHashanaDOW = Math.abs(roshHashana % 7),
+        firstSatInYear = Sedra.getDayOnOrBefore(6, roshHashana + 6),
+        yearType,
+        sArray;
+
+    if (longCheshvon && !shortKislev)
+        yearType = 'complete';
+    else if (!longCheshvon && shortKislev)
+        yearType = 'incomplete';
+    else
+        yearType = 'regular';
+
+    if (!jDate.isJewishLeapYear(year)) {
+        switch (roshHashanaDOW) {
+            case 6:
+                if (yearType === "incomplete") {
+                    sArray = Sedra.shabbos_short;
+                }
+                else if (yearType === 'complete') {
+                    sArray = Sedra.shabbos_long;
+                }
+                break;
+
+            case 1:
+                if (yearType === 'incomplete') {
+                    sArray = Sedra.mon_short;
+                }
+                else if (yearType === 'complete') {
+                    sArray = israel ? Sedra.mon_short : Sedra.mon_long;
+                }
+                break;
+
+            case 2:
+                if (yearType === 'regular') {
+                    sArray = israel ? Sedra.mon_short : Sedra.mon_long;
+                }
+                break;
+
+            case 4:
+                if (yearType === 'regular') {
+                    sArray = israel ? Sedra.thu_normal_Israel : Sedra.thu_normal;
+                }
+                else if (yearType === 'complete') {
+                    sArray = Sedra.thu_long;
+                }
+                break;
+
+            default:
+                throw new Error("improper sedra year type calculated.");
+        }
+    }
+    else  /* leap year */ {
+        switch (roshHashanaDOW) {
+            case 6:
+                if (yearType === 'incomplete') {
+                    sArray = Sedra.shabbos_short_leap;
+                }
+                else if (yearType === 'complete') {
+                    sArray = israel ? Sedra.shabbos_short_leap : Sedra.shabbos_long_leap;
+                }
+                break;
+
+            case 1:
+                if (yearType === 'incomplete') {
+                    sArray = israel ? Sedra.mon_short_leap_Israel : Sedra.mon_short_leap;
+                }
+                else if (yearType === 'complete') {
+                    sArray = israel ? Sedra.mon_long_leap_Israel : Sedra.mon_long_leap;
+                }
+                break;
+
+            case 2:
+                if (yearType === 'regular') {
+                    sArray = israel ? Sedra.mon_long_leap_Israel : Sedra.mon_long_leap;
+                }
+                break;
+
+            case 4:
+                if (yearType === 'incomplete') {
+                    sArray = Sedra.thu_short_leap;
+                }
+                else if (yearType === 'complete') {
+                    sArray = Sedra.thu_long_leap;
+                }
+                break;
+
+            default:
+                throw new Error("improper sedra year type calculated.");
+        }
+    }
+
+    var retobj = {
+        firstSatInYear: firstSatInYear,
+        sedraArray: sArray,
+        year: year,
+        israel: israel
+    };
+
+    //Save the data in case the next call is for the same year
+    Sedra.lastCalculatedYear = retobj;
+
+    return retobj;
 };
