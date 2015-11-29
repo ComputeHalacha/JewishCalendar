@@ -8,9 +8,8 @@
 
     document.addEventListener('deviceready', onDeviceReady.bind(this), false);
 
-    var d = new Date();
-    var jd = new jDate(d);
-    console.log(jd.Day + "-" + jd.Month + "-" + jd.Year);
+    //Test jDate functionality
+    console.log(new jDate(new Date()).toStringHeb());
 
     function onDeviceReady() {
         // Handle the Cordova pause and resume events

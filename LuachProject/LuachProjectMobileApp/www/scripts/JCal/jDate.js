@@ -5,7 +5,7 @@
      *  new jDate(javascriptDateObject) - Sets to the Jewish date on the given Gregorian date
      *  new Date("January 1 2045") - same as above. Accepts any valid javascript Date string (uses Date.parse)
      *  new jDate(jewishYear, jewishMonth, jewishDay) - Months start at 1 - Nissan is 1
-     *  new jDate(jewishYear, jewishMonth) - Same as above, with Day being set to 1
+     *  new jDate(jewishYear, jewishMonth) - Same as above, with Day defaulting to 1
      *  new Date(absoluteDate) - The number of days elapsed since the theoretical date Sunday, December 31, 0001 BCE
      *  new Date( { year: 5776, month: 4, day: 5 } ) - same as new jDate(jewishYear, jewishMonth, jewishDay)
      *  new Date( { year: 5776, month: 4 } ) - same as new jDate(jewishYear, jewishMonth)
