@@ -6,27 +6,22 @@
 (function () {
     "use strict";
 
-    document.addEventListener('deviceready', onDeviceReady.bind(this), false);
-
     $(document.body).on('pagecontainershow', function () {
-        var jd = new jDate(new Date()),
-            loc = localStorage.getItem('location');
-        if (loc) {
-            loc = JSON.parse(loc);
-        }
-        else {
-            loc = new Location("Modi'in Illit", true, 31.933, -35.0426, 2, 300);
-            localStorage.setItem('location', JSON.stringify(loc));
-        }
+        $('#btnNextDay').on('click', function () { goDay(1); });
+        $('#btnPrevDay').on('click', function () { goDay(-1); });
 
-        showDate(jd);
+        showDate();
     });
+
+    document.addEventListener('deviceready', onDeviceReady.bind(this), false);
 
     function onDeviceReady() {
         // Handle the Cordova pause and resume events
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
         // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
+
+        setCurrentLocation();
     };
 
     function onPause() {
@@ -35,18 +30,65 @@
 
     function onResume() {
         // TODO: This application has been reactivated. Restore application state here.
+        setCurrentLocation();
+        showDate();
     };
 
+    function setCurrentLocation() {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var location = new Location('Current Location', //Name
+                                        undefined, //Israel - don't set, the constructor will try to figure it out
+                                        position.coords.latitude,
+                                        position.coords.longitude,
+                                        undefined, //UTCOffset - don't set, the constructor will try to figure it out
+                                        position.coords.altitude);
+
+            localStorage.setItem('location', JSON.stringify(location));
+            $('#divMainPage').data('location', location);
+        });
+    }
+
+    function getLocation() {
+        if (!$('#divMainPage').data('location')) {
+            setDefaultLocation();
+        }
+        return $('#divMainPage').data('location');
+    }
+
+    function setDefaultLocation() {
+        var loc = localStorage.getItem('location');
+
+        if (loc) {
+            loc = JSON.parse(loc);
+        }
+        else {
+            loc = new Location("Modi'in Illit", true, 31.933, -35.0426, 2, 300, isDST());
+            localStorage.setItem('location', JSON.stringify(loc));
+        }
+
+        $('#divMainPage').data('location', loc);
+    }
+
     function showDate(jd) {
-        var location = JSON.parse(localStorage.getItem('location'));
-        $('#h2Header').html(jd.toStringHeb());
+        var location = getLocation();
+        if (jd) {
+            $('#divMainPage').data('currentjDate', jd);
+        }
+        else if ($('#divMainPage').data('currentjDate')) {
+            jd = $('#divMainPage').data('currentjDate');
+        }
+        else {
+            showDate(new jDate(new Date()));            
+        }       
+
+        $('#h2Header').html(jd.toStringHeb() + '<br />' + jd.getSecularDate().toDateString());
         $('#pnlHeader').html('Zmanim for ' + location.Name);
         $('#pMain').html(getZmanimHtml(jd, location));
         $('#pMain').data('currDate', jd);
     }
 
     function goDay(num) {
-        var jd = $('#pMain').data('currDate');
+        var jd = $('#divMainPage').data('currentjDate');
         if (jd) {
             showDate(jd.addDays(num));
         }

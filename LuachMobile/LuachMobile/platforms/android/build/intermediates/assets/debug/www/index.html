@@ -2,24 +2,50 @@
 <html>
 <head>
     <meta charset="utf-8" />
-
     <!--
         Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
         For details, see http://go.microsoft.com/fwlink/?LinkID=617521
     -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
-    <title>LuachMobile</title>
+    <title>LuachProjectMobileApp</title>
 
-    <!-- LuachMobile references -->
+    <!-- LuachProjectMobileApp references -->
     <link href="css/index.css" rel="stylesheet" />
+    <link rel="stylesheet" href="themes/JewishCalendarMobile.min.css" />
+    <link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+    <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
 </head>
 <body>
-    <p>Hello, your application is ready!</p>
+    
+    <div data-role="page" id="divMainPage">
+        <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="a">
+            <div class="divPageHeading">
+                <img src="images/scroll.png" />
+                The Luach Project
+            </div>
+        </div>
+        <div data-role="content" data-theme="a">
+            <h2 id="h2Header">The Luach Project</h2>
+            <div class="ui-corner-all custom-corners">
+                <div class="ui-bar ui-bar-a">
+                    <h3 id="pnlHeader"></h3>
+                </div>
+                <div class="ui-body ui-mini">
+                    <p id="pMain" class="small"></p>
+                </div>
+            </div>
 
+            <br />
+            <a href="javascript:void(0);" id="btnNextDay" data-inline="true" data-role="button" data-icon="forward">Next Day</a>
+            <a href="javascript:void(0);" id="btnPrevDay" data-inline="true" data-role="button" data-icon="back">Previous Day</a>
+        </div>
+    </div>
+    <script src="scripts/jquery-2.1.4.min.js"></script>
+    <script src="scripts/jquery.mobile-1.4.5.min.js"></script>   
     <!-- Cordova reference, this is added to your app when it's built. -->
     <script src="cordova.js"></script>
-    <script src="scripts/platformOverrides.js"></script>
-
-    <script src="scripts/index.js"></script>
+    <script src="scripts/platformOverrides.js"></script>   
+    <script src="scripts/bundle.js"></script>
+    <!--script src="scripts/bundle.min.js"></script-->
 </body>
 </html>

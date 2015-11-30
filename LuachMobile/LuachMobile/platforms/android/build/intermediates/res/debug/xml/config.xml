@@ -13,6 +13,9 @@
         <param name="android-package" value="org.apache.cordova.file.FileUtils" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="Globalization">
+        <param name="android-package" value="org.apache.cordova.globalization.Globalization" />
+    </feature>
     <preference name="AndroidPersistentFileLocation" value="Internal" />
     <allow-intent href="market:*" />
     <icon density="ldpi" src="res/icons/android/icon-36-ldpi.png" />
@@ -49,5 +52,6 @@
     <vs:plugin name="cordova-plugin-splashscreen" version="3.0.0" />
     <vs:plugin name="cordova-plugin-geolocation" version="1.0.1" />
     <vs:plugin name="cordova-plugin-file" version="3.0.0" />
+    <vs:plugin name="cordova-plugin-globalization" version="1.0.2" />
 </widget>
-<!-- From: file:/C:/Users/ChaimB/Documents/Visual%20Studio%202015/Projects/LuachMobile/LuachMobile/platforms/android/res/xml/config.xml -->
+<!-- From: file:/D:/Repositories/JewishCalendar/LuachMobile/LuachMobile/platforms/android/res/xml/config.xml -->

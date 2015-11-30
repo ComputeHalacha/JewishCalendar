@@ -750,25 +750,41 @@ Sedra.getSedraOrder = function (year, israel) {
     return retobj;
 };
 
-function Location(name, israel, latitude, longitude, utcOffset, elevation) {
+function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST) {
+    if (typeof israel === 'undefined') {
+        //Eretz Yisroel general coordinates (we are pretty safe even if we are off by a few miles, where else is the (99.99% Jewish) user? Sinai, Lebanon, Syria ...        
+        israel = (latitude > 29.45 && latitude < 33 && longitude < -34.23 && longitude > -35.9);
+    }
+    if (israel) {
+        //Israel has only one immutable time zone
+        utcOffset = -2;
+    }
+    else if (typeof utcOffset === 'undefined') {
+        utcOffset = Zmanim.currUtcOffset();
+    }
+    //If "isDST" was not defined
+    if (typeof isDST === 'undefined') {
+        isDST = Zmanim.isDST();
+    }
+
     return {
-        Name: name,
+        Name: name || 'Unknown Location',
         Israel: !!israel,
         Latitude: latitude,
         Longitude: longitude,
-        UTCOffset: utcOffset,
-        Elevation: elevation
+        UTCOffset: utcOffset || 0,
+        Elevation: elevation || 0,
+        IsDST: !!isDST
     };
 }
 
 function Zmanim(sd, location) { }
 
 //Returns { sunrise: { hour: 6, minute: 18 }, sunset: { hour: 19, minute: 41 } }
-//location is required. { Latitude : 31.40, Longitude: -45.20, UTCOffset: -7, Elevation : 200 }.
-//Elevation is optional. 0 is used if not supplied.
+//Location object is required.
 Zmanim.getSunTimes = function (date, location, considerElevation) {
     //Set the undefined value to true
-    considerElevation = typeof considerElevation === 'undefined' || considerElevation;
+    considerElevation = (typeof considerElevation === 'undefined' || considerElevation);
 
     var sunrise, sunset, day = Zmanim.dayOfYear(date),
         zeninthDeg = 90, zenithMin = 50, lonHour = 0, longitude = 0, latitude = 0,
@@ -922,15 +938,87 @@ Zmanim.timeAdj = function (time, date, location) {
     hour = parseInt(time);
     min = parseInt(parseInt((time - hour) * 60 + 0.5));
 
-    if (Zmanim.isDateTimeDST(date, hour)) {
+    if (location.IsDST) {
         hour++;
+    }
+    else if (location.isDST != false) {
+        var inCurrTZ = location.UTCOffset === Zmanim.currUtcOffset();
+        if (inCurrTZ && Zmanim.isDST(date)) {
+            hour++;
+        }
+        else if ((!inCurrTZ) && Zmanim.isUSA_DST(date, hour)) {
+            hour++;
+        }
     }
 
     return Zmanim.fixHourMinute({ hour: hour, minute: min });
 };
 
-//Determines if the given date and hour are during DST (using USA logic)
-Zmanim.isDateTimeDST = function (date, hour) {
+// Get day of week using Zellers algorithm.
+Zmanim.getDOW = function (year, month, day) {
+    var adjustment = (14 - month) / 12,
+        mm = month + 12 * adjustment - 2,
+        yy = year - adjustment;
+    return (day + (13 * mm - 1) / 5 + yy + yy / 4 - yy / 100 + yy / 400) % 7;
+};
+
+//Makes sure hour is between 0 and 23 and minute is between 0 and 59
+//Overlaps get added/subtracted.
+Zmanim.fixHourMinute = function (hm) {
+    //make a copy - javascript sends object parameters by reference
+    var result = { hour: hm.hour, minute: hm.minute };
+    while (result.minute < 0) {
+        result.minute += 60;
+        result.hour--;
+    }
+    while (result.minute >= 60) {
+        result.minute -= 60;
+        result.hour++;
+    }
+    if (result.hour < 0) {
+        result.hour = 24 + (result.hour % 24);
+    }
+    if (result.hour > 23) {
+        result.hour = result.hour % 24;
+    }
+    return result;
+};
+
+//Add the given number of minutes to the given time
+Zmanim.addMinutes = function (hm, minutes) {
+    return Zmanim.fixHourMinute({ hour: hm.hour, minute: hm.minute + minutes });
+};
+
+Zmanim.getTimeString = function (hm, army) {
+    if (!!army) {
+        return (hm.hour.toString() + ":" +
+                (hm.minute < 10 ? "0" + hm.minute.toString() : hm.minute.toString()));
+    }
+    else {
+        return (hm.hour <= 12 ? (hm.hour == 0 ? 12 : hm.hour) : hm.hour - 12).toString() +
+                ":" +
+                (hm.minute < 10 ? "0" + hm.minute.toString() : hm.minute.toString()) +
+                (hm.hour < 12 ? " AM" : " PM");
+    }
+};
+
+//gets the "real" system UTC offset in hours (not affected by DST)
+Zmanim.currUtcOffset = function () {
+    var date = new Date(),
+        jan = new Date(date.getFullYear(), 0, 1),
+        jul = new Date(date.getFullYear(), 6, 1);
+    return parseInt(Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset()) / 60);
+};
+
+
+//Determines if date (or now) is DST for the current system time zone
+Zmanim.isDST = function (date) {
+    date = date || new Date();
+    return parseInt(date.getTimezoneOffset() / 60) < currUtcOffset();
+};
+
+//Determines if the given date and hour are during DST (using USA rules)
+Zmanim.isUSA_DST = function (date, hour) {
     var year = date.getYear(),
         month = date.getMonth() + 1,
         day = date.getDate();
@@ -960,53 +1048,5 @@ Zmanim.isDateTimeDST = function (date, hour) {
             targetDate = firstDOW == 0 ? 1 : ((7 - (firstDOW + 7) % 7)) + 1;
 
         return (day < targetDate || (day == targetDate && hour < 2));
-    }
-};
-
-// Get day of week using Zellers algorithm.
-Zmanim.getDOW = function (year, month, day) {
-    var adjustment = (14 - month) / 12,
-        mm = month + 12 * adjustment - 2,
-        yy = year - adjustment;
-    return (day + (13 * mm - 1) / 5 + yy + yy / 4 - yy / 100 + yy / 400) % 7;
-};
-
-//Makes sure hour is between 0 and 23 and minute is between 0 and 59
-//Overlaps get added/subtracted.
-Zmanim.fixHourMinute = function (hm) {
-    //make a copy - javascript sends object parameters by reference
-    var result = { hour: hm.hour, minute: hm.minute };
-    while (result.minute < 0) {
-        result.minute += 60;
-        result.hour--;
-    }
-    while (result.minute >= 60) {
-        result.minute -= 60;
-        result.hour++;
-    }
-    if (result.hour < 0) {
-        result.hour = 24 + result.hour;
-    }
-    if (result.hour > 23) {
-        result.hour = result.hour % 24;
-    }
-    return result;
-};
-
-//Add the given number of minutes to the given time
-Zmanim.addMinutes = function (hm, minutes) {
-    return Zmanim.fixHourMinute({ hour: hm.hour, minute: hm.minute + minutes });
-};
-
-Zmanim.getTimeString = function (hm, army) {
-    if (!!army) {
-        return (hm.hour.toString() + ":" +
-                (hm.minute < 10 ? "0" + hm.minute.toString() : hm.minute.toString()));
-    }
-    else {
-        return (hm.hour <= 12 ? (hm.hour == 0 ? 12 : hm.hour) : hm.hour - 12).toString() +
-                ":" +
-                (hm.minute < 10 ? "0" + hm.minute.toString() : hm.minute.toString()) +
-                (hm.hour < 12 ? " AM" : " PM");
     }
 };

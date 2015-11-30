@@ -750,25 +750,41 @@ Sedra.getSedraOrder = function (year, israel) {
     return retobj;
 };
 
-function Location(name, israel, latitude, longitude, utcOffset, elevation) {
+function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST) {
+    if (typeof israel === 'undefined') {
+        //Eretz Yisroel general coordinates (we are pretty safe even if we are off by a few miles, where else is the (99.99% Jewish) user? Sinai, Lebanon, Syria ...        
+        israel = (latitude > 29.45 && latitude < 33 && longitude < -34.23 && longitude > -35.9);
+    }
+    if (israel) {
+        //Israel has only one immutable time zone
+        utcOffset = -2;
+    }
+    else if (typeof utcOffset === 'undefined') {
+        utcOffset = Zmanim.currUtcOffset();
+    }
+    //If "isDST" was not defined
+    if (typeof isDST === 'undefined') {
+        isDST = Zmanim.isCurrDST();
+    }
+
     return {
-        Name: name,
+        Name: name || 'Unknown Location',
         Israel: !!israel,
         Latitude: latitude,
         Longitude: longitude,
-        UTCOffset: utcOffset,
-        Elevation: elevation
+        UTCOffset: utcOffset || 0,
+        Elevation: elevation || 0,
+        IsDST: !!isDST
     };
 }
 
 function Zmanim(sd, location) { }
 
 //Returns { sunrise: { hour: 6, minute: 18 }, sunset: { hour: 19, minute: 41 } }
-//location is required. { Latitude : 31.40, Longitude: -45.20, UTCOffset: -7, Elevation : 200 }.
-//Elevation is optional. 0 is used if not supplied.
+//Location object is required.
 Zmanim.getSunTimes = function (date, location, considerElevation) {
     //Set the undefined value to true
-    considerElevation = typeof considerElevation === 'undefined' || considerElevation;
+    considerElevation = (typeof considerElevation === 'undefined' || considerElevation);
 
     var sunrise, sunset, day = Zmanim.dayOfYear(date),
         zeninthDeg = 90, zenithMin = 50, lonHour = 0, longitude = 0, latitude = 0,
@@ -922,45 +938,20 @@ Zmanim.timeAdj = function (time, date, location) {
     hour = parseInt(time);
     min = parseInt(parseInt((time - hour) * 60 + 0.5));
 
-    if (Zmanim.isDateTimeDST(date, hour)) {
+    if (location.IsDST) {
         hour++;
+    }
+    else if (location.isDST != false) {
+        var inCurrTZ = location.UTCOffset === Zmanim.currUtcOffset();
+        if (inCurrTZ && Zmanim.isCurrDST(date)) {
+            hour++;
+        }
+        else if ((!inCurrTZ) && Zmanim.isUSA_DST(date, hour)) {
+            hour++;
+        }
     }
 
     return Zmanim.fixHourMinute({ hour: hour, minute: min });
-};
-
-//Determines if the given date and hour are during DST (using USA logic)
-Zmanim.isDateTimeDST = function (date, hour) {
-    var year = date.getYear(),
-        month = date.getMonth() + 1,
-        day = date.getDate();
-
-    if (month < 3 || month == 12) {
-        return false;
-    }
-    else if (month > 3 && month < 11) {
-        return true;
-    }
-
-        //DST starts at 2:00 AM on the second Sunday in March
-    else if (month == 3) {
-        //Gets day of week on March 1st
-        var firstDOW = Zmanim.getDOW(year, 3, 1),
-        //Gets date of second Sunday
-            targetDate = firstDOW == 0 ? 8 : ((7 - (firstDOW + 7) % 7)) + 8;
-
-        return (day > targetDate || (day == targetDate && hour >= 2));
-    }
-        //DST ends at 2:00 AM on the first Sunday in November
-    else //dt.Month == 11
-    {
-        //Gets day of week on November 1st
-        var firstDOW = Zmanim.getDOW(year, 11, 1),
-        //Gets date of first Sunday
-            targetDate = firstDOW == 0 ? 1 : ((7 - (firstDOW + 7) % 7)) + 1;
-
-        return (day < targetDate || (day == targetDate && hour < 2));
-    }
 };
 
 // Get day of week using Zellers algorithm.
@@ -1010,6 +1001,56 @@ Zmanim.getTimeString = function (hm, army) {
                 (hm.hour < 12 ? " AM" : " PM");
     }
 };
+
+//gets the "real" system UTC offset in hours (not affected by DST)
+Zmanim.currUtcOffset = function () {
+    var date = new Date(),
+        jan = new Date(date.getFullYear(), 0, 1),
+        jul = new Date(date.getFullYear(), 6, 1);
+    return parseInt(Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset()) / 60);
+};
+
+
+//Determines if date (or now) is DST for the current system time zone
+Zmanim.isCurrDST = function (date) {
+    date = date || new Date();
+    return parseInt(date.getTimezoneOffset() / 60) < currUtcOffset();
+};
+
+//Determines if the given date and hour are during DST (using USA logic)
+Zmanim.isUSA_DST = function (date, hour) {
+    var year = date.getYear(),
+        month = date.getMonth() + 1,
+        day = date.getDate();
+
+    if (month < 3 || month == 12) {
+        return false;
+    }
+    else if (month > 3 && month < 11) {
+        return true;
+    }
+
+        //DST starts at 2:00 AM on the second Sunday in March
+    else if (month == 3) {
+        //Gets day of week on March 1st
+        var firstDOW = Zmanim.getDOW(year, 3, 1),
+        //Gets date of second Sunday
+            targetDate = firstDOW == 0 ? 8 : ((7 - (firstDOW + 7) % 7)) + 8;
+
+        return (day > targetDate || (day == targetDate && hour >= 2));
+    }
+        //DST ends at 2:00 AM on the first Sunday in November
+    else //dt.Month == 11
+    {
+        //Gets day of week on November 1st
+        var firstDOW = Zmanim.getDOW(year, 11, 1),
+        //Gets date of first Sunday
+            targetDate = firstDOW == 0 ? 1 : ((7 - (firstDOW + 7) % 7)) + 1;
+
+        return (day < targetDate || (day == targetDate && hour < 2));
+    }
+};
+
 /// <reference path="_references.js" />
 // For an introduction to the Blank template, see the following documentation:
 // http://go.microsoft.com/fwlink/?LinkID=397704
@@ -1018,27 +1059,22 @@ Zmanim.getTimeString = function (hm, army) {
 (function () {
     "use strict";
 
-    document.addEventListener('deviceready', onDeviceReady.bind(this), false);
-
     $(document.body).on('pagecontainershow', function () {
-        var jd = new jDate(new Date()),
-            loc = localStorage.getItem('location');
-        if (loc) {
-            loc = JSON.parse(loc);
-        }
-        else {
-            loc = new Location("Modi'in Illit", true, 31.933, -35.0426, 2, 300);
-            localStorage.setItem('location', JSON.stringify(loc));
-        }
+        $('#btnNextDay').on('click', function () { goDay(1); });
+        $('#btnPrevDay').on('click', function () { goDay(-1); });
 
-        showDate(jd);
+        showDate();
     });
+
+    document.addEventListener('deviceready', onDeviceReady.bind(this), false);
 
     function onDeviceReady() {
         // Handle the Cordova pause and resume events
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
         // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
+
+        setCurrentLocation();
     };
 
     function onPause() {
@@ -1047,18 +1083,65 @@ Zmanim.getTimeString = function (hm, army) {
 
     function onResume() {
         // TODO: This application has been reactivated. Restore application state here.
+        setCurrentLocation();
+        showDate();
     };
 
+    function setCurrentLocation() {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var location = new Location('Current Location', //Name
+                                        undefined, //Israel - don't set, the constructor will try to figure it out
+                                        position.coords.latitude,
+                                        position.coords.longitude,
+                                        undefined, //UTCOffset - don't set, the constructor will try to figure it out
+                                        position.coords.altitude);
+
+            localStorage.setItem('location', JSON.stringify(location));
+            $('#divMainPage').data('location', location);
+        });
+    }
+
+    function getLocation() {
+        if (!$('#divMainPage').data('location')) {
+            setDefaultLocation();
+        }
+        return $('#divMainPage').data('location');
+    }
+
+    function setDefaultLocation() {
+        var loc = localStorage.getItem('location');
+
+        if (loc) {
+            loc = JSON.parse(loc);
+        }
+        else {
+            loc = new Location("Modi'in Illit", true, 31.933, -35.0426, 2, 300, isDST());
+            localStorage.setItem('location', JSON.stringify(loc));
+        }
+
+        $('#divMainPage').data('location', loc);
+    }
+
     function showDate(jd) {
-        var location = JSON.parse(localStorage.getItem('location'));
-        $('#h2Header').html(jd.toStringHeb());
+        var location = getLocation();
+        if (jd) {
+            $('#divMainPage').data('currentjDate', jd);
+        }
+        else if ($('#divMainPage').data('currentjDate')) {
+            jd = $('#divMainPage').data('currentjDate');
+        }
+        else {
+            showDate(new jDate(new Date()));            
+        }       
+
+        $('#h2Header').html(jd.toStringHeb() + '<br />' + jd.getSecularDate().toDateString());
         $('#pnlHeader').html('Zmanim for ' + location.Name);
         $('#pMain').html(getZmanimHtml(jd, location));
         $('#pMain').data('currDate', jd);
     }
 
     function goDay(num) {
-        var jd = $('#pMain').data('currDate');
+        var jd = $('#divMainPage').data('currentjDate');
         if (jd) {
             showDate(jd.addDays(num));
         }

@@ -14,11 +14,9 @@
     <link rel="stylesheet" href="themes/JewishCalendarMobile.min.css" />
     <link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
     <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
-
-    <script src="scripts/jquery-2.1.4.min.js"></script>
-    <script src="scripts/jquery.mobile-1.4.5.min.js"></script>
 </head>
 <body>
+    
     <div data-role="page" id="divMainPage">
         <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="a">
             <div class="divPageHeading">
@@ -38,14 +36,15 @@
             </div>
 
             <br />
-            <a href="javascript:void(0);" data-inline="true" data-role="button" data-icon="forward" onclick="goDay(1); return false;">Next Day</a>
-            <a href="javascript:void(0);" data-inline="true" data-role="button" data-icon="back" onclick="goDay(-1); return false;">Previous Day</a>
+            <a href="javascript:void(0);" id="btnNextDay" data-inline="true" data-role="button" data-icon="forward">Next Day</a>
+            <a href="javascript:void(0);" id="btnPrevDay" data-inline="true" data-role="button" data-icon="back">Previous Day</a>
         </div>
     </div>
-
+    <script src="scripts/jquery-2.1.4.min.js"></script>
+    <script src="scripts/jquery.mobile-1.4.5.min.js"></script>   
     <!-- Cordova reference, this is added to your app when it's built. -->
     <script src="cordova.js"></script>
-    <script src="scripts/platformOverrides.js"></script>
+    <script src="scripts/platformOverrides.js"></script>   
     <script src="scripts/bundle.js"></script>
     <!--script src="scripts/bundle.min.js"></script-->
 </body>
