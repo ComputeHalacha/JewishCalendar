@@ -1,2 +1,2 @@
-C:\Users\ChaimB\Documents\Visual Studio 2015\Projects\LuachMobile\LuachMobile\platforms\android\build\intermediates\classes\debug
-C:\Users\ChaimB\Documents\Visual Studio 2015\Projects\LuachMobile\LuachMobile\platforms\android\build\intermediates\pre-dexed\debug\classes-c8b7c79e3c08e764aea125d5091271a0208c8b44.jar
+D:\Repositories\JewishCalendar\LuachMobile\LuachMobile\platforms\android\build\intermediates\classes\debug
+D:\Repositories\JewishCalendar\LuachMobile\LuachMobile\platforms\android\build\intermediates\pre-dexed\debug\classes-2e5100771c326e44251411d489533ff05dae7179.jar

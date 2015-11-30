@@ -112,4 +112,5 @@
   <vs:plugin name="cordova-plugin-splashscreen" version="3.0.0" />
   <vs:plugin name="cordova-plugin-geolocation" version="1.0.1" />
   <vs:plugin name="cordova-plugin-file" version="3.0.0" />
+  <vs:plugin name="cordova-plugin-globalization" version="1.0.2" />
 </widget>

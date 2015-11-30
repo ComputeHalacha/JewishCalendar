@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/ChaimB/Documents/Visual%20Studio%202015/Projects/LuachMobile/LuachMobile/platforms/android/res/values/strings.xml -->
+    <!-- From: file:/D:/Repositories/JewishCalendar/LuachMobile/LuachMobile/platforms/android/res/values/strings.xml -->
     <eat-comment/>
     <string name="activity_name">@string/launcher_name</string>
     <string name="app_name">LuachMobile</string>
