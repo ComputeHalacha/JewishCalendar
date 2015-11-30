@@ -764,7 +764,7 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
     }
     //If "isDST" was not defined
     if (typeof isDST === 'undefined') {
-        isDST = Zmanim.isCurrDST();
+        isDST = Zmanim.isDST();
     }
 
     return {
@@ -943,7 +943,7 @@ Zmanim.timeAdj = function (time, date, location) {
     }
     else if (location.isDST != false) {
         var inCurrTZ = location.UTCOffset === Zmanim.currUtcOffset();
-        if (inCurrTZ && Zmanim.isCurrDST(date)) {
+        if (inCurrTZ && Zmanim.isDST(date)) {
             hour++;
         }
         else if ((!inCurrTZ) && Zmanim.isUSA_DST(date, hour)) {
@@ -976,7 +976,7 @@ Zmanim.fixHourMinute = function (hm) {
         result.hour++;
     }
     if (result.hour < 0) {
-        result.hour = 24 + result.hour;
+        result.hour = 24 + (result.hour % 24);
     }
     if (result.hour > 23) {
         result.hour = result.hour % 24;
@@ -1012,12 +1012,12 @@ Zmanim.currUtcOffset = function () {
 
 
 //Determines if date (or now) is DST for the current system time zone
-Zmanim.isCurrDST = function (date) {
+Zmanim.isDST = function (date) {
     date = date || new Date();
     return parseInt(date.getTimezoneOffset() / 60) < currUtcOffset();
 };
 
-//Determines if the given date and hour are during DST (using USA logic)
+//Determines if the given date and hour are during DST (using USA rules)
 Zmanim.isUSA_DST = function (date, hour) {
     var year = date.getYear(),
         month = date.getMonth() + 1,
