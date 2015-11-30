@@ -8,13 +8,25 @@
 
     document.addEventListener('deviceready', onDeviceReady.bind(this), false);
 
+    $(document.body).on('pagecontainershow', function () {
+        var jd = new jDate(new Date()),
+            loc = localStorage.getItem('location');
+        if (loc) {
+            loc = JSON.parse(loc);
+        }
+        else {
+            loc = new Location("Modi'in Illit", true, 31.933, -35.0426, 2, 300);
+            localStorage.setItem('location', JSON.stringify(loc));
+        }
+
+        showDate(jd);
+    });
+
     function onDeviceReady() {
         // Handle the Cordova pause and resume events
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
         // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
-
-        $('#h2Header').html(new jDate(new Date()).toStringHeb());
     };
 
     function onPause() {
@@ -24,4 +36,70 @@
     function onResume() {
         // TODO: This application has been reactivated. Restore application state here.
     };
+
+    function showDate(jd) {
+        var location = JSON.parse(localStorage.getItem('location'));
+        $('#h2Header').html(jd.toStringHeb());
+        $('#pnlHeader').html('Zmanim for ' + location.Name);
+        $('#pMain').html(getZmanimHtml(jd, location));
+        $('#pMain').data('currDate', jd);
+    }
+
+    function goDay(num) {
+        var jd = $('#pMain').data('currDate');
+        if (jd) {
+            showDate(jd.addDays(num));
+        }
+    }
+
+    function getZmanimHtml(jd, location) {
+        var html = '',
+            ns = jd.getSunriseSunset(location),
+            netz = ns.sunrise,
+            shkia = ns.sunset,
+        dy = null,// DafYomi.GetDafYomi(this._displayingJewishDate);
+        chatzos = jd.getChatzos(location),
+        shaaZmanis = jd.getShaaZmanis(location),
+        shaaZmanis90 = jd.getShaaZmanis(location, 90);
+
+        html += addLine("Weekly Sedra",
+            jd.getSedra(location.Israel).map(function (s) { return s.eng; }).join(' - '));
+        if (dy != null) {
+            html += addLine("Daf Yomi", dy);
+        }
+
+        if (isNaN(netz.hour)) {
+            html += addLine("Netz Hachama", "The does not rise");
+        }
+        else {
+            html += addLine("Alos Hashachar - 90", (Zmanim.addMinutes(netz, -90)));
+            html += addLine("Alos Hashachar - 72", (Zmanim.addMinutes(netz, -72)));
+            html += addLine("Netz Hachama", netz);
+            html += addLine("Krias Shma - MG\"A", (Zmanim.addMinutes(Zmanim.addMinutes(netz, -90), parseInt(shaaZmanis90 * 3))));
+            html += addLine("Krias Shma - GR\"A", (Zmanim.addMinutes(netz, parseInt(shaaZmanis * 3))));
+            html += addLine("Zeman Tefillah - MG\"A", (Zmanim.addMinutes(Zmanim.addMinutes(netz, -90), parseInt(shaaZmanis90 * 4))));
+            html += addLine("Zeman Tefillah - GR\"A", Zmanim.addMinutes(netz, parseInt(shaaZmanis * 4)));
+        }
+
+        if (!(isNaN(netz.hour) || isNaN(shkia.hour))) {
+            html += addLine("Chatzos - Day & Night", chatzos);
+            html += addLine("Mincha Gedolah", Zmanim.addMinutes(chatzos, parseInt(shaaZmanis * 0.5)));
+        }
+
+        if (isNaN(shkia.hour)) {
+            html += addLine("Shkias Hachama", "The sun does not set");
+        }
+        else {
+            html += addLine("Shkias Hachama", shkia);
+            html += addLine("Nightfall 45", Zmanim.addMinutes(shkia, 45));
+            html += addLine("Rabbeinu Tam", Zmanim.addMinutes(shkia, 72));
+        }
+
+        return html;
+    }
+
+    function addLine(caption, value) {
+        return caption + '...............<strong>' +
+            (value.hour ? Zmanim.getTimeString(value) : value) + '</strong><br />';
+    }
 })();

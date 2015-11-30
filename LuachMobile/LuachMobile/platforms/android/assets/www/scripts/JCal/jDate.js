@@ -63,6 +63,39 @@ jDate.prototype = {
     addDays: function (days) {
         return new jDate(this.AbsoluteDate + days);
     },
+    addMonths: function (months) {
+        var year = this.Year,
+            month = this.Month,
+            day = this.Day,
+            miy = jDate.monthsInJewishYear(year);
+
+        for (var i = 0; i < Math.abs(months) ; i++) {
+            if (months > 0) {
+                month += 1;
+                if (month > miy) {
+                    month = 1;
+                }
+                if (month === 7) {
+                    year += 1;
+                    miy = jDate.monthsInJewishYear(year);
+                }
+            }
+            else if (months < 0) {
+                month -= 1;
+                if (month === 0) {
+                    month = miy;
+                }
+                if (month === 6) {
+                    year -= 1;
+                    miy = jDate.monthsInJewishYear(year);
+                }
+            }
+        }
+        return new jDate(year, month, day);
+    },
+    addYears: function (years) {
+        return new jDate(this.Year + years, this.Month, this.Day);
+    },
     toString: function () {
         return jDate.daysOfWeekEng[this.getDayOfWeek()] + ' ' +
             jDate.jewishMonthsEng[this.Month] + ' ' +
@@ -90,6 +123,24 @@ jDate.prototype = {
     },
     getSedra: function (israel) {
         return new Sedra(this, israel);
+    },
+    getSunriseSunset: function (location) {
+        if (!location) {
+            throw new Error('To get sunrise and sunset, the location needs to be supplied');
+        }
+        return Zmanim.getSunTimes(this.getSecularDate(), location);
+    },
+    getChatzos: function (location) {
+        if (!location) {
+            throw new Error('To get Chatzos, the location needs to be supplied');
+        }
+        return Zmanim.getChatzos(this.getSecularDate(), location);
+    },
+    getShaaZmanis: function (location, offset) {
+        if (!location) {
+            throw new Error('To get the Shaa Zmanis, the location needs to be supplied');
+        }
+        return Zmanim.getShaaZmanis(this.getSecularDate(), location, offset);
     }
 };
 
@@ -703,36 +754,36 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation) {
     return {
         Name: name,
         Israel: !!israel,
-        LatitudeDeg: parseInt(latitude),
-        LatitudeMin: latitude - parseInt(latitude) * 60,
-        LongitudeDeg: parseInt(longitude),
-        LongitudeMin: longitude - parseInt(longitude) * 60,
+        Latitude: latitude,
+        Longitude: longitude,
         UTCOffset: utcOffset,
         Elevation: elevation
     };
 }
 
-function Zmanim(sd, location) {
-}
+function Zmanim(sd, location) { }
 
-Zmanim.GetNetzShkia = function (date, location, considerElevation) {
-    considerElevation = considerElevation !== false;
+//Returns { sunrise: { hour: 6, minute: 18 }, sunset: { hour: 19, minute: 41 } }
+//location is required. { Latitude : 31.40, Longitude: -45.20, UTCOffset: -7, Elevation : 200 }.
+//Elevation is optional. 0 is used if not supplied.
+Zmanim.getSunTimes = function (date, location, considerElevation) {
+    //Set the undefined value to true
+    considerElevation = typeof considerElevation === 'undefined' || considerElevation;
 
-    var sunrise, sunset, day = Zmanim.GetDayOfYear(date),
-        zeninthDeg = 90, zenithMin = 50, lonHour = 0, longitude = 0, latitude = 0, cosLat = 0, sinLat = 0, cosZen = 0, sinDec = 0, cosDec = 0,
+    var sunrise, sunset, day = Zmanim.dayOfYear(date),
+        zeninthDeg = 90, zenithMin = 50, lonHour = 0, longitude = 0, latitude = 0,
+        cosLat = 0, sinLat = 0, cosZen = 0, sinDec = 0, cosDec = 0,
         xmRise = 0, xmSet = 0, xlRise = 0, xlSet = 0, aRise = 0, aSet = 0, ahrRise = 0, ahrSet = 0,
         hRise = 0, hSet = 0, tRise = 0, tSet = 0, utRise = 0, utSet = 0, earthRadius = 6356900,
-        zenithAtElevation = Zmanim.DegToDec(zeninthDeg, zenithMin) + Zmanim.DegToDec(Math.acos(earthRadius / (earthRadius +
-            (considerElevation ? location.Elevation : 0))));
+        zenithAtElevation = Zmanim.degToDec(zeninthDeg, zenithMin) +
+                            Zmanim.radToDeg(Math.acos(earthRadius / (earthRadius + (considerElevation ? (location.Elevation || 0) : 0))));
 
     zeninthDeg = Math.floor(zenithAtElevation);
     zenithMin = (zenithAtElevation - Math.floor(zenithAtElevation)) * 60;
-    cosZen = Math.cos(0.01745 * Zmanim.DegToDec(zeninthDeg, zenithMin));
-    longitude = Zmanim.DegToDec(location.LongitudeDeg, location.LongitudeMin) *
-        (location.LongitudeDeg > 0 ? 1 : -1);
+    cosZen = Math.cos(0.01745 * Zmanim.degToDec(zeninthDeg, zenithMin));
+    longitude = location.Longitude;
     lonHour = longitude / 15;
-    latitude = Zmanim.DegToDec(location.LatitudeDeg, location.LatitudeMin) *
-        (location.LatitudeType > 0 ? 1 : -1);
+    latitude = location.Latitude;
     cosLat = Math.cos(0.01745 * latitude);
     sinLat = Math.sin(0.01745 * latitude);
     tRise = day + (6 + lonHour) / 24;
@@ -765,8 +816,8 @@ Zmanim.GetNetzShkia = function (date, location, considerElevation) {
     hSet = (cosZen - sinDec * sinLat) / (cosDec * cosLat);
     if (Math.abs(hRise) <= 1) {
         hRise = 57.29578 * Math.acos(hRise);
-        utRise = ((360 - hRise) / 15) + ahrRise + Adj(tRise) + lonHour;
-        sunrise = Zmanim.TimeAdj(utRise + location.UTCOffset, date, location);
+        utRise = ((360 - hRise) / 15) + ahrRise + Zmanim.adj(tRise) + lonHour;
+        sunrise = Zmanim.timeAdj(utRise + location.UTCOffset, date, location);
         while (sunrise.hour > 12) {
             sunrise.hour -= 12;
         }
@@ -774,8 +825,8 @@ Zmanim.GetNetzShkia = function (date, location, considerElevation) {
 
     if (Math.abs(hSet) <= 1) {
         hSet = 57.29578 * Math.acos(hSet);
-        utSet = (hRise / 15) + ahrSet + Zmanim.Adj(tSet) + lonHour;
-        sunset = Zmanim.TimeAdj(utSet + location.UTCOffset, date, location);
+        utSet = (hRise / 15) + ahrSet + Zmanim.adj(tSet) + lonHour;
+        sunset = Zmanim.timeAdj(utSet + location.UTCOffset, date, location);
         while (sunset.hour < 12) {
             sunset.hour += 12;
         }
@@ -784,7 +835,43 @@ Zmanim.GetNetzShkia = function (date, location, considerElevation) {
     return { sunrise: sunrise, sunset: sunset };
 };
 
-Zmanim.IsSecularLeapYear = function (year) {
+Zmanim.getChatzos = function (date, location) {
+    var sunTimes = Zmanim.getSunTimes(date, location, false),
+        rise = sunTimes.sunrise,
+        set = sunTimes.sunset;
+
+    if (isNaN(rise.hour) || isNaN(set.hour)) {
+        return { hour: NaN, minute: NaN };
+    }
+
+    var riseMinutes = (rise.hour * 60) + rise.minute,
+        setMinutes = (set.hour * 60) + set.minute,
+        chatz = parseInt((setMinutes - riseMinutes) / 2);
+
+    return Zmanim.addMinutes(rise, chatz);
+};
+
+Zmanim.getShaaZmanis = function (date, location, offset) {
+    var sunTimes = Zmanim.getSunTimes(date, location, false),
+        rise = sunTimes.sunrise,
+        set = sunTimes.sunset;
+
+    if (isNaN(rise.hour) || isNaN(set.hour)) {
+        return NaN;
+    }
+
+    if (offset) {
+        rise = Zmanim.addMinutes(rise, -offset);
+        set = Zmanim.addMinutes(set, offset);
+    }
+
+    var riseMinutes = (rise.hour * 60) + rise.minute,
+        setMinutes = (set.hour * 60) + set.minute;
+
+    return (setMinutes - riseMinutes) / 12;
+}
+
+Zmanim.isSecularLeapYear = function (year) {
     if (year % 400 == 0) {
         return true;
     }
@@ -796,9 +883,9 @@ Zmanim.IsSecularLeapYear = function (year) {
     return false;
 }
 
-Zmanim.GetDayOfYear = function (date) {
+Zmanim.dayOfYear = function (date) {
     var monCount = [0, 1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366];
-    if ((date.getMonth() + 1 > 2) && (Zmanim.IsSecularLeapYear(date.getYear()))) {
+    if ((date.getMonth() + 1 > 2) && (Zmanim.isSecularLeapYear(date.getYear()))) {
         return monCount[date.getMonth() + 1] + date.getDate() + 1;
     }
     else {
@@ -806,7 +893,7 @@ Zmanim.GetDayOfYear = function (date) {
     }
 };
 
-Zmanim.DegToDec = function (deg, min) {
+Zmanim.degToDec = function (deg, min) {
     return (deg + min / 60);
 };
 
@@ -818,38 +905,108 @@ Zmanim.L = function (x) {
     return (x + 1.916 * Math.sin(0.01745 * x) + 0.02 * Math.sin(2 * 0.01745 * x) + 282.565);
 };
 
-Zmanim.Adj = function (x) {
+Zmanim.adj = function (x) {
     return (-0.06571 * x - 6.62);
 };
 
-Zmanim.RadToDeg = function (rad) {
+Zmanim.radToDeg = function (rad) {
     return 57.29578 * rad;
 };
 
-Zmanim.TimeAdj = function (time, date, location) {
+Zmanim.timeAdj = function (time, date, location) {
     var hour, min;
 
     if (time < 0) {
         time += 24;
     }
+    hour = parseInt(time);
+    min = parseInt(parseInt((time - hour) * 60 + 0.5));
 
-    hour = parseInt(Math.trunc(Math.floor(time)));
-    min = parseInt(Math.trunc(Math.floor((time - hour) * 60 + 0.5)));
-
-    if (min >= 60) {
-        hour += 1;
-        min -= 60;
+    if (Zmanim.isDateTimeDST(date, hour)) {
+        hour++;
     }
 
-    if (hour > 24) {
-        hour -= 24;
+    return Zmanim.fixHourMinute({ hour: hour, minute: min });
+};
+
+//Determines if the given date and hour are during DST (using USA logic)
+Zmanim.isDateTimeDST = function (date, hour) {
+    var year = date.getYear(),
+        month = date.getMonth() + 1,
+        day = date.getDate();
+
+    if (month < 3 || month == 12) {
+        return false;
+    }
+    else if (month > 3 && month < 11) {
+        return true;
     }
 
-    var hm = { hour: hour, minute: min };
+        //DST starts at 2:00 AM on the second Sunday in March
+    else if (month == 3) {
+        //Gets day of week on March 1st
+        var firstDOW = Zmanim.getDOW(year, 3, 1),
+        //Gets date of second Sunday
+            targetDate = firstDOW == 0 ? 8 : ((7 - (firstDOW + 7) % 7)) + 8;
 
-    if (Utils.IsDateTimeDST(date.Date.AddHours(hour), location)) {
-        hm += 60;
+        return (day > targetDate || (day == targetDate && hour >= 2));
     }
+        //DST ends at 2:00 AM on the first Sunday in November
+    else //dt.Month == 11
+    {
+        //Gets day of week on November 1st
+        var firstDOW = Zmanim.getDOW(year, 11, 1),
+        //Gets date of first Sunday
+            targetDate = firstDOW == 0 ? 1 : ((7 - (firstDOW + 7) % 7)) + 1;
 
-    return hm;
+        return (day < targetDate || (day == targetDate && hour < 2));
+    }
+};
+
+// Get day of week using Zellers algorithm.
+Zmanim.getDOW = function (year, month, day) {
+    var adjustment = (14 - month) / 12,
+        mm = month + 12 * adjustment - 2,
+        yy = year - adjustment;
+    return (day + (13 * mm - 1) / 5 + yy + yy / 4 - yy / 100 + yy / 400) % 7;
+};
+
+//Makes sure hour is between 0 and 23 and minute is between 0 and 59
+//Overlaps get added/subtracted.
+Zmanim.fixHourMinute = function (hm) {
+    //make a copy - javascript sends object parameters by reference
+    var result = { hour: hm.hour, minute: hm.minute };
+    while (result.minute < 0) {
+        result.minute += 60;
+        result.hour--;
+    }
+    while (result.minute >= 60) {
+        result.minute -= 60;
+        result.hour++;
+    }
+    if (result.hour < 0) {
+        result.hour = 24 + result.hour;
+    }
+    if (result.hour > 23) {
+        result.hour = result.hour % 24;
+    }
+    return result;
+};
+
+//Add the given number of minutes to the given time
+Zmanim.addMinutes = function (hm, minutes) {
+    return Zmanim.fixHourMinute({ hour: hm.hour, minute: hm.minute + minutes });
+};
+
+Zmanim.getTimeString = function (hm, army) {
+    if (!!army) {
+        return (hm.hour.toString() + ":" +
+                (hm.minute < 10 ? "0" + hm.minute.toString() : hm.minute.toString()));
+    }
+    else {
+        return (hm.hour <= 12 ? (hm.hour == 0 ? 12 : hm.hour) : hm.hour - 12).toString() +
+                ":" +
+                (hm.minute < 10 ? "0" + hm.minute.toString() : hm.minute.toString()) +
+                (hm.hour < 12 ? " AM" : " PM");
+    }
 };

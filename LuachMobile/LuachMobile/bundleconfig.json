@@ -1,0 +1,21 @@
+[
+  {
+    "outputFileName": "www/scripts/JCal/jDate.js",
+    "inputFiles": [
+      "www/scripts/JCal/jDate.js"
+    ]
+  },
+  {
+    "outputFileName": "www/scripts/bundle.js",
+    "inputFiles": [
+      "www/scripts/JCal/jDate.js",
+      "www/scripts/index.js"
+    ]
+  },
+  {
+    "outputFileName": "www/themes/JewishCalendarMobile.css",
+    "inputFiles": [
+      "www/themes/JewishCalendarMobile.css"
+    ]
+  }
+]

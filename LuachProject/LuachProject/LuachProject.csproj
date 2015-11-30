@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F603DE04-489B-4CE4-B949-8BA8BB5DFA6B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LuachProject</RootNamespace>
+    <AssemblyName>LuachProject</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>LuachProject.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Luach.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Itenso.TimePeriod">
+      <HintPath>External DLL\Itenso.TimePeriod.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\ColorXML.cs" />
+    <Compile Include="Classes\CuelessSplitContainer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Classes\CuelessSplitContainer.Designer.cs">
+      <DependentUpon>CuelessSplitContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\SingleDateInfo.cs" />
+    <Compile Include="Forms\frmAddOccasionHeb.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAddOccasionHeb.Designer.cs">
+      <DependentUpon>frmAddOccasionHeb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmAddOccasionEng.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAddOccasionEng.Designer.cs">
+      <DependentUpon>frmAddOccasionEng.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmDailyInfoHeb.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmDailyInfoHeb.Designer.cs">
+      <DependentUpon>frmDailyInfoHeb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmDailyInfoEng.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmDailyInfoEng.Designer.cs">
+      <DependentUpon>frmDailyInfoEng.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMonthlySecular.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMonthlySecular.Designer.cs">
+      <DependentUpon>frmMonthlySecular.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMonthlyEnglish.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMonthlyEnglish.Designer.cs">
+      <DependentUpon>frmMonthlyEnglish.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmMonthlyHebrew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMonthlyHebrew.Designer.cs">
+      <DependentUpon>frmMonthlyHebrew.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Classes\UserOccasion.cs" />
+    <EmbeddedResource Include="Forms\frmAddOccasionHeb.resx">
+      <DependentUpon>frmAddOccasionHeb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmAddOccasionEng.resx">
+      <DependentUpon>frmAddOccasionEng.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDailyInfoHeb.resx">
+      <DependentUpon>frmDailyInfoHeb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDailyInfoEng.resx">
+      <DependentUpon>frmDailyInfoEng.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMonthlySecular.resx">
+      <DependentUpon>frmMonthlySecular.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMonthlyEnglish.resx">
+      <DependentUpon>frmMonthlyEnglish.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMonthlyHebrew.resx">
+      <DependentUpon>frmMonthlyHebrew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\DataSources\frmMonthlyEnglish.datasource" />
+    <None Include="Properties\DataSources\UserOccasionColection.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\JewishCalendar\JewishCalendar.csproj">
+      <Project>{43e5c945-9d11-4097-9990-1d2afc9e16d3}</Project>
+      <Name>JewishCalendar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\JewishDatePicker\JewishDatePicker.csproj">
+      <Project>{8076dabe-3604-4d94-a883-2df9105fe54c}</Project>
+      <Name>JewishDatePicker</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LocationsList.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Luach.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="External DLL\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
