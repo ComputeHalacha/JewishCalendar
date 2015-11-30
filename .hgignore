@@ -5,3 +5,4 @@ bin/
 Thumbs.db
 Release/
 Debug/
+.vs/
