@@ -1,2 +1,33 @@
 ﻿body {
 }
+
+.ui-page {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.logo {
+    position: absolute;
+    margin: 0;
+    top: 0.5em;
+    left: 0.5em;
+}
+
+.ui-teeny .ui-btn {
+    font-size: 0.7em;
+    padding: 0.9em 1.5em;
+}
+
+.ui-teeny {
+    font-size: 0.7em;
+}
+
+    .ui-teeny .ui-icon-forward:after, .ui-teeny .ui-icon-back:after {
+        background-size: 1em;
+    }
+
+    .ui-teeny .ui-btn-icon-notext:after {
+        width: 1.1em;
+        height: 1.1em;
+    }

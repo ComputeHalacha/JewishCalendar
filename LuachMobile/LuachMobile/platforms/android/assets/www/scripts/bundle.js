@@ -752,7 +752,7 @@ Sedra.getSedraOrder = function (year, israel) {
 
 function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST) {
     if (typeof israel === 'undefined') {
-        //Eretz Yisroel general coordinates (we are pretty safe even if we are off by a few miles, where else is the (99.99% Jewish) user? Sinai, Lebanon, Syria ...        
+        //Eretz Yisroel general coordinates (we are pretty safe even if we are off by a few miles, where else is the (99.99% Jewish) user? Sinai, Lebanon, Syria ...
         israel = (latitude > 29.45 && latitude < 33 && longitude < -34.23 && longitude > -35.9);
     }
     if (israel) {
@@ -764,7 +764,7 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
     }
     //If "isDST" was not defined
     if (typeof isDST === 'undefined') {
-        isDST = Zmanim.isCurrDST();
+        isDST = Zmanim.isDST();
     }
 
     return {
@@ -943,7 +943,7 @@ Zmanim.timeAdj = function (time, date, location) {
     }
     else if (location.isDST != false) {
         var inCurrTZ = location.UTCOffset === Zmanim.currUtcOffset();
-        if (inCurrTZ && Zmanim.isCurrDST(date)) {
+        if (inCurrTZ && Zmanim.isDST(date)) {
             hour++;
         }
         else if ((!inCurrTZ) && Zmanim.isUSA_DST(date, hour)) {
@@ -976,7 +976,7 @@ Zmanim.fixHourMinute = function (hm) {
         result.hour++;
     }
     if (result.hour < 0) {
-        result.hour = 24 + result.hour;
+        result.hour = 24 + (result.hour % 24);
     }
     if (result.hour > 23) {
         result.hour = result.hour % 24;
@@ -1010,14 +1010,13 @@ Zmanim.currUtcOffset = function () {
     return parseInt(Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset()) / 60);
 };
 
-
 //Determines if date (or now) is DST for the current system time zone
-Zmanim.isCurrDST = function (date) {
+Zmanim.isDST = function (date) {
     date = date || new Date();
-    return parseInt(date.getTimezoneOffset() / 60) < currUtcOffset();
+    return parseInt(date.getTimezoneOffset() / 60) < Zmanim.currUtcOffset();
 };
 
-//Determines if the given date and hour are during DST (using USA logic)
+//Determines if the given date and hour are during DST (using USA rules)
 Zmanim.isUSA_DST = function (date, hour) {
     var year = date.getYear(),
         month = date.getMonth() + 1,
@@ -1050,7 +1049,6 @@ Zmanim.isUSA_DST = function (date, hour) {
         return (day < targetDate || (day == targetDate && hour < 2));
     }
 };
-
 /// <reference path="_references.js" />
 // For an introduction to the Blank template, see the following documentation:
 // http://go.microsoft.com/fwlink/?LinkID=397704
@@ -1059,10 +1057,18 @@ Zmanim.isUSA_DST = function (date, hour) {
 (function () {
     "use strict";
 
-    $(document.body).on('pagecontainershow', function () {
-        $('#btnNextDay').on('click', function () { goDay(1); });
-        $('#btnPrevDay').on('click', function () { goDay(-1); });
-
+    $(document).on('pagecreate', '#divMainPage', function () {
+        $('#btnNextWeek').on('click', function () { goDay(7); });
+        $('#btnNextMonth').on('click', function () { goMonth(1); });
+        $('#btnNextYear').on('click', function () { goYear(1); });
+        $('#btnPrevWeek').on('click', function () { goDay(-7); });
+        $('#btnPrevMonth').on('click', function () { goMonth(-1); });
+        $('#btnPrevYear').on('click', function () { goYear(-1); })
+            .on("swipeup", "#divMainPage", function (event) {
+                goDay(-1);
+            }).on("swipedown", "#divMainPage", function (event) {
+                goDay(1);
+            });
         showDate();
     });
 
@@ -1073,7 +1079,6 @@ Zmanim.isUSA_DST = function (date, hour) {
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
         // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
-
         setCurrentLocation();
     };
 
@@ -1097,15 +1102,46 @@ Zmanim.isUSA_DST = function (date, hour) {
                                         position.coords.altitude);
 
             localStorage.setItem('location', JSON.stringify(location));
-            $('#divMainPage').data('location', location);
+            $('#divMainPage').jqmData('location', location);
+            showMessage('Location changed to: ' + location.Name);
         });
     }
 
+    function showMessage(message, isError, seconds) {
+        if (navigator.notification) {
+            navigator.notification.alert(message);
+        }
+        else {
+            toast(message, isError, seconds);
+        }
+    }
+
+    function toast(message, isError, seconds) {
+        var removeMe = function () { $(this).remove(); };
+
+        $('<div class="ui-loader ui-overlay-shadow ui-corner-all">' + message + '</div>')
+            .css({
+                display: 'block',
+                background: isError ? '#fff' : '#768',
+                color: isError ? '#f00' : '#e1e1e1',
+                opacity: 0.90,
+                position: 'fixed',
+                padding: '7px',
+                'text-align': 'center',
+                width: isError ? '600px !important' : '400px !important',
+                left: ($(window).width() - 400) / 2,
+                top: $(window).height() / 2 - 20
+            })
+            .click(removeMe)
+            .appendTo($.mobile.pageContainer).delay(seconds ? seconds * 1000 : (isError ? 15000 : 1000))
+            .fadeOut(1000, removeMe);
+    }
+
     function getLocation() {
-        if (!$('#divMainPage').data('location')) {
+        if (!$('#divMainPage').jqmData('location')) {
             setDefaultLocation();
         }
-        return $('#divMainPage').data('location');
+        return $('#divMainPage').jqmData('location');
     }
 
     function setDefaultLocation() {
@@ -1115,35 +1151,50 @@ Zmanim.isUSA_DST = function (date, hour) {
             loc = JSON.parse(loc);
         }
         else {
-            loc = new Location("Modi'in Illit", true, 31.933, -35.0426, 2, 300, isDST());
+            loc = new Location("Modi'in Illit", true, 31.933, -35.0426, 2, 300);
             localStorage.setItem('location', JSON.stringify(loc));
         }
-
-        $('#divMainPage').data('location', loc);
+        showMessage('Location set to: ' + loc.Name);
+        $('#divMainPage').jqmData('location', loc);
     }
 
     function showDate(jd) {
         var location = getLocation();
         if (jd) {
-            $('#divMainPage').data('currentjDate', jd);
+            $('#divMainPage').jqmData('currentjDate', jd);
         }
-        else if ($('#divMainPage').data('currentjDate')) {
-            jd = $('#divMainPage').data('currentjDate');
+        else if ($('#divMainPage').jqmData('currentjDate')) {
+            jd = $('#divMainPage').jqmData('currentjDate');
         }
         else {
-            showDate(new jDate(new Date()));            
-        }       
+            showDate(new jDate(new Date()));
+            return;
+        }
 
         $('#h2Header').html(jd.toStringHeb() + '<br />' + jd.getSecularDate().toDateString());
         $('#pnlHeader').html('Zmanim for ' + location.Name);
         $('#pMain').html(getZmanimHtml(jd, location));
-        $('#pMain').data('currDate', jd);
+        $('#pMain').jqmData('currDate', jd);
     }
 
     function goDay(num) {
-        var jd = $('#divMainPage').data('currentjDate');
+        var jd = $('#divMainPage').jqmData('currentjDate');
         if (jd) {
             showDate(jd.addDays(num));
+        }
+    }
+
+    function goMonth(num) {
+        var jd = $('#divMainPage').jqmData('currentjDate');
+        if (jd) {
+            showDate(jd.addMonths(num));
+        }
+    }
+
+    function goYear(num) {
+        var jd = $('#divMainPage').jqmData('currentjDate');
+        if (jd) {
+            showDate(jd.addYears(num));
         }
     }
 

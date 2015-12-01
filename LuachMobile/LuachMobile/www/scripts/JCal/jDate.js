@@ -752,7 +752,7 @@ Sedra.getSedraOrder = function (year, israel) {
 
 function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST) {
     if (typeof israel === 'undefined') {
-        //Eretz Yisroel general coordinates (we are pretty safe even if we are off by a few miles, where else is the (99.99% Jewish) user? Sinai, Lebanon, Syria ...        
+        //Eretz Yisroel general coordinates (we are pretty safe even if we are off by a few miles, where else is the (99.99% Jewish) user? Sinai, Lebanon, Syria ...
         israel = (latitude > 29.45 && latitude < 33 && longitude < -34.23 && longitude > -35.9);
     }
     if (israel) {
@@ -1010,11 +1010,10 @@ Zmanim.currUtcOffset = function () {
     return parseInt(Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset()) / 60);
 };
 
-
 //Determines if date (or now) is DST for the current system time zone
 Zmanim.isDST = function (date) {
     date = date || new Date();
-    return parseInt(date.getTimezoneOffset() / 60) < currUtcOffset();
+    return parseInt(date.getTimezoneOffset() / 60) < Zmanim.currUtcOffset();
 };
 
 //Determines if the given date and hour are during DST (using USA rules)

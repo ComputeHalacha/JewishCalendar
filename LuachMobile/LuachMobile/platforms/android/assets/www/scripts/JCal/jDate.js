@@ -752,7 +752,7 @@ Sedra.getSedraOrder = function (year, israel) {
 
 function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST) {
     if (typeof israel === 'undefined') {
-        //Eretz Yisroel general coordinates (we are pretty safe even if we are off by a few miles, where else is the (99.99% Jewish) user? Sinai, Lebanon, Syria ...        
+        //Eretz Yisroel general coordinates (we are pretty safe even if we are off by a few miles, where else is the (99.99% Jewish) user? Sinai, Lebanon, Syria ...
         israel = (latitude > 29.45 && latitude < 33 && longitude < -34.23 && longitude > -35.9);
     }
     if (israel) {
@@ -764,7 +764,7 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
     }
     //If "isDST" was not defined
     if (typeof isDST === 'undefined') {
-        isDST = Zmanim.isCurrDST();
+        isDST = Zmanim.isDST();
     }
 
     return {
@@ -943,7 +943,7 @@ Zmanim.timeAdj = function (time, date, location) {
     }
     else if (location.isDST != false) {
         var inCurrTZ = location.UTCOffset === Zmanim.currUtcOffset();
-        if (inCurrTZ && Zmanim.isCurrDST(date)) {
+        if (inCurrTZ && Zmanim.isDST(date)) {
             hour++;
         }
         else if ((!inCurrTZ) && Zmanim.isUSA_DST(date, hour)) {
@@ -976,7 +976,7 @@ Zmanim.fixHourMinute = function (hm) {
         result.hour++;
     }
     if (result.hour < 0) {
-        result.hour = 24 + result.hour;
+        result.hour = 24 + (result.hour % 24);
     }
     if (result.hour > 23) {
         result.hour = result.hour % 24;
@@ -1010,14 +1010,13 @@ Zmanim.currUtcOffset = function () {
     return parseInt(Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset()) / 60);
 };
 
-
 //Determines if date (or now) is DST for the current system time zone
-Zmanim.isCurrDST = function (date) {
+Zmanim.isDST = function (date) {
     date = date || new Date();
-    return parseInt(date.getTimezoneOffset() / 60) < currUtcOffset();
+    return parseInt(date.getTimezoneOffset() / 60) < Zmanim.currUtcOffset();
 };
 
-//Determines if the given date and hour are during DST (using USA logic)
+//Determines if the given date and hour are during DST (using USA rules)
 Zmanim.isUSA_DST = function (date, hour) {
     var year = date.getYear(),
         month = date.getMonth() + 1,
