@@ -1,11 +1,10 @@
-﻿// For an introduction to the Blank template, see the following documentation:
+﻿/// <reference path="_references.js" />
+// For an introduction to the Blank template, see the following documentation:
 // http://go.microsoft.com/fwlink/?LinkID=397704
 // To debug code on page load in Ripple or on Android devices/emulators: launch your app, set breakpoints,
 // and then run "window.location.reload()" in the JavaScript Console.
 (function () {
     "use strict";
-    /// <reference path="_references.js" />
-
     $(document).on('pagecreate', '#divMainPage', function () {
         $('#btnNextDay').on('click', function () { goDay(1); });
         $('#btnNextWeek').on('click', function () { goDay(7); });
@@ -121,8 +120,9 @@
             return;
         }
 
-        $('#h2Header').html(jd.toStringHeb() + '<br />' + jd.getSecularDate().toDateString());
-        $('#pnlHeader').html('Zmanim for ' + location.Name);
+        $('#h2Header').html(jd.toStringHeb() + '<br />' + jd.getDate().toDateString());
+        $('#pSpecial').html(getSpecialHtml(jd, location));
+        $('#divCaption').html('Zmanim for ' + location.Name);
         $('#pMain').html(getZmanimHtml(jd, location));
         $('#pMain').jqmData('currDate', jd);
     }
@@ -148,6 +148,23 @@
         }
     }
 
+    function getSpecialHtml(jd, location)
+    {
+        var holidays = jd.getHolidays(jd.Israel),
+            html = '';
+
+        if (holidays.length) {
+            holidays.forEach(function (h) {
+                html += h + '<br />';
+            });
+        }
+        if (jd.hasCandleLighting()) {
+            html += "<strong>Candle Lighting: " + Zmanim.getTimeString(jd.getCandleLighting(location)) + '</strong><br />';
+        }
+
+        return html;
+    }
+
     function getZmanimHtml(jd, location) {
         var html = '',
             ns = jd.getSunriseSunset(location),
@@ -156,13 +173,7 @@
         dy = null,// DafYomi.GetDafYomi(this._displayingJewishDate);
         chatzos = jd.getChatzos(location),
         shaaZmanis = jd.getShaaZmanis(location),
-        shaaZmanis90 = jd.getShaaZmanis(location, 90),
-        holidays = jd.getHolidays(jd.Israel);
-
-        if(jd.hasCandleLighting())
-        {
-            html += addLine("Candle Lighting", jd.getCandleLighting(location));
-        }
+        shaaZmanis90 = jd.getShaaZmanis(location, 90);        
 
         html += addLine("Weekly Sedra",
             jd.getSedra(location.Israel).map(function (s) { return s.eng; }).join(' - '));
