@@ -14,20 +14,24 @@
     <link rel="stylesheet" href="themes/JewishCalendarMobile.min.css" />
     <link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
     <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
-    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/index.min.css" />
 </head>
 <body>
     <div data-role="page" id="divMainPage">
         <div class="ui-bar-c" style="text-align:center;height:3.2em;">
             <img src="images/scroll.png" class="logo" />
-            <h1 id="h2Header" style="font-size:0.9em;"></h1>
+            <h1 id="h2Header" class="pageCaption"></h1>
         </div>
         <div data-role="main">
             <div data-role="content" class="ui-mini">
-                <h3 id="pnlHeader"></h3>
-                <div class="ui-body">
-                    <p id="pMain"></p>
+                <p id="pSpecial"></p>
+                <div class="ui-bar-b ui-content">
+                    <div id="divCaption"></div>
+                    <em id="emLocDet" class="ui-teeny grey"></em>
+                    &nbsp;&nbsp;
+                    <a class="ui-teeny" href="#divChangeLocation" data-transition="flip" data-slide-to="">change location</a>
                 </div>
+                <p id="pMain"></p>
             </div>
         </div>
         <div data-role="footer" class="ui-teeny">
@@ -49,6 +53,21 @@
                         <a href="javascript:void(0);" id="btnNextYear" data-role="button">Year</a>
                     </fieldset>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div data-role="page" id="divChangeLocation">
+        <div class="ui-bar-c" style="text-align:center;height:3.2em;">
+            <img src="images/scroll.png" class="logo" />
+            <h1 class="pageCaption">Change Location</h1>
+        </div>
+        <div data-role="main">
+            <div data-role="content" class="ui-mini">
+                <div class="ui-bar-b ui-content">Select a Location</div>
+            </div>
+        </div>
+        <div data-role="footer" class="ui-teeny">
+            <div data-role="content" data-theme="c">
             </div>
         </div>
     </div>

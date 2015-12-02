@@ -31,3 +31,11 @@
         width: 1.1em;
         height: 1.1em;
     }
+
+.pageCaption {
+    font-size: 0.9em;
+}
+
+.grey {
+    color: #777;
+}

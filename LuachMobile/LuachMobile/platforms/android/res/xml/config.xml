@@ -30,10 +30,10 @@
     <splash density="port-ldpi" src="res/screens/android/screen-ldpi-portrait.png" />
     <splash density="port-mdpi" src="res/screens/android/screen-mdpi-portrait.png" />
     <splash density="port-xhdpi" src="res/screens/android/screen-xhdpi-portrait.png" />
-    <name>LuachMobile</name>
-    <description>A blank project that uses Apache Cordova to help you build an app that targets multiple mobile platforms: Android, iOS, Windows, and Windows Phone.</description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">Apache Cordova Team </author>
-    <content src="index.html" />
+    <name>The Luach Project - for mobile</name>
+    <description>The Luach Project - for mobile</description>
+    <author email="dev@cordova.apache.org" href="http://cordova.io">Compute Software Solutions</author>
+    <content src="index.min.html" />
     <access origin="*" />
     <vs:features />
     <preference name="SplashScreen" value="screen" />
@@ -53,4 +53,10 @@
     <vs:plugin name="cordova-plugin-geolocation" version="1.0.1" />
     <vs:plugin name="cordova-plugin-file" version="3.0.0" />
     <vs:plugin name="cordova-plugin-globalization" version="1.0.2" />
+    <preference name="Fullscreen" value="True" />
+    <vs:platformSpecificValues>
+        <vs:platformSpecificWidget id="TheLuachProject" platformName="windows" version="1.0.0.0">
+            <vs:name>The Luach Project</vs:name>
+        </vs:platformSpecificWidget>
+    </vs:platformSpecificValues>
 </widget>

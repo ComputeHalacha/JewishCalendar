@@ -1,4 +1,5 @@
 ﻿/// <reference path="_references.js" />
+
 // For an introduction to the Blank template, see the following documentation:
 // http://go.microsoft.com/fwlink/?LinkID=397704
 // To debug code on page load in Ripple or on Android devices/emulators: launch your app, set breakpoints,
@@ -18,7 +19,9 @@
             }).on("swipedown", "#divMainPage", function (event) {
                 goDay(1);
             });
-        showDate();
+        if (!window.cordova) {
+            showDate();
+        }
     });
 
     document.addEventListener('deviceready', onDeviceReady.bind(this), false);
@@ -38,22 +41,29 @@
     function onResume() {
         // TODO: This application has been reactivated. Restore application state here.
         setCurrentLocation();
-        showDate();
     };
 
     function setCurrentLocation() {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var location = new Location('Current Location', //Name
-                                        undefined, //Israel - don't set, the constructor will try to figure it out
-                                        position.coords.latitude,
-                                        position.coords.longitude,
-                                        undefined, //UTCOffset - don't set, the constructor will try to figure it out
-                                        position.coords.altitude);
-
-            localStorage.setItem('location', JSON.stringify(location));
-            $('#divMainPage').jqmData('location', location);
-            showMessage('Location changed to: ' + location.Name);
-        });
+        try {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var location = new Location('Current Location', //Name
+                                            undefined, //Israel - don't set, the constructor will try to figure it out
+                                            position.coords.latitude,
+                                            position.coords.longitude,
+                                            undefined, //UTCOffset - don't set, the constructor will try to figure it out
+                                            position.coords.altitude);
+                $('#divMainPage').jqmData('location', location);
+                console.log('Acquired location from geolocation plugin');
+                console.info(position);
+                showDate();
+            }, function () {
+                setDefaultLocation();
+            });
+        }
+        catch (e) {
+            console.error(e);
+            setDefaultLocation();
+        }
     }
 
     function showMessage(message, isError, seconds) {
@@ -88,7 +98,7 @@
 
     function getLocation() {
         if (!$('#divMainPage').jqmData('location')) {
-            setDefaultLocation();
+            !!window.cordova ? setCurrentLocation() : setDefaultLocation();
         }
         return $('#divMainPage').jqmData('location');
     }
@@ -105,10 +115,10 @@
         }
         showMessage('Location set to: ' + loc.Name);
         $('#divMainPage').jqmData('location', loc);
+        showDate();
     }
 
     function showDate(jd) {
-        var location = getLocation();
         if (jd) {
             $('#divMainPage').jqmData('currentjDate', jd);
         }
@@ -120,9 +130,15 @@
             return;
         }
 
+        var location = getLocation();
         $('#h2Header').html(jd.toStringHeb() + '<br />' + jd.getDate().toDateString());
         $('#pSpecial').html(getSpecialHtml(jd, location));
         $('#divCaption').html('Zmanim for ' + location.Name);
+        $('#emLocDet').html('lat: ' +
+                location.Latitude.toString() +
+                ' long:' + location.Longitude.toString() +
+                (location.Israel ? ' | Israel' : '') + '  |  ' +
+                (location.IsDST ? 'DST' : 'not DST'));
         $('#pMain').html(getZmanimHtml(jd, location));
         $('#pMain').jqmData('currDate', jd);
     }
@@ -148,8 +164,7 @@
         }
     }
 
-    function getSpecialHtml(jd, location)
-    {
+    function getSpecialHtml(jd, location) {
         var holidays = jd.getHolidays(jd.Israel),
             html = '';
 
@@ -173,7 +188,7 @@
         dy = null,// DafYomi.GetDafYomi(this._displayingJewishDate);
         chatzos = jd.getChatzos(location),
         shaaZmanis = jd.getShaaZmanis(location),
-        shaaZmanis90 = jd.getShaaZmanis(location, 90);        
+        shaaZmanis90 = jd.getShaaZmanis(location, 90);
 
         html += addLine("Weekly Sedra",
             jd.getSedra(location.Israel).map(function (s) { return s.eng; }).join(' - '));
