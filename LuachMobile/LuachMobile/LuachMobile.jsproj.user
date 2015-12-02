@@ -5,7 +5,7 @@
     <AndroidEmulatorID>AndroidEmulator;Google Android Emulator</AndroidEmulatorID>
   </PropertyGroup>
   <PropertyGroup>
-    <ReferenceCachePath>C:\Users\ChaimB\AppData\Local\Temp\kvyvmvn1_LuachMobile_refcache</ReferenceCachePath>
+    <ReferenceCachePath>C:\Users\Chaim\AppData\Local\Temp\ork0mr4g_LuachMobile_refcache</ReferenceCachePath>
     <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|iOS'">

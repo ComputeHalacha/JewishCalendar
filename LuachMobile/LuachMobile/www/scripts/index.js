@@ -31,7 +31,7 @@
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
         // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
-        setCurrentLocation();
+        setCurrentLocation();        
     };
 
     function onPause() {
@@ -50,7 +50,7 @@
                                             undefined, //Israel - don't set, the constructor will try to figure it out
                                             position.coords.latitude,
                                             position.coords.longitude,
-                                            undefined, //UTCOffset - don't set, the constructor will try to figure it out
+                                            Zmanim.currUtcOffset(),
                                             position.coords.altitude);
                 $('#divMainPage').jqmData('location', location);
                 console.log('Acquired location from geolocation plugin');
@@ -62,7 +62,7 @@
         }
         catch (e) {
             console.error(e);
-            setDefaultLocation();
+            setDefaultLocation();            
         }
     }
 

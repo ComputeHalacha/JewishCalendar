@@ -1,5 +1,4 @@
-﻿/// <reference path="_references.js" />
-"use strict";
+﻿"use strict";
 //Calls the given comparer function for each item in the array.
 //If comparer returns truthy, that item is returned.
 Array.prototype.first = function (comparer) {

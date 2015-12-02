@@ -1,5 +1,4 @@
-﻿/// <reference path="../_references.js" />
-
+﻿/// <reference path="utils.js" />
 "use strict";
 /*You can create a jDate with any of the following:
  *  new jDate(javascriptDateObject) - Sets to the Jewish date on the given Gregorian date
@@ -14,12 +13,16 @@
 function jDate(arg, month, day) {
     var self = this;
 
+    //The day of the Jewish Month
     self.Day = NaN;
+    //The Jewish Month. As in the torah, Nissan is 1 and Adara Sheini is 13
     self.Month = NaN;
+    //The Number of years since the creation of the world
     self.Year = NaN;
+    //The number of days since the theoretical date: Dec. 31, 0001 BCE
     self.Abs = NaN;
 
-    if (arg instanceof Date) {
+    if (arg instanceof Date) {        
         if (arg.isvalid()) {
             fromAbs(jDate.absSd(arg));
         }
@@ -55,6 +58,7 @@ function jDate(arg, month, day) {
         self.Abs = jDate.absJd(self.Year, self.Month, self.Day);
     }
 
+    //Sets the current Jewish date from the given absolute date
     function fromAbs(absolute) {
         var date = jDate.fromAbs(absolute);
         self.Year = date.year;
@@ -65,17 +69,24 @@ function jDate(arg, month, day) {
 }
 
 jDate.prototype = {
+    //Returns a valid javascript Date object that represents the Gregorian date that starts at midnight of the current Jewish date
     getDate: function () {
         var dt = new Date(2000, 0, 1); // 1/1/2000 is absolute date 730120
         dt.setDate((this.Abs - 730120) + 1);
         return dt;
     },
+
+    //The day of the week for the current Jewish date. Sunday is 0 and Shabbos is 6
     getDayOfWeek: function () {
         return Math.abs(this.Abs % 7);
     },
+
+    //Returns a new Jewish date represented by adding the given number of days to the current Jewish date
     addDays: function (days) {
         return new jDate(this.Abs + days);
     },
+
+    //Returns a new Jewish date represented by adding the given number of Jewish Months to the current Jewish date
     addMonths: function (months) {
         var year = this.Year,
             month = this.Month,
@@ -106,24 +117,33 @@ jDate.prototype = {
         }
         return new jDate(year, month, day);
     },
+
+    //Returns a new Jewish date represented by adding the given number of Jewish Years to the current Jewish date
     addYears: function (years) {
         return new jDate(this.Year + years, this.Month, this.Day);
     },
+
+    //Returns the current Jewish date in the format: Thursday Kislev 3 5776
     toString: function () {
         return jDate.dowEng[this.getDayOfWeek()] + ' ' +
             jDate.jMonthsEng[this.Month] + ' ' +
             this.Day.toString() + ' ' +
             this.Year.toString();
     },
+
+    //Returns the current Jewish date in the format: יום חמישי כ"א כסלו תשע"ו
     toStringHeb: function () {
         return jDate.dowHeb[this.getDayOfWeek()] + ' ' +
            jDate.toJNum(this.Day) + ' ' +
            jDate.jMonthsHeb[this.Month] + ' ' +
            jDate.toJNum(this.Year % 1000);
     },
+
+    //Gets the difference in days between the current Jewish date and the given one. If the given date is earlier, it will be a negative number.
     getDiff: function (jd) {
         return this.Abs - jd.Abs;
     },
+    //Gets the day of the omer for the current Jewish date. If the date is not during sefira, 0 is returned.
     getDayOfOmer: function () {
         var dayOfOmer = 0;
         if ((this.Month == 1 && this.Day > 15) || this.Month == 2 || (this.Month == 3 && this.Day < 6)) {
@@ -131,9 +151,13 @@ jDate.prototype = {
         }
         return dayOfOmer;
     },
+
+    //Gets an array[string] of holidays, fasts and any other special specifications for the current Jewish date.
     getHolidays: function (israel, hebrew) {
         return jDate.getHoldidays(this, israel, hebrew);
     },
+
+    //Does the current Jewish date need candle lighting before sunset?
     hasCandleLighting: function () {
         var dow = this.getDayOfWeek();
 
@@ -150,6 +174,8 @@ jDate.prototype = {
                (this.Month === 6 && this.Day === 29) ||
                (this.Month === 7 && [9, 14, 21].indexOf(this.Day) > -1);
     },
+
+    //Gets the candle lighting time for the current Jewish date for the given Location object.
     getCandleLighting: function (location) {
         if (!location) {
             throw new Error('To get sunrise and sunset, the location needs to be supplied');
@@ -161,21 +187,31 @@ jDate.prototype = {
             throw new Error("No candle lighting on " + jd.toString());
         }
     },
+
+    //Get the sedra of the week for the current Jewish date
     getSedra: function (israel) {
         return new Sedra(this, israel);
     },
+
+    //gets sunrise and sunset time for the current Jewish date at the given Location.
+    //Return format: { sunrise: { hour: 6, minute: 18 }, sunset: { hour: 19, minute: 41 } }
     getSunriseSunset: function (location) {
         if (!location) {
             throw new Error('To get sunrise and sunset, the location needs to be supplied');
         }
         return Zmanim.getSunTimes(this, location);
     },
+
+    //Gets Chatzos for both the day and the night for the current Jewish date at the given Location.
+    //Return format: { hour: 11, minute: 48 }
     getChatzos: function (location) {
         if (!location) {
             throw new Error('To get Chatzos, the location needs to be supplied');
         }
         return Zmanim.getChatzos(this, location);
     },
+
+    //Gets the length of a single Sha'a Zmanis for the current Jewish date at the given Location.
     getShaaZmanis: function (location, offset) {
         if (!location) {
             throw new Error('To get the Shaa Zmanis, the location needs to be supplied');
@@ -194,6 +230,7 @@ jDate.jhd = ['ק', 'ר', 'ש', 'ת'];
 jDate.jsnum = ["", "אחד", "שנים", "שלשה", "ארבעה", "חמשה", "ששה", "שבעה", "שמונה", "תשעה"];
 jDate.jtnum = ["", "עשר", "עשרים", "שלושים", "ארבעים"];
 
+//Calulate the Jewish date at the given absolute date
 jDate.fromAbs = function (absDay) {
     //To save on calculations, start with a few years before date
     var year = 3761 + parseInt(absDay / (absDay > 0 ? 366 : 300)),
@@ -215,7 +252,7 @@ jDate.fromAbs = function (absDay) {
     return { year: year, month: month, day: day };
 };
 
-//Gets the absolute date of the given javascript date
+//Gets the absolute date of the given javascript Date object
 jDate.absSd = function (date) {
     var year = date.getFullYear(),
         month = date.getMonth() + 1,
@@ -232,6 +269,7 @@ jDate.absSd = function (date) {
            + parseInt((year - 1) / 400));   // ...plus prior years divisible by 400
 };
 
+//Calculate the absolute date for the given Jewish Date
 jDate.absJd = function (year, month, day) {
     var dayInYear = day; // Days so far this month.
     if (month < 7) { // Before Tishrei, so add days in prior months
@@ -258,6 +296,9 @@ jDate.absJd = function (year, month, day) {
     return dayInYear + (jDate.tDays(year) + (-1373429));
 };
 
+//The number of days in the given Gregorian Month. 
+//Note: For the month parameter, January should be 1 and December should be 12
+//This is unlike Javascripts getMonth() function which returns 0 for January and 11 for December.
 jDate.daysSMonth = function (month, year) {
     switch (month) {
         case 2:
@@ -275,6 +316,7 @@ jDate.daysSMonth = function (month, year) {
     }
 };
 
+//The number of days in the given Jewish Month
 jDate.daysJMonth = function (year, month) {
     if ((month == 2) || (month == 4) || (month == 6) || ((month == 8) &&
                 (!jDate.isLongCheshvan(year))) || ((month == 9) && jDate.isShortKislev(year)) || (month == 10) || ((month == 12) &&
@@ -320,12 +362,12 @@ jDate.tDays = function (year) {
 };
 
 
-//Number of days in Jewish Year
+//Number of days in the given Jewish Year
 jDate.daysJYear = function (year) {
     return ((jDate.tDays(year + 1)) - (jDate.tDays(year)));
 };
 
-//Number of days in Jewish Month
+//Number of days in the given Jewish Month. Nissan is 1 and Adar Sheini is 13.
 jDate.daysJMonth = function (year, month) {
     if ((month == 2) || (month == 4) || (month == 6) || ((month == 8) &&
         (!jDate.isLongCheshvan(year))) || ((month == 9) && jDate.isShortKislev(year)) || (month == 10) || ((month == 12) &&
@@ -337,29 +379,28 @@ jDate.daysJMonth = function (year, month) {
     }
 };
 
+//Does Cheshvan for the given Jewish Year have 30 days?
 jDate.isLongCheshvan = function (year) {
     return (jDate.daysJYear(year) % 10) == 5;
 };
 
+//Does Kislev for the given Jewish Year have 29 days?
 jDate.isShortKislev = function (year) {
     return (jDate.daysJYear(year) % 10) == 3;
 };
 
+//Does the given Jewish Year have 13 months?
 jDate.isJdLeapY = function (year) {
     return (((7 * year) + 1) % 19) < 7;
 };
 
 //Number of months in Jewish Year
-jDate.monthsJYear = function (year) {
-    if (jDate.isJdLeapY(year)) {
-        return 13;
-    }
-    else {
-        return 12;
-    }
+jDate.monthsJYear = function (year) {    
+    return jDate.isJdLeapY(year) ? 13 : 12;    
 };
 
 //Gets the Jewish representation of a number (365 - שס"ה)
+//Minimum number is 1 and maximum is 9999.
 jDate.toJNum = function (number) {
     if (number < 1) {
         throw new Error("Min value is 1");
@@ -410,6 +451,7 @@ jDate.toJNum = function (number) {
     return retval;
 };
 
+//Gets an array[string] of holidays, fasts and any other special specifications for the given Jewish date.
 jDate.getHoldidays = function (jd, israel, hebrew) {
     var list = [],
         jYear = jd.Year,
@@ -424,6 +466,7 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
     }
     else if (dayOfWeek === 6) {
         list.push(!hebrew ? "Shabbos Kodesh" : "שבת קודש");
+
         if (jMonth != 6 && jDay > 22 && jDay < 30)
             list.push(!hebrew ? "Shabbos Mevarchim" : "מברכים החודש");
     }
@@ -590,14 +633,15 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
             if (jDay === 15)
                 list.push(!hebrew ? "Tu B'Shvat" : "ט\"ו בשבט");
             break;
-        case 12: //Adars case 13:
-            if (jMonth === 12 && isLeapYear) {
+        case 12: //Both Adars 
+        case 13: 
+            if (jMonth === 12 && isLeapYear) { //Adar Rishon in a leap year
                 if (jDay === 14)
                     list.push(!hebrew ? "Purim Katan" : "פורים קטן");
                 else if (jDay === 15)
                     list.push(!hebrew ? "Shushan Purim Katan" : "שושן פורים קטן");
             }
-            else {
+            else { //The "real" Adar: the only one in a non-leap-year or Adar Sheini
                 if (jDay === 11 && dayOfWeek === 4)
                     list.push(!hebrew ? "Fast - Taanis Esther" : "תענית אסתר");
                 else if (jDay === 13 && dayOfWeek !== 6)
@@ -609,6 +653,7 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
             }
             break;
     }
+    //If it is during Sefiras Ha'omer
     if ((jMonth === 1 && jDay > 15) || jMonth === 2 || (jMonth === 3 && jDay < 6)) {
         var dayOfSefirah = jd.getDayOfOmer();
         if (dayOfSefirah > 0) {
@@ -619,7 +664,7 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
     return list;
 };
 
-//Gets an array of sedras for the given jewish date
+//Gets an array of sedras (either one or two) for the given Jewish Date
 function Sedra(jd, israel) {
     //If we are between the first day of Sukkos and Simchas Torah, the sedra will always be Vezos Habracha.
     if (jd.Month === 7 && jd.Day >= 15 && jd.Day < (israel ? 23 : 24)) {
@@ -798,6 +843,10 @@ Sedra.getSedraOrder = function (year, israel) {
     return retobj;
 };
 
+//Represents a geographic Location. Needed for calculating Zmanim.
+//If Israel is undefined, if the location is in the very near vicinity of Israel it will be assumed that it is in Israel.
+//UTCOffset is the time zone. Israel is always 2 and the US East coast is -5. England is 0 of course.
+//If UTCOffset is not specifically supplied, the longitude will be used to get an educated guess.
 function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST) {
     if (typeof israel === 'undefined') {
         //Eretz Yisroel general coordinates (we are pretty safe even if we are off by a few miles, 
@@ -809,7 +858,13 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
         utcOffset = 2;
     }
     else if (typeof utcOffset === 'undefined') {
-        utcOffset = Zmanim.currUtcOffset();
+        //Determine the "correct" time zone using the simple fact that Greenwich is both TZ 0 and longitude 0
+        //Even though technically this is the way it should be, it will be often incorrect as time zones are almost always moved to the closest border.
+        utcOffset = -parseInt(longitude / 15);
+        if (typeof isDST === 'undefined') {
+            //It's bad enough that we needed to guess the time zone
+            isDST = false;
+        }
     }
     //If "isDST" was not defined
     if (typeof isDST === 'undefined') {
