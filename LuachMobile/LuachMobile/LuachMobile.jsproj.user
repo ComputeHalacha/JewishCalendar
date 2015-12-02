@@ -5,10 +5,10 @@
     <AndroidEmulatorID>AndroidEmulator;Google Android Emulator</AndroidEmulatorID>
   </PropertyGroup>
   <PropertyGroup>
-    <ReferenceCachePath>C:\Users\ChaimB\AppData\Local\Temp\trrznntv_LuachMobile_refcache</ReferenceCachePath>
+    <ReferenceCachePath>C:\Users\Chaim\AppData\Local\Temp\2nzu5jes_LuachMobile_refcache</ReferenceCachePath>
     <ShowAllFiles>false</ShowAllFiles>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|iOS'">
-    <DebuggerFlavor>RippleiPad</DebuggerFlavor>
+    <DebuggerFlavor>RippleiPhone5</DebuggerFlavor>
   </PropertyGroup>
 </Project>

@@ -1,7 +1,7 @@
 ﻿"use strict";
 /*You can create a jDate with any of the following:
  *  new jDate(javascriptDateObject) - Sets to the Jewish date on the given Gregorian date
- *  new Date("January 1 2045") - same as above. Accepts any valid javascript Date string (uses Date.parse)
+ *  new Date("January 1 2045") - same as above. Accepts any valid javascript Date string (uses new Date(String))
  *  new jDate(jewishYear, jewishMonth, jewishDay) - Months start at 1 - Nissan is 1
  *  new jDate(jewishYear, jewishMonth) - Same as above, with Day defaulting to 1
  *  new Date(absoluteDate) - The number of days elapsed since the theoretical date Sunday, December 31, 0001 BCE
@@ -18,10 +18,21 @@ function jDate(arg, month, day) {
     self.AbsoluteDate = NaN;
 
     if (arg instanceof Date) {
-        setFromAbsolute(jDate.absoluteFromSDate(arg));
+        if (!isNaN(arg.valueOf())) {
+            setFromAbsolute(jDate.absoluteFromSDate(arg));
+        }
+        else {
+            throw new Error('jDate constructor: The given Date is not a valid javascript Date');
+        }
     }
     else if (arg instanceof String) {
-        setFromAbsolute(jDate.absoluteFromSDate(Date.parse(arg)));
+        var d = new Date(arg);
+        if (!isNaN(d.valueOf())) {
+            setFromAbsolute(jDate.absoluteFromSDate(d));
+        }
+        else {
+            throw new Error('jDate constructor: The given string "' + arg + '" cannot be parsed into a Date');
+        }
     }
     else if (typeof arg === 'number') {
         //if no month and day was supplied, we assume that the first argument is an absolute date
@@ -121,6 +132,33 @@ jDate.prototype = {
     getHolidays: function (israel, hebrew) {
         return jDate.getHoldidays(this, israel, hebrew);
     },
+    hasCandleLighting : function () {        
+        var dow = this.getDayOfWeek();
+        
+        if (dow === 5) {
+            return true;
+        }
+        else if (dow === 6) {
+            //there is no "candle lighting time" - even if yom tov is on Motzai Shabbos
+            return false;
+        }
+
+        return (this.Month === 1 && [14, 20].indexOf(this.Day) > -1) ||
+               (this.Month === 3 && this.Day === 5) ||
+               (this.Month === 6 && this.Day === 29) ||
+               (this.Month === 7 && [9, 14, 21].indexOf(this.Day) > -1);
+    },
+    getCandleLighting: function (location) {
+        if (!location) {
+            throw new Error('To get sunrise and sunset, the location needs to be supplied');
+        }
+        if (this.hasCandleLighting()) {
+            return Zmanim.getCandleLighting(this, location);
+        }
+        else {
+            throw new Error("No candle lighting on " + jd.toString());
+        }
+    },
     getSedra: function (israel) {
         return new Sedra(this, israel);
     },
@@ -128,19 +166,19 @@ jDate.prototype = {
         if (!location) {
             throw new Error('To get sunrise and sunset, the location needs to be supplied');
         }
-        return Zmanim.getSunTimes(this.getSecularDate(), location);
+        return Zmanim.getSunTimes(this, location);
     },
     getChatzos: function (location) {
         if (!location) {
             throw new Error('To get Chatzos, the location needs to be supplied');
         }
-        return Zmanim.getChatzos(this.getSecularDate(), location);
+        return Zmanim.getChatzos(this, location);
     },
     getShaaZmanis: function (location, offset) {
         if (!location) {
             throw new Error('To get the Shaa Zmanis, the location needs to be supplied');
         }
-        return Zmanim.getShaaZmanis(this.getSecularDate(), location, offset);
+        return Zmanim.getShaaZmanis(this, location, offset);
     }
 };
 
@@ -362,12 +400,13 @@ jDate.toJNumber = function (number) {
     }
     return retval;
 };
+
 jDate.getHoldidays = function (jd, israel, hebrew) {
     var list = [],
         jYear = jd.Year,
         jMonth = jd.Month,
         jDay = jd.Day,
-        dayOfWeek = jd.DayOfWeek,
+        dayOfWeek = jd.getDayOfWeek(),
         isLeapYear = jDate.isJewishLeapYear(jYear),
         secDate = jd.getSecularDate();
 
@@ -569,7 +608,7 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
     }
 
     return list;
-}
+};
 
 //Gets an array of sedras for the given jewish date
 function Sedra(jd, israel) {
@@ -751,25 +790,51 @@ Sedra.getSedraOrder = function (year, israel) {
 };
 
 function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST) {
+    if (typeof israel === 'undefined') {
+        //Eretz Yisroel general coordinates (we are pretty safe even if we are off by a few miles, where else is the (99.99% Jewish) user? Sinai, Lebanon, Syria ...
+        israel = (latitude > 29.45 && latitude < 33 && longitude < -34.23 && longitude > -35.9);
+    }
+    if (israel) {
+        //Israel has only one immutable time zone
+        utcOffset = -2;
+    }
+    else if (typeof utcOffset === 'undefined') {
+        utcOffset = Zmanim.currUtcOffset();
+    }
+    //If "isDST" was not defined
+    if (typeof isDST === 'undefined') {
+        isDST = Zmanim.isDST();
+    }
+
     return {
-        Name: name,
+        Name: name || 'Unknown Location',
         Israel: !!israel,
         Latitude: latitude,
         Longitude: longitude,
-        UTCOffset: utcOffset,
-        Elevation: elevation,
-        IsDST: isDST
+        UTCOffset: utcOffset || 0,
+        Elevation: elevation || 0,
+        IsDST: !!isDST
     };
 }
 
 function Zmanim(sd, location) { }
 
+//Gets sunrise and sunset time for given date. 
+//Accepts a javascript Date object, a string for creating a javascript date object or a jDate object.
 //Returns { sunrise: { hour: 6, minute: 18 }, sunset: { hour: 19, minute: 41 } }
-//location is required. { Latitude : 31.40, Longitude: -45.20, UTCOffset: -7, Elevation : 200, IsDST: true  }.
-//Elevation and IsDST are optional.
+//Location object is required.
 Zmanim.getSunTimes = function (date, location, considerElevation) {
+    if (date instanceof jDate) {
+        date = date.getSecularDate();
+    }
+    else if (date instanceof String) {
+        date = new Date(date);
+    }
+    if (!(date instanceof Date)) {
+        throw new Error('Zmanim.getSunTimes: supplied date parameter cannot be converted to a Date');
+    }
     //Set the undefined value to true
-    considerElevation = typeof considerElevation === 'undefined' || considerElevation;
+    considerElevation = (typeof considerElevation === 'undefined' || considerElevation);
 
     var sunrise, sunset, day = Zmanim.dayOfYear(date),
         zeninthDeg = 90, zenithMin = 50, lonHour = 0, longitude = 0, latitude = 0,
@@ -872,6 +937,29 @@ Zmanim.getShaaZmanis = function (date, location, offset) {
     return (setMinutes - riseMinutes) / 12;
 }
 
+Zmanim.getCandleLighting = function (date, location) {
+    var set = Zmanim.getSunTimes(date, location).sunset;
+
+    if (!location.Israel) {
+        return Zmanim.addMinutes(set, -18);
+    }
+
+    var special = [{ names: ['jerusalem', 'yerush', 'petach', 'petah', 'petak'], min: 40 },
+                   { names: ['haifa', 'chaifa', 'be\'er sheva', 'beersheba'], min: 22 }],
+        loclc = location.name.toLowerCase(),
+        city = special.first(function (sp) {
+            return sp.names.first(function (spi) {
+                return loclc.indexOf(spi) > -1;
+            });
+        });
+    if (city) {
+        return Zmanim.addMinutes(set, -city.min);
+    }
+    else {
+        return Zmanim.addMinutes(set, -30);
+    }
+}
+
 Zmanim.isSecularLeapYear = function (year) {
     if (year % 400 == 0) {
         return true;
@@ -923,15 +1011,86 @@ Zmanim.timeAdj = function (time, date, location) {
     hour = parseInt(time);
     min = parseInt(parseInt((time - hour) * 60 + 0.5));
 
-    if (location.IsDST || Zmanim.isDateTimeDST(date, hour)) {
+    if (location.IsDST) {
         hour++;
+    }
+    else if (location.isDST != false) {
+        var inCurrTZ = location.UTCOffset === Zmanim.currUtcOffset();
+        if (inCurrTZ && Zmanim.isDST(date)) {
+            hour++;
+        }
+        else if ((!inCurrTZ) && Zmanim.isUSA_DST(date, hour)) {
+            hour++;
+        }
     }
 
     return Zmanim.fixHourMinute({ hour: hour, minute: min });
 };
 
-//Determines if the given date and hour are during DST (using USA logic)
-Zmanim.isDateTimeDST = function (date, hour) {
+// Get day of week using Zellers algorithm.
+Zmanim.getDOW = function (year, month, day) {
+    var adjustment = (14 - month) / 12,
+        mm = month + 12 * adjustment - 2,
+        yy = year - adjustment;
+    return (day + (13 * mm - 1) / 5 + yy + yy / 4 - yy / 100 + yy / 400) % 7;
+};
+
+//Makes sure hour is between 0 and 23 and minute is between 0 and 59
+//Overlaps get added/subtracted.
+Zmanim.fixHourMinute = function (hm) {
+    //make a copy - javascript sends object parameters by reference
+    var result = { hour: hm.hour, minute: hm.minute };
+    while (result.minute < 0) {
+        result.minute += 60;
+        result.hour--;
+    }
+    while (result.minute >= 60) {
+        result.minute -= 60;
+        result.hour++;
+    }
+    if (result.hour < 0) {
+        result.hour = 24 + (result.hour % 24);
+    }
+    if (result.hour > 23) {
+        result.hour = result.hour % 24;
+    }
+    return result;
+};
+
+//Add the given number of minutes to the given time
+Zmanim.addMinutes = function (hm, minutes) {
+    return Zmanim.fixHourMinute({ hour: hm.hour, minute: hm.minute + minutes });
+};
+
+Zmanim.getTimeString = function (hm, army) {
+    if (!!army) {
+        return (hm.hour.toString() + ":" +
+                (hm.minute < 10 ? "0" + hm.minute.toString() : hm.minute.toString()));
+    }
+    else {
+        return (hm.hour <= 12 ? (hm.hour == 0 ? 12 : hm.hour) : hm.hour - 12).toString() +
+                ":" +
+                (hm.minute < 10 ? "0" + hm.minute.toString() : hm.minute.toString()) +
+                (hm.hour < 12 ? " AM" : " PM");
+    }
+};
+
+//gets the "real" system UTC offset in hours (not affected by DST)
+Zmanim.currUtcOffset = function () {
+    var date = new Date(),
+        jan = new Date(date.getFullYear(), 0, 1),
+        jul = new Date(date.getFullYear(), 6, 1);
+    return parseInt(Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset()) / 60);
+};
+
+//Determines if date (or now) is DST for the current system time zone
+Zmanim.isDST = function (date) {
+    date = date || new Date();
+    return parseInt(date.getTimezoneOffset() / 60) < Zmanim.currUtcOffset();
+};
+
+//Determines if the given date and hour are during DST (using USA rules)
+Zmanim.isUSA_DST = function (date, hour) {
     var year = date.getYear(),
         month = date.getMonth() + 1,
         day = date.getDate();
@@ -964,50 +1123,28 @@ Zmanim.isDateTimeDST = function (date, hour) {
     }
 };
 
-// Get day of week using Zellers algorithm.
-Zmanim.getDOW = function (year, month, day) {
-    var adjustment = (14 - month) / 12,
-        mm = month + 12 * adjustment - 2,
-        yy = year - adjustment;
-    return (day + (13 * mm - 1) / 5 + yy + yy / 4 - yy / 100 + yy / 400) % 7;
+function Utils() { }
+/*Get first instance of an item in an array. 
+  Search uses strict comparison operator (===) unless we are dealing with strings and caseSensitive is falsey.  
+  Note: for non-caseSensitive searches, returns the original array item if a match is found.*/
+Utils.getFirst = function (arr, item, caseSensitive) {
+    for (var i = 0; i < arr.length; i++) {
+        if ((!caseSensitive) && isString(item) && isString(arr[i]) && item.toLowerCase() === arr[i].toLowerCase()) {
+            return arr[i];
+        }
+        else if (arr[i] === item) {
+            return arr[i];
+        }
+    }
 };
 
-//Makes sure hour is between 0 and 23 and minute is between 0 and 59
-//Overlaps get added/subtracted.
-Zmanim.fixHourMinute = function (hm) {
-    //make a copy - javascript sends object parameters by reference
-    var result = { hour: hm.hour, minute: hm.minute };
-    while (result.minute < 0) {
-        result.minute += 60;
-        result.hour--;
+//Calls the given comparer function for each item in the array. 
+//If comparer returns truthy, that item is returned.
+Array.prototype.first = function (comparer) {
+    for (var i = 0; i < this.length; i++) {
+        if (comparer(i)) {
+            return arr[i];
+        }
     }
-    while (result.minute >= 60) {
-        result.minute -= 60;
-        result.hour++;
-    }
-    if (result.hour < 0) {
-        result.hour = 24 + result.hour;
-    }
-    if (result.hour > 23) {
-        result.hour = result.hour % 24;
-    }
-    return result;
 };
 
-//Add the given number of minutes to the given time
-Zmanim.addMinutes = function (hm, minutes) {
-    return Zmanim.fixHourMinute({ hour: hm.hour, minute: hm.minute + minutes });
-};
-
-Zmanim.getTimeString = function (hm, army) {
-    if (!!army) {
-        return (hm.hour.toString() + ":" +
-                (hm.minute < 10 ? "0" + hm.minute.toString() : hm.minute.toString()));
-    }
-    else {
-        return (hm.hour <= 12 ? (hm.hour == 0 ? 12 : hm.hour) : hm.hour - 12).toString() +
-                ":" +
-                (hm.minute < 10 ? "0" + hm.minute.toString() : hm.minute.toString()) +
-                (hm.hour < 12 ? " AM" : " PM");
-    }
-};
