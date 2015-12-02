@@ -5,8 +5,8 @@
 // and then run "window.location.reload()" in the JavaScript Console.
 (function () {
     "use strict";
-
     $(document).on('pagecreate', '#divMainPage', function () {
+        $('#btnNextDay').on('click', function () { goDay(1); });
         $('#btnNextWeek').on('click', function () { goDay(7); });
         $('#btnNextMonth').on('click', function () { goMonth(1); });
         $('#btnNextYear').on('click', function () { goYear(1); });
@@ -155,7 +155,12 @@
         dy = null,// DafYomi.GetDafYomi(this._displayingJewishDate);
         chatzos = jd.getChatzos(location),
         shaaZmanis = jd.getShaaZmanis(location),
-        shaaZmanis90 = jd.getShaaZmanis(location, 90);
+        shaaZmanis90 = jd.getShaaZmanis(location, 90),
+        holidays = jd.getHolidays(jd.Israel);
+
+        if (jd.hasCandleLighting()) {
+            html += addLine("Candle Lighting", jd.getCandleLighting(location));
+        }
 
         html += addLine("Weekly Sedra",
             jd.getSedra(location.Israel).map(function (s) { return s.eng; }).join(' - '));

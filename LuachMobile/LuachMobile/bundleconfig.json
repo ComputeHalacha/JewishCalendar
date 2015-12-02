@@ -8,6 +8,7 @@
   {
     "outputFileName": "www/scripts/bundle.js",
     "inputFiles": [
+      "www/scripts/utils.js",
       "www/scripts/JCal/jDate.js",
       "www/scripts/index.js"
     ]

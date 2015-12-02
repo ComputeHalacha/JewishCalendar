@@ -1,4 +1,5 @@
-﻿"use strict";
+﻿/// <reference path="../_references.js" />
+"use strict";
 /*You can create a jDate with any of the following:
  *  new jDate(javascriptDateObject) - Sets to the Jewish date on the given Gregorian date
  *  new Date("January 1 2045") - same as above. Accepts any valid javascript Date string (uses new Date(String))
@@ -18,16 +19,16 @@ function jDate(arg, month, day) {
     self.AbsoluteDate = NaN;
 
     if (arg instanceof Date) {
-        if (!isNaN(arg.valueOf())) {
+        if (arg.isvalid()) {
             setFromAbsolute(jDate.absoluteFromSDate(arg));
         }
         else {
             throw new Error('jDate constructor: The given Date is not a valid javascript Date');
         }
     }
-    else if (arg instanceof String) {
+    else if (Utils.isString(arg)) {
         var d = new Date(arg);
-        if (!isNaN(d.valueOf())) {
+        if (d.isvalid()) {
             setFromAbsolute(jDate.absoluteFromSDate(d));
         }
         else {
@@ -132,9 +133,9 @@ jDate.prototype = {
     getHolidays: function (israel, hebrew) {
         return jDate.getHoldidays(this, israel, hebrew);
     },
-    hasCandleLighting : function () {        
+    hasCandleLighting: function () {
         var dow = this.getDayOfWeek();
-        
+
         if (dow === 5) {
             return true;
         }
@@ -819,7 +820,7 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
 
 function Zmanim(sd, location) { }
 
-//Gets sunrise and sunset time for given date. 
+//Gets sunrise and sunset time for given date.
 //Accepts a javascript Date object, a string for creating a javascript date object or a jDate object.
 //Returns { sunrise: { hour: 6, minute: 18 }, sunset: { hour: 19, minute: 41 } }
 //Location object is required.
@@ -946,7 +947,7 @@ Zmanim.getCandleLighting = function (date, location) {
 
     var special = [{ names: ['jerusalem', 'yerush', 'petach', 'petah', 'petak'], min: 40 },
                    { names: ['haifa', 'chaifa', 'be\'er sheva', 'beersheba'], min: 22 }],
-        loclc = location.name.toLowerCase(),
+        loclc = location.Name.toLowerCase(),
         city = special.first(function (sp) {
             return sp.names.first(function (spi) {
                 return loclc.indexOf(spi) > -1;
@@ -1122,29 +1123,3 @@ Zmanim.isUSA_DST = function (date, hour) {
         return (day < targetDate || (day == targetDate && hour < 2));
     }
 };
-
-function Utils() { }
-/*Get first instance of an item in an array. 
-  Search uses strict comparison operator (===) unless we are dealing with strings and caseSensitive is falsey.  
-  Note: for non-caseSensitive searches, returns the original array item if a match is found.*/
-Utils.getFirst = function (arr, item, caseSensitive) {
-    for (var i = 0; i < arr.length; i++) {
-        if ((!caseSensitive) && isString(item) && isString(arr[i]) && item.toLowerCase() === arr[i].toLowerCase()) {
-            return arr[i];
-        }
-        else if (arr[i] === item) {
-            return arr[i];
-        }
-    }
-};
-
-//Calls the given comparer function for each item in the array. 
-//If comparer returns truthy, that item is returned.
-Array.prototype.first = function (comparer) {
-    for (var i = 0; i < this.length; i++) {
-        if (comparer(i)) {
-            return arr[i];
-        }
-    }
-};
-

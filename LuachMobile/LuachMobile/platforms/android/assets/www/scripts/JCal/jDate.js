@@ -1,7 +1,8 @@
-﻿"use strict";
+﻿/// <reference path="../_references.js" />
+"use strict";
 /*You can create a jDate with any of the following:
  *  new jDate(javascriptDateObject) - Sets to the Jewish date on the given Gregorian date
- *  new Date("January 1 2045") - same as above. Accepts any valid javascript Date string (uses Date.parse)
+ *  new Date("January 1 2045") - same as above. Accepts any valid javascript Date string (uses new Date(String))
  *  new jDate(jewishYear, jewishMonth, jewishDay) - Months start at 1 - Nissan is 1
  *  new jDate(jewishYear, jewishMonth) - Same as above, with Day defaulting to 1
  *  new Date(absoluteDate) - The number of days elapsed since the theoretical date Sunday, December 31, 0001 BCE
@@ -18,10 +19,21 @@ function jDate(arg, month, day) {
     self.AbsoluteDate = NaN;
 
     if (arg instanceof Date) {
-        setFromAbsolute(jDate.absoluteFromSDate(arg));
+        if (arg.isvalid()) {
+            setFromAbsolute(jDate.absoluteFromSDate(arg));
+        }
+        else {
+            throw new Error('jDate constructor: The given Date is not a valid javascript Date');
+        }
     }
-    else if (arg instanceof String) {
-        setFromAbsolute(jDate.absoluteFromSDate(Date.parse(arg)));
+    else if (Utils.isString(arg)) {
+        var d = new Date(arg);
+        if (d.isvalid()) {
+            setFromAbsolute(jDate.absoluteFromSDate(d));
+        }
+        else {
+            throw new Error('jDate constructor: The given string "' + arg + '" cannot be parsed into a Date');
+        }
     }
     else if (typeof arg === 'number') {
         //if no month and day was supplied, we assume that the first argument is an absolute date
@@ -121,6 +133,33 @@ jDate.prototype = {
     getHolidays: function (israel, hebrew) {
         return jDate.getHoldidays(this, israel, hebrew);
     },
+    hasCandleLighting: function () {
+        var dow = this.getDayOfWeek();
+
+        if (dow === 5) {
+            return true;
+        }
+        else if (dow === 6) {
+            //there is no "candle lighting time" - even if yom tov is on Motzai Shabbos
+            return false;
+        }
+
+        return (this.Month === 1 && [14, 20].indexOf(this.Day) > -1) ||
+               (this.Month === 3 && this.Day === 5) ||
+               (this.Month === 6 && this.Day === 29) ||
+               (this.Month === 7 && [9, 14, 21].indexOf(this.Day) > -1);
+    },
+    getCandleLighting: function (location) {
+        if (!location) {
+            throw new Error('To get sunrise and sunset, the location needs to be supplied');
+        }
+        if (this.hasCandleLighting()) {
+            return Zmanim.getCandleLighting(this, location);
+        }
+        else {
+            throw new Error("No candle lighting on " + jd.toString());
+        }
+    },
     getSedra: function (israel) {
         return new Sedra(this, israel);
     },
@@ -128,19 +167,19 @@ jDate.prototype = {
         if (!location) {
             throw new Error('To get sunrise and sunset, the location needs to be supplied');
         }
-        return Zmanim.getSunTimes(this.getSecularDate(), location);
+        return Zmanim.getSunTimes(this, location);
     },
     getChatzos: function (location) {
         if (!location) {
             throw new Error('To get Chatzos, the location needs to be supplied');
         }
-        return Zmanim.getChatzos(this.getSecularDate(), location);
+        return Zmanim.getChatzos(this, location);
     },
     getShaaZmanis: function (location, offset) {
         if (!location) {
             throw new Error('To get the Shaa Zmanis, the location needs to be supplied');
         }
-        return Zmanim.getShaaZmanis(this.getSecularDate(), location, offset);
+        return Zmanim.getShaaZmanis(this, location, offset);
     }
 };
 
@@ -362,12 +401,13 @@ jDate.toJNumber = function (number) {
     }
     return retval;
 };
+
 jDate.getHoldidays = function (jd, israel, hebrew) {
     var list = [],
         jYear = jd.Year,
         jMonth = jd.Month,
         jDay = jd.Day,
-        dayOfWeek = jd.DayOfWeek,
+        dayOfWeek = jd.getDayOfWeek(),
         isLeapYear = jDate.isJewishLeapYear(jYear),
         secDate = jd.getSecularDate();
 
@@ -569,7 +609,7 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
     }
 
     return list;
-}
+};
 
 //Gets an array of sedras for the given jewish date
 function Sedra(jd, israel) {
@@ -780,9 +820,20 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
 
 function Zmanim(sd, location) { }
 
+//Gets sunrise and sunset time for given date.
+//Accepts a javascript Date object, a string for creating a javascript date object or a jDate object.
 //Returns { sunrise: { hour: 6, minute: 18 }, sunset: { hour: 19, minute: 41 } }
 //Location object is required.
 Zmanim.getSunTimes = function (date, location, considerElevation) {
+    if (date instanceof jDate) {
+        date = date.getSecularDate();
+    }
+    else if (date instanceof String) {
+        date = new Date(date);
+    }
+    if (!(date instanceof Date)) {
+        throw new Error('Zmanim.getSunTimes: supplied date parameter cannot be converted to a Date');
+    }
     //Set the undefined value to true
     considerElevation = (typeof considerElevation === 'undefined' || considerElevation);
 
@@ -885,6 +936,29 @@ Zmanim.getShaaZmanis = function (date, location, offset) {
         setMinutes = (set.hour * 60) + set.minute;
 
     return (setMinutes - riseMinutes) / 12;
+}
+
+Zmanim.getCandleLighting = function (date, location) {
+    var set = Zmanim.getSunTimes(date, location).sunset;
+
+    if (!location.Israel) {
+        return Zmanim.addMinutes(set, -18);
+    }
+
+    var special = [{ names: ['jerusalem', 'yerush', 'petach', 'petah', 'petak'], min: 40 },
+                   { names: ['haifa', 'chaifa', 'be\'er sheva', 'beersheba'], min: 22 }],
+        loclc = location.Name.toLowerCase(),
+        city = special.first(function (sp) {
+            return sp.names.first(function (spi) {
+                return loclc.indexOf(spi) > -1;
+            });
+        });
+    if (city) {
+        return Zmanim.addMinutes(set, -city.min);
+    }
+    else {
+        return Zmanim.addMinutes(set, -30);
+    }
 }
 
 Zmanim.isSecularLeapYear = function (year) {
