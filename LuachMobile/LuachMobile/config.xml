@@ -119,4 +119,5 @@
       <vs:name>The Luach Project</vs:name>
     </vs:platformSpecificWidget>
   </vs:platformSpecificValues>
+  <vs:plugin name="cordova-plugin-dialogs" version="1.2.0" />
 </widget>

@@ -1,4 +1,5 @@
 ﻿/// <reference path="_references.js" />
+
 // For an introduction to the Blank template, see the following documentation:
 // http://go.microsoft.com/fwlink/?LinkID=397704
 // To debug code on page load in Ripple or on Android devices/emulators: launch your app, set breakpoints,
@@ -18,7 +19,9 @@
             }).on("swipedown", "#divMainPage", function (event) {
                 goDay(1);
             });
-        showDate();
+        if (!window.cordova) {
+            showDate();
+        }
     });
 
     document.addEventListener('deviceready', onDeviceReady.bind(this), false);
@@ -38,27 +41,38 @@
     function onResume() {
         // TODO: This application has been reactivated. Restore application state here.
         setCurrentLocation();
-        showDate();
     };
 
     function setCurrentLocation() {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var location = new Location('Current Location', //Name
-                                        undefined, //Israel - don't set, the constructor will try to figure it out
-                                        position.coords.latitude,
-                                        position.coords.longitude,
-                                        undefined, //UTCOffset - don't set, the constructor will try to figure it out
-                                        position.coords.altitude);
-
-            localStorage.setItem('location', JSON.stringify(location));
-            $('#divMainPage').jqmData('location', location);
-            showMessage('Location changed to: ' + location.Name);
-        });
+        try {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var location = new Location('Current Location', //Name
+                                            undefined, //Israel - don't set, the constructor will try to figure it out
+                                            position.coords.latitude,
+                                            position.coords.longitude,
+                                            Utils.currUtcOffset(),
+                                            position.coords.altitude);
+                $('#divMainPage').jqmData('location', location);
+                console.log('Acquired location from geolocation plugin');
+                console.info(position);
+                showDate();
+                showMessage('Location set to Current position', false, 2, 'Location set');
+            }, function () {
+                setDefaultLocation();
+            });
+        }
+        catch (e) {
+            console.error(e);
+            setDefaultLocation();
+        }
     }
 
-    function showMessage(message, isError, seconds) {
+    function showMessage(message, isError, seconds, title, callback, buttonName) {
         if (navigator.notification) {
-            navigator.notification.alert(message);
+            navigator.notification.alert(message, callback, title, buttonName);
+            if (isError) {
+                navigator.notification.beep(1);
+            }
         }
         else {
             toast(message, isError, seconds);
@@ -67,20 +81,8 @@
 
     function toast(message, isError, seconds) {
         var removeMe = function () { $(this).remove(); };
-
-        $('<div class="ui-loader ui-overlay-shadow ui-corner-all">' + message + '</div>')
-            .css({
-                display: 'block',
-                background: isError ? '#fff' : '#768',
-                color: isError ? '#f00' : '#e1e1e1',
-                opacity: 0.90,
-                position: 'fixed',
-                padding: '7px',
-                'text-align': 'center',
-                width: isError ? '600px !important' : '400px !important',
-                left: ($(window).width() - 400) / 2,
-                top: $(window).height() / 2 - 20
-            })
+        $('<div class="toast">' + message + '</div>')
+            .addClass(isError ? 'error' : '')
             .click(removeMe)
             .appendTo($.mobile.pageContainer).delay(seconds ? seconds * 1000 : (isError ? 15000 : 1000))
             .fadeOut(1000, removeMe);
@@ -88,7 +90,7 @@
 
     function getLocation() {
         if (!$('#divMainPage').jqmData('location')) {
-            setDefaultLocation();
+            !!window.cordova ? setCurrentLocation() : setDefaultLocation();
         }
         return $('#divMainPage').jqmData('location');
     }
@@ -103,12 +105,12 @@
             loc = new Location("Modi'in Illit", true, 31.933, -35.0426, 2, 300);
             localStorage.setItem('location', JSON.stringify(loc));
         }
-        showMessage('Location set to: ' + loc.Name);
+        showMessage('Location set to: ' + loc.Name, false, 2, 'Location set');
         $('#divMainPage').jqmData('location', loc);
+        showDate();
     }
 
     function showDate(jd) {
-        var location = getLocation();
         if (jd) {
             $('#divMainPage').jqmData('currentjDate', jd);
         }
@@ -120,9 +122,15 @@
             return;
         }
 
+        var location = getLocation();
         $('#h2Header').html(jd.toStringHeb() + '<br />' + jd.getDate().toDateString());
         $('#pSpecial').html(getSpecialHtml(jd, location));
         $('#divCaption').html('Zmanim for ' + location.Name);
+        $('#emLocDet').html('lat: ' +
+                location.Latitude.toString() +
+                ' long:' + location.Longitude.toString() +
+                (location.Israel ? ' | Israel' : '') + '  |  ' +
+                (location.IsDST ? 'DST' : 'not DST'));
         $('#pMain').html(getZmanimHtml(jd, location));
         $('#pMain').jqmData('currDate', jd);
     }
@@ -148,9 +156,8 @@
         }
     }
 
-    function getSpecialHtml(jd, location)
-    {
-        var holidays = jd.getHolidays(jd.Israel),
+    function getSpecialHtml(jd, location) {
+        var holidays = jd.getHolidays(location.Israel),
             html = '';
 
         if (holidays.length) {
@@ -158,10 +165,6 @@
                 html += h + '<br />';
             });
         }
-        if (jd.hasCandleLighting()) {
-            html += "<strong>Candle Lighting: " + Zmanim.getTimeString(jd.getCandleLighting(location)) + '</strong><br />';
-        }
-
         return html;
     }
 
@@ -173,8 +176,11 @@
         dy = null,// DafYomi.GetDafYomi(this._displayingJewishDate);
         chatzos = jd.getChatzos(location),
         shaaZmanis = jd.getShaaZmanis(location),
-        shaaZmanis90 = jd.getShaaZmanis(location, 90);        
+        shaaZmanis90 = jd.getShaaZmanis(location, 90);
 
+        if (jd.hasCandleLighting()) {
+            html += "<strong>Candle Lighting: " + Zmanim.getTimeString(jd.getCandleLighting(location)) + '</strong><br /><br />';
+        }
         html += addLine("Weekly Sedra",
             jd.getSedra(location.Israel).map(function (s) { return s.eng; }).join(' - '));
         if (dy != null) {

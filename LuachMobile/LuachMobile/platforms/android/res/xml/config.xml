@@ -59,4 +59,7 @@
             <vs:name>The Luach Project</vs:name>
         </vs:platformSpecificWidget>
     </vs:platformSpecificValues>
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
 </widget>

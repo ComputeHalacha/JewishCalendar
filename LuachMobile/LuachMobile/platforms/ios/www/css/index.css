@@ -32,6 +32,32 @@
         height: 1.1em;
     }
 
-/*#divCaption {
-    border:0;padding:5px;
-}*/
+.pageCaption {
+    font-size: 0.9em;
+}
+
+.grey {
+    color: #777;
+}
+
+.ui-content-not-so-tall {
+    padding: 0.5em 1em;
+}
+
+.toast {
+    background: #83a4be;
+    color: #e1e1e1;
+    padding: 1em 0;
+    text-align: center;
+    position: absolute;
+    z-index: 9999;
+    top: 45%;
+    width: 100%;
+    border-radius: 2.25em;
+    font-size: 0.9em;
+}
+
+    .toast .error {
+        background: #fff;
+        color: #f00;
+    }
