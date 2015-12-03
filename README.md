@@ -30,9 +30,9 @@ The Luach Project is a pair of Luach applications:
 
 ## **Jewish Calendar Libraries** ##
 
-### Jewish calendar .NET Library ###
-
 There are two versions of the libraries:
+
+### Jewish Calendar .NET Library ###
 
 * Written in C#.
 * Classes for Jewish date calculations, 
@@ -41,7 +41,18 @@ There are two versions of the libraries:
 * Jewish Holidays/Fasts etc, for any date
 * Parsha of the week, day
 * Daf Yomi for any day since it was started
-* 
+* Molad of any month
+
+### Jewish Calendar javascript Library ###
+
+* Classes for Jewish date calculations. Algorithms were optimized for the slower engine. They functions seem to work quickly and efficiently on any device.
+* Conversion back and forth from regular javascript Date objects
+* Zmanim - sunrise/sunset, chatzos, sha'a zmanis etc. for any date and location.
+* Jewish Holidays/Fasts etc, for any date
+* Parsha of the week, day
+* Daf Yomi for any day since it was started
+* Molad of any month
+
 ### How do I get set up? ###
 
 * Summary of set up
@@ -53,11 +64,9 @@ There are two versions of the libraries:
 
 ### Contribution guidelines ###
 
-* Writing tests
-* Code review
-* Other guidelines
+* Writing tests - yes, please! the project grew in small pieces as I needed them for other projects - I never expected it to become a full library. No tests was included.
+* Please do not commit any revision to the main branch that does not compile without any errors or warnings whatsoever.
 
 ### Who do I talk to? ###
 
-* Repo owner or admin
-* Other community or team contact
+* CB Sommers - cb@compute.co.il
