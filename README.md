@@ -55,9 +55,15 @@ There are two versions of the libraries:
 
 ### How do I get set up? ###
 
-* Summary of set up
+There are three Visual Studio solutions containing a total of 7 projects:
+
+1. \JewishCalendar\JewishCalendar.csproj - creates JewishCalendar.dll. Contains the heart of the Jewish Calendar .NET library
+2. \JewishDatePicker\JewishDatePicker.cs - creates JewishDatePicker.dll. This is a windows forms control for picking Jewish dates (Similar to the regular DateTimePicker control.)
+3. \Luach\Luach.csproj - Creates Luach.exe. A watered down version of the Luach Project application. Is included mainly to demonstrate how to use the JewishCalendar objects.
+4. \LuachMobile\LuachMobile\LuachMobile.jsproj - Contains both the Jewish Calendar Jacascript library and the cordova mobile app project.
+
 * Configuration
-* Dependencies
+* The repository does not contain any projects that rely on any outside dependencies. Many of the projects depend on each other internally...
 * Database configuration
 * How to run tests
 * Deployment instructions
