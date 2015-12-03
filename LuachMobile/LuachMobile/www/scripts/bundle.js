@@ -1,6 +1,12 @@
 "use strict";
+
+//Returns whether or not the array contains the given item
+Array.prototype.has = function (item) {
+    return !!~this.indexOf(item); //A cute trick: bitwise NOT turns -1 into 0
+};
+
 //Calls the given comparer function for each item in the array.
-//If comparer returns truthy, that item is returned.
+//The first item encountered for which the comparer returns truthy is returned.
 Array.prototype.first = function (comparer) {
     for (var i = 0; i < this.length; i++) {
         if (comparer(this[i])) {
@@ -29,17 +35,169 @@ Date.prototype.isvalid = function () {
 };
 
 function Utils() { }
+Utils.jMonthsEng = ["", "Nissan", "Iyar", "Sivan", "Tamuz", "Av", "Ellul", "Tishrei", "Cheshvan", "Kislev", "Teves", "Shvat", "Adar", "Adar Sheini"];
+Utils.jMonthsHeb = ["", "ניסן", "אייר", "סיון", "תמוז", "אב", "אלול", "תשרי", "חשון", "כסלו", "טבת", "שבט", "אדר", "אדר שני"];
+Utils.dowEng = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Erev Shabbos", "Shabbos Kodesh"];
+Utils.dowHeb = ["יום ראשון", "יום שני", "יום שלישי", "יום רביעי", "יום חמישי", "ערב שבת קודש", "שבת קודש"];
+Utils.jsd = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט'];
+Utils.jtd = ['י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ'];
+Utils.jhd = ['ק', 'ר', 'ש', 'ת'];
+Utils.jsnum = ["", "אחד", "שנים", "שלשה", "ארבעה", "חמשה", "ששה", "שבעה", "שמונה", "תשעה"];
+Utils.jtnum = ["", "עשר", "עשרים", "שלושים", "ארבעים"];
 
 //Returns true if thing is an instance of either a string primitive or String object
 Utils.isString = function (thing) {
     return (typeof thing === 'string' || thing instanceof String);
 };
-/// <reference path="utils.js" />
+
+//Gets the Jewish representation of a number (365 = שס"ה)
+//Minimum number is 1 and maximum is 9999.
+Utils.toJNum = function (number) {
+    if (number < 1) {
+        throw new Error("Min value is 1");
+    }
+
+    if (number > 9999) {
+        throw new Error("Max value is 9999");
+    }
+
+    var n = number,
+        retval = '';
+
+    if (n >= 1000) {
+        retval += Utils.jsd[parseInt((n - (n % 1000)) / 1000) - 1] + "'";
+        n = n % 1000;
+    }
+
+    while (n >= 400) {
+        retval += 'ת';
+        n -= 400;
+    }
+
+    if (n >= 100) {
+        retval += Utils.jhd[parseInt((n - (n % 100)) / 100) - 1];
+        n = n % 100;
+    }
+
+    if (n == 15) {
+        retval += "טו";
+    }
+    else if (n == 16) {
+        retval += "טז";
+    }
+    else {
+        if (n > 9) {
+            retval += Utils.jtd[parseInt((n - (n % 10)) / 10) - 1];
+        }
+        if ((n % 10) > 0) {
+            retval += Utils.jsd[(n % 10) - 1];
+        }
+    }
+    if (number > 999 && (number % 1000 < 10)) {
+        retval = "'" + retval;
+    }
+    else if (retval.length > 1) {
+        retval = (retval.slice(0, -1) + "\"" + retval[retval.length - 1]);
+    }
+    return retval;
+};
+
+//gets the "real" system UTC offset in hours (not affected by DST)
+Utils.currUtcOffset = function () {
+    var date = new Date(),
+        jan = new Date(date.getFullYear(), 0, 1),
+        jul = new Date(date.getFullYear(), 6, 1);
+    return parseInt(Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset()) / 60);
+};
+
+//Determines if date (or now) is DST for the current system time zone
+Utils.isDST = function (date) {
+    date = date || new Date();
+    return parseInt(date.getTimezoneOffset() / 60) < Utils.currUtcOffset();
+};
+
+//Determines if the given date and hour are during DST (using USA rules)
+Utils.isUSA_DST = function (date, hour) {
+    var year = date.getYear(),
+        month = date.getMonth() + 1,
+        day = date.getDate();
+
+    if (month < 3 || month == 12) {
+        return false;
+    }
+    else if (month > 3 && month < 11) {
+        return true;
+    }
+
+        //DST starts at 2:00 AM on the second Sunday in March
+    else if (month == 3) {
+        //Gets day of week on March 1st
+        var firstDOW = Zmanim.getDOW(year, 3, 1),
+        //Gets date of second Sunday
+            targetDate = firstDOW == 0 ? 8 : ((7 - (firstDOW + 7) % 7)) + 8;
+
+        return (day > targetDate || (day == targetDate && hour >= 2));
+    }
+        //DST ends at 2:00 AM on the first Sunday in November
+    else //dt.Month == 11
+    {
+        //Gets day of week on November 1st
+        var firstDOW = Zmanim.getDOW(year, 11, 1),
+        //Gets date of first Sunday
+            targetDate = firstDOW == 0 ? 1 : ((7 - (firstDOW + 7) % 7)) + 1;
+
+        return (day < targetDate || (day == targetDate && hour < 2));
+    }
+};
+/// <reference path="Utils.js" />
 "use strict";
-/*You can create a jDate with any of the following:
+
+//Represents a geographic Location. Needed for calculating Zmanim.
+//If Israel is undefined, if the location is in the very near vicinity of Israel it will be assumed that it is in Israel.
+//UTCOffset is the time zone. Israel is always 2 and the US East coast is -5. England is 0 of course.
+//If UTCOffset is not specifically supplied, the longitude will be used to get an educated guess.
+function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST) {
+    if (typeof israel === 'undefined') {
+        //Eretz Yisroel general coordinates (we are pretty safe even if we are off by a few miles,
+        //where else is the (99.99% Jewish) user? Sinai, Lebanon, Syria ...
+        israel = (latitude > 29.45 && latitude < 33 && longitude < -34.23 && longitude > -35.9);
+    }
+    if (israel) {
+        //Israel has only one immutable time zone
+        utcOffset = 2;
+    }
+    else if (typeof utcOffset === 'undefined') {
+        //Determine the "correct" time zone using the simple fact that Greenwich is both TZ 0 and longitude 0
+        //Even though technically this is the way it should be, it will be often incorrect as time zones are almost always moved to the closest border.
+        utcOffset = -parseInt(longitude / 15);
+        if (typeof isDST === 'undefined') {
+            //It's bad enough that we needed to guess the time zone
+            isDST = false;
+        }
+    }
+    //If "isDST" was not defined
+    if (typeof isDST === 'undefined') {
+        isDST = Utils.isDST();
+    }
+
+    return {
+        Name: name || 'Unknown Location',
+        Israel: !!israel,
+        Latitude: latitude,
+        Longitude: longitude,
+        UTCOffset: utcOffset || 0,
+        Elevation: elevation || 0,
+        IsDST: !!isDST
+    };
+}
+/// <reference path="Utils.js" />
+/// <reference path="Sedra.js" />
+"use strict";
+/* Represents a single day in the Jewish Calendar.
+ * Create a jDate with any of the following:
  *  new jDate(javascriptDateObject) - Sets to the Jewish date on the given Gregorian date
- *  new Date("January 1 2045") - same as above. Accepts any valid javascript Date string (uses new Date(String))
- *  new jDate(jewishYear, jewishMonth, jewishDay) - Months start at 1 - Nissan is 1
+ *  new Date("January 1 2045") - Accepts any valid javascript Date string (uses javascripts new Date(String))
+ *  new jDate(jewishYear, jewishMonth, jewishDay) - Months start at 1. Nissan is month 1 Adara Sheini is 12.
  *  new jDate(jewishYear, jewishMonth) - Same as above, with Day defaulting to 1
  *  new Date(absoluteDate) - The number of days elapsed since the theoretical date Sunday, December 31, 0001 BCE
  *  new Date( { year: 5776, month: 4, day: 5 } ) - same as new jDate(jewishYear, jewishMonth, jewishDay)
@@ -58,7 +216,7 @@ function jDate(arg, month, day) {
     //The number of days since the theoretical date: Dec. 31, 0001 BCE
     self.Abs = NaN;
 
-    if (arg instanceof Date) {        
+    if (arg instanceof Date) {
         if (arg.isvalid()) {
             fromAbs(jDate.absSd(arg));
         }
@@ -161,21 +319,22 @@ jDate.prototype = {
 
     //Returns the current Jewish date in the format: Thursday Kislev 3 5776
     toString: function () {
-        return jDate.dowEng[this.getDayOfWeek()] + ' ' +
-            jDate.jMonthsEng[this.Month] + ' ' +
+        return Utils.dowEng[this.getDayOfWeek()] + ' ' +
+            Utils.jMonthsEng[this.Month] + ' ' +
             this.Day.toString() + ' ' +
             this.Year.toString();
     },
 
     //Returns the current Jewish date in the format: יום חמישי כ"א כסלו תשע"ו
     toStringHeb: function () {
-        return jDate.dowHeb[this.getDayOfWeek()] + ' ' +
-           jDate.toJNum(this.Day) + ' ' +
-           jDate.jMonthsHeb[this.Month] + ' ' +
-           jDate.toJNum(this.Year % 1000);
+        return Utils.dowHeb[this.getDayOfWeek()] + ' ' +
+           Utils.toJNum(this.Day) + ' ' +
+           Utils.jMonthsHeb[this.Month] + ' ' +
+           Utils.toJNum(this.Year % 1000);
     },
 
-    //Gets the difference in days between the current Jewish date and the given one. If the given date is earlier, it will be a negative number.
+    //Gets the difference in days between the current Jewish date and the given one.
+    //If the given date is earlier, it will be a negative number.
     getDiff: function (jd) {
         return this.Abs - jd.Abs;
     },
@@ -205,10 +364,10 @@ jDate.prototype = {
             return false;
         }
 
-        return (this.Month === 1 && [14, 20].indexOf(this.Day) > -1) ||
+        return (this.Month === 1 && [14, 20].has(this.Day)) ||
                (this.Month === 3 && this.Day === 5) ||
                (this.Month === 6 && this.Day === 29) ||
-               (this.Month === 7 && [9, 14, 21].indexOf(this.Day) > -1);
+               (this.Month === 7 && [9, 14, 21].has(this.Day));
     },
 
     //Gets the candle lighting time for the current Jewish date for the given Location object.
@@ -255,16 +414,6 @@ jDate.prototype = {
         return Zmanim.getShaaZmanis(this, location, offset);
     }
 };
-
-jDate.jMonthsEng = ["", "Nissan", "Iyar", "Sivan", "Tamuz", "Av", "Ellul", "Tishrei", "Cheshvan", "Kislev", "Teves", "Shvat", "Adar", "Adar Sheini"];
-jDate.jMonthsHeb = ["", "ניסן", "אייר", "סיון", "תמוז", "אב", "אלול", "תשרי", "חשון", "כסלו", "טבת", "שבט", "אדר", "אדר שני"];
-jDate.dowEng = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Erev Shabbos", "Shabbos Kodesh"];
-jDate.dowHeb = ["יום ראשון", "יום שני", "יום שלישי", "יום רביעי", "יום חמישי", "ערב שבת קודש", "שבת קודש"];
-jDate.jsd = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט'];
-jDate.jtd = ['י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ'];
-jDate.jhd = ['ק', 'ר', 'ש', 'ת'];
-jDate.jsnum = ["", "אחד", "שנים", "שלשה", "ארבעה", "חמשה", "ששה", "שבעה", "שמונה", "תשעה"];
-jDate.jtnum = ["", "עשר", "עשרים", "שלושים", "ארבעים"];
 
 //Calulate the Jewish date at the given absolute date
 jDate.fromAbs = function (absDay) {
@@ -332,7 +481,7 @@ jDate.absJd = function (year, month, day) {
     return dayInYear + (jDate.tDays(year) + (-1373429));
 };
 
-//The number of days in the given Gregorian Month. 
+//The number of days in the given Gregorian Month.
 //Note: For the month parameter, January should be 1 and December should be 12
 //This is unlike Javascripts getMonth() function which returns 0 for January and 11 for December.
 jDate.daysSMonth = function (month, year) {
@@ -397,7 +546,6 @@ jDate.tDays = function (year) {
     }
 };
 
-
 //Number of days in the given Jewish Year
 jDate.daysJYear = function (year) {
     return ((jDate.tDays(year + 1)) - (jDate.tDays(year)));
@@ -431,60 +579,8 @@ jDate.isJdLeapY = function (year) {
 };
 
 //Number of months in Jewish Year
-jDate.monthsJYear = function (year) {    
-    return jDate.isJdLeapY(year) ? 13 : 12;    
-};
-
-//Gets the Jewish representation of a number (365 - שס"ה)
-//Minimum number is 1 and maximum is 9999.
-jDate.toJNum = function (number) {
-    if (number < 1) {
-        throw new Error("Min value is 1");
-    }
-
-    if (number > 9999) {
-        throw new Error("Max value is 9999");
-    }
-
-    var n = number,
-        retval = '';
-
-    if (n >= 1000) {
-        retval += jDate.jsd[parseInt((n - (n % 1000)) / 1000) - 1] + "'";
-        n = n % 1000;
-    }
-
-    while (n >= 400) {
-        retval += 'ת';
-        n -= 400;
-    }
-
-    if (n >= 100) {
-        retval += jDate.jhd[parseInt((n - (n % 100)) / 100) - 1];
-        n = n % 100;
-    }
-
-    if (n == 15) {
-        retval += "טו";
-    }
-    else if (n == 16) {
-        retval += "טז";
-    }
-    else {
-        if (n > 9) {
-            retval += jDate.jtd[parseInt((n - (n % 10)) / 10) - 1];
-        }
-        if ((n % 10) > 0) {
-            retval += jDate.jsd[(n % 10) - 1];
-        }
-    }
-    if (number > 999 && (number % 1000 < 10)) {
-        retval = "'" + retval;
-    }
-    else if (retval.length > 1) {
-        retval = (retval.slice(0, -1) + "\"" + retval[retval.length - 1]);
-    }
-    return retval;
+jDate.monthsJYear = function (year) {
+    return jDate.isJdLeapY(year) ? 13 : 12;
 };
 
 //Gets an array[string] of holidays, fasts and any other special specifications for the given Jewish date.
@@ -508,16 +604,21 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
     }
     if (jDay === 30) {
         var monthIndex = (jMonth === 12 && !isLeapYear) || jMonth === 13 ? 1 : jMonth + 1;
-        list.push(!hebrew ? "Rosh Chodesh " + jDate.jMonthsEng[monthIndex] : "ראש חודש " + jDate.jMonthsHeb[monthIndex]);
+        list.push(!hebrew ? "Rosh Chodesh " + Utils.jMonthsEng[monthIndex] : "ראש חודש " + Utils.jMonthsHeb[monthIndex]);
     } else if (jDay === 1 && jMonth != 7) {
-        list.push(!hebrew ? "Rosh Chodesh " + jDate.jMonthsEng[jMonth] : "ראש חודש " + jDate.jMonthsHeb[jMonth]);
+        list.push(!hebrew ? "Rosh Chodesh " + Utils.jMonthsEng[jMonth] : "ראש חודש " + Utils.jMonthsHeb[jMonth]);
     }
     //V'sain Tal U'Matar in Chutz La'aretz is according to the secular date
-    if (secDate.getMonth() == 11 && !israel) {
+    if (dayOfWeek !== 6 && (!israel) && secDate.getMonth() == 11) {
         var sday = secDate.getDate();
-        if (sday === 5 || sday === 6) {
+        //The three possible dates for starting vt"u are the 5th, 6th and 7th of December
+        if ([5, 6, 7].has(sday)) {
             var nextYearIsLeap = jDate.isJdLeapY(jYear + 1);
-            if (((sday == 5 && !nextYearIsLeap)) || (sday == 6 && nextYearIsLeap))
+            //If next year is not a leap year, then vst"u starts on the 5th.
+            //If next year is a leap year than vst"u starts on the 6th.
+            //If the 5th or 6th were shabbos than vst"u starts on the following day - Sunday.
+            if ((((sday === 5 || (sday === 6 && dayOfWeek === 0)) && (!nextYearIsLeap))) ||
+                ((sday === 6 || (sday === 7 && dayofweek === 0)) && nextYearIsLeap))
                 list.push(!hebrew ? "V'sain Tal U'Matar" : "ותן טל ומטר");
         }
     }
@@ -669,8 +770,8 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
             if (jDay === 15)
                 list.push(!hebrew ? "Tu B'Shvat" : "ט\"ו בשבט");
             break;
-        case 12: //Both Adars 
-        case 13: 
+        case 12: //Both Adars
+        case 13:
             if (jMonth === 12 && isLeapYear) { //Adar Rishon in a leap year
                 if (jDay === 14)
                     list.push(!hebrew ? "Purim Katan" : "פורים קטן");
@@ -699,224 +800,9 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
 
     return list;
 };
-
-//Gets an array of sedras (either one or two) for the given Jewish Date
-function Sedra(jd, israel) {
-    //If we are between the first day of Sukkos and Simchas Torah, the sedra will always be Vezos Habracha.
-    if (jd.Month === 7 && jd.Day >= 15 && jd.Day < (israel ? 23 : 24)) {
-        return [Sedra.sedraList[53]];
-    }
-
-    var sedraArray = [],
-        sedraOrder = Sedra.getSedraOrder(jd.Year, israel),
-        absDate = jd.Abs,
-        index,
-        weekNum;
-
-    /* find the first saturday on or after today's date */
-    absDate = Sedra.getDayOnOrBefore(6, absDate + 6);
-
-    weekNum = (absDate - sedraOrder.firstSatInYear) / 7;
-
-    if (weekNum >= sedraOrder.sedraArray.length) {
-        var indexLast = sedraOrder.sedraArray[sedraOrder.sedraArray.length - 1];
-        if (indexLast < 0) {
-            /* advance 2 parashiyot ahead after a doubled week */
-            index = (-indexLast) + 2;
-        }
-        else {
-            index = indexLast + 1;
-        }
-    }
-    else {
-        index = sedraOrder.sedraArray[weekNum];
-    }
-
-    if (index >= 0) {
-        sedraArray = [Sedra.sedraList[index]];
-    }
-    else {
-        var i = -index;      /* undouble the sedra */
-        sedraArray = [Sedra.sedraList[i], Sedra.sedraList[i + 1]];
-    }
-    return sedraArray;
-}
-
-Sedra.lastCalculatedYear = null;
-
-Sedra.sedraList = [{ eng: "Bereshis", heb: "בראשית" }, { eng: "Noach", heb: "נח" }, { eng: "Lech-Lecha", heb: "לך לך" }, { eng: "Vayera", heb: "וירא" }, { eng: "Chayei Sara", heb: "חיי שרה" }, { eng: "Toldos", heb: "תולדות" }, { eng: "Vayetzei", heb: "ויצא" }, { eng: "Vayishlach", heb: "וישלח" }, { eng: "Vayeishev", heb: "וישב" }, { eng: "Mikeitz", heb: "מקץ" }, { eng: "Vayigash", heb: "ויגש" }, { eng: "Vayechi", heb: "ויחי" }, { eng: "Shemos", heb: "שמות" }, { eng: "Va'era", heb: "וארא" }, { eng: "Bo", heb: "בא" }, { eng: "Beshalach", heb: "בשלח" }, { eng: "Yisro", heb: "יתרו" }, { eng: "Mishpatim", heb: "משפטים" }, { eng: "Terumah", heb: "תרומה" }, { eng: "Tetzaveh", heb: "תצוה" }, { eng: "Ki Sisa", heb: "כי תשא" }, { eng: "Vayakhel", heb: "ויקהל" }, { eng: "Pekudei", heb: "פקודי" }, { eng: "Vayikra", heb: "ויקרא" }, { eng: "Tzav", heb: "צו" }, { eng: "Shmini", heb: "שמיני" }, { eng: "Tazria", heb: "תזריע" }, { eng: "Metzora", heb: "מצורע" }, { eng: "Achrei Mos", heb: "אחרי מות" }, { eng: "Kedoshim", heb: "קדושים" }, { eng: "Emor", heb: "אמור" }, { eng: "Behar", heb: "בהר" }, { eng: "Bechukosai", heb: "בחקותי" }, { eng: "Bamidbar", heb: "במדבר" }, { eng: "Nasso", heb: "נשא" }, { eng: "Beha'aloscha", heb: "בהעלתך" }, { eng: "Sh'lach", heb: "שלח" }, { eng: "Korach", heb: "קרח" }, { eng: "Chukas", heb: "חקת" }, { eng: "Balak", heb: "בלק" }, { eng: "Pinchas", heb: "פינחס" }, { eng: "Matos", heb: "מטות" }, { eng: "Masei", heb: "מסעי" }, { eng: "Devarim", heb: "דברים" }, { eng: "Va'eschanan", heb: "ואתחנן" }, { eng: "Eikev", heb: "עקב" }, { eng: "Re'eh", heb: "ראה" }, { eng: "Shoftim", heb: "שופטים" }, { eng: "Ki Seitzei", heb: "כי תצא" }, { eng: "Ki Savo", heb: "כי תבא" }, { eng: "Nitzavim", heb: "נצבים" }, { eng: "Vayeilech", heb: "וילך" }, { eng: "Ha'Azinu", heb: "האזינו" }, { eng: "Vezos Habracha", heb: "וזאת הברכה" }];
-Sedra.shabbos_short = [52, 52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, -21, 23, 24, 25, 25, -26, -28, 30, -31, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, 50];
-Sedra.shabbos_long = [52, 52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, -21, 23, 24, 25, 25, -26, -28, 30, -31, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
-Sedra.mon_short = [51, 52, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, -21, 23, 24, 25, 25, -26, -28, 30, -31, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
-Sedra.mon_long = [51, 52, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, -21, 23, 24, 25, 25, -26, -28, 30, -31, 33, 34, 34, 35, 36, 37, -38, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
-Sedra.thu_normal = [52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, -21, 23, 24, 25, 25, 25, -26, -28, 30, -31, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, 50];
-Sedra.thu_normal_Israel = [52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, -21, 23, 24, 25, 25, -26, -28, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, 50];
-Sedra.thu_long = [52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 25, -26, -28, 30, -31, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, 50];
-Sedra.shabbos_short_leap = [52, 52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
-Sedra.shabbos_long_leap = [52, 52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 28, 29, 30, 31, 32, 33, 34, 34, 35, 36, 37, -38, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
-Sedra.mon_short_leap = [51, 52, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 28, 29, 30, 31, 32, 33, 34, 34, 35, 36, 37, -38, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
-Sedra.mon_short_leap_Israel = [51, 52, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
-Sedra.mon_long_leap = [51, 52, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 28, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, 50];
-Sedra.mon_long_leap_Israel = [51, 52, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50];
-Sedra.thu_short_leap = [52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50];
-Sedra.thu_long_leap = [52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, -50];
-
-Sedra.getDayOnOrBefore = function (day_of_week, date) {
-    return date - ((date - day_of_week) % 7);
-};
-
-Sedra.getSedraOrder = function (year, israel) {
-    //If the last call is within the same year as this one, we reuse the data.
-    //If memory is an issue, remove these next few lines
-    if (Sedra.lastCalculatedYear != null && Sedra.lastCalculatedYear.year === year && Sedra.lastCalculatedYear.israel === israel) {
-        return Sedra.lastCalculatedYear;
-    }
-
-    var longCheshvon = jDate.isLongCheshvan(year),
-        shortKislev = jDate.isShortKislev(year),
-        roshHashana = jDate.absJd(year, 7, 1),
-        roshHashanaDOW = Math.abs(roshHashana % 7),
-        firstSatInYear = Sedra.getDayOnOrBefore(6, roshHashana + 6),
-        yearType,
-        sArray;
-
-    if (longCheshvon && !shortKislev)
-        yearType = 'complete';
-    else if (!longCheshvon && shortKislev)
-        yearType = 'incomplete';
-    else
-        yearType = 'regular';
-
-    if (!jDate.isJdLeapY(year)) {
-        switch (roshHashanaDOW) {
-            case 6:
-                if (yearType === "incomplete") {
-                    sArray = Sedra.shabbos_short;
-                }
-                else if (yearType === 'complete') {
-                    sArray = Sedra.shabbos_long;
-                }
-                break;
-
-            case 1:
-                if (yearType === 'incomplete') {
-                    sArray = Sedra.mon_short;
-                }
-                else if (yearType === 'complete') {
-                    sArray = israel ? Sedra.mon_short : Sedra.mon_long;
-                }
-                break;
-
-            case 2:
-                if (yearType === 'regular') {
-                    sArray = israel ? Sedra.mon_short : Sedra.mon_long;
-                }
-                break;
-
-            case 4:
-                if (yearType === 'regular') {
-                    sArray = israel ? Sedra.thu_normal_Israel : Sedra.thu_normal;
-                }
-                else if (yearType === 'complete') {
-                    sArray = Sedra.thu_long;
-                }
-                break;
-
-            default:
-                throw new Error("improper sedra year type calculated.");
-        }
-    }
-    else  /* leap year */ {
-        switch (roshHashanaDOW) {
-            case 6:
-                if (yearType === 'incomplete') {
-                    sArray = Sedra.shabbos_short_leap;
-                }
-                else if (yearType === 'complete') {
-                    sArray = israel ? Sedra.shabbos_short_leap : Sedra.shabbos_long_leap;
-                }
-                break;
-
-            case 1:
-                if (yearType === 'incomplete') {
-                    sArray = israel ? Sedra.mon_short_leap_Israel : Sedra.mon_short_leap;
-                }
-                else if (yearType === 'complete') {
-                    sArray = israel ? Sedra.mon_long_leap_Israel : Sedra.mon_long_leap;
-                }
-                break;
-
-            case 2:
-                if (yearType === 'regular') {
-                    sArray = israel ? Sedra.mon_long_leap_Israel : Sedra.mon_long_leap;
-                }
-                break;
-
-            case 4:
-                if (yearType === 'incomplete') {
-                    sArray = Sedra.thu_short_leap;
-                }
-                else if (yearType === 'complete') {
-                    sArray = Sedra.thu_long_leap;
-                }
-                break;
-
-            default:
-                throw new Error("improper sedra year type calculated.");
-        }
-    }
-
-    var retobj = {
-        firstSatInYear: firstSatInYear,
-        sedraArray: sArray,
-        year: year,
-        israel: israel
-    };
-
-    //Save the data in case the next call is for the same year
-    Sedra.lastCalculatedYear = retobj;
-
-    return retobj;
-};
-
-//Represents a geographic Location. Needed for calculating Zmanim.
-//If Israel is undefined, if the location is in the very near vicinity of Israel it will be assumed that it is in Israel.
-//UTCOffset is the time zone. Israel is always 2 and the US East coast is -5. England is 0 of course.
-//If UTCOffset is not specifically supplied, the longitude will be used to get an educated guess.
-function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST) {
-    if (typeof israel === 'undefined') {
-        //Eretz Yisroel general coordinates (we are pretty safe even if we are off by a few miles, 
-        //where else is the (99.99% Jewish) user? Sinai, Lebanon, Syria ...
-        israel = (latitude > 29.45 && latitude < 33 && longitude < -34.23 && longitude > -35.9);
-    }
-    if (israel) {
-        //Israel has only one immutable time zone
-        utcOffset = 2;
-    }
-    else if (typeof utcOffset === 'undefined') {
-        //Determine the "correct" time zone using the simple fact that Greenwich is both TZ 0 and longitude 0
-        //Even though technically this is the way it should be, it will be often incorrect as time zones are almost always moved to the closest border.
-        utcOffset = -parseInt(longitude / 15);
-        if (typeof isDST === 'undefined') {
-            //It's bad enough that we needed to guess the time zone
-            isDST = false;
-        }
-    }
-    //If "isDST" was not defined
-    if (typeof isDST === 'undefined') {
-        isDST = Zmanim.isDST();
-    }
-
-    return {
-        Name: name || 'Unknown Location',
-        Israel: !!israel,
-        Latitude: latitude,
-        Longitude: longitude,
-        UTCOffset: utcOffset || 0,
-        Elevation: elevation || 0,
-        IsDST: !!isDST
-    };
-}
+/// <reference path="Utils.js" />
+/// <reference path="jDate.js" />
+"use strict";
 
 function Zmanim(sd, location) { }
 
@@ -1116,11 +1002,11 @@ Zmanim.timeAdj = function (time, date, location) {
         hour++;
     }
     else if (location.isDST != false) {
-        var inCurrTZ = location.UTCOffset === Zmanim.currUtcOffset();
-        if (inCurrTZ && Zmanim.isDST(date)) {
+        var inCurrTZ = location.UTCOffset === Utils.currUtcOffset();
+        if (inCurrTZ && Utils.isDST(date)) {
             hour++;
         }
-        else if ((!inCurrTZ) && Zmanim.isUSA_DST(date, hour)) {
+        else if ((!inCurrTZ) && Utils.isUSA_DST(date, hour)) {
             hour++;
         }
     }
@@ -1175,53 +1061,187 @@ Zmanim.getTimeString = function (hm, army) {
                 (hm.hour < 12 ? " AM" : " PM");
     }
 };
+/// <reference path="utils.js" />
+/// <reference path="jDate.js" />
+"use strict";
 
-//gets the "real" system UTC offset in hours (not affected by DST)
-Zmanim.currUtcOffset = function () {
-    var date = new Date(),
-        jan = new Date(date.getFullYear(), 0, 1),
-        jul = new Date(date.getFullYear(), 6, 1);
-    return parseInt(Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset()) / 60);
+//Gets an array of sedras (either one or two) for the given Jewish Date
+function Sedra(jd, israel) {
+    //If we are between the first day of Sukkos and Simchas Torah, the sedra will always be Vezos Habracha.
+    if (jd.Month === 7 && jd.Day >= 15 && jd.Day < (israel ? 23 : 24)) {
+        return [Sedra.sedraList[53]];
+    }
+
+    var sedraArray = [],
+        sedraOrder = Sedra.getSedraOrder(jd.Year, israel),
+        absDate = jd.Abs,
+        index,
+        weekNum;
+
+    /* find the first saturday on or after today's date */
+    absDate = Sedra.getDayOnOrBefore(6, absDate + 6);
+
+    weekNum = (absDate - sedraOrder.firstSatInYear) / 7;
+
+    if (weekNum >= sedraOrder.sedraArray.length) {
+        var indexLast = sedraOrder.sedraArray[sedraOrder.sedraArray.length - 1];
+        if (indexLast < 0) {
+            /* advance 2 parashiyot ahead after a doubled week */
+            index = (-indexLast) + 2;
+        }
+        else {
+            index = indexLast + 1;
+        }
+    }
+    else {
+        index = sedraOrder.sedraArray[weekNum];
+    }
+
+    if (index >= 0) {
+        sedraArray = [Sedra.sedraList[index]];
+    }
+    else {
+        var i = -index;      /* undouble the sedra */
+        sedraArray = [Sedra.sedraList[i], Sedra.sedraList[i + 1]];
+    }
+    return sedraArray;
+}
+
+Sedra.lastCalculatedYear = null;
+
+Sedra.sedraList = [{ eng: "Bereshis", heb: "בראשית" }, { eng: "Noach", heb: "נח" }, { eng: "Lech-Lecha", heb: "לך לך" }, { eng: "Vayera", heb: "וירא" }, { eng: "Chayei Sara", heb: "חיי שרה" }, { eng: "Toldos", heb: "תולדות" }, { eng: "Vayetzei", heb: "ויצא" }, { eng: "Vayishlach", heb: "וישלח" }, { eng: "Vayeishev", heb: "וישב" }, { eng: "Mikeitz", heb: "מקץ" }, { eng: "Vayigash", heb: "ויגש" }, { eng: "Vayechi", heb: "ויחי" }, { eng: "Shemos", heb: "שמות" }, { eng: "Va'era", heb: "וארא" }, { eng: "Bo", heb: "בא" }, { eng: "Beshalach", heb: "בשלח" }, { eng: "Yisro", heb: "יתרו" }, { eng: "Mishpatim", heb: "משפטים" }, { eng: "Terumah", heb: "תרומה" }, { eng: "Tetzaveh", heb: "תצוה" }, { eng: "Ki Sisa", heb: "כי תשא" }, { eng: "Vayakhel", heb: "ויקהל" }, { eng: "Pekudei", heb: "פקודי" }, { eng: "Vayikra", heb: "ויקרא" }, { eng: "Tzav", heb: "צו" }, { eng: "Shmini", heb: "שמיני" }, { eng: "Tazria", heb: "תזריע" }, { eng: "Metzora", heb: "מצורע" }, { eng: "Achrei Mos", heb: "אחרי מות" }, { eng: "Kedoshim", heb: "קדושים" }, { eng: "Emor", heb: "אמור" }, { eng: "Behar", heb: "בהר" }, { eng: "Bechukosai", heb: "בחקותי" }, { eng: "Bamidbar", heb: "במדבר" }, { eng: "Nasso", heb: "נשא" }, { eng: "Beha'aloscha", heb: "בהעלתך" }, { eng: "Sh'lach", heb: "שלח" }, { eng: "Korach", heb: "קרח" }, { eng: "Chukas", heb: "חקת" }, { eng: "Balak", heb: "בלק" }, { eng: "Pinchas", heb: "פינחס" }, { eng: "Matos", heb: "מטות" }, { eng: "Masei", heb: "מסעי" }, { eng: "Devarim", heb: "דברים" }, { eng: "Va'eschanan", heb: "ואתחנן" }, { eng: "Eikev", heb: "עקב" }, { eng: "Re'eh", heb: "ראה" }, { eng: "Shoftim", heb: "שופטים" }, { eng: "Ki Seitzei", heb: "כי תצא" }, { eng: "Ki Savo", heb: "כי תבא" }, { eng: "Nitzavim", heb: "נצבים" }, { eng: "Vayeilech", heb: "וילך" }, { eng: "Ha'Azinu", heb: "האזינו" }, { eng: "Vezos Habracha", heb: "וזאת הברכה" }];
+Sedra.shabbos_short = [52, 52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, -21, 23, 24, 25, 25, -26, -28, 30, -31, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, 50];
+Sedra.shabbos_long = [52, 52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, -21, 23, 24, 25, 25, -26, -28, 30, -31, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
+Sedra.mon_short = [51, 52, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, -21, 23, 24, 25, 25, -26, -28, 30, -31, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
+Sedra.mon_long = [51, 52, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, -21, 23, 24, 25, 25, -26, -28, 30, -31, 33, 34, 34, 35, 36, 37, -38, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
+Sedra.thu_normal = [52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, -21, 23, 24, 25, 25, 25, -26, -28, 30, -31, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, 50];
+Sedra.thu_normal_Israel = [52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, -21, 23, 24, 25, 25, -26, -28, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, 50];
+Sedra.thu_long = [52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 25, -26, -28, 30, -31, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, 50];
+Sedra.shabbos_short_leap = [52, 52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
+Sedra.shabbos_long_leap = [52, 52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 28, 29, 30, 31, 32, 33, 34, 34, 35, 36, 37, -38, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
+Sedra.mon_short_leap = [51, 52, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 28, 29, 30, 31, 32, 33, 34, 34, 35, 36, 37, -38, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
+Sedra.mon_short_leap_Israel = [51, 52, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, -50];
+Sedra.mon_long_leap = [51, 52, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 28, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, -41, 43, 44, 45, 46, 47, 48, 49, 50];
+Sedra.mon_long_leap_Israel = [51, 52, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50];
+Sedra.thu_short_leap = [52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50];
+Sedra.thu_long_leap = [52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, -50];
+
+Sedra.getDayOnOrBefore = function (day_of_week, date) {
+    return date - ((date - day_of_week) % 7);
 };
 
-//Determines if date (or now) is DST for the current system time zone
-Zmanim.isDST = function (date) {
-    date = date || new Date();
-    return parseInt(date.getTimezoneOffset() / 60) < Zmanim.currUtcOffset();
-};
-
-//Determines if the given date and hour are during DST (using USA rules)
-Zmanim.isUSA_DST = function (date, hour) {
-    var year = date.getYear(),
-        month = date.getMonth() + 1,
-        day = date.getDate();
-
-    if (month < 3 || month == 12) {
-        return false;
-    }
-    else if (month > 3 && month < 11) {
-        return true;
+Sedra.getSedraOrder = function (year, israel) {
+    //If the last call is within the same year as this one, we reuse the data.
+    //If memory is an issue, remove these next few lines
+    if (Sedra.lastCalculatedYear != null && Sedra.lastCalculatedYear.year === year && Sedra.lastCalculatedYear.israel === israel) {
+        return Sedra.lastCalculatedYear;
     }
 
-        //DST starts at 2:00 AM on the second Sunday in March
-    else if (month == 3) {
-        //Gets day of week on March 1st
-        var firstDOW = Zmanim.getDOW(year, 3, 1),
-        //Gets date of second Sunday
-            targetDate = firstDOW == 0 ? 8 : ((7 - (firstDOW + 7) % 7)) + 8;
+    var longCheshvon = jDate.isLongCheshvan(year),
+        shortKislev = jDate.isShortKislev(year),
+        roshHashana = jDate.absJd(year, 7, 1),
+        roshHashanaDOW = Math.abs(roshHashana % 7),
+        firstSatInYear = Sedra.getDayOnOrBefore(6, roshHashana + 6),
+        yearType,
+        sArray;
 
-        return (day > targetDate || (day == targetDate && hour >= 2));
-    }
-        //DST ends at 2:00 AM on the first Sunday in November
-    else //dt.Month == 11
-    {
-        //Gets day of week on November 1st
-        var firstDOW = Zmanim.getDOW(year, 11, 1),
-        //Gets date of first Sunday
-            targetDate = firstDOW == 0 ? 1 : ((7 - (firstDOW + 7) % 7)) + 1;
+    if (longCheshvon && !shortKislev)
+        yearType = 'complete';
+    else if (!longCheshvon && shortKislev)
+        yearType = 'incomplete';
+    else
+        yearType = 'regular';
 
-        return (day < targetDate || (day == targetDate && hour < 2));
+    if (!jDate.isJdLeapY(year)) {
+        switch (roshHashanaDOW) {
+            case 6:
+                if (yearType === "incomplete") {
+                    sArray = Sedra.shabbos_short;
+                }
+                else if (yearType === 'complete') {
+                    sArray = Sedra.shabbos_long;
+                }
+                break;
+
+            case 1:
+                if (yearType === 'incomplete') {
+                    sArray = Sedra.mon_short;
+                }
+                else if (yearType === 'complete') {
+                    sArray = israel ? Sedra.mon_short : Sedra.mon_long;
+                }
+                break;
+
+            case 2:
+                if (yearType === 'regular') {
+                    sArray = israel ? Sedra.mon_short : Sedra.mon_long;
+                }
+                break;
+
+            case 4:
+                if (yearType === 'regular') {
+                    sArray = israel ? Sedra.thu_normal_Israel : Sedra.thu_normal;
+                }
+                else if (yearType === 'complete') {
+                    sArray = Sedra.thu_long;
+                }
+                break;
+
+            default:
+                throw new Error("improper sedra year type calculated.");
+        }
     }
+    else  /* leap year */ {
+        switch (roshHashanaDOW) {
+            case 6:
+                if (yearType === 'incomplete') {
+                    sArray = Sedra.shabbos_short_leap;
+                }
+                else if (yearType === 'complete') {
+                    sArray = israel ? Sedra.shabbos_short_leap : Sedra.shabbos_long_leap;
+                }
+                break;
+
+            case 1:
+                if (yearType === 'incomplete') {
+                    sArray = israel ? Sedra.mon_short_leap_Israel : Sedra.mon_short_leap;
+                }
+                else if (yearType === 'complete') {
+                    sArray = israel ? Sedra.mon_long_leap_Israel : Sedra.mon_long_leap;
+                }
+                break;
+
+            case 2:
+                if (yearType === 'regular') {
+                    sArray = israel ? Sedra.mon_long_leap_Israel : Sedra.mon_long_leap;
+                }
+                break;
+
+            case 4:
+                if (yearType === 'incomplete') {
+                    sArray = Sedra.thu_short_leap;
+                }
+                else if (yearType === 'complete') {
+                    sArray = Sedra.thu_long_leap;
+                }
+                break;
+
+            default:
+                throw new Error("improper sedra year type calculated.");
+        }
+    }
+
+    var retobj = {
+        firstSatInYear: firstSatInYear,
+        sedraArray: sArray,
+        year: year,
+        israel: israel
+    };
+
+    //Save the data in case the next call is for the same year
+    Sedra.lastCalculatedYear = retobj;
+
+    return retobj;
 };
 /// <reference path="_references.js" />
 
@@ -1256,7 +1276,7 @@ Zmanim.isUSA_DST = function (date, hour) {
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
         // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
-        setCurrentLocation();        
+        setCurrentLocation();
     };
 
     function onPause() {
@@ -1275,19 +1295,20 @@ Zmanim.isUSA_DST = function (date, hour) {
                                             undefined, //Israel - don't set, the constructor will try to figure it out
                                             position.coords.latitude,
                                             position.coords.longitude,
-                                            Zmanim.currUtcOffset(),
+                                            Utils.currUtcOffset(),
                                             position.coords.altitude);
                 $('#divMainPage').jqmData('location', location);
                 console.log('Acquired location from geolocation plugin');
                 console.info(position);
                 showDate();
+                toast('Loaded location from current position');
             }, function () {
                 setDefaultLocation();
             });
         }
         catch (e) {
             console.error(e);
-            setDefaultLocation();            
+            setDefaultLocation();
         }
     }
 
@@ -1302,20 +1323,8 @@ Zmanim.isUSA_DST = function (date, hour) {
 
     function toast(message, isError, seconds) {
         var removeMe = function () { $(this).remove(); };
-
-        $('<div class="ui-loader ui-overlay-shadow ui-corner-all">' + message + '</div>')
-            .css({
-                display: 'block',
-                background: isError ? '#fff' : '#768',
-                color: isError ? '#f00' : '#e1e1e1',
-                opacity: 0.90,
-                position: 'fixed',
-                padding: '7px',
-                'text-align': 'center',
-                width: isError ? '600px !important' : '400px !important',
-                left: ($(window).width() - 400) / 2,
-                top: $(window).height() / 2 - 20
-            })
+        $('<div class="toast">' + message + '</div>')
+            .addClass(isError ? 'error' : '')
             .click(removeMe)
             .appendTo($.mobile.pageContainer).delay(seconds ? seconds * 1000 : (isError ? 15000 : 1000))
             .fadeOut(1000, removeMe);
@@ -1390,7 +1399,7 @@ Zmanim.isUSA_DST = function (date, hour) {
     }
 
     function getSpecialHtml(jd, location) {
-        var holidays = jd.getHolidays(jd.Israel),
+        var holidays = jd.getHolidays(location.Israel),
             html = '';
 
         if (holidays.length) {
@@ -1398,10 +1407,6 @@ Zmanim.isUSA_DST = function (date, hour) {
                 html += h + '<br />';
             });
         }
-        if (jd.hasCandleLighting()) {
-            html += "<strong>Candle Lighting: " + Zmanim.getTimeString(jd.getCandleLighting(location)) + '</strong><br />';
-        }
-
         return html;
     }
 
@@ -1415,6 +1420,9 @@ Zmanim.isUSA_DST = function (date, hour) {
         shaaZmanis = jd.getShaaZmanis(location),
         shaaZmanis90 = jd.getShaaZmanis(location, 90);
 
+        if (jd.hasCandleLighting()) {
+            html += "<strong>Candle Lighting: " + Zmanim.getTimeString(jd.getCandleLighting(location)) + '</strong><br /><br />';
+        }
         html += addLine("Weekly Sedra",
             jd.getSedra(location.Israel).map(function (s) { return s.eng; }).join(' - '));
         if (dy != null) {

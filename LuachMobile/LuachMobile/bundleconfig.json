@@ -6,14 +6,6 @@
     ]
   },
   {
-    "outputFileName": "www/scripts/bundle.js",
-    "inputFiles": [
-      "www/scripts/JCal/utils.js",
-      "www/scripts/JCal/jDate.js",
-      "www/scripts/index.js"
-    ]
-  },
-  {
     "outputFileName": "www/css/index.css",
     "inputFiles": [
       "www/css/index.css"
@@ -23,6 +15,17 @@
     "outputFileName": "www/index.html",
     "inputFiles": [
       "www/index.html"
+    ]
+  },
+  {
+    "outputFileName": "www/scripts/bundle.js",
+    "inputFiles": [
+      "www/scripts/JCal/Utils.js",
+      "www/scripts/JCal/Location.js",
+      "www/scripts/JCal/jDate.js",
+      "www/scripts/JCal/Zmanim.js",
+      "www/scripts/JCal/Sedra.js",
+      "www/scripts/index.js"
     ]
   }
 ]

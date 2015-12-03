@@ -31,7 +31,7 @@
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
         // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
-        setCurrentLocation();        
+        setCurrentLocation();
     };
 
     function onPause() {
@@ -50,19 +50,20 @@
                                             undefined, //Israel - don't set, the constructor will try to figure it out
                                             position.coords.latitude,
                                             position.coords.longitude,
-                                            Zmanim.currUtcOffset(),
+                                            Utils.currUtcOffset(),
                                             position.coords.altitude);
                 $('#divMainPage').jqmData('location', location);
                 console.log('Acquired location from geolocation plugin');
                 console.info(position);
                 showDate();
+                toast('Loaded location from current position');
             }, function () {
                 setDefaultLocation();
             });
         }
         catch (e) {
             console.error(e);
-            setDefaultLocation();            
+            setDefaultLocation();
         }
     }
 
@@ -77,20 +78,8 @@
 
     function toast(message, isError, seconds) {
         var removeMe = function () { $(this).remove(); };
-
-        $('<div class="ui-loader ui-overlay-shadow ui-corner-all">' + message + '</div>')
-            .css({
-                display: 'block',
-                background: isError ? '#fff' : '#768',
-                color: isError ? '#f00' : '#e1e1e1',
-                opacity: 0.90,
-                position: 'fixed',
-                padding: '7px',
-                'text-align': 'center',
-                width: isError ? '600px !important' : '400px !important',
-                left: ($(window).width() - 400) / 2,
-                top: $(window).height() / 2 - 20
-            })
+        $('<div class="toast">' + message + '</div>')
+            .addClass(isError ? 'error' : '')
             .click(removeMe)
             .appendTo($.mobile.pageContainer).delay(seconds ? seconds * 1000 : (isError ? 15000 : 1000))
             .fadeOut(1000, removeMe);
@@ -165,7 +154,7 @@
     }
 
     function getSpecialHtml(jd, location) {
-        var holidays = jd.getHolidays(jd.Israel),
+        var holidays = jd.getHolidays(location.Israel),
             html = '';
 
         if (holidays.length) {
@@ -173,10 +162,6 @@
                 html += h + '<br />';
             });
         }
-        if (jd.hasCandleLighting()) {
-            html += "<strong>Candle Lighting: " + Zmanim.getTimeString(jd.getCandleLighting(location)) + '</strong><br />';
-        }
-
         return html;
     }
 
@@ -190,6 +175,9 @@
         shaaZmanis = jd.getShaaZmanis(location),
         shaaZmanis90 = jd.getShaaZmanis(location, 90);
 
+        if (jd.hasCandleLighting()) {
+            html += "<strong>Candle Lighting: " + Zmanim.getTimeString(jd.getCandleLighting(location)) + '</strong><br /><br />';
+        }
         html += addLine("Weekly Sedra",
             jd.getSedra(location.Israel).map(function (s) { return s.eng; }).join(' - '));
         if (dy != null) {
