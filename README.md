@@ -70,7 +70,7 @@ The installer project for the The Luach Project Windows application can only be 
 
 ### Contribution guidelines ###
 
-* Writing tests - yes, please! the project grew in small pieces as I needed them for other projects - I never expected it to become a full library. No tests was included.
+* Writing tests - yes, please! The project grew in very small increments created as I needed them for other projects - I never expected it to become a full library. Unfortunately, no tests were created.
 * Please do not commit any revision to the main branch that does not compile without any errors or warnings whatsoever.
 
 ### Who do I talk to? ###
