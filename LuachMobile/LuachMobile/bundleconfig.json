@@ -18,13 +18,20 @@
     ]
   },
   {
-    "outputFileName": "www/scripts/bundle.js",
+    "outputFileName": "www/scripts/JCal/jcal.js",
     "inputFiles": [
+      "www/scripts/JCal/Zmanim.js",
       "www/scripts/JCal/Utils.js",
+      "www/scripts/JCal/Sedra.js",
+      "www/scripts/JCal/Molad.js",
       "www/scripts/JCal/Location.js",
       "www/scripts/JCal/jDate.js",
-      "www/scripts/JCal/Zmanim.js",
-      "www/scripts/JCal/Sedra.js",
+      "www/scripts/JCal/Dafyomi.js"
+    ]
+  },
+  {
+    "outputFileName": "www/scripts/index.js",
+    "inputFiles": [
       "www/scripts/index.js"
     ]
   }

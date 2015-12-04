@@ -2,6 +2,9 @@
 /// <reference path="jDate.js" />
 "use strict";
 
+/* Computes the daily Zmanim for any single date at any location.
+ * The astronomical and mathematical calculations were directly adapted from the excellent
+ * Jewish calendar calculation in C# Copyright © by Ulrich and Ziporah Greve (2005) */
 function Zmanim(sd, location) { }
 
 //Gets sunrise and sunset time for given date.

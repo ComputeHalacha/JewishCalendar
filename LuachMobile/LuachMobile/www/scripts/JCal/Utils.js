@@ -149,3 +149,13 @@ Utils.isUSA_DST = function (date, hour) {
         return (day < targetDate || (day == targetDate && hour < 2));
     }
 };
+
+//Gets the time difference between two times of day
+Utils.timeDiff = function (time1, time2) {
+    return Zmanim.fixHourMinute(Zmanim.addMinutes(time1, Utils.totalMinutes(time2)));
+};
+
+//Gets the total number of minutes in the given time
+Utils.totalMinutes = function (time) {
+    return time.hour * 60 + time.minutes;
+};

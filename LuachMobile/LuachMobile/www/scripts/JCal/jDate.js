@@ -1,8 +1,15 @@
-﻿/// <reference path="Utils.js" />
+﻿/// <reference path="Dafyomi.js" />
+/// <reference path="Utils.js" />
 /// <reference path="Sedra.js" />
 "use strict";
-/* Represents a single day in the Jewish Calendar.
- * Create a jDate with any of the following:
+/******************************************************************************************************************************
+ *  Represents a single day in the Jewish Calendar.
+ *
+ *  Many of the algorithms were taken by CBS from the C code  which was translated from the Lisp code
+ *  in "Calendrical Calculations" by Nachum Dershowitz and Edward M. Reingold
+ *  in Software---Practice & Experience, vol. 20, no. 9 (September, 1990), pp. 899--928.
+ *
+ *  Create a jDate with any of the following:
  *  new jDate(javascriptDateObject) - Sets to the Jewish date on the given Gregorian date
  *  new Date("January 1 2045") - Accepts any valid javascript Date string (uses javascripts new Date(String))
  *  new jDate(jewishYear, jewishMonth, jewishDay) - Months start at 1. Nissan is month 1 Adara Sheini is 12.
@@ -10,8 +17,8 @@
  *  new Date(absoluteDate) - The number of days elapsed since the theoretical date Sunday, December 31, 0001 BCE
  *  new Date( { year: 5776, month: 4, day: 5 } ) - same as new jDate(jewishYear, jewishMonth, jewishDay)
  *  new Date( { year: 5776, month: 4 } ) - same as new jDate(jewishYear, jewishMonth)
- *  new Date( { year: 5776 } ) - sets to the first day of Rosh Hashana on the given year
- */
+ *  new Date( { year: 5776 } ) - sets to the first day of Rosh Hashana on the given year *
+ *****************************************************************************************************************************/
 function jDate(arg, month, day) {
     var self = this;
 
@@ -220,6 +227,16 @@ jDate.prototype = {
             throw new Error('To get the Shaa Zmanis, the location needs to be supplied');
         }
         return Zmanim.getShaaZmanis(this, location, offset);
+    },
+
+    // Returns the daily daf in English. For example: Sukkah, Daf 3
+    getDafyomi: function () {
+        return Dafyomi.toString(this);
+    },
+
+    //Gets the daily daf in Hebrew. For example: 'סוכה דף כ.
+    getDafyomiHeb: function () {
+        return Dafyomi.toStringHeb(this);
     }
 };
 

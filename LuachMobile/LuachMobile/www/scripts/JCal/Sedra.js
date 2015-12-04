@@ -2,7 +2,17 @@
 /// <reference path="jDate.js" />
 "use strict";
 
-//Gets an array of sedras (either one or two) for the given Jewish Date
+/****************************************************************************************************************
+ * Computes the Sedra/Sedras of the week for the given day.
+ * Returns an array of sedras (either one or two) for the given Jewish Date
+ * Sample of use to get todays sedra in Israel:
+ *     var sedras = new Sedra(new jDate(new Date(), true));
+ *     var str = sedras.map(function (s) { return s.eng; }).join(' - ');
+ * The code was converted to javascript and tweaked by CBS.
+ * It is directly based on the C code in Danny Sadinoff's HebCal - Copyright (C) 1994.
+ * Portions of that code are Copyright (c) 2002 Michael J. Radwin. All Rights Reserved.
+ * Many of the algorithms were taken from hebrew calendar routines implemented by Nachum Dershowitz
+ * ***************************************************************************************************************/
 function Sedra(jd, israel) {
     //If we are between the first day of Sukkos and Simchas Torah, the sedra will always be Vezos Habracha.
     if (jd.Month === 7 && jd.Day >= 15 && jd.Day < (israel ? 23 : 24)) {
