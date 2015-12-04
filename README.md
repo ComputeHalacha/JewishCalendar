@@ -25,7 +25,7 @@ The Luach Project is a pair of Luach applications:
 
 * Cordova 3.5 application - can be installed on almost any device (IOS, Android, Blackberry etc.)
 * GUI uses jQuery Mobile
-* Based on the JewishCalendar javascript library
+* Based on **jCal.js** the JewishCalendar javascript library
 * Basic functionality is in place. The app is still in the process of being built.
 
 ## **Jewish Calendar Libraries** ##
@@ -43,7 +43,7 @@ There are two versions of the libraries:
 * Daf Yomi for any day since it was started
 * Molad of any month
 
-### Jewish Calendar javascript Library ###
+### jCal.js - Jewish Calendar javascript Library ###
 
 * Classes for Jewish date calculations. Algorithms were optimized for the slower engine.
   The functions seem to work quickly and efficiently on any device.
