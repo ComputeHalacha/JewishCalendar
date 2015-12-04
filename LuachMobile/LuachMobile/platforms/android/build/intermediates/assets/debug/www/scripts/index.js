@@ -1,16 +1,27 @@
 ﻿/// <reference path="_references.js" />
+
 // For an introduction to the Blank template, see the following documentation:
 // http://go.microsoft.com/fwlink/?LinkID=397704
 // To debug code on page load in Ripple or on Android devices/emulators: launch your app, set breakpoints,
 // and then run "window.location.reload()" in the JavaScript Console.
 (function () {
     "use strict";
-
-    $(document.body).on('pagecontainershow', function () {
+    $(document).on('pagecreate', '#divMainPage', function () {
         $('#btnNextDay').on('click', function () { goDay(1); });
-        $('#btnPrevDay').on('click', function () { goDay(-1); });
-        setDefaultLocation();
-        showDate(new jDate(new Date()));
+        $('#btnNextWeek').on('click', function () { goDay(7); });
+        $('#btnNextMonth').on('click', function () { goMonth(1); });
+        $('#btnNextYear').on('click', function () { goYear(1); });
+        $('#btnPrevWeek').on('click', function () { goDay(-7); });
+        $('#btnPrevMonth').on('click', function () { goMonth(-1); });
+        $('#btnPrevYear').on('click', function () { goYear(-1); })
+            .on("swipeup", "#divMainPage", function (event) {
+                goDay(-1);
+            }).on("swipedown", "#divMainPage", function (event) {
+                goDay(1);
+            });
+        if (!window.cordova) {
+            showDate();
+        }
     });
 
     document.addEventListener('deviceready', onDeviceReady.bind(this), false);
@@ -20,40 +31,8 @@
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
         // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
-
-        setDefaultLocation();
-        var location = $('#divMainPage').data('location');
-        navigator.geolocation.getCurrentPosition(function (position) {
-            location.Name = 'Current Location';
-            location.Latitude = position.coords.latitude;
-            location.Longitude = position.coords.longitude;
-            location.UTCOffset = parseInt(getTZOffset() / 60);
-            location.Elevation = position.coords.altitude;
-            location.IsDST = isDST();
-
-            if (location.Latitude > 31 && location.Latitude < 33 && location.Longitude > 34 && location.Longitude < 35.5) {
-                location.Israel = true;
-                location.UTCOffset = -2;
-            }
-            else {
-                location.Israel = false;
-            }
-            $('#divMainPage').data('location', location);
-            showDate(new jDate(new Date()));
-        });
+        setCurrentLocation();
     };
-
-    function getTZOffset() {
-        var date = new Date(),
-            jan = new Date(date.getFullYear(), 0, 1),
-            jul = new Date(date.getFullYear(), 6, 1);
-        return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-    }
-
-    function isDST(date) {
-        date = date || new Date();
-        return date.getTimezoneOffset() < getTZOffset();
-    }
 
     function onPause() {
         // TODO: This application has been suspended. Save application state here.
@@ -61,37 +40,132 @@
 
     function onResume() {
         // TODO: This application has been reactivated. Restore application state here.
+        setCurrentLocation();
     };
 
-    function setDefaultLocation() {
-        if (!$('#divMainPage').data('location')) {
-            var loc = localStorage.getItem('location');
-            if (loc) {
-                loc = JSON.parse(loc);
-            }
-            else {
-                loc = new Location("Modi'in Illit", true, 31.933, -35.0426, 2, 300);
-                localStorage.setItem('location', JSON.stringify(loc));
-            }
-            $('#divMainPage').data('location', loc);
+    function setCurrentLocation() {
+        try {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var location = new Location('Current Location', //Name
+                                            undefined, //Israel - don't set, the constructor will try to figure it out
+                                            position.coords.latitude,
+                                            position.coords.longitude,
+                                            Utils.currUtcOffset(),
+                                            position.coords.altitude);
+                $('#divMainPage').jqmData('location', location);
+                console.log('Acquired location from geolocation plugin');
+                console.info(position);
+                showDate();
+                showMessage('Location set to Current position', false, 2, 'Location set');
+            }, function () {
+                setDefaultLocation();
+            });
         }
+        catch (e) {
+            console.error(e);
+            setDefaultLocation();
+        }
+    }
+
+    function showMessage(message, isError, seconds, title, callback, buttonName) {
+        if (navigator.notification) {
+            navigator.notification.alert(message, callback, title, buttonName);
+            if (isError) {
+                navigator.notification.beep(1);
+            }
+        }
+        else {
+            toast(message, isError, seconds);
+        }
+    }
+
+    function toast(message, isError, seconds) {
+        var removeMe = function () { $(this).remove(); };
+        $('<div class="toast">' + message + '</div>')
+            .addClass(isError ? 'error' : '')
+            .click(removeMe)
+            .appendTo($.mobile.pageContainer).delay(seconds ? seconds * 1000 : (isError ? 15000 : 1000))
+            .fadeOut(1000, removeMe);
+    }
+
+    function getLocation() {
+        if (!$('#divMainPage').jqmData('location')) {
+            !!window.cordova ? setCurrentLocation() : setDefaultLocation();
+        }
+        return $('#divMainPage').jqmData('location');
+    }
+
+    function setDefaultLocation() {
+        var loc = localStorage.getItem('location');
+
+        if (loc) {
+            loc = JSON.parse(loc);
+        }
+        else {
+            loc = new Location("Modi'in Illit", true, 31.933, -35.0426, 2, 300);
+            localStorage.setItem('location', JSON.stringify(loc));
+        }
+        showMessage('Location set to: ' + loc.Name, false, 2, 'Location set');
+        $('#divMainPage').jqmData('location', loc);
+        showDate();
     }
 
     function showDate(jd) {
-        var location = $('#divMainPage').data('location'),
-            sd = jd.getSecularDate().toDateString();
+        if (jd) {
+            $('#divMainPage').jqmData('currentjDate', jd);
+        }
+        else if ($('#divMainPage').jqmData('currentjDate')) {
+            jd = $('#divMainPage').jqmData('currentjDate');
+        }
+        else {
+            showDate(new jDate(new Date()));
+            return;
+        }
 
-        $('#h2Header').html(jd.toStringHeb() + '<br />' + sd);
-        $('#pnlHeader').html('Zmanim for ' + location.Name);
+        var location = getLocation();
+        $('#h2Header').html(jd.toStringHeb() + '<br />' + jd.getDate().toDateString());
+        $('#pSpecial').html(getSpecialHtml(jd, location));
+        $('#divCaption').html('Zmanim for ' + location.Name);
+        $('#emLocDet').html('lat: ' +
+                location.Latitude.toString() +
+                ' long:' + location.Longitude.toString() +
+                (location.Israel ? ' | Israel' : '') + '  |  ' +
+                (location.IsDST ? 'DST' : 'not DST'));
         $('#pMain').html(getZmanimHtml(jd, location));
-        $('#pMain').data('currDate', jd);
+        $('#pMain').jqmData('currDate', jd);
     }
 
     function goDay(num) {
-        var jd = $('#pMain').data('currDate');
+        var jd = $('#divMainPage').jqmData('currentjDate');
         if (jd) {
             showDate(jd.addDays(num));
         }
+    }
+
+    function goMonth(num) {
+        var jd = $('#divMainPage').jqmData('currentjDate');
+        if (jd) {
+            showDate(jd.addMonths(num));
+        }
+    }
+
+    function goYear(num) {
+        var jd = $('#divMainPage').jqmData('currentjDate');
+        if (jd) {
+            showDate(jd.addYears(num));
+        }
+    }
+
+    function getSpecialHtml(jd, location) {
+        var holidays = jd.getHolidays(location.Israel),
+            html = '';
+
+        if (holidays.length) {
+            holidays.forEach(function (h) {
+                html += h + '<br />';
+            });
+        }
+        return html;
     }
 
     function getZmanimHtml(jd, location) {
@@ -104,6 +178,9 @@
         shaaZmanis = jd.getShaaZmanis(location),
         shaaZmanis90 = jd.getShaaZmanis(location, 90);
 
+        if (jd.hasCandleLighting()) {
+            html += "<strong>Candle Lighting: " + Zmanim.getTimeString(jd.getCandleLighting(location)) + '</strong><br /><br />';
+        }
         html += addLine("Weekly Sedra",
             jd.getSedra(location.Israel).map(function (s) { return s.eng; }).join(' - '));
         if (dy != null) {

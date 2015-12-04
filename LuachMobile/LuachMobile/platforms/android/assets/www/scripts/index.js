@@ -56,7 +56,7 @@
                 console.log('Acquired location from geolocation plugin');
                 console.info(position);
                 showDate();
-                toast('Loaded location from current position');
+                showMessage('Location set to Current position', false, 2, 'Location set');
             }, function () {
                 setDefaultLocation();
             });
@@ -67,9 +67,12 @@
         }
     }
 
-    function showMessage(message, isError, seconds) {
+    function showMessage(message, isError, seconds, title, callback, buttonName) {
         if (navigator.notification) {
-            navigator.notification.alert(message);
+            navigator.notification.alert(message, callback, title, buttonName);
+            if (isError) {
+                navigator.notification.beep(1);
+            }
         }
         else {
             toast(message, isError, seconds);
@@ -102,7 +105,7 @@
             loc = new Location("Modi'in Illit", true, 31.933, -35.0426, 2, 300);
             localStorage.setItem('location', JSON.stringify(loc));
         }
-        showMessage('Location set to: ' + loc.Name);
+        showMessage('Location set to: ' + loc.Name, false, 2, 'Location set');
         $('#divMainPage').jqmData('location', loc);
         showDate();
     }

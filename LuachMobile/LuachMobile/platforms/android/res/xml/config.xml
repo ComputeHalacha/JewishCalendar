@@ -16,6 +16,9 @@
     <feature name="Globalization">
         <param name="android-package" value="org.apache.cordova.globalization.Globalization" />
     </feature>
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
     <preference name="AndroidPersistentFileLocation" value="Internal" />
     <allow-intent href="market:*" />
     <icon density="ldpi" src="res/icons/android/icon-36-ldpi.png" />
@@ -59,7 +62,5 @@
             <vs:name>The Luach Project</vs:name>
         </vs:platformSpecificWidget>
     </vs:platformSpecificValues>
-    <feature name="Notification">
-        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
-    </feature>
+    <vs:plugin name="cordova-plugin-dialogs" version="1.2.0" />
 </widget>
