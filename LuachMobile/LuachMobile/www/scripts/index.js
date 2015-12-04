@@ -162,6 +162,11 @@
 
         if (holidays.length) {
             holidays.forEach(function (h) {
+                if (~h.indexOf('Mevarchim')) {
+                    var nextMonth = jd.addMonths(1);
+                    h += '<br />Molad: ' +
+                        Molad.getString(nextMonth.Year, nextMonth.Month, location);
+                }
                 html += h + '<br />';
             });
         }
@@ -173,7 +178,7 @@
             ns = jd.getSunriseSunset(location),
             netz = ns.sunrise,
             shkia = ns.sunset,
-        dy = null,// DafYomi.GetDafYomi(this._displayingJewishDate);
+        dy = jd.getDafyomi(),
         chatzos = jd.getChatzos(location),
         shaaZmanis = jd.getShaaZmanis(location),
         shaaZmanis90 = jd.getShaaZmanis(location, 90);

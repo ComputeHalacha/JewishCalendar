@@ -7,13 +7,14 @@
 //If UTCOffset is not specifically supplied, the longitude will be used to get an educated guess.
 function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST) {
     if (typeof israel === 'undefined') {
-        //Eretz Yisroel general coordinates (we are pretty safe even if we are off by a few miles,
-        //where else is the (99.99% Jewish) user? Sinai, Lebanon, Syria ...
+        //Israel general coordinates (we are pretty safe even if we are off by a few miles,
+        //where else is the (99.99% Jewish) user? Sinai, Lebanon, Syria, Jordan ...
         israel = (latitude > 29.45 && latitude < 33 && longitude < -34.23 && longitude > -35.9);
     }
     if (israel) {
         //Israel has only one immutable time zone
         utcOffset = 2;
+        isDST = Utils.isIsrael_DST();
     }
     else if (typeof utcOffset === 'undefined') {
         //Determine the "correct" time zone using the simple fact that Greenwich is both TZ 0 and longitude 0
@@ -39,3 +40,7 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
         IsDST: !!isDST
     };
 }
+
+Location.getJerusalem = function () {
+    return new Location("Jerusalem", true, 31.78, -35.22, 2, 800);
+};

@@ -150,6 +150,16 @@ Utils.isUSA_DST = function (date, hour) {
     }
 };
 
+Utils.isIsrael_DST = function () {
+    var date = new Date(),
+        israelTimeOffset = (2 - Utils.currUtcOffset());
+    //This will give us the current correct date and time in Israel
+    date.setHours(date.getHours + israelTimeOffset);
+
+    //TODO: add correct logic here!
+    return ![11, 12, 1, 2, 3].has(date.getMonth());
+}
+
 //Gets the time difference between two times of day
 Utils.timeDiff = function (time1, time2) {
     return Zmanim.fixHourMinute(Zmanim.addMinutes(time1, Utils.totalMinutes(time2)));
