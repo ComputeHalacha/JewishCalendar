@@ -20,6 +20,7 @@
                 goDay(1);
             });
         if (!window.cordova) {
+            console.log('Cordova not recognized, showing default location and date.');
             showDate();
         }
     });
@@ -27,6 +28,8 @@
     document.addEventListener('deviceready', onDeviceReady.bind(this), false);
 
     function onDeviceReady() {
+        console.log('Cordova was recognized device ready has been fired.');
+
         // Handle the Cordova pause and resume events
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
@@ -45,24 +48,28 @@
 
     function setCurrentLocation() {
         try {
+            console.log('Attempting to acquire device location from Cordova geolocation plugin');
             navigator.geolocation.getCurrentPosition(function (position) {
                 var location = new Location('Current Location', //Name
-                                            undefined, //Israel - don't set, the constructor will try to figure it out
+                                            undefined, //Israel - we have no way of knowing (the constructor will try to figure it out though)
                                             position.coords.latitude,
                                             position.coords.longitude,
                                             Utils.currUtcOffset(),
-                                            position.coords.altitude);
+                                            position.coords.altitude,
+                                            Utils.isDST());
+                console.log('Location acquired from Cordova geolocation plugin.');
                 $('#divMainPage').jqmData('location', location);
                 console.log('Acquired location from geolocation plugin');
                 console.info(position);
                 showDate();
                 showMessage('Location set to Current position', false, 2, 'Location set');
+                var a = getHarvey();
             }, function () {
                 setDefaultLocation();
             });
         }
         catch (e) {
-            console.error(e);
+            console.error(e.message);
             setDefaultLocation();
         }
     }
@@ -101,8 +108,8 @@
         if (loc) {
             loc = JSON.parse(loc);
         }
-        else {
-            loc = new Location("Modi'in Illit", true, 31.933, -35.0426, 2, 300);
+        else {            
+            loc = Location.getJerusalem(); //where else?            
             localStorage.setItem('location', JSON.stringify(loc));
         }
         showMessage('Location set to: ' + loc.Name, false, 2, 'Location set');
@@ -184,7 +191,7 @@
         shaaZmanis90 = jd.getShaaZmanis(location, 90);
 
         if (jd.hasCandleLighting()) {
-            html += "<strong>Candle Lighting: " + Zmanim.getTimeString(jd.getCandleLighting(location)) + '</strong><br /><br />';
+            html += "<strong>Candle Lighting: " + Utils.getTimeString(jd.getCandleLighting(location)) + '</strong><br /><br />';
         }
         html += addLine("Weekly Sedra",
             jd.getSedra(location.Israel).map(function (s) { return s.eng; }).join(' - '));
@@ -196,18 +203,18 @@
             html += addLine("Netz Hachama", "The does not rise");
         }
         else {
-            html += addLine("Alos Hashachar - 90", (Zmanim.addMinutes(netz, -90)));
-            html += addLine("Alos Hashachar - 72", (Zmanim.addMinutes(netz, -72)));
+            html += addLine("Alos Hashachar - 90", (Utils.addMinutes(netz, -90)));
+            html += addLine("Alos Hashachar - 72", (Utils.addMinutes(netz, -72)));
             html += addLine("Netz Hachama", netz);
-            html += addLine("Krias Shma - MG\"A", (Zmanim.addMinutes(Zmanim.addMinutes(netz, -90), parseInt(shaaZmanis90 * 3))));
-            html += addLine("Krias Shma - GR\"A", (Zmanim.addMinutes(netz, parseInt(shaaZmanis * 3))));
-            html += addLine("Zeman Tefillah - MG\"A", (Zmanim.addMinutes(Zmanim.addMinutes(netz, -90), parseInt(shaaZmanis90 * 4))));
-            html += addLine("Zeman Tefillah - GR\"A", Zmanim.addMinutes(netz, parseInt(shaaZmanis * 4)));
+            html += addLine("Krias Shma - MG\"A", (Utils.addMinutes(Utils.addMinutes(netz, -90), parseInt(shaaZmanis90 * 3))));
+            html += addLine("Krias Shma - GR\"A", (Utils.addMinutes(netz, parseInt(shaaZmanis * 3))));
+            html += addLine("Zeman Tefillah - MG\"A", (Utils.addMinutes(Utils.addMinutes(netz, -90), parseInt(shaaZmanis90 * 4))));
+            html += addLine("Zeman Tefillah - GR\"A", Utils.addMinutes(netz, parseInt(shaaZmanis * 4)));
         }
 
         if (!(isNaN(netz.hour) || isNaN(shkia.hour))) {
             html += addLine("Chatzos - Day & Night", chatzos);
-            html += addLine("Mincha Gedolah", Zmanim.addMinutes(chatzos, parseInt(shaaZmanis * 0.5)));
+            html += addLine("Mincha Gedolah", Utils.addMinutes(chatzos, parseInt(shaaZmanis * 0.5)));
         }
 
         if (isNaN(shkia.hour)) {
@@ -215,8 +222,8 @@
         }
         else {
             html += addLine("Shkias Hachama", shkia);
-            html += addLine("Nightfall 45", Zmanim.addMinutes(shkia, 45));
-            html += addLine("Rabbeinu Tam", Zmanim.addMinutes(shkia, 72));
+            html += addLine("Nightfall 45", Utils.addMinutes(shkia, 45));
+            html += addLine("Rabbeinu Tam", Utils.addMinutes(shkia, 72));
         }
 
         return html;
@@ -224,6 +231,6 @@
 
     function addLine(caption, value) {
         return caption + '...............<strong>' +
-            (value.hour ? Zmanim.getTimeString(value) : value) + '</strong><br />';
+            (value.hour ? Utils.getTimeString(value) : value) + '</strong><br />';
     }
 })();

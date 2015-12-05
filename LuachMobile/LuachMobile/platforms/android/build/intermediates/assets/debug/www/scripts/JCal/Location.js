@@ -7,8 +7,8 @@
 //If UTCOffset is not specifically supplied, the longitude will be used to get an educated guess.
 function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST) {
     if (typeof israel === 'undefined') {
-        //Eretz Yisroel general coordinates (we are pretty safe even if we are off by a few miles,
-        //where else is the (99.99% Jewish) user? Sinai, Lebanon, Syria ...
+        //Israel general coordinates (we are pretty safe even if we are off by a few miles,
+        //where else is the (99.99% Jewish) user? Sinai, Lebanon, Syria, Jordan ...
         israel = (latitude > 29.45 && latitude < 33 && longitude < -34.23 && longitude > -35.9);
     }
     if (israel) {
@@ -24,11 +24,7 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
             isDST = false;
         }
     }
-    //If "isDST" was not defined
-    if (typeof isDST === 'undefined') {
-        isDST = Utils.isDST();
-    }
-
+   
     return {
         Name: name || 'Unknown Location',
         Israel: !!israel,
@@ -39,3 +35,9 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
         IsDST: !!isDST
     };
 }
+
+//Gets the Location for Jerusalem.
+//The IsDST property is set according to the current time in Jerusalem (determined by the users system time and time zone offset)
+Location.getJerusalem = function () {
+    return new Location("Jerusalem", true, 31.78, -35.22, 2, 800, Utils.isIsrael_DST(Utils.getSdNowInIsrael()));
+};

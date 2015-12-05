@@ -53,7 +53,7 @@ Molad.getString = function (year, month) {
     else {
         str += Utils.dowEng[dow] + (isNight ? " Night" : "");
     }
-    str += " " + Zmanim.getTimeString(molad.time) + " and " +
+    str += " " + Utils.getTimeString(molad.time) + " and " +
         molad.chalakim.toString() + " Chalakim";
 
     return str;
@@ -79,7 +79,7 @@ Molad.getStringHeb = function (year, month) {
         str += (isNight ? "ליל" : "יום") +
             Utils.dowHeb[dow].replace("יום", "");
     }
-    str += " " + Zmanim.getTimeString(molad.time, true) + " " +
+    str += " " + Utils.getTimeString(molad.time, true) + " " +
         molad.chalakim.toString() + " חלקים";
 
     return str;

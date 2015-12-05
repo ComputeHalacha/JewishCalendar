@@ -17,12 +17,12 @@ Molad.getMolad = function (month, year) {
     if (monthAdj < 0) {
         monthAdj += jDate.monthsJYear(year);
     }
-    totalMonths = monthAdj + 235 * ((year - 1) / 19) + 12 * ((year - 1) % 19) +
-        ((((year - 1) % 19) * 7) + 1) / 19;
+    totalMonths = parseInt(monthAdj + 235 * parseInt((year - 1) / 19) + 12 * ((year - 1) % 19) +
+        ((((year - 1) % 19) * 7) + 1) / 19);
     partsElapsed = 204 + (793 * (totalMonths % 1080));
-    hoursElapsed = 5 + (12 * totalMonths) + 793 * (totalMonths / 1080) +
-        partsElapsed / 1080 - 6;
-    parts = (partsElapsed % 1080) + 1080 * (hoursElapsed % 24);
+    hoursElapsed = 5 + (12 * totalMonths) + 793 * parseInt(totalMonths / 1080) +
+        parseInt(partsElapsed / 1080) - 6;
+    parts = parseInt((partsElapsed % 1080) + 1080 * (hoursElapsed % 24));
 
     return {
         jDate: new jDate((1 + (29 * parseInt(totalMonths))) + parseInt((hoursElapsed / 24))),
@@ -32,17 +32,14 @@ Molad.getMolad = function (month, year) {
 };
 
 // Returns the time of the molad as a string in the format: Monday Night, 8:33 PM and 12 Chalakim
-// The location is used to determine when to display "Night" or "Motzai Shabbos" etc.
-// If location is not supplied, the cutoff time is 8 PM.
-Molad.getString = function (year, month, location) {
+// The molad is always in Jerusalem so we use the Jerusalem sunset times
+// to determine whether to display "Night" or "Motzai Shabbos" etc.
+Molad.getString = function (year, month) {
     var molad = Molad.getMolad(month, year),
-        nightfall = { hour: 20, minute: 0 },
+        nightfall = molad.jDate.getSunriseSunset(Location.getJerusalem()).sunset,
+        isNight = Utils.totalMinutes(Utils.timeDiff(molad.time, nightfall)) >= 0,
         dow = molad.jDate.getDayOfWeek(),
         str = '';
-    if (location) {
-        nightfall = molad.jDate.getSunriseSunset(location).sunset;
-    }
-    var isNight = Utils.totalMinutes(Utils.timeDiff(molad.time, nightfall)) >= 0;
 
     if (isNaN(nightfall.hour)) {
         str += Utils.dowEng[dow];
@@ -56,24 +53,21 @@ Molad.getString = function (year, month, location) {
     else {
         str += Utils.dowEng[dow] + (isNight ? " Night" : "");
     }
-    str += " " + Zmanim.getTimeString(molad.time) + " and " +
+    str += " " + Utils.getTimeString(molad.time) + " and " +
         molad.chalakim.toString() + " Chalakim";
 
     return str;
 };
 
 // Returns the time of the molad as a string in the format: ליל שני 20:33 12 חלקים
-// The location is used to determine when to display "ליל/יום" or "מוצאי שב"ק" etc.
-// If location is not supplied, the cutoff time is 8 PM.
-Molad.getStringHeb = function (year, month, location) {
+// The molad is always in Jerusalem so we use the Jerusalem sunset times
+// to determine whether to display "ליל/יום" or "מוצאי שב"ק" etc.
+Molad.getStringHeb = function (year, month) {
     var molad = Molad.getMolad(month, year),
-        nightfall = { hour: 20, minute: 0 },
+        nightfall = molad.jDate.getSunriseSunset(Location.getJerusalem()).sunset,
+        isNight = Utils.totalMinutes(Utils.timeDiff(molad.time, nightfall)) >= 0,
         dow = molad.jDate.getDayOfWeek(),
         str = '';
-    if (location) {
-        nightfall = molad.jDate.getSunriseSunset(location).sunset;
-    }
-    var isNight = Utils.totalMinutes(Utils.timeDiff(molad.time, nightfall)) >= 0;
 
     if (dow === 6) {
         str += (isNight ? "מוצאי שב\"ק" : "יום שב\"ק");
@@ -85,7 +79,7 @@ Molad.getStringHeb = function (year, month, location) {
         str += (isNight ? "ליל" : "יום") +
             Utils.dowHeb[dow].replace("יום", "");
     }
-    str += " " + Zmanim.getTimeString(molad.time, true) + " " +
+    str += " " + Utils.getTimeString(molad.time, true) + " " +
         molad.chalakim.toString() + " חלקים";
 
     return str;

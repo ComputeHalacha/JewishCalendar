@@ -1,3 +1,4 @@
+/// <reference path="Zmanim.js" />
 "use strict";
 
 //Returns whether or not the array contains the given item
@@ -102,25 +103,90 @@ Utils.toJNum = function (number) {
     return retval;
 };
 
-//gets the "real" system UTC offset in hours (not affected by DST)
+// Get day of week using Javascripts getDay function.
+//Important note: months starts at 1 not 0 like javascript
+//The DOW returned though, has Sunday = 0
+Utils.getSdDOW = function (year, month, day) {
+    return new Date(year, month - 1, day).getDay();
+};
+
+//Makes sure hour is between 0 and 23 and minute is between 0 and 59
+//Overlaps get added/subtracted.
+//The argument needs to be an object in the format {hour : 12, minute :42 }
+Utils.fixHourMinute = function (hm) {
+    //make a copy - javascript sends object parameters by reference
+    var result = { hour: hm.hour, minute: hm.minute };
+    while (result.minute < 0) {
+        result.minute += 60;
+        result.hour--;
+    }
+    while (result.minute >= 60) {
+        result.minute -= 60;
+        result.hour++;
+    }
+    if (result.hour < 0) {
+        result.hour = 24 + (result.hour % 24);
+    }
+    if (result.hour > 23) {
+        result.hour = result.hour % 24;
+    }
+    return result;
+};
+
+//Add the given number of minutes to the given time
+//The argument needs to be an object in the format {hour : 12, minute :42 }
+Utils.addMinutes = function (hm, minutes) {
+    return Utils.fixHourMinute({ hour: hm.hour, minute: hm.minute + minutes });
+};
+
+//Gets the time difference between two times of day
+//Both arguments need to be an object in the format {hour : 12, minute :42 }
+Utils.timeDiff = function (time1, time2) {
+    return Utils.fixHourMinute(Utils.addMinutes(time1, Utils.totalMinutes(time2)));
+};
+
+//Gets the total number of minutes in the given time
+//The argument needs to be an object in the format {hour : 12, minute :42 }
+Utils.totalMinutes = function (time) {
+    return time.hour * 60 + time.minutes;
+};
+
+//Returns the given time in a formatted string.
+//The argument needs to be an object in the format {hour : 23, minute :42 }
+//if army is falsey, the returned string will be: 11:42 PM otherwise it will be 23:42
+Utils.getTimeString = function (hm, army) {
+    if (!!army) {
+        return (hm.hour.toString() + ":" +
+                (hm.minute < 10 ? "0" + hm.minute.toString() : hm.minute.toString()));
+    }
+    else {
+        return (hm.hour <= 12 ? (hm.hour == 0 ? 12 : hm.hour) : hm.hour - 12).toString() +
+                ":" +
+                (hm.minute < 10 ? "0" + hm.minute.toString() : hm.minute.toString()) +
+                (hm.hour < 12 ? " AM" : " PM");
+    }
+};
+
+//Gets the UTC offset in whole hours for the users time zone
+//Note: this is not affected by DST - unlike javascripts getTimezoneOffset() function which gives you the current offset.
 Utils.currUtcOffset = function () {
     var date = new Date(),
         jan = new Date(date.getFullYear(), 0, 1),
         jul = new Date(date.getFullYear(), 6, 1);
-    return parseInt(Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset()) / 60);
+    return -parseInt(Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset()) / 60);
 };
 
-//Determines if date (or now) is DST for the current system time zone
-Utils.isDST = function (date) {
-    date = date || new Date();
-    return parseInt(date.getTimezoneOffset() / 60) < Utils.currUtcOffset();
+//Determines if the users system is currently set to DST
+Utils.isDST = function () {
+    return parseInt(new Date().getTimezoneOffset() / 60) < Utils.currUtcOffset();
 };
 
-//Determines if the given date and hour are during DST (using USA rules)
-Utils.isUSA_DST = function (date, hour) {
-    var year = date.getYear(),
+//Determines if the given date and time are during DST according to the USA rules
+Utils.isUSA_DST = function (date) {
+    var year = date.getFullYear(),
         month = date.getMonth() + 1,
-        day = date.getDate();
+        day = date.getDate(),
+        hour = date.getHours();
 
     if (month < 3 || month == 12) {
         return false;
@@ -129,45 +195,62 @@ Utils.isUSA_DST = function (date, hour) {
         return true;
     }
 
-        //DST starts at 2:00 AM on the second Sunday in March
-    else if (month == 3) {
+        //DST starts at 2 AM on the second Sunday in March
+    else if (month === 3) { //March
         //Gets day of week on March 1st
-        var firstDOW = Zmanim.getDOW(year, 3, 1),
+        var firstDOW = Utils.getSdDOW(year, 3, 1),
         //Gets date of second Sunday
             targetDate = firstDOW == 0 ? 8 : ((7 - (firstDOW + 7) % 7)) + 8;
 
-        return (day > targetDate || (day == targetDate && hour >= 2));
+        return (day > targetDate || (day === targetDate && hour >= 2));
     }
-        //DST ends at 2:00 AM on the first Sunday in November
-    else //dt.Month == 11
+        //DST ends at 2 AM on the first Sunday in November
+    else //dt.Month == 11 / November
     {
         //Gets day of week on November 1st
-        var firstDOW = Zmanim.getDOW(year, 11, 1),
+        var firstDOW = Utils.getSdDOW(year, 11, 1),
         //Gets date of first Sunday
-            targetDate = firstDOW == 0 ? 1 : ((7 - (firstDOW + 7) % 7)) + 1;
+            targetDate = firstDOW === 0 ? 1 : ((7 - (firstDOW + 7) % 7)) + 1;
 
-        return (day < targetDate || (day == targetDate && hour < 2));
+        return (day < targetDate || (day === targetDate && hour < 2));
     }
 };
 
-Utils.isIsrael_DST = function () {
-    var date = new Date(),
-        israelTimeOffset = (2 - Utils.currUtcOffset());
-    //This will give us the current correct date and time in Israel
-    date.setHours(date.getHours + israelTimeOffset);
+//Determines if the given date and time is during DST according to the current (5776) Israeli rules
+Utils.isIsrael_DST = function (date) {
+    var year = date.getFullYear(),
+        month = date.getMonth() + 1,
+        day = date.getDate(),
+        hour = date.getHours();
 
-    //TODO: add correct logic here!
-    return ![11, 12, 1, 2, 3].has(date.getMonth());
+    if (month > 10 || month < 3) {
+        return false;
+    }
+    else if (month > 3 && month < 10) {
+        return true;
+    }
+        //DST starts at 2 AM on the Friday before the last Sunday in March
+    else if (month === 3) { //March
+        //Gets date of the Friday before the last Sunday
+        var lastFriday = (31 - Utils.getSdDOW(year, 3, 31)) - 2;
+        return (day > lastFriday || (day === lastFriday && hour >= 2));
+    }
+        //DST ends at 2 AM on the last Sunday in October
+    else //dt.Month === 10 / October
+    {
+        //Gets date of last Sunday in October
+        var lastSunday = 31 - Utils.getSdDOW(year, 10, 31);
+        return (day < lastSunday || (day === lastSunday && hour < 2));
+    }
 }
 
-//Gets the time difference between two times of day
-Utils.timeDiff = function (time1, time2) {
-    return Zmanim.fixHourMinute(Zmanim.addMinutes(time1, Utils.totalMinutes(time2)));
-};
-
-//Gets the total number of minutes in the given time
-Utils.totalMinutes = function (time) {
-    return time.hour * 60 + time.minutes;
+//The current time in Israel - determined by the current users system time and time zone offset
+Utils.getSdNowInIsrael = function () {
+    var now = new Date(),
+        //first determine the hour differential between this user and Israel time
+        israelTimeOffset = 2 + -Utils.currUtcOffset();
+    //This will give us the current correct date and time in Israel
+    return new Date(now.setHours(now.getHours() + israelTimeOffset));
 };
 /// <reference path="Utils.js" />
 "use strict";
@@ -185,7 +268,6 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
     if (israel) {
         //Israel has only one immutable time zone
         utcOffset = 2;
-        isDST = Utils.isIsrael_DST();
     }
     else if (typeof utcOffset === 'undefined') {
         //Determine the "correct" time zone using the simple fact that Greenwich is both TZ 0 and longitude 0
@@ -196,11 +278,7 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
             isDST = false;
         }
     }
-    //If "isDST" was not defined
-    if (typeof isDST === 'undefined') {
-        isDST = Utils.isDST();
-    }
-
+   
     return {
         Name: name || 'Unknown Location',
         Israel: !!israel,
@@ -212,8 +290,10 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
     };
 }
 
+//Gets the Location for Jerusalem.
+//The IsDST property is set according to the current time in Jerusalem (determined by the users system time and time zone offset)
 Location.getJerusalem = function () {
-    return new Location("Jerusalem", true, 31.78, -35.22, 2, 800);
+    return new Location("Jerusalem", true, 31.78, -35.22, 2, 800, Utils.isIsrael_DST(Utils.getSdNowInIsrael()));
 };
 /// <reference path="Dafyomi.js" />
 /// <reference path="Utils.js" />
@@ -946,7 +1026,7 @@ Zmanim.getChatzos = function (date, location) {
         setMinutes = (set.hour * 60) + set.minute,
         chatz = parseInt((setMinutes - riseMinutes) / 2);
 
-    return Zmanim.addMinutes(rise, chatz);
+    return Utils.addMinutes(rise, chatz);
 };
 
 Zmanim.getShaaZmanis = function (date, location, offset) {
@@ -959,8 +1039,8 @@ Zmanim.getShaaZmanis = function (date, location, offset) {
     }
 
     if (offset) {
-        rise = Zmanim.addMinutes(rise, -offset);
-        set = Zmanim.addMinutes(set, offset);
+        rise = Utils.addMinutes(rise, -offset);
+        set = Utils.addMinutes(set, offset);
     }
 
     var riseMinutes = (rise.hour * 60) + rise.minute,
@@ -973,7 +1053,7 @@ Zmanim.getCandleLighting = function (date, location) {
     var set = Zmanim.getSunTimes(date, location).sunset;
 
     if (!location.Israel) {
-        return Zmanim.addMinutes(set, -18);
+        return Utils.addMinutes(set, -18);
     }
 
     var special = [{ names: ['jerusalem', 'yerush', 'petach', 'petah', 'petak'], min: 40 },
@@ -985,10 +1065,10 @@ Zmanim.getCandleLighting = function (date, location) {
             });
         });
     if (city) {
-        return Zmanim.addMinutes(set, -city.min);
+        return Utils.addMinutes(set, -city.min);
     }
     else {
-        return Zmanim.addMinutes(set, -30);
+        return Utils.addMinutes(set, -30);
     }
 }
 
@@ -1056,55 +1136,7 @@ Zmanim.timeAdj = function (time, date, location) {
         }
     }
 
-    return Zmanim.fixHourMinute({ hour: hour, minute: min });
-};
-
-// Get day of week using Zellers algorithm.
-Zmanim.getDOW = function (year, month, day) {
-    var adjustment = (14 - month) / 12,
-        mm = month + 12 * adjustment - 2,
-        yy = year - adjustment;
-    return (day + (13 * mm - 1) / 5 + yy + yy / 4 - yy / 100 + yy / 400) % 7;
-};
-
-//Makes sure hour is between 0 and 23 and minute is between 0 and 59
-//Overlaps get added/subtracted.
-Zmanim.fixHourMinute = function (hm) {
-    //make a copy - javascript sends object parameters by reference
-    var result = { hour: hm.hour, minute: hm.minute };
-    while (result.minute < 0) {
-        result.minute += 60;
-        result.hour--;
-    }
-    while (result.minute >= 60) {
-        result.minute -= 60;
-        result.hour++;
-    }
-    if (result.hour < 0) {
-        result.hour = 24 + (result.hour % 24);
-    }
-    if (result.hour > 23) {
-        result.hour = result.hour % 24;
-    }
-    return result;
-};
-
-//Add the given number of minutes to the given time
-Zmanim.addMinutes = function (hm, minutes) {
-    return Zmanim.fixHourMinute({ hour: hm.hour, minute: hm.minute + minutes });
-};
-
-Zmanim.getTimeString = function (hm, army) {
-    if (!!army) {
-        return (hm.hour.toString() + ":" +
-                (hm.minute < 10 ? "0" + hm.minute.toString() : hm.minute.toString()));
-    }
-    else {
-        return (hm.hour <= 12 ? (hm.hour == 0 ? 12 : hm.hour) : hm.hour - 12).toString() +
-                ":" +
-                (hm.minute < 10 ? "0" + hm.minute.toString() : hm.minute.toString()) +
-                (hm.hour < 12 ? " AM" : " PM");
-    }
+    return Utils.fixHourMinute({ hour: hour, minute: min });
 };
 /// <reference path="utils.js" />
 /// <reference path="jDate.js" />
@@ -1332,19 +1364,14 @@ Molad.getMolad = function (month, year) {
 };
 
 // Returns the time of the molad as a string in the format: Monday Night, 8:33 PM and 12 Chalakim
-// The location is used to determine when to display "Night" or "Motzai Shabbos" etc.
-// If location is not supplied, the cutoff time is 8 PM.
+// The molad is always in Jerusalem so we use the Jerusalem sunset times
+// to determine whether to display "Night" or "Motzai Shabbos" etc.
 Molad.getString = function (year, month) {
     var molad = Molad.getMolad(month, year),
         nightfall = molad.jDate.getSunriseSunset(Location.getJerusalem()).sunset,
         isNight = Utils.totalMinutes(Utils.timeDiff(molad.time, nightfall)) >= 0,
         dow = molad.jDate.getDayOfWeek(),
         str = '';
-
-    if (location) {
-        nightfall = molad.jDate.getSunriseSunset(Location.getJerusalem()).sunset;
-    }
-    var isNight = Utils.totalMinutes(Utils.timeDiff(molad.time, nightfall)) >= 0;
 
     if (isNaN(nightfall.hour)) {
         str += Utils.dowEng[dow];
@@ -1358,7 +1385,7 @@ Molad.getString = function (year, month) {
     else {
         str += Utils.dowEng[dow] + (isNight ? " Night" : "");
     }
-    str += " " + Zmanim.getTimeString(molad.time) + " and " +
+    str += " " + Utils.getTimeString(molad.time) + " and " +
         molad.chalakim.toString() + " Chalakim";
 
     return str;
@@ -1384,7 +1411,7 @@ Molad.getStringHeb = function (year, month) {
         str += (isNight ? "ליל" : "יום") +
             Utils.dowHeb[dow].replace("יום", "");
     }
-    str += " " + Zmanim.getTimeString(molad.time, true) + " " +
+    str += " " + Utils.getTimeString(molad.time, true) + " " +
         molad.chalakim.toString() + " חלקים";
 
     return str;

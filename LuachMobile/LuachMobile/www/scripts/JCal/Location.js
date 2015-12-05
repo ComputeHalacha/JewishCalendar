@@ -24,11 +24,7 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
             isDST = false;
         }
     }
-    //If "isDST" was not defined
-    if (typeof isDST === 'undefined') {
-        isDST = israel ? Utils.isIsrael_DST() : Utils.isDST();
-    }
-
+   
     return {
         Name: name || 'Unknown Location',
         Israel: !!israel,
@@ -40,6 +36,8 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
     };
 }
 
+//Gets the Location for Jerusalem.
+//The IsDST property is set according to the current time in Jerusalem (determined by the users system time and time zone offset)
 Location.getJerusalem = function () {
-    return new Location("Jerusalem", true, 31.78, -35.22, 2, 800);
+    return new Location("Jerusalem", true, 31.78, -35.22, 2, 800, Utils.isIsrael_DST(Utils.getSdNowInIsrael()));
 };

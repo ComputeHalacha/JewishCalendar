@@ -102,7 +102,7 @@ Zmanim.getChatzos = function (date, location) {
         setMinutes = (set.hour * 60) + set.minute,
         chatz = parseInt((setMinutes - riseMinutes) / 2);
 
-    return Zmanim.addMinutes(rise, chatz);
+    return Utils.addMinutes(rise, chatz);
 };
 
 Zmanim.getShaaZmanis = function (date, location, offset) {
@@ -115,8 +115,8 @@ Zmanim.getShaaZmanis = function (date, location, offset) {
     }
 
     if (offset) {
-        rise = Zmanim.addMinutes(rise, -offset);
-        set = Zmanim.addMinutes(set, offset);
+        rise = Utils.addMinutes(rise, -offset);
+        set = Utils.addMinutes(set, offset);
     }
 
     var riseMinutes = (rise.hour * 60) + rise.minute,
@@ -129,7 +129,7 @@ Zmanim.getCandleLighting = function (date, location) {
     var set = Zmanim.getSunTimes(date, location).sunset;
 
     if (!location.Israel) {
-        return Zmanim.addMinutes(set, -18);
+        return Utils.addMinutes(set, -18);
     }
 
     var special = [{ names: ['jerusalem', 'yerush', 'petach', 'petah', 'petak'], min: 40 },
@@ -141,10 +141,10 @@ Zmanim.getCandleLighting = function (date, location) {
             });
         });
     if (city) {
-        return Zmanim.addMinutes(set, -city.min);
+        return Utils.addMinutes(set, -city.min);
     }
     else {
-        return Zmanim.addMinutes(set, -30);
+        return Utils.addMinutes(set, -30);
     }
 }
 
@@ -212,53 +212,5 @@ Zmanim.timeAdj = function (time, date, location) {
         }
     }
 
-    return Zmanim.fixHourMinute({ hour: hour, minute: min });
-};
-
-// Get day of week using Zellers algorithm.
-Zmanim.getDOW = function (year, month, day) {
-    var adjustment = (14 - month) / 12,
-        mm = month + 12 * adjustment - 2,
-        yy = year - adjustment;
-    return (day + (13 * mm - 1) / 5 + yy + yy / 4 - yy / 100 + yy / 400) % 7;
-};
-
-//Makes sure hour is between 0 and 23 and minute is between 0 and 59
-//Overlaps get added/subtracted.
-Zmanim.fixHourMinute = function (hm) {
-    //make a copy - javascript sends object parameters by reference
-    var result = { hour: hm.hour, minute: hm.minute };
-    while (result.minute < 0) {
-        result.minute += 60;
-        result.hour--;
-    }
-    while (result.minute >= 60) {
-        result.minute -= 60;
-        result.hour++;
-    }
-    if (result.hour < 0) {
-        result.hour = 24 + (result.hour % 24);
-    }
-    if (result.hour > 23) {
-        result.hour = result.hour % 24;
-    }
-    return result;
-};
-
-//Add the given number of minutes to the given time
-Zmanim.addMinutes = function (hm, minutes) {
-    return Zmanim.fixHourMinute({ hour: hm.hour, minute: hm.minute + minutes });
-};
-
-Zmanim.getTimeString = function (hm, army) {
-    if (!!army) {
-        return (hm.hour.toString() + ":" +
-                (hm.minute < 10 ? "0" + hm.minute.toString() : hm.minute.toString()));
-    }
-    else {
-        return (hm.hour <= 12 ? (hm.hour == 0 ? 12 : hm.hour) : hm.hour - 12).toString() +
-                ":" +
-                (hm.minute < 10 ? "0" + hm.minute.toString() : hm.minute.toString()) +
-                (hm.hour < 12 ? " AM" : " PM");
-    }
+    return Utils.fixHourMinute({ hour: hour, minute: min });
 };
