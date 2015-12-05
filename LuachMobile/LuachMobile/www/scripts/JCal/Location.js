@@ -14,7 +14,6 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
     if (israel) {
         //Israel has only one immutable time zone
         utcOffset = 2;
-        isDST = Utils.isIsrael_DST();
     }
     else if (typeof utcOffset === 'undefined') {
         //Determine the "correct" time zone using the simple fact that Greenwich is both TZ 0 and longitude 0
@@ -27,7 +26,7 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
     }
     //If "isDST" was not defined
     if (typeof isDST === 'undefined') {
-        isDST = Utils.isDST();
+        isDST = israel ? Utils.isIsrael_DST() : Utils.isDST();
     }
 
     return {

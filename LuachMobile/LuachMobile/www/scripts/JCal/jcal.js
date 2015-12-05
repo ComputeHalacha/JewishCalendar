@@ -1,3 +1,4 @@
+/// <reference path="Zmanim.js" />
 "use strict";
 
 //Returns whether or not the array contains the given item
@@ -150,14 +151,42 @@ Utils.isUSA_DST = function (date, hour) {
     }
 };
 
-Utils.isIsrael_DST = function () {
-    var date = new Date(),
-        israelTimeOffset = (2 - Utils.currUtcOffset());
+Utils.isIsrael_DST = function (date) {
+    date = (date || new Date());
+
+    //get the number of hours the current users time zone is off from Israels
+    var israelTimeOffset = (2 - -(date.getTimezoneOffset() / 60));
+
     //This will give us the current correct date and time in Israel
     date.setHours(date.getHours + israelTimeOffset);
 
-    //TODO: add correct logic here!
-    return ![11, 12, 1, 2, 3].has(date.getMonth());
+    var month = date.getMonth() + 1,
+        day = date.getDate();
+    if ([11, 12, 1, 2].has(month)) {
+        return false;
+    }
+    else if ([4, 5, 6, 7, 8, 9].has(month)) {
+        return true;
+    }
+        //DST starts at midnight on the Friday before the last Sunday in March
+    else if (month == 3) {
+        //Gets day of week on March 31st
+        var lastDOW = Zmanim.getDOW(year, 3, 31),
+        //Gets date of last Sunday
+            lastSunday = lastDOW === 0 ? 31 : ((7 - (lastDOW + 7) % 7)) + 8;
+
+        return day >= (lastSunday - 2);
+    }
+        //DST ends at Midnight on the last Sunday in October
+    else //dt.Month == 10
+    {
+        //Gets day of week on November 30th
+        var lastDOW = Zmanim.getDOW(year, 11, 30),
+        //Gets date of last Sunday
+            lastSunday = lastDOW === 0 ? 30 : ((7 - (lastDOW + 7) % 7)) + 8;
+
+        return day < targetDate;
+    }
 }
 
 //Gets the time difference between two times of day
@@ -185,7 +214,6 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
     if (israel) {
         //Israel has only one immutable time zone
         utcOffset = 2;
-        isDST = Utils.isIsrael_DST();
     }
     else if (typeof utcOffset === 'undefined') {
         //Determine the "correct" time zone using the simple fact that Greenwich is both TZ 0 and longitude 0
@@ -198,7 +226,7 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
     }
     //If "isDST" was not defined
     if (typeof isDST === 'undefined') {
-        isDST = Utils.isDST();
+        isDST = israel ? Utils.isIsrael_DST() : Utils.isDST();
     }
 
     return {
@@ -1060,8 +1088,9 @@ Zmanim.timeAdj = function (time, date, location) {
 };
 
 // Get day of week using Zellers algorithm.
+//Important note: months starts at 1 not 0 like javascript
 Zmanim.getDOW = function (year, month, day) {
-    var adjustment = (14 - month) / 12,
+    var adjustment = parseInt((14 - month) / 12),
         mm = month + 12 * adjustment - 2,
         yy = year - adjustment;
     return (day + (13 * mm - 1) / 5 + yy + yy / 4 - yy / 100 + yy / 400) % 7;

@@ -216,8 +216,9 @@ Zmanim.timeAdj = function (time, date, location) {
 };
 
 // Get day of week using Zellers algorithm.
+//Important note: months starts at 1 not 0 like javascript
 Zmanim.getDOW = function (year, month, day) {
-    var adjustment = (14 - month) / 12,
+    var adjustment = parseInt((14 - month) / 12),
         mm = month + 12 * adjustment - 2,
         yy = year - adjustment;
     return (day + (13 * mm - 1) / 5 + yy + yy / 4 - yy / 100 + yy / 400) % 7;
