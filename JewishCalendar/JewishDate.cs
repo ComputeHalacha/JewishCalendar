@@ -1,5 +1,4 @@
 ﻿/*****************************************************************************************************************************
- * By CBS.
  * Represents a single day in the Jewish Calendar.
  * The regular .NET class System.Globalization.HebrewCalendar has Tishrei as month #1.
  * This becomes confusing, as months after Adar get a different number -
@@ -12,121 +11,31 @@
  *****************************************************************************************************************************/
 
 using System;
-using System.Globalization;
 
 namespace JewishCalendar
 {
-    /// <summary>
+    [Serializable]
+    // <summary>
     /// Represents a single day in the Jewish calendar - Month are Nissan based.
     /// </summary>
-    [Serializable]
+    /// <remarks>The regular .NET class System.Globalization.HebrewCalendar has Tishrei as month #1.
+    /// This becomes confusing, as months after Adar get a different number -
+    /// depending on whether the year is a leap year or not.
+    /// The Torah also instructs us to call Nissan the first month. (See Ramban in drasha for Rosh Hashana)
+    /// Hence this "Nissan first" Jewish Date class -
+    /// with all the underlying logic based on System.Globalization.HebrewCalendar (which was found to be very efficient).
+    /// This class cannot be used with the .NET micro framework as it does not have access to System.Globalization.HebrewCalendar.
+    /// To use this project with the .NET Micro Framework, you will need to remove this file before compiling.</remarks>
     public class JewishDate : IJewishDate
     {
-        private DateTime _gregorianDate;
+        #region Private Fields
+
         private int _day, _month, _year;
+        private DateTime _gregorianDate;
 
-        private static HebrewCalendar hc = new HebrewCalendar();
-        private static CultureInfo ci = new CultureInfo("he-il");
+        #endregion Private Fields
 
-        static JewishDate()
-        {
-            ci.DateTimeFormat.Calendar = hc;
-        }
-
-        /// <summary>
-        /// The number of years since creation
-        /// </summary>
-        public int Year { get { return this._year; } }
-
-        /// <summary>
-        /// The Jewish Month. As in the Torah, Nissan is month 1
-        /// </summary>
-        public int Month { get { return this._month; } }
-
-        /// <summary>
-        /// The Day in the month for this Jewish Date.
-        /// NOTE: If location was not supplied in the constructor the Jewish Day may not be correct
-        /// as from nightfall until midnight should really be the next Jewish day.
-        /// </summary>
-        public int Day { get { return this._day; } }
-
-        /// <summary>
-        /// The day of the week for this Jewish Date
-        /// </summary>
-        public System.DayOfWeek DayOfWeek { get { return hc.GetDayOfWeek(this.GregorianDate); } }
-
-        /// <summary>
-        /// The name of the current Jewish Month (in English)
-        /// </summary>
-        public string MonthName { get { return Utils.JewishMonthNamesEnglish[this.Month]; } }
-
-        /// <summary>
-        /// The number of days elapsed since the theoretical Gregorian date Sunday, December 31, 1 BCE.
-        /// Since there is no year 0 in the calendar, the year following 1 BCE is 1 CE.
-        /// So, the Gregorian date January 1, 1 CE is absolute date number 1.
-        /// </summary>
-        public int AbsoluteDate
-        {
-            get
-            {
-                return (int)((this.GregorianDate.Subtract(new DateTime(1, 1, 1)).TotalDays + 1));
-            }
-        }
-
-        /// <summary>
-        /// The secular date at midnight of this Jewish Date.
-        /// </summary>
-        /// <remarks>
-        /// If the current object was constructed with a constructor that takes a "Location"
-        /// and the DateTime used by the constructor was after sunset but before midnight,
-        /// the GregorianDate will be a day late as a day was added by the constructor.
-        /// This anomaly is caused by the following un-mixable elements:
-        ///     1. The correct Jewish date changes at sunset - so in Jewish, it is the next day.
-        ///     2. The JewishDate class's calculations are based on the System.Globalization.HebrewCalendar functions -
-        ///        which use System DateTime and do not consider sunset as a factor....
-        ///        So in order to change the Jewish Date to the next day, we need to add a day to the
-        ///        GregorianDate property as this class's connection to the functions of
-        ///        System.Globalization.HebrewCalendar are all through it's GregorianDate property.
-        /// To get the correct and proper Secular Date, use the GetSecularDate(HourMinute, Location) function.
-        /// </remarks>
-        public DateTime GregorianDate
-        {
-            get
-            {
-                return this._gregorianDate;
-            }
-            set
-            {
-                this._gregorianDate = value;
-
-                //No need to do the calculation twice
-                this._year = hc.GetYear(value);
-                this._month = GetNissanMonth(hc.GetMonth(value), this._year);
-                this._day = hc.GetDayOfMonth(value);
-            }
-        }
-
-        /// <summary>
-        /// The minimum valid date supported by this class
-        /// </summary>
-        public static JewishDate MinDate
-        {
-            get
-            {
-                return new JewishDate(hc.MinSupportedDateTime);
-            }
-        }
-
-        /// <summary>
-        /// The maximum supported date by this class
-        /// </summary>
-        public static JewishDate MaxDate
-        {
-            get
-            {
-                return new JewishDate(hc.MaxSupportedDateTime);
-            }
-        }
+        #region Public Constructors
 
         /// <summary>
         /// Empty constructor. Sets the date to the current system date.
@@ -147,7 +56,7 @@ namespace JewishCalendar
         /// <param name="day">The day of the month</param>
         public JewishDate(int year, int month, int day)
         {
-            this.GregorianDate = new DateTime(year, GetTishrieMonth(month, year), day, hc);
+            this.GregorianDate = new DateTime(year, GetTishrieMonth(month, year), day, Utils.HebrewCalendar);
         }
 
         /// <summary>
@@ -188,123 +97,108 @@ namespace JewishCalendar
             }
         }
 
-        private static int GetTishrieMonth(int nissanMonth, int year)
-        {
-            if (nissanMonth >= 7)
-            {
-                return nissanMonth - 6;
-            }
-            else
-            {
-                return nissanMonth + (hc.IsLeapYear(year) ? 7 : 6);
-            }
-        }
+        #endregion Public Constructors
 
-        private static int GetNissanMonth(int tishrieMonth, int year)
+        #region Public Properties
+
+        /// <summary>
+        /// The maximum supported date by this class
+        /// </summary>
+        public static JewishDate MaxDate
         {
-            if (tishrieMonth <= 6)
+            get
             {
-                return tishrieMonth + 6;
-            }
-            else if (hc.IsLeapYear(year))
-            {
-                if (tishrieMonth == 7)
-                {
-                    return 13;
-                }
-                else
-                {
-                    return tishrieMonth - 7;
-                }
-            }
-            else
-            {
-                return tishrieMonth - 6;
+                return new JewishDate(Utils.HebrewCalendar.MaxSupportedDateTime);
             }
         }
 
         /// <summary>
-        /// Returns the correct Secular Date for this JewishDate at the given Time and Location.
+        /// The minimum valid date supported by this class
         /// </summary>
-        /// <param name="location"></param>
-        /// <param name="timeOfDay"></param>
-        /// <returns></returns>
+        public static JewishDate MinDate
+        {
+            get
+            {
+                return new JewishDate(Utils.HebrewCalendar.MinSupportedDateTime);
+            }
+        }
+
+        /// <summary>
+        /// The number of days elapsed since the theoretical Gregorian date Sunday, December 31, 1 BCE.
+        /// Since there is no year 0 in the calendar, the year following 1 BCE is 1 CE.
+        /// So, the Gregorian date January 1, 1 CE is absolute date number 1.
+        /// </summary>
+        public int AbsoluteDate
+        {
+            get
+            {
+                return (int)((this.GregorianDate.Subtract(new DateTime(1, 1, 1)).TotalDays + 1));
+            }
+        }
+
+        /// <summary>
+        /// The Day in the month for this Jewish Date.
+        /// NOTE: If location was not supplied in the constructor the Jewish Day may not be correct
+        /// as from nightfall until midnight should really be the next Jewish day.
+        /// </summary>
+        public int Day { get { return this._day; } }
+
+        /// <summary>
+        /// The day of the week for this Jewish Date
+        /// </summary>
+        public System.DayOfWeek DayOfWeek { get { return Utils.HebrewCalendar.GetDayOfWeek(this.GregorianDate); } }
+
+        /// <summary>
+        /// The secular date at midnight of this Jewish Date.
+        /// </summary>
         /// <remarks>
-        /// When using a JewishDate constructor that takes a "Location" object,
-        /// if the initializing DateTime was after sunset, the date was set to the next day.
-        /// The GregorianDate property will therefore not properly reflect the true Secular date until midnight.
-        /// This function returns the correct GregorianDate for this JewishDate at the given time and place.
+        /// If the current object was constructed with a constructor that takes a "Location"
+        /// and the DateTime used by the constructor was after sunset but before midnight,
+        /// the GregorianDate will be a day late as a day was added by the constructor.
+        /// This anomaly is caused by the following un-mixable elements:
+        ///     1. The correct Jewish date changes at sunset - so in Jewish, it is the next day.
+        ///     2. The JewishDate class's calculations are based on the System.Globalization.HebrewCalendar functions -
+        ///        which use System DateTime and do not consider sunset as a factor....
+        ///        So in order to change the Jewish Date to the next day, we need to add a day to the
+        ///        GregorianDate property as this class's connection to the functions of
+        ///        System.Globalization.HebrewCalendar are all through it's GregorianDate property.
+        /// To get the correct and proper Secular Date, use the GetSecularDate(HourMinute, Location) function.
         /// </remarks>
-        public System.DateTime GetSecularDate(HourMinute timeOfDay, Location location)
+        public DateTime GregorianDate
         {
-            //Sunset is never, ever before mid-day (not even at the North and South Poles)
-            if (timeOfDay.Hour > 12 && timeOfDay >= new Zmanim(this.GregorianDate, location).GetShkia())
+            get
             {
-                // From sunset to midnight:
-                // Jewish today is Secular tomorrow and Secular Today is Jewish Yesterday
-                // (please sir, keep your yarmulka on!) [double meanings all around]
-                return this.GregorianDate.AddDays(-1);
+                return this._gregorianDate;
             }
-            else
+            set
             {
-                return this.GregorianDate;
+                this._gregorianDate = value;
+
+                //No need to do the calculation twice
+                this._year = Utils.HebrewCalendar.GetYear(value);
+                this._month = GetNissanMonth(Utils.HebrewCalendar.GetMonth(value), this._year);
+                this._day = Utils.HebrewCalendar.GetDayOfMonth(value);
             }
         }
 
         /// <summary>
-        /// Returns the Jewish date in the format: Adar 14, 5775
+        /// The Jewish Month. As in the Torah, Nissan is month 1
         /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return this.ToShortDateString();
-        }
+        public int Month { get { return this._month; } }
 
         /// <summary>
-        /// Returns the Jewish date in the format: Adar 14, 5775
+        /// The name of the current Jewish Month (in English)
         /// </summary>
-        /// <returns></returns>
-        public string ToShortDateString()
-        {
-            var sb = new System.Text.StringBuilder();
-            sb.Append(this.MonthName);
-            sb.Append(" " + this.Day);
-            sb.Append(", " + this.Year.ToString());
-            return sb.ToString();
-        }
+        public string MonthName { get { return Utils.JewishMonthNamesEnglish[this.Month]; } }
 
         /// <summary>
-        /// Returns the Jewish date in the format: The 14th day of Adar, 5775
+        /// The number of years since creation
         /// </summary>
-        /// <returns></returns>
-        public string ToLongDateString()
-        {
-            var sb = new System.Text.StringBuilder();
-            sb.Append("The ");
-            sb.Append(this.Day.ToSuffixedString());
-            sb.Append(" day of ");
-            sb.Append(this.MonthName);
-            sb.Append(", " + this.Year.ToString());
-            return sb.ToString();
-        }
+        public int Year { get { return this._year; } }
 
-        /// <summary>
-        /// Returns the Jewish date in the format: יום חמישי כ"ט תשרי תשע"ה
-        /// </summary>
-        /// <returns></returns>
-        public string ToLongDateStringHeb()
-        {
-            return this.GregorianDate.ToString("D", ci);
-        }
+        #endregion Public Properties
 
-        /// <summary>
-        /// Returns the Jewish date in the format: כ"ו אלול תשע"ה
-        /// </summary>
-        /// <returns></returns>
-        public string ToShortDateStringHeb()
-        {
-            return this.GregorianDate.ToString("d", ci);
-        }
+        #region Public Methods
 
         /// <summary>
         /// Determines if the given Jewish Year is a Leap Year
@@ -313,63 +207,29 @@ namespace JewishCalendar
         /// <returns></returns>
         public static bool IsLeapYear(int year)
         {
-            return hc.IsLeapYear(year);
+            return Utils.HebrewCalendar.IsLeapYear(year);
         }
 
         /// <summary>
-        /// Returns the day of the Omer for the given Jewish date. If the given day is not during Sefirah, 0 is returned
+        /// Subtract days from a Jewish date.
         /// </summary>
+        /// <param name="hd"></param>
+        /// <param name="days"></param>
         /// <returns></returns>
-        public int GetDayOfOmer()
+        public static JewishDate operator -(JewishDate hd, int days)
         {
-            int dayOfOmer = 0;
-            if ((this.Month == 1 && this.Day > 15) || this.Month == 2 || (this.Month == 3 && this.Day < 6))
-            {
-                dayOfOmer = (this - new JewishDate(this.Year, 1, 15));
-            }
-            return dayOfOmer;
+            return new JewishDate(hd.GregorianDate.AddDays(-days));
         }
 
         /// <summary>
-        /// Compare this JewishDate to another. If the day, month and year are the same, will return true.
+        /// Gets the difference in days between two Jewish dates.
         /// </summary>
-        /// <param name="jd2"></param>
+        /// <param name="hd"></param>
+        /// <param name="hd2"></param>
         /// <returns></returns>
-        public override bool Equals(object jd2)
+        public static int operator -(JewishDate hd, JewishDate hd2)
         {
-            if (!(jd2 is IJewishDate))
-            {
-                return false;
-            }
-            if (Object.ReferenceEquals(this, jd2))
-            {
-                return true;
-            }
-            return this.IsSameDate((IJewishDate)jd2);
-        }
-
-        /// <summary>
-        /// Return the HashCode for this instance
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode()
-        {
-            return this.Year.GetHashCode() ^ this.Month.GetHashCode() ^ this.Day.GetHashCode();
-        }
-
-        /// <summary>
-        /// Returns true if both objects have the same day, month and year. You can also use the Equals function or the extension method IsSameDate(iJewishDate js) for the same purpose.
-        /// </summary>
-        /// <param name="jd1"></param>
-        /// <param name="jd2"></param>
-        /// <returns></returns>
-        public static bool operator ==(JewishDate jd1, IJewishDate jd2)
-        {
-            if (Object.ReferenceEquals(jd1, null))
-            {
-                return Object.ReferenceEquals(jd2, null);
-            }
-            return jd1.Equals(jd2);
+            return hd.GregorianDate.Subtract(hd2.GregorianDate).Days;
         }
 
         /// <summary>
@@ -384,57 +244,14 @@ namespace JewishCalendar
         }
 
         /// <summary>
-        /// Returns true if the current JewishDate object is chronologically after the second iJewishDate object
+        /// Add days to a Jewish date.
         /// </summary>
-        /// <param name="jd1"></param>
-        /// <param name="jd2"></param>
+        /// <param name="hd"></param>
+        /// <param name="days"></param>
         /// <returns></returns>
-        public static bool operator >(JewishDate jd1, IJewishDate jd2)
+        public static JewishDate operator +(JewishDate hd, int days)
         {
-            if (jd1 == null || jd2 == null || jd1 == jd2)
-            {
-                return false;
-            }
-            if (jd1.Year > jd2.Year)
-            {
-                return true;
-            }
-            else if (jd1.Year < jd2.Year)
-            {
-                return false;
-            }
-            if (jd1.Month > jd2.Month)
-            {
-                return true;
-            }
-            else if (jd1.Month < jd2.Month)
-            {
-                return false;
-            }
-            if (jd1.Day > jd2.Day)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Returns true if the current JewishDate object is not chronologically later than the second iJewishDate object
-        /// </summary>
-        /// <param name="jd1"></param>
-        /// <param name="jd2"></param>
-        /// <returns></returns>
-        public static bool operator <=(JewishDate jd1, IJewishDate jd2)
-        {
-            if (jd1 == null || jd2 == null)
-            {
-                return false;
-            }
-            if (jd1 == jd2)
-            {
-                return true;
-            }
-            return jd1 < jd2;
+            return new JewishDate(hd.GregorianDate.AddDays(days));
         }
 
         /// <summary>
@@ -473,6 +290,75 @@ namespace JewishCalendar
         }
 
         /// <summary>
+        /// Returns true if the current JewishDate object is not chronologically later than the second iJewishDate object
+        /// </summary>
+        /// <param name="jd1"></param>
+        /// <param name="jd2"></param>
+        /// <returns></returns>
+        public static bool operator <=(JewishDate jd1, IJewishDate jd2)
+        {
+            if (jd1 == null || jd2 == null)
+            {
+                return false;
+            }
+            if (jd1 == jd2)
+            {
+                return true;
+            }
+            return jd1 < jd2;
+        }
+
+        /// <summary>
+        /// Returns true if both objects have the same day, month and year. You can also use the Equals function or the extension method IsSameDate(iJewishDate js) for the same purpose.
+        /// </summary>
+        /// <param name="jd1"></param>
+        /// <param name="jd2"></param>
+        /// <returns></returns>
+        public static bool operator ==(JewishDate jd1, IJewishDate jd2)
+        {
+            if (Object.ReferenceEquals(jd1, null))
+            {
+                return Object.ReferenceEquals(jd2, null);
+            }
+            return jd1.Equals(jd2);
+        }
+
+        /// <summary>
+        /// Returns true if the current JewishDate object is chronologically after the second iJewishDate object
+        /// </summary>
+        /// <param name="jd1"></param>
+        /// <param name="jd2"></param>
+        /// <returns></returns>
+        public static bool operator >(JewishDate jd1, IJewishDate jd2)
+        {
+            if (jd1 == null || jd2 == null || jd1 == jd2)
+            {
+                return false;
+            }
+            if (jd1.Year > jd2.Year)
+            {
+                return true;
+            }
+            else if (jd1.Year < jd2.Year)
+            {
+                return false;
+            }
+            if (jd1.Month > jd2.Month)
+            {
+                return true;
+            }
+            else if (jd1.Month < jd2.Month)
+            {
+                return false;
+            }
+            if (jd1.Day > jd2.Day)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Returns true if the current JewishDate object is not chronologically earlier than the second iJewishDate object
         /// </summary>
         /// <param name="jd1"></param>
@@ -492,47 +378,132 @@ namespace JewishCalendar
         }
 
         /// <summary>
-        /// Add days to a Jewish date.
+        /// Compare this JewishDate to another. If the day, month and year are the same, will return true.
         /// </summary>
-        /// <param name="hd"></param>
-        /// <param name="days"></param>
+        /// <param name="jd2"></param>
         /// <returns></returns>
-        public static JewishDate operator +(JewishDate hd, int days)
+        public override bool Equals(object jd2)
         {
-            return new JewishDate(hd.GregorianDate.AddDays(days));
+            if (!(jd2 is IJewishDate))
+            {
+                return false;
+            }
+            if (Object.ReferenceEquals(this, jd2))
+            {
+                return true;
+            }
+            return this.IsSameDate((IJewishDate)jd2);
         }
 
         /// <summary>
-        /// Subtract days from a Jewish date.
+        /// Returns the day of the Omer for the given Jewish date. If the given day is not during Sefirah, 0 is returned
         /// </summary>
-        /// <param name="hd"></param>
-        /// <param name="days"></param>
         /// <returns></returns>
-        public static JewishDate operator -(JewishDate hd, int days)
+        public int GetDayOfOmer()
         {
-            return new JewishDate(hd.GregorianDate.AddDays(-days));
+            int dayOfOmer = 0;
+            if ((this.Month == 1 && this.Day > 15) || this.Month == 2 || (this.Month == 3 && this.Day < 6))
+            {
+                dayOfOmer = (this - new JewishDate(this.Year, 1, 15));
+            }
+            return dayOfOmer;
         }
 
         /// <summary>
-        /// Gets the difference in days between two Jewish dates.
+        /// Return the HashCode for this instance
         /// </summary>
-        /// <param name="hd"></param>
-        /// <param name="hd2"></param>
         /// <returns></returns>
-        public static int operator -(JewishDate hd, JewishDate hd2)
+        public override int GetHashCode()
         {
-            return hd.GregorianDate.Subtract(hd2.GregorianDate).Days;
+            return this.Year.GetHashCode() ^ this.Month.GetHashCode() ^ this.Day.GetHashCode();
         }
 
         /// <summary>
-        /// Compute the total number of months for the given Hebrew year
+        /// Returns the correct Secular Date for this JewishDate at the given Time and Location.
         /// </summary>
-        /// <param name="year"></param>
+        /// <param name="location"></param>
+        /// <param name="timeOfDay"></param>
         /// <returns></returns>
-        private static int MonthsInYear(int year)
+        /// <remarks>
+        /// When using a JewishDate constructor that takes a "Location" object,
+        /// if the initializing DateTime was after sunset, the date was set to the next day.
+        /// The GregorianDate property will therefore not properly reflect the true Secular date until midnight.
+        /// This function returns the correct GregorianDate for this JewishDate at the given time and place.
+        /// </remarks>
+        public System.DateTime GetSecularDate(HourMinute timeOfDay, Location location)
         {
-            return hc.GetMonthsInYear(year);
+            //Sunset is never, ever before mid-day (not even at the North and South Poles)
+            if (timeOfDay.Hour > 12 && timeOfDay >= new Zmanim(this.GregorianDate, location).GetShkia())
+            {
+                // From sunset to midnight:
+                // Jewish today is Secular tomorrow and Secular Today is Jewish Yesterday
+                // (please sir, keep your yarmulka on!) [double meanings all around]
+                return this.GregorianDate.AddDays(-1);
+            }
+            else
+            {
+                return this.GregorianDate;
+            }
         }
+
+        /// <summary>
+        /// Returns the Jewish date in the format: The 14th day of Adar, 5775
+        /// </summary>
+        /// <returns></returns>
+        public string ToLongDateString()
+        {
+            var sb = new System.Text.StringBuilder();
+            sb.Append("The ");
+            sb.Append(this.Day.ToSuffixedString());
+            sb.Append(" day of ");
+            sb.Append(this.MonthName);
+            sb.Append(", " + this.Year.ToString());
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns the Jewish date in the format: יום חמישי כ"ט תשרי תשע"ה
+        /// </summary>
+        /// <returns></returns>
+        public string ToLongDateStringHeb()
+        {
+            return this.GregorianDate.ToString("D", Utils.HebrewCultureInfo);
+        }
+
+        /// <summary>
+        /// Returns the Jewish date in the format: Adar 14, 5775
+        /// </summary>
+        /// <returns></returns>
+        public string ToShortDateString()
+        {
+            var sb = new System.Text.StringBuilder();
+            sb.Append(this.MonthName);
+            sb.Append(" " + this.Day);
+            sb.Append(", " + this.Year.ToString());
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns the Jewish date in the format: כ"ו אלול תשע"ה
+        /// </summary>
+        /// <returns></returns>
+        public string ToShortDateStringHeb()
+        {
+            return this.GregorianDate.ToString("d", Utils.HebrewCultureInfo);
+        }
+
+        /// <summary>
+        /// Returns the Jewish date in the format: Adar 14, 5775
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return this.ToShortDateString();
+        }
+
+        #endregion Public Methods
+
+        #region Private Methods
 
         /// <summary>
         /// Get the total number of days in the given Hebrew year
@@ -541,7 +512,42 @@ namespace JewishCalendar
         /// <returns></returns>
         private static int DaysInHebrewYear(int year)
         {
-            return hc.GetDaysInYear(year);
+            return Utils.HebrewCalendar.GetDaysInYear(year);
+        }
+
+        private static int GetNissanMonth(int tishrieMonth, int year)
+        {
+            if (tishrieMonth <= 6)
+            {
+                return tishrieMonth + 6;
+            }
+            else if (Utils.HebrewCalendar.IsLeapYear(year))
+            {
+                if (tishrieMonth == 7)
+                {
+                    return 13;
+                }
+                else
+                {
+                    return tishrieMonth - 7;
+                }
+            }
+            else
+            {
+                return tishrieMonth - 6;
+            }
+        }
+
+        private static int GetTishrieMonth(int nissanMonth, int year)
+        {
+            if (nissanMonth >= 7)
+            {
+                return nissanMonth - 6;
+            }
+            else
+            {
+                return nissanMonth + (Utils.HebrewCalendar.IsLeapYear(year) ? 7 : 6);
+            }
         }
 
         /// <summary>
@@ -551,7 +557,7 @@ namespace JewishCalendar
         /// <returns></returns>
         private static bool IsLongCheshvan(int year)
         {
-            return hc.GetDaysInMonth(year, 2) == 30;
+            return Utils.HebrewCalendar.GetDaysInMonth(year, 2) == 30;
         }
 
         /// <summary>
@@ -561,7 +567,19 @@ namespace JewishCalendar
         /// <returns></returns>
         private static bool IsShortKislev(int year)
         {
-            return hc.GetDaysInMonth(year, 3) == 29;
+            return Utils.HebrewCalendar.GetDaysInMonth(year, 3) == 29;
         }
+
+        /// <summary>
+        /// Compute the total number of months for the given Hebrew year
+        /// </summary>
+        /// <param name="year"></param>
+        /// <returns></returns>
+        private static int MonthsInYear(int year)
+        {
+            return Utils.HebrewCalendar.GetMonthsInYear(year);
+        }
+
+        #endregion Private Methods
     }
 }

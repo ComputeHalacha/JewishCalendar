@@ -108,8 +108,8 @@
         if (loc) {
             loc = JSON.parse(loc);
         }
-        else {            
-            loc = Location.getJerusalem(); //where else?            
+        else {
+            loc = Location.getJerusalem(); //where else?
             localStorage.setItem('location', JSON.stringify(loc));
         }
         showMessage('Location set to: ' + loc.Name, false, 2, 'Location set');
@@ -138,7 +138,7 @@
                 ' long:' + location.Longitude.toString() +
                 (location.Israel ? ' | Israel' : '') + '  |  ' +
                 (location.IsDST ? 'DST' : 'not DST'));
-        $('#pMain').html(getZmanimHtml(jd, location));
+        $('#ulMain').html(getZmanimHtml(jd, location)).listview("refresh");
         $('#pMain').jqmData('currDate', jd);
     }
 
@@ -191,22 +191,22 @@
         shaaZmanis90 = jd.getShaaZmanis(location, 90);
 
         if (jd.hasCandleLighting()) {
-            html += "<strong>Candle Lighting: " + Utils.getTimeString(jd.getCandleLighting(location)) + '</strong><br /><br />';
+            html += addLine("Candle Lighting", jd.getCandleLighting(location), "Candle lighting time ");
         }
         html += addLine("Weekly Sedra",
-            jd.getSedra(location.Israel).map(function (s) { return s.eng; }).join(' - '));
+            jd.getSedra(location.Israel).map(function (s) { return s.eng; }).join(' - '), "Parasha of the week");
         if (dy != null) {
-            html += addLine("Daf Yomi", dy);
+            html += addLine("Daf Yomi", dy, "The Daf Yomi for this day");
         }
 
         if (isNaN(netz.hour)) {
-            html += addLine("Netz Hachama", "The does not rise");
+            html += addLine("Netz Hachama", "The does not rise", "Sunrise");
         }
         else {
-            html += addLine("Alos Hashachar - 90", (Utils.addMinutes(netz, -90)));
-            html += addLine("Alos Hashachar - 72", (Utils.addMinutes(netz, -72)));
-            html += addLine("Netz Hachama", netz);
-            html += addLine("Krias Shma - MG\"A", (Utils.addMinutes(Utils.addMinutes(netz, -90), parseInt(shaaZmanis90 * 3))));
+            html += addLine("Alos Hashachar - 90", (Utils.addMinutes(netz, -90)), "90 minutes before sunrise");
+            html += addLine("Alos Hashachar - 72", (Utils.addMinutes(netz, -72)), "72 minutes before sunrise");
+            html += addLine("Netz Hachama", netz, "Sunrise at this location");
+            html += addLine("Krias Shma - MG\"A", (Utils.addMinutes(Utils.addMinutes(netz, -90), parseInt(shaaZmanis90 * 3))), "End of time to say <e>Shema</em> according to the <em>Magen Avraham</em>");
             html += addLine("Krias Shma - GR\"A", (Utils.addMinutes(netz, parseInt(shaaZmanis * 3))));
             html += addLine("Zeman Tefillah - MG\"A", (Utils.addMinutes(Utils.addMinutes(netz, -90), parseInt(shaaZmanis90 * 4))));
             html += addLine("Zeman Tefillah - GR\"A", Utils.addMinutes(netz, parseInt(shaaZmanis * 4)));
@@ -229,8 +229,10 @@
         return html;
     }
 
-    function addLine(caption, value) {
-        return caption + '...............<strong>' +
-            (value.hour ? Utils.getTimeString(value) : value) + '</strong><br />';
+    function addLine(caption, value, descr) {
+        return '<li data-role="list-divider">' + caption + '</li>' +
+               '<li><p><h1 class="h1Zman">' + (value.hour ? Utils.getTimeString(value) : value) +
+            '</h1></p><p class="ui-li-aside">' + (descr || '')
+             + '</p></li>';
     }
 })();

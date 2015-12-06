@@ -1,37 +1,35 @@
 ﻿/**********************************************************************************************************
- * By CBS.
  * The regular .NET HebrewCalendar is  not available in the .NET Micro Framework,
- * so we concocted our own based on alternative open source code.
- * NOTE: for non micro framework projects, use JewishCalendar.JewishDate which is
- * based on the System.Globalization.HebrewCalendar -
- * the calculations are much more efficient (hence much faster) than most of the functions in this class.  *
- * To use the dll with the .NET Micro Framework, remove the file JewishDate.cs before compiling.
+ * so this class was created based on open source algorithms.
+ * NOTE: for non micro framework projects, use JewishCalendar.JewishDate which being based
+ * on the System.Globalization.HebrewCalendar is much more efficient (hence much faster)
+ * than most of the functions in this class.
+ * To use the dll with the .NET Micro Framework, the following items needs to be removed before compiling:
+ *      1. The entire file "JewishDate.cs"
+ *      2. The following line in "Utils.cs": public static HebrewCalendar HebrewCalendar = new HebrewCalendar();
+ *      3. The following line in "Utils.cs": HebrewCultureInfo.DateTimeFormat.Calendar = HebrewCalendar;
  **********************************************************************************************************/
 
 namespace JewishCalendar
 {
     /// <summary>
-    /// Represents a single day in the Jewish calendar
+    /// Represents a single day in the Jewish calendar.
     /// </summary>
+    /// <remarks>
+    /// The regular .NET HebrewCalendar is  not available in the .NET Micro Framework,
+    /// so this class was created based on open source algorithms.
+    /// NOTE: for non micro framework projects, use JewishCalendar.JewishDate which being based
+    /// on the System.Globalization.HebrewCalendar is much more efficient (hence much faster)
+    /// than most of the functions in this class.
+    /// To use the dll with the .NET Micro Framework, the following items needs to be removed before compiling:
+    ///      1. The entire file "JewishDate.cs"
+    ///      2. The following line in "Utils.cs": public static HebrewCalendar HebrewCalendar = new HebrewCalendar();
+    ///      3. The following line in "Utils.cs": HebrewCultureInfo.DateTimeFormat.Calendar = HebrewCalendar;
+    /// </remarks>
+
     public class JewishDateMicro : IJewishDate
     {
         #region Public Properties
-
-        /// <summary>
-        /// The number of years since creation
-        /// </summary>
-        public int Year { get; private set; }
-
-        /// <summary>
-        /// The Jewish Month. As in the Torah, Nissan is month 1
-        /// </summary>
-        public int Month { get; private set; }
-
-        /// <summary>
-        /// The Day in the month for this Jewish Date.
-        /// NOTE: Not always correct; from nightfall until midnight should really be the next Jewish day.
-        /// </summary>
-        public int Day { get; private set; }
 
         /// <summary>
         /// The number of days elapsed since the theoretical Gregorian date Sunday, December 31, 1 BCE.
@@ -39,6 +37,12 @@ namespace JewishCalendar
         /// So, the Gregorian date January 1, 1 CE is absolute date number 1.
         /// </summary>
         public int AbsoluteDate { get; private set; }
+
+        /// <summary>
+        /// The Day in the month for this Jewish Date.
+        /// NOTE: Not always correct; from nightfall until midnight should really be the next Jewish day.
+        /// </summary>
+        public int Day { get; private set; }
 
         /// <summary>
         /// The index of the day of the week for this Jewish Date. Sunday is 0.
@@ -51,9 +55,19 @@ namespace JewishCalendar
         public System.DayOfWeek DayOfWeek { get { return (System.DayOfWeek)this.DayInWeek; } }
 
         /// <summary>
+        /// The Jewish Month. As in the Torah, Nissan is month 1
+        /// </summary>
+        public int Month { get; private set; }
+
+        /// <summary>
         /// The name of the current Jewish Month (in English)
         /// </summary>
         public string MonthName { get { return Utils.JewishMonthNamesEnglish[this.Month]; } }
+
+        /// <summary>
+        /// The number of years since creation
+        /// </summary>
+        public int Year { get; private set; }
 
         #endregion Public Properties
 
@@ -159,114 +173,6 @@ namespace JewishCalendar
         #region Public Functions
 
         /// <summary>
-        /// Returns the Jewish date in the format: Adar 14, 5775
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return this.ToShortDateString();
-        }
-
-        /// <summary>
-        /// Returns the HashCode for this instance
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode()
-        {
-            return this.Year.GetHashCode() ^ this.Month.GetHashCode() ^ this.Day.GetHashCode();
-        }
-
-        /// <summary>
-        /// Returns the day of the Omer for the given Jewish date. If the given day is not during Sefirah, 0 is returned
-        /// </summary>
-        /// <returns></returns>
-        public int GetDayOfOmer()
-        {
-            int dayOfOmer = 0;
-            if ((this.Month == 1 && this.Day > 15) || this.Month == 2 || (this.Month == 3 && this.Day < 6))
-            {
-                dayOfOmer = (this - new JewishDateMicro(this.Year, 1, 15));
-            }
-            return dayOfOmer;
-        }
-
-        /// <summary>
-        /// Returns true if both objects have the same day, month and year. You can also use the == operator or the extension method IsSameDate(iJewishDate js) for the same purpose.
-        /// </summary>
-        /// <param name="jd2"></param>
-        /// <returns></returns>
-        public override bool Equals(object jd2)
-        {
-            if (!(jd2 is IJewishDate))
-            {
-                return false;
-            }
-            if (object.ReferenceEquals(this, jd2))
-            {
-                return true;
-            }
-            return this.IsSameDate((IJewishDate)jd2);
-        }
-
-        /// <summary>
-        /// Returns the Jewish date in the format: Adar 14, 5775
-        /// </summary>
-        /// <returns></returns>
-        public string ToShortDateString()
-        {
-            var sb = new System.Text.StringBuilder();
-            sb.Append(this.MonthName);
-            sb.Append(" " + this.Day);
-            sb.Append(", " + this.Year.ToString());
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Returns the Jewish date in the format: The 14th day of Adar, 5775
-        /// </summary>
-        /// <returns></returns>
-        public string ToLongDateString()
-        {
-            var sb = new System.Text.StringBuilder();
-            sb.Append("The ");
-            sb.Append(this.Day.ToSuffixedString());
-            sb.Append(" day of ");
-            sb.Append(this.MonthName);
-            sb.Append(", " + this.Year.ToString());
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Returns the Jewish date in the format: יום חמישי כ"ט תשרי תשע"ה
-        /// </summary>
-        /// <returns></returns>
-        public string ToLongDateStringHeb()
-        {
-            var sb = new System.Text.StringBuilder();
-            //Note for the .net micro framework there are no "format" functions
-            sb.Append(Utils.JewishDOWNames[this.DayInWeek]);
-            sb.Append(" ");
-            sb.Append(this.ToShortDateStringHeb());
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Returns the Jewish date in the format: כ"ו אלול תשע"ה
-        /// </summary>
-        /// <returns></returns>
-        public string ToShortDateStringHeb()
-        {
-            var sb = new System.Text.StringBuilder();
-            //Note for the .net micro framework there are no "format" functions
-            sb.Append(this.Day.ToNumberHeb());
-            sb.Append(" ");
-            sb.Append(Utils.JewishMonthNamesHebrew[this.Month]);
-            sb.Append(" ");
-            sb.Append(this.Year.ToNumberHeb());
-            return sb.ToString();
-        }
-
-        /// <summary>
         /// Get the Gregorian Date for the current Hebrew Date
         /// </summary>
         /// <returns></returns>
@@ -304,23 +210,138 @@ namespace JewishCalendar
             }
         }
 
+        /// <summary>
+        /// Returns true if both objects have the same day, month and year. You can also use the == operator or the extension method IsSameDate(iJewishDate js) for the same purpose.
+        /// </summary>
+        /// <param name="jd2"></param>
+        /// <returns></returns>
+        public override bool Equals(object jd2)
+        {
+            if (!(jd2 is IJewishDate))
+            {
+                return false;
+            }
+            if (object.ReferenceEquals(this, jd2))
+            {
+                return true;
+            }
+            return this.IsSameDate((IJewishDate)jd2);
+        }
+
+        /// <summary>
+        /// Returns the day of the Omer for the given Jewish date. If the given day is not during Sefirah, 0 is returned
+        /// </summary>
+        /// <returns></returns>
+        public int GetDayOfOmer()
+        {
+            int dayOfOmer = 0;
+            if ((this.Month == 1 && this.Day > 15) || this.Month == 2 || (this.Month == 3 && this.Day < 6))
+            {
+                dayOfOmer = (this - new JewishDateMicro(this.Year, 1, 15));
+            }
+            return dayOfOmer;
+        }
+
+        /// <summary>
+        /// Returns the HashCode for this instance
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return this.Year.GetHashCode() ^ this.Month.GetHashCode() ^ this.Day.GetHashCode();
+        }
+
+        /// <summary>
+        /// Returns the Jewish date in the format: The 14th day of Adar, 5775
+        /// </summary>
+        /// <returns></returns>
+        public string ToLongDateString()
+        {
+            var sb = new System.Text.StringBuilder();
+            sb.Append("The ");
+            sb.Append(this.Day.ToSuffixedString());
+            sb.Append(" day of ");
+            sb.Append(this.MonthName);
+            sb.Append(", " + this.Year.ToString());
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns the Jewish date in the format: יום חמישי כ"ט תשרי תשע"ה
+        /// </summary>
+        /// <returns></returns>
+        public string ToLongDateStringHeb()
+        {
+            var sb = new System.Text.StringBuilder();
+            //Note for the .net micro framework there are no "format" functions
+            sb.Append(Utils.JewishDOWNames[this.DayInWeek]);
+            sb.Append(" ");
+            sb.Append(this.ToShortDateStringHeb());
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns the Jewish date in the format: Adar 14, 5775
+        /// </summary>
+        /// <returns></returns>
+        public string ToShortDateString()
+        {
+            var sb = new System.Text.StringBuilder();
+            sb.Append(this.MonthName);
+            sb.Append(" " + this.Day);
+            sb.Append(", " + this.Year.ToString());
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns the Jewish date in the format: כ"ו אלול תשע"ה
+        /// </summary>
+        /// <returns></returns>
+        public string ToShortDateStringHeb()
+        {
+            var sb = new System.Text.StringBuilder();
+            //Note for the .net micro framework there are no "format" functions
+            sb.Append(this.Day.ToNumberHeb());
+            sb.Append(" ");
+            sb.Append(Utils.JewishMonthNamesHebrew[this.Month]);
+            sb.Append(" ");
+            sb.Append(this.Year.ToNumberHeb());
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns the Jewish date in the format: Adar 14, 5775
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return this.ToShortDateString();
+        }
+
         #endregion Public Functions
 
         #region Operator Functions
 
         /// <summary>
-        /// Returns true if both objects have the same day, month and year. You can also use the Equals function or the extension method IsSameDate(iJewishDate js) for the same purpose.
+        /// Subtract days from a Jewish date.
         /// </summary>
-        /// <param name="jd1"></param>
-        /// <param name="jd2"></param>
+        /// <param name="hd"></param>
+        /// <param name="days"></param>
         /// <returns></returns>
-        public static bool operator ==(JewishDateMicro jd1, IJewishDate jd2)
+        public static JewishDateMicro operator -(JewishDateMicro hd, int days)
         {
-            if (object.ReferenceEquals(jd1, null))
-            {
-                return object.ReferenceEquals(jd2, null);
-            }
-            return jd1.Equals(jd2);
+            return new JewishDateMicro(hd.AbsoluteDate - days);
+        }
+
+        /// <summary>
+        /// Gets the difference in days between two Jewish dates.
+        /// </summary>
+        /// <param name="hd"></param>
+        /// <param name="hd2"></param>
+        /// <returns></returns>
+        public static int operator -(JewishDateMicro hd, JewishDateMicro hd2)
+        {
+            return hd.AbsoluteDate - hd2.AbsoluteDate;
         }
 
         /// <summary>
@@ -335,57 +356,14 @@ namespace JewishCalendar
         }
 
         /// <summary>
-        /// Returns true if the current JewishDateMicro object is chronologically after the second iJewishDate object
+        /// Add days to a Jewish date.
         /// </summary>
-        /// <param name="jd1"></param>
-        /// <param name="jd2"></param>
+        /// <param name="hd"></param>
+        /// <param name="days"></param>
         /// <returns></returns>
-        public static bool operator >(JewishDateMicro jd1, IJewishDate jd2)
+        public static JewishDateMicro operator +(JewishDateMicro hd, int days)
         {
-            if (jd1 == null || jd2 == null || jd1 == jd2)
-            {
-                return false;
-            }
-            if (jd1.Year > jd2.Year)
-            {
-                return true;
-            }
-            else if (jd1.Year < jd2.Year)
-            {
-                return false;
-            }
-            if (jd1.Month > jd2.Month)
-            {
-                return true;
-            }
-            else if (jd1.Month < jd2.Month)
-            {
-                return false;
-            }
-            if (jd1.Day > jd2.Day)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Returns true if the current JewishDateMicro object is not chronologically later than the second iJewishDate object
-        /// </summary>
-        /// <param name="jd1"></param>
-        /// <param name="jd2"></param>
-        /// <returns></returns>
-        public static bool operator <=(JewishDateMicro jd1, IJewishDate jd2)
-        {
-            if (jd1 == null || jd2 == null)
-            {
-                return false;
-            }
-            if (jd1 == jd2)
-            {
-                return true;
-            }
-            return jd1 < jd2;
+            return new JewishDateMicro(hd.AbsoluteDate + days);
         }
 
         /// <summary>
@@ -424,6 +402,75 @@ namespace JewishCalendar
         }
 
         /// <summary>
+        /// Returns true if the current JewishDateMicro object is not chronologically later than the second iJewishDate object
+        /// </summary>
+        /// <param name="jd1"></param>
+        /// <param name="jd2"></param>
+        /// <returns></returns>
+        public static bool operator <=(JewishDateMicro jd1, IJewishDate jd2)
+        {
+            if (jd1 == null || jd2 == null)
+            {
+                return false;
+            }
+            if (jd1 == jd2)
+            {
+                return true;
+            }
+            return jd1 < jd2;
+        }
+
+        /// <summary>
+        /// Returns true if both objects have the same day, month and year. You can also use the Equals function or the extension method IsSameDate(iJewishDate js) for the same purpose.
+        /// </summary>
+        /// <param name="jd1"></param>
+        /// <param name="jd2"></param>
+        /// <returns></returns>
+        public static bool operator ==(JewishDateMicro jd1, IJewishDate jd2)
+        {
+            if (object.ReferenceEquals(jd1, null))
+            {
+                return object.ReferenceEquals(jd2, null);
+            }
+            return jd1.Equals(jd2);
+        }
+
+        /// <summary>
+        /// Returns true if the current JewishDateMicro object is chronologically after the second iJewishDate object
+        /// </summary>
+        /// <param name="jd1"></param>
+        /// <param name="jd2"></param>
+        /// <returns></returns>
+        public static bool operator >(JewishDateMicro jd1, IJewishDate jd2)
+        {
+            if (jd1 == null || jd2 == null || jd1 == jd2)
+            {
+                return false;
+            }
+            if (jd1.Year > jd2.Year)
+            {
+                return true;
+            }
+            else if (jd1.Year < jd2.Year)
+            {
+                return false;
+            }
+            if (jd1.Month > jd2.Month)
+            {
+                return true;
+            }
+            else if (jd1.Month < jd2.Month)
+            {
+                return false;
+            }
+            if (jd1.Day > jd2.Day)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Returns true if the current JewishDateMicro object is not chronologically earlier than the second iJewishDate object
         /// </summary>
         /// <param name="jd1"></param>
@@ -440,39 +487,6 @@ namespace JewishCalendar
                 return true;
             }
             return jd1 > jd2;
-        }
-
-        /// <summary>
-        /// Add days to a Jewish date.
-        /// </summary>
-        /// <param name="hd"></param>
-        /// <param name="days"></param>
-        /// <returns></returns>
-        public static JewishDateMicro operator +(JewishDateMicro hd, int days)
-        {
-            return new JewishDateMicro(hd.AbsoluteDate + days);
-        }
-
-        /// <summary>
-        /// Subtract days from a Jewish date.
-        /// </summary>
-        /// <param name="hd"></param>
-        /// <param name="days"></param>
-        /// <returns></returns>
-        public static JewishDateMicro operator -(JewishDateMicro hd, int days)
-        {
-            return new JewishDateMicro(hd.AbsoluteDate - days);
-        }
-
-        /// <summary>
-        /// Gets the difference in days between two Jewish dates.
-        /// </summary>
-        /// <param name="hd"></param>
-        /// <param name="hd2"></param>
-        /// <returns></returns>
-        public static int operator -(JewishDateMicro hd, JewishDateMicro hd2)
-        {
-            return hd.AbsoluteDate - hd2.AbsoluteDate;
         }
 
         #endregion Operator Functions

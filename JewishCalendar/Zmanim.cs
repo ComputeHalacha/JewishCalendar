@@ -1,9 +1,8 @@
-﻿/****************************************************************************************
- * Written by CBS.
+﻿/* **********************************************************************************************
  * Computes the daily Zmanim and Yomim Tovim for a single date.
  * Most of the astronomical mathematical calculations were directly adapted from the excellent
  * Jewish calendar calculation in C# Copyright © by Ulrich and Ziporah Greve (2005)
- ****************************************************************************************/
+ * **********************************************************************************************/
 
 using System;
 using System.Collections;
@@ -13,6 +12,8 @@ namespace JewishCalendar
     /// <summary>
     /// Computes the daily Zmanim and Yomim Tovim for a single Jewish date.
     /// </summary>
+    /// <remarks>Most of the astronomical mathematical calculations were directly adapted from the excellent
+    /// Jewish calendar calculation in C# Copyright © by Ulrich and Ziporah Greve (2005)</remarks>
     public class Zmanim
     {
         #region properties

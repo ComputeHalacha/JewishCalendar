@@ -7,10 +7,29 @@ namespace JewishCalendar
     /// </summary>
     public class SpecialDay
     {
+        #region Public Constructors
+
+        /// <summary>
+        /// Create a new SpecialDay instance.
+        /// </summary>
+        /// <param name="nameEnglish"></param>
+        /// <param name="nameHebrew"></param>
+        /// <param name="dayTypes"></param>
+        public SpecialDay(string nameEnglish, string nameHebrew, SpecialDayTypes dayTypes)
+        {
+            this.NameEnglish = nameEnglish;
+            this.NameHebrew = nameHebrew;
+            this.DayType = dayTypes;
+        }
+
+        #endregion Public Constructors
+
+        #region Public Enums
+
+        [FlagsAttribute]
         /// <summary>
         /// Types of special days
         /// </summary>
-        [FlagsAttribute]
         public enum SpecialDayTypes
         {
             /// <summary>
@@ -44,6 +63,15 @@ namespace JewishCalendar
             HasCandleLighting = 128
         };
 
+        #endregion Public Enums
+
+        #region Public Properties
+
+        /// <summary>
+        /// Type of special day. Can have multiple values.
+        /// </summary>
+        public SpecialDayTypes DayType { get; set; }
+
         /// <summary>
         /// Name of this special day in English
         /// </summary>
@@ -54,23 +82,9 @@ namespace JewishCalendar
         /// </summary>
         public string NameHebrew { get; set; }
 
-        /// <summary>
-        /// Type of special day. Can have multiple values.
-        /// </summary>
-        public SpecialDayTypes DayType { get; set; }
+        #endregion Public Properties
 
-        /// <summary>
-        /// Create a new SpecialDay instance.
-        /// </summary>
-        /// <param name="nameEnglish"></param>
-        /// <param name="nameHebrew"></param>
-        /// <param name="dayTypes"></param>
-        public SpecialDay(string nameEnglish, string nameHebrew, SpecialDayTypes dayTypes)
-        {
-            this.NameEnglish = nameEnglish;
-            this.NameHebrew = nameHebrew;
-            this.DayType = dayTypes;
-        }
+        #region Public Methods
 
         /// <summary>
         /// Returns the name of this special day in English.
@@ -80,5 +94,7 @@ namespace JewishCalendar
         {
             return this.NameEnglish;
         }
+
+        #endregion Public Methods
     }
 }

@@ -1,17 +1,44 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 
 namespace JewishCalendar
 {
     /// <summary>
-    /// Contains general useful utils and pitchifkes
+    /// Contains general static arrays, some useful utility functions and other such pitchifkes
     /// </summary>
     public static class Utils
     {
+        #region Public Constructors
+
+        /// <summary>
+        /// static constructor
+        /// </summary>
+        static Utils()
+        {
+            // IMPORTANT NOTE: For using this file with a .NET Micro Framework project, the following must be removed.
+            HebrewCultureInfo.DateTimeFormat.Calendar = HebrewCalendar;
+        }
+
+        #endregion Public Constructors
+
+        #region Public Fields
+
         /// <summary>
         /// The Jewish names for the days of the week in English as an array. For example, DaysOfWeek[5] is Erev Shabbos
         /// </summary>
         public static string[] DaysOfWeek = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Erev Shabbos", "Shabbos Kodesh" };
+
+        /// <summary>
+        /// A .NET Hebrew calendar.
+        /// IMPORTANT NOTE: For using this file with a .NET Micro Framework project, the following must be removed.
+        /// </summary>
+        public static HebrewCalendar HebrewCalendar = new HebrewCalendar();
+
+        /// <summary>
+        /// The hebrew culture info
+        /// </summary>
+        public static CultureInfo HebrewCultureInfo = new CultureInfo("he-il");
 
         /// <summary>
         /// Names of days of week in Hebrew. יום ראשון is JewishDOWNames[0].
@@ -28,11 +55,19 @@ namespace JewishCalendar
         /// </summary>
         public static string[] JewishMonthNamesHebrew = { "", "ניסן", "אייר", "סיון", "תמוז", "אב", "אלול", "תשרי", "חשון", "כסלו", "טבת", "שבט", "אדר", "אדר שני" };
 
+        #endregion Public Fields
+
+        #region Private Fields
+
         private static string[] _hebsingles = { "", "אחד", "שנים", "שלשה", "ארבעה", "חמשה", "ששה", "שבעה", "שמונה", "תשעה" };
         private static string[] _hebTens = { "", "עשר", "עשרים", "שלושים", "ארבעים" };
         private static char[] _hundreds = new char[] { 'ק', 'ר', 'ש', 'ת' };
         private static char[] _sings = new char[] { 'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט' };
         private static char[] _tens = new char[] { 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ' };
+
+        #endregion Private Fields
+
+        #region Public Methods
 
         /// <summary>
         /// Returns the nusach for Sefiras Ha'omer for the given day and minhag
@@ -178,7 +213,7 @@ namespace JewishCalendar
         }
 
         /// <summary>
-        /// Converts a number into its jewish number equivalent. I.E. 254 is רכ"ד
+        /// Converts a number into its Jewish number equivalent. I.E. 254 is רכ"ד
         /// NOTE: The exact thousands numbers (1000, 2000, 3000 etc.)
         /// will look awfully similar to the single digits, but will be formatted with an apostrophe I.E. 2000 = "'ב"
         /// </summary>
@@ -280,6 +315,10 @@ namespace JewishCalendar
             return t + suffix;
         }
 
+        #endregion Public Methods
+
+        #region Private Methods
+
         /// <summary>
         /// Get day of week using Zellers algorithm.
         /// </summary>
@@ -295,5 +334,7 @@ namespace JewishCalendar
                 yy = year - adjustment;
             return (day + (13 * mm - 1) / 5 + yy + yy / 4 - yy / 100 + yy / 400) % 7;
         }
+
+        #endregion Private Methods
     }
 }
