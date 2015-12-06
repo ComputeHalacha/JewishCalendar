@@ -26,10 +26,11 @@ namespace JewishCalendar
 
         #region Public Enums
 
-        [FlagsAttribute]
+
         /// <summary>
         /// Types of special days
         /// </summary>
+        [FlagsAttribute]
         public enum SpecialDayTypes
         {
             /// <summary>

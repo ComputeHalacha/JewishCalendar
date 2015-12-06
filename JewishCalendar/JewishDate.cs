@@ -14,8 +14,7 @@ using System;
 
 namespace JewishCalendar
 {
-    [Serializable]
-    // <summary>
+    /// <summary>
     /// Represents a single day in the Jewish calendar - Month are Nissan based.
     /// </summary>
     /// <remarks>The regular .NET class System.Globalization.HebrewCalendar has Tishrei as month #1.
@@ -26,6 +25,7 @@ namespace JewishCalendar
     /// with all the underlying logic based on System.Globalization.HebrewCalendar (which was found to be very efficient).
     /// This class cannot be used with the .NET micro framework as it does not have access to System.Globalization.HebrewCalendar.
     /// To use this project with the .NET Micro Framework, you will need to remove this file before compiling.</remarks>
+    [Serializable]
     public class JewishDate : IJewishDate
     {
         #region Private Fields
