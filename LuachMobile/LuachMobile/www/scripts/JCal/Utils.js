@@ -1,6 +1,11 @@
 ﻿/// <reference path="Zmanim.js" />
 "use strict";
 
+//Returns whether or not the string contains the given substring
+String.prototype.has = function (text) {
+    return !!~this.indexOf(text); //A cute trick: bitwise NOT turns -1 into 0
+};
+
 //Returns whether or not the array contains the given item
 Array.prototype.has = function (item) {
     return !!~this.indexOf(item); //A cute trick: bitwise NOT turns -1 into 0
@@ -38,6 +43,7 @@ Date.prototype.isvalid = function () {
 function Utils() { }
 Utils.jMonthsEng = ["", "Nissan", "Iyar", "Sivan", "Tamuz", "Av", "Ellul", "Tishrei", "Cheshvan", "Kislev", "Teves", "Shvat", "Adar", "Adar Sheini"];
 Utils.jMonthsHeb = ["", "ניסן", "אייר", "סיון", "תמוז", "אב", "אלול", "תשרי", "חשון", "כסלו", "טבת", "שבט", "אדר", "אדר שני"];
+Utils.sMonthsEng = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 Utils.dowEng = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Erev Shabbos", "Shabbos Kodesh"];
 Utils.dowHeb = ["יום ראשון", "יום שני", "יום שלישי", "יום רביעי", "יום חמישי", "ערב שבת קודש", "שבת קודש"];
 Utils.jsd = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט'];

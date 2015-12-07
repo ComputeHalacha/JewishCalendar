@@ -1,26 +1,53 @@
-﻿#tblCal {
-    width: 100%;
-    border-collapse: collapse;
+﻿html, body {
+    height: 100% !important;
+}
+
+#tblCal, #divTblCal {   
+    border-collapse: collapse;    
 }
 
     #tblCal td {
         text-align: center;
-        vertical-align: middle;
-        padding: 0.2em;
-        height: 3.0em;
-        border: solid 1px #ccc;
+        vertical-align: top;
+        padding: 1px;
+        margin:0;
+        height: 16%;        
+        background-color: #e4e4e4;
+        border-collapse: collapse;
+        width:14%;
     }
 
-        #tblCal td .jd {
-            float: left;
-            font-weight: bold;
-            font-family: Tahoma,Geneva, Verdana,sans-serif;
-            color: #800;
-            width: 50%;
+        #tblCal td > div {
+            padding: 1.8em 0.2em !important;
+            height: 100%;
+            width: 100%;
+            margin: 0;
         }
 
-        #tblCal td .sd {
-            float: right;
-            font-size: 0.7em;
-            width: 50%;
-        }
+    #tblCal .haDate {
+        background-color: #f1f1f1;
+    }
+
+    #tblCal td .holiday {
+        background-color: #e9eaf0;
+    }
+
+    #tblCal .jd {
+        float: left;
+        font-family: narkisim,Tahoma,Geneva, Verdana,sans-serif;
+        color: #800;
+        width: 50%;
+        font-size: 1.2em;
+    }
+
+    #tblCal .sd {
+        float: right;
+        width: 50%;
+        color: #008;
+        font-size: 0.8em;
+        padding-top: 1em;
+    }
+
+    #tblCal .fa {
+        color: #999;
+    }
