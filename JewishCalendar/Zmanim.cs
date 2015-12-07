@@ -192,36 +192,27 @@ namespace JewishCalendar
             {
                 case 1: //Nissan
                     if (dayOfWeek == DayOfWeek.Saturday && jDay > 7 && jDay < 15)
-                        list.Add(
-new SpecialDay("Shabbos HaGadol", "שבת הגדול", SpecialDay.SpecialDayTypes.Shabbos | SpecialDay.SpecialDayTypes.Information));
+                        list.Add(new SpecialDay("Shabbos HaGadol", "שבת הגדול", SpecialDay.SpecialDayTypes.Shabbos | SpecialDay.SpecialDayTypes.Information));
                     if (jDay == 12 && dayOfWeek == DayOfWeek.Thursday)
-                        list.Add(
-new SpecialDay("Bedikas Chametz", "בדיקת חמץ", SpecialDay.SpecialDayTypes.Information));
+                        list.Add(new SpecialDay("Bedikas Chametz", "בדיקת חמץ", SpecialDay.SpecialDayTypes.Information));
                     else if (jDay == 13 && dayOfWeek != DayOfWeek.Friday)
-                        list.Add(
-new SpecialDay("Bedikas Chametz", "בדיקת חמץ", SpecialDay.SpecialDayTypes.Information));
+                        list.Add(new SpecialDay("Bedikas Chametz", "בדיקת חמץ", SpecialDay.SpecialDayTypes.Information));
                     else if (jDay == 14)
-                        list.Add(
-       new SpecialDay("Erev Pesach", "ערב פסח", SpecialDay.SpecialDayTypes.MinorYomtov | SpecialDay.SpecialDayTypes.Information | SpecialDay.SpecialDayTypes.HasCandleLighting));
+                        list.Add(new SpecialDay("Erev Pesach", "ערב פסח", SpecialDay.SpecialDayTypes.MinorYomtov | SpecialDay.SpecialDayTypes.Information | SpecialDay.SpecialDayTypes.HasCandleLighting));
                     else if (jDay == 15)
-                        list.Add(
-       new SpecialDay("First Day of Pesach", "פסח - יום ראשון", SpecialDay.SpecialDayTypes.MajorYomTov));
+                        list.Add(new SpecialDay("First Day of Pesach", "פסח - יום ראשון", SpecialDay.SpecialDayTypes.MajorYomTov));
                     else if (jDay == 16)
                         list.Add(inIsrael ?
-       (new SpecialDay("Pesach - Chol HaMoed", "פסח - חול המועד", SpecialDay.SpecialDayTypes.MinorYomtov)) :
-       (new SpecialDay("Pesach - Second Day", "פסח - יום שני", SpecialDay.SpecialDayTypes.MajorYomTov)));
+                           (new SpecialDay("Pesach - Chol HaMoed", "פסח - חול המועד", SpecialDay.SpecialDayTypes.MinorYomtov)) :
+                           (new SpecialDay("Pesach - Second Day", "פסח - יום שני", SpecialDay.SpecialDayTypes.MajorYomTov)));
                     else if (jDay.In(17, 18, 19))
-                        list.Add(
-new SpecialDay("Pesach - Chol Ha'moed - Erev Yomtov", "פסח - חול המועד", SpecialDay.SpecialDayTypes.MinorYomtov));
+                        list.Add(new SpecialDay("Pesach - Chol Ha'moed - Erev Yomtov", "פסח - חול המועד", SpecialDay.SpecialDayTypes.MinorYomtov));
                     else if (jDay == 20)
-                        list.Add(
-       new SpecialDay("Pesach - Chol Ha'moed - Erev Yomtov", "פסח - חול המועד - ערב יו\"ט", SpecialDay.SpecialDayTypes.MinorYomtov | SpecialDay.SpecialDayTypes.Information | SpecialDay.SpecialDayTypes.HasCandleLighting));
+                        list.Add(new SpecialDay("Pesach - Chol Ha'moed - Erev Yomtov", "פסח - חול המועד - ערב יו\"ט", SpecialDay.SpecialDayTypes.MinorYomtov | SpecialDay.SpecialDayTypes.Information | SpecialDay.SpecialDayTypes.HasCandleLighting));
                     else if (jDay == 21)
-                        list.Add(
-       new SpecialDay("7th Day of Pesach", "שביעי של פסח", SpecialDay.SpecialDayTypes.MajorYomTov));
+                        list.Add(new SpecialDay("7th Day of Pesach", "שביעי של פסח", SpecialDay.SpecialDayTypes.MajorYomTov));
                     else if (jDay == 22 && !inIsrael)
-                        list.Add(
-new SpecialDay("Last Day of Pesach", "אחרון של פסח", SpecialDay.SpecialDayTypes.MajorYomTov));
+                        list.Add(new SpecialDay("Last Day of Pesach", "אחרון של פסח", SpecialDay.SpecialDayTypes.MajorYomTov));
                     break;
 
                 case 2: //Iyar
@@ -238,103 +229,80 @@ new SpecialDay("Last Day of Pesach", "אחרון של פסח", SpecialDay.Specia
                         list.Add(new SpecialDay("Baha\"b", "תענית שני בתרא", SpecialDay.SpecialDayTypes.FastDay));
                     }
                     if (jDay == 14)
-                        list.Add(
-            new SpecialDay("Pesach Sheini", "פסח שני", SpecialDay.SpecialDayTypes.MinorYomtov));
+                        list.Add(new SpecialDay("Pesach Sheini", "פסח שני", SpecialDay.SpecialDayTypes.MinorYomtov));
                     else if (jDay == 18)
-                        list.Add(
-       new SpecialDay("Lag BaOmer", "ל\"ג בעומר", SpecialDay.SpecialDayTypes.MinorYomtov));
+                        list.Add(new SpecialDay("Lag BaOmer", "ל\"ג בעומר", SpecialDay.SpecialDayTypes.MinorYomtov));
                     break;
 
                 case 3: //Sivan
                     if (jDay == 5)
-                        list.Add(
-             new SpecialDay("Erev Shavuos", "ערב שבועות", SpecialDay.SpecialDayTypes.Information | SpecialDay.SpecialDayTypes.HasCandleLighting));
+                        list.Add(new SpecialDay("Erev Shavuos", "ערב שבועות", SpecialDay.SpecialDayTypes.Information | SpecialDay.SpecialDayTypes.HasCandleLighting));
                     else if (jDay == 6)
                         list.Add((inIsrael ?
-        new SpecialDay("Shavuos", "חג השבועות", SpecialDay.SpecialDayTypes.MajorYomTov) :
-        new SpecialDay("Shavuos - First Day", "שבועות - יום ראשון", SpecialDay.SpecialDayTypes.MajorYomTov)));
+                            new SpecialDay("Shavuos", "חג השבועות", SpecialDay.SpecialDayTypes.MajorYomTov) :
+                            new SpecialDay("Shavuos - First Day", "שבועות - יום ראשון", SpecialDay.SpecialDayTypes.MajorYomTov)));
                     if (jDay == 7 && !inIsrael)
-                        list.Add(
-new SpecialDay("Shavuos - Second Day", "שבועות - יום שני", SpecialDay.SpecialDayTypes.Information));
+                        list.Add(new SpecialDay("Shavuos - Second Day", "שבועות - יום שני", SpecialDay.SpecialDayTypes.Information));
                     break;
 
                 case 4: //Tamuz
                     if (jDay == 17 && dayOfWeek != DayOfWeek.Saturday)
                     {
-                        list.Add(
-                            new SpecialDay("Fast - 17th of Tammuz", "צום י\"ז בתמוז", SpecialDay.SpecialDayTypes.FastDay));
+                        list.Add(new SpecialDay("Fast - 17th of Tammuz", "צום י\"ז בתמוז", SpecialDay.SpecialDayTypes.FastDay));
                     }
                     else if (jDay == 18 && dayOfWeek == DayOfWeek.Sunday)
                     {
-                        list.Add(
-                            new SpecialDay("Fast - 17th of Tammuz", "צום י\"ז בתמוז", SpecialDay.SpecialDayTypes.FastDay));
+                        list.Add(new SpecialDay("Fast - 17th of Tammuz", "צום י\"ז בתמוז", SpecialDay.SpecialDayTypes.FastDay));
                     }
                     break;
 
                 case 5: //Av
                     if (jDay == 9 && dayOfWeek != DayOfWeek.Saturday)
-                        list.Add(
-new SpecialDay("Tisha B'Av", "תשעה באב", SpecialDay.SpecialDayTypes.FastDay));
+                        list.Add(new SpecialDay("Tisha B'Av", "תשעה באב", SpecialDay.SpecialDayTypes.FastDay));
                     else if (jDay == 10 && dayOfWeek == DayOfWeek.Sunday)
-                        list.Add(
-new SpecialDay("Tisha B'Av", "תשעה באב", SpecialDay.SpecialDayTypes.FastDay));
+                        list.Add(new SpecialDay("Tisha B'Av", "תשעה באב", SpecialDay.SpecialDayTypes.FastDay));
                     else if (jDay == 15)
-                        list.Add(
-       new SpecialDay("Tu B'Av", "ט\"ו באב", SpecialDay.SpecialDayTypes.MinorYomtov));
+                        list.Add(new SpecialDay("Tu B'Av", "ט\"ו באב", SpecialDay.SpecialDayTypes.MinorYomtov));
                     break;
 
                 case 6: //Ellul
                     if (jDay == 29)
-                        list.Add(
-            new SpecialDay("Erev Rosh Hashana", "ערב ראש השנה", SpecialDay.SpecialDayTypes.MinorYomtov | SpecialDay.SpecialDayTypes.Information | SpecialDay.SpecialDayTypes.HasCandleLighting));
+                        list.Add(new SpecialDay("Erev Rosh Hashana", "ערב ראש השנה", SpecialDay.SpecialDayTypes.MinorYomtov | SpecialDay.SpecialDayTypes.Information | SpecialDay.SpecialDayTypes.HasCandleLighting));
                     break;
 
                 case 7: //Tishrei
                     if (jDay == 1)
-                        list.Add(
-             new SpecialDay("Rosh Hashana - First Day", "ראש השנה", SpecialDay.SpecialDayTypes.MajorYomTov));
+                        list.Add(new SpecialDay("Rosh Hashana - First Day", "ראש השנה", SpecialDay.SpecialDayTypes.MajorYomTov));
                     else if (jDay == 2)
-                        list.Add(
-        new SpecialDay("Rosh Hashana - Second Day", "ראש השנה", SpecialDay.SpecialDayTypes.MajorYomTov));
+                        list.Add(new SpecialDay("Rosh Hashana - Second Day", "ראש השנה", SpecialDay.SpecialDayTypes.MajorYomTov));
                     else if (jDay == 3 && dayOfWeek != DayOfWeek.Saturday)
-                        list.Add(
-new SpecialDay("Tzom Gedalia", "צום גדליה", SpecialDay.SpecialDayTypes.FastDay));
+                        list.Add(new SpecialDay("Tzom Gedalia", "צום גדליה", SpecialDay.SpecialDayTypes.FastDay));
                     else if (jDay == 4 && dayOfWeek == DayOfWeek.Sunday)
-                        list.Add(
-new SpecialDay("Tzom Gedalia", "צום גדליה", SpecialDay.SpecialDayTypes.FastDay));
+                        list.Add(new SpecialDay("Tzom Gedalia", "צום גדליה", SpecialDay.SpecialDayTypes.FastDay));
                     else if (jDay == 9)
-                        list.Add(
-        new SpecialDay("Erev Yom Kippur", "ערב יום הכיפורים", SpecialDay.SpecialDayTypes.MinorYomtov | SpecialDay.SpecialDayTypes.Information | SpecialDay.SpecialDayTypes.HasCandleLighting));
+                        list.Add(new SpecialDay("Erev Yom Kippur", "ערב יום הכיפורים", SpecialDay.SpecialDayTypes.MinorYomtov | SpecialDay.SpecialDayTypes.Information | SpecialDay.SpecialDayTypes.HasCandleLighting));
                     else if (jDay == 10)
-                        list.Add(
-       new SpecialDay("Yom Kippur", "יום הכיפורים", SpecialDay.SpecialDayTypes.MajorYomTov | SpecialDay.SpecialDayTypes.FastDay));
+                        list.Add(new SpecialDay("Yom Kippur", "יום הכיפורים", SpecialDay.SpecialDayTypes.MajorYomTov | SpecialDay.SpecialDayTypes.FastDay));
                     else if (jDay == 14)
-                        list.Add(
-       new SpecialDay("Erev Sukkos", "ערב חג הסוכות", SpecialDay.SpecialDayTypes.Information | SpecialDay.SpecialDayTypes.HasCandleLighting));
+                        list.Add(new SpecialDay("Erev Sukkos", "ערב חג הסוכות", SpecialDay.SpecialDayTypes.Information | SpecialDay.SpecialDayTypes.HasCandleLighting));
                     else if (jDay == 15)
-                        list.Add(
-       new SpecialDay("First Day of Sukkos", "חג הסוכות", SpecialDay.SpecialDayTypes.MajorYomTov));
+                        list.Add(new SpecialDay("First Day of Sukkos", "חג הסוכות", SpecialDay.SpecialDayTypes.MajorYomTov));
                     else if (jDay == 16)
                         list.Add(inIsrael ? (
-       new SpecialDay("Sukkos - Chol HaMoed", "סוכות - חול המועד", SpecialDay.SpecialDayTypes.MinorYomtov)) : (
-       new SpecialDay("Sukkos - Second Day", "יום שני - חג הסוכות", SpecialDay.SpecialDayTypes.MajorYomTov)));
+                           new SpecialDay("Sukkos - Chol HaMoed", "סוכות - חול המועד", SpecialDay.SpecialDayTypes.MinorYomtov)) : (
+                           new SpecialDay("Sukkos - Second Day", "יום שני - חג הסוכות", SpecialDay.SpecialDayTypes.MajorYomTov)));
                     else if (jDay.In(17, 18, 19, 20))
-                        list.Add(
-new SpecialDay("Sukkos - Chol HaMoed", "סוכות - חול המועד", SpecialDay.SpecialDayTypes.MinorYomtov));
+                        list.Add(new SpecialDay("Sukkos - Chol HaMoed", "סוכות - חול המועד", SpecialDay.SpecialDayTypes.MinorYomtov));
                     else if (jDay == 21)
-                        list.Add(
-       new SpecialDay("Hoshana Rabba - Erev Yomtov", "הושענא רבה - ערב יו\"ט", SpecialDay.SpecialDayTypes.MinorYomtov | SpecialDay.SpecialDayTypes.Information | SpecialDay.SpecialDayTypes.HasCandleLighting));
+                        list.Add(new SpecialDay("Hoshana Rabba - Erev Yomtov", "הושענא רבה - ערב יו\"ט", SpecialDay.SpecialDayTypes.MinorYomtov | SpecialDay.SpecialDayTypes.Information | SpecialDay.SpecialDayTypes.HasCandleLighting));
                     else if (jDay == 22)
                     {
-                        list.Add(
-                            new SpecialDay("Shmini Atzeres", "שמיני עצרת", SpecialDay.SpecialDayTypes.MajorYomTov));
+                        list.Add(new SpecialDay("Shmini Atzeres", "שמיני עצרת", SpecialDay.SpecialDayTypes.MajorYomTov));
                         if (inIsrael)
-                            list.Add(
-                  new SpecialDay("Simchas Torah", "שמחת תורה", SpecialDay.SpecialDayTypes.MajorYomTov));
+                            list.Add(new SpecialDay("Simchas Torah", "שמחת תורה", SpecialDay.SpecialDayTypes.MajorYomTov));
                     }
                     else if (jDay == 23 && !inIsrael)
-                        list.Add(
-new SpecialDay("Simchas Torah", "שמחת תורה", SpecialDay.SpecialDayTypes.MajorYomTov));
+                        list.Add(new SpecialDay("Simchas Torah", "שמחת תורה", SpecialDay.SpecialDayTypes.MajorYomTov));
                     break;
 
                 case 8: //Cheshvan
@@ -356,56 +324,43 @@ new SpecialDay("Simchas Torah", "שמחת תורה", SpecialDay.SpecialDayTypes.
 
                 case 9: //Kislev
                     if (jDay == 25)
-                        list.Add(
-            new SpecialDay("Chanuka - One Candle", "'חנוכה - נר א", SpecialDay.SpecialDayTypes.MinorYomtov));
+                        list.Add(new SpecialDay("Chanuka - One Candle", "'חנוכה - נר א", SpecialDay.SpecialDayTypes.MinorYomtov));
                     else if (jDay == 26)
-                        list.Add(
-       new SpecialDay("Chanuka - Two Candles", "'חנוכה - נר ב", SpecialDay.SpecialDayTypes.MinorYomtov));
+                        list.Add(new SpecialDay("Chanuka - Two Candles", "'חנוכה - נר ב", SpecialDay.SpecialDayTypes.MinorYomtov));
                     else if (jDay == 27)
-                        list.Add(
-       new SpecialDay("Chanuka - Three Candles", "'חנוכה - נר ג", SpecialDay.SpecialDayTypes.MinorYomtov));
+                        list.Add(new SpecialDay("Chanuka - Three Candles", "'חנוכה - נר ג", SpecialDay.SpecialDayTypes.MinorYomtov));
                     else if (jDay == 28)
-                        list.Add(
-       new SpecialDay("Chanuka - Four Candles", "'חנוכה - נר ד", SpecialDay.SpecialDayTypes.MinorYomtov));
+                        list.Add(new SpecialDay("Chanuka - Four Candles", "'חנוכה - נר ד", SpecialDay.SpecialDayTypes.MinorYomtov));
                     else if (jDay == 29)
-                        list.Add(
-       new SpecialDay("Chanuka - Five Candles", "'חנוכה - נר ה", SpecialDay.SpecialDayTypes.MinorYomtov));
+                        list.Add(new SpecialDay("Chanuka - Five Candles", "'חנוכה - נר ה", SpecialDay.SpecialDayTypes.MinorYomtov));
                     else if (jDay == 30)
-                        list.Add(
-       new SpecialDay("Chanuka - Six Candles", "'חנוכה - נר ו", SpecialDay.SpecialDayTypes.MinorYomtov));
+                        list.Add(new SpecialDay("Chanuka - Six Candles", "'חנוכה - נר ו", SpecialDay.SpecialDayTypes.MinorYomtov));
                     break;
 
                 case 10: //Teves
                     if (JewishDateCalculations.IsShortKislev(jYear))
                     {
                         if (jDay == 1)
-                            list.Add(
-                 new SpecialDay("Chanuka - Six Candles", "'חנוכה - נר ו", SpecialDay.SpecialDayTypes.MinorYomtov));
+                            list.Add(new SpecialDay("Chanuka - Six Candles", "'חנוכה - נר ו", SpecialDay.SpecialDayTypes.MinorYomtov));
                         else if (jDay == 2)
-                            list.Add(
-            new SpecialDay("Chanuka - Seven Candles", "'חנוכה - נר ז", SpecialDay.SpecialDayTypes.MinorYomtov));
+                            list.Add(new SpecialDay("Chanuka - Seven Candles", "'חנוכה - נר ז", SpecialDay.SpecialDayTypes.MinorYomtov));
                         else if (jDay == 3)
-                            list.Add(
-            new SpecialDay("Chanuka - Eight Candles", "'חנוכה - נר ח", SpecialDay.SpecialDayTypes.MinorYomtov));
+                            list.Add(new SpecialDay("Chanuka - Eight Candles", "'חנוכה - נר ח", SpecialDay.SpecialDayTypes.MinorYomtov));
                     }
                     else
                     {
                         if (jDay == 1)
-                            list.Add(
-                 new SpecialDay("Chanuka - Seven Candles", "'חנוכה - נר ז", SpecialDay.SpecialDayTypes.MinorYomtov));
+                            list.Add(new SpecialDay("Chanuka - Seven Candles", "'חנוכה - נר ז", SpecialDay.SpecialDayTypes.MinorYomtov));
                         else if (jDay == 2)
-                            list.Add(
-            new SpecialDay("Chanuka - Eight Candles", "'חנוכה - נר ח", SpecialDay.SpecialDayTypes.MinorYomtov));
+                            list.Add(new SpecialDay("Chanuka - Eight Candles", "'חנוכה - נר ח", SpecialDay.SpecialDayTypes.MinorYomtov));
                     }
                     if (jDay == 10)
-                        list.Add(
-            new SpecialDay("Fast - 10th of Teves", "צום עשרה בטבת", SpecialDay.SpecialDayTypes.FastDay));
+                        list.Add(new SpecialDay("Fast - 10th of Teves", "צום עשרה בטבת", SpecialDay.SpecialDayTypes.FastDay));
                     break;
 
                 case 11: //Shvat
                     if (jDay == 15)
-                        list.Add(
-            new SpecialDay("Tu B'Shvat", "ט\"ו בשבט", SpecialDay.SpecialDayTypes.MinorYomtov));
+                        list.Add(new SpecialDay("Tu B'Shvat", "ט\"ו בשבט", SpecialDay.SpecialDayTypes.MinorYomtov));
                     break;
 
                 case 12: //Adars
@@ -413,26 +368,20 @@ new SpecialDay("Simchas Torah", "שמחת תורה", SpecialDay.SpecialDayTypes.
                     if (jMonth == 12 && isLeapYear)
                     {
                         if (jDay == 14)
-                            list.Add(
-                new SpecialDay("Purim Katan", "פורים קטן", SpecialDay.SpecialDayTypes.MinorYomtov));
+                            list.Add(new SpecialDay("Purim Katan", "פורים קטן", SpecialDay.SpecialDayTypes.MinorYomtov));
                         if (jDay == 15)
-                            list.Add(
-                new SpecialDay("Shushan Purim Katan", "שושן פורים קטן", SpecialDay.SpecialDayTypes.MinorYomtov));
+                            list.Add(new SpecialDay("Shushan Purim Katan", "שושן פורים קטן", SpecialDay.SpecialDayTypes.MinorYomtov));
                     }
                     else
                     {
                         if (jDay == 11 && dayOfWeek == DayOfWeek.Thursday)
-                            list.Add(
-new SpecialDay("Fast - Taanis Esther", "תענית אסתר", SpecialDay.SpecialDayTypes.FastDay));
+                            list.Add(new SpecialDay("Fast - Taanis Esther", "תענית אסתר", SpecialDay.SpecialDayTypes.FastDay));
                         else if (jDay == 13 && dayOfWeek != DayOfWeek.Saturday)
-                            list.Add(
-new SpecialDay("Fast - Taanis Esther", "תענית אסתר", SpecialDay.SpecialDayTypes.FastDay));
+                            list.Add(new SpecialDay("Fast - Taanis Esther", "תענית אסתר", SpecialDay.SpecialDayTypes.FastDay));
                         if (jDay == 14)
-                            list.Add(
-                new SpecialDay("Purim", "פורים", SpecialDay.SpecialDayTypes.MinorYomtov));
+                            list.Add(new SpecialDay("Purim", "פורים", SpecialDay.SpecialDayTypes.MinorYomtov));
                         if (jDay == 15)
-                            list.Add(
-                new SpecialDay("Shushan Purim", "שושן פורים", SpecialDay.SpecialDayTypes.MinorYomtov));
+                            list.Add(new SpecialDay("Shushan Purim", "שושן פורים", SpecialDay.SpecialDayTypes.MinorYomtov));
                     }
                     break;
             }
@@ -442,11 +391,21 @@ new SpecialDay("Fast - Taanis Esther", "תענית אסתר", SpecialDay.Special
                 int dayOfSefirah = jDate.GetDayOfOmer();
                 if (dayOfSefirah > 0)
                 {
-                    list.Add((
-                        new SpecialDay("Sefiras Ha'omer - Day " + dayOfSefirah.ToString(),
-                            "ספירת העומר - יום " + dayOfSefirah.ToString(), SpecialDay.SpecialDayTypes.Information)));
+                    list.Add(new SpecialDay("Sefiras Ha'omer - Day " + dayOfSefirah.ToString(), "ספירת העומר - יום " + dayOfSefirah.ToString(), SpecialDay.SpecialDayTypes.Information));
                 }
             }
+            //Remove any candle lighting from shabbos....
+            if (dayOfWeek == DayOfWeek.Saturday)
+            {
+                foreach (SpecialDay sd in list)
+                {
+                    if (sd.DayType.HasFlag(SpecialDay.SpecialDayTypes.HasCandleLighting))
+                    {
+                        sd.DayType = (SpecialDay.SpecialDayTypes)(sd.DayType - SpecialDay.SpecialDayTypes.HasCandleLighting);
+                    }
+                }
+            }
+
             return list;
         }
 

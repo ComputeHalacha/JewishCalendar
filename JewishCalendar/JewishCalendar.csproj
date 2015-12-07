@@ -7,8 +7,8 @@
     <ProjectGuid>{43E5C945-9D11-4097-9990-1D2AFC9E16D3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JewishDate</RootNamespace>
-    <AssemblyName>JewishDate</AssemblyName>
+    <RootNamespace>JewishCalendar</RootNamespace>
+    <AssemblyName>JewishCalendar</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -31,7 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\JewishDate.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\JewishCalendar.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

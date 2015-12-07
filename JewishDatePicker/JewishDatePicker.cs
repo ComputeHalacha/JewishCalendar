@@ -11,45 +11,111 @@ namespace JewishDatePicker
     [DefaultEvent("ValueChanged")]
     public partial class JewishDatePicker : UserControl
     {
-        public enum Languages { Hebrew, English };
+        #region Private Fields
+
+        private bool _isLoading;
+
+        private Languages _language;
+
+        private JewishDate _value = new JewishDate();
+
+        #endregion Private Fields
+
+        #region Public Constructors
+
+        public JewishDatePicker()
+        {
+            this.MinDate = JewishDate.MinDate;
+            this.MaxDate = JewishDate.MaxDate;
+
+            InitializeComponent();
+
+            this.cmbJYear.DisplayMember = "Value";
+            this.cmbJYear.ValueMember = "Key";
+            this.cmbJMonth.DisplayMember = "Value";
+            this.cmbJMonth.ValueMember = "Key";
+            this.cmbJDay.DisplayMember = "Value";
+            this.cmbJDay.ValueMember = "Key";
+
+            this.FillJewishYearsCombo();
+            this.FillJewishMonthsCombo();
+            this.FillJewishDaysCombo();
+            this.SetCombosToShowValue();
+            this.cmbJYear.SelectedIndexChanged += new System.EventHandler(this.cmbJYear_SelectedIndexChanged);
+            this.cmbJMonth.SelectedIndexChanged += new System.EventHandler(this.cmbJMonth_SelectedIndexChanged);
+            this.cmbJDay.SelectedIndexChanged += new System.EventHandler(this.cmbJDay_SelectedIndexChanged);
+        }
+
+        #endregion Public Constructors
+
+        #region Public Events
 
         public event EventHandler ValueChanged;
 
-        private JewishDate _value = new JewishDate();
-        private Languages _language;
-        private bool _isLoading;
+        #endregion Public Events
 
-        [Bindable(true)]
-        public JewishDate Value
+        #region Public Enums
+
+        public enum Languages { Hebrew, English };
+
+        #endregion Public Enums
+
+        #region Public Properties
+
+        [DefaultValue("Color.White")]
+        public override Color BackColor
         {
             get
             {
-                return this._value;
+                return base.BackColor;
             }
             set
             {
-                if (this._value != value)
-                {
-                    if (value < MinDate)
-                    {
-                        throw new ArgumentOutOfRangeException("Value", "Value can not be less than the MinDate");
-                    }
-                    if (value > MaxDate)
-                    {
-                        throw new ArgumentOutOfRangeException("Value", "Value can not be more than the MaxDate");
-                    }
-                    this._value = value;
-                    this._isLoading = true;
-                    this.SetCombosToShowValue();
-                    this._isLoading = false;
-                    this.RaiseValueChanged();
-                }
+                base.BackColor = value;
+                this.flowLayoutPanel1.BackColor = value;
+                if (value != Color.Transparent)
+                    this.cmbJYear.BackColor = this.cmbJMonth.BackColor = this.cmbJDay.BackColor = value;
             }
         }
 
-        public JewishDate MinDate { get; set; }
+        [DefaultValue(FlatStyle.Flat)]
+        public FlatStyle FlatStyle
+        {
+            get
+            {
+                return this.cmbJYear.FlatStyle;
+            }
+            set
+            {
+                this.cmbJYear.FlatStyle = this.cmbJMonth.FlatStyle = this.cmbJDay.FlatStyle = value;
+            }
+        }
 
-        public JewishDate MaxDate { get; set; }
+        public override Font Font
+        {
+            get
+            {
+                return base.Font;
+            }
+            set
+            {
+                base.Font = value;
+                this.cmbJYear.Font = this.cmbJMonth.Font = this.cmbJDay.Font = value;
+            }
+        }
+
+        public override Color ForeColor
+        {
+            get
+            {
+                return base.ForeColor;
+            }
+            set
+            {
+                base.ForeColor = value;
+                this.cmbJYear.ForeColor = this.cmbJMonth.ForeColor = this.cmbJDay.ForeColor = value;
+            }
+        }
 
         [DefaultValue(Languages.Hebrew)]
         public Languages Language
@@ -82,31 +148,9 @@ namespace JewishDatePicker
             }
         }
 
-        public override Color ForeColor
-        {
-            get
-            {
-                return base.ForeColor;
-            }
-            set
-            {
-                base.ForeColor = value;
-                this.cmbJYear.ForeColor = this.cmbJMonth.ForeColor = this.cmbJDay.ForeColor = value;
-            }
-        }
+        public JewishDate MaxDate { get; set; }
 
-        public override Font Font
-        {
-            get
-            {
-                return base.Font;
-            }
-            set
-            {
-                base.Font = value;
-                this.cmbJYear.Font = this.cmbJMonth.Font = this.cmbJDay.Font = value;
-            }
-        }
+        public JewishDate MinDate { get; set; }
 
         [DefaultValue(RightToLeft.Yes)]
         public override RightToLeft RightToLeft
@@ -125,61 +169,37 @@ namespace JewishDatePicker
             }
         }
 
-        [DefaultValue("Color.White")]
-        public override Color BackColor
+        [Bindable(true)]
+        public JewishDate Value
         {
             get
             {
-                return base.BackColor;
+                return this._value;
             }
             set
             {
-                base.BackColor = value;
-                this.flowLayoutPanel1.BackColor = value;
-                if (value != Color.Transparent)
-                    this.cmbJYear.BackColor = this.cmbJMonth.BackColor = this.cmbJDay.BackColor = value;
+                if (this._value != value)
+                {
+                    if (value < MinDate)
+                    {
+                        throw new ArgumentOutOfRangeException("Value", "Value can not be less than the MinDate");
+                    }
+                    if (value > MaxDate)
+                    {
+                        throw new ArgumentOutOfRangeException("Value", "Value can not be more than the MaxDate");
+                    }
+                    this._value = value;
+                    this._isLoading = true;
+                    this.SetCombosToShowValue();
+                    this._isLoading = false;
+                    this.RaiseValueChanged();
+                }
             }
         }
 
-        [DefaultValue(FlatStyle.Flat)]
-        public FlatStyle FlatStyle
-        {
-            get
-            {
-                return this.cmbJYear.FlatStyle;
-            }
-            set
-            {
-                this.cmbJYear.FlatStyle = this.cmbJMonth.FlatStyle = this.cmbJDay.FlatStyle = value;
-            }
-        }
+        #endregion Public Properties
 
-        public JewishDatePicker()
-        {
-            this.MinDate = JewishDate.MinDate;
-            this.MaxDate = JewishDate.MaxDate;
-
-            InitializeComponent();
-
-            this.cmbJYear.DisplayMember = "Value";
-            this.cmbJYear.ValueMember = "Key";
-            this.cmbJMonth.DisplayMember = "Value";
-            this.cmbJMonth.ValueMember = "Key";
-            this.cmbJDay.DisplayMember = "Value";
-            this.cmbJDay.ValueMember = "Key";
-
-            this.FillJewishYearsCombo();
-            this.FillJewishMonthsCombo();
-            this.FillJewishDaysCombo();
-            this.SetCombosToShowValue();
-            this.cmbJYear.SelectedIndexChanged += new System.EventHandler(this.cmbJYear_SelectedIndexChanged);
-            this.cmbJMonth.SelectedIndexChanged += new System.EventHandler(this.cmbJMonth_SelectedIndexChanged);
-            this.cmbJDay.SelectedIndexChanged += new System.EventHandler(this.cmbJDay_SelectedIndexChanged);
-        }
-
-        private void JewishDatePicker_Load(object sender, EventArgs e)
-        {
-        }
+        #region Public Methods
 
         public virtual void RaiseValueChanged()
         {
@@ -189,16 +209,16 @@ namespace JewishDatePicker
             }
         }
 
-        private void cmbJYear_SelectedIndexChanged(object sender, EventArgs e)
+        #endregion Public Methods
+
+        #region Private Methods
+
+        private void cmbJDay_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.cmbJMonth.SelectedIndexChanged -= new System.EventHandler(this.cmbJMonth_SelectedIndexChanged);
             if (!this._isLoading)
             {
                 this.SetValueFromCombos();
             }
-            this.FillJewishMonthsCombo();
-            this.SetCombosToShowValue();
-            this.cmbJMonth.SelectedIndexChanged += new System.EventHandler(this.cmbJMonth_SelectedIndexChanged);
         }
 
         private void cmbJMonth_SelectedIndexChanged(object sender, EventArgs e)
@@ -213,28 +233,16 @@ namespace JewishDatePicker
             this.cmbJDay.SelectedIndexChanged += new System.EventHandler(this.cmbJDay_SelectedIndexChanged);
         }
 
-        private void cmbJDay_SelectedIndexChanged(object sender, EventArgs e)
+        private void cmbJYear_SelectedIndexChanged(object sender, EventArgs e)
         {
+            this.cmbJMonth.SelectedIndexChanged -= new System.EventHandler(this.cmbJMonth_SelectedIndexChanged);
             if (!this._isLoading)
             {
                 this.SetValueFromCombos();
             }
-        }
-
-        private void SetValueFromCombos()
-        {
-            this.Value = new JewishDate(((KeyValuePair<int, string>)this.cmbJYear.SelectedItem).Key,
-                ((KeyValuePair<int, string>)this.cmbJMonth.SelectedItem).Key,
-                ((KeyValuePair<int, string>)this.cmbJDay.SelectedItem).Key);
-        }
-
-        private void FillJewishYearsCombo()
-        {
-            for (int i = this.MinDate.Year; i <= this.MaxDate.Year; i++)
-            {
-                this.cmbJYear.Items.Add(new KeyValuePair<int, string>(i,
-                    this._language == Languages.Hebrew ? i.ToNumberHeb() : i.ToString()));
-            }
+            this.FillJewishMonthsCombo();
+            this.SetCombosToShowValue();
+            this.cmbJMonth.SelectedIndexChanged += new System.EventHandler(this.cmbJMonth_SelectedIndexChanged);
         }
 
         private void FillJewishDaysCombo()
@@ -263,6 +271,19 @@ namespace JewishDatePicker
                 this.cmbJMonth.Items.Add(new KeyValuePair<int, string>(i,
                     this._language == Languages.Hebrew ? Utils.JewishMonthNamesHebrew[i] : Utils.JewishMonthNamesEnglish[i]));
             }
+        }
+
+        private void FillJewishYearsCombo()
+        {
+            for (int i = this.MinDate.Year; i <= this.MaxDate.Year; i++)
+            {
+                this.cmbJYear.Items.Add(new KeyValuePair<int, string>(i,
+                    this._language == Languages.Hebrew ? i.ToNumberHeb() : i.ToString()));
+            }
+        }
+
+        private void JewishDatePicker_Load(object sender, EventArgs e)
+        {
         }
 
         private void SetCombosToShowValue()
@@ -309,5 +330,21 @@ namespace JewishDatePicker
                 }
             }
         }
+
+        private void SetValueFromCombos()
+        {
+            int year = ((KeyValuePair<int, string>)this.cmbJYear.SelectedItem).Key,
+                month = ((KeyValuePair<int, string>)this.cmbJMonth.SelectedItem).Key,
+                day = ((KeyValuePair<int, string>)this.cmbJDay.SelectedItem).Key;
+
+            if (day == 30 && JewishDateCalculations.DaysInJewishMonth(year, month) == 29)
+            {
+                day = 29;
+            }
+
+            this.Value = new JewishDate(year, month, day);
+        }
+
+        #endregion Private Methods
     }
 }
