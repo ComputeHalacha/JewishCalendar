@@ -1,69 +1,26 @@
-﻿body {
-}
-
-.ui-page {
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    backface-visibility: hidden;
-}
-
-.logo {
-    position: absolute;
-    margin: 0;
-    top: 0.5em;
-    left: 0.5em;
-}
-
-.ui-teeny .ui-btn {
-    font-size: 0.7em;
-    padding: 0.9em 1.5em;
-}
-
-.ui-teeny {
-    font-size: 0.7em;
-}
-
-    .ui-teeny .ui-icon-forward:after, .ui-teeny .ui-icon-back:after {
-        background-size: 1em;
-    }
-
-    .ui-teeny .ui-btn-icon-notext:after {
-        width: 1.1em;
-        height: 1.1em;
-    }
-
-.pageCaption {
-    font-size: 0.9em;
-}
-
-.grey {
-    color: #777;
-}
-
-.ui-content-not-so-tall {
-    padding: 0.5em 1em;
-}
-
-.toast {
-    background: #83a4be;
-    color: #e1e1e1;
-    padding: 1em 0;
-    text-align: center;
-    position: absolute;
-    z-index: 9999;
-    top: 45%;
+﻿#tblCal {
     width: 100%;
-    border-radius: 2.25em;
-    font-size: 0.9em;
+    border-collapse: collapse;
 }
 
-    .toast .error {
-        background: #fff;
-        color: #f00;
+    #tblCal td {
+        text-align: center;
+        vertical-align: middle;
+        padding: 0.2em;
+        height: 3.0em;
+        border: solid 1px #ccc;
     }
 
-.h1Zman {
-    font-size: 1.6em !important;
-    color: #008;
-    text-align: center;
-}
+        #tblCal td .jd {
+            float: left;
+            font-weight: bold;
+            font-family: Tahoma,Geneva, Verdana,sans-serif;
+            color: #800;
+            width: 50%;
+        }
+
+        #tblCal td .sd {
+            float: right;
+            font-size: 0.7em;
+            width: 50%;
+        }

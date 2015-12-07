@@ -6,12 +6,6 @@
     ]
   },
   {
-    "outputFileName": "www/css/index.css",
-    "inputFiles": [
-      "www/css/index.css"
-    ]
-  },
-  {
     "outputFileName": "www/index.html",
     "inputFiles": [
       "www/index.html"
@@ -33,6 +27,24 @@
     "outputFileName": "www/scripts/index.js",
     "inputFiles": [
       "www/scripts/index.js"
+    ]
+  },
+  {
+    "outputFileName": "www/css/general.css",
+    "inputFiles": [
+      "www/css/general.css"
+    ]
+  },
+  {
+    "outputFileName": "www/css/zmanim.css",
+    "inputFiles": [
+      "www/css/zmanim.css"
+    ]
+  },
+  {
+    "outputFileName": "www/css/index.css",
+    "inputFiles": [
+      "www/css/index.css"
     ]
   }
 ]

@@ -24,23 +24,19 @@
         </div>
         <div data-role="main">
             <div data-role="content" class="ui-mini">
-                <table id="tblCal">
-                    <tr><th>SU</th><th>MO</th><th>TU</th><th>WE</th><th>TH</th><th>FR</th><th>SH</th></tr>
-                    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                </table>
+                <p id="pSpecial"></p>
+                <div class="ui-bar-b ui-content ui-content-not-so-tall">
+                    <div id="divCaption"></div>
+                    <em id="emLocDet" class="ui-teeny grey"></em>
+                    &nbsp;&nbsp;
+                    <a class="ui-teeny" href="#divChangeLocation" data-transition="flip" data-slide-to="">change location</a>
+                </div>
+                <p id="pMain">
+                    <ul id="ulMain" data-role="listview" data-inset="true" data-divider-theme="a"></ul>
+                </p>
             </div>
         </div>
         <div data-role="footer" class="ui-teeny">
-            <div class="ui-bar-b ui-content ui-content-not-so-tall">
-                <div id="divCaption"></div>
-                <em id="emLocDet" class="ui-teeny grey"></em>
-                &nbsp;&nbsp;
-                <a class="ui-teeny" href="#divChangeLocation" data-transition="flip" data-slide-to="">change location</a>
-            </div>
             <div data-role="content" data-theme="c">
                 <div style="float:left;text-align:center;">
                     <strong>Navigate Back</strong>
@@ -62,6 +58,21 @@
             </div>
         </div>
     </div>
+    <div data-role="page" id="divChangeLocation">
+        <div class="ui-bar-c" style="text-align:center;height:3.2em;">
+            <img src="images/scroll.png" class="logo" />
+            <h1 class="pageCaption">Change Location</h1>
+        </div>
+        <div data-role="main">
+            <div data-role="content" class="ui-mini">
+                <div class="ui-bar-b ui-content">Select a Location</div>
+            </div>
+        </div>
+        <div data-role="footer" class="ui-teeny">
+            <div data-role="content" data-theme="c">
+            </div>
+        </div>
+    </div>
     <script src="scripts/jquery-2.1.4.min.js"></script>
     <script src="scripts/jquery.mobile-1.4.5.min.js"></script>
     <script src="scripts/knockout-3.4.0.js"></script>
@@ -70,9 +81,9 @@
     <script src="scripts/platformOverrides.js"></script>
     <script src="scripts/JCal/jcal.js"></script>
     <script src="scripts/general.js"></script>
-    <script src="scripts/index.js"></script>
+    <script src="scripts/zmanim.js"></script>
     <!--FOR PRODUCTION
     <script src="scripts/JCal/jcal.min.js"></script>
-    <script src="scripts/calendar.min.js"></script>-->
+    <script src="scripts/index.min.js"></script>-->
 </body>
 </html>
