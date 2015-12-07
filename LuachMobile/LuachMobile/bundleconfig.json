@@ -1,15 +1,10 @@
-[
-  {
-    "outputFileName": "www/themes/JewishCalendarMobile.css",
-    "inputFiles": [
-      "www/themes/JewishCalendarMobile.css"
-    ]
-  },
+[  
   {
     "outputFileName": "www/index.html",
     "inputFiles": [
       "www/index.html"
-    ]
+    ],
+    "sourceMap": false
   },
   {
     "outputFileName": "www/scripts/JCal/jcal.js",
@@ -21,30 +16,33 @@
       "www/scripts/JCal/Sedra.js",
       "www/scripts/JCal/Molad.js",
       "www/scripts/JCal/Dafyomi.js"
-    ]
+    ],
+    "sourceMap": true
   },
   {
-    "outputFileName": "www/scripts/index.js",
+    "outputFileName": "www/css/bundle.css",
     "inputFiles": [
-      "www/scripts/index.js"
-    ]
-  },
-  {
-    "outputFileName": "www/css/general.css",
-    "inputFiles": [
-      "www/css/general.css"
-    ]
-  },
-  {
-    "outputFileName": "www/css/zmanim.css",
-    "inputFiles": [
+      "www/css/jquery.mobile.structure-1.4.5.min.css",
+      "www/themes/JewishCalendarMobile.min.css",
+      "www/themes/jquery.mobile.icons.min.css",
+      "www/css/fa/css/font-awesome.min.css",
+      "www/css/general.css",
+      "www/css/index.css",
       "www/css/zmanim.css"
-    ]
+    ],
+    "sourceMap": false
   },
   {
-    "outputFileName": "www/css/index.css",
+    "outputFileName": "www/scripts/bundle.js",
     "inputFiles": [
-      "www/css/index.css"
-    ]
+      "www/scripts/jquery-2.1.4.min.js",
+      "www/scripts/jquery.mobile-1.4.5.min.js",
+      "www/scripts/knockout-3.4.0.js",
+      "www/scripts/platformOverrides.js",
+      "www/scripts/General.js",
+      "www/scripts/index.js",
+      "www/scripts/zmanim.js"
+    ],
+    "sourceMap": true
   }
 ]

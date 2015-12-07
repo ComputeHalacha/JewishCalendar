@@ -17,18 +17,15 @@
         showDate();
     };
 
-    $(document).on('pagecreate', '#divMainPage', function () {
-        $('#btnNextDay').on('click', function () { goDay(1); });
-        $('#btnNextWeek').on('click', function () { goDay(7); });
-        $('#btnNextMonth').on('click', function () { goMonth(1); });
-        $('#btnNextYear').on('click', function () { goYear(1); });
-        $('#btnPrevWeek').on('click', function () { goDay(-7); });
-        $('#btnPrevMonth').on('click', function () { goMonth(-1); });
-        $('#btnPrevYear').on('click', function () { goYear(-1); })
-            .on("swipeup", "#divMainPage", function (event) {
-                goDay(-1);
-            }).on("swipedown", "#divMainPage", function (event) {
-                goDay(1);
+    $(document).on('pagecreate', '#divCalendarPage', function () {
+        $('#divCalendarPage #btnNextMonth').on('click', function () { goMonth(1); });
+        $('#divCalendarPage #btnNextYear').on('click', function () { goYear(1); });
+        $('#divCalendarPage #btnPrevMonth').on('click', function () { goMonth(-1); });
+        $('#divCalendarPage #btnPrevYear').on('click', function () { goYear(-1); })
+            .on("swipeup", "#divCalendarPage", function (event) {
+                goMonth(-1);
+            }).on("swipedown", "#divCalendarPage", function (event) {
+                goMonth(1);
             });
         if (!window.cordova) {
             showDate();
@@ -37,10 +34,10 @@
 
     function showDate(jd) {
         if (jd) {
-            $('#divMainPage').jqmData('currentjDate', jd);
+            $('#divCalendarPage').jqmData('currentjDate', jd);
         }
-        else if ($('#divMainPage').jqmData('currentjDate')) {
-            jd = $('#divMainPage').jqmData('currentjDate');
+        else if ($('#divCalendarPage').jqmData('currentjDate')) {
+            jd = $('#divCalendarPage').jqmData('currentjDate');
         }
         else {
             showDate(new jDate(new Date()));
@@ -48,9 +45,9 @@
         }
 
         var location = getLocation();
-        $('#h2Header').html(jd.toStringHeb() + '<br />' + jd.getDate().toDateString());
-        $('#divCaption').html('Location set to ' + location.Name);
-        $('#emLocDet').html('lat: ' +
+        $('#divCalendarPage #h2Header').html(jd.toStringHeb() + '<br />' + jd.getDate().toDateString());
+        $('#divCalendarPage #divCaption').html('Location set to ' + location.Name);
+        $('#divCalendarPage #emLocDet').html('lat: ' +
                 location.Latitude.toString() +
                 ' long:' + location.Longitude.toString() +
                 (location.Israel ? ' | Israel' : '') + '  |  ' +
@@ -63,9 +60,8 @@
         currTd;
 
         while (currJd.Month === jd.Month) {
-            currTd = $('#tblCal tr').eq(currWeek).find('td').eq(currDOW);
+            currTd = $('#divCalendarPage #tblCal tr').eq(currWeek).find('td').eq(currDOW).jqmData('jd', currJd).off('click').on('click', { jd: currJd }, showZmanim);
             $(currTd).html('<div class="jd">' + Utils.toJNum(currJd.Day) + '</div><div class="sd">' + currJd.getDate().getDate() + '</div>');
-            console.log('Did day: ' + currJd.Day.toString());
             currJd = currJd.addDays(1);
             currDOW = currJd.getDayOfWeek();
             if (currDOW === 0) {
@@ -74,22 +70,22 @@
         }
     }
 
-    function goDay(num) {
-        var jd = $('#divMainPage').jqmData('currentjDate');
-        if (jd) {
-            showDate(jd.addDays(num));
-        }
+    function showZmanim(event) {
+        var jd = event.data.jd;        
+        $('#divZmanimPage').jqmData('currentjDate', jd);
+        $(":mobile-pagecontainer").pagecontainer("change", "#divZmanimPage", { transition: 'flip' });
+
     }
 
     function goMonth(num) {
-        var jd = $('#divMainPage').jqmData('currentjDate');
+        var jd = $('#divCalendarPage').jqmData('currentjDate');
         if (jd) {
             showDate(jd.addMonths(num));
         }
     }
 
     function goYear(num) {
-        var jd = $('#divMainPage').jqmData('currentjDate');
+        var jd = $('#divCalendarPage').jqmData('currentjDate');
         if (jd) {
             showDate(jd.addYears(num));
         }
