@@ -17,18 +17,16 @@
         showDate();
     };
 
-    $(document).on('pagecreate', '#divMainPage', function () {
-        $('#btnNextDay').on('click', function () { goDay(1); });
-        $('#btnNextWeek').on('click', function () { goDay(7); });
-        $('#btnNextMonth').on('click', function () { goMonth(1); });
-        $('#btnNextYear').on('click', function () { goYear(1); });
-        $('#btnPrevWeek').on('click', function () { goDay(-7); });
-        $('#btnPrevMonth').on('click', function () { goMonth(-1); });
-        $('#btnPrevYear').on('click', function () { goYear(-1); })
-            .on("swipeup", "#divMainPage", function (event) {
-                goDay(-1);
-            }).on("swipedown", "#divMainPage", function (event) {
-                goDay(1);
+    $(document).on('pagecreate', '#divCalendarPage', function () {
+        $('#tblCal, #divTblCal').height(parseInt($(document).height() * 0.63)).offset({ left: -8 }).width($(document).width() - 7);
+        $('#divCalendarPage #btnNextMonth').on('click', function () { goMonth(1); });
+        $('#divCalendarPage #btnNextYear').on('click', function () { goYear(1); });
+        $('#divCalendarPage #btnPrevMonth').on('click', function () { goMonth(-1); });
+        $('#divCalendarPage #btnPrevYear').on('click', function () { goYear(-1); })
+            .on("swipeup", "#divCalendarPage", function (event) {
+                goMonth(-1);
+            }).on("swipedown", "#divCalendarPage", function (event) {
+                goMonth(1);
             });
         if (!window.cordova) {
             showDate();
@@ -37,59 +35,109 @@
 
     function showDate(jd) {
         if (jd) {
-            $('#divMainPage').jqmData('currentjDate', jd);
+            $('#divCalendarPage').jqmData('currentjDate', jd);
         }
-        else if ($('#divMainPage').jqmData('currentjDate')) {
-            jd = $('#divMainPage').jqmData('currentjDate');
+        else if ($('#divCalendarPage').jqmData('currentjDate')) {
+            jd = $('#divCalendarPage').jqmData('currentjDate');
         }
         else {
             showDate(new jDate(new Date()));
             return;
         }
 
-        var location = getLocation();
-        $('#h2Header').html(jd.toStringHeb() + '<br />' + jd.getDate().toDateString());
-        $('#divCaption').html('Location set to ' + location.Name);
-        $('#emLocDet').html('lat: ' +
+        var location = getLocation(),
+            sdate = jd.getDate();
+
+        $('#divCalendarPage #h2Header').html(Utils.jMonthsHeb[jd.Month] + ' ' +
+            Utils.toJNum(jd.Year % 1000) + '<br />' +
+            Utils.sMonthsEng[sdate.getMonth()] + ' ' + sdate.getFullYear().toString());
+        $('#divCalendarPage #divCaption').html('Location set to ' + location.Name);
+        $('#divCalendarPage #emLocDet').html('lat: ' +
                 location.Latitude.toString() +
                 ' long:' + location.Longitude.toString() +
                 (location.Israel ? ' | Israel' : '') + '  |  ' +
                 (location.IsDST ? 'DST' : 'not DST'));
 
-        var currJd = jd.addDays(jd.Day - 1),
+        var currJd = jd.addDays(-(jd.Day - 1)),
             currDOW = currJd.getDayOfWeek(),
             monthLength = jDate.daysJMonth(jd.Year, jd.Month),
             currWeek = 1,
         currTd;
+        //clear
+        $('#divCalendarPage #tblCal td').html('');
+        while (currJd.Month === jd.Month) {
+            var td = $('#divCalendarPage #tblCal tr').eq(currWeek).find('td').eq(currDOW),
+                holidays = currJd.getHolidays(location.Israel),
+                txt = holidays.join(' - '),
+                html = '<div class="haDate';
 
-        while (currJd.Month === jd.Month && currJd.Day < monthLength) {
-            currTd = $('#tblCal tr').eq(currWeek).find('td').eq(currDOW);
-            $(currTd).append('<strong>' + currJd.Day + '&nbsp;' + Utils.toJNum(currJd.Day) + '</strong>');
-            console.log('Did day: ' + currJd.Day.toString());
+            if (!!holidays.length && txt !== 'Erev Shabbos') {
+                html += ' holiday';
+            }
+
+            html += '" title="' + txt + '"><div class="jd">' +
+                        Utils.toJNum(currJd.Day) +
+                    '</div><div class="sd">' + currJd.getDate().getDate() + '</div>';
+
+            if (!!holidays.length) {
+                if (txt.has('Rosh Hashana') && !txt.has('Erev Rosh Hashana')) {
+                    html += '<i class="fa fa-balance-scale"></i>';
+                }
+                if (txt.has('Yom Kippur') && !txt.has('Erev Yom Kippur')) {
+                    html += '<i class="fa fa-book"></i>';
+                }
+                if (txt.has('Sukkos') && !txt.has('Erev Sukkos')) {
+                    html += '<i class="fa fa-inbox"></i>';
+                }
+                if (txt.has('Chanuka')) {
+                    html += '<i class="fa fa-fire"></i>';
+                }
+                if (txt.has('Tu B\'Shvat')) {
+                    html += '<i class="fa fa-apple"></i>';
+                }
+                if (txt.has('Purim') && !txt.has('Purim Katan')) {
+                    html += '<i class="fa fa-beer"></i>';
+                }
+                if (txt.has('Pesach') && !txt.has('Erev Pesach')) {
+                    html += '<i class="fa fa-soccer-ball-o"></i>';
+                }
+                if (txt.has('Shavuos') && !txt.has('Erev Shavuos')) {
+                    html += '<i class="fa fa-pagelines"></i>';
+                }
+                if (txt.has('Fast') || txt.has('Tzom') || txt.has('Tisha B\'Av')) {
+                    html += '<i class="fa fa-ban"></i>';
+                }
+            }
+
+            html += '</div>';
+
+            td.jqmData('jd', currJd)
+              .off('click')
+              .on('click', { jd: currJd }, showZmanim)
+              .html(html);
             currJd = currJd.addDays(1);
             currDOW = currJd.getDayOfWeek();
-            if (currDOW === 6) {
+            if (currDOW === 0) {
                 currWeek++;
             }
         }
     }
 
-    function goDay(num) {
-        var jd = $('#divMainPage').jqmData('currentjDate');
-        if (jd) {
-            showDate(jd.addDays(num));
-        }
+    function showZmanim(event) {
+        var jd = event.data.jd;
+        $('#divZmanimPage').jqmData('currentjDate', jd);
+        $(":mobile-pagecontainer").pagecontainer("change", "#divZmanimPage", { transition: 'flip' });
     }
 
     function goMonth(num) {
-        var jd = $('#divMainPage').jqmData('currentjDate');
+        var jd = $('#divCalendarPage').jqmData('currentjDate');
         if (jd) {
             showDate(jd.addMonths(num));
         }
     }
 
     function goYear(num) {
-        var jd = $('#divMainPage').jqmData('currentjDate');
+        var jd = $('#divCalendarPage').jqmData('currentjDate');
         if (jd) {
             showDate(jd.addYears(num));
         }

@@ -68,25 +68,25 @@
         while (currJd.Month === jd.Month) {
             var td = $('#divCalendarPage #tblCal tr').eq(currWeek).find('td').eq(currDOW),
                 holidays = currJd.getHolidays(location.Israel),
+                txt = holidays.join(' - '),
                 html = '<div class="haDate';
 
-            if (!!holidays.length) {
+            if (!!holidays.length && txt !== 'Erev Shabbos') {
                 html += ' holiday';
             }
 
-            html += '"><div class="jd">' +
+            html += '" title="' + txt + '"><div class="jd">' +
                         Utils.toJNum(currJd.Day) +
                     '</div><div class="sd">' + currJd.getDate().getDate() + '</div>';
 
             if (!!holidays.length) {
-                var txt = holidays.join(' - ');
                 if (txt.has('Rosh Hashana') && !txt.has('Erev Rosh Hashana')) {
                     html += '<i class="fa fa-balance-scale"></i>';
                 }
                 if (txt.has('Yom Kippur') && !txt.has('Erev Yom Kippur')) {
                     html += '<i class="fa fa-book"></i>';
                 }
-                if (txt.has('Succos') && !txt.has('Erev Succos')) {
+                if (txt.has('Sukkos') && !txt.has('Erev Sukkos')) {
                     html += '<i class="fa fa-inbox"></i>';
                 }
                 if (txt.has('Chanuka')) {
@@ -127,7 +127,6 @@
         var jd = event.data.jd;
         $('#divZmanimPage').jqmData('currentjDate', jd);
         $(":mobile-pagecontainer").pagecontainer("change", "#divZmanimPage", { transition: 'flip' });
-
     }
 
     function goMonth(num) {

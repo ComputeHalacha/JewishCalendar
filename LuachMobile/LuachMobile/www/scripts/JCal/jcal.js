@@ -746,7 +746,7 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
             //If next year is a leap year than vst"u starts on the 6th.
             //If the 5th or 6th were shabbos than vst"u starts on the following day - Sunday.
             if ((((sday === 5 || (sday === 6 && dayOfWeek === 0)) && (!nextYearIsLeap))) ||
-                ((sday === 6 || (sday === 7 && dayofweek === 0)) && nextYearIsLeap))
+                ((sday === 6 || (sday === 7 && dayOfWeek === 0)) && nextYearIsLeap))
                 list.push(!hebrew ? "V'sain Tal U'Matar" : "ותן טל ומטר");
         }
     }

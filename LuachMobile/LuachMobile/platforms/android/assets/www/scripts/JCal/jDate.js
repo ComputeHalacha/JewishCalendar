@@ -443,7 +443,7 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
             //If next year is a leap year than vst"u starts on the 6th.
             //If the 5th or 6th were shabbos than vst"u starts on the following day - Sunday.
             if ((((sday === 5 || (sday === 6 && dayOfWeek === 0)) && (!nextYearIsLeap))) ||
-                ((sday === 6 || (sday === 7 && dayofweek === 0)) && nextYearIsLeap))
+                ((sday === 6 || (sday === 7 && dayOfWeek === 0)) && nextYearIsLeap))
                 list.push(!hebrew ? "V'sain Tal U'Matar" : "ותן טל ומטר");
         }
     }
@@ -453,7 +453,7 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
                 list.push(!hebrew ? "Shabbos HaGadol" : "שבת הגדול");
             if (jDay === 12 && dayOfWeek === 4)
                 list.push(!hebrew ? "Bedikas Chametz" : "בדיקת חמץ");
-            else if (jDay === 13 && dayOfWeek != DayOfWeek.Friday)
+            else if (jDay === 13 && dayOfWeek !== 5)
                 list.push(!hebrew ? "Bedikas Chametz" : "בדיקת חמץ");
             else if (jDay === 14)
                 list.push(!hebrew ? "Erev Pesach" : "ערב פסח");
@@ -463,7 +463,7 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
                 list.push(israel ?
                     (!hebrew ? "Pesach - Chol HaMoed" : "פסח - חול המועד") :
                     (!hebrew ? "Pesach - Second Day" : "פסח - יום שני"));
-            else if (jDay.In(17, 18, 19))
+            else if ([17, 18, 19].has(jDay))
                 list.push(!hebrew ? "Pesach - Chol Ha'moed - Erev Yomtov" : "פסח - חול המועד");
             else if (jDay === 20)
                 list.push(!hebrew ? "Pesach - Chol Ha'moed - Erev Yomtov" : "פסח - חול המועד - ערב יו\"ט");
@@ -534,7 +534,7 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
                 list.push(!hebrew ? "First Day of Sukkos" : "חג הסוכות");
             else if (jDay === 16)
                 list.push(israel ? (!hebrew ? "Sukkos - Chol HaMoed" : "סוכות - חול המועד") : (!hebrew ? "Sukkos - Second Day" : "יום שני - חג הסוכות"));
-            else if (jDay.In(17, 18, 19, 20))
+            else if ([17, 18, 19, 20].has(jDay))
                 list.push(!hebrew ? "Sukkos - Chol HaMoed" : "סוכות - חול המועד");
             else if (jDay === 21)
                 list.push(!hebrew ? "Hoshana Rabba - Erev Yomtov" : "הושענא רבה - ערב יו\"ט");
