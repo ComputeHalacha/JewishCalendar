@@ -15,19 +15,19 @@
 </head>
 <body>
     <div data-role="page" id="divCalendarPage">
-        <div data-role="header" data-theme="c" data-position="fixed">
+        <div id="divCalPageHeader" data-role="header" data-theme="c" data-position="fixed">
             <img src="images/scroll.png" class="logo" />
             <h1 id="h2Header" class="pageCaption"></h1>
         </div>
         <div data-role="main">
             <div data-role="content" id="divTblCal">
-                <table id="tblDOW" class="ui-mini">
+                <table id="tblDOW">
                     <tr><th>SU</th><th>MO</th><th>TU</th><th>WE</th><th>TH</th><th>FR</th><th>SH</th></tr>
                 </table>
-                <table id="tblCal" class="ui-mini"></table>
+                <table id="tblCal"></table>
             </div>
         </div>
-        <div data-role="footer" class="ui-teeny" data-position="fixed">
+        <div id="divCalPageFooter" data-role="footer" class="ui-teeny" data-position="fixed">
             <div class="ui-bar-c ui-content ui-content-not-so-tall">
                 <div id="divCaption"></div>
                 <em id="emLocDet" class="ui-teeny grey"></em>

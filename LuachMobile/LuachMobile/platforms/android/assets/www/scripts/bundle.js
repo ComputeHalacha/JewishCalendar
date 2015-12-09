@@ -250,31 +250,31 @@ function getHolidayIcon(holidays) {
     var html = '';
     for (var i = 0; i < holidays.length; i++) {
         if (holidays[i].has('Rosh Hashana') && !holidays[i].has('Erev Rosh Hashana')) {
-            html += '<i class="fa fa-balance-scale fa-lg"></i>';
+            html += '<i class="fa fa-balance-scale fa-4x"></i>';
         }
         if (holidays[i].has('Yom Kippur') && !holidays[i].has('Erev Yom Kippur')) {
-            html += '<i class="fa fa-book fa-lg"></i>';
+            html += '<i class="fa fa-book fa-4x"></i>';
         }
         if (holidays[i].has('Sukkos') && !holidays[i].has('Erev Sukkos')) {
-            html += '<i class="fa fa-inbox fa-lg"></i>';
+            html += '<i class="fa fa-inbox fa-4x"></i>';
         }
         if (holidays[i].has('Chanuka')) {
-            html += '<i class="fa fa-fire fa-lg"></i>';
+            html += '<i class="fa fa-fire fa-4x"></i>';
         }
         if (holidays[i].has('Tu B\'Shvat')) {
-            html += '<i class="fa fa-apple fa-lg"></i>';
+            html += '<i class="fa fa-apple fa-4x"></i>';
         }
         if (holidays[i].has('Purim') && !holidays[i].has('Purim Katan')) {
-            html += '<i class="fa  fa-glass fa-lg"></i>';
+            html += '<i class="fa  fa-glass fa-4x"></i>';
         }
         if (holidays[i].has('Pesach') && !holidays[i].has('Erev Pesach')) {
-            html += '<i class="fa fa-soccer-ball-o fa-lg"></i>';
+            html += '<i class="fa fa-soccer-ball-o fa-4x"></i>';
         }
         if (holidays[i].has('Shavuos') && !holidays[i].has('Erev Shavuos')) {
-            html += '<i class="fa fa-pagelines fa-lg"></i>';
+            html += '<i class="fa fa-pagelines fa-4x"></i>';
         }
         if (holidays[i].has('Fast') || holidays[i].has('Tzom') || holidays[i].has('Tisha B\'Av')) {
-            html += '<i class="fa fa-ban fa-lg"></i>';
+            html += '<i class="fa fa-ban fa-4x"></i>';
         }
     }
     return html;
@@ -299,10 +299,8 @@ function getHolidayIcon(holidays) {
     };
 
     $(document).on('pagecreate', '#divCalendarPage', function () {
-        $('#divCalendarPage').jqmData('pageHeight', $.mobile.pageContainer.height());
-        $('#divCalendarPage div[data-role=main] .ui-content').css('padding', 0);
+        $('#divCalendarPage div[data-role=main] .ui-content').css({ 'padding': '0', 'height': '100%' });
         $('#divCalendarPage div[data-role=main] .ui-mini').css('margin', '2em 0');
-        $('#tblCal td').width(parseInt($('#divCalendarPage').width() / 7) - 2);
         $('#divCalendarPage #btnNextMonth').on('click', function () { goMonth(1); });
         $('#divCalendarPage #btnNextYear').on('click', function () { goYear(1); });
         $('#divCalendarPage #btnPrevMonth').on('click', function () { goMonth(-1); });
@@ -319,6 +317,10 @@ function getHolidayIcon(holidays) {
 
     $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
         if (ui.toPage.attr('id') === 'divCalendarPage') {
+            //We want the calendar table to fill up the the available height of the area between the header and footer, so we need the container to have it's height set.
+            $('#divCalendarPage div[data-role=main]').css({
+                'height': ($.mobile.pageContainer.height() - $('#divCalendarPage #divCalPageHeader').height() - $('#divCalendarPage #divCalPageFooter').height()) + 'px'
+            });
         }
     });
 
@@ -351,21 +353,16 @@ function getHolidayIcon(holidays) {
             currDOW = currJd.getDayOfWeek(),
             monthLength = jDate.daysJMonth(jd.Year, jd.Month),
             currWeek = 1,
-            availHeight = $('#divCalendarPage').jqmData('pageHeight') -
-                          $('#divCalendarPage div[data-role=header]').height() -
-                          $('#divCalendarPage div[data-role=footer]').height() -
-                          $('#tblDOW').height(),
-            eachHeight = parseInt(availHeight / (monthLength === 30 && currDOW === 6 ? 8 : 7)),
-            currTd;
-
-        console.log(availHeight);
-        //clear
-        $('#divCalendarPage #tblCal td').html('').removeClass('hasDate').removeClass('holiday');
+            html = '<tr>';
+        if (currDOW > 0) {
+            html += '<td colspan="' + currDOW + '"></td>'
+        }
         while (currJd.Month === jd.Month) {
             var td = $('#divCalendarPage #tblCal tr').eq(currWeek).find('td').eq(currDOW),
                 holidays = currJd.getHolidays(location.Israel),
-                txt = holidays.join(' - '),
-                html = '<div class="hasDate';
+                txt = holidays.join(' - ');
+
+            html += '<td data-abs="' + currJd.Abs.toString() + '" title="' + txt + '" class="hasDate';
 
             if ((!!holidays.length) && txt !== 'Erev Shabbos') {
                 html += ' holiday';
@@ -379,24 +376,24 @@ function getHolidayIcon(holidays) {
                 html += getHolidayIcon(holidays);
             }
 
-            html += '</div>';
-
-            td.jqmData('jd', currJd)
-              .off('click')
-              .on('click', { jd: currJd }, showZmanim)
-              .html(html);
+            html += '</td>';
 
             currJd = currJd.addDays(1);
             currDOW = currJd.getDayOfWeek();
             if (currDOW === 0) {
                 currWeek++;
+                html += '</tr><tr>';
             }
         }
-        $('td > div.hasDate').css('height', eachHeight);
+        html += '</tr>';
+
+        $('#divCalendarPage #tblCal').html(html).width($.mobile.pageContainer.width());
+        $('#divCalendarPage #tblCal td.hasDate').on('click', function () {
+            showZmanim(new jDate(parseInt($(this).data('abs'))));
+        });
     }
 
-    function showZmanim(event) {
-        var jd = event.data.jd;
+    function showZmanim(jd) {
         $('#divZmanimPage').jqmData('currentjDate', jd);
         $(":mobile-pagecontainer").pagecontainer("change", "#divZmanimPage", { transition: 'flip' });
     }
