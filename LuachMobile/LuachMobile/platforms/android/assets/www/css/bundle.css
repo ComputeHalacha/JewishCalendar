@@ -236,6 +236,10 @@ body {
     backface-visibility: hidden;
 }
 
+.ui-header h1 {
+    margin: 0 !important;
+}
+
 .logo {
     position: absolute;
     margin: 0;
@@ -300,56 +304,71 @@ html, body {
     height: 100% !important;
 }
 
-#tblCal, #divTblCal {   
-    border-collapse: collapse;    
+#divtblCal, #tblDOW {
+    border-collapse: collapse;
+    border-spacing: 0;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    background-color: #e4e4e4;
 }
 
-    #tblCal td {
+    #divtblCal, #divtblCal .ui-mini {
+        height: 100%;
+    }
+
+        #divtblCal .ui-mini, #tblDOW .ui-mini {
+            padding: 0 !important;
+            margin: 0 !important;
+            width: 100%;
+        }
+
+    #tblCal td, #tblDOW td {
         text-align: center;
         vertical-align: top;
-        padding: 1px;
-        margin:0;
-        height: 16%;        
-        background-color: #e4e4e4;
-        border-collapse: collapse;
-        width:14%;
+        padding: 0;
+        margin: 0;
+        border: solid 1px #e4e4e4;
+        position: relative;
     }
 
         #tblCal td > div {
-            padding: 1.8em 0.2em !important;
-            height: 100%;
-            width: 100%;
+            padding: 0;
             margin: 0;
+            background-color: #ffffff;
         }
 
-    #tblCal .haDate {
-        background-color: #f1f1f1;
-    }
+#tblCal .haDate {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
 
-    #tblCal td .holiday {
-        background-color: #e9eaf0;
-    }
+#tblCal td .holiday {
+    background-color: #f1f1f1;
+    padding: 0;
+    margin: 0;
+}
 
-    #tblCal .jd {
-        float: left;
-        font-family: narkisim,Tahoma,Geneva, Verdana,sans-serif;
-        color: #800;
-        width: 50%;
-        font-size: 1.2em;
-    }
+#tblCal .jd {
+    font-family: narkisim,Tahoma,Geneva, Verdana,sans-serif;
+    color: #800;
+    font-size: 1.2em;
+    padding: 0;
+    margin: 0;
+}
 
-    #tblCal .sd {
-        float: right;
-        width: 50%;
-        color: #008;
-        font-size: 0.8em;
-        padding-top: 1em;
-    }
+#tblCal .sd {
+    color: #008;
+    font-size: 0.8em;
+    padding: 1em 0 0 0;
+    margin: 0;
+}
 
-    #tblCal .fa {
-        color: #999;
-    }
-
+#tblCal .fa {
+    color: #ddd;
+}
 .h1Zman {
     font-size: 1.6em !important;
     color: #008;

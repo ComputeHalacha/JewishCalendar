@@ -21,13 +21,12 @@
         goDay(1);
     });
 
-    $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {        
-        if (ui.toPage.attr('id') === 'divZmanimPage')
-        {
+    $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
+        if (ui.toPage.attr('id') === 'divZmanimPage') {
             showDate();
         }
     });
-    
+
     function showDate(jd) {
         if (jd) {
             $('#divZmanimPage').jqmData('currentjDate', jd);
@@ -79,6 +78,7 @@
             html = '';
 
         if (holidays.length) {
+            html += getHolidayIcon(holidays) + ' ';
             holidays.forEach(function (h) {
                 if (~h.indexOf('Mevarchim')) {
                     var nextMonth = jd.addMonths(1);
@@ -151,6 +151,5 @@
         var jd = $('#divZmanimPage').jqmData('currentjDate');
         $('#divCalendarPage').jqmData('currentjDate', jd)
         $(":mobile-pagecontainer").pagecontainer("change", "#divCalendarPage", { transition: 'flip' });
-
     }
 })();

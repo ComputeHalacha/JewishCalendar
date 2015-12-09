@@ -18,7 +18,10 @@
     };
 
     $(document).on('pagecreate', '#divCalendarPage', function () {
-        $('#tblCal, #divTblCal').height(parseInt($(document).height() * 0.63)).offset({ left: -8 }).width($(document).width() - 7);
+        $('#divCalendarPage').jqmData('pageHeight', $.mobile.pageContainer.height());
+        $('#divCalendarPage div[data-role=main] .ui-content').css('padding', 0);
+        $('#divCalendarPage div[data-role=main] .ui-mini').css('margin', '2em 0');
+        $('#tblCal td').width(parseInt($('#divCalendarPage').width() / 7) - 2);
         $('#divCalendarPage #btnNextMonth').on('click', function () { goMonth(1); });
         $('#divCalendarPage #btnNextYear').on('click', function () { goYear(1); });
         $('#divCalendarPage #btnPrevMonth').on('click', function () { goMonth(-1); });
@@ -30,6 +33,11 @@
             });
         if (!window.cordova) {
             showDate();
+        }
+    });
+
+    $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
+        if (ui.toPage.attr('id') === 'divCalendarPage') {
         }
     });
 
@@ -62,16 +70,23 @@
             currDOW = currJd.getDayOfWeek(),
             monthLength = jDate.daysJMonth(jd.Year, jd.Month),
             currWeek = 1,
-        currTd;
+            availHeight = $('#divCalendarPage').jqmData('pageHeight') -
+                          $('#divCalendarPage div[data-role=header]').height() -
+                          $('#divCalendarPage div[data-role=footer]').height() -
+                          $('#tblDOW').height(),
+            eachHeight = parseInt(availHeight / (monthLength === 30 && currDOW === 6 ? 8 : 7)),
+            currTd;
+
+        console.log(availHeight);
         //clear
-        $('#divCalendarPage #tblCal td').html('');
+        $('#divCalendarPage #tblCal td').html('').removeClass('hasDate').removeClass('holiday');
         while (currJd.Month === jd.Month) {
             var td = $('#divCalendarPage #tblCal tr').eq(currWeek).find('td').eq(currDOW),
                 holidays = currJd.getHolidays(location.Israel),
                 txt = holidays.join(' - '),
-                html = '<div class="haDate';
+                html = '<div class="hasDate';
 
-            if (!!holidays.length && txt !== 'Erev Shabbos') {
+            if ((!!holidays.length) && txt !== 'Erev Shabbos') {
                 html += ' holiday';
             }
 
@@ -80,33 +95,7 @@
                     '</div><div class="sd">' + currJd.getDate().getDate() + '</div>';
 
             if (!!holidays.length) {
-                if (txt.has('Rosh Hashana') && !txt.has('Erev Rosh Hashana')) {
-                    html += '<i class="fa fa-balance-scale"></i>';
-                }
-                if (txt.has('Yom Kippur') && !txt.has('Erev Yom Kippur')) {
-                    html += '<i class="fa fa-book"></i>';
-                }
-                if (txt.has('Sukkos') && !txt.has('Erev Sukkos')) {
-                    html += '<i class="fa fa-inbox"></i>';
-                }
-                if (txt.has('Chanuka')) {
-                    html += '<i class="fa fa-fire"></i>';
-                }
-                if (txt.has('Tu B\'Shvat')) {
-                    html += '<i class="fa fa-apple"></i>';
-                }
-                if (txt.has('Purim') && !txt.has('Purim Katan')) {
-                    html += '<i class="fa fa-beer"></i>';
-                }
-                if (txt.has('Pesach') && !txt.has('Erev Pesach')) {
-                    html += '<i class="fa fa-soccer-ball-o"></i>';
-                }
-                if (txt.has('Shavuos') && !txt.has('Erev Shavuos')) {
-                    html += '<i class="fa fa-pagelines"></i>';
-                }
-                if (txt.has('Fast') || txt.has('Tzom') || txt.has('Tisha B\'Av')) {
-                    html += '<i class="fa fa-ban"></i>';
-                }
+                html += getHolidayIcon(holidays);
             }
 
             html += '</div>';
@@ -115,12 +104,14 @@
               .off('click')
               .on('click', { jd: currJd }, showZmanim)
               .html(html);
+
             currJd = currJd.addDays(1);
             currDOW = currJd.getDayOfWeek();
             if (currDOW === 0) {
                 currWeek++;
             }
         }
+        $('td > div.hasDate').css('height', eachHeight);
     }
 
     function showZmanim(event) {

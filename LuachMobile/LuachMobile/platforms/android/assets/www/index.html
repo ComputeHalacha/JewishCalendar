@@ -15,21 +15,16 @@
 </head>
 <body>
     <div data-role="page" id="divCalendarPage">
-        <div class="ui-bar-c" style="text-align:center;height:3.2em;">
+        <div data-role="header" data-theme="c" data-position="fixed">
             <img src="images/scroll.png" class="logo" />
             <h1 id="h2Header" class="pageCaption"></h1>
         </div>
         <div data-role="main">
-            <div data-role="content" class="ui-mini" id="divTblCal">
-                <table id="tblCal">
+            <div data-role="content" id="divTblCal">
+                <table id="tblDOW" class="ui-mini">
                     <tr><th>SU</th><th>MO</th><th>TU</th><th>WE</th><th>TH</th><th>FR</th><th>SH</th></tr>
-                    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
                 </table>
+                <table id="tblCal" class="ui-mini"></table>
             </div>
         </div>
         <div data-role="footer" class="ui-teeny" data-position="fixed">
@@ -58,7 +53,7 @@
         </div>
     </div>
     <div data-role="page" id="divZmanimPage">
-        <div class="ui-bar-c" style="text-align:center;height:3.2em;">
+        <div data-role="header" data-theme="c" data-position="fixed">
             <img src="images/scroll.png" class="logo" />
             <h1 id="h2Header" class="pageCaption"></h1>
         </div>
@@ -105,7 +100,7 @@
         </div>
     </div>
     <div data-role="page" id="divChangeLocation">
-        <div class="ui-bar-c" style="text-align:center;height:3.2em;">
+        <div data-role="header" data-theme="c" data-position="fixed">
             <img src="images/scroll.png" class="logo" />
             <h1 class="pageCaption">Change Location</h1>
         </div>
@@ -114,7 +109,7 @@
                 <div class="ui-bar-b ui-content">Select a Location</div>
             </div>
         </div>
-        <div data-role="footer" class="ui-teeny">
+        <div data-role="footer" class="ui-teeny" data-position="fixed">
             <div data-role="content" data-theme="c">
             </div>
         </div>
