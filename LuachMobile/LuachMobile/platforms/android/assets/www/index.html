@@ -107,6 +107,10 @@
         <div data-role="main">
             <div data-role="content" class="ui-mini">
                 <div class="ui-bar-b ui-content">Select a Location</div>
+                <form class="ui-filterable">
+                    <input data-type="search" placeholder="Search for a location" id="txtLocationSearch" />
+                </form>
+                <ul id="ulLocsList" data-role="listview" data-filter="true" data-input="#txtLocationSearch" data-inset="true" class="ui-mini"></ul>
             </div>
         </div>
         <div data-role="footer" class="ui-teeny" data-position="fixed">
@@ -117,11 +121,11 @@
     <!-- Cordova reference, this is added to your app when it's built. -->
     <script src="cordova.js"></script>
 
-    <!--FOR DEVELEOPMENT-->
+    <!--FOR DEVELEOPMENT
     <script src="scripts/JCal/jcal.js"></script>
-    <script src="scripts/bundle.js"></script>
-    <!--FOR PRODUCTION
+    <script src="scripts/bundle.js"></script-->
+    <!--FOR PRODUCTION-->
     <script src="scripts/JCal/jcal.min.js"></script>
-    <script src="scripts/bundle.min.js"></script-->
+    <script src="scripts/bundle.min.js"></script>
 </body>
 </html>

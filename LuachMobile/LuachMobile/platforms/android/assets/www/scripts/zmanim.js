@@ -27,6 +27,15 @@
         }
     });
 
+    document.onLocationChanged = function () {
+        try {
+            showDate();
+        }
+        catch (e) {
+            console.error(e);
+        }
+    };
+
     function showDate(jd) {
         if (jd) {
             $('#divZmanimPage').jqmData('currentjDate', jd);

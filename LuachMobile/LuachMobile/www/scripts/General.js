@@ -106,6 +106,16 @@ function setDefaultLocation() {
         document.onLocationChanged();
     }
 }
+
+function setLocation(loc) {
+    localStorage.setItem('location', JSON.stringify(loc));
+    showMessage('Location set to: ' + loc.Name, false, 2, 'Location set');
+    $($.mobile.pageContainer).jqmData('location', loc);
+    if (document.onLocationChanged) {
+        document.onLocationChanged();
+    }
+}
+
 function getHolidayIcon(holidays) {
     var html = '';
     for (var i = 0; i < holidays.length; i++) {

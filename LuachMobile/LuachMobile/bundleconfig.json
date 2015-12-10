@@ -1,4 +1,4 @@
-[  
+[
   {
     "outputFileName": "www/index.html",
     "inputFiles": [
@@ -41,7 +41,8 @@
       "www/scripts/platformOverrides.js",
       "www/scripts/General.js",
       "www/scripts/index.js",
-      "www/scripts/zmanim.js"
+      "www/scripts/zmanim.js",
+      "www/scripts/locations.js"
     ],
     "sourceMap": true
   }

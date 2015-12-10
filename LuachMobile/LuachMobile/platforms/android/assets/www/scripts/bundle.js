@@ -246,6 +246,16 @@ function setDefaultLocation() {
         document.onLocationChanged();
     }
 }
+
+function setLocation(loc) {
+    localStorage.setItem('location', JSON.stringify(loc));
+    showMessage('Location set to: ' + loc.Name, false, 2, 'Location set');
+    $($.mobile.pageContainer).jqmData('location', loc);
+    if (document.onLocationChanged) {
+        document.onLocationChanged();
+    }
+}
+
 function getHolidayIcon(holidays) {
     var html = '';
     for (var i = 0; i < holidays.length; i++) {
@@ -441,6 +451,15 @@ function getHolidayIcon(holidays) {
         }
     });
 
+    document.onLocationChanged = function () {
+        try {
+            showDate();
+        }
+        catch (e) {
+            console.error(e);
+        }
+    };
+
     function showDate(jd) {
         if (jd) {
             $('#divZmanimPage').jqmData('currentjDate', jd);
@@ -565,5 +584,56 @@ function getHolidayIcon(holidays) {
         var jd = $('#divZmanimPage').jqmData('currentjDate');
         $('#divCalendarPage').jqmData('currentjDate', jd)
         $(":mobile-pagecontainer").pagecontainer("change", "#divCalendarPage", { transition: 'flip' });
+    }
+})();
+/// <reference path="_references.js" />
+
+(function () {
+    "use strict";
+
+    $(document).on('pagecreate', '#divChangeLocation', function () {
+    });
+
+    $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
+        if (ui.toPage.attr('id') === 'divChangeLocation') {
+            if (!$('#divChangeLocation').jqmData('locsList')) {
+                loadLocationsList(function (nameList) {
+                    var html = '';
+
+                    for (var i = 0; i < nameList.length; i++) {
+                        html += '<li><a href="#" data-name="' + nameList[i].n + '">' +
+                            nameList[i].n +
+                            (nameList[i].h ? ' - ' + nameList[i].h : '') +
+                            '</a></li>';
+                    }
+                    $('#divChangeLocation #ulLocsList').html(html).listview("refresh");
+                    $('#divChangeLocation #ulLocsList a').on('click', function () {
+                        showZmanim($(this).data('name'));
+                    });
+                });
+            }
+        }
+    });
+
+    function loadLocationsList(callback) {
+        $.getJSON('files/LocationsList.json', null, function (data) {
+            $('#divChangeLocation').jqmData('locsList', data.locations);
+            if (callback) {
+                //sort locations by name
+                callback(data.locations.sort(function (a, b) {
+                    return a.n < b.n ? -1 : 1;
+                }));
+            }
+        });
+    }
+
+    function showZmanim(name) {
+        var list = $('#divChangeLocation').jqmData('locsList'),
+        loc = list.first(function (i) {
+            return i.n === name;
+        });
+        setLocation(new Location(loc.n, !!loc.i, parseFloat(loc.lt),
+            parseFloat(loc.ln), parseInt(loc.tz), (loc.el ? parseInt(loc.el) : 0)));
+        $(":mobile-pagecontainer").pagecontainer("change", "#divZmanimPage", { transition: 'flip' });
     }
 })();
