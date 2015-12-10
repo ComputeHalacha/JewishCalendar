@@ -24,6 +24,7 @@
     $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
         if (ui.toPage.attr('id') === 'divZmanimPage') {
             showDate();
+            $('#divZmanimPage #ulMain').listview("refresh");
         }
     });
 
@@ -57,7 +58,7 @@
                 ' long:' + location.Longitude.toString() +
                 (location.Israel ? ' | Israel' : '') + '  |  ' +
                 (location.IsDST ? 'DST' : 'not DST'));
-        $('#divZmanimPage #ulMain').html(getZmanimHtml(jd, location)).listview("refresh");
+        $('#divZmanimPage #ulMain').html(getZmanimHtml(jd, location));
         $('#divZmanimPage #pMain').jqmData('currDate', jd);
     }
 

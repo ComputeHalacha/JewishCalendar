@@ -331,6 +331,12 @@ function getHolidayIcon(holidays) {
             $('#divCalendarPage div[data-role=main]').css({
                 'height': ($.mobile.pageContainer.height() - $('#divCalendarPage #divCalPageHeader').height() - $('#divCalendarPage #divCalPageFooter').height()) + 'px'
             });
+
+            //Redraw the calendar if the calendar is empty or if the location was changed from another page
+            if (!$('#divCalendarPage #tblCal').html() ||
+                $('#divCalendarPage #divCaption').data('locationName') !== getLocation()) {
+                showDate();
+            }
         }
     });
 
@@ -352,38 +358,58 @@ function getHolidayIcon(holidays) {
         $('#divCalendarPage #h2Header').html(Utils.jMonthsHeb[jd.Month] + ' ' +
             Utils.toJNum(jd.Year % 1000) + '<br />' +
             Utils.sMonthsEng[sdate.getMonth()] + ' ' + sdate.getFullYear().toString());
-        $('#divCalendarPage #divCaption').html('Location set to ' + location.Name);
+        $('#divCalendarPage #divCaption').data('locationName', location.Name).html('Location set to ' + location.Name);
         $('#divCalendarPage #emLocDet').html('lat: ' +
                 location.Latitude.toString() +
                 ' long:' + location.Longitude.toString() +
                 (location.Israel ? ' | Israel' : '') + '  |  ' +
                 (location.IsDST ? 'DST' : 'not DST'));
 
-        var currJd = jd.addDays(-(jd.Day - 1)),
+        fillCalendar(jd, location);
+    }
+
+    function showZmanim(jd) {
+        $('#divZmanimPage').jqmData('currentjDate', jd);
+        $(":mobile-pagecontainer").pagecontainer("change", "#divZmanimPage", { transition: 'flip' });
+    }
+
+    function fillCalendar(jd, location) {
+        //first day of current month
+        var currJd = new jDate(jd.Year, jd.Month),
+            //Keeps track of the d.o.w. for each day
             currDOW = currJd.getDayOfWeek(),
-            monthLength = jDate.daysJMonth(jd.Year, jd.Month),
-            currWeek = 1,
+            //Each week gets a row
             html = '<tr>';
+
+        //If the first day of the month is not Sunday,
         if (currDOW > 0) {
+            //we will fill the blank space before the first with one big blank table cell
             html += '<td colspan="' + currDOW + '"></td>'
         }
+
+        //For each day of the month
         while (currJd.Month === jd.Month) {
-            var td = $('#divCalendarPage #tblCal tr').eq(currWeek).find('td').eq(currDOW),
-                holidays = currJd.getHolidays(location.Israel),
-                txt = holidays.join(' - ');
+            var holidays = getHolidays(currJd, location);
 
-            html += '<td data-abs="' + currJd.Abs.toString() + '" title="' + txt + '" class="hasDate';
+            //Each days td has a data attribute set to its date's absolute date number.
+            //This will be used to recreate the date when the user clicks on the day
+            //and we want to display the zmanim in the zmanim page.
+            html += '<td data-abs="' + currJd.Abs.toString() +
+                '" title="' + holidays.join(' - ') + '" class="hasDate';
 
-            if ((!!holidays.length) && txt !== 'Erev Shabbos') {
+            //The special days get a special bg color.
+            if (!!holidays.length) {
+                //add the holiday class
                 html += ' holiday';
             }
 
-            html += '" title="' + txt + '"><div class="jd">' +
+            html += '"><div class="jd">' +
                         Utils.toJNum(currJd.Day) +
                     '</div><div class="sd">' + currJd.getDate().getDate() + '</div>';
 
             if (!!holidays.length) {
-                html += getHolidayIcon(holidays);
+                html += '<div class="ht">' + holidays.join('<br />') + '</div>' +
+                    getHolidayIcon(holidays);
             }
 
             html += '</td>';
@@ -391,21 +417,22 @@ function getHolidayIcon(holidays) {
             currJd = currJd.addDays(1);
             currDOW = currJd.getDayOfWeek();
             if (currDOW === 0) {
-                currWeek++;
                 html += '</tr><tr>';
             }
+        }
+        //If the last day of the month was Shabbos, currDOW will be Sunday as
+        //we went over to the first day of the next month
+        if (currDOW !== 0) {
+            //we will fill the blank space after the last day with one big blank table cell
+            html += '<td colspan="' + (7 - currDOW) + '"></td>'
         }
         html += '</tr>';
 
         $('#divCalendarPage #tblCal').html(html).width($.mobile.pageContainer.width());
+
         $('#divCalendarPage #tblCal td.hasDate').on('click', function () {
             showZmanim(new jDate(parseInt($(this).data('abs'))));
         });
-    }
-
-    function showZmanim(jd) {
-        $('#divZmanimPage').jqmData('currentjDate', jd);
-        $(":mobile-pagecontainer").pagecontainer("change", "#divZmanimPage", { transition: 'flip' });
     }
 
     function goMonth(num) {
@@ -420,6 +447,23 @@ function getHolidayIcon(holidays) {
         if (jd) {
             showDate(jd.addYears(num));
         }
+    }
+
+    function getHolidays(jd, location) {
+        var holidays = jd.getHolidays(location.Israel);
+        for (var i = holidays.length; i >= 0; i--) {
+            if (holidays[i] === 'Shabbos Kodesh') {
+                //Instead of Shabbos Kodesh, we just show the parsha
+                holidays[i] = jd.getSedra(location.Israel).map(function (s) {
+                    return s.eng;
+                }).join(' - ');
+            }
+            else if (holidays[i] === 'Erev Shabbos') {
+                //No room on a mobile to show Erev Shabbos - it's obviously Friday in any case....
+                holidays.splice(i, 1);
+            }
+        }
+        return holidays;
     }
 })();
 /// <reference path="_references.js" />
@@ -448,6 +492,7 @@ function getHolidayIcon(holidays) {
     $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
         if (ui.toPage.attr('id') === 'divZmanimPage') {
             showDate();
+            $('#divZmanimPage #ulMain').listview("refresh");
         }
     });
 
@@ -481,7 +526,7 @@ function getHolidayIcon(holidays) {
                 ' long:' + location.Longitude.toString() +
                 (location.Israel ? ' | Israel' : '') + '  |  ' +
                 (location.IsDST ? 'DST' : 'not DST'));
-        $('#divZmanimPage #ulMain').html(getZmanimHtml(jd, location)).listview("refresh");
+        $('#divZmanimPage #ulMain').html(getZmanimHtml(jd, location));
         $('#divZmanimPage #pMain').jqmData('currDate', jd);
     }
 
