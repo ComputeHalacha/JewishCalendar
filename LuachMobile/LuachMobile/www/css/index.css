@@ -1,5 +1,7 @@
 ﻿html, body {
-    height: 100% !important;
+    height: 100%;
+    overflow:hidden; 
+    scroll:none;
 }
 
 #tblCal, #tblDOW {
