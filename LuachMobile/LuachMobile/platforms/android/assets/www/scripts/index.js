@@ -2,18 +2,26 @@
 
 (function () {
     "use strict";
-    document.onDeviceReady = function () {
+    document.onLocationChanged = function () {
+        $('#divCalendarPage #divCaption')
+            .data('locationName', location.Name)
+            .html('Location set to ' + location.Name);
         showDate();
+    };
+
+    document.onDeviceReady = function () {
+        if (navigator.geolocation) {
+            setCurrentLocation();
+        }
+        else {
+            setDefaultLocation();
+        }
     };
 
     document.onDevicePause = function () {
     };
 
     document.onDeviceResume = function () {
-        showDate();
-    };
-
-    document.onLocationChanged = function () {
         showDate();
     };
 
@@ -29,9 +37,6 @@
             }).on("swipedown", "#divCalendarPage", function (event) {
                 goMonth(1);
             });
-        if (!window.cordova) {
-            showDate();
-        }
     });
 
     $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
@@ -67,7 +72,6 @@
         $('#divCalendarPage #h2Header').html(Utils.jMonthsHeb[jd.Month] + ' ' +
             Utils.toJNum(jd.Year % 1000) + '<br />' +
             Utils.sMonthsEng[sdate.getMonth()] + ' ' + sdate.getFullYear().toString());
-        $('#divCalendarPage #divCaption').data('locationName', location.Name).html('Location set to ' + location.Name);
         $('#divCalendarPage #emLocDet').html('lat: ' +
                 location.Latitude.toString() +
                 ' long:' + location.Longitude.toString() +

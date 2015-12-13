@@ -17,17 +17,17 @@ namespace LuachProject
 
         #region private fields
 
-        private DateTime _displayingSecularDate;
-        private JewishDate _displayingJewishDate;
-        private JewishCalendar.Zmanim _zmanim;
-        private IEnumerable<SpecialDay> _holidays;
-        private IEnumerable<UserOccasion> _occasions;
-        private Font _lblOccasionFont;
-        private Font _lineValueFont;
         private Font _dateDiffDaysFont;
         private Font _dateDiffExpFont;
-        private Font _sefirahFont;
+        private JewishDate _displayingJewishDate;
+        private DateTime _displayingSecularDate;
         private frmAddOccasionEng _frmAddOccasionEng;
+        private IEnumerable<SpecialDay> _holidays;
+        private Font _lblOccasionFont;
+        private Font _lineValueFont;
+        private IEnumerable<UserOccasion> _occasions;
+        private Font _sefirahFont;
+        private JewishCalendar.Zmanim _zmanim;
 
         #endregion private fields
 
@@ -101,6 +101,11 @@ namespace LuachProject
 
         #region event handlers
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            AddNewOccasion(null);
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             //If we are displaying todays date for the current time zone, we will show the "proper" secular date.
@@ -115,11 +120,6 @@ namespace LuachProject
             }
 
             this.ShowDateData();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            AddNewOccasion(null);
         }
 
         #endregion event handlers
@@ -148,178 +148,6 @@ namespace LuachProject
                     OccasionWasChanged(this, (uo != null ? uo.JewishDate : this._displayingJewishDate));
                 }
             };
-        }
-
-        private void ShowDateData()
-        {
-            this.Cursor = Cursors.WaitCursor;
-            var netzshkia = this._zmanim.GetNetzShkia();
-            var netz = netzshkia[0];
-            var shkia = netzshkia[1];
-
-            this.DisplayToday();
-            this.DisplayDateDiff();
-            this.DisplayHolidays(shkia);
-            this.DisplayZmanim(netz, shkia);
-
-            foreach (UserOccasion occ in this._occasions)
-            {
-                this.AddOccasion(occ);
-            }
-
-            var bg = (from o in this._occasions
-                      where o.BackColor != Color.Empty
-                      select o.BackColor).FirstOrDefault();
-
-            this.tableLayoutPanel1.BackColor = (bg != Color.Empty ? bg.Color : Color.GhostWhite);
-
-            this.Cursor = Cursors.Default;
-        }
-
-        private void DisplayToday()
-        {
-            this.Text = this._displayingJewishDate.DayOfWeek.ToString() +
-                " - " + this._displayingJewishDate.ToShortDateString();
-            this.richTextBox1.Clear();
-            this.richTextBox1.SelectionFont = this._lineValueFont;
-            this.richTextBox1.SelectionColor = Color.RoyalBlue;
-            this.richTextBox1.SelectedText = this._displayingSecularDate.ToString("D", System.Threading.Thread.CurrentThread.CurrentCulture) +
-                Environment.NewLine;
-            //If the secular day is a day behind as day being displayed is todays date and it is after sunset,
-            //the user may get confused as the secular date for today and tomorrow will be the same.
-            //So we esplain'in it to them...
-            if (this._displayingSecularDate.Date != this._displayingJewishDate.GregorianDate.Date)
-            {
-                this.richTextBox1.SelectionFont = new Font(this._dateDiffExpFont, FontStyle.Regular);
-                this.richTextBox1.SelectionColor = Color.RosyBrown;
-                this.richTextBox1.SelectedText = "Note: The secular date begins at midnight" + Environment.NewLine;
-            }
-        }
-
-        private void DisplayHolidays(HourMinute shkia)
-        {
-            if (this._holidays.Count() > 0)
-            {
-                foreach (var h in this._holidays)
-                {
-                    this.richTextBox1.SelectedText = Environment.NewLine + h.NameEnglish;
-                    if (h.NameEnglish == "Shabbos Mevarchim")
-                    {
-                        var nextMonth = this._displayingJewishDate + 12;
-                        this.richTextBox1.SelectedText = " - Chodesh " + nextMonth.MonthName;
-                        var molad = Molad.GetMolad(nextMonth.Month, nextMonth.Year);
-                        var dim = JewishDateCalculations.DaysInJewishMonth(this._displayingJewishDate.Year, this._displayingJewishDate.Month);
-                        var dow = dim - this._displayingJewishDate.Day;
-                        if (dim == 30)
-                        {
-                            dow--;
-                        }
-                        this.richTextBox1.SelectedText = Environment.NewLine + "Molad: " + molad.ToString(this._zmanim.GetShkia());
-                        this.richTextBox1.SelectedText = Environment.NewLine + "Rosh Chodesh: " +
-                            Utils.DaysOfWeek[dow] + (dim == 30 ? ", " + Utils.DaysOfWeek[(dow + 1) % 7] : "");
-                    }
-                }
-                this.richTextBox1.SelectedText = Environment.NewLine;
-                if (shkia != HourMinute.NoValue &&
-                    this._holidays.Any(h => h.DayType.HasFlag(SpecialDay.SpecialDayTypes.HasCandleLighting)))
-                {
-                    this.AddLine("Candle Lighting", (shkia - this._zmanim.Location.CandleLighting).ToString());
-                }
-
-                if (this._holidays.Any(h => h.NameEnglish.Contains("Sefiras Ha'omer")))
-                {
-                    this.richTextBox1.SelectedText = Environment.NewLine;
-                    this.richTextBox1.SelectionFont = this._sefirahFont;
-                    this.richTextBox1.SelectionColor = Color.SteelBlue;
-                    this.richTextBox1.SelectedText = Utils.GetOmerNusach(this._displayingJewishDate.GetDayOfOmer(), true, false) + Environment.NewLine;
-                }
-            }
-        }
-
-        private void DisplayZmanim(HourMinute netz, HourMinute shkia)
-        {
-            var dy = DafYomi.GetDafYomi(this._displayingJewishDate);
-            var chatzos = this._zmanim.GetChatzos();
-            var shaaZmanis = this._zmanim.GetShaaZmanis();
-            var shaaZmanis90 = this._zmanim.GetShaaZmanis(90);
-            var bold = new Font(this.richTextBox1.Font, FontStyle.Bold);
-
-            this.richTextBox1.SelectedText = Environment.NewLine;
-            this.AddLine("Weekly Sedra",
-                string.Join(" ", Sedra.GetSedra(this._displayingJewishDate, this._zmanim.Location.IsInIsrael).Select(i => i.nameEng)));
-            if (dy != null)
-            {
-                this.AddLine("Daf Yomi", dy.ToString());
-            }
-            this.richTextBox1.SelectedText = Environment.NewLine;
-            this.richTextBox1.SelectionBackColor = Color.LightSteelBlue;
-            this.richTextBox1.SelectionColor = Color.GhostWhite;
-            this.richTextBox1.SelectionFont = new Font(bold.FontFamily, 10f, FontStyle.Bold);
-            this.richTextBox1.SelectedText = string.Format(" Zmanim for {0}{1}", this._zmanim.Location.Name, new string(' ', 150 - this._zmanim.Location.Name.Length));
-            this.richTextBox1.SelectionBackColor = this.richTextBox1.BackColor;
-            this.richTextBox1.SelectedText = Environment.NewLine + Environment.NewLine;
-
-            if (netz == HourMinute.NoValue)
-            {
-                this.AddLine("Netz Hachama", "The does not rise");
-            }
-            else
-            {
-                this.AddLine("Alos Hashachar - 90", (netz - 90).ToString());
-                this.AddLine("Alos Hashachar - 72", (netz - 72).ToString());
-                this.AddLine("Netz Hachama", netz.ToString());
-                this.AddLine("Krias Shma - MG\"A", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 3D)).ToString());
-                this.AddLine("Krias Shma - GR\"A", (netz + (int)Math.Floor(shaaZmanis * 3D)).ToString());
-                this.AddLine("Zeman Tefillah - MG\"A", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString());
-                this.AddLine("Zeman Tefillah - GR\"A", (netz + (int)Math.Floor(shaaZmanis * 4D)).ToString());
-            }
-
-            if (netz != HourMinute.NoValue && shkia != HourMinute.NoValue)
-            {
-                this.AddLine("Chatzos - Day & Night", chatzos.ToString());
-                this.AddLine("Mincha Gedolah", (chatzos + (int)(shaaZmanis * 0.5)).ToString());
-            }
-
-            if (shkia == HourMinute.NoValue)
-            {
-                this.AddLine("Shkias Hachama", "The sun does not set");
-            }
-            else
-            {
-                this.AddLine("Shkias Hachama", shkia.ToString());
-                this.AddLine("Nightfall 45", (shkia + 45).ToString());
-                this.AddLine("Rabbeinu Tam", (shkia + 72).ToString());
-            }
-        }
-
-        private void AddOccasion(UserOccasion occ)
-        {
-            var lnkLbl = new LinkLabel
-            {
-                Text = occ.Name,
-                Font = this._lblOccasionFont,
-                LinkColor = occ.Color,
-                Tag = occ,
-                AutoSize = true,
-                AutoEllipsis = true,
-                LinkBehavior = LinkBehavior.HoverUnderline
-            };
-            var lbl = new Label
-            {
-                Text = occ.Notes
-            };
-
-            lnkLbl.MouseClick += delegate
-            {
-                this.EditOccasion(occ, null);
-            };
-            lbl.MouseClick += delegate
-            {
-                this.EditOccasion(occ, null);
-            };
-
-            this.tableLayoutPanel1.Controls.Add(lnkLbl);
-            this.tableLayoutPanel1.Controls.Add(lbl);
         }
 
         public void EditOccasion(UserOccasion occ, Point? parentPoint)
@@ -352,7 +180,9 @@ namespace LuachProject
                 {
                     lnkLbl.Text = this._frmAddOccasionEng.UserOccasion.Name;
                     lnkLbl.LinkColor = this._frmAddOccasionEng.UserOccasion.Color;
-                    lbl.Text = this._frmAddOccasionEng.UserOccasion.Notes;
+                    var dateDiff = this._frmAddOccasionEng.UserOccasion.GetAnniversaryString(this.JewishDate, false);
+                    lbl.Text = ((!string.IsNullOrWhiteSpace(dateDiff)) ? "(" + dateDiff + ") " : "") +
+                        (this._frmAddOccasionEng.UserOccasion.Notes ?? "");
                     this.tableLayoutPanel1.BackColor = (uo.BackColor != Color.Empty ? uo.BackColor.Color : Color.GhostWhite);
                 }
             };
@@ -369,62 +199,38 @@ namespace LuachProject
             this.richTextBox1.SelectedText = value.Trim() + Environment.NewLine;
         }
 
-        private void PositionAddOccasion(Point? parentPoint)
+        private void AddOccasion(UserOccasion occ)
         {
-            this._frmAddOccasionEng.StartPosition = FormStartPosition.Manual;
-            this._frmAddOccasionEng.SuspendLayout();
-
-            if (parentPoint == null)
+            var lnkLbl = new LinkLabel
             {
-                this._frmAddOccasionEng.CloseStyle = frmAddOccasionEng.CloseStyles.Slide;
-
-                Point pointZero = new Point(this.ParentForm.Right, this.ParentForm.Bottom - this._frmAddOccasionEng.Height - 7);
-                int a = 0;
-
-                this._frmAddOccasionEng.Location = pointZero;
-                this._frmAddOccasionEng.Show(this);
-
-                while (true)
-                {
-                    if (this._frmAddOccasionEng.Width - a < 50)
-                    {
-                        this._frmAddOccasionEng.Location = new Point(pointZero.X - this._frmAddOccasionEng.Width - 10, pointZero.Y);
-                        break;
-                    }
-                    else
-                    {
-                        this._frmAddOccasionEng.Location = new Point(pointZero.X - a, pointZero.Y);
-                        this._frmAddOccasionEng.Refresh();
-                        a += 50;
-                    }
-                }
-                this._frmAddOccasionEng.BringToFront();
-            }
-            else
+                Text = occ.Name,
+                Font = this._lblOccasionFont,
+                LinkColor = occ.Color,
+                Tag = occ,
+                Dock = DockStyle.Fill,
+                AutoEllipsis = true,
+                LinkBehavior = LinkBehavior.HoverUnderline
+            };
+            var dateDiff = occ.GetAnniversaryString(this.JewishDate, false);
+            var lbl = new Label
             {
-                this._frmAddOccasionEng.CloseStyle = frmAddOccasionEng.CloseStyles.Fade;
+                ForeColor = occ.Color,
+                Dock = DockStyle.Fill,
+                Text = ((!string.IsNullOrWhiteSpace(dateDiff)) ? "(" + dateDiff + ") " : "") +
+                    (occ.Notes ?? "")
+            };
 
-                var point = parentPoint.Value;
+            lnkLbl.MouseClick += delegate
+            {
+                this.EditOccasion(occ, null);
+            };
+            lbl.MouseClick += delegate
+            {
+                this.EditOccasion(occ, null);
+            };
 
-                if (point.X < 0)
-                {
-                    point.X = 10;
-                }
-                else if ((point.X + this._frmAddOccasionEng.Width) > this.ParentForm.Right)
-                {
-                    point.X = this.ParentForm.Right - this._frmAddOccasionEng.Width - 10;
-                }
-
-                if ((point.Y + this._frmAddOccasionEng.Height) > (this.ParentForm.Bottom - 7))
-                {
-                    point.Y = this.ParentForm.Bottom - this._frmAddOccasionEng.Height - 7;
-                }
-
-                this._frmAddOccasionEng.Location = point;
-                this._frmAddOccasionEng.Show(this);
-            }
-
-            this._frmAddOccasionEng.ResumeLayout();
+            this.tableLayoutPanel1.Controls.Add(lnkLbl);
+            this.tableLayoutPanel1.Controls.Add(lbl);
         }
 
         private void DisplayDateDiff()
@@ -496,11 +302,211 @@ namespace LuachProject
             this.richTextBox1.SelectedText = Environment.NewLine;
         }
 
+        private void DisplayHolidays(HourMinute shkia)
+        {
+            if (this._holidays.Count() > 0)
+            {
+                foreach (var h in this._holidays)
+                {
+                    this.richTextBox1.SelectedText = Environment.NewLine + h.NameEnglish;
+                    if (h.NameEnglish == "Shabbos Mevarchim")
+                    {
+                        var nextMonth = this._displayingJewishDate + 12;
+                        this.richTextBox1.SelectedText = " - Chodesh " + nextMonth.MonthName;
+                        var molad = Molad.GetMolad(nextMonth.Month, nextMonth.Year);
+                        var dim = JewishDateCalculations.DaysInJewishMonth(this._displayingJewishDate.Year, this._displayingJewishDate.Month);
+                        var dow = dim - this._displayingJewishDate.Day;
+                        if (dim == 30)
+                        {
+                            dow--;
+                        }
+                        this.richTextBox1.SelectedText = Environment.NewLine + "Molad: " + molad.ToString(this._zmanim.GetShkia());
+                        this.richTextBox1.SelectedText = Environment.NewLine + "Rosh Chodesh: " +
+                            Utils.DaysOfWeek[dow] + (dim == 30 ? ", " + Utils.DaysOfWeek[(dow + 1) % 7] : "");
+                    }
+                }
+                this.richTextBox1.SelectedText = Environment.NewLine;
+                if (shkia != HourMinute.NoValue &&
+                    this._holidays.Any(h => h.DayType.HasFlag(SpecialDay.SpecialDayTypes.HasCandleLighting)))
+                {
+                    this.AddLine("Candle Lighting", (shkia - this._zmanim.Location.CandleLighting).ToString());
+                }
+
+                if (this._holidays.Any(h => h.NameEnglish.Contains("Sefiras Ha'omer")))
+                {
+                    this.richTextBox1.SelectedText = Environment.NewLine;
+                    this.richTextBox1.SelectionFont = this._sefirahFont;
+                    this.richTextBox1.SelectionColor = Color.SteelBlue;
+                    this.richTextBox1.SelectedText = Utils.GetOmerNusach(this._displayingJewishDate.GetDayOfOmer(), true, false) + Environment.NewLine;
+                }
+            }
+        }
+
+        private void DisplayToday()
+        {
+            this.Text = this._displayingJewishDate.DayOfWeek.ToString() +
+                " - " + this._displayingJewishDate.ToShortDateString();
+            this.richTextBox1.Clear();
+            this.richTextBox1.SelectionFont = this._lineValueFont;
+            this.richTextBox1.SelectionColor = Color.RoyalBlue;
+            this.richTextBox1.SelectedText = this._displayingSecularDate.ToString("D", System.Threading.Thread.CurrentThread.CurrentCulture) +
+                Environment.NewLine;
+            //If the secular day is a day behind as day being displayed is todays date and it is after sunset,
+            //the user may get confused as the secular date for today and tomorrow will be the same.
+            //So we esplain'in it to them...
+            if (this._displayingSecularDate.Date != this._displayingJewishDate.GregorianDate.Date)
+            {
+                this.richTextBox1.SelectionFont = new Font(this._dateDiffExpFont, FontStyle.Regular);
+                this.richTextBox1.SelectionColor = Color.RosyBrown;
+                this.richTextBox1.SelectedText = "Note: The secular date begins at midnight" + Environment.NewLine;
+            }
+        }
+
+        private void DisplayZmanim(HourMinute netz, HourMinute shkia)
+        {
+            var dy = DafYomi.GetDafYomi(this._displayingJewishDate);
+            var chatzos = this._zmanim.GetChatzos();
+            var shaaZmanis = this._zmanim.GetShaaZmanis();
+            var shaaZmanis90 = this._zmanim.GetShaaZmanis(90);
+            var bold = new Font(this.richTextBox1.Font, FontStyle.Bold);
+
+            this.richTextBox1.SelectedText = Environment.NewLine;
+            this.AddLine("Weekly Sedra",
+                string.Join(" ", Sedra.GetSedra(this._displayingJewishDate, this._zmanim.Location.IsInIsrael).Select(i => i.nameEng)));
+            if (dy != null)
+            {
+                this.AddLine("Daf Yomi", dy.ToString());
+            }
+            this.richTextBox1.SelectedText = Environment.NewLine;
+            this.richTextBox1.SelectionBackColor = Color.LightSteelBlue;
+            this.richTextBox1.SelectionColor = Color.GhostWhite;
+            this.richTextBox1.SelectionFont = new Font(bold.FontFamily, 10f, FontStyle.Bold);
+            this.richTextBox1.SelectedText = string.Format(" Zmanim for {0}{1}", this._zmanim.Location.Name, new string(' ', 150 - this._zmanim.Location.Name.Length));
+            this.richTextBox1.SelectionBackColor = this.richTextBox1.BackColor;
+            this.richTextBox1.SelectedText = Environment.NewLine + Environment.NewLine;
+
+            if (netz == HourMinute.NoValue)
+            {
+                this.AddLine("Netz Hachama", "The does not rise");
+            }
+            else
+            {
+                this.AddLine("Alos Hashachar - 90", (netz - 90).ToString());
+                this.AddLine("Alos Hashachar - 72", (netz - 72).ToString());
+                this.AddLine("Netz Hachama", netz.ToString());
+                this.AddLine("Krias Shma - MG\"A", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 3D)).ToString());
+                this.AddLine("Krias Shma - GR\"A", (netz + (int)Math.Floor(shaaZmanis * 3D)).ToString());
+                this.AddLine("Zeman Tefillah - MG\"A", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString());
+                this.AddLine("Zeman Tefillah - GR\"A", (netz + (int)Math.Floor(shaaZmanis * 4D)).ToString());
+            }
+
+            if (netz != HourMinute.NoValue && shkia != HourMinute.NoValue)
+            {
+                this.AddLine("Chatzos - Day & Night", chatzos.ToString());
+                this.AddLine("Mincha Gedolah", (chatzos + (int)(shaaZmanis * 0.5)).ToString());
+            }
+
+            if (shkia == HourMinute.NoValue)
+            {
+                this.AddLine("Shkias Hachama", "The sun does not set");
+            }
+            else
+            {
+                this.AddLine("Shkias Hachama", shkia.ToString());
+                this.AddLine("Nightfall 45", (shkia + 45).ToString());
+                this.AddLine("Rabbeinu Tam", (shkia + 72).ToString());
+            }
+        }
+
         private bool IsHereAndNow()
         {
             return this._zmanim.Location.TimeZoneInfo != null &&
                 TimeZoneInfo.Local.Id == this._zmanim.Location.TimeZoneInfo.Id &&
                 new JewishDate(DateTime.Now, this._zmanim.Location) == this._displayingJewishDate;
+        }
+
+        private void PositionAddOccasion(Point? parentPoint)
+        {
+            this._frmAddOccasionEng.StartPosition = FormStartPosition.Manual;
+            this._frmAddOccasionEng.SuspendLayout();
+
+            if (parentPoint == null)
+            {
+                this._frmAddOccasionEng.CloseStyle = frmAddOccasionEng.CloseStyles.Slide;
+
+                Point pointZero = new Point(this.ParentForm.Right, this.ParentForm.Bottom - this._frmAddOccasionEng.Height - 7);
+                int a = 0;
+
+                this._frmAddOccasionEng.Location = pointZero;
+                this._frmAddOccasionEng.Show(this);
+
+                while (true)
+                {
+                    if (this._frmAddOccasionEng.Width - a < 50)
+                    {
+                        this._frmAddOccasionEng.Location = new Point(pointZero.X - this._frmAddOccasionEng.Width - 10, pointZero.Y);
+                        break;
+                    }
+                    else
+                    {
+                        this._frmAddOccasionEng.Location = new Point(pointZero.X - a, pointZero.Y);
+                        this._frmAddOccasionEng.Refresh();
+                        a += 50;
+                    }
+                }
+                this._frmAddOccasionEng.BringToFront();
+            }
+            else
+            {
+                this._frmAddOccasionEng.CloseStyle = frmAddOccasionEng.CloseStyles.Fade;
+
+                var point = parentPoint.Value;
+
+                if (point.X < 0)
+                {
+                    point.X = 10;
+                }
+                else if ((point.X + this._frmAddOccasionEng.Width) > this.ParentForm.Right)
+                {
+                    point.X = this.ParentForm.Right - this._frmAddOccasionEng.Width - 10;
+                }
+
+                if ((point.Y + this._frmAddOccasionEng.Height) > (this.ParentForm.Bottom - 7))
+                {
+                    point.Y = this.ParentForm.Bottom - this._frmAddOccasionEng.Height - 7;
+                }
+
+                this._frmAddOccasionEng.Location = point;
+                this._frmAddOccasionEng.Show(this);
+            }
+
+            this._frmAddOccasionEng.ResumeLayout();
+        }
+
+        private void ShowDateData()
+        {
+            this.Cursor = Cursors.WaitCursor;
+            var netzshkia = this._zmanim.GetNetzShkia();
+            var netz = netzshkia[0];
+            var shkia = netzshkia[1];
+
+            this.DisplayToday();
+            this.DisplayDateDiff();
+            this.DisplayHolidays(shkia);
+            this.DisplayZmanim(netz, shkia);
+
+            foreach (UserOccasion occ in this._occasions)
+            {
+                this.AddOccasion(occ);
+            }
+
+            var bg = (from o in this._occasions
+                      where o.BackColor != Color.Empty
+                      select o.BackColor).FirstOrDefault();
+
+            this.tableLayoutPanel1.BackColor = (bg != Color.Empty ? bg.Color : Color.GhostWhite);
+
+            this.Cursor = Cursors.Default;
         }
 
         #endregion private functions

@@ -151,8 +151,6 @@ function onDeviceReady() {
     document.addEventListener('pause', onPause.bind(this), false);
     document.addEventListener('resume', onResume.bind(this), false);
     // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
-    setCurrentLocation();
-
     if (document.onDeviceReady) {
         document.onDeviceReady();
     }
@@ -173,45 +171,16 @@ function onResume() {
     }
 };
 
-function setCurrentLocation() {
-    try {
-        console.log('Attempting to acquire device location from Cordova geolocation plugin');
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var location = new Location('Current Location', //Name
-                                        undefined, //Israel - we have no way of knowing (the constructor will try to figure it out though)
-                                        position.coords.latitude,
-                                        position.coords.longitude,
-                                        Utils.currUtcOffset(),
-                                        position.coords.altitude,
-                                        Utils.isDST());
-            console.log('Location acquired from Cordova geolocation plugin.');
-            $($.mobile.pageContainer).jqmData('location', location);
-            console.log('Acquired location from geolocation plugin');
-            console.info(position);
-            showMessage('Location set to Current position', false, 2, 'Location set');
-            if (document.onLocationChanged) {
-                document.onLocationChanged();
-            }
-        }, function () {
-            setDefaultLocation();
-        });
-    }
-    catch (e) {
-        console.error(e.message);
-        setDefaultLocation();
-    }
-}
-
 function showMessage(message, isError, seconds, title, callback, buttonName) {
-    if (navigator.notification) {
+    /*if (navigator.notification) {
         navigator.notification.alert(message, callback, title, buttonName);
         if (isError) {
             navigator.notification.beep(1);
         }
     }
-    else {
-        toast(message, isError, seconds);
-    }
+    else {*/
+    toast(message, isError, seconds);
+    //}
 }
 
 function toast(message, isError, seconds) {
@@ -238,18 +207,40 @@ function setDefaultLocation() {
     }
     else {
         loc = Location.getJerusalem(); //where else?
-        localStorage.setItem('location', JSON.stringify(loc));
     }
-    showMessage('Location set to: ' + loc.Name, false, 2, 'Location set');
-    $($.mobile.pageContainer).jqmData('location', loc);
-    if (document.onLocationChanged) {
-        document.onLocationChanged();
+    setLocation(loc, false, false);
+}
+
+function setCurrentLocation() {
+    try {
+        console.log('Attempting to acquire device location from Cordova geolocation plugin');
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var location = new Location('Current Location', //Name
+                                        undefined, //Israel - we have no way of knowing (the constructor will try to figure it out though)
+                                        position.coords.latitude,
+                                        position.coords.longitude,
+                                        Utils.currUtcOffset(),
+                                        position.coords.altitude,
+                                        Utils.isDST());
+            console.log('Location acquired from Cordova geolocation plugin.');
+            setLocation(location, false, false);
+        }, function () {
+            setDefaultLocation();
+        });
+    }
+    catch (e) {
+        console.error(e.message);
+        setDefaultLocation();
     }
 }
 
-function setLocation(loc) {
-    localStorage.setItem('location', JSON.stringify(loc));
-    showMessage('Location set to: ' + loc.Name, false, 2, 'Location set');
+function setLocation(loc, store, inform) {
+    if (!!store) {
+        localStorage.setItem('location', JSON.stringify(loc));
+    }
+    if (!!inform) {
+        showMessage('Location set to: ' + loc.Name, false, 2, 'Location set');
+    }
     $($.mobile.pageContainer).jqmData('location', loc);
     if (document.onLocationChanged) {
         document.onLocationChanged();
@@ -293,18 +284,26 @@ function getHolidayIcon(holidays) {
 
 (function () {
     "use strict";
-    document.onDeviceReady = function () {
+    document.onLocationChanged = function () {
+        $('#divCalendarPage #divCaption')
+            .data('locationName', location.Name)
+            .html('Location set to ' + location.Name);
         showDate();
+    };
+
+    document.onDeviceReady = function () {
+        if (navigator.geolocation) {
+            setCurrentLocation();
+        }
+        else {
+            setDefaultLocation();
+        }
     };
 
     document.onDevicePause = function () {
     };
 
     document.onDeviceResume = function () {
-        showDate();
-    };
-
-    document.onLocationChanged = function () {
         showDate();
     };
 
@@ -320,9 +319,6 @@ function getHolidayIcon(holidays) {
             }).on("swipedown", "#divCalendarPage", function (event) {
                 goMonth(1);
             });
-        if (!window.cordova) {
-            showDate();
-        }
     });
 
     $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
@@ -358,7 +354,6 @@ function getHolidayIcon(holidays) {
         $('#divCalendarPage #h2Header').html(Utils.jMonthsHeb[jd.Month] + ' ' +
             Utils.toJNum(jd.Year % 1000) + '<br />' +
             Utils.sMonthsEng[sdate.getMonth()] + ' ' + sdate.getFullYear().toString());
-        $('#divCalendarPage #divCaption').data('locationName', location.Name).html('Location set to ' + location.Name);
         $('#divCalendarPage #emLocDet').html('lat: ' +
                 location.Latitude.toString() +
                 ' long:' + location.Longitude.toString() +
@@ -678,7 +673,7 @@ function getHolidayIcon(holidays) {
             return i.n === name;
         });
         setLocation(new Location(loc.n, !!loc.i, parseFloat(loc.lt),
-            parseFloat(loc.ln), parseInt(loc.tz), (loc.el ? parseInt(loc.el) : 0)));
+            parseFloat(loc.ln), parseInt(loc.tz), (loc.el ? parseInt(loc.el) : 0)), true, true);
         $(":mobile-pagecontainer").pagecontainer("change", "#divZmanimPage", { transition: 'flip' });
     }
 })();

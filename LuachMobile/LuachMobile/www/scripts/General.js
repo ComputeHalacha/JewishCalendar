@@ -11,8 +11,6 @@ function onDeviceReady() {
     document.addEventListener('pause', onPause.bind(this), false);
     document.addEventListener('resume', onResume.bind(this), false);
     // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
-    setCurrentLocation();
-
     if (document.onDeviceReady) {
         document.onDeviceReady();
     }
@@ -33,45 +31,16 @@ function onResume() {
     }
 };
 
-function setCurrentLocation() {
-    try {
-        console.log('Attempting to acquire device location from Cordova geolocation plugin');
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var location = new Location('Current Location', //Name
-                                        undefined, //Israel - we have no way of knowing (the constructor will try to figure it out though)
-                                        position.coords.latitude,
-                                        position.coords.longitude,
-                                        Utils.currUtcOffset(),
-                                        position.coords.altitude,
-                                        Utils.isDST());
-            console.log('Location acquired from Cordova geolocation plugin.');
-            $($.mobile.pageContainer).jqmData('location', location);
-            console.log('Acquired location from geolocation plugin');
-            console.info(position);
-            showMessage('Location set to Current position', false, 2, 'Location set');
-            if (document.onLocationChanged) {
-                document.onLocationChanged();
-            }
-        }, function () {
-            setDefaultLocation();
-        });
-    }
-    catch (e) {
-        console.error(e.message);
-        setDefaultLocation();
-    }
-}
-
 function showMessage(message, isError, seconds, title, callback, buttonName) {
-    if (navigator.notification) {
+    /*if (navigator.notification) {
         navigator.notification.alert(message, callback, title, buttonName);
         if (isError) {
             navigator.notification.beep(1);
         }
     }
-    else {
-        toast(message, isError, seconds);
-    }
+    else {*/
+    toast(message, isError, seconds);
+    //}
 }
 
 function toast(message, isError, seconds) {
@@ -98,18 +67,40 @@ function setDefaultLocation() {
     }
     else {
         loc = Location.getJerusalem(); //where else?
-        localStorage.setItem('location', JSON.stringify(loc));
     }
-    showMessage('Location set to: ' + loc.Name, false, 2, 'Location set');
-    $($.mobile.pageContainer).jqmData('location', loc);
-    if (document.onLocationChanged) {
-        document.onLocationChanged();
+    setLocation(loc, false, false);
+}
+
+function setCurrentLocation() {
+    try {
+        console.log('Attempting to acquire device location from Cordova geolocation plugin');
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var location = new Location('Current Location', //Name
+                                        undefined, //Israel - we have no way of knowing (the constructor will try to figure it out though)
+                                        position.coords.latitude,
+                                        position.coords.longitude,
+                                        Utils.currUtcOffset(),
+                                        position.coords.altitude,
+                                        Utils.isDST());
+            console.log('Location acquired from Cordova geolocation plugin.');
+            setLocation(location, false, false);
+        }, function () {
+            setDefaultLocation();
+        });
+    }
+    catch (e) {
+        console.error(e.message);
+        setDefaultLocation();
     }
 }
 
-function setLocation(loc) {
-    localStorage.setItem('location', JSON.stringify(loc));
-    showMessage('Location set to: ' + loc.Name, false, 2, 'Location set');
+function setLocation(loc, store, inform) {
+    if (!!store) {
+        localStorage.setItem('location', JSON.stringify(loc));
+    }
+    if (!!inform) {
+        showMessage('Location set to: ' + loc.Name, false, 2, 'Location set');
+    }
     $($.mobile.pageContainer).jqmData('location', loc);
     if (document.onLocationChanged) {
         document.onLocationChanged();

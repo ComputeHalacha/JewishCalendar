@@ -12,22 +12,22 @@ namespace LuachProject
     {
         #region Private Fields
 
-        private bool _isFirstOpen = true;
-        private JewishDate _displayedJewishMonth;
-        private JewishDate _todayJewishDate;
-        private bool _loading;
         private Location _currentLocation;
         private int _currentMonthLength;
         private int _currentMonthWeeks;
-        private List<SingleDateInfo> _singleDateInfoList = new List<SingleDateInfo>();
-        private Font _dayHeadersFont;
         private Font _dayFont;
-        private Font _zmanimFont;
-        private Font _secularDayFont;
-        private Font _userOccasionFont;
-        private Point _pnlMouseLocation;
-        private JewishDate _selectedDay;
+        private Font _dayHeadersFont;
+        private JewishDate _displayedJewishMonth;
+        private bool _isFirstOpen = true;
         private bool _isResizing;
+        private bool _loading;
+        private Point _pnlMouseLocation;
+        private Font _secularDayFont;
+        private JewishDate _selectedDay;
+        private List<SingleDateInfo> _singleDateInfoList = new List<SingleDateInfo>();
+        private JewishDate _todayJewishDate;
+        private Font _userOccasionFont;
+        private Font _zmanimFont;
 
         #endregion Private Fields
 
@@ -54,25 +54,6 @@ namespace LuachProject
             }
         }
 
-        public JewishDate SelectedJewishDate
-        {
-            get
-            {
-                return this._selectedDay;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    if (this._displayedJewishMonth.Month != value.Month || this._displayedJewishMonth.Year != value.Year)
-                    {
-                        this.DisplayedJewishMonth = value;
-                    }
-                    this.SelectSingleDay(value);
-                }
-            }
-        }
-
         public Location LocationForZmanim
         {
             get
@@ -93,6 +74,25 @@ namespace LuachProject
                     {
                         ((frmDailyInfoHeb)this.splitContainer1.Panel1.Controls[0]).LocationForZmanim = value;
                     }
+                }
+            }
+        }
+
+        public JewishDate SelectedJewishDate
+        {
+            get
+            {
+                return this._selectedDay;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    if (this._displayedJewishMonth.Month != value.Month || this._displayedJewishMonth.Year != value.Year)
+                    {
+                        this.DisplayedJewishMonth = value;
+                    }
+                    this.SelectSingleDay(value);
                 }
             }
         }
@@ -122,6 +122,58 @@ namespace LuachProject
         #endregion Constructors
 
         #region Event Handlers
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.NavigateToMonth(this._displayedJewishMonth + 30);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.NavigateToMonth(this._displayedJewishMonth - 28);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var sdi = this._singleDateInfoList.FirstOrDefault(d => d.JewishDate == this._todayJewishDate);
+
+            if (sdi != null)
+            {
+                this.SelectSingleDay(sdi);
+            }
+            else
+            {
+                this._selectedDay = this._todayJewishDate;
+                this.DisplayedJewishMonth = this._todayJewishDate;
+            }
+
+            this.EnableArrows();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.NavigateToMonth(new JewishDate(this._displayedJewishMonth.Year - 1,
+                this._displayedJewishMonth.Month, this._displayedJewishMonth.Day));
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            this.NavigateToMonth(new JewishDate(this._displayedJewishMonth.Year + 1,
+                this._displayedJewishMonth.Month, this._displayedJewishMonth.Day));
+        }
+
+        private void cmbLocation_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!this._loading)
+            {
+                this.LocationForZmanim = (JewishCalendar.Location)this.cmbLocation.SelectedItem;
+            }
+        }
+
+        private void frmMonthlyHebrew_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
 
         private void frmMonthlyHebrew_Load(object sender, EventArgs e)
         {
@@ -154,9 +206,105 @@ namespace LuachProject
             this.EnableArrows();
         }
 
-        private void frmMonthlyHebrew_FormClosed(object sender, FormClosedEventArgs e)
+        private void frmMonthlyHebrew_Resize(object sender, EventArgs e)
         {
-            Application.Exit();
+            this.pnlMain.Invalidate();
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            new frmMonthlyEnglish()
+            {
+                DisplayedJewishMonth = this._displayedJewishMonth,
+                SelectedJewishDate = this._selectedDay,
+                StartPosition = this.StartPosition,
+                Bounds = this.Bounds,
+                WindowState = this.WindowState
+            }.Show();
+            this.Hide();
+        }
+
+        private void llSecularCalendar_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            new frmMonthlySecular()
+            {
+                CurrentDate = this._displayedJewishMonth.GregorianDate.Date,
+                SelectedDate = this._selectedDay.GregorianDate.Date,
+                StartPosition = this.StartPosition,
+                Bounds = this.Bounds,
+                WindowState = this.WindowState,
+                DisplayHebrew = true
+            }.Show();
+            this.Hide();
+        }
+
+        private void llSefira_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process a = new Process();
+            a.StartInfo.FileName = System.IO.Path.Combine(Application.StartupPath, @"OmerReminder.exe");
+            a.StartInfo.Arguments = "-location \"" + this._currentLocation.Name + "\"" + " -lang heb";
+            a.Start();
+        }
+
+        private void pnlMain_MouseClick(object sender, MouseEventArgs e)
+        {
+            var sdi = this.GetSingleDateInfoFromLocation(this._pnlMouseLocation);
+
+            if (sdi != null)
+            {
+                this.SelectSingleDay(sdi);
+                var occ = this.GetUserOccasionFromLocation(this._pnlMouseLocation, sdi);
+
+                if (occ != null && this.splitContainer1.Panel1.Controls.Count > 0)
+                {
+                    var f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
+                    f.EditOccasion(occ, new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
+                }
+            }
+
+            this.EnableArrows();
+        }
+
+        private void pnlMain_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            var sdi = this.GetSingleDateInfoFromLocation(this._pnlMouseLocation);
+
+            if (sdi != null)
+            {
+                if (this.splitContainer1.Panel1.Controls.Count > 0)
+                {
+                    var f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
+                    f.AddNewOccasion(new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
+                }
+            }
+        }
+
+        private void pnlMain_MouseMove(object sender, MouseEventArgs e)
+        {
+            this._pnlMouseLocation = e.Location;
+            var sdi = this.GetSingleDateInfoFromLocation(this._pnlMouseLocation);
+            if (sdi != null)
+            {
+                var occ = this.GetUserOccasionFromLocation(this._pnlMouseLocation, sdi);
+                if (occ != null)
+                {
+                    this.pnlMain.Cursor = Cursors.Hand;
+
+                    string currTText = this.toolTip1.GetToolTip(this.pnlMain),
+                        dateDiff = occ.GetAnniversaryString(sdi.JewishDate, true),
+                        tot = occ.Name + " - לחץ לעדכן, לשנות או למחוק" +
+                            ((!string.IsNullOrWhiteSpace(dateDiff)) ? "\r\n" + dateDiff : "") +
+                            ((!string.IsNullOrWhiteSpace(occ.Notes)) ? "\r\nהערות:\r\n" + occ.Notes : "");
+
+                    if (string.IsNullOrEmpty(currTText) || currTText != tot)
+                    {
+                        this.toolTip1.SetToolTip(this.pnlMain, tot);
+                    }
+                    return;
+                }
+            }
+            this.pnlMain.Cursor = Cursors.Default;
+            this.toolTip1.SetToolTip(this.pnlMain, null);
         }
 
         private void pnlMain_Paint(object sender, PaintEventArgs e)
@@ -216,11 +364,6 @@ namespace LuachProject
             this.pnlMain.ResumeLayout();
         }
 
-        private void frmMonthlyHebrew_Resize(object sender, EventArgs e)
-        {
-            this.pnlMain.Invalidate();
-        }
-
         private void rbInIsrael_CheckedChanged(object sender, EventArgs e)
         {
             if (!this._loading)
@@ -229,51 +372,14 @@ namespace LuachProject
             }
         }
 
-        private void cmbLocation_SelectedIndexChanged(object sender, EventArgs e)
+        private void splitContainer1_Panel2_ClientSizeChanged(object sender, EventArgs e)
         {
-            if (!this._loading)
-            {
-                this.LocationForZmanim = (JewishCalendar.Location)this.cmbLocation.SelectedItem;
-            }
+            this.pnlMain.Invalidate();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
         {
-            this.NavigateToMonth(this._displayedJewishMonth + 30);
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            var sdi = this._singleDateInfoList.FirstOrDefault(d => d.JewishDate == this._todayJewishDate);
-
-            if (sdi != null)
-            {
-                this.SelectSingleDay(sdi);
-            }
-            else
-            {
-                this._selectedDay = this._todayJewishDate;
-                this.DisplayedJewishMonth = this._todayJewishDate;
-            }
-
-            this.EnableArrows();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            this.NavigateToMonth(this._displayedJewishMonth - 28);
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            this.NavigateToMonth(new JewishDate(this._displayedJewishMonth.Year - 1,
-                this._displayedJewishMonth.Month, this._displayedJewishMonth.Day));
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            this.NavigateToMonth(new JewishDate(this._displayedJewishMonth.Year + 1,
-                this._displayedJewishMonth.Month, this._displayedJewishMonth.Day));
+            this.pnlMain.Invalidate();
         }
 
         private void splitContainer2_KeyDown(object sender, KeyEventArgs e)
@@ -308,113 +414,22 @@ namespace LuachProject
             }
         }
 
-        private void pnlMain_MouseMove(object sender, MouseEventArgs e)
-        {
-            this._pnlMouseLocation = e.Location;
-            var sdi = this.GetSingleDateInfoFromLocation(this._pnlMouseLocation);
-            if (sdi != null)
-            {
-                var occ = this.GetUserOccasionFromLocation(this._pnlMouseLocation, sdi);
-                if (occ != null)
-                {
-                    this.pnlMain.Cursor = Cursors.Hand;
-
-                    string currTText = this.toolTip1.GetToolTip(this.pnlMain),
-                        tot = occ.Name + " - לחץ לעדכן, לשנות או למחוק" +
-                            ((!string.IsNullOrWhiteSpace(occ.Notes)) ? "\r\nהערות:\r\n" + occ.Notes : "");
-
-                    if (string.IsNullOrEmpty(currTText) || currTText != tot)
-                    {
-                        this.toolTip1.SetToolTip(this.pnlMain, tot);
-                    }
-                    return;
-                }
-            }
-            this.pnlMain.Cursor = Cursors.Default;
-            this.toolTip1.SetToolTip(this.pnlMain, null);
-        }
-
-        private void pnlMain_MouseClick(object sender, MouseEventArgs e)
-        {
-            var sdi = this.GetSingleDateInfoFromLocation(this._pnlMouseLocation);
-
-            if (sdi != null)
-            {
-                this.SelectSingleDay(sdi);
-                var occ = this.GetUserOccasionFromLocation(this._pnlMouseLocation, sdi);
-
-                if (occ != null && this.splitContainer1.Panel1.Controls.Count > 0)
-                {
-                    var f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
-                    f.EditOccasion(occ, new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
-                }
-            }
-
-            this.EnableArrows();
-        }
-
-        private void pnlMain_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            var sdi = this.GetSingleDateInfoFromLocation(this._pnlMouseLocation);
-
-            if (sdi != null)
-            {
-                if (this.splitContainer1.Panel1.Controls.Count > 0)
-                {
-                    var f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
-                    f.AddNewOccasion(new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
-                }
-            }
-        }
-
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            new frmMonthlyEnglish()
-            {
-                DisplayedJewishMonth = this._displayedJewishMonth,
-                SelectedJewishDate = this._selectedDay,
-                StartPosition = this.StartPosition,
-                Bounds = this.Bounds,
-                WindowState = this.WindowState
-            }.Show();
-            this.Hide();
-        }
-
-        private void llSecularCalendar_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            new frmMonthlySecular()
-            {
-                CurrentDate = this._displayedJewishMonth.GregorianDate.Date,
-                SelectedDate = this._selectedDay.GregorianDate.Date,
-                StartPosition = this.StartPosition,
-                Bounds = this.Bounds,
-                WindowState = this.WindowState,
-                DisplayHebrew = true
-            }.Show();
-            this.Hide();
-        }
-
-        private void llSefira_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process a = new Process();
-            a.StartInfo.FileName = System.IO.Path.Combine(Application.StartupPath, @"OmerReminder.exe");
-            a.StartInfo.Arguments = "-location \"" + this._currentLocation.Name + "\"" + " -lang heb";
-            a.Start();
-        }
-
-        private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
-        {
-            this.pnlMain.Invalidate();
-        }
-
-        private void splitContainer1_Panel2_ClientSizeChanged(object sender, EventArgs e)
-        {
-            this.pnlMain.Invalidate();
-        }
-
         #endregion Event Handlers
 
         #region Private Functions
+
+        private void ClearSelectedDay()
+        {
+            if (this._selectedDay != null)
+            {
+                var sdi = this._singleDateInfoList.FirstOrDefault(t => t.JewishDate == this._selectedDay);
+                this._selectedDay = null;
+                if (sdi != null && this._displayedJewishMonth.Year == sdi.JewishDate.Year && this._displayedJewishMonth.Month == sdi.JewishDate.Month)
+                {
+                    this.RedrawSingleDay(sdi);
+                }
+            }
+        }
 
         private void DrawDayHeader(Graphics g, float dayWidth, float currX, float currY, DayOfWeek dow)
         {
@@ -569,28 +584,15 @@ namespace LuachProject
             return sdi;
         }
 
-        private void SetLocationDataSource()
+        /// <summary>
+        /// To enable arrow navigation, the focus must be in the split-container.
+        /// </summary>
+        private void EnableArrows()
         {
-            this.Cursor = Cursors.WaitCursor;
-            bool wasLoading = this._loading;
-            this._loading = true;
-            bool inIsrael = this.rbInIsrael.Checked;
-            var list = Program.LocationsList.Where(l => l.IsInIsrael == inIsrael).ToList();
-            this.cmbLocation.DataSource = null;
-            this.cmbLocation.DataSource = list;
-            this.cmbLocation.DisplayMember = "NameHebrew";
+            //For some odd reason, the focus only works if we go traveling around the form a bit.
+            this.llSecularCalendar.Focus();
 
-            var name = Properties.Settings.Default.LocationName;
-            var i = list.FirstOrDefault(l => l.Name == name);
-            if (i != null)
-            {
-                this.cmbLocation.SelectedItem = i;
-            }
-
-            this._loading = wasLoading;
-            this.Cursor = Cursors.Default;
-
-            this.LocationForZmanim = (JewishCalendar.Location)this.cmbLocation.SelectedItem;
+            this.splitContainer2.Focus();
         }
 
         private SingleDateInfo GetSingleDateInfoFromLocation(Point location)
@@ -611,43 +613,50 @@ namespace LuachProject
                 t.Rectangle.Bottom > location.Y);
         }
 
-        private void ShowSingleDayInfo(SingleDateInfo sdi)
+        private void NavigateToDay(JewishDate jd)
+        {
+            //Go to the correct month
+            this.DisplayedJewishMonth = jd;
+            this.SelectSingleDay(jd);
+        }
+
+        private void NavigateToMonth(JewishDate jd)
+        {
+            int day = 0;
+            if (this._selectedDay != null)
+            {
+                day = this._selectedDay.Day;
+            }
+
+            this.DisplayedJewishMonth = jd;
+
+            if (day > 0)
+            {
+                if (day == 30 && JewishDateCalculations.DaysInJewishMonth(
+                    this._displayedJewishMonth.Year, this._displayedJewishMonth.Month) == 29)
+                {
+                    day = 29;
+                }
+
+                this.SelectSingleDay(new JewishDate(this._displayedJewishMonth.Year,
+                    this._displayedJewishMonth.Month, day));
+            }
+
+            this.EnableArrows();
+        }
+
+        private void RedrawSingleDay(SingleDateInfo sdi)
         {
             if (sdi == null)
+            {
                 return;
-
-            var zmanim = new Zmanim(sdi.JewishDate, this._currentLocation);
-            frmDailyInfoHeb f;
-            if (this.splitContainer1.Panel1.Controls.Count == 0)
-            {
-                f = new frmDailyInfoHeb(sdi.JewishDate, this._currentLocation);
-                f.TopLevel = false;
-                f.Parent = this;
-                f.OccasionWasChanged += delegate (object sender, JewishDate jd)
-                {
-                    var sd = this._singleDateInfoList.FirstOrDefault(d => d.JewishDate == jd);
-                    if (sd != null)
-                    {
-                        sd.UpdateOccasions();
-                        this.RedrawSingleDay(sd);
-                    }
-                };
-                f.FormClosed += delegate
-                {
-                    this.splitContainer1.Panel1Collapsed = true;
-                };
-                f.Dock = DockStyle.Fill;
-                this.splitContainer1.Panel1.Controls.Add(f);
-                f.Show();
             }
-            else
+            using (var g = this.pnlMain.CreateGraphics())
             {
-                f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
-                f.JewishDate = sdi.JewishDate;
-            }
-            if (this.splitContainer1.Panel1Collapsed)
-            {
-                this.splitContainer1.Panel1Collapsed = false;
+                var rect = sdi.RectangleF;
+                g.Clip = new Region(rect);
+                g.Clear(this.pnlMain.BackColor);
+                this.DrawSingleDay(g, sdi.JewishDate, rect.Width, rect.Height, rect.X, rect.Y);
             }
         }
 
@@ -690,34 +699,6 @@ namespace LuachProject
             this.ShowSingleDayInfo(sdi);
         }
 
-        private void ClearSelectedDay()
-        {
-            if (this._selectedDay != null)
-            {
-                var sdi = this._singleDateInfoList.FirstOrDefault(t => t.JewishDate == this._selectedDay);
-                this._selectedDay = null;
-                if (sdi != null && this._displayedJewishMonth.Year == sdi.JewishDate.Year && this._displayedJewishMonth.Month == sdi.JewishDate.Month)
-                {
-                    this.RedrawSingleDay(sdi);
-                }
-            }
-        }
-
-        private void RedrawSingleDay(SingleDateInfo sdi)
-        {
-            if (sdi == null)
-            {
-                return;
-            }
-            using (var g = this.pnlMain.CreateGraphics())
-            {
-                var rect = sdi.RectangleF;
-                g.Clip = new Region(rect);
-                g.Clear(this.pnlMain.BackColor);
-                this.DrawSingleDay(g, sdi.JewishDate, rect.Width, rect.Height, rect.X, rect.Y);
-            }
-        }
-
         private void SetCaptionText()
         {
             string caption = Utils.JewishMonthNamesHebrew[this._displayedJewishMonth.Month] + " " +
@@ -749,47 +730,68 @@ namespace LuachProject
             this.Text = "לוח - " + caption;
         }
 
-        private void NavigateToDay(JewishDate jd)
+        private void SetLocationDataSource()
         {
-            //Go to the correct month
-            this.DisplayedJewishMonth = jd;
-            this.SelectSingleDay(jd);
-        }
+            this.Cursor = Cursors.WaitCursor;
+            bool wasLoading = this._loading;
+            this._loading = true;
+            bool inIsrael = this.rbInIsrael.Checked;
+            var list = Program.LocationsList.Where(l => l.IsInIsrael == inIsrael).ToList();
+            this.cmbLocation.DataSource = null;
+            this.cmbLocation.DataSource = list;
+            this.cmbLocation.DisplayMember = "NameHebrew";
 
-        private void NavigateToMonth(JewishDate jd)
-        {
-            int day = 0;
-            if (this._selectedDay != null)
+            var name = Properties.Settings.Default.LocationName;
+            var i = list.FirstOrDefault(l => l.Name == name);
+            if (i != null)
             {
-                day = this._selectedDay.Day;
+                this.cmbLocation.SelectedItem = i;
             }
 
-            this.DisplayedJewishMonth = jd;
+            this._loading = wasLoading;
+            this.Cursor = Cursors.Default;
 
-            if (day > 0)
+            this.LocationForZmanim = (JewishCalendar.Location)this.cmbLocation.SelectedItem;
+        }
+
+        private void ShowSingleDayInfo(SingleDateInfo sdi)
+        {
+            if (sdi == null)
+                return;
+
+            var zmanim = new Zmanim(sdi.JewishDate, this._currentLocation);
+            frmDailyInfoHeb f;
+            if (this.splitContainer1.Panel1.Controls.Count == 0)
             {
-                if (day == 30 && JewishDateCalculations.DaysInJewishMonth(
-                    this._displayedJewishMonth.Year, this._displayedJewishMonth.Month) == 29)
+                f = new frmDailyInfoHeb(sdi.JewishDate, this._currentLocation);
+                f.TopLevel = false;
+                f.Parent = this;
+                f.OccasionWasChanged += delegate (object sender, JewishDate jd)
                 {
-                    day = 29;
-                }
-
-                this.SelectSingleDay(new JewishDate(this._displayedJewishMonth.Year,
-                    this._displayedJewishMonth.Month, day));
+                    var sd = this._singleDateInfoList.FirstOrDefault(d => d.JewishDate == jd);
+                    if (sd != null)
+                    {
+                        sd.UpdateOccasions();
+                        this.RedrawSingleDay(sd);
+                    }
+                };
+                f.FormClosed += delegate
+                {
+                    this.splitContainer1.Panel1Collapsed = true;
+                };
+                f.Dock = DockStyle.Fill;
+                this.splitContainer1.Panel1.Controls.Add(f);
+                f.Show();
             }
-
-            this.EnableArrows();
-        }
-
-        /// <summary>
-        /// To enable arrow navigation, the focus must be in the split-container.
-        /// </summary>
-        private void EnableArrows()
-        {
-            //For some odd reason, the focus only works if we go traveling around the form a bit.
-            this.llSecularCalendar.Focus();
-
-            this.splitContainer2.Focus();
+            else
+            {
+                f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
+                f.JewishDate = sdi.JewishDate;
+            }
+            if (this.splitContainer1.Panel1Collapsed)
+            {
+                this.splitContainer1.Panel1Collapsed = false;
+            }
         }
 
         #endregion Private Functions
