@@ -6,7 +6,7 @@
 // and then run "window.location.reload()" in the JavaScript Console.
 (function () {
     "use strict";
-    $(document).on('pagecreate', '#divZmanimPage', function () {
+    $(document).one('pagecreate', '#divZmanimPage', function () {
         $('#divZmanimPage #btnNextDay').on('click', function () { goDay(1); });
         $('#divZmanimPage #btnNextWeek').on('click', function () { goDay(7); });
         $('#divZmanimPage #btnNextMonth').on('click', function () { goMonth(1); });
@@ -22,27 +22,27 @@
     });
 
     $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
-        if (ui.toPage.attr('id') === 'divZmanimPage') {
-            showDate();
-            $('#divZmanimPage #ulMain').listview("refresh");
-            document.onLocationChanged = function () {
+        if (ui.toPage.attr('id') === 'divZmanimPage') {           
+            document.onLocationChanged = function (location) {
                 try {
-                    var location = getLocation();
-                    $('#divZmanimPage #divCaption').html('Zmanim for ' + location.Name);
-                    $('#divZmanimPage #emLocDet').html('lat: ' +
-                            location.Latitude.toString() +
-                            ' long:' + location.Longitude.toString() +
-                            (location.Israel ? ' | Israel' : '') + '  |  ' +
-                            (location.IsDST ? 'DST' : 'not DST'));               
-                    showDate();
+                    var location = location || getLocation();
+                    if (location) {
+                        $('#divZmanimPage #divCaption').html('Zmanim for ' + location.Name);
+                        $('#divZmanimPage #emLocDet').html('lat: ' +
+                                location.Latitude.toString() +
+                                ' long:' + location.Longitude.toString() +
+                                (location.Israel ? ' | Israel' : '') + '  |  ' +
+                                (location.IsDST ? 'DST' : 'not DST'));
+                    }
+                    showDate();                   
                 }
                 catch (e) {
                     console.error(e);
                 }
             };
             
-            //Actually set the location
-            document.onLocationChanged();
+            //Display the location
+            document.onLocationChanged(getLocation());
         }
     });    
 
@@ -63,6 +63,7 @@
         $('#divZmanimPage #pSpecial').html(getSpecialHtml(jd, location));
         $('#divZmanimPage #ulMain').html(getZmanimHtml(jd, location));
         $('#divZmanimPage #pMain').jqmData('currDate', jd);
+        $('#divZmanimPage #ulMain').listview("refresh");
     }
 
     function goDay(num) {
@@ -87,7 +88,7 @@
     }
 
     function getSpecialHtml(jd, location) {
-        var holidays = jd.getHolidays(location.Israel),
+        var holidays = location ? jd.getHolidays(location.Israel) : [],
             html = '';
 
         if (holidays.length) {
@@ -163,6 +164,6 @@
     function showCalendar() {
         var jd = $('#divZmanimPage').jqmData('currentjDate');
         $('#divCalendarPage').jqmData('currentjDate', jd)
-        $(":mobile-pagecontainer").pagecontainer("change", "#divCalendarPage", { transition: 'flip' });
+        $(":mobile-pagecontainer").pagecontainer("change", "#divCalendarPage", { transition: 'flip', reverse: true, showLoadMsg: true });        
     }
 })();

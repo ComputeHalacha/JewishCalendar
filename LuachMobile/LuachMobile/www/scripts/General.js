@@ -63,9 +63,16 @@ function toast(message, isError, seconds) {
 
 function getLocation() {
     if (!$($.mobile.pageContainer).jqmData('location')) {
-        !!window.cordova ? setCurrentLocation() : setDefaultLocation();
+        if(!!window.cordova )
+        {
+            setCurrentLocation();
+        }
+        else
+        {
+            setDefaultLocation();    
+        }        
     }
-    return $($.mobile.pageContainer).jqmData('location');
+    return $($.mobile.pageContainer).jqmData('location');    
 }
 
 function setDefaultLocation() {
@@ -112,7 +119,7 @@ function setLocation(loc, store, inform) {
     }
     $($.mobile.pageContainer).jqmData('location', loc);
     if (document.onLocationChanged) {
-        document.onLocationChanged();
+        document.onLocationChanged(loc);
     }
 }
 

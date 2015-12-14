@@ -2,30 +2,8 @@
 
 (function () {
     "use strict";
-    document.onLocationChanged = function () {
-        $('#divCalendarPage #divCaption')
-            .data('locationName', location.Name)
-            .html('Location set to ' + location.Name);
-        showDate();
-    };
 
-    document.onDeviceReady = function () {
-        if (navigator.geolocation) {
-            setCurrentLocation();
-        }
-        else {
-            setDefaultLocation();
-        }
-    };
-
-    document.onDevicePause = function () {
-    };
-
-    document.onDeviceResume = function () {
-        showDate();
-    };
-
-    $(document).on('pagecreate', '#divCalendarPage', function () {
+    $(document).one('pagecreate', '#divCalendarPage', function () {
         $('#divCalendarPage div[data-role=main] .ui-content').css({ 'padding': '0', 'height': '100%' });
         $('#divCalendarPage div[data-role=main] .ui-mini').css('margin', '2em 0');
         $('#divCalendarPage #btnNextMonth').on('click', function () { goMonth(1); });
@@ -51,6 +29,31 @@
                 $('#divCalendarPage #divCaption').data('locationName') !== getLocation()) {
                 showDate();
             }
+
+            document.onLocationChanged = function (location) {
+                location = location || getLocation();
+                if (location) {
+                    $('#divCalendarPage #divCaption')
+                        .data('locationName', location.Name)
+                        .html('Location set to ' + location.Name);
+                    $('#divCalendarPage #emLocDet').html('lat: ' +
+                        location.Latitude.toString() +
+                        ' long:' + location.Longitude.toString() +
+                        (location.Israel ? ' | Israel' : '') + '  |  ' +
+                        (location.IsDST ? 'DST' : 'not DST'));
+                }
+                showDate();
+            };
+
+            document.onDevicePause = function () {
+            };
+
+            document.onDeviceResume = function () {
+                showDate();
+            };
+
+            //Display set the location
+            document.onLocationChanged(getLocation());
         }
     });
 
@@ -72,12 +75,6 @@
         $('#divCalendarPage #h2Header').html(Utils.jMonthsHeb[jd.Month] + ' ' +
             Utils.toJNum(jd.Year % 1000) + '<br />' +
             Utils.sMonthsEng[sdate.getMonth()] + ' ' + sdate.getFullYear().toString());
-        $('#divCalendarPage #emLocDet').html('lat: ' +
-                location.Latitude.toString() +
-                ' long:' + location.Longitude.toString() +
-                (location.Israel ? ' | Israel' : '') + '  |  ' +
-                (location.IsDST ? 'DST' : 'not DST'));
-
         fillCalendar(jd, location);
     }
 
@@ -92,7 +89,11 @@
             //Keeps track of the d.o.w. for each day
             currDOW = currJd.getDayOfWeek(),
             //Each week gets a row
-            html = '<tr>';
+            html = '<tr>',
+            //The currents days secular date
+            currSd = currJd.getDate(),
+            //Today...
+            today = new jDate(new Date());
 
         //If the first day of the month is not Sunday,
         if (currDOW > 0) {
@@ -108,19 +109,24 @@
             //This will be used to recreate the date when the user clicks on the day
             //and we want to display the zmanim in the zmanim page.
             html += '<td data-abs="' + currJd.Abs.toString() +
-                '" title="' + holidays.join(' - ') + '" class="hasDate';
+                '" title="' + (holidays && holidays.length ? holidays.join(' - ') : '') + '" class="hasDate';
+
+            //Today gets a special border
+            if (currJd.Abs === today.Abs) {
+                html += ' today';
+            }
 
             //The special days get a special bg color.
-            if (!!holidays.length) {
+            if (holidays && holidays.length) {
                 //add the holiday class
                 html += ' holiday';
             }
 
             html += '"><div class="jd">' +
                         Utils.toJNum(currJd.Day) +
-                    '</div><div class="sd">' + currJd.getDate().getDate() + '</div>';
+                    '</div><div class="sd">' + currSd.getDate() + '</div>';
 
-            if (!!holidays.length) {
+            if (holidays && holidays.length) {
                 html += '<div class="ht">' + holidays.join('<br />') + '</div>' +
                     getHolidayIcon(holidays);
             }
@@ -129,6 +135,7 @@
 
             currJd = currJd.addDays(1);
             currDOW = currJd.getDayOfWeek();
+            currSd = currJd.getDate();
             if (currDOW === 0) {
                 html += '</tr><tr>';
             }
@@ -163,6 +170,9 @@
     }
 
     function getHolidays(jd, location) {
+        if (!(jd && location)) {
+            return;
+        }
         var holidays = jd.getHolidays(location.Israel);
         for (var i = holidays.length; i >= 0; i--) {
             if (holidays[i] === 'Shabbos Kodesh') {

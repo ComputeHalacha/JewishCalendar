@@ -3,7 +3,7 @@
 (function () {
     "use strict";
 
-    $(document).on('pagecreate', '#divChangeLocation', function () {
+    $(document).one('pagecreate', '#divChangeLocation', function () {
     });
 
     $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
@@ -46,6 +46,6 @@
         });
         setLocation(new Location(loc.n, !!loc.i, parseFloat(loc.lt),
             parseFloat(loc.ln), parseInt(loc.tz), (loc.el ? parseInt(loc.el) : 0)), true, true);
-        $(":mobile-pagecontainer").pagecontainer("change", "#divZmanimPage", { transition: 'flip' });
+        $(":mobile-pagecontainer").pagecontainer("change", "#divZmanimPage", { transition: 'flip', reverse: true, showLoadMsg: true });
     }
 })();

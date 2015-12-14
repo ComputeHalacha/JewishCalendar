@@ -171,6 +171,15 @@ function onResume() {
     }
 };
 
+document.onDeviceReady = function () {
+    if (navigator.geolocation) {
+        setCurrentLocation();
+    }
+    else {
+        setDefaultLocation();
+    }
+};
+
 function showMessage(message, isError, seconds, title, callback, buttonName) {
     /*if (navigator.notification) {
         navigator.notification.alert(message, callback, title, buttonName);
@@ -194,9 +203,16 @@ function toast(message, isError, seconds) {
 
 function getLocation() {
     if (!$($.mobile.pageContainer).jqmData('location')) {
-        !!window.cordova ? setCurrentLocation() : setDefaultLocation();
+        if(!!window.cordova )
+        {
+            setCurrentLocation();
+        }
+        else
+        {
+            setDefaultLocation();    
+        }        
     }
-    return $($.mobile.pageContainer).jqmData('location');
+    return $($.mobile.pageContainer).jqmData('location');    
 }
 
 function setDefaultLocation() {
@@ -243,7 +259,7 @@ function setLocation(loc, store, inform) {
     }
     $($.mobile.pageContainer).jqmData('location', loc);
     if (document.onLocationChanged) {
-        document.onLocationChanged();
+        document.onLocationChanged(loc);
     }
 }
 
@@ -284,30 +300,8 @@ function getHolidayIcon(holidays) {
 
 (function () {
     "use strict";
-    document.onLocationChanged = function () {
-        $('#divCalendarPage #divCaption')
-            .data('locationName', location.Name)
-            .html('Location set to ' + location.Name);
-        showDate();
-    };
 
-    document.onDeviceReady = function () {
-        if (navigator.geolocation) {
-            setCurrentLocation();
-        }
-        else {
-            setDefaultLocation();
-        }
-    };
-
-    document.onDevicePause = function () {
-    };
-
-    document.onDeviceResume = function () {
-        showDate();
-    };
-
-    $(document).on('pagecreate', '#divCalendarPage', function () {
+    $(document).one('pagecreate', '#divCalendarPage', function () {
         $('#divCalendarPage div[data-role=main] .ui-content').css({ 'padding': '0', 'height': '100%' });
         $('#divCalendarPage div[data-role=main] .ui-mini').css('margin', '2em 0');
         $('#divCalendarPage #btnNextMonth').on('click', function () { goMonth(1); });
@@ -333,6 +327,31 @@ function getHolidayIcon(holidays) {
                 $('#divCalendarPage #divCaption').data('locationName') !== getLocation()) {
                 showDate();
             }
+
+            document.onLocationChanged = function (location) {
+                location = location || getLocation();
+                if (location) {
+                    $('#divCalendarPage #divCaption')
+                        .data('locationName', location.Name)
+                        .html('Location set to ' + location.Name);
+                    $('#divCalendarPage #emLocDet').html('lat: ' +
+                        location.Latitude.toString() +
+                        ' long:' + location.Longitude.toString() +
+                        (location.Israel ? ' | Israel' : '') + '  |  ' +
+                        (location.IsDST ? 'DST' : 'not DST'));
+                }
+                showDate();
+            };
+
+            document.onDevicePause = function () {
+            };
+
+            document.onDeviceResume = function () {
+                showDate();
+            };
+
+            //Display set the location
+            document.onLocationChanged(getLocation());
         }
     });
 
@@ -354,12 +373,6 @@ function getHolidayIcon(holidays) {
         $('#divCalendarPage #h2Header').html(Utils.jMonthsHeb[jd.Month] + ' ' +
             Utils.toJNum(jd.Year % 1000) + '<br />' +
             Utils.sMonthsEng[sdate.getMonth()] + ' ' + sdate.getFullYear().toString());
-        $('#divCalendarPage #emLocDet').html('lat: ' +
-                location.Latitude.toString() +
-                ' long:' + location.Longitude.toString() +
-                (location.Israel ? ' | Israel' : '') + '  |  ' +
-                (location.IsDST ? 'DST' : 'not DST'));
-
         fillCalendar(jd, location);
     }
 
@@ -374,7 +387,11 @@ function getHolidayIcon(holidays) {
             //Keeps track of the d.o.w. for each day
             currDOW = currJd.getDayOfWeek(),
             //Each week gets a row
-            html = '<tr>';
+            html = '<tr>',
+            //The currents days secular date
+            currSd = currJd.getDate(),
+            //Today...
+            today = new jDate(new Date());
 
         //If the first day of the month is not Sunday,
         if (currDOW > 0) {
@@ -390,19 +407,24 @@ function getHolidayIcon(holidays) {
             //This will be used to recreate the date when the user clicks on the day
             //and we want to display the zmanim in the zmanim page.
             html += '<td data-abs="' + currJd.Abs.toString() +
-                '" title="' + holidays.join(' - ') + '" class="hasDate';
+                '" title="' + (holidays && holidays.length ? holidays.join(' - ') : '') + '" class="hasDate';
+
+            //Today gets a special border
+            if (currJd.Abs === today.Abs) {
+                html += ' today';
+            }
 
             //The special days get a special bg color.
-            if (!!holidays.length) {
+            if (holidays && holidays.length) {
                 //add the holiday class
                 html += ' holiday';
             }
 
             html += '"><div class="jd">' +
                         Utils.toJNum(currJd.Day) +
-                    '</div><div class="sd">' + currJd.getDate().getDate() + '</div>';
+                    '</div><div class="sd">' + currSd.getDate() + '</div>';
 
-            if (!!holidays.length) {
+            if (holidays && holidays.length) {
                 html += '<div class="ht">' + holidays.join('<br />') + '</div>' +
                     getHolidayIcon(holidays);
             }
@@ -411,6 +433,7 @@ function getHolidayIcon(holidays) {
 
             currJd = currJd.addDays(1);
             currDOW = currJd.getDayOfWeek();
+            currSd = currJd.getDate();
             if (currDOW === 0) {
                 html += '</tr><tr>';
             }
@@ -445,6 +468,9 @@ function getHolidayIcon(holidays) {
     }
 
     function getHolidays(jd, location) {
+        if (!(jd && location)) {
+            return;
+        }
         var holidays = jd.getHolidays(location.Israel);
         for (var i = holidays.length; i >= 0; i--) {
             if (holidays[i] === 'Shabbos Kodesh') {
@@ -469,7 +495,7 @@ function getHolidayIcon(holidays) {
 // and then run "window.location.reload()" in the JavaScript Console.
 (function () {
     "use strict";
-    $(document).on('pagecreate', '#divZmanimPage', function () {
+    $(document).one('pagecreate', '#divZmanimPage', function () {
         $('#divZmanimPage #btnNextDay').on('click', function () { goDay(1); });
         $('#divZmanimPage #btnNextWeek').on('click', function () { goDay(7); });
         $('#divZmanimPage #btnNextMonth').on('click', function () { goMonth(1); });
@@ -485,20 +511,29 @@ function getHolidayIcon(holidays) {
     });
 
     $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
-        if (ui.toPage.attr('id') === 'divZmanimPage') {
-            showDate();
-            $('#divZmanimPage #ulMain').listview("refresh");
+        if (ui.toPage.attr('id') === 'divZmanimPage') {           
+            document.onLocationChanged = function (location) {
+                try {
+                    var location = location || getLocation();
+                    if (location) {
+                        $('#divZmanimPage #divCaption').html('Zmanim for ' + location.Name);
+                        $('#divZmanimPage #emLocDet').html('lat: ' +
+                                location.Latitude.toString() +
+                                ' long:' + location.Longitude.toString() +
+                                (location.Israel ? ' | Israel' : '') + '  |  ' +
+                                (location.IsDST ? 'DST' : 'not DST'));
+                    }
+                    showDate();                   
+                }
+                catch (e) {
+                    console.error(e);
+                }
+            };
+            
+            //Display the location
+            document.onLocationChanged(getLocation());
         }
-    });
-
-    document.onLocationChanged = function () {
-        try {
-            showDate();
-        }
-        catch (e) {
-            console.error(e);
-        }
-    };
+    });    
 
     function showDate(jd) {
         if (jd) {
@@ -515,14 +550,9 @@ function getHolidayIcon(holidays) {
         var location = getLocation();
         $('#divZmanimPage #h2Header').html(jd.toStringHeb() + '<br />' + jd.getDate().toDateString());
         $('#divZmanimPage #pSpecial').html(getSpecialHtml(jd, location));
-        $('#divZmanimPage #divCaption').html('Zmanim for ' + location.Name);
-        $('#divZmanimPage #emLocDet').html('lat: ' +
-                location.Latitude.toString() +
-                ' long:' + location.Longitude.toString() +
-                (location.Israel ? ' | Israel' : '') + '  |  ' +
-                (location.IsDST ? 'DST' : 'not DST'));
         $('#divZmanimPage #ulMain').html(getZmanimHtml(jd, location));
         $('#divZmanimPage #pMain').jqmData('currDate', jd);
+        $('#divZmanimPage #ulMain').listview("refresh");
     }
 
     function goDay(num) {
@@ -547,7 +577,7 @@ function getHolidayIcon(holidays) {
     }
 
     function getSpecialHtml(jd, location) {
-        var holidays = jd.getHolidays(location.Israel),
+        var holidays = location ? jd.getHolidays(location.Israel) : [],
             html = '';
 
         if (holidays.length) {
@@ -623,7 +653,7 @@ function getHolidayIcon(holidays) {
     function showCalendar() {
         var jd = $('#divZmanimPage').jqmData('currentjDate');
         $('#divCalendarPage').jqmData('currentjDate', jd)
-        $(":mobile-pagecontainer").pagecontainer("change", "#divCalendarPage", { transition: 'flip' });
+        $(":mobile-pagecontainer").pagecontainer("change", "#divCalendarPage", { transition: 'flip', reverse: true, showLoadMsg: true });        
     }
 })();
 /// <reference path="_references.js" />
@@ -631,7 +661,7 @@ function getHolidayIcon(holidays) {
 (function () {
     "use strict";
 
-    $(document).on('pagecreate', '#divChangeLocation', function () {
+    $(document).one('pagecreate', '#divChangeLocation', function () {
     });
 
     $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
@@ -674,6 +704,6 @@ function getHolidayIcon(holidays) {
         });
         setLocation(new Location(loc.n, !!loc.i, parseFloat(loc.lt),
             parseFloat(loc.ln), parseInt(loc.tz), (loc.el ? parseInt(loc.el) : 0)), true, true);
-        $(":mobile-pagecontainer").pagecontainer("change", "#divZmanimPage", { transition: 'flip' });
+        $(":mobile-pagecontainer").pagecontainer("change", "#divZmanimPage", { transition: 'flip', reverse: true, showLoadMsg: true });
     }
 })();

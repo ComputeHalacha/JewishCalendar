@@ -1,7 +1,6 @@
 ﻿html, body {
     height: 100%;
-    overflow:hidden; 
-    scroll:none;
+    overflow: visible;
 }
 
 .ui-page {
