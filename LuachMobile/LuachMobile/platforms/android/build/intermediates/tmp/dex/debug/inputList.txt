@@ -1,2 +1,0 @@
-D:\Repositories\JewishCalendar\LuachMobile\LuachMobile\platforms\android\build\intermediates\classes\debug
-D:\Repositories\JewishCalendar\LuachMobile\LuachMobile\platforms\android\build\intermediates\pre-dexed\debug\classes-2e5100771c326e44251411d489533ff05dae7179.jar
