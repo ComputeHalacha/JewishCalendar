@@ -2,20 +2,6 @@
 
 (function () {
     "use strict";
-    document.onDeviceReady = function () {
-        showDate();
-    };
-
-    document.onDevicePause = function () {
-    };
-
-    document.onDeviceResume = function () {
-        showDate();
-    };
-
-    document.onLocationChanged = function () {
-        showDate();
-    };
 
     $(document).on('pagecreate', '#divCalendarPage', function () {
         $('#divCalendarPage div[data-role=main] .ui-content').css({ 'padding': '0', 'height': '100%' });
@@ -29,9 +15,6 @@
             }).on("swipedown", "#divCalendarPage", function (event) {
                 goMonth(1);
             });
-        if (!window.cordova) {
-            showDate();
-        }
     });
 
     $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
@@ -46,6 +29,30 @@
                 $('#divCalendarPage #divCaption').data('locationName') !== getLocation()) {
                 showDate();
             }
+            
+            document.onLocationChanged = function () {
+                var location = getLocation();
+                $('#divCalendarPage #divCaption')
+                    .data('locationName', location.Name)
+                    .html('Location set to ' + location.Name);
+                    $('#divCalendarPage #emLocDet').html('lat: ' +
+                        location.Latitude.toString() +
+                        ' long:' + location.Longitude.toString() +
+                        (location.Israel ? ' | Israel' : '') + '  |  ' +
+                        (location.IsDST ? 'DST' : 'not DST'));
+
+                showDate();
+            };
+
+            document.onDevicePause = function () {
+            };
+
+            document.onDeviceResume = function () {
+                showDate();
+            };
+            
+            //Initially set the location
+            document.onLocationChanged();
         }
     });
 
@@ -66,14 +73,7 @@
 
         $('#divCalendarPage #h2Header').html(Utils.jMonthsHeb[jd.Month] + ' ' +
             Utils.toJNum(jd.Year % 1000) + '<br />' +
-            Utils.sMonthsEng[sdate.getMonth()] + ' ' + sdate.getFullYear().toString());
-        $('#divCalendarPage #divCaption').data('locationName', location.Name).html('Location set to ' + location.Name);
-        $('#divCalendarPage #emLocDet').html('lat: ' +
-                location.Latitude.toString() +
-                ' long:' + location.Longitude.toString() +
-                (location.Israel ? ' | Israel' : '') + '  |  ' +
-                (location.IsDST ? 'DST' : 'not DST'));
-
+            Utils.sMonthsEng[sdate.getMonth()] + ' ' + sdate.getFullYear().toString());        
         fillCalendar(jd, location);
     }
 
@@ -88,7 +88,11 @@
             //Keeps track of the d.o.w. for each day
             currDOW = currJd.getDayOfWeek(),
             //Each week gets a row
-            html = '<tr>';
+            html = '<tr>',
+            //The currents days secular date
+            currSd = currJd.getDate(),
+            //Today...
+            today = new jDate(new Date());
 
         //If the first day of the month is not Sunday,
         if (currDOW > 0) {
@@ -105,7 +109,12 @@
             //and we want to display the zmanim in the zmanim page.
             html += '<td data-abs="' + currJd.Abs.toString() +
                 '" title="' + holidays.join(' - ') + '" class="hasDate';
-
+            
+            //Today gets a special border
+            if(currJd.Abs === today.Abs) {
+                html += ' today';
+            }
+                
             //The special days get a special bg color.
             if (!!holidays.length) {
                 //add the holiday class
@@ -114,7 +123,7 @@
 
             html += '"><div class="jd">' +
                         Utils.toJNum(currJd.Day) +
-                    '</div><div class="sd">' + currJd.getDate().getDate() + '</div>';
+                    '</div><div class="sd">' + currSd.getDate() + '</div>';
 
             if (!!holidays.length) {
                 html += '<div class="ht">' + holidays.join('<br />') + '</div>' +
@@ -125,6 +134,7 @@
 
             currJd = currJd.addDays(1);
             currDOW = currJd.getDayOfWeek();
+            currSd = currJd.getDate();
             if (currDOW === 0) {
                 html += '</tr><tr>';
             }

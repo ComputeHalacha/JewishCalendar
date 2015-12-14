@@ -45,7 +45,7 @@
             return i.n === name;
         });
         setLocation(new Location(loc.n, !!loc.i, parseFloat(loc.lt),
-            parseFloat(loc.ln), parseInt(loc.tz), (loc.el ? parseInt(loc.el) : 0)));
+            parseFloat(loc.ln), parseInt(loc.tz), (loc.el ? parseInt(loc.el) : 0)), true, true);
         $(":mobile-pagecontainer").pagecontainer("change", "#divZmanimPage", { transition: 'flip' });
     }
 })();

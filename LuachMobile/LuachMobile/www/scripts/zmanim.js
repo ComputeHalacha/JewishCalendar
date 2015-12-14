@@ -25,17 +25,26 @@
         if (ui.toPage.attr('id') === 'divZmanimPage') {
             showDate();
             $('#divZmanimPage #ulMain').listview("refresh");
+            document.onLocationChanged = function () {
+                try {
+                    var location = getLocation();
+                    $('#divZmanimPage #divCaption').html('Zmanim for ' + location.Name);
+                    $('#divZmanimPage #emLocDet').html('lat: ' +
+                            location.Latitude.toString() +
+                            ' long:' + location.Longitude.toString() +
+                            (location.Israel ? ' | Israel' : '') + '  |  ' +
+                            (location.IsDST ? 'DST' : 'not DST'));               
+                    showDate();
+                }
+                catch (e) {
+                    console.error(e);
+                }
+            };
+            
+            //Actually set the location
+            document.onLocationChanged();
         }
-    });
-
-    document.onLocationChanged = function () {
-        try {
-            showDate();
-        }
-        catch (e) {
-            console.error(e);
-        }
-    };
+    });    
 
     function showDate(jd) {
         if (jd) {
@@ -52,12 +61,6 @@
         var location = getLocation();
         $('#divZmanimPage #h2Header').html(jd.toStringHeb() + '<br />' + jd.getDate().toDateString());
         $('#divZmanimPage #pSpecial').html(getSpecialHtml(jd, location));
-        $('#divZmanimPage #divCaption').html('Zmanim for ' + location.Name);
-        $('#divZmanimPage #emLocDet').html('lat: ' +
-                location.Latitude.toString() +
-                ' long:' + location.Longitude.toString() +
-                (location.Israel ? ' | Israel' : '') + '  |  ' +
-                (location.IsDST ? 'DST' : 'not DST'));
         $('#divZmanimPage #ulMain').html(getZmanimHtml(jd, location));
         $('#divZmanimPage #pMain').jqmData('currDate', jd);
     }

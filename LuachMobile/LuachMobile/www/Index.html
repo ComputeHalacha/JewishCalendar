@@ -3,15 +3,24 @@
 <head>
     <title>Luach Project Mobile App</title>
     <meta charset="utf-8" />
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <meta name="robots" content="noindex, nofollow" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />    
     <meta name="MobileOptimized" content="width" />
     <meta name="HandheldFriendly" content="true" />
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1.0, user-scalable=no" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *">
     <link rel="icon" type="image/png" href="images/scroll.png" />
     <link rel="shortcut icon" href="images/scroll.ico" />
-    <link href="css/bundle.min.css" rel="stylesheet" />
+    
+    <!--FOR DEVELOPEMENT-->
+    <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
+    <link rel="stylesheet" href="themes/JewishCalendarMobile.min.css" />
+    <link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+    <link rel="stylesheet" href="css/fa/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/general.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/zmanim.css" />
+    <!--FOR PRODUCTION
+    <link href="css/bundle.min.css" rel="stylesheet" /-->
 </head>
 <body>
     <div data-role="page" id="divCalendarPage">
@@ -32,7 +41,7 @@
                 <div id="divCaption"></div>
                 <em id="emLocDet" class="ui-teeny grey"></em>
                 &nbsp;&nbsp;
-                <a class="ui-teeny" href="#divChangeLocation" data-transition="flip" data-slide-to="">change location</a>
+                <a class="ui-teeny" href="#divChangeLocation" data-transition="flip">change location</a>
             </div>
             <div data-role="content" data-theme="d">
                 <div style="float:left;text-align:center;">
@@ -121,8 +130,21 @@
     <script src="cordova.js"></script>
 
     <!--FOR DEVELEOPMENT-->
-    <script src="scripts/JCal/jcal.js"></script>
-    <script src="scripts/bundle.js"></script>
+      <script src="scripts/JCal/Utils.js"></script>
+      <script src="scripts/JCal/Location.js"></script>
+      <script src="scripts/JCal/jDate.js"></script>
+      <script src="scripts/JCal/Zmanim.js"></script>
+      <script src="scripts/JCal/Sedra.js"></script>
+      <script src="scripts/JCal/Molad.js"></script>
+      <script src="scripts/JCal/Dafyomi.js"></script>
+      <script src="scripts/jquery-2.1.4.min.js"></script>
+      <script src="scripts/jquery.mobile-1.4.5.min.js"></script>
+      <!--script src="scripts/knockout-3.4.0.js"></script-->
+      <script src="scripts/platformOverrides.js"></script>
+      <script src="scripts/General.js"></script>
+      <script src="scripts/index.js"></script>
+      <script src="scripts/zmanim.js"></script>
+      <script src="scripts/locations.js"></script> 
     <!--FOR PRODUCTION>
     <script src="scripts/JCal/jcal.min.js"></script>
     <script src="scripts/bundle.min.js"></script-->

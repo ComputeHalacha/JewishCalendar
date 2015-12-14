@@ -9,6 +9,40 @@ namespace LuachProject
 {
     public partial class frmAddOccasionEng : Form
     {
+        #region Private Fields
+
+        private bool _loading;
+
+        private Color _selectedBackColor = Color.Empty;
+
+        private Color _selectedForeColor = Color.Maroon;
+
+        #endregion Private Fields
+
+        #region Public Constructors
+
+        public frmAddOccasionEng()
+        {
+            InitializeComponent();
+        }
+
+        public frmAddOccasionEng(UserOccasion uoToEdit)
+            : this()
+        {
+            this.UserOccasion = uoToEdit;
+            this.Text = "Edit Occasion - " + this.UserOccasion.Name;
+        }
+
+        #endregion Public Constructors
+
+        #region Public Events
+
+        public event EventHandler<UserOccasion> OccasionWasChanged;
+
+        #endregion Public Events
+
+        #region Public Enums
+
         public enum CloseStyles
         {
             Fade,
@@ -16,11 +50,9 @@ namespace LuachProject
             None
         }
 
-        public event EventHandler<UserOccasion> OccasionWasChanged;
+        #endregion Public Enums
 
-        private bool _loading;
-        private Color _selectedForeColor = Color.Maroon;
-        private Color _selectedBackColor = Color.Empty;
+        #region Public Properties
 
         public CloseStyles CloseStyle { get; set; }
 
@@ -50,16 +82,157 @@ namespace LuachProject
 
         public UserOccasion UserOccasion { get; private set; }
 
-        public frmAddOccasionEng()
+        #endregion Public Properties
+
+        #region Private Methods
+
+        private void btnAdd_Click(object sender, EventArgs e)
         {
-            InitializeComponent();
+            if (string.IsNullOrWhiteSpace(this.txtName.Text))
+            {
+                MessageBox.Show("Please enter the Occasion or Event description.",
+                    "Add Occasion or Event", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                this.txtName.Focus();
+                return;
+            }
+
+            if (this.UserOccasion == null)
+            {
+                this.UserOccasion = new UserOccasion();
+            }
+
+            this.UserOccasion.Name = this.txtName.Text;
+            this.UserOccasion.Notes = this.txtNotes.Text;
+            this.UserOccasion.Color = this._selectedForeColor;
+
+            if (rbOneTime.Checked)
+            {
+                this.UserOccasion.JewishDate = this.JewishDate;
+                this.UserOccasion.UserOccasionType = UserOccasionTypes.OneTime;
+            }
+            else if (this.rbJewishYearly.Checked)
+            {
+                this.UserOccasion.JewishDate = this.JewishDate;
+                this.UserOccasion.UserOccasionType = UserOccasionTypes.HebrewDateRecurringYearly;
+            }
+            else if (this.rbJewishMonthly.Checked)
+            {
+                this.UserOccasion.JewishDate = this.JewishDate;
+                this.UserOccasion.UserOccasionType = UserOccasionTypes.HebrewDateRecurringMonthly;
+            }
+            else if (this.rbSecularYearly.Checked)
+            {
+                this.UserOccasion.SecularDate = this.SecularDate;
+                this.UserOccasion.UserOccasionType = UserOccasionTypes.SecularDateRecurringYearly;
+            }
+            else if (this.rbSecularMonthly.Checked)
+            {
+                this.UserOccasion.SecularDate = this.SecularDate;
+                this.UserOccasion.UserOccasionType = UserOccasionTypes.SecularDateRecurringMonthly;
+            }
+
+            if (!Properties.Settings.Default.UserOccasions.Contains(this.UserOccasion))
+            {
+                Properties.Settings.Default.UserOccasions.Add(this.UserOccasion);
+            }
+
+            //Set the back-color for all occasions on that same day (Jewish/Secular according to occasion type)
+            UserOccasionColection.FromSettings(this.JewishDate).ForEach(uo =>
+                uo.BackColor = this._selectedBackColor);
+
+            Properties.Settings.Default.Save();
+
+            if (OccasionWasChanged != null)
+            {
+                OccasionWasChanged(this, this.UserOccasion);
+            }
+
+            this.Close();
         }
 
-        public frmAddOccasionEng(UserOccasion uoToEdit)
-            : this()
+        private void btnBGColor_Click(object sender, EventArgs e)
         {
-            this.UserOccasion = uoToEdit;
-            this.Text = "Edit Occasion - " + this.UserOccasion.Name;
+            this.colorDialog1.Color = this._selectedBackColor;
+            if (this.colorDialog1.ShowDialog(this) == DialogResult.OK)
+            {
+                this.btnBGColor.BackColor = this.txtName.BackColor = this._selectedBackColor = this.colorDialog1.Color;
+                this.llClearBackColor.Visible = (this._selectedBackColor != Color.Empty);
+                //Repaint the background
+                this.Invalidate();
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnColor_Click(object sender, EventArgs e)
+        {
+            this.colorDialog1.Color = this._selectedForeColor;
+            if (this.colorDialog1.ShowDialog(this) == DialogResult.OK)
+            {
+                this.btnColor.BackColor = this.txtName.ForeColor = this._selectedForeColor = this.colorDialog1.Color;
+                //Repaint the background
+                this.Invalidate();
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Delete the occasion/event \"" +
+                this.UserOccasion.Name + "\"?", "Are you sure?",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+            {
+                Properties.Settings.Default.UserOccasions.Remove(this.UserOccasion);
+                Properties.Settings.Default.Save();
+                this.UserOccasion = null;
+
+                if (OccasionWasChanged != null)
+                {
+                    OccasionWasChanged(this, this.UserOccasion);
+                }
+
+                this.Close();
+            }
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            if (!this._loading)
+            {
+                this.Focus();
+                this._loading = true;
+                this.JewishDate = new JewishCalendar.JewishDate(this.SecularDate);
+                this.SetLabels();
+                this._loading = false;
+                this.dateTimePicker1.Focus();
+            }
+        }
+
+        private void frmAddOccasionEng_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                if (this.CloseStyle == CloseStyles.Fade)
+                {
+                    while (this.Opacity > 0)
+                    {
+                        this.Opacity -= 0.1;
+                        this.Refresh();
+                    }
+                }
+                else if (this.CloseStyle == CloseStyles.Slide)
+                {
+                    while (this.Left < this.Owner.Right)
+                    {
+                        this.Location = new Point(this.Left + 50, this.Top);
+                        this.Refresh();
+                    }
+                }
+            }
         }
 
         private void frmAddOccasionEng_Load(object sender, EventArgs e)
@@ -141,127 +314,6 @@ namespace LuachProject
             }, r);
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Delete the occasion/event \"" +
-                this.UserOccasion.Name + "\"?", "Are you sure?",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question,
-                MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-            {
-                Properties.Settings.Default.UserOccasions.Remove(this.UserOccasion);
-                Properties.Settings.Default.Save();
-                this.UserOccasion = null;
-
-                if (OccasionWasChanged != null)
-                {
-                    OccasionWasChanged(this, this.UserOccasion);
-                }
-
-                this.Close();
-            }
-        }
-
-        private void btnColor_Click(object sender, EventArgs e)
-        {
-            this.colorDialog1.Color = this._selectedForeColor;
-            if (this.colorDialog1.ShowDialog(this) == DialogResult.OK)
-            {
-                this.btnColor.BackColor = this.txtName.ForeColor = this._selectedForeColor = this.colorDialog1.Color;
-                //Repaint the background
-                this.Invalidate();
-            }
-        }
-
-        private void btnBGColor_Click(object sender, EventArgs e)
-        {
-            this.colorDialog1.Color = this._selectedBackColor;
-            if (this.colorDialog1.ShowDialog(this) == DialogResult.OK)
-            {
-                this.btnBGColor.BackColor = this.txtName.BackColor = this._selectedBackColor = this.colorDialog1.Color;
-                this.llClearBackColor.Visible = (this._selectedBackColor != Color.Empty);
-                //Repaint the background
-                this.Invalidate();
-            }
-        }
-
-        private void llClearBackColor_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            this.btnBGColor.BackColor = this.txtName.BackColor = this._selectedBackColor = Color.Empty;
-            this.llClearBackColor.Visible = (this._selectedBackColor != Color.Empty);
-            //Repaint the background
-            this.Invalidate();
-        }
-
-        private void btnAdd_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(this.txtName.Text))
-            {
-                MessageBox.Show("Please enter the Occasion or Event description.",
-                    "Add Occasion or Event", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                this.txtName.Focus();
-                return;
-            }
-
-            if (this.UserOccasion == null)
-            {
-                this.UserOccasion = new UserOccasion();
-            }
-
-            this.UserOccasion.Name = this.txtName.Text;
-            this.UserOccasion.Notes = this.txtNotes.Text;
-            this.UserOccasion.Color = this._selectedForeColor;
-
-            if (rbOneTime.Checked)
-            {
-                this.UserOccasion.JewishDate = this.JewishDate;
-                this.UserOccasion.UserOccasionType = UserOccasionTypes.OneTime;
-            }
-            else if (this.rbJewishYearly.Checked)
-            {
-                this.UserOccasion.JewishDate = this.JewishDate;
-                this.UserOccasion.UserOccasionType = UserOccasionTypes.HebrewDateRecurringYearly;
-            }
-            else if (this.rbJewishMonthly.Checked)
-            {
-                this.UserOccasion.JewishDate = this.JewishDate;
-                this.UserOccasion.UserOccasionType = UserOccasionTypes.HebrewDateRecurringMonthly;
-            }
-            else if (this.rbSecularYearly.Checked)
-            {
-                this.UserOccasion.SecularDate = this.SecularDate;
-                this.UserOccasion.UserOccasionType = UserOccasionTypes.SecularDateRecurringYearly;
-            }
-            else if (this.rbSecularMonthly.Checked)
-            {
-                this.UserOccasion.SecularDate = this.SecularDate;
-                this.UserOccasion.UserOccasionType = UserOccasionTypes.SecularDateRecurringMonthly;
-            }
-
-            if (!Properties.Settings.Default.UserOccasions.Contains(this.UserOccasion))
-            {
-                Properties.Settings.Default.UserOccasions.Add(this.UserOccasion);
-            }
-
-            //Set the back-color for all occasions on that same day (Jewish/Secular according to occasion type)
-            UserOccasionColection.FromSettings(this.JewishDate).ForEach(uo =>
-                uo.BackColor = this._selectedBackColor);
-
-            Properties.Settings.Default.Save();
-
-            if (OccasionWasChanged != null)
-            {
-                OccasionWasChanged(this, this.UserOccasion);
-            }
-
-            this.Close();
-        }
-
         private void jewishDatePicker1_ValueChanged(object sender, EventArgs e)
         {
             if (!this._loading)
@@ -273,40 +325,12 @@ namespace LuachProject
             }
         }
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        private void llClearBackColor_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (!this._loading)
-            {
-                this.Focus();
-                this._loading = true;
-                this.JewishDate = new JewishCalendar.JewishDate(this.SecularDate);
-                this.SetLabels();
-                this._loading = false;
-                this.dateTimePicker1.Focus();
-            }
-        }
-
-        private void frmAddOccasionEng_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (e.CloseReason == CloseReason.UserClosing)
-            {
-                if (this.CloseStyle == CloseStyles.Fade)
-                {
-                    while (this.Opacity > 0)
-                    {
-                        this.Opacity -= 0.1;
-                        this.Refresh();
-                    }
-                }
-                else if (this.CloseStyle == CloseStyles.Slide)
-                {
-                    while (this.Left < this.Owner.Right)
-                    {
-                        this.Location = new Point(this.Left + 50, this.Top);
-                        this.Refresh();
-                    }
-                }
-            }
+            this.btnBGColor.BackColor = this.txtName.BackColor = this._selectedBackColor = Color.Empty;
+            this.llClearBackColor.Visible = (this._selectedBackColor != Color.Empty);
+            //Repaint the background
+            this.Invalidate();
         }
 
         private void SetLabels()
@@ -324,5 +348,7 @@ namespace LuachProject
             this.rbSecularYearly.Text = "Yearly event on the " + sdDay + " day of " + sdMonth;
             this.rbSecularMonthly.Text = "Monthly event on the " + sdDay + " day of each Secular month";
         }
+
+        #endregion Private Methods
     }
 }
