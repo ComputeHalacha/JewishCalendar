@@ -31,6 +31,15 @@ function onResume() {
     }
 };
 
+document.onDeviceReady = function () {
+    if (navigator.geolocation) {
+        setCurrentLocation();
+    }
+    else {
+        setDefaultLocation();
+    }
+};
+
 function showMessage(message, isError, seconds, title, callback, buttonName) {
     /*if (navigator.notification) {
         navigator.notification.alert(message, callback, title, buttonName);
