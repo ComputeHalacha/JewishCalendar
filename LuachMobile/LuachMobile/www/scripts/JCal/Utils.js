@@ -1,4 +1,4 @@
-﻿/// <reference path="Zmanim.js" />
+/// <reference path="Zmanim.js" />
 "use strict";
 
 //Returns whether or not the string contains the given substring
@@ -184,7 +184,7 @@ Utils.currUtcOffset = function () {
 
 //Determines if the users system is currently set to DST
 Utils.isDST = function () {
-    return parseInt(new Date().getTimezoneOffset() / 60) < Utils.currUtcOffset();
+    return -parseInt(new Date().getTimezoneOffset() / 60) < Utils.currUtcOffset();
 };
 
 //Determines if the given date and time are during DST according to the USA rules

@@ -1,4 +1,4 @@
-﻿/// <reference path="_references.js" />
+/// <reference path="_references.js" />
 
 (function () {
     "use strict";

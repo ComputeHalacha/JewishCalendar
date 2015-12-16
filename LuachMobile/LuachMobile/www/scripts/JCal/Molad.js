@@ -1,4 +1,4 @@
-﻿/// <reference path="Utils.js" />
+/// <reference path="Utils.js" />
 /// <reference path="Zmanim.js" />
 /// <reference path="jDate.js" />
 "use strict";

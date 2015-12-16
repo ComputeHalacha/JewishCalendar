@@ -1,4 +1,4 @@
-﻿html, body {
+html, body {
     height: 100%;
     overflow: visible;
 }
@@ -11,6 +11,12 @@
 
 .ui-header h1 {
     margin: 0 !important;
+}
+.ui-btn{
+    font-weight:normal !important;    
+    text-shadow:none !important;
+    line-height:1.8em !important;
+    font-size:0.9em !important;    
 }
 
 .logo {
@@ -72,4 +78,9 @@
     font-size: 1.6em !important;
     color: #008;
     text-align: center;
+}
+
+.navBtn {
+    background-color:#1a3951 !important;
+    color: #aab !important;    
 }

@@ -39,9 +39,7 @@
         <div id="divCalPageFooter" data-role="footer" class="ui-teeny" data-position="fixed">
             <div class="ui-bar-c ui-content ui-content-not-so-tall">
                 <div id="divCaption"></div>
-                <em id="emLocDet" class="ui-teeny grey"></em>
-                &nbsp;&nbsp;
-                <a class="ui-teeny" href="#divChangeLocation" data-transition="flip">change location</a>
+                <em id="emLocDet" class="ui-teeny grey"></em>                
             </div>
             <div data-role="content" data-theme="d">
                 <div style="float:left;text-align:center;">
@@ -53,12 +51,18 @@
                 </div>
                 <div style="float:right;text-align:center;">
                     <i class="fa fa-calendar-plus-o fa-2x"></i> <strong>Navigate Ahead</strong>
-                    <fieldset data-role="controlgroup" data-type="horizontal">
-                        <a href="javascript:void(0);" id="btnNextMonth" data-role="button">Month <i class="fa fa-caret-right"></i></a>
+                    <fieldset data-role="controlgroup" data-type="horizontal">                        
                         <a href="javascript:void(0);" id="btnNextYear" data-role="button">Year <i class="fa fa-caret-right"></i></a>
+                        <a href="javascript:void(0);" id="btnNextMonth" data-role="button">Month <i class="fa fa-caret-right"></i></a>
                     </fieldset>
                 </div>
             </div>
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="javascript:void(0);" id="btnShowZmanim" class="navBtn"><i class="fa fa-file-text fa-2x"></i><br />Zmanim</a></li>
+                    <li><a href="#divChangeLocation" class="navBtn" data-transition="flip" data-slide-to=""><i class="fa fa-globe fa-2x"></i><br />Location</a></li>
+                </ul>
+            </div>            
         </div>
     </div>
     <div data-role="page" id="divZmanimPage">
@@ -69,7 +73,7 @@
         <div data-role="main">
             <div data-role="content" class="ui-mini ui-teeny">
                 <p id="pSpecial"></p>
-                <div class="ui-bar-b ui-content ui-content-not-so-tall">
+                 <div class="ui-bar-c ui-content ui-content-not-so-tall">
                     <div id="divCaption"></div>
                     <em id="emLocDet" class="ui-teeny grey"></em>
                     &nbsp;&nbsp;
@@ -81,30 +85,28 @@
             </div>
         </div>
         <div data-role="footer" class="ui-teeny" data-position="fixed" data-theme="c">
-            <div data-role="navbar" data-grid="d">
-                <ul>
-                    <li><a href="javascript:void(0);" id="aGoCal" data-icon="none"><i class="fa fa-calendar fa-2x"></i><br />Calendar</a></li>
-                </ul>
-            </div>
             <div data-role="content" data-theme="d">
                 <div style="float:left;text-align:center;">
                     <i class="fa fa-calendar-minus-o fa-2x"></i> <strong>Navigate Back</strong>
                     <fieldset data-role="controlgroup" data-type="horizontal">
-                        <a href="javascript:void(0);" id="btnPrevWeek" data-role="button"><i class="fa fa-caret-left"></i> Week</a>
-                        <a href="javascript:void(0);" id="btnPrevMonth" data-role="button"><i class="fa fa-caret-left"></i> Month</a>
-                        <a href="javascript:void(0);" id="btnPrevYear" data-role="button"><i class="fa fa-caret-left"></i> Year</a>
+                        <a href="javascript:void(0);" id="btnPrevDay" data-role="button"><i class="fa fa-caret-left"></i> Day</a>
+                        <a href="javascript:void(0);" id="btnPrevWeek" data-role="button"><i class="fa fa-caret-left"></i> Week</a>                        
                     </fieldset>
                 </div>
                 <div style="float:right;text-align:center;">
                     <i class="fa fa-calendar-plus-o fa-2x"></i> <strong>Navigate Ahead</strong>
-                    <fieldset data-role="controlgroup" data-type="horizontal">
-                        <a href="javascript:void(0);" id="btnNextDay" data-role="button">Day <i class="fa fa-caret-right"></i></a>
+                    <fieldset data-role="controlgroup" data-type="horizontal">                        
                         <a href="javascript:void(0);" id="btnNextWeek" data-role="button">Week <i class="fa fa-caret-right"></i></a>
-                        <a href="javascript:void(0);" id="btnNextMonth" data-role="button">Month <i class="fa fa-caret-right"></i></a>
-                        <a href="javascript:void(0);" id="btnNextYear" data-role="button">Year <i class="fa fa-caret-right"></i></a>
+                        <a href="javascript:void(0);" id="btnNextDay" data-role="button">Day <i class="fa fa-caret-right"></i></a>
                     </fieldset>
                 </div>
             </div>
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="javascript:void(0);" id="aGoCal" class="navBtn"><i class="fa fa-calendar fa-2x"></i><br />Calendar</a></li>
+                    <li><a href="#divChangeLocation" data-transition="flip" data-slide-to="" class="navBtn"><i class="fa fa-globe fa-2x"></i><br />Location</a></li>
+                </ul>
+            </div>            
         </div>
     </div>
     <div data-role="page" id="divChangeLocation">
@@ -122,8 +124,12 @@
             </div>
         </div>
         <div data-role="footer" class="ui-teeny" data-position="fixed">
-            <div data-role="content" data-theme="c">
-            </div>
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#divCalendarPage" data-transition="flip" data-slide-to="" class="navBtn"><i class="fa fa-calendar fa-2x"></i><br />Calendar</a></li>
+                    <li><a href="#divZmanimPage" data-transition="flip" data-slide-to="" class="navBtn"><i class="fa fa-file-text fa-2x"></i><br />Zmanim</a></li>
+                </ul>
+            </div>            
         </div>
     </div>
     <!-- Cordova reference, this is added to your app when it's built. -->

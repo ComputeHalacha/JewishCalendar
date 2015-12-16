@@ -1,4 +1,4 @@
-﻿/// <reference path="Dafyomi.js" />
+/// <reference path="Dafyomi.js" />
 /// <reference path="Utils.js" />
 /// <reference path="Sedra.js" />
 "use strict";

@@ -1,4 +1,4 @@
-﻿/// <reference path="Utils.js" />
+/// <reference path="Utils.js" />
 "use strict";
 
 //Represents a geographic Location. Needed for calculating Zmanim.
@@ -23,17 +23,15 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
             //It's bad enough that we needed to guess the time zone
             isDST = false;
         }
-    }
-   
-    return {
-        Name: name || 'Unknown Location',
-        Israel: !!israel,
-        Latitude: latitude,
-        Longitude: longitude,
-        UTCOffset: utcOffset || 0,
-        Elevation: elevation || 0,
-        IsDST: !!isDST
-    };
+    }   
+    
+    this.Name =  (name || 'Unknown Location');
+    this.Israel = !!israel;
+    this.Latitude = latitude;
+    this.Longitude = longitude;
+    this.UTCOffset = utcOffset || 0;
+    this.Elevation = elevation || 0;
+    this.IsDST = !!isDST;    
 }
 
 //Gets the Location for Jerusalem.

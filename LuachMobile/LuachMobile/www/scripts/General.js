@@ -1,5 +1,3 @@
-﻿/// <reference path="_references.js" />
-
 "use strict";
 
 document.addEventListener('deviceready', onDeviceReady.bind(this), false);
@@ -63,14 +61,13 @@ function toast(message, isError, seconds) {
 
 function getLocation() {
     if (!$($.mobile.pageContainer).jqmData('location')) {
+        //we should at least start with something....
+        setDefaultLocation();    
+
         if(!!window.cordova )
         {
             setCurrentLocation();
         }
-        else
-        {
-            setDefaultLocation();    
-        }        
     }
     return $($.mobile.pageContainer).jqmData('location');    
 }
