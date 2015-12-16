@@ -9,27 +9,23 @@
         $('#divCalendarPage #btnNextMonth').on('click', function () { goMonth(1); });
         $('#divCalendarPage #btnNextYear').on('click', function () { goYear(1); });
         $('#divCalendarPage #btnPrevMonth').on('click', function () { goMonth(-1); });
-        $('#divCalendarPage #btnPrevYear').on('click', function () { goYear(-1); })
-            .on("swipeup", "#divCalendarPage", function (event) {
+        $('#divCalendarPage #btnPrevYear').on('click', function () { goYear(-1); });            
+        $('#divCalendarPage #btnShowZmanim').on('click', function () { showZmanim(); });            
+    })
+    .on("swipeup", "#divCalendarPage", function (event) {
                 goMonth(-1);
-            }).on("swipedown", "#divCalendarPage", function (event) {
-                goMonth(1);
-            });
+    })
+    .on("swipedown", "#divCalendarPage", function (event) {
+        goMonth(1);
     });
 
-    $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
+    $(document).off("pagecontainershow").on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
         if (ui.toPage.attr('id') === 'divCalendarPage') {
             //We want the calendar table to fill up the the available height of the area between the header and footer, so we need the container to have it's height set.
             $('#divCalendarPage div[data-role=main]').css({
                 'height': ($.mobile.pageContainer.height() - $('#divCalendarPage #divCalPageHeader').height() - $('#divCalendarPage #divCalPageFooter').height()) + 'px'
             });
-
-            //Redraw the calendar if the calendar is empty or if the location was changed from another page
-            if (!$('#divCalendarPage #tblCal').html() ||
-                $('#divCalendarPage #divCaption').data('locationName') !== getLocation()) {
-                showDate();
-            }
-
+            
             document.onLocationChanged = function (location) {
                 location = location || getLocation();
                 if (location) {
@@ -52,7 +48,7 @@
                 showDate();
             };
 
-            //Display set the location
+            //On page show, display the info for the set location
             document.onLocationChanged(getLocation());
         }
     });
@@ -68,17 +64,13 @@
             showDate(new jDate(new Date()));
             return;
         }
-
-        var location = getLocation(),
-            sdate = jd.getDate();
-
-        $('#divCalendarPage #h2Header').html(Utils.jMonthsHeb[jd.Month] + ' ' +
-            Utils.toJNum(jd.Year % 1000) + '<br />' +
-            Utils.sMonthsEng[sdate.getMonth()] + ' ' + sdate.getFullYear().toString());
-        fillCalendar(jd, location);
+            
+        setCaption(jd);    
+        fillCalendar(jd, getLocation());
     }
 
     function showZmanim(jd) {
+        jd = jd || $('#divCalendarPage').jqmData('currentjDate');
         $('#divZmanimPage').jqmData('currentjDate', jd);
         $(":mobile-pagecontainer").pagecontainer("change", "#divZmanimPage", { transition: 'flip' });
     }
@@ -153,6 +145,27 @@
         $('#divCalendarPage #tblCal td.hasDate').on('click', function () {
             showZmanim(new jDate(parseInt($(this).data('abs'))));
         });
+    }
+    
+    function setCaption(jd)
+    {
+        var fsdate = new jDate(jd.Year, jd.Month).getDate(),
+            lsdate = new jDate(jd.Year, jd.Month, jDate.daysJMonth(jd.Year, jd.Month)).getDate(),
+            html = Utils.jMonthsHeb[jd.Month] + ' ' + Utils.toJNum(jd.Year % 1000) + '<br />';
+            
+        if(fsdate.getMonth() === lsdate.getMonth()) {
+            html += Utils.sMonthsEng[fsdate.getMonth()] + ' ' + fsdate.getFullYear().toString();
+        }
+        else if(fsdate.getFullYear() === lsdate.getFullYear()) {
+            html += Utils.sMonthsEng[fsdate.getMonth()] + ' - ' + Utils.sMonthsEng[lsdate.getMonth()]
+                + ' ' + fsdate.getFullYear().toString();
+        }
+        else {
+            html += Utils.sMonthsEng[fsdate.getMonth()] + ' ' + fsdate.getFullYear().toString() + ' - ' +
+                Utils.sMonthsEng[lsdate.getMonth()] + ' ' + lsdate.getFullYear().toString();
+        }
+        
+        $('#divCalendarPage #h2Header').html(html);            
     }
 
     function goMonth(num) {

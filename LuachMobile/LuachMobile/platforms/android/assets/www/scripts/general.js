@@ -1,5 +1,3 @@
-/// <reference path="_references.js" />
-
 "use strict";
 
 document.addEventListener('deviceready', onDeviceReady.bind(this), false);

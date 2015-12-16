@@ -9,11 +9,8 @@
     $(document).one('pagecreate', '#divZmanimPage', function () {
         $('#divZmanimPage #btnNextDay').on('click', function () { goDay(1); });
         $('#divZmanimPage #btnNextWeek').on('click', function () { goDay(7); });
-        $('#divZmanimPage #btnNextMonth').on('click', function () { goMonth(1); });
-        $('#divZmanimPage #btnNextYear').on('click', function () { goYear(1); });
+        $('#divZmanimPage #btnPrevDay').on('click', function () { goDay(-1); });        
         $('#divZmanimPage #btnPrevWeek').on('click', function () { goDay(-7); });
-        $('#divZmanimPage #btnPrevMonth').on('click', function () { goMonth(-1); });
-        $('#divZmanimPage #btnPrevYear').on('click', function () { goYear(-1); });
         $('#divZmanimPage #aGoCal').on('click', function () { showCalendar(); });
     }).on("swipeup", "#divZmanimPage", function (event) {
         goDay(-1);
@@ -21,7 +18,7 @@
         goDay(1);
     });
 
-    $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
+    $(document).off("pagecontainershow").on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
         if (ui.toPage.attr('id') === 'divZmanimPage') {           
             document.onLocationChanged = function (location) {
                 try {
@@ -70,20 +67,6 @@
         var jd = $('#divZmanimPage').jqmData('currentjDate');
         if (jd) {
             showDate(jd.addDays(num));
-        }
-    }
-
-    function goMonth(num) {
-        var jd = $('#divZmanimPage').jqmData('currentjDate');
-        if (jd) {
-            showDate(jd.addMonths(num));
-        }
-    }
-
-    function goYear(num) {
-        var jd = $('#divZmanimPage').jqmData('currentjDate');
-        if (jd) {
-            showDate(jd.addYears(num));
         }
     }
 

@@ -1,3 +1,7 @@
+#divTblCal {
+    overflow: hidden;
+}
+
 #tblCal, #tblDOW {
     width: 100%;
     margin: 0;
@@ -9,73 +13,77 @@
     height: 95%;
 }
 
-    #tblCal td, #tblDOW td {
-        text-align: center;
-        vertical-align: top;
-        padding: 0;
-        margin: 0;
+#tblDOW th {
+    text-align: center;    
+}
+
+#tblCal td, #tblDOW td {
+    text-align: center;
+    vertical-align: top;
+    padding: 0;
+    margin: 0;
+    position: relative;
+}
+
+    #tblCal td.hasDate {
+        background-color: #ffffff;
+        border: solid 1px #e4e4e4;
         position: relative;
+        cursor: pointer;
     }
 
-        #tblCal td.hasDate {
-            background-color: #ffffff;
-            border: solid 1px #e4e4e4;
-            position: relative;
-            cursor: pointer;
-        }
-        
-        #tblCal td.today {
-            border: dotted 0.4em #d5bed1;        
-        }
-
-        #tblCal td.holiday {
-            background-color: #f5f5ff;
-        }
-
-    #tblCal .jd {
-        font-family: narkisim,Tahoma,Geneva, Verdana,sans-serif;
-        color: #800;
-        font-size: 1.2em;
-        padding: 0;
-        margin: 0;
-        position: relative;
-        z-index: 1;
+    #tblCal td.today {
+        border: dotted 0.4em #d5bed1;
     }
 
-    #tblCal .sd {
-        color: #008;
-        font-size: 0.8em;
-        padding: 0.3em 0 0 0;
-        margin: 0;
-        position: relative;
-        z-index: 1;
+    #tblCal td.holiday {
+        background-color: #f5f5ff;
     }
 
-    #tblCal .ht {
-        color: #686;
-        font-size: 0.55em;
-        position: absolute;
-        margin-left: auto;
-        margin-right: auto;
-        left: 0;
-        right: 0;
-        top: 50%;
-        z-index: 1;
-        max-height: 49%;
-        overflow: hidden;
-        -ms-text-overflow: ellipsis;
-        -o-text-overflow: ellipsis;
-        text-overflow: ellipsis;
-    }
+#tblCal .jd {
+    font-family: narkisim,Tahoma,Geneva, Verdana,sans-serif;
+    color: #800;
+    font-size: 1.2em;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
 
-    #tblCal .fa {
-        color: #fff;
-        position: absolute;
-        margin-left: auto;
-        margin-right: auto;
-        left: 0;
-        right: 0;
-        top: 20%;
-        z-index: 0;
-        font-size: 2.5em;
-    }
+#tblCal .sd {
+    color: #008;
+    font-size: 0.8em;
+    padding: 0.3em 0 0 0;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
+
+#tblCal .ht {
+    color: #686;
+    font-size: 0.55em;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    top: 50%;
+    z-index: 1;
+    max-height: 49%;
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+
+#tblCal .fa {
+    color: #fff;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    top: 20%;
+    z-index: 0;
+    font-size: 2.5em;
+}

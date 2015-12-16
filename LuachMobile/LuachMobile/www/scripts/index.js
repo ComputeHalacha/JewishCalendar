@@ -19,19 +19,13 @@
         goMonth(1);
     });
 
-    $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
+    $(document).off("pagecontainershow").on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
         if (ui.toPage.attr('id') === 'divCalendarPage') {
             //We want the calendar table to fill up the the available height of the area between the header and footer, so we need the container to have it's height set.
             $('#divCalendarPage div[data-role=main]').css({
                 'height': ($.mobile.pageContainer.height() - $('#divCalendarPage #divCalPageHeader').height() - $('#divCalendarPage #divCalPageFooter').height()) + 'px'
             });
-
-            //Redraw the calendar if the calendar is empty or if the location was changed from another page
-            if (!$('#divCalendarPage #tblCal').html() ||
-                $('#divCalendarPage #divCaption').data('locationName') !== getLocation()) {
-                showDate();
-            }
-
+            
             document.onLocationChanged = function (location) {
                 location = location || getLocation();
                 if (location) {
@@ -54,7 +48,7 @@
                 showDate();
             };
 
-            //Display set the location
+            //On page show, display the info for the set location
             document.onLocationChanged(getLocation());
         }
     });

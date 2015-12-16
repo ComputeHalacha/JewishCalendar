@@ -13,6 +13,13 @@ html, body {
     margin: 0 !important;
 }
 
+.ui-btn {
+    font-weight: normal !important;
+    text-shadow: none !important;
+    line-height: 1.8em !important;
+    font-size: 0.9em !important;
+}
+
 .logo {
     position: absolute;
     margin: 0;
@@ -25,8 +32,9 @@ html, body {
     padding: 0.9em 1.5em;
 }
 
-.ui-teeny {
+.ui-teeny, .ui-teeny strong {
     font-size: 0.7em;
+    text-shadow: none;
 }
 
     .ui-teeny .ui-icon-forward:after, .ui-teeny .ui-icon-back:after {
@@ -72,4 +80,9 @@ html, body {
     font-size: 1.6em !important;
     color: #008;
     text-align: center;
+}
+
+.navBtn {
+    background-color: #1a3951 !important;
+    color: #aab !important;
 }

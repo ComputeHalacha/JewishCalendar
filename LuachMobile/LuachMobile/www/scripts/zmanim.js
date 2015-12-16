@@ -18,7 +18,7 @@
         goDay(1);
     });
 
-    $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
+    $(document).off("pagecontainershow").on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
         if (ui.toPage.attr('id') === 'divZmanimPage') {           
             document.onLocationChanged = function (location) {
                 try {
