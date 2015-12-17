@@ -8,6 +8,7 @@
 
     $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
         if (ui.toPage.attr('id') === 'divChangeLocation') {
+            console.log('RAN pagecreate on divChangeLocation');
             if (!$('#divChangeLocation').jqmData('locsList')) {
                 loadLocationsList(function (nameList) {
                     var html = '';

@@ -28,7 +28,7 @@
     <name>The Luach Project - for mobile</name>
     <description>The Luach Project - for mobile</description>
     <author email="dev@cordova.apache.org" href="http://cordova.io">Compute Software Solutions</author>
-    <content src="index.html" />
+    <content src="index.min.html" />
     <access origin="*" />
     <vs:features />
     <preference name="SplashScreen" value="screen" />

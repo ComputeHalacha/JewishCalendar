@@ -1,11 +1,13 @@
 /// <reference path="_references.js" />
 /*jshint strict:true, undef:true */
-/*global document: true, $: true, jDate:true, getLocation:true, Utils:true,getHolidayIcon:true */
+/*global document: true, $: true, jDate:true, getLocation:true, Utils:true,getHolidayIcon:true, console:true */
 
 (function () {
     "use strict";
+    console.log('Start index.js');
+    $(document).one('pagecreate', '#divCalendarPage', function () {
+        console.log('RAN pagecreate on divCalendarPage');
 
-    $(document).one('pagecreate', '#divCalendarPage', function () {        
         $('#divCalendarPage #btnNextMonth').on('click', function () { goMonth(1); });
         $('#divCalendarPage #btnNextYear').on('click', function () { goYear(1); });
         $('#divCalendarPage #btnPrevMonth').on('click', function () { goMonth(-1); });
@@ -28,7 +30,7 @@
                     showDate();
                 }
             });
-        }
+        }        
     })
     .on("swipeup", "#divCalendarPage", function (event) {
         goMonth(-1);
@@ -37,8 +39,9 @@
         goMonth(1);
     });
 
-    $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
+    $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {        
         if (ui.toPage.attr('id') === 'divCalendarPage') {
+            console.log('RAN pagecontainershow for: divCalendarPage');
             //We want the calendar table to fill up the the available height of the area between the header and footer, so we need the container to have it's height set.
             $('#divCalendarPage div[data-role=main]').css({
                 'height': ($.mobile.pageContainer.height() -
@@ -52,6 +55,7 @@
     });
 
     function showDate(jd) {
+        console.log('RAN showDate for: ' + (jd ? jd.toString() : 'UNKNOWN DATE'));
         if (jd) {
             $(document).jqmData('currentjDate', jd);
         }
@@ -67,8 +71,9 @@
         fillCalendar(jd, getLocation());
     }
 
-    function locationChanged(location) {
+    function locationChanged(location) {        
         location = location || getLocation();
+        console.log('RAN index.js/locationChanged for: ' + (location ? location.Name : 'UNKNOWN'));
         if (location) {
             $('#divCalendarPage #divCaption')
                 .data('locationName', location.Name)

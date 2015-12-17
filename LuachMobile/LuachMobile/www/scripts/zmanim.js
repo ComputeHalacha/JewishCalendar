@@ -7,6 +7,7 @@
 (function () {
     "use strict";
     $(document).one('pagecreate', '#divZmanimPage', function () {
+        console.log('RAN pagecreate on divZmanimPage');
         $('#divZmanimPage #btnNextDay').on('click', function () { goDay(1); });
         $('#divZmanimPage #btnNextWeek').on('click', function () { goDay(7); });
         $('#divZmanimPage #btnPrevDay').on('click', function () { goDay(-1); });
@@ -22,6 +23,7 @@
 
     $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
         if (ui.toPage.attr('id') === 'divZmanimPage') {
+            console.log('RAN pagecontainershow for: divZmanimPage');
             //Display the location
             locationChanged();
         }
@@ -30,6 +32,7 @@
     function locationChanged(location) {
         try {
             var location = location || getLocation();
+            console.log('RAN zmanim.js/locationChanged for: ' + (location ? location.Name : 'UNKNOWN'));
             if (location) {
                 $('#divZmanimPage #divCaption').html('Zmanim for ' + location.Name);
                 $('#divZmanimPage #emLocDet').html('lat: ' +

@@ -3,13 +3,27 @@
 
 "use strict";
 
-document.addEventListener('deviceready', onDeviceReady.bind(this), false);
+document.addEventListener('deviceready', deviceReady.bind(this), false);
 document.onLocationChanged = [];
 document.onDeviceReady = [];
 document.onDevicePause = [];
 document.onDeviceResume = [];
 
-function onDeviceReady() {
+if (!document.onDeviceReady.first(function (i) {
+        return !!i.general;
+    })) {
+    document.onDeviceReady.push({
+        'general': function () {
+            if (navigator.geolocation) {
+                setCurrentLocation();
+            } else {
+                setDefaultLocation();
+            }
+        }
+    });
+}
+
+function deviceReady() {
     console.log('Cordova was recognized device ready has been fired.');
 
     // Handle the Cordova pause and resume events
@@ -20,6 +34,7 @@ function onDeviceReady() {
     document.onDeviceReady.forEach(function (i) {
         for (var p in i) {
             i[p]();
+            console.log('RAN onDeviceReady for: ' + p);
         }
     });
 
@@ -30,6 +45,7 @@ function onPause() {
     document.onDevicePause.forEach(function (i) {
         for (var p in i) {
             i[p]();
+             console.log('RAN onPause for: ' + p);
         }
     });
 
@@ -41,18 +57,10 @@ function onResume() {
     document.onDeviceResume.forEach(function (i) {
         for (var p in i) {
             i[p]();
+            console.log('RAN onResume for: ' + p);
         }
     });
 }
-
-document.onDeviceReady = function () {
-    if (navigator.geolocation) {
-        setCurrentLocation();
-    }
-    else {
-        setDefaultLocation();
-    }
-};
 
 function showMessage(message, isError, seconds, title, callback, buttonName) {
     /*if (navigator.notification) {
@@ -67,7 +75,9 @@ function showMessage(message, isError, seconds, title, callback, buttonName) {
 }
 
 function toast(message, isError, seconds) {
-    var removeMe = function () { $(this).remove(); };
+    var removeMe = function () {
+        $(this).remove();
+    };
     $('<div class="toast">' + message + '</div>')
         .addClass(isError ? 'error' : '')
         .click(removeMe)
@@ -92,8 +102,7 @@ function setDefaultLocation() {
 
     if (loc) {
         loc = JSON.parse(loc);
-    }
-    else {
+    } else {
         loc = Location.getJerusalem(); //where else?
     }
     setLocation(loc, false, false);
@@ -104,19 +113,18 @@ function setCurrentLocation() {
         console.log('Attempting to acquire device location from Cordova geolocation plugin');
         navigator.geolocation.getCurrentPosition(function (position) {
             var location = new Location('Current Location', //Name
-                                        undefined, //Israel - we have no way of knowing (the constructor will try to figure it out though)
-                                        position.coords.latitude,
-                                        position.coords.longitude,
-                                        Utils.currUtcOffset(),
-                                        position.coords.altitude,
-                                        Utils.isDST());
+                undefined, //Israel - we have no way of knowing (the constructor will try to figure it out though)
+                position.coords.latitude,
+                position.coords.longitude,
+                Utils.currUtcOffset(),
+                position.coords.altitude,
+                Utils.isDST());
             console.log('Location acquired from Cordova geolocation plugin.');
             setLocation(location, false, false);
         }, function () {
             setDefaultLocation();
         });
-    }
-    catch (e) {
+    } catch (e) {
         console.error(e.message);
         setDefaultLocation();
     }
@@ -134,6 +142,7 @@ function setLocation(loc, store, inform) {
     document.onLocationChanged.forEach(function (i) {
         for (var p in i) {
             i[p]();
+            console.log('RAN onLocationChanged for: ' + p);
         }
     });
 }

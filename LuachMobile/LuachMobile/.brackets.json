@@ -1,6 +1,4 @@
 {
     "jscodehints.detectedExclusions": [
-        "D:/Repositories/JewishCalendar/LuachMobile/LuachMobile/platforms/android/cordova/lib/android_sdk_version.js",
-        "D:/Repositories/JewishCalendar/LuachMobile/LuachMobile/platforms/android/cordova/lib/appinfo.js"
     ]
 }
