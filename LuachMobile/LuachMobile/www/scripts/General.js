@@ -1,16 +1,13 @@
+/*jshint strict:true, undef:true */
+/*global document: true, $: true, jDate:true, Utils:true, console:true, navigator:true, window:true, localStorage:true, Location:true */
+
 "use strict";
 
 document.addEventListener('deviceready', onDeviceReady.bind(this), false);
 document.onLocationChanged = [];
+document.onDeviceReady = [];
 document.onDevicePause = [];
 document.onDeviceResume = [];
-
-$(function () {
-    //Cache all pages
-    $.mobile.page.prototype.options.domCache = true;
-    //preload calendar page
-    //$(":mobile-pagecontainer").pagecontainer("load", "#divCalendarPage", { showLoadMsg: false });    
-});
 
 function onDeviceReady() {
     console.log('Cordova was recognized device ready has been fired.');

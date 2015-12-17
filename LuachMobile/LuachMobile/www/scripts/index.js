@@ -1,4 +1,6 @@
 /// <reference path="_references.js" />
+/*jshint strict:true, undef:true */
+/*global document: true, $: true, jDate:true, getLocation:true, Utils:true,getHolidayIcon:true */
 
 (function () {
     "use strict";
@@ -9,18 +11,18 @@
         $('#divCalendarPage #btnPrevMonth').on('click', function () { goMonth(-1); });
         $('#divCalendarPage #btnPrevYear').on('click', function () { goYear(-1); });
         $('#divCalendarPage #btnShowZmanim').on('click', function () { showZmanim(); });
-        if (!document.onLocationChanged.first(function (i) { return i['divCalendarPage']; })) {
+        if (!document.onLocationChanged.first(function (i) { return !!i.divCalendarPage; })) {
             document.onLocationChanged.push({
                 'divCalendarPage': locationChanged
             });
         }
-        if (!document.onDevicePause.first(function (i) { return i['divCalendarPage']; })) {
+        if (!document.onDevicePause.first(function (i) { return !!i.divCalendarPage; })) {
             document.onDevicePause.push({
                 'divCalendarPage': function () {
                 }
             });
         }
-        if (!document.onDeviceResume.first(function (i) { return i['divCalendarPage']; })) {
+        if (!document.onDeviceResume.first(function (i) { return !!i.divCalendarPage; })) {
             document.onDeviceResume.push({
                 'divCalendarPage': function () {
                     showDate();
@@ -101,7 +103,7 @@
         //If the first day of the month is not Sunday,
         if (currDOW > 0) {
             //we will fill the blank space before the first with one big blank table cell
-            html += '<td colspan="' + currDOW + '"></td>'
+            html += '<td colspan="' + currDOW + '"></td>';
         }
 
         //For each day of the month
@@ -147,7 +149,7 @@
         //we went over to the first day of the next month
         if (currDOW !== 0) {
             //we will fill the blank space after the last day with one big blank table cell
-            html += '<td colspan="' + (7 - currDOW) + '"></td>'
+            html += '<td colspan="' + (7 - currDOW) + '"></td>';
         }
         html += '</tr>';
 
@@ -167,8 +169,8 @@
             html += Utils.sMonthsEng[fsdate.getMonth()] + ' ' + fsdate.getFullYear().toString();
         }
         else if (fsdate.getFullYear() === lsdate.getFullYear()) {
-            html += Utils.sMonthsEng[fsdate.getMonth()] + ' - ' + Utils.sMonthsEng[lsdate.getMonth()]
-                + ' ' + fsdate.getFullYear().toString();
+            html += Utils.sMonthsEng[fsdate.getMonth()] + ' - ' + Utils.sMonthsEng[lsdate.getMonth()] + 
+                ' ' + fsdate.getFullYear().toString();
         }
         else {
             html += Utils.sMonthsEng[fsdate.getMonth()] + ' ' + fsdate.getFullYear().toString() + ' - ' +

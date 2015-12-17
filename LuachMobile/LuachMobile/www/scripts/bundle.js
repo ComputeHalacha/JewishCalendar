@@ -142,6 +142,7 @@ v.tmpl.tag.ko_with={open:"with($1) {",close:"} "})};a.vb.prototype=new a.O;var b
 
 document.addEventListener('deviceready', onDeviceReady.bind(this), false);
 document.onLocationChanged = [];
+document.onDeviceReady = [];
 document.onDevicePause = [];
 document.onDeviceResume = [];
 
