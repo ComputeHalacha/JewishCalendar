@@ -1,6 +1,16 @@
 "use strict";
 
 document.addEventListener('deviceready', onDeviceReady.bind(this), false);
+document.onLocationChanged = [];
+document.onDevicePause = [];
+document.onDeviceResume = [];
+
+$(function () {
+    //Cache all pages
+    $.mobile.page.prototype.options.domCache = true;
+    //preload calendar page
+    //$(":mobile-pagecontainer").pagecontainer("load", "#divCalendarPage", { showLoadMsg: false });    
+});
 
 function onDeviceReady() {
     console.log('Cordova was recognized device ready has been fired.');
@@ -9,25 +19,34 @@ function onDeviceReady() {
     document.addEventListener('pause', onPause.bind(this), false);
     document.addEventListener('resume', onResume.bind(this), false);
     // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
-    if (document.onDeviceReady) {
-        document.onDeviceReady();
-    }
-};
+
+    document.onDeviceReady.forEach(function (i) {
+        for (var p in i) {
+            i[p]();
+        }
+    });
+
+}
 
 function onPause() {
     // TODO: This application has been suspended. Save application state here.
-    if (document.onDevicePause) {
-        document.onDevicePause();
-    }
-};
+    document.onDevicePause.forEach(function (i) {
+        for (var p in i) {
+            i[p]();
+        }
+    });
+
+}
 
 function onResume() {
     // TODO: This application has been reactivated. Restore application state here.
     setCurrentLocation();
-    if (document.onDeviceResume) {
-        document.onDeviceResume();
-    }
-};
+    document.onDeviceResume.forEach(function (i) {
+        for (var p in i) {
+            i[p]();
+        }
+    });
+}
 
 document.onDeviceReady = function () {
     if (navigator.geolocation) {
@@ -62,14 +81,13 @@ function toast(message, isError, seconds) {
 function getLocation() {
     if (!$($.mobile.pageContainer).jqmData('location')) {
         //we should at least start with something....
-        setDefaultLocation();    
+        setDefaultLocation();
 
-        if(!!window.cordova )
-        {
+        if (!!window.cordova) {
             setCurrentLocation();
         }
     }
-    return $($.mobile.pageContainer).jqmData('location');    
+    return $($.mobile.pageContainer).jqmData('location');
 }
 
 function setDefaultLocation() {
@@ -115,9 +133,12 @@ function setLocation(loc, store, inform) {
         showMessage('Location set to: ' + loc.Name, false, 2, 'Location set');
     }
     $($.mobile.pageContainer).jqmData('location', loc);
-    if (document.onLocationChanged) {
-        document.onLocationChanged(loc);
-    }
+
+    document.onLocationChanged.forEach(function (i) {
+        for (var p in i) {
+            i[p]();
+        }
+    });
 }
 
 function getHolidayIcon(holidays) {
