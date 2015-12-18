@@ -35,6 +35,7 @@
             this.llSecularCalendar = new System.Windows.Forms.LinkLabel();
             this.llSefirah = new System.Windows.Forms.LinkLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.llShowDaily = new System.Windows.Forms.LinkLabel();
             this.splitContainer1 = new LuachProject.CuelessSplitContainer();
             this.splitContainer2 = new LuachProject.CuelessSplitContainer();
             this.pnlMain = new System.Windows.Forms.Panel();
@@ -91,9 +92,9 @@
             this.llSecularCalendar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.llSecularCalendar.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llSecularCalendar.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.llSecularCalendar.Location = new System.Drawing.Point(1040, 2);
+            this.llSecularCalendar.Location = new System.Drawing.Point(1110, 2);
             this.llSecularCalendar.Name = "llSecularCalendar";
-            this.llSecularCalendar.Size = new System.Drawing.Size(134, 16);
+            this.llSecularCalendar.Size = new System.Drawing.Size(68, 16);
             this.llSecularCalendar.TabIndex = 0;
             this.llSecularCalendar.TabStop = true;
             this.llSecularCalendar.Text = "לוח לועזי";
@@ -106,9 +107,9 @@
             this.llSefirah.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llSefirah.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llSefirah.LinkColor = System.Drawing.Color.Maroon;
-            this.llSefirah.Location = new System.Drawing.Point(1020, 18);
+            this.llSefirah.Location = new System.Drawing.Point(934, 2);
             this.llSefirah.Name = "llSefirah";
-            this.llSefirah.Size = new System.Drawing.Size(154, 17);
+            this.llSefirah.Size = new System.Drawing.Size(176, 17);
             this.llSefirah.TabIndex = 4;
             this.llSefirah.TabStop = true;
             this.llSefirah.Text = "הוסף תזכורת ספירת העומר";
@@ -123,6 +124,23 @@
             this.toolTip1.IsBalloon = true;
             this.toolTip1.UseAnimation = false;
             this.toolTip1.UseFading = false;
+            // 
+            // llShowDaily
+            // 
+            this.llShowDaily.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.llShowDaily.AutoSize = true;
+            this.llShowDaily.Font = new System.Drawing.Font("Tahoma", 6.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.llShowDaily.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.llShowDaily.LinkColor = System.Drawing.Color.LightSlateGray;
+            this.llShowDaily.Location = new System.Drawing.Point(1091, 21);
+            this.llShowDaily.Name = "llShowDaily";
+            this.llShowDaily.Size = new System.Drawing.Size(96, 13);
+            this.llShowDaily.TabIndex = 5;
+            this.llShowDaily.TabStop = true;
+            this.llShowDaily.Text = "הצג לוח זמנים ˃";
+            this.toolTip1.SetToolTip(this.llShowDaily, "הצג פרטי היום");
+            this.llShowDaily.Visible = false;
+            this.llShowDaily.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llShowDaily_LinkClick);
             // 
             // splitContainer1
             // 
@@ -325,8 +343,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(895, 18);
             this.label2.TabIndex = 17;
-            this.label2.Text = "לחץ על יום לראות פרטי היום   |   לחץ פעמיים להוסיף אירוע   |   לנווט בין הימים הש" +
-    "תמשו בלחצני החיצים";
+            this.label2.Text = "לחץ פעמיים להוסיף אירוע   |   לנווט בין הימים השתמשו בלחצני החיצים";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label6
@@ -402,9 +419,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.ClientSize = new System.Drawing.Size(1183, 736);
-            this.Controls.Add(this.llSefirah);
-            this.Controls.Add(this.llSecularCalendar);
+            this.Controls.Add(this.llShowDaily);
             this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.llSecularCalendar);
+            this.Controls.Add(this.llSefirah);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.lblMonthName);
             this.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
@@ -429,6 +447,7 @@
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -455,5 +474,6 @@
         private JewishDatePicker.JewishDatePicker jewishDatePicker1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.LinkLabel llShowDaily;
     }
 }

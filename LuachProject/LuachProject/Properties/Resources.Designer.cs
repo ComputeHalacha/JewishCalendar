@@ -68,5 +68,25 @@ namespace LuachProject.Properties {
                 return ResourceManager.GetString("LocationsList", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap page_next_classy_icons_set {
+            get {
+                object obj = ResourceManager.GetObject("page_next_classy-icons-set", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap page_next_classy_icons_set1 {
+            get {
+                object obj = ResourceManager.GetObject("page_next_classy-icons-set1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

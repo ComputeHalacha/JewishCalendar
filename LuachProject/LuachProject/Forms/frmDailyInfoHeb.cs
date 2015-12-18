@@ -399,8 +399,6 @@ namespace LuachProject
             var shaaZmanis90 = this._zmanim.GetShaaZmanis(90);
             var bold = new Font(this.richTextBox1.Font, FontStyle.Bold | FontStyle.Underline);
 
-            this.Text = Utils.JewishDOWNames[(int)this._displayingJewishDate.DayOfWeek] +
-                " " + this._displayingJewishDate.ToShortDateStringHeb();
             this.richTextBox1.Clear();
             this.richTextBox1.SelectionFont = this._lineValueFont;
             this.richTextBox1.SelectionColor = Color.RoyalBlue;

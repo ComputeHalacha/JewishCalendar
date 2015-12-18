@@ -344,8 +344,6 @@ namespace LuachProject
 
         private void DisplayToday()
         {
-            this.Text = this._displayingJewishDate.DayOfWeek.ToString() +
-                " - " + this._displayingJewishDate.ToShortDateString();
             this.richTextBox1.Clear();
             this.richTextBox1.SelectionFont = this._lineValueFont;
             this.richTextBox1.SelectionColor = Color.RoyalBlue;

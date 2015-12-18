@@ -70,7 +70,7 @@ namespace LuachProject
                     Properties.Settings.Default.LocationName = value.Name;
                     Properties.Settings.Default.Save();
 
-                    if (this.splitContainer1.Panel1.Controls.Count > 0)
+                    if (this.DailyPanelIsShowing)
                     {
                         ((frmDailyInfoHeb)this.splitContainer1.Panel1.Controls[0]).LocationForZmanim = value;
                     }
@@ -94,6 +94,14 @@ namespace LuachProject
                     }
                     this.SelectSingleDay(value);
                 }
+            }
+        }
+
+        public bool DailyPanelIsShowing
+        {
+            get
+            {
+                return this.splitContainer1.Panel1.Controls.OfType<frmDailyInfoHeb>().Count() > 0;
             }
         }
 
@@ -238,6 +246,17 @@ namespace LuachProject
             this.Hide();
         }
 
+        private void llShowDaily_LinkClick(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var sdi = this._singleDateInfoList.FirstOrDefault(t => t.JewishDate == this._selectedDay ||
+                                t.JewishDate == this._todayJewishDate ||
+                                t.JewishDate == this._displayedJewishMonth);
+            if (sdi != null)
+            {
+                this.ShowSingleDayInfo(sdi);
+            }
+        }
+
         private void llSefira_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process a = new Process();
@@ -255,7 +274,7 @@ namespace LuachProject
                 this.SelectSingleDay(sdi);
                 var occ = this.GetUserOccasionFromLocation(this._pnlMouseLocation, sdi);
 
-                if (occ != null && this.splitContainer1.Panel1.Controls.Count > 0)
+                if (occ != null && this.DailyPanelIsShowing)
                 {
                     var f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
                     f.EditOccasion(occ, new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
@@ -271,7 +290,7 @@ namespace LuachProject
 
             if (sdi != null)
             {
-                if (this.splitContainer1.Panel1.Controls.Count > 0)
+                if (this.DailyPanelIsShowing)
                 {
                     var f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
                     f.AddNewOccasion(new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
@@ -405,7 +424,7 @@ namespace LuachProject
                     break;
 
                 case Keys.Enter:
-                    if (this.splitContainer1.Panel1.Controls.Count > 0)
+                    if (this.DailyPanelIsShowing)
                     {
                         var f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
                         f.AddNewOccasion(null);
@@ -696,11 +715,15 @@ namespace LuachProject
             }
 
             this.jewishDatePicker1.Value = sdi.JewishDate;
-            this.ShowSingleDayInfo(sdi);
+            if (this.DailyPanelIsShowing)
+            {
+                this.ShowSingleDayInfo(sdi);
+            }
         }
 
         private void SetCaptionText()
         {
+            this.SuspendLayout();
             string caption = Utils.JewishMonthNamesHebrew[this._displayedJewishMonth.Month] + " " +
                 this._displayedJewishMonth.Year.ToNumberHeb() + "  |  ";
             DateTime firstDayGMonth = this._displayedJewishMonth.GregorianDate;
@@ -725,9 +748,10 @@ namespace LuachProject
                     lastDayGMonth.ToString("MMMM", Program.HebrewCultureInfo) +
                     " (" + lastDayGMonth.Month.ToString() + ") " + lastDayGMonth.Year.ToString();
             }
-
+          
             this.lblMonthName.Text = caption;
             this.Text = "לוח - " + caption;
+            this.ResumeLayout();
         }
 
         private void SetLocationDataSource()
@@ -761,7 +785,7 @@ namespace LuachProject
 
             var zmanim = new Zmanim(sdi.JewishDate, this._currentLocation);
             frmDailyInfoHeb f;
-            if (this.splitContainer1.Panel1.Controls.Count == 0)
+            if (!this.DailyPanelIsShowing)
             {
                 f = new frmDailyInfoHeb(sdi.JewishDate, this._currentLocation);
                 f.TopLevel = false;
@@ -778,10 +802,12 @@ namespace LuachProject
                 f.FormClosed += delegate
                 {
                     this.splitContainer1.Panel1Collapsed = true;
+                    this.llShowDaily.Visible = true;
                 };
                 f.Dock = DockStyle.Fill;
                 this.splitContainer1.Panel1.Controls.Add(f);
                 f.Show();
+                this.llShowDaily.Visible = false;
             }
             else
             {
@@ -794,6 +820,6 @@ namespace LuachProject
             }
         }
 
-        #endregion Private Functions
+        #endregion Private Functions       
     }
 }

@@ -108,7 +108,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1156, 159);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1156, 160);
             this.tableLayoutPanel1.TabIndex = 11;
             // 
             // label2
@@ -116,7 +116,7 @@
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.ForeColor = System.Drawing.Color.GhostWhite;
-            this.label2.Location = new System.Drawing.Point(-7, 187);
+            this.label2.Location = new System.Drawing.Point(-7, 188);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(1168, 17);
             this.label2.TabIndex = 14;
@@ -166,7 +166,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "frmDailyInfoEng";
-            this.Text = "Luach";
+            this.Text = "Zmanim";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

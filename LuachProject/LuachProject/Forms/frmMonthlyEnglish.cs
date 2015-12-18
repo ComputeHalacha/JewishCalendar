@@ -70,7 +70,7 @@ namespace LuachProject
                     Properties.Settings.Default.LocationName = value.Name;
                     Properties.Settings.Default.Save();
 
-                    if (this.splitContainer1.Panel2.Controls.Count > 0)
+                    if (this.DailyPanelIsShowing)
                     {
                         ((frmDailyInfoEng)this.splitContainer1.Panel2.Controls[0]).LocationForZmanim = value;
                     }
@@ -94,6 +94,14 @@ namespace LuachProject
                     }
                     this.SelectSingleDay(value);
                 }
+            }
+        }
+
+        public bool DailyPanelIsShowing
+        {
+            get
+            {
+                return this.splitContainer1.Panel2.Controls.OfType<frmDailyInfoEng>().Count() > 0;
             }
         }
 
@@ -245,6 +253,17 @@ namespace LuachProject
             a.Start();
         }
 
+        private void llShowDaily_LinkClick(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var sdi = this._singleDateInfoList.FirstOrDefault(t => t.JewishDate == this._selectedDay ||
+                                t.JewishDate == this._todayJewishDate ||
+                                t.JewishDate == this._displayedJewishMonth);
+            if (sdi != null)
+            {
+                this.ShowSingleDayInfo(sdi);
+            }
+        }
+
         private void pnlMain_MouseClick(object sender, MouseEventArgs e)
         {
             var sdi = this.GetSingleDateInfoFromLocation(this._pnlMouseLocation);
@@ -254,7 +273,7 @@ namespace LuachProject
                 this.SelectSingleDay(sdi);
                 var occ = this.GetUserOccasionFromLocation(this._pnlMouseLocation, sdi);
 
-                if (occ != null && this.splitContainer1.Panel2.Controls.Count > 0)
+                if (occ != null && this.DailyPanelIsShowing)
                 {
                     var f = this.splitContainer1.Panel2.Controls[0] as frmDailyInfoEng;
                     f.EditOccasion(occ, new Point((int)(sdi.RectangleF.X + sdi.RectangleF.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
@@ -270,7 +289,7 @@ namespace LuachProject
 
             if (sdi != null)
             {
-                if (this.splitContainer1.Panel2.Controls.Count > 0)
+                if (this.DailyPanelIsShowing)
                 {
                     var f = this.splitContainer1.Panel2.Controls[0] as frmDailyInfoEng;
                     f.AddNewOccasion(new Point((int)(sdi.RectangleF.X + sdi.RectangleF.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
@@ -405,7 +424,7 @@ namespace LuachProject
                     break;
 
                 case Keys.Enter:
-                    if (this.splitContainer1.Panel2.Controls.Count > 0)
+                    if (this.DailyPanelIsShowing)
                     {
                         var f = this.splitContainer1.Panel2.Controls[0] as frmDailyInfoEng;
                         f.AddNewOccasion(null);
@@ -701,7 +720,10 @@ namespace LuachProject
             }
 
             this.jewishDatePicker1.Value = sdi.JewishDate;
-            this.ShowSingleDayInfo(sdi);
+            if (this.DailyPanelIsShowing)
+            {
+                this.ShowSingleDayInfo(sdi);
+            }
         }
 
         private void SetCaptionText()
@@ -758,7 +780,7 @@ namespace LuachProject
 
             var zmanim = new Zmanim(sdi.JewishDate, this._currentLocation);
             frmDailyInfoEng f;
-            if (this.splitContainer1.Panel2.Controls.Count == 0)
+            if (!this.DailyPanelIsShowing)
             {
                 f = new frmDailyInfoEng(sdi.JewishDate, this._currentLocation);
                 f.TopLevel = false;
@@ -775,10 +797,12 @@ namespace LuachProject
                 f.FormClosed += delegate
                 {
                     this.splitContainer1.Panel2Collapsed = true;
+                    this.llShowDaily.Visible = true;
                 };
                 f.Dock = DockStyle.Fill;
                 this.splitContainer1.Panel2.Controls.Add(f);
                 f.Show();
+                this.llShowDaily.Visible = false;
             }
             else
             {

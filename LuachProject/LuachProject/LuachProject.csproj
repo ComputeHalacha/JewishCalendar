@@ -177,6 +177,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Luach.ico" />
+    <None Include="Resources\page_next_classy-icons-set1.png" />
+    <None Include="Resources\page_next_classy-icons-set.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="External DLL\" />

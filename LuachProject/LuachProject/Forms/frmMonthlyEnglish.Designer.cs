@@ -35,6 +35,7 @@
             this.llSecularCalendar = new System.Windows.Forms.LinkLabel();
             this.llSefira = new System.Windows.Forms.LinkLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.llShowDaily = new System.Windows.Forms.LinkLabel();
             this.splitContainer1 = new LuachProject.CuelessSplitContainer();
             this.splitContainer2 = new LuachProject.CuelessSplitContainer();
             this.pnlMain = new System.Windows.Forms.Panel();
@@ -110,7 +111,7 @@
             this.llSefira.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llSefira.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llSefira.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.llSefira.Location = new System.Drawing.Point(975, 27);
+            this.llSefira.Location = new System.Drawing.Point(835, 4);
             this.llSefira.Name = "llSefira";
             this.llSefira.Size = new System.Drawing.Size(165, 17);
             this.llSefira.TabIndex = 20;
@@ -126,6 +127,24 @@
             this.toolTip1.ShowAlways = true;
             this.toolTip1.UseAnimation = false;
             this.toolTip1.UseFading = false;
+            // 
+            // llShowDaily
+            // 
+            this.llShowDaily.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.llShowDaily.AutoSize = true;
+            this.llShowDaily.Font = new System.Drawing.Font("Century Gothic", 6.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.llShowDaily.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.llShowDaily.LinkColor = System.Drawing.Color.SlateGray;
+            this.llShowDaily.Location = new System.Drawing.Point(1073, 30);
+            this.llShowDaily.Name = "llShowDaily";
+            this.llShowDaily.Size = new System.Drawing.Size(95, 14);
+            this.llShowDaily.TabIndex = 21;
+            this.llShowDaily.TabStop = true;
+            this.llShowDaily.Text = "Show Zmanim ˃";
+            this.llShowDaily.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.toolTip1.SetToolTip(this.llShowDaily, "Show Zmanim Panel");
+            this.llShowDaily.Visible = false;
+            this.llShowDaily.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llShowDaily_LinkClick);
             // 
             // splitContainer1
             // 
@@ -164,7 +183,7 @@
             this.splitContainer2.Panel2.Controls.Add(this.label2);
             this.splitContainer2.Panel2MinSize = 155;
             this.splitContainer2.Size = new System.Drawing.Size(897, 690);
-            this.splitContainer2.SplitterDistance = 535;
+            this.splitContainer2.SplitterDistance = 534;
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 19;
             this.splitContainer2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.splitContainer2_KeyDown);
@@ -176,7 +195,7 @@
             this.pnlMain.Location = new System.Drawing.Point(9, 0);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(888, 535);
+            this.pnlMain.Size = new System.Drawing.Size(888, 534);
             this.pnlMain.TabIndex = 0;
             this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
             this.pnlMain.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseClick);
@@ -195,7 +214,7 @@
             this.panel3.Controls.Add(this.button3);
             this.panel3.Controls.Add(this.button5);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 34);
+            this.panel3.Location = new System.Drawing.Point(0, 35);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(897, 120);
             this.panel3.TabIndex = 19;
@@ -419,6 +438,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.ClientSize = new System.Drawing.Size(1152, 735);
+            this.Controls.Add(this.llShowDaily);
             this.Controls.Add(this.llSefira);
             this.Controls.Add(this.llSecularCalendar);
             this.Controls.Add(this.splitContainer1);
@@ -474,5 +494,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.LinkLabel llShowDaily;
     }
 }
