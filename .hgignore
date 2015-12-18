@@ -11,3 +11,5 @@ LuachMobile/LuachMobile/platforms/android/build/
 LuachMobile/LuachMobile/platforms/android/CordovaLib/build/
 LuachMobile/LuachMobile/platforms/android/assets/
 LuachMobile/LuachMobile/www/scripts/bundle*
+LuachMobile/LuachMobile/www/css/bundle*
+LuachMobile/LuachMobile/www/scripts/JCal/jcal*
