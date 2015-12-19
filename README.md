@@ -56,7 +56,7 @@ Two Luach Applications. One for the desktop and  another for mobile.
 
 ### How do I get set up? ###
 
-In the repository, there are 7 projects:
+In the repository, there are 7 Visual Studio projects:
 
 1. *\JewishCalendar\JewishCalendar.csproj* - code for **JewishCalendar.dll**. Contains  The Jewish Calendar .NET Library
 2. *\JewishDatePicker\JewishDatePicker.cs* - code for **JewishDatePicker.dll**. This is a windows forms control for picking Jewish dates (Similar to the regular DateTimePicker control.)
@@ -66,12 +66,15 @@ In the repository, there are 7 projects:
 6. *\LuachProject\OmerReminders\OmerReminders.vbproj* - Creates **OmerReminder.exe**. This Windows application creates daily Windows tasks and Outlook reminders to count Sefira. The code was written in vb.net for some reason.
 7. \LuachProject\SetupLuachProject\SetupLuachProject.vdproj - This is a Visual studio installer project for The Luach Project .NET application.
 
+The mobile app also has an [Intel® XDK](https://software.intel.com/en-us/intel-xdk) project. Either the VS project or the XDK project can be used to build the native mobile apps. The XDK has the advantage that you can test on IOS without (paying for :)) an Apple Developer Accountby using the XDK IOS app.
+
 **Please Note:**
-The installer project for the The Luach Project Windows application can only be opened in VS 2013 and VS 2015 if you add the [Windows Installer Extention](https://visualstudiogallery.msdn.microsoft.com/f1cc3f3e-c300-40a7-8797-c509fb8933b9)
+* The installer project for *The Luach Project* Windows application can only be opened in VS 2013 or VS 2015 if you add the [Windows Installer Extention](https://visualstudiogallery.msdn.microsoft.com/f1cc3f3e-c300-40a7-8797-c509fb8933b9)
+* The mobile app Cordova projects uses the  [Bundler & Minifier Extension](https://visualstudiogallery.msdn.microsoft.com/9ec27da7-e24b-4d56-8064-fd7e88ac1c40) to group and minify the javascript and CSS files together. 
 
 ### Contribution guidelines ###
 
-* The code for the libraries are fairly well documented and commented, but the applications are less so. If you don't understand some code at first, ask me.(cb@compute.co.il) beforer assuming that it is a mistake.
+* The code for the libraries are fairly well documented and commented, but the applications are less so. If you don't understand some code at first, ask me.(cb@compute.co.il) before assuming that it is a mistake.
 * Tests - yes, please! The project grew in very small increments created as they were needed for other projects - it was never expected to become a full library. Unfortunately, no tests were created.
 
 ### Who do I talk to? ###
