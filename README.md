@@ -66,7 +66,7 @@ In the repository, there are 7 Visual Studio projects:
 6. *\LuachProject\OmerReminders\OmerReminders.vbproj* - Creates **OmerReminder.exe**. This Windows application creates daily Windows tasks and Outlook reminders to count Sefira. The code was written in vb.net for some reason.
 7. \LuachProject\SetupLuachProject\SetupLuachProject.vdproj - This is a Visual studio installer project for The Luach Project .NET application.
 
-The mobile app also has an [Intel® XDK](https://software.intel.com/en-us/intel-xdk) project. Either the VS project or the XDK project can be used to build the native mobile apps. The XDK has the advantage that you can test on IOS without (paying for :)) an Apple Developer Accoun tby using the XDK IOS app.
+The mobile app also has an [Intel® XDK](https://software.intel.com/en-us/intel-xdk) project. Either the VS project or the XDK project can be used to build the native mobile apps. The XDK has the advantage that you can test on IOS without (paying for :)) an Apple Developer Account by using the XDK IOS app.
 
 **Please Note:**
 
@@ -75,7 +75,7 @@ The mobile app also has an [Intel® XDK](https://software.intel.com/en-us/intel-
 
 ### Contribution guidelines ###
 
-* The code for the libraries are fairly well documented and commented, but the applications are less so. If you don't understand some code at first, ask me.(cb@compute.co.il) before assuming that it is a mistake.
+* The code for the libraries are fairly well documented and commented, but the applications are less so. If you find an obvious mistake or bug, please don't hesitate to change. But if you just don't understand the reasoning behind some logic etc., it would be great if I could be contacted (cb@compute.co.il) before changing. There is that minuscule chance that there is a sensible explanation for the weirdness. 
 * Tests - yes, please! The project grew in very small increments created as they were needed for other projects - it was never expected to become a full library. Unfortunately, no tests were created.
 
 ### Who do I talk to? ###
