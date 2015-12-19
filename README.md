@@ -10,7 +10,7 @@ A repository of projects containing:
 
 There are two libraries:
 
-##### Jewish Calendar .NET Library ###
+### Jewish Calendar .NET Library ###
 
 * Written in C#.
 * Classes for Jewish date calculations,
@@ -21,7 +21,7 @@ There are two libraries:
 * Daf Yomi for any day since it was started
 * Molad of any month
 
-##### jCal.js - Jewish Calendar javascript Library ###
+### jCal.js - Jewish Calendar javascript Library ###
 
 * Written in pure javascript. No outside libraries needed.
 * Algorithms were optimized for the slower scripting engine and target platform.
