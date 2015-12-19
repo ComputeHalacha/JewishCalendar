@@ -66,10 +66,11 @@ In the repository, there are 7 Visual Studio projects:
 6. *\LuachProject\OmerReminders\OmerReminders.vbproj* - Creates **OmerReminder.exe**. This Windows application creates daily Windows tasks and Outlook reminders to count Sefira. The code was written in vb.net for some reason.
 7. \LuachProject\SetupLuachProject\SetupLuachProject.vdproj - This is a Visual studio installer project for The Luach Project .NET application.
 
-The mobile app also has an [Intel® XDK](https://software.intel.com/en-us/intel-xdk) project. Either the VS project or the XDK project can be used to build the native mobile apps. The XDK has the advantage that you can test on IOS without (paying for :)) an Apple Developer Accountby using the XDK IOS app.
+The mobile app also has an [Intel® XDK](https://software.intel.com/en-us/intel-xdk) project. Either the VS project or the XDK project can be used to build the native mobile apps. The XDK has the advantage that you can test on IOS without (paying for :)) an Apple Developer Accoun tby using the XDK IOS app.
 
 **Please Note:**
-* The installer project for *The Luach Project* Windows application can only be opened in VS 2013 or VS 2015 if you add the [Windows Installer Extention](https://visualstudiogallery.msdn.microsoft.com/f1cc3f3e-c300-40a7-8797-c509fb8933b9)
+
+* The installer project for The *Luach Project* Windows application can only be opened in VS 2013 or VS 2015 if you add the [Windows Installer Extention](https://visualstudiogallery.msdn.microsoft.com/f1cc3f3e-c300-40a7-8797-c509fb8933b9)
 * The mobile app Cordova projects uses the  [Bundler & Minifier Extension](https://visualstudiogallery.msdn.microsoft.com/9ec27da7-e24b-4d56-8064-fd7e88ac1c40) to group and minify the javascript and CSS files together. 
 
 ### Contribution guidelines ###
