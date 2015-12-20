@@ -57,6 +57,11 @@ Utils.isString = function (thing) {
     return (typeof thing === 'string' || thing instanceof String);
 };
 
+//Returns true if thing is an instance of either a number primitive or Number object
+Utils.isNumber = function (thing) {
+    return (typeof thing === 'number' || thing instanceof Number);
+};
+
 //Gets the Jewish representation of a number (365 = שס"ה)
 //Minimum number is 1 and maximum is 9999.
 Utils.toJNum = function (number) {
@@ -184,7 +189,7 @@ Utils.currUtcOffset = function () {
 
 //Determines if the users system is currently set to DST
 Utils.isDST = function () {
-    return parseInt(new Date().getTimezoneOffset() / 60) < Utils.currUtcOffset();
+    return -parseInt(new Date().getTimezoneOffset() / 60) < Utils.currUtcOffset();
 };
 
 //Determines if the given date and time are during DST according to the USA rules
@@ -283,17 +288,15 @@ function Location(name, israel, latitude, longitude, utcOffset, elevation, isDST
             //It's bad enough that we needed to guess the time zone
             isDST = false;
         }
-    }
-   
-    return {
-        Name: name || 'Unknown Location',
-        Israel: !!israel,
-        Latitude: latitude,
-        Longitude: longitude,
-        UTCOffset: utcOffset || 0,
-        Elevation: elevation || 0,
-        IsDST: !!isDST
-    };
+    }   
+    
+    this.Name =  (name || 'Unknown Location');
+    this.Israel = !!israel;
+    this.Latitude = latitude;
+    this.Longitude = longitude;
+    this.UTCOffset = utcOffset || 0;
+    this.Elevation = elevation || 0;
+    this.IsDST = !!isDST;    
 }
 
 //Gets the Location for Jerusalem.
@@ -314,13 +317,13 @@ Location.getJerusalem = function () {
  *
  *  Create a jDate with any of the following:
  *  new jDate(javascriptDateObject) - Sets to the Jewish date on the given Gregorian date
- *  new Date("January 1 2045") - Accepts any valid javascript Date string (uses javascripts new Date(String))
+ *  new jDate("January 1 2045") - Accepts any valid javascript Date string (uses javascripts new Date(String))
  *  new jDate(jewishYear, jewishMonth, jewishDay) - Months start at 1. Nissan is month 1 Adara Sheini is 12.
  *  new jDate(jewishYear, jewishMonth) - Same as above, with Day defaulting to 1
- *  new Date(absoluteDate) - The number of days elapsed since the theoretical date Sunday, December 31, 0001 BCE
- *  new Date( { year: 5776, month: 4, day: 5 } ) - same as new jDate(jewishYear, jewishMonth, jewishDay)
- *  new Date( { year: 5776, month: 4 } ) - same as new jDate(jewishYear, jewishMonth)
- *  new Date( { year: 5776 } ) - sets to the first day of Rosh Hashana on the given year *
+ *  new jDate(absoluteDate) - The number of days elapsed since the theoretical date Sunday, December 31, 0001 BCE
+ *  new jDate( { year: 5776, month: 4, day: 5 } ) - same as new jDate(jewishYear, jewishMonth, jewishDay)
+ *  new jDate( { year: 5776, month: 4 } ) - same as new jDate(jewishYear, jewishMonth)
+ *  new jDate( { year: 5776 } ) - sets to the first day of Rosh Hashana on the given year
  *****************************************************************************************************************************/
 function jDate(arg, month, day) {
     var self = this;
@@ -351,7 +354,7 @@ function jDate(arg, month, day) {
             throw new Error('jDate constructor: The given string "' + arg + '" cannot be parsed into a Date');
         }
     }
-    else if (typeof arg === 'number') {
+    else if (Utils.isNumber(arg)) {
         //if no month and day was supplied, we assume that the first argument is an absolute date
         if (typeof month === 'undefined') {
             fromAbs(arg);
@@ -540,6 +543,28 @@ jDate.prototype = {
     //Gets the daily daf in Hebrew. For example: 'סוכה דף כ.
     getDafyomiHeb: function () {
         return Dafyomi.toStringHeb(this);
+    }
+};
+
+/***************************************************************************************************************
+*  Converts to a Jewish Date. Sample of use - to get the current Jewish Date: jDate.toJDate(new Date()). 
+*  To print out the current date in English: jDate.toJDate(new Date()).toString() and in Hebrew: jDate.toJDate(new Date()).toStringHeb()
+*  Arguments to the jDate.toJDate function can be any of the following:
+*  jDate.toJDate(Date) - Sets to the Jewish date on the given Javascript Date object
+*  jDate.toJDate("January 1 2045") - Accepts any valid Javascript Date string (uses string constructor of Date object)
+*  jDate.toJDate(jewishYear, jewishMonth, jewishDay) - Months start at 1. Nissan is month 1 Adara Sheini is 13.
+*  jDate.toJDate(jewishYear, jewishMonth) - Same as above, with Day defaulting to 1
+*  jDate.toJDate(jewishYear) - sets to the first day of Rosh Hashana on the given year 
+*  jDate.toJDate( { year: 5776, month: 4, day: 5 } ) - Months start at 1. Nissan is month 1 Adara Sheini is 13.
+*  jDate.toJDate( { year: 5776, month: 4 } ) - Same as above, with Day defaulting to 1
+*  jDate.toJDate( { year: 5776 } ) - sets to the first day of Rosh Hashana on the given year 
+****************************************************************************************************************/
+jDate.toJDate = function (arg, month, year) {
+    if (Utils.isNumber(arg) && typeof month === 'undefined' && typeof day === 'undefined') {
+        return new jDate(1, 1, year);
+    }
+    else {
+        return new jDate(arg, month, year);
     }
 };
 

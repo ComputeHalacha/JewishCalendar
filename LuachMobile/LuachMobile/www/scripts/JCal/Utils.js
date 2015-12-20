@@ -57,6 +57,11 @@ Utils.isString = function (thing) {
     return (typeof thing === 'string' || thing instanceof String);
 };
 
+//Returns true if thing is an instance of either a number primitive or Number object
+Utils.isNumber = function (thing) {
+    return (typeof thing === 'number' || thing instanceof Number);
+};
+
 //Gets the Jewish representation of a number (365 = שס"ה)
 //Minimum number is 1 and maximum is 9999.
 Utils.toJNum = function (number) {
