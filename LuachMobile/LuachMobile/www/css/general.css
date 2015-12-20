@@ -16,8 +16,7 @@ html, body {
 .ui-btn {
     font-weight: normal !important;
     text-shadow: none !important;
-    line-height: 1.8em !important;
-    font-size: 0.9em !important;
+    line-height: 1.8em !important;  
 }
 
 .logo {
@@ -27,13 +26,12 @@ html, body {
     left: 0.5em;
 }
 
-.ui-teeny .ui-btn {
-    font-size: 0.7em;
+.ui-teeny .ui-btn {  
     padding: 0.9em 1.5em;
 }
 
 .ui-teeny, .ui-teeny strong {
-    font-size: 0.7em;
+    font-size: 0.9em;
     text-shadow: none;
 }
 

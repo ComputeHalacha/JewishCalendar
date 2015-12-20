@@ -12,7 +12,6 @@
         $('#divCalendarPage #btnNextYear').on('click', function () { goYear(1); });
         $('#divCalendarPage #btnPrevMonth').on('click', function () { goMonth(-1); });
         $('#divCalendarPage #btnPrevYear').on('click', function () { goYear(-1); });
-        $('#divCalendarPage #btnShowZmanim').on('click', function () { showZmanim(); });
         if (!document.onLocationChanged.first(function (i) { return !!i.divCalendarPage; })) {
             document.onLocationChanged.push({
                 'divCalendarPage': locationChanged
@@ -30,7 +29,7 @@
                     showDate();
                 }
             });
-        }        
+        }
     })
     .on("swipeup", "#divCalendarPage", function (event) {
         goMonth(-1);
@@ -39,7 +38,7 @@
         goMonth(1);
     });
 
-    $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {        
+    $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
         if (ui.toPage.attr('id') === 'divCalendarPage') {
             console.log('RAN pagecontainershow for: divCalendarPage');
             //We want the calendar table to fill up the the available height of the area between the header and footer, so we need the container to have it's height set.
@@ -47,7 +46,7 @@
                 'height': ($.mobile.pageContainer.height() -
                     $('#divCalendarPage #divCalPageHeader').height() -
                     $('#divCalendarPage #divCalPageFooter').height()) + 'px'
-            });            
+            });
 
             //On page show, display the info for the set location
             locationChanged();
@@ -71,7 +70,7 @@
         fillCalendar(jd, getLocation());
     }
 
-    function locationChanged(location) {        
+    function locationChanged(location) {
         location = location || getLocation();
         console.log('RAN index.js/locationChanged for: ' + (location ? location.Name : 'UNKNOWN'));
         if (location) {
@@ -87,12 +86,6 @@
         showDate();
     }
 
-    function showZmanim(jd) {
-        jd = jd || $(document).jqmData('currentjDate');
-        $('#divZmanimPage').jqmData('currentjDate', jd);
-        $(":mobile-pagecontainer").pagecontainer("change", "#divZmanimPage", { transition: 'flip' });
-    }
-
     function fillCalendar(jd, location) {
         //first day of current month
         var currJd = new jDate(jd.Year, jd.Month),
@@ -104,6 +97,9 @@
             currSd = currJd.getDate(),
             //Today...
             today = new jDate(new Date());
+
+        //Set the global current date to the first day of the month
+        $(document).jqmData('currentjDate', currJd);
 
         //If the first day of the month is not Sunday,
         if (currDOW > 0) {
@@ -161,7 +157,10 @@
         $('#divCalendarPage #tblCal').html(html).width($.mobile.pageContainer.width());
 
         $('#divCalendarPage #tblCal td.hasDate').on('click', function () {
-            showZmanim(new jDate(parseInt($(this).data('abs'))));
+            //Set the global current date to the clicked day            
+            $(document).jqmData('currentjDate', new jDate(parseInt($(this).data('abs'))));
+            //Show the zmanim for this day
+            $(":mobile-pagecontainer").pagecontainer("change", "#divZmanimPage", { showLoadMsg: true });
         });
     }
 
@@ -174,7 +173,7 @@
             html += Utils.sMonthsEng[fsdate.getMonth()] + ' ' + fsdate.getFullYear().toString();
         }
         else if (fsdate.getFullYear() === lsdate.getFullYear()) {
-            html += Utils.sMonthsEng[fsdate.getMonth()] + ' - ' + Utils.sMonthsEng[lsdate.getMonth()] + 
+            html += Utils.sMonthsEng[fsdate.getMonth()] + ' - ' + Utils.sMonthsEng[lsdate.getMonth()] +
                 ' ' + fsdate.getFullYear().toString();
         }
         else {

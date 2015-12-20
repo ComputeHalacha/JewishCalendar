@@ -245,8 +245,7 @@ html, body {
 .ui-btn {
     font-weight: normal !important;
     text-shadow: none !important;
-    line-height: 1.8em !important;
-    font-size: 0.9em !important;
+    line-height: 1.8em !important;  
 }
 
 .logo {
@@ -256,13 +255,12 @@ html, body {
     left: 0.5em;
 }
 
-.ui-teeny .ui-btn {
-    font-size: 0.7em;
+.ui-teeny .ui-btn {  
     padding: 0.9em 1.5em;
 }
 
 .ui-teeny, .ui-teeny strong {
-    font-size: 0.7em;
+    font-size: 0.9em;
     text-shadow: none;
 }
 
@@ -416,8 +414,30 @@ html, body {
     font-size: 2.5em;
 }
 
-.h1Zman {
+.liZman em {
+    color: #998;
+    float: left;
     font-size: 1.6em !important;
-    color: #008;
-    text-align: center;
+}
+
+.liZman p {
+    float: right !important;
+    display: block;
+    width: 60%;
+    text-align: right;
+}
+
+#pSpecial td {
+    padding-bottom: 1em;
+    vertical-align: middle;
+       color: #889;
+}
+
+    #pSpecial td:nth-child(even) {
+        font-size: 1.2em;
+        font-weight: bold;     
+    }
+
+#pSpecial i {
+    padding-right: 0.5em;
 }

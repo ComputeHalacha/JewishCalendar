@@ -34,7 +34,7 @@
             var location = location || getLocation();
             console.log('RAN zmanim.js/locationChanged for: ' + (location ? location.Name : 'UNKNOWN'));
             if (location) {
-                $('#divZmanimPage #divCaption').html('Zmanim for ' + location.Name);
+                $('#divZmanimPage #divZmanimCaption').html('Zmanim for ' + location.Name);
                 $('#divZmanimPage #emLocDet').html('lat: ' +
                         location.Latitude.toString() +
                         ' long:' + location.Longitude.toString() +
@@ -63,8 +63,7 @@
         var location = getLocation();
         $('#divZmanimPage #h2Header').html(jd.toStringHeb() + '<br />' + jd.getDate().toDateString());
         $('#divZmanimPage #pSpecial').html(getSpecialHtml(jd, location));
-        $('#divZmanimPage #ulMain').html(getZmanimHtml(jd, location));
-        $('#divZmanimPage #pMain').jqmData('currDate', jd);
+        $('#divZmanimPage #ulMain').html(getZmanimHtml(jd, location));        
         $('#divZmanimPage #ulMain').listview("refresh");
     }
 
@@ -80,7 +79,7 @@
             html = '';
 
         if (holidays.length) {
-            html += getHolidayIcon(holidays) + ' ';
+            html += '<tr><td>' + getHolidayIcon(holidays) + '</td><td>';
             holidays.forEach(function (h) {
                 if (~h.indexOf('Mevarchim')) {
                     var nextMonth = jd.addMonths(1);
@@ -89,6 +88,7 @@
                 }
                 html += h + '<br />';
             });
+            html += '</td></tr>';
         }
         return html;
     }
@@ -119,14 +119,14 @@
             html += addLine("Alos Hashachar - 90", (Utils.addMinutes(netz, -90)), "90 minutes before sunrise");
             html += addLine("Alos Hashachar - 72", (Utils.addMinutes(netz, -72)), "72 minutes before sunrise");
             html += addLine("Netz Hachama", netz, "Sunrise at this location");
-            html += addLine("Krias Shma - MG\"A", (Utils.addMinutes(Utils.addMinutes(netz, -90), parseInt(shaaZmanis90 * 3))), "End of time to say <e>Shema</em> according to the <em>Magen Avraham</em>");
-            html += addLine("Krias Shma - GR\"A", (Utils.addMinutes(netz, parseInt(shaaZmanis * 3))));
-            html += addLine("Zeman Tefillah - MG\"A", (Utils.addMinutes(Utils.addMinutes(netz, -90), parseInt(shaaZmanis90 * 4))));
-            html += addLine("Zeman Tefillah - GR\"A", Utils.addMinutes(netz, parseInt(shaaZmanis * 4)));
+            html += addLine("Krias Shma - MG\"A", (Utils.addMinutes(Utils.addMinutes(netz, -90), parseInt(shaaZmanis90 * 3))), "Zman Krias Shema - Magen Avraham");
+            html += addLine("Krias Shma - GR\"A", (Utils.addMinutes(netz, parseInt(shaaZmanis * 3))), "Zman Krias Shema -  Gr\"a");
+            html += addLine("Zeman Tefillah - MG\"A", (Utils.addMinutes(Utils.addMinutes(netz, -90), parseInt(shaaZmanis90 * 4))), "Zman Tefillah - Magen Avraham");
+            html += addLine("Zeman Tefillah - GR\"A", Utils.addMinutes(netz, parseInt(shaaZmanis * 4)), "Zman Tefillah -  Gr\"a");
         }
 
         if (!(isNaN(netz.hour) || isNaN(shkia.hour))) {
-            html += addLine("Chatzos - Day & Night", chatzos);
+            html += addLine("Chatzos - Day & Night", chatzos, "Time of Chatzos - both day and night");
             html += addLine("Mincha Gedolah", Utils.addMinutes(chatzos, parseInt(shaaZmanis * 0.5)));
         }
 
@@ -134,9 +134,9 @@
             html += addLine("Shkias Hachama", "The sun does not set");
         }
         else {
-            html += addLine("Shkias Hachama", shkia);
-            html += addLine("Nightfall 45", Utils.addMinutes(shkia, 45));
-            html += addLine("Rabbeinu Tam", Utils.addMinutes(shkia, 72));
+            html += addLine("Shkias Hachama", shkia, "Sunset");
+            html += addLine("Nightfall 45", Utils.addMinutes(shkia, 45), "45 minutes after sunset");
+            html += addLine("Rabbeinu Tam", Utils.addMinutes(shkia, 72), "72 minutes after sunset");
         }
 
         return html;
@@ -144,12 +144,12 @@
 
     function addLine(caption, value, descr) {
         return '<li data-role="list-divider">' + caption + '</li>' +
-               '<li><p><h1 class="h1Zman">' + (value.hour ? Utils.getTimeString(value) : value) +
-            '</h1></p><p class="ui-li-aside">' + (descr || '')
-             + '</p></li>';
+               '<li class="liZman"><p>' + (descr || '') +
+               '</p><em>' + (value.hour ? Utils.getTimeString(value) : value) +
+               '</em></li>';
     }
 
     function showCalendar() {
-        $(":mobile-pagecontainer").pagecontainer("change", "#divCalendarPage", { transition: 'flip', reverse: true, showLoadMsg: true });
+        $(":mobile-pagecontainer").pagecontainer("change", "#divCalendarPage", { showLoadMsg: true });
     }
 })();
