@@ -1,88 +1,148 @@
 ﻿using System;
 using JewishCalendar;
 using System.Linq;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace TestBenchmarks
 {
     class Program
     {
-        private static DateTime startDate = new DateTime(1584, 1, 1);
-        private static DateTime endDate = new DateTime(2239, 1, 1);
-        private static int runCount = 10;
-        private static double[] jdmt = new double[runCount];
-        private static double[] jdt = new double[runCount];
-        private static long[] jdmm = new long[runCount];
-        private static long[] jdm = new long[runCount];
-
+        private static DateTime startDate = new DateTime(1915, 1, 1);
+        private static DateTime endDate = new DateTime(2015, 1, 10);
+        
         static void Main(string[] args)
         {
-            for (int i = 0; i < runCount; i++)
-            {
-                DoJD(i);
-                DoJDM(i);
-
-                Console.WriteLine("Iteration {0} complete: JD Time: {1}, JD Mem: {2} JDM Time: {3}, JDM Mem: {4}",
-                    i + 1, jdt[i], jdm[i], jdmt[i], jdmm[i]);
-            }
-
-            Console.WriteLine("Average Time for JD - {0} Seconds", jdt.Average());
-            Console.WriteLine("Average Memory for JD - {0} Bytes", jdm.Average());
-            Console.WriteLine("Average Time for JDM - {0} Seconds", jdmt.Average());
-            Console.WriteLine("Average Memory for JDM - {0} Bytes", jdmm.Average());
+            Benchmark("JewishDateMicro", 50, 50, new Action(DoJDM));
+            Benchmark("JewishDate", 50, 50, new Action(DoJD));            
             Console.WriteLine("<Press any key to exit>");
             Console.ReadLine();
         }
 
-        private static void DoJD(int run)
+        static double Benchmark(string name, int runCount, int subRunCount, Action action)
         {
-            DateTime start = DateTime.Now;
+            Console.WriteLine("{0}: warming up...", name);
 
-            DateTime calc = startDate;
-            while (calc < endDate)
+            // warm up.
+            action();
+
+            Console.WriteLine("{0}: finding ballpark speed...", name);
+
+            // find an average amount of calls it fill up two seconds.
+
+            Stopwatch sw = Stopwatch.StartNew();
+
+            int count = 0;
+            do
             {
-                var jd = new JewishDate(calc);
-                DoStuff(jd);
-                jd = jd + 15;
-                var other = jd - 15;
-                var i = jd > new JewishDate(5776, 2, 1);
-                calc = calc.AddDays(1);
+                ++count;
+                action();
             }
-            
-            jdt[run] = (DateTime.Now - start).TotalSeconds;
-            jdm[run] = GC.GetTotalMemory(true);
-            GC.Collect(10000, GCCollectionMode.Default, true);
+            while (sw.ElapsedTicks < (Stopwatch.Frequency * 2));
+
+            sw.Stop();
+
+            Console.WriteLine("{0}: ballpark speed is {1} runs/sec", name, MulMulDiv(count, subRunCount, Stopwatch.Frequency, sw.ElapsedTicks));
+
+            // The benchmark will run the Action in a loop 'count' times.
+
+            count = Math.Max(count / 2, 1);
+
+            // Start the benchmark.
+
+            Console.Write("{0}: benchmarking", name);
+            Console.Out.Flush();
+
+            long minticks = long.MaxValue;
+            int runs = 0;
+
+            while (runs < runCount)
+            {
+                sw.Restart();
+
+                for (int i = 0; i < count; ++i)
+                {
+                    action();
+                }
+
+                sw.Stop();
+
+                long ticks = sw.ElapsedTicks;
+
+                if (ticks < minticks)
+                {
+                    // Found a new smallest execution time. Reset.
+
+                    minticks = ticks;
+                    runs = 0;
+
+                    Console.Write('+');
+                    Console.Out.Flush();
+                    continue;
+                }
+                else
+                {
+                    ++runs;
+                    Console.Write('.');
+                    Console.Out.Flush();
+                }
+            }
+
+            Console.WriteLine("done");
+            Console.WriteLine("{0}: speed is {1} runs/sec", name, MulMulDiv(count, subRunCount, Stopwatch.Frequency, minticks));
+
+            return (double)count * subRunCount * Stopwatch.Frequency / minticks;
         }
 
-        private static void DoJDM(int run)
+        static long MulMulDiv(long count, long subRunCount, long freq, long ticks)
+        {
+            return count * subRunCount * freq / ticks;
+        }
+
+        private static void DoJD()
         {
             DateTime calc = startDate;
-            DateTime start = DateTime.Now;
+            while (calc < endDate)
+            {                
+                var jd = new JewishDate(calc);                
+                var ds = jd.ToShortDateString();
+                var dsh = jd.ToLongDateStringHeb();
+                DateTime dt = jd.GregorianDate;
+                var dow = jd.DayOfWeek;
+                var d = jd.Day;
+                var m = jd.Month;
+                var y = jd.Year;
+                var s = jd.GetDayOfOmer();
+                var w = jd.AbsoluteDate;
+                jd = jd + 15;
+                var other = jd - 15;
+                var n = new JewishDate(5776, 2, 1);
+                var i = jd > n;
+                calc = calc.AddDays(1);
+            }           
+        }
+
+        private static void DoJDM()
+        {
+            DateTime calc = startDate;
             while (calc < endDate)
             {
                 var jd = new JewishDateMicro(calc);
-                DoStuff(jd);
+                var ds = jd.ToShortDateString();
+                var dsh = jd.ToLongDateStringHeb();
+                DateTime dt = jd.GregorianDate;
+                var dow = jd.DayOfWeek;
+                var d = jd.Day;
+                var m = jd.Month;
+                var y = jd.Year;
+                var s = jd.GetDayOfOmer();
+                var w = jd.AbsoluteDate;
                 jd = jd + 15;
                 var other = jd - 15;
-                var i = jd > new JewishDateMicro(5776, 2, 1);
-
+                var n = new JewishDateMicro(5776, 2, 1);
+                var i = jd > n;
                 calc = calc.AddDays(1);
             }            
-            jdmt[run] = (DateTime.Now - start).TotalSeconds;
-            jdmm[run] = GC.GetTotalMemory(true);
-            GC.Collect(10000, GCCollectionMode.Default, true);
-        }
-
-        private static void DoStuff(IJewishDate jd)
-        {
-            var ds = jd.ToShortDateString();
-            var dsh = jd.ToLongDateStringHeb();
-            DateTime dt = jd.GregorianDate;
-            var dow = jd.DayOfWeek;
-            var d = jd.Day;
-            var m = jd.Month;
-            var y = jd.Year;
-            var s = jd.GetDayOfOmer();
-            var w = jd.AbsoluteDate;
-        }
+        }        
     }
 }
