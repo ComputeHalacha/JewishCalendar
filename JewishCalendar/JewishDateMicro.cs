@@ -145,7 +145,13 @@ namespace JewishCalendar
         private void SetFromAbsoluteDate(int absoluteDate)
         {
             this.AbsoluteDate = absoluteDate;
-            this.Year = ((absoluteDate + JewishDateCalculations.HEBREW_EPOCH) / 366); // Approximation from below.
+
+            //To save on calculations, start with an estimation of a few years before date
+            this.Year = 3761 + (absoluteDate / (absoluteDate > 0 ? 366 : 300));
+                       
+            //The following in from the original code; it starts the calculations way back when and takes almost as long to calculate all of them...
+            //this.Year = ((absoluteDate + JewishDateCalculations.HEBREW_EPOCH) / 366); // Approximation from below.
+            
             // Search forward for year from the approximation.
             while (absoluteDate >= new JewishDateMicro((this.Year + 1), 7, 1).AbsoluteDate)
             {
