@@ -61,10 +61,10 @@ In the repository, there are 7 Visual Studio projects:
 1. *\JewishCalendar\JewishCalendar.csproj* - code for **JewishCalendar.dll**. Contains  The Jewish Calendar .NET Library
 2. *\JewishDatePicker\JewishDatePicker.cs* - code for **JewishDatePicker.dll**. This is a windows forms control for picking Jewish dates (Similar to the regular DateTimePicker control.)
 3. *\Luach\Luach.csproj - Creates Luach.exe* - A watered down version of The Luach Project application. Is included mainly to demonstrate how to use the JewishCalendar objects.
-4. *\LuachMobile\LuachMobile\LuachMobile.jsproj* - Contains both the Jewish Calendar Javascript library and "The Luach Project" Cordova mobile app project.
+4. *\LuachMobile\LuachMobile\LuachMobile.jsproj* - Contains both the **jCal.js** Javascript library and **The Luach Project Mobile** project.
 5. *\LuachProject\LuachProject\LuachProject.csproj* - Creates **LuachProject.exe**. This is the main "Luach Project" Windows application with the full functionality.
 6. *\LuachProject\OmerReminders\OmerReminders.vbproj* - Creates **OmerReminder.exe**. This Windows application creates daily Windows tasks and Outlook reminders to count Sefira. The code was written in vb.net for some reason.
-7. \LuachProject\SetupLuachProject\SetupLuachProject.vdproj - This is a Visual studio installer project for The Luach Project .NET application.
+7. \LuachProject\SetupLuachProject\SetupLuachProject.vdproj - This is a Visual studio installer project for creating a Windows Installer for **The Luach Project** .NET application.
 
 The mobile app also has an [Intel® XDK](https://software.intel.com/en-us/intel-xdk) project. Either the VS project or the XDK project can be used to build the native mobile apps. The XDK has the advantage that you can test on IOS without (paying for :)) an Apple Developer Account by using the XDK IOS app.
 
