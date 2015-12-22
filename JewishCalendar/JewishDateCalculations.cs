@@ -7,6 +7,8 @@
  * in Software---Practice & Experience, vol. 20, no. 9 (September, 1990), pp. 899--928.
  *****************************************************************************************************************************/
 
+using System;
+
 namespace JewishCalendar
 {
     /// <summary>
@@ -106,7 +108,7 @@ namespace JewishCalendar
         {
             if (jd2 == null) return false;
             return jd1.Year == jd2.Year && jd1.Month == jd2.Month && jd1.Day == jd2.Day;
-        }
+        }        
 
         /// <summary>
         /// The number of days elapsed since the theoretical Gregorian date Sunday, December 31, 1 BCE.

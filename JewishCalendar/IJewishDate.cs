@@ -53,6 +53,34 @@ namespace JewishCalendar
         string ToLongDateString();
 
         /// <summary>
+        /// Gets the difference in months between two JewishDates
+        /// If the second date is before this one, the number will be negative.
+        /// </summary>
+        /// <param name="jd"></param>
+        /// <returns></returns>
+        /// <remarks>Ignores Day part. For example, from 29 Kislev to 1 Teves will 
+        /// return 1 even though they are only a day or two apart</remarks>
+        int DateDiffMonth(IJewishDate jd);
+
+        /// <summary>
+        /// Adds the given number of months to the current date and returns the new Jewish Date
+        /// </summary>
+        /// <param name="months"></param>
+        /// <returns></returns>
+        IJewishDate AddMonths(int months);
+
+        /// <summary>
+        /// Adds the given number of years to the current date and returns the new Jewish Date
+        /// </summary>
+        /// <param name="years"></param>
+        /// <returns></returns>
+        /// <remarks>If the current month is Adar Sheini and the new year is not a leap year, the month is set to Adar.
+        /// If the current Day is the 30th of Cheshvan or Kislev and in the new year that month only has 29 days, 
+        /// the day is set to the 1st of the following month.
+        /// </remarks>
+        IJewishDate AddYears(int years);
+
+        /// <summary>
         /// Returns the day of the Omer for this Jewish date. If it is not during Sefirah, 0 is returned
         /// </summary>
         /// <returns></returns>

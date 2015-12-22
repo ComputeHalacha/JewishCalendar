@@ -126,6 +126,26 @@ jDate.prototype = {
         }
         return new jDate(year, month, day);
     },
+    
+    //Returns a new Jewish date represented by adding the given number of Jewish Years to the current Jewish date
+    addYears: function (years) {
+        var year = this.Year + years,
+            month = this.Month,
+            day = this.Day;
+
+        if (month === 13 && !jDate.isJdLeapY(year)) {
+            month = 12;
+        }
+        else if (month === 8 && day === 30 && !jDate.isLongCheshvan(year)) {
+            month = 9;
+            day = 1;
+        }
+        else if (month === 9 && day === 30 && jDate.isShortKislev(year)) {
+            month = 10;
+            day = 1;
+        }
+        return new jDate(year, month, day);
+    },
 
     //Returns a new Jewish date represented by adding the given number of Jewish Years to the current Jewish date
     addYears: function (years) {

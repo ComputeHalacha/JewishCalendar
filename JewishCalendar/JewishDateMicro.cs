@@ -10,6 +10,8 @@
  *      3. The following line in "Utils.cs": HebrewCultureInfo.DateTimeFormat.Calendar = HebrewCalendar;
  **********************************************************************************************************/
 
+using System;
+
 namespace JewishCalendar
 {
     /// <summary>
@@ -235,6 +237,105 @@ namespace JewishCalendar
         }
 
         /// <summary>
+        /// Gets the difference in months between two JewishDates. 
+        /// If the second date is before this one, the number will be negative.
+        /// </summary>
+        /// <param name="jd"></param>
+        /// <returns></returns>
+        /// <remarks>Ignores Day part. For example, from 29 Kislev to 1 Teves will 
+        /// return 1 even though they are only a day or two apart</remarks>
+        public int DateDiffMonth(IJewishDate jd)
+        {
+            bool meFirst = this > jd;
+            int months = (meFirst ? this.Month - jd.Month : jd.Month - this.Month),
+                year = jd.Year;
+
+            while (year != this.Year)
+            {
+                months += JewishDateCalculations.MonthsInJewishYear(year);
+                year += (meFirst ? 1 : -1);
+            }
+
+            return meFirst ? -months : months;
+        }
+
+        /// <summary>
+        /// Adds the given number of months to the current date and returns the new Jewish Date
+        /// </summary>
+        /// <param name="months"></param>
+        /// <returns></returns>
+        public IJewishDate AddMonths(int months)
+        {
+            int year = this.Year,
+                month = this.Month,
+                day = this.Day,
+                miy = JewishDateCalculations.MonthsInJewishYear(year);
+
+            for (var i = 0; i < Math.Abs(months); i++)
+            {
+                if (months > 0)
+                {
+                    month += 1;
+                    if (month > miy)
+                    {
+                        month = 1;
+                    }
+                    if (month == 7)
+                    {
+                        year += 1;
+                        miy = JewishDateCalculations.MonthsInJewishYear(year);
+                    }
+                }
+                else if (months < 0)
+                {
+                    month -= 1;
+                    if (month == 0)
+                    {
+                        month = miy;
+                    }
+                    if (month == 6)
+                    {
+                        year -= 1;
+                        miy = JewishDateCalculations.MonthsInJewishYear(year);
+                    }
+                }
+            }
+            return new JewishDateMicro(year, month, day);
+        }
+
+        /// <summary>
+        /// Adds the given number of years to the current date and returns the new Jewish Date
+        /// </summary>
+        /// <param name="years"></param>
+        /// <returns></returns>
+        /// <remarks>If the current month is Adar Sheini and the new year is not a leap year, the month is set to Adar.
+        /// If the current Day is the 30th of Cheshvan or Kislev and in the new year that month only has 29 days, 
+        /// the day is set to the 1st of the following month.
+        /// </remarks>
+        public IJewishDate AddYears(int years)
+        {
+            int year = this.Year + years,
+                month = this.Month,
+                day = this.Day;
+
+            if(month == 13 && !JewishDateCalculations.IsJewishLeapYear(year))
+            {
+                month = 12;
+            }
+            else if(month == 8 && day == 30 && !JewishDateCalculations.IsLongCheshvan(year))
+            {
+                month = 9;
+                day = 1;
+            }
+            else if (month == 9 && day == 30 && JewishDateCalculations.IsShortKislev(year))
+            {
+                month = 10;
+                day = 1;
+            }
+            return new JewishDateMicro(year, month, day);
+        }
+
+        /// <summary>
         /// Returns the day of the Omer for the given Jewish date. If the given day is not during Sefirah, 0 is returned
         /// </summary>
         /// <returns></returns>
@@ -327,7 +428,7 @@ namespace JewishCalendar
         #endregion Public Functions
 
         #region Operator Functions
-
+        
         /// <summary>
         /// Subtract days from a Jewish date.
         /// </summary>

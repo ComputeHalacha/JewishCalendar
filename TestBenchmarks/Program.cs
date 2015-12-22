@@ -104,20 +104,22 @@ namespace TestBenchmarks
             DateTime calc = startDate;
             while (calc < endDate)
             {                
-                var jd = new JewishDate(calc);                
-                var ds = jd.ToShortDateString();
-                var dsh = jd.ToLongDateStringHeb();
-                DateTime dt = jd.GregorianDate;
-                var dow = jd.DayOfWeek;
-                var d = jd.Day;
-                var m = jd.Month;
-                var y = jd.Year;
-                var s = jd.GetDayOfOmer();
-                var w = jd.AbsoluteDate;
-                jd = jd + 15;
-                var other = jd - 15;
-                var n = new JewishDate(5776, 2, 1);
-                var i = jd > n;
+                var jd = new JewishDate(calc);
+                var a = jd.ToShortDateString();
+                var b = jd.ToLongDateStringHeb();
+                var c = jd.GregorianDate;
+                var d = jd.DayOfWeek;
+                var e = jd.Day;
+                var f = jd.Month;
+                var g = jd.Year;
+                var h = jd.GetDayOfOmer();
+                var i = jd.AbsoluteDate;
+                var j = jd + 1500;
+                var k = jd - 2000;
+                var l = new JewishDate(5776, 2, 1);
+                var m = j > l;
+                var n = l < k;
+                
                 calc = calc.AddDays(1);
             }           
         }
@@ -128,19 +130,21 @@ namespace TestBenchmarks
             while (calc < endDate)
             {
                 var jd = new JewishDateMicro(calc);
-                var ds = jd.ToShortDateString();
-                var dsh = jd.ToLongDateStringHeb();
-                DateTime dt = jd.GregorianDate;
-                var dow = jd.DayOfWeek;
-                var d = jd.Day;
-                var m = jd.Month;
-                var y = jd.Year;
-                var s = jd.GetDayOfOmer();
-                var w = jd.AbsoluteDate;
-                jd = jd + 15;
-                var other = jd - 15;
-                var n = new JewishDateMicro(5776, 2, 1);
-                var i = jd > n;
+                var a = jd.ToShortDateString();
+                var b = jd.ToLongDateStringHeb();
+                var c = jd.GregorianDate;
+                var d = jd.DayOfWeek;
+                var e = jd.Day;
+                var f = jd.Month;
+                var g = jd.Year;
+                var h = jd.GetDayOfOmer();
+                var i = jd.AbsoluteDate;
+                var j = jd + 1500;
+                var k = jd - 2000;
+                var l = new JewishDateMicro(5776, 2, 1);
+                var m = j > l;
+                var n = l < k;
+
                 calc = calc.AddDays(1);
             }            
         }        
