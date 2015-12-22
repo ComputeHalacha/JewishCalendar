@@ -12,7 +12,7 @@
  *  Create a jDate with any of the following:
  *  new jDate(javascriptDateObject) - Sets to the Jewish date on the given Gregorian date
  *  new jDate("January 1 2045") - Accepts any valid javascript Date string (uses javascripts new Date(String))
- *  new jDate(jewishYear, jewishMonth, jewishDay) - Months start at 1. Nissan is month 1 Adara Sheini is 12.
+ *  new jDate(jewishYear, jewishMonth, jewishDay) - Months start at 1. Nissan is month 1 Adara Sheini is 13.
  *  new jDate(jewishYear, jewishMonth) - Same as above, with Day defaulting to 1
  *  new jDate(absoluteDate) - The number of days elapsed since the theoretical date Sunday, December 31, 0001 BCE
  *  new jDate( { year: 5776, month: 4, day: 5 } ) - same as new jDate(jewishYear, jewishMonth, jewishDay)
@@ -129,7 +129,71 @@ jDate.prototype = {
 
     //Returns a new Jewish date represented by adding the given number of Jewish Years to the current Jewish date
     addYears: function (years) {
-        return new jDate(this.Year + years, this.Month, this.Day);
+        var year = this.Year + years,
+            month = this.Month,
+            day = this.Day;
+
+        if (month === 13 && !jDate.isJdLeapY(year)) {
+            month = 12;
+        }
+        else if (month === 8 && day === 30 && !jDate.isLongCheshvan(year)) {
+            month = 9;
+            day = 1;
+        }
+        else if (month === 9 && day === 30 && jDate.isShortKislev(year)) {
+            month = 10;
+            day = 1;
+        }
+        return new jDate(year, month, day);
+    },
+
+    //Gets the number of days separating this Jewish Date and the given one. 
+    //If the given date is before this one, the number will be negative.
+    diffDays: function (jd) {
+        return jd.Abs - this.Abs;
+    },
+
+    //Gets the number of months separating this Jewish Date and the given one.
+    //Ignores the Day property:
+    //jDate.toJDate(5777, 6, 29).diffMonths(jDate.toJDate(5778, 7, 1)) will return 1 even though they are a day apart.
+    //If the given date is before this one, the number will be negative.
+    diffMonths: function (jd) {
+        var month = jd.Month,
+            year = jd.Year,
+            months = 0;
+
+        while (!(year === this.Year && month === this.Month)) {
+            if (this.Abs > jd.Abs) {
+                months--;
+                month++;
+                if (month > jDate.monthsJYear(year)) {
+                    month = 1;
+                }
+                else if (month === 7) {
+                    year++;
+                }
+            }
+            else {
+                months++;
+                month--;
+                if (month < 1) {
+                    month = jDate.monthsJYear(year);
+                }
+                else if (month === 6) {
+                    year--;
+                }
+            }
+        }
+
+        return months;
+    },
+
+    //Gets the number of years separating this Jewish Date and the given one.
+    //Ignores the Day and Month properties:
+    //jDate.toJDate(5777, 6, 29).diffYears(jDate.toJDate(5778, 7, 1)) will return 1 even though they are a day apart.
+    //If the given date is before this one, the number will be negative.
+    diffYears: function (jd) {
+        return jd.Year - this.Year;
     },
 
     //Returns the current Jewish date in the format: Thursday Kislev 3 5776
@@ -148,16 +212,11 @@ jDate.prototype = {
            Utils.toJNum(this.Year % 1000);
     },
 
-    //Gets the difference in days between the current Jewish date and the given one.
-    //If the given date is earlier, it will be a negative number.
-    getDiff: function (jd) {
-        return this.Abs - jd.Abs;
-    },
     //Gets the day of the omer for the current Jewish date. If the date is not during sefira, 0 is returned.
     getDayOfOmer: function () {
         var dayOfOmer = 0;
         if ((this.Month == 1 && this.Day > 15) || this.Month == 2 || (this.Month == 3 && this.Day < 6)) {
-            dayOfOmer = this.getDiff(new jDate(this.Year, 1, 15));
+            dayOfOmer = this.diffDays(new jDate(this.Year, 1, 15));
         }
         return dayOfOmer;
     },

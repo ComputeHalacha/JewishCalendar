@@ -150,10 +150,10 @@ namespace JewishCalendar
 
             //To save on calculations, start with an estimation of a few years before date
             this.Year = 3761 + (absoluteDate / (absoluteDate > 0 ? 366 : 300));
-                       
+
             //The following in from the original code; it starts the calculations way back when and takes almost as long to calculate all of them...
             //this.Year = ((absoluteDate + JewishDateCalculations.HEBREW_EPOCH) / 366); // Approximation from below.
-            
+
             // Search forward for year from the approximation.
             while (absoluteDate >= new JewishDateMicro((this.Year + 1), 7, 1).AbsoluteDate)
             {
@@ -246,17 +246,40 @@ namespace JewishCalendar
         /// return 1 even though they are only a day or two apart</remarks>
         public int DateDiffMonth(IJewishDate jd)
         {
-            bool meFirst = this > jd;
-            int months = (meFirst ? this.Month - jd.Month : jd.Month - this.Month),
-                year = jd.Year;
+            int month = jd.Month,
+             year = jd.Year,
+             months = 0;
 
-            while (year != this.Year)
+            while (!(year == this.Year && month == this.Month))
             {
-                months += JewishDateCalculations.MonthsInJewishYear(year);
-                year += (meFirst ? 1 : -1);
+                if (this.AbsoluteDate > jd.AbsoluteDate)
+                {
+                    months--;
+                    month++;
+                    if (month > JewishDateCalculations.MonthsInJewishYear(year))
+                    {
+                        month = 1;
+                    }
+                    else if (month == 7)
+                    {
+                        year++;
+                    }
+                }
+                else {
+                    months++;
+                    month--;
+                    if (month < 1)
+                    {
+                        month = JewishDateCalculations.MonthsInJewishYear(year);
+                    }
+                    else if (month == 6)
+                    {
+                        year--;
+                    }
+                }
             }
 
-            return meFirst ? -months : months;
+            return months;
         }
 
         /// <summary>
@@ -318,11 +341,11 @@ namespace JewishCalendar
                 month = this.Month,
                 day = this.Day;
 
-            if(month == 13 && !JewishDateCalculations.IsJewishLeapYear(year))
+            if (month == 13 && !JewishDateCalculations.IsJewishLeapYear(year))
             {
                 month = 12;
             }
-            else if(month == 8 && day == 30 && !JewishDateCalculations.IsLongCheshvan(year))
+            else if (month == 8 && day == 30 && !JewishDateCalculations.IsLongCheshvan(year))
             {
                 month = 9;
                 day = 1;
@@ -428,7 +451,7 @@ namespace JewishCalendar
         #endregion Public Functions
 
         #region Operator Functions
-        
+
         /// <summary>
         /// Subtract days from a Jewish date.
         /// </summary>
@@ -481,31 +504,11 @@ namespace JewishCalendar
         /// <returns></returns>
         public static bool operator <(JewishDateMicro jd1, IJewishDate jd2)
         {
-            if (jd1 == null || jd2 == null || jd1 == jd2)
+            if (jd1 == null || jd2 == null)
             {
                 return false;
             }
-            if (jd1.Year < jd2.Year)
-            {
-                return true;
-            }
-            else if (jd1.Year > jd2.Year)
-            {
-                return false;
-            }
-            if (jd1.Month < jd2.Month)
-            {
-                return true;
-            }
-            else if (jd1.Month > jd2.Month)
-            {
-                return false;
-            }
-            if (jd1.Day < jd2.Day)
-            {
-                return true;
-            }
-            return false;
+            return jd1.AbsoluteDate < jd2.AbsoluteDate;
         }
 
         /// <summary>
@@ -553,28 +556,8 @@ namespace JewishCalendar
             if (jd1 == null || jd2 == null || jd1 == jd2)
             {
                 return false;
-            }
-            if (jd1.Year > jd2.Year)
-            {
-                return true;
-            }
-            else if (jd1.Year < jd2.Year)
-            {
-                return false;
-            }
-            if (jd1.Month > jd2.Month)
-            {
-                return true;
-            }
-            else if (jd1.Month < jd2.Month)
-            {
-                return false;
-            }
-            if (jd1.Day > jd2.Day)
-            {
-                return true;
-            }
-            return false;
+            }            
+            return jd1.AbsoluteDate > jd2.AbsoluteDate;
         }
 
         /// <summary>

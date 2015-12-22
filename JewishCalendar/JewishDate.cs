@@ -209,18 +209,41 @@ namespace JewishCalendar
         /// <remarks>Ignores Day part. For example, from 29 Kislev to 1 Teves will 
         /// return 1 even though they are only a day or two apart</remarks>
         public int DateDiffMonth(IJewishDate jd)
-        {
-            bool meFirst = this > jd;
-            int months = (meFirst ? this.Month - jd.Month : jd.Month - this.Month),
-                year = jd.Year;
+        {           
+            int month = jd.Month,
+                year = jd.Year,
+                months = 0;
 
-            while (year != this.Year)
+            while (!(year == this.Year && month == this.Month))
             {
-                months += JewishDateCalculations.MonthsInJewishYear(year);
-                year += (meFirst ? 1 : -1);
+                if (this.AbsoluteDate > jd.AbsoluteDate)
+                {
+                    months--;
+                    month++;
+                    if (month > MonthsInYear(year))
+                    {
+                        month = 1;
+                    }
+                    else if (month == 7)
+                    {
+                        year++;
+                    }
+                }
+                else {
+                    months++;
+                    month--;
+                    if (month < 1)
+                    {
+                        month = MonthsInYear(year);
+                    }
+                    else if (month == 6)
+                    {
+                        year--;
+                    }
+                }
             }
 
-            return meFirst ? -months : months;
+            return months;
         }
 
         /// <summary>
@@ -369,31 +392,11 @@ namespace JewishCalendar
         /// <returns></returns>
         public static bool operator <(JewishDate jd1, IJewishDate jd2)
         {
-            if (jd1 == null || jd2 == null || jd1 == jd2)
+            if (jd1 == null || jd2 == null)
             {
                 return false;
-            }
-            if (jd1.Year < jd2.Year)
-            {
-                return true;
-            }
-            else if (jd1.Year > jd2.Year)
-            {
-                return false;
-            }
-            if (jd1.Month < jd2.Month)
-            {
-                return true;
-            }
-            else if (jd1.Month > jd2.Month)
-            {
-                return false;
-            }
-            if (jd1.Day < jd2.Day)
-            {
-                return true;
-            }
-            return false;
+            }            
+            return jd1.AbsoluteDate < jd2.AbsoluteDate;
         }
 
         /// <summary>
@@ -438,31 +441,12 @@ namespace JewishCalendar
         /// <returns></returns>
         public static bool operator >(JewishDate jd1, IJewishDate jd2)
         {
-            if (jd1 == null || jd2 == null || jd1 == jd2)
+            if (jd1 == null || jd2 == null)
             {
                 return false;
-            }
-            if (jd1.Year > jd2.Year)
-            {
-                return true;
-            }
-            else if (jd1.Year < jd2.Year)
-            {
-                return false;
-            }
-            if (jd1.Month > jd2.Month)
-            {
-                return true;
-            }
-            else if (jd1.Month < jd2.Month)
-            {
-                return false;
-            }
-            if (jd1.Day > jd2.Day)
-            {
-                return true;
-            }
-            return false;
+            }  
+                      
+            return jd1.AbsoluteDate > jd2.AbsoluteDate;
         }
 
         /// <summary>

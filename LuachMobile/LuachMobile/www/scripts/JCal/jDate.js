@@ -126,7 +126,7 @@ jDate.prototype = {
         }
         return new jDate(year, month, day);
     },
-    
+
     //Returns a new Jewish date represented by adding the given number of Jewish Years to the current Jewish date
     addYears: function (years) {
         var year = this.Year + years,
@@ -147,9 +147,53 @@ jDate.prototype = {
         return new jDate(year, month, day);
     },
 
-    //Returns a new Jewish date represented by adding the given number of Jewish Years to the current Jewish date
-    addYears: function (years) {
-        return new jDate(this.Year + years, this.Month, this.Day);
+    //Gets the number of days separating this Jewish Date and the given one. 
+    //If the given date is before this one, the number will be negative.
+    diffDays: function (jd) {
+        return jd.Abs - this.Abs;
+    },
+
+    //Gets the number of months separating this Jewish Date and the given one.
+    //Ignores the Day property:
+    //jDate.toJDate(5777, 6, 29).diffMonths(jDate.toJDate(5778, 7, 1)) will return 1 even though they are a day apart.
+    //If the given date is before this one, the number will be negative.
+    diffMonths: function (jd) {
+        var month = jd.Month,
+            year = jd.Year,
+            months = 0;
+
+        while (!(year === this.Year && month === this.Month)) {
+            if (this.Abs > jd.Abs) {
+                months--;
+                month++;
+                if (month > jDate.monthsJYear(year)) {
+                    month = 1;
+                }
+                else if (month === 7) {
+                    year++;
+                }
+            }
+            else {
+                months++;
+                month--;
+                if (month < 1) {
+                    month = jDate.monthsJYear(year);
+                }
+                else if (month === 6) {
+                    year--;
+                }
+            }
+        }
+
+        return months;
+    },
+
+    //Gets the number of years separating this Jewish Date and the given one.
+    //Ignores the Day and Month properties:
+    //jDate.toJDate(5777, 6, 29).diffYears(jDate.toJDate(5778, 7, 1)) will return 1 even though they are a day apart.
+    //If the given date is before this one, the number will be negative.
+    diffYears: function (jd) {
+        return jd.Year - this.Year;
     },
 
     //Returns the current Jewish date in the format: Thursday Kislev 3 5776
@@ -168,16 +212,11 @@ jDate.prototype = {
            Utils.toJNum(this.Year % 1000);
     },
 
-    //Gets the difference in days between the current Jewish date and the given one.
-    //If the given date is earlier, it will be a negative number.
-    getDiff: function (jd) {
-        return this.Abs - jd.Abs;
-    },
     //Gets the day of the omer for the current Jewish date. If the date is not during sefira, 0 is returned.
     getDayOfOmer: function () {
         var dayOfOmer = 0;
         if ((this.Month == 1 && this.Day > 15) || this.Month == 2 || (this.Month == 3 && this.Day < 6)) {
-            dayOfOmer = this.getDiff(new jDate(this.Year, 1, 15));
+            dayOfOmer = this.diffDays(new jDate(this.Year, 1, 15));
         }
         return dayOfOmer;
     },

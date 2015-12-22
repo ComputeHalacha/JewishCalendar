@@ -21,8 +21,8 @@ Zmanim.getSunTimes = function (date, location, considerElevation) {
     if (!(date instanceof Date)) {
         throw new Error('Zmanim.getSunTimes: supplied date parameter cannot be converted to a Date');
     }
-    //Set the undefined value to true
-    considerElevation = (typeof considerElevation === 'undefined' || considerElevation);
+    //undefined value defaults to true
+    considerElevation = considerElevation !== false;
 
     var sunrise, sunset, day = Zmanim.dayOfYear(date),
         zeninthDeg = 90, zenithMin = 50, lonHour = 0, longitude = 0, latitude = 0,
