@@ -19,9 +19,12 @@
     <Language>en-US</Language>
     <DocumentationSources>
       <DocumentationSource sourceFile="JewishCalendar\bin\Release\JewishDate.XML" />
-<DocumentationSource sourceFile="JewishCalendar\bin\Release\JewishDate.dll" />
-<DocumentationSource sourceFile="JewishDatePicker\bin\Release\JewishDate.xml" />
-<DocumentationSource sourceFile="JewishDatePicker\bin\Release\JewishDate.dll" /></DocumentationSources>
+      <DocumentationSource sourceFile="JewishCalendar\bin\Release\JewishDate.dll" />
+      <DocumentationSource sourceFile="JewishDatePicker\bin\Release\JewishDate.xml" />
+      <DocumentationSource sourceFile="JewishDatePicker\bin\Release\JewishDate.dll" />
+      <DocumentationSource sourceFile="JewishCalendar\bin\Release\JewishCalendar.dll" />
+      <DocumentationSource sourceFile="JewishCalendar\bin\Release\JewishCalendar.xml" />
+    </DocumentationSources>
     <HelpFileVersion>1.0.0.0</HelpFileVersion>
     <MaximumGroupParts>2</MaximumGroupParts>
     <NamespaceGrouping>False</NamespaceGrouping>
