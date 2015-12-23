@@ -254,7 +254,7 @@ namespace JewishDatePicker
 
             this.cmbJDay.Items.Clear();
 
-            int d = JewishDateCalculations.DaysInJewishMonth(this._value.Year, this._value.Month);
+            int d = JewishDate.DaysInJewishMonth(this._value.Year, this._value.Month);
             for (int i = 1; i <= d; i++)
             {
                 this.cmbJDay.Items.Add(new KeyValuePair<int, string>(i,
@@ -265,7 +265,7 @@ namespace JewishDatePicker
         private void FillJewishMonthsCombo()
         {
             this.cmbJMonth.Items.Clear();
-            bool m = JewishDateCalculations.IsJewishLeapYear(this.Value.Year);
+            bool m = JewishDate.IsLeapYear(this.Value.Year);
             for (int i = 1; i <= (m ? 13 : 12); i++)
             {
                 this.cmbJMonth.Items.Add(new KeyValuePair<int, string>(i,
@@ -337,7 +337,7 @@ namespace JewishDatePicker
                 month = ((KeyValuePair<int, string>)this.cmbJMonth.SelectedItem).Key,
                 day = ((KeyValuePair<int, string>)this.cmbJDay.SelectedItem).Key;
 
-            if (day == 30 && JewishDateCalculations.DaysInJewishMonth(year, month) == 29)
+            if (day == 30 && JewishDate.DaysInJewishMonth(year, month) == 29)
             {
                 day = 29;
             }

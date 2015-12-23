@@ -198,7 +198,7 @@ namespace JewishCalendar
 
         #endregion Public Properties
 
-        #region Public Methods
+        #region Public Instance Methods
 
         /// <summary>
         /// Gets the difference in months between two JewishDates
@@ -209,7 +209,7 @@ namespace JewishCalendar
         /// <remarks>Ignores Day part. For example, from 29 Kislev to 1 Teves will 
         /// return 1 even though they are only a day or two apart</remarks>
         public int DateDiffMonth(IJewishDate jd)
-        {           
+        {
             int month = jd.Month,
                 year = jd.Year,
                 months = 0;
@@ -256,7 +256,7 @@ namespace JewishCalendar
             int year = this.Year,
                 month = this.Month,
                 day = this.Day,
-                miy = JewishDateCalculations.MonthsInJewishYear(year);
+                miy = MonthsInYear(year);
 
             for (var i = 0; i < Math.Abs(months); i++)
             {
@@ -270,7 +270,7 @@ namespace JewishCalendar
                     if (month == 7)
                     {
                         year += 1;
-                        miy = JewishDateCalculations.MonthsInJewishYear(year);
+                        miy = MonthsInYear(year);
                     }
                 }
                 else if (months < 0)
@@ -283,7 +283,7 @@ namespace JewishCalendar
                     if (month == 6)
                     {
                         year -= 1;
-                        miy = JewishDateCalculations.MonthsInJewishYear(year);
+                        miy = MonthsInYear(year);
                     }
                 }
             }
@@ -308,164 +308,17 @@ namespace JewishCalendar
             {
                 month = 12;
             }
-            else if (month == 8 && day == 30 && !JewishDateCalculations.IsLongCheshvan(year))
+            else if (month == 8 && day == 30 && !IsLongCheshvan(year))
             {
                 month = 9;
                 day = 1;
             }
-            else if (month == 9 && day == 30 && JewishDateCalculations.IsShortKislev(year))
+            else if (month == 9 && day == 30 && IsShortKislev(year))
             {
                 month = 10;
                 day = 1;
             }
             return new JewishDate(year, month, day);
-        }
-
-        /// <summary>
-        /// Determines if the given Jewish Year is a Leap Year
-        /// </summary>
-        /// <param name="year"></param>
-        /// <returns></returns>
-        public static bool IsLeapYear(int year)
-        {
-            return Utils.HebrewCalendar.IsLeapYear(year);
-        }
-
-        /// <summary>
-        /// Explicitly cast a JewishDateMicro to a JewishDate
-        /// </summary>
-        /// <param name="jd"></param>
-        public static explicit operator JewishDate(JewishDateMicro jd)
-        {
-            return new JewishDate(jd.Year, jd.Month, jd.Day);
-        }       
-
-        /// <summary>
-        /// Subtract days from a Jewish date.
-        /// </summary>
-        /// <param name="hd"></param>
-        /// <param name="days"></param>
-        /// <returns></returns>
-        public static JewishDate operator -(JewishDate hd, int days)
-        {
-            return new JewishDate(hd.GregorianDate.AddDays(-days));
-        }
-
-        /// <summary>
-        /// Gets the difference in days between two Jewish dates.
-        /// </summary>
-        /// <param name="hd"></param>
-        /// <param name="hd2"></param>
-        /// <returns></returns>
-        public static int operator -(JewishDate hd, JewishDate hd2)
-        {
-            return hd.GregorianDate.Subtract(hd2.GregorianDate).Days;
-        }
-
-        /// <summary>
-        /// Returns true if both objects do not have the same day, month and year
-        /// </summary>
-        /// <param name="jd1"></param>
-        /// <param name="jd2"></param>
-        /// <returns></returns>
-        public static bool operator !=(JewishDate jd1, IJewishDate jd2)
-        {
-            return !(jd1 == jd2);
-        }
-
-        /// <summary>
-        /// Add days to a Jewish date.
-        /// </summary>
-        /// <param name="hd"></param>
-        /// <param name="days"></param>
-        /// <returns></returns>
-        public static JewishDate operator +(JewishDate hd, int days)
-        {
-            return new JewishDate(hd.GregorianDate.AddDays(days));
-        }
-
-        /// <summary>
-        /// Returns true if the current JewishDate object is chronologically before the second iJewishDate object
-        /// </summary>
-        /// <param name="jd1"></param>
-        /// <param name="jd2"></param>
-        /// <returns></returns>
-        public static bool operator <(JewishDate jd1, IJewishDate jd2)
-        {
-            if (jd1 == null || jd2 == null)
-            {
-                return false;
-            }            
-            return jd1.AbsoluteDate < jd2.AbsoluteDate;
-        }
-
-        /// <summary>
-        /// Returns true if the current JewishDate object is not chronologically later than the second iJewishDate object
-        /// </summary>
-        /// <param name="jd1"></param>
-        /// <param name="jd2"></param>
-        /// <returns></returns>
-        public static bool operator <=(JewishDate jd1, IJewishDate jd2)
-        {
-            if (jd1 == null || jd2 == null)
-            {
-                return false;
-            }
-            if (jd1 == jd2)
-            {
-                return true;
-            }
-            return jd1 < jd2;
-        }
-
-        /// <summary>
-        /// Returns true if both objects have the same day, month and year. You can also use the Equals function or the extension method IsSameDate(iJewishDate js) for the same purpose.
-        /// </summary>
-        /// <param name="jd1"></param>
-        /// <param name="jd2"></param>
-        /// <returns></returns>
-        public static bool operator ==(JewishDate jd1, IJewishDate jd2)
-        {
-            if (Object.ReferenceEquals(jd1, null))
-            {
-                return Object.ReferenceEquals(jd2, null);
-            }
-            return jd1.Equals(jd2);
-        }
-
-        /// <summary>
-        /// Returns true if the current JewishDate object is chronologically after the second iJewishDate object
-        /// </summary>
-        /// <param name="jd1"></param>
-        /// <param name="jd2"></param>
-        /// <returns></returns>
-        public static bool operator >(JewishDate jd1, IJewishDate jd2)
-        {
-            if (jd1 == null || jd2 == null)
-            {
-                return false;
-            }  
-                      
-            return jd1.AbsoluteDate > jd2.AbsoluteDate;
-        }
-
-        /// <summary>
-        /// Returns true if the current JewishDate object is not chronologically earlier than the second iJewishDate object
-        /// </summary>
-        /// <param name="jd1"></param>
-        /// <param name="jd2"></param>
-        /// <returns></returns>
-        public static bool operator >=(JewishDate jd1, IJewishDate jd2)
-        {
-            if (jd1 == null || jd2 == null)
-            {
-                return false;
-            }
-            if (jd1 == jd2)
-            {
-                return true;
-            }
-            return jd1 > jd2;
         }
 
         /// <summary>
@@ -592,27 +445,110 @@ namespace JewishCalendar
             return this.ToShortDateString();
         }
 
-        #endregion Public Methods
+        #endregion Public Instance Methods
 
-        #region Private Methods
+        #region Public Static Methods
 
         /// <summary>
-        /// Get the total number of days in the given Hebrew year
+        /// Determines if the given Jewish Year is a Leap Year
         /// </summary>
         /// <param name="year"></param>
         /// <returns></returns>
-        private static int DaysInHebrewYear(int year)
+        /// <remarks>This function will return the same value as 
+        /// <see cref="JewishDateCalculations.IsJewishLeapYear(int)">JewishDateCalculations.IsJewishLeapYear</see>,
+        /// but internally uses System.Globalization.HebrewCalendar to retrieve its value. 
+        /// When using the JewishDate class which itself is based on System.Globalization.HebrewCalendar, 
+        /// using the class specific version of the function is more efficient.</remarks>
+        public static bool IsLeapYear(int year)
+        {
+            return Utils.HebrewCalendar.IsLeapYear(year);
+        }
+
+        /// <summary>
+        /// Does Cheshvan have a full 30 days in the given Jewish Year?
+        /// </summary>
+        /// <param name="year"></param>
+        /// <returns></returns>
+        /// <remarks>This function will return the same value as 
+        /// <see cref="JewishDateCalculations.IsLongCheshvan(int)">JewishDateCalculations.IsLongCheshvan</see>,
+        /// but internally uses System.Globalization.HebrewCalendar to retrieve its value. 
+        /// When using the JewishDate class which itself is based on System.Globalization.HebrewCalendar, 
+        /// using the class specific version of the function is more efficient.</remarks>
+        public static bool IsLongCheshvan(int year)
+        {
+            return Utils.HebrewCalendar.GetDaysInMonth(year, 2) == 30;
+        }
+
+        /// <summary>
+        /// Does Kislev have only 29 days for the given Jewish year?
+        /// </summary>
+        /// <param name="year"></param>
+        /// <returns></returns>
+        /// <remarks>This function will return the same value as 
+        /// <see cref="JewishDateCalculations.IsShortKislev(int)">JewishDateCalculations.IsShortKislev</see>,
+        /// but internally uses System.Globalization.HebrewCalendar to retrieve its value. 
+        /// When using the JewishDate class which itself is based on System.Globalization.HebrewCalendar, 
+        /// using the class specific version of the function is more efficient.</remarks>
+        public static bool IsShortKislev(int year)
+        {
+            return Utils.HebrewCalendar.GetDaysInMonth(year, 3) == 29;
+        }
+
+        /// <summary>
+        /// Compute the total number of months for the given Hebrew year
+        /// </summary>
+        /// <param name="year"></param>
+        /// <returns></returns>
+        /// <remarks>This function will return the same value as 
+        /// <see cref="JewishDateCalculations.MonthsInJewishYear(int)">JewishDateCalculations.MonthsInJewishYear</see>,
+        /// but internally uses System.Globalization.HebrewCalendar to retrieve its value. 
+        /// When using the JewishDate class which itself is based on System.Globalization.HebrewCalendar, 
+        /// using the class specific version of the function is more efficient.</remarks>
+        public static int MonthsInYear(int year)
+        {
+            return Utils.HebrewCalendar.GetMonthsInYear(year);
+        }
+
+        /// <summary>
+        /// Get the total number of days in the given Jewish year
+        /// </summary>
+        /// <param name="year"></param>
+        /// <returns></returns>
+        /// <remarks>This function will return the same value as 
+        /// <see cref="JewishDateCalculations.DaysInJewishYear(int)">JewishDateCalculations.DaysInJewishYear</see>,
+        /// but internally uses System.Globalization.HebrewCalendar to retrieve its value. 
+        /// When using the JewishDate class which itself is based on System.Globalization.HebrewCalendar, 
+        /// using the class specific version of the function is more efficient.</remarks>
+        public static int DaysInJewishYear(int year)
         {
             return Utils.HebrewCalendar.GetDaysInYear(year);
         }
 
+        /// <summary>
+        /// Get the total number of days in the given Jewish Month
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month">The Nissan based Jewish month</param>
+        /// <returns></returns>
+        /// <remarks>This function will return the same value as 
+        /// <see cref="JewishDateCalculations.DaysInJewishMonth(int, int)">JewishDateCalculations.DaysInJewishMonth</see>,
+        /// but internally uses System.Globalization.HebrewCalendar to retrieve its value. 
+        /// When using the JewishDate class which itself is based on System.Globalization.HebrewCalendar, 
+        /// using the class specific version of the function is more efficient.</remarks>
+        public static int DaysInJewishMonth(int year, int month)
+        {
+            return Utils.HebrewCalendar.GetDaysInMonth(year, GetTishrieMonth(month, year));
+        }
+        #endregion Public Static Methods
+
+        #region Private Methods        
         private static int GetNissanMonth(int tishrieMonth, int year)
         {
             if (tishrieMonth <= 6)
             {
                 return tishrieMonth + 6;
             }
-            else if (Utils.HebrewCalendar.IsLeapYear(year))
+            else if (IsLeapYear(year))
             {
                 if (tishrieMonth == 7)
                 {
@@ -637,40 +573,129 @@ namespace JewishCalendar
             }
             else
             {
-                return nissanMonth + (Utils.HebrewCalendar.IsLeapYear(year) ? 7 : 6);
+                return nissanMonth + (IsLeapYear(year) ? 7 : 6);
             }
         }
 
-        /// <summary>
-        /// Does Cheshvan have a full 30 days in the given Jewish Year?
-        /// </summary>
-        /// <param name="year"></param>
-        /// <returns></returns>
-        private static bool IsLongCheshvan(int year)
-        {
-            return Utils.HebrewCalendar.GetDaysInMonth(year, 2) == 30;
-        }
-
-        /// <summary>
-        /// Does Kislev have only 29 days for the given Jewish year?
-        /// </summary>
-        /// <param name="year"></param>
-        /// <returns></returns>
-        private static bool IsShortKislev(int year)
-        {
-            return Utils.HebrewCalendar.GetDaysInMonth(year, 3) == 29;
-        }
-
-        /// <summary>
-        /// Compute the total number of months for the given Hebrew year
-        /// </summary>
-        /// <param name="year"></param>
-        /// <returns></returns>
-        private static int MonthsInYear(int year)
-        {
-            return Utils.HebrewCalendar.GetMonthsInYear(year);
-        }
-
         #endregion Private Methods
+
+        #region Operator Overloads
+        /// <summary>
+        /// Explicitly cast a JewishDateMicro to a JewishDate
+        /// </summary>
+        /// <param name="jd"></param>
+        public static explicit operator JewishDate(JewishDateMicro jd)
+        {
+            return new JewishDate(jd.Year, jd.Month, jd.Day);
+        }
+
+        /// <summary>
+        /// Subtract days from a Jewish date.
+        /// </summary>
+        /// <param name="hd"></param>
+        /// <param name="days"></param>
+        /// <returns></returns>
+        public static JewishDate operator -(JewishDate hd, int days)
+        {
+            return new JewishDate(hd.GregorianDate.AddDays(-days));
+        }
+
+        /// <summary>
+        /// Gets the difference in days between two Jewish dates.
+        /// </summary>
+        /// <param name="hd"></param>
+        /// <param name="hd2"></param>
+        /// <returns></returns>
+        public static int operator -(JewishDate hd, JewishDate hd2)
+        {
+            return hd.GregorianDate.Subtract(hd2.GregorianDate).Days;
+        }
+
+        /// <summary>
+        /// Returns true if both objects do not have the same day, month and year
+        /// </summary>
+        /// <param name="jd1"></param>
+        /// <param name="jd2"></param>
+        /// <returns></returns>
+        public static bool operator !=(JewishDate jd1, IJewishDate jd2)
+        {
+            return !(jd1 == jd2);
+        }
+
+        /// <summary>
+        /// Add days to a Jewish date.
+        /// </summary>
+        /// <param name="hd"></param>
+        /// <param name="days"></param>
+        /// <returns></returns>
+        public static JewishDate operator +(JewishDate hd, int days)
+        {
+            return new JewishDate(hd.GregorianDate.AddDays(days));
+        }
+
+        /// <summary>
+        /// Returns true if the current JewishDate object is chronologically before the second iJewishDate object
+        /// </summary>
+        /// <param name="jd1"></param>
+        /// <param name="jd2"></param>
+        /// <returns></returns>
+        public static bool operator <(JewishDate jd1, IJewishDate jd2)
+        {
+            return (jd1 != null && jd2 != null &&
+                jd1.GregorianDate.Date < jd2.GregorianDate.Date);
+        }
+
+        /// <summary>
+        /// Returns true if the current JewishDate object is not chronologically later than the second iJewishDate object
+        /// </summary>
+        /// <param name="jd1"></param>
+        /// <param name="jd2"></param>
+        /// <returns></returns>
+        public static bool operator <=(JewishDate jd1, IJewishDate jd2)
+        {
+            return (jd1 != null && jd2 != null &&
+                (jd1 == jd2 || jd1 < jd2));
+        }
+
+        /// <summary>
+        /// Returns true if both objects have the same day, month and year. You can also use the Equals function or the extension method IsSameDate(iJewishDate js) for the same purpose.
+        /// </summary>
+        /// <param name="jd1"></param>
+        /// <param name="jd2"></param>
+        /// <returns></returns>
+        public static bool operator ==(JewishDate jd1, IJewishDate jd2)
+        {
+            if (Object.ReferenceEquals(jd1, null))
+            {
+                return Object.ReferenceEquals(jd2, null);
+            }
+            return jd1.Equals(jd2);
+        }
+
+        /// <summary>
+        /// Returns true if the current JewishDate object is chronologically after the second iJewishDate object
+        /// </summary>
+        /// <param name="jd1"></param>
+        /// <param name="jd2"></param>
+        /// <returns></returns>
+        public static bool operator >(JewishDate jd1, IJewishDate jd2)
+        {
+            return (jd1 != null && jd2 != null &&
+                jd1.GregorianDate.Date > jd2.GregorianDate.Date);
+        }
+
+        /// <summary>
+        /// Returns true if the current JewishDate object is not chronologically earlier than the second iJewishDate object
+        /// </summary>
+        /// <param name="jd1"></param>
+        /// <param name="jd2"></param>
+        /// <returns></returns>
+        public static bool operator >=(JewishDate jd1, IJewishDate jd2)
+        {
+            return (jd1 != null && jd2 != null &&
+                (jd1 > jd2 || jd1 == jd2));
+        }
+        #endregion
+
     }
 }

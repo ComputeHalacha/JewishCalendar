@@ -424,7 +424,7 @@ namespace LuachProject
                         var nextMonth = this._displayingJewishDate + 12;
                         this.richTextBox1.SelectedText = " - חודש " + Utils.JewishMonthNamesHebrew[nextMonth.Month];
                         var molad = Molad.GetMolad(nextMonth.Month, nextMonth.Year);
-                        var dim = JewishDateCalculations.DaysInJewishMonth(this._displayingJewishDate.Year, this._displayingJewishDate.Month);
+                        var dim = JewishDate.DaysInJewishMonth(this._displayingJewishDate.Year, this._displayingJewishDate.Month);
                         var dow = dim - this._displayingJewishDate.Day;
                         if (dim == 30)
                         {

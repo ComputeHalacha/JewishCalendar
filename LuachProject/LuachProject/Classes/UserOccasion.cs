@@ -88,7 +88,7 @@ namespace LuachProject
                     //Add up all the months for all the intervening years
                     for (var year = this.JewishDate.Year; year < jd.Year; year++)
                     {
-                        months += JewishDateCalculations.IsJewishLeapYear(year) ? 13 : 12;
+                        months += JewishDate.IsLeapYear(year) ? 13 : 12;
                     }
                     //Add or subtract months from the current year
                     months += jd.Month - this.JewishDate.Month;

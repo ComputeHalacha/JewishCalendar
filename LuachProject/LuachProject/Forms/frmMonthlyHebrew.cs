@@ -45,7 +45,7 @@ namespace LuachProject
                 {
                     //Set _currentJewishDate to first of month
                     this._displayedJewishMonth = value - (value.Day - 1);
-                    this._currentMonthLength = JewishDateCalculations.DaysInJewishMonth(this._displayedJewishMonth.Year, this._displayedJewishMonth.Month);
+                    this._currentMonthLength = JewishDate.DaysInJewishMonth(this._displayedJewishMonth.Year, this._displayedJewishMonth.Month);
                     this._currentMonthWeeks = (int)this._displayedJewishMonth.DayOfWeek >= 5 && _currentMonthLength > 29 ? 6 : 5;
                     this.SetCaptionText();
                     this.llSefirah.Visible = this._displayedJewishMonth.Month.In(1, 2);
@@ -651,7 +651,7 @@ namespace LuachProject
 
             if (day > 0)
             {
-                if (day == 30 && JewishDateCalculations.DaysInJewishMonth(
+                if (day == 30 && JewishDate.DaysInJewishMonth(
                     this._displayedJewishMonth.Year, this._displayedJewishMonth.Month) == 29)
                 {
                     day = 29;

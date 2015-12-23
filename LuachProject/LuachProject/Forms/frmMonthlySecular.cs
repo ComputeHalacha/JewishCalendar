@@ -688,7 +688,7 @@ namespace LuachProject
 
             if (day > 0)
             {
-                if (day == 30 && JewishDateCalculations.DaysInJewishMonth(
+                if (day == 30 && JewishDate.DaysInJewishMonth(
                     this._dateBeingDisplayed.Year, this._dateBeingDisplayed.Month) == 29)
                 {
                     day = 29;
