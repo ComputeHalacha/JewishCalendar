@@ -1,28 +1,27 @@
-﻿/***********************************************************************************************************
- * Computes the Day Yomi for the given day.
- * Sample of use:
- *     Daf dafOfDay = DafYomi.GetDafYomi(iJewishdate);
- *     string strDafOfDay = dafOfDay.ToStringHeb();
- * The code was converted to C# and tweaked by CBS.
- * It is directly based on the C code in Danny Sadinoff's HebCal - Copyright (C) 1994.
- * The HebCal code for dafyomi was adapted by Aaron Peromsik from Bob Newell's public domain daf.el.
-***********************************************************************************************************/
-
-namespace JewishCalendar
+﻿namespace JewishCalendar
 {
     /// <summary>
     /// Does the calculations for ascertaining the Daf Yomi for any Jewish date since Daf Yomi was initiated.
+    /// Sample of use to get todays daf:
+    /// <code>
+    /// JewishCalendar.JewishDate jd = new JewishDate(DateTime.Now); 
+    /// JewishCalendar.Daf dafOfDay = JewishCalendar.DafYomi.GetDafYomi(jd);
+    /// string strDafOfDay = dafOfDay.ToStringHeb();
+    /// </code>
+    /// The algorithms was converted to C# (and tweaked) 
+    /// from the C code in Danny Sadinoff's HebCal - Copyright (C) 1994.
+    /// The HebCal code for dafyomi was adapted by Aaron Peromsik from Bob Newell's public domain daf.el.
     /// </summary>
     public static class DafYomi
     {
         /// <summary>
         /// Computes the Day Yomi for the given day.
         /// </summary>
-        /// <param name="date"></param>
-        /// <returns>A Daf object</returns>
-        public static Daf GetDafYomi(IJewishDate date)
+        /// <param name="jewishDate">The Jewish date for which to get the Daf Yomi information</param>
+        /// <returns>A Daf object containing the DafYomi information for the given day</returns>
+        public static Daf GetDafYomi(IJewishDate jewishDate)
         {
-            return GetSingleDaf(date.AbsoluteDate);
+            return GetSingleDaf(jewishDate.AbsoluteDate);
         }
 
         private static Masechta[] masechtaList = new Masechta[]
@@ -139,7 +138,9 @@ namespace JewishCalendar
     }
 
     /// <summary>
-    /// Reprsents a single Masechta in Shas
+    /// Represents a single Masechta in Shas.
+    /// This structure is not meant to be instantiated directly.
+    /// To access the DafYomi, use <see cref="DafYomi.GetDafYomi(IJewishDate)"/>
     /// </summary>
     public struct Masechta
     {
@@ -164,11 +165,13 @@ namespace JewishCalendar
         /// <param name="eng"></param>
         /// <param name="heb"></param>
         /// <param name="dappim"></param>
-        public Masechta(string eng, string heb, int dappim) { NameEnglish = eng; NameHebrew = heb; Dappim = dappim; }
+        internal Masechta(string eng, string heb, int dappim) { NameEnglish = eng; NameHebrew = heb; Dappim = dappim; }
     }
 
     /// <summary>
-    /// Represents a single Daf in Shas
+    /// Represents a single Daf in Shas.
+    /// This class is not meant to be instantiated directly.
+    /// To access the DafYomi, use <see cref="DafYomi.GetDafYomi(IJewishDate)"/>
     /// </summary>
     public class Daf
     {
@@ -187,7 +190,7 @@ namespace JewishCalendar
         /// </summary>
         /// <param name="m"></param>
         /// <param name="d"></param>
-        public Daf(Masechta m, int d) { Masechta = m; DafNumber = d; }
+        internal Daf(Masechta m, int d) { Masechta = m; DafNumber = d; }
 
         /// <summary>
         /// Returns the name of the Masechta and daf number in English, For example: Sukkah, Daf 3

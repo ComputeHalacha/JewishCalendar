@@ -34,22 +34,22 @@ namespace JewishCalendar
         }
 
         /// <summary>
-        /// Compute the total number of months for the given Hebrew year
+        /// Gets the number of months in the given Jewish year
         /// </summary>
-        /// <param name="year"></param>
-        /// <returns></returns>
+        /// <param name="year">The Jewish Year for which to get the number of months for</param>
+        /// <returns>The number of months in the given year</returns>
         /// <remarks>If you are not using the .NET micro framework, you can also use 
         /// <see cref="JewishDate.MonthsInYear(int)">JewishDate.MonthsInYear</see>.</remarks>
         public static int MonthsInJewishYear(int year)
         {
             return IsJewishLeapYear(year) ? 13 : 12;            
-        }        
+        }
 
         /// <summary>
         /// Does Cheshvan have a full 30 days in the given Jewish Year?
         /// </summary>
-        /// <param name="year"></param>
-        /// <returns></returns>
+        /// <param name="year">The given Jewish Year</param>
+        /// <returns>Whether or not Cheshvan has 30 days in the given year</returns>
         /// <remarks>If you are not using the .NET micro framework, use 
         /// <see cref="JewishDate.IsLongCheshvan(int)">JewishDate.IsLongCheshvan</see> 
         /// instead of this function.</remarks>
@@ -59,10 +59,10 @@ namespace JewishCalendar
         }
 
         /// <summary>
-        /// Does Kislev have only 29 days for the given Jewish year?
+        /// Does Kislev have 29 days for the given Jewish year?
         /// </summary>
-        /// <param name="year"></param>
-        /// <returns></returns>
+        /// <param name="year">The given Jewish Year</param>
+        /// <returns>Whether or not Kislev has 29 days in the given year</returns>
         /// <remarks>If you are not using the .NET micro framework, use 
         /// <see cref="JewishDate.IsShortKislev(int)">JewishDate.IsShortKislev</see> 
         /// instead of this function.</remarks>
@@ -74,9 +74,9 @@ namespace JewishCalendar
         /// <summary>
         /// Compute the number of days in the given Jewish month
         /// </summary>
-        /// <param name="year"></param>
-        /// <param name="month"></param>
-        /// <returns></returns>
+        /// <param name="year">The Jewish year</param>
+        /// <param name="month">The Nissan based Jewish Month (Nissan is 1 and Adar Sheini is 13)</param>
+        /// <returns>The number of days in the given Jewish Month</returns>
         /// <remarks>If you are not using the .NET micro framework, use 
         /// <see cref="JewishDate.DaysInJewishMonth(int, int)">JewishDate.DaysInJewishMonth</see> 
         /// instead of this function.</remarks>
@@ -95,10 +95,11 @@ namespace JewishCalendar
         }
 
         /// <summary>
-        /// Get the total number of days in the given Hebrew year (From Rosh Hashana to the next Erev Rosh Hashana)
+        /// Get the total number of days in the given Jewish year.
+        /// From Rosh Hashana of the given year until the next Rosh Hashana.
         /// </summary>
-        /// <param name="year"></param>
-        /// <returns></returns>
+        /// <param name="year">The given Jewish Year</param>
+        /// <returns>The number of days in the given Jewish Year</returns>
         /// <remarks>If you are not using the .NET micro framework, use 
         /// <see cref="JewishDate.DaysInJewishYear(int)">JewishDate.DaysInHebrewYear</see> 
         /// instead of this function.</remarks>
@@ -108,11 +109,11 @@ namespace JewishCalendar
         }
 
         /// <summary>
-        /// Compares 2 Jewish dates to see if they both represent the same day
+        /// Compares this Jewish Date to another one to see if they both represent the same Jewish calendar date.         
         /// </summary>
-        /// <param name="jd1"></param>
-        /// <param name="jd2"></param>
-        /// <returns></returns>
+        /// <param name="jd1">This JewishDate</param>
+        /// <param name="jd2">The JewishDate to test against this one</param>
+        /// <returns>Whether or not the two represent the same Jewish calendar date</returns>
         public static bool IsSameDate(this IJewishDate jd1, IJewishDate jd2)
         {
             if (jd2 == null) return false;
@@ -162,9 +163,9 @@ namespace JewishCalendar
         /// NOTE: If you are not using the .NET micro framework, do not use this function!
         /// Use the following instead: (int)((YOUR_DATETIME.Subtract(new DateTime(1, 1, 1)).TotalDays + 1));
         /// </summary>
-        /// <param name="year"></param>
-        /// <param name="month"></param>
-        /// <param name="day"></param>
+        /// <param name="year">The Gregorian Year</param>
+        /// <param name="month">The Gregorian Month</param>
+        /// <param name="day">The Gregorian Day</param>
         /// <returns></returns>
         public static int GetAbsoluteFromGregorianDate(int year, int month, int day)
         {
@@ -187,8 +188,8 @@ namespace JewishCalendar
         /// NOTE: If you are not using the .NET Micro framework, do not use this function!
         /// Use the GregorianCalendar.GetDaysInMonth function instead
         /// </summary>
-        /// <param name="month"></param>
-        /// <param name="year"></param>
+        /// <param name="month">The Gregorian Month</param>
+        /// <param name="year">The Gregorian Year</param>
         /// <returns></returns>
         public static int DaysInGregorianMonth(int month, int year)
         {
@@ -213,8 +214,8 @@ namespace JewishCalendar
         /// Computes the number of days elapsed from the Sunday prior to the start of the
         /// Jewish calendar to the mean conjunction of Tishrei of the given Jewish year.
         /// </summary>
-        /// <param name="year"></param>
-        /// <returns></returns>
+        /// <param name="year">The Jewish Year</param>
+        /// <returns>The number of days elapsed</returns>
         private static int GetElapsedDays(int year)
         {
             int MonthsElapsed = (235 * ((year - 1) / 19)) + (12 * ((year - 1) % 19)) + (7 * ((year - 1) % 19) + 1) / 19; // Leap months this cycle -  Regular months in this cycle. -  Months in complete cycles so far.

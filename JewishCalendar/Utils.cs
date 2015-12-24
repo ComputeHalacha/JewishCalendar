@@ -5,7 +5,7 @@ using System.Text;
 namespace JewishCalendar
 {
     /// <summary>
-    /// Contains general static arrays, some useful utility functions and other such pitchifkes
+    /// Contains general static arrays, some useful utility functions and other such pitchifkes.
     /// </summary>
     public static class Utils
     {
@@ -72,9 +72,9 @@ namespace JewishCalendar
         /// <summary>
         /// Returns the nusach for Sefiras Ha'omer for the given day and minhag
         /// </summary>
-        /// <param name="dayOfOmer"></param>
-        /// <param name="laOmer"></param>
-        /// <param name="sfardi"></param>
+        /// <param name="dayOfOmer">The day of the Omer for which to get the nusach for</param>
+        /// <param name="laOmer">Should it be La'Omer (Nusach Sefard) or Ba'Omer (Nusach Ashkenaz)?</param>
+        /// <param name="sfardi">Should the Nusach be the Sfardi Nusach (Eidot Hamizrach) or the Ashkenazi one (Nusach Sefard and Ashkenaz)?</param>
         /// <returns></returns>
         public static string GetOmerNusach(int dayOfOmer, bool laOmer, bool sfardi)
         {
@@ -156,8 +156,8 @@ namespace JewishCalendar
         /// Determine if this object is contained in a list of objects
         /// </summary>
         /// <param name="obj">The object to test</param>
-        /// <param name="list">Params list of objects to look for object</param>
-        /// <returns>True if the item is in the list. Otherwise, False</returns>
+        /// <param name="list">Any number of parameters which together make up the list of objects to look through</param>
+        /// <returns>True; if the item is in the parameter list. Otherwise, False</returns>
         public static bool In(this object obj, params Object[] list)
         {
             return Array.IndexOf(list, obj) > -1;
@@ -311,10 +311,10 @@ namespace JewishCalendar
         }
 
         /// <summary>
-        /// Determine if the given secular date and time is within DST using the (current [2015]) Israeli rules.
+        /// Determine if the given secular date and time is during Daylight Savings Time using the (current [2015]) Israeli rules.
         /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
+        /// <param name="date">The given date and time</param>
+        /// <returns>Whether or not the given DateTime is during Daylight Savings Time</returns>
         private static bool IsIsraelDst(DateTime date)
         {
             int year = date.Year, month = date.Month, day = date.Day, hour = date.Hour;
@@ -345,10 +345,10 @@ namespace JewishCalendar
         }
 
         /// <summary>
-        /// Determine if the given secular date and time is within DST using the USA rules.
+        /// Determine if the given secular date and time is during Daylight Savings Time using the USA rules.
         /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
+        /// <param name="date">The given date and time</param>
+        /// <returns>Whether or not the given DateTime is during Daylight Savings Time</returns>
         private static bool IsUsaDst(DateTime date)
         {
             int year = date.Year, month = date.Month, day = date.Day, hour = date.Hour;

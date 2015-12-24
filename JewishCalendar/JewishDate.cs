@@ -180,7 +180,8 @@ namespace JewishCalendar
             {
                 this._gregorianDate = value;
 
-                //No need to do the calculation twice
+                //Calculate the values now and save them. 
+                //This will save the need to do the calculations each time one of the Properties are called
                 this._year = Utils.HebrewCalendar.GetYear(value);
                 this._month = GetNissanMonth(Utils.HebrewCalendar.GetMonth(value), this._year);
                 this._day = Utils.HebrewCalendar.GetDayOfMonth(value);
