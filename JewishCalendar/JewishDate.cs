@@ -1,16 +1,4 @@
-﻿/*****************************************************************************************************************************
- * Represents a single day in the Jewish Calendar.
- * The regular .NET class System.Globalization.HebrewCalendar has Tishrei as month #1.
- * This becomes confusing, as months after Adar get a different number -
- * depending on whether the year is a leap year or not.
- * The Torah also instructs us to call Nissan the first month. (See Ramban in drasha for Rosh Hashana)
- * So, we created this "Nissan first" Jewish Date class -
- * with all the underlying logic based on System.Globalization.HebrewCalendar (which was found to be very efficient).
- * This class cannot be used with the .NET micro framework as it does not have access to System.Globalization.HebrewCalendar.
- * To use this project with the .NET Micro Framework, you will need to remove this file before compiling.
- *****************************************************************************************************************************/
-
-using System;
+﻿using System;
 
 namespace JewishCalendar
 {
@@ -24,7 +12,12 @@ namespace JewishCalendar
     /// Hence this "Nissan first" Jewish Date class -
     /// with all the underlying logic based on System.Globalization.HebrewCalendar (which was found to be very efficient).
     /// This class cannot be used with the .NET micro framework as it does not have access to System.Globalization.HebrewCalendar.
-    /// To use this project with the .NET Micro Framework, you will need to remove this file before compiling.</remarks>
+    /// To use this project with the .NET Micro Framework, you will need to remove this file before compiling.
+    ///
+    /// This class differs from the System.DateTime structure in that it does not directly have a time of day component. 
+    /// The GregorianDate property can be used to keep track of the time of day.
+    /// The AddMonths, and AddYears, addition and subtraction operator functions all preserve the time of day of the original GregorianDate.
+    /// </remarks>
     [Serializable]
     public class JewishDate : IJewishDate
     {
@@ -60,14 +53,27 @@ namespace JewishCalendar
         }
 
         /// <summary>
+        /// Creates a new JewishDate object with the specified Jewish year, Jewish month and Jewish day and time of day
+        /// </summary>
+        /// <param name="year">The year - counted from the creation of the world</param>
+        /// <param name="month">The Jewish month. As it is in the Torah, Nissan is 1.</param>
+        /// <param name="day">The day of the month</param>
+        /// <param name="timeOfDay"></param>
+        public JewishDate(int year, int month, int day, TimeSpan timeOfDay)
+        {
+            this.GregorianDate = new DateTime(year, GetTishrieMonth(month, year), day,
+                timeOfDay.Hours, timeOfDay.Minutes, timeOfDay.Seconds, Utils.HebrewCalendar);
+        }
+
+        /// <summary>
         /// Creates a Jewish date that corresponds to the given Gregorian date
         /// Note: as the location is not specified here, we cannot determine what time shkia is.
         /// So if the given time is after shkia, the Jewish date will be a Jewish Day early.
         /// </summary>
-        /// <param name="date">The Gregorian date from which to create the Jewish Date</param>
-        public JewishDate(System.DateTime date)
+        /// <param name="dateTime">The Gregorian date from which to create the Jewish Date</param>
+        public JewishDate(System.DateTime dateTime)
         {
-            this.GregorianDate = date;
+            this.GregorianDate = dateTime;
         }
 
         /// <summary>
@@ -287,7 +293,7 @@ namespace JewishCalendar
                     }
                 }
             }
-            return new JewishDate(year, month, day);
+            return new JewishDate(year, month, day, this.GregorianDate.TimeOfDay);
         }
 
         /// <summary>
@@ -318,7 +324,7 @@ namespace JewishCalendar
                 month = 10;
                 day = 1;
             }
-            return new JewishDate(year, month, day);
+            return new JewishDate(year, month, day, this.GregorianDate.TimeOfDay);
         }
 
         /// <summary>
@@ -456,9 +462,10 @@ namespace JewishCalendar
         /// <returns></returns>
         /// <remarks>This function will return the same value as 
         /// <see cref="JewishDateCalculations.IsJewishLeapYear(int)">JewishDateCalculations.IsJewishLeapYear</see>,
-        /// but internally uses System.Globalization.HebrewCalendar to retrieve its value. 
-        /// When using the JewishDate class which itself is based on System.Globalization.HebrewCalendar, 
-        /// using the class specific version of the function is more efficient.</remarks>
+        /// but internally uses System.Globalization.HebrewCalendar to retrieve its value.
+        /// The algorithm for both functions are identical with the single difference being, that the 
+        /// HebrewCalendar version does a check to make sure that the year is within the range of years
+        /// that it can represent.</remarks>
         public static bool IsLeapYear(int year)
         {
             return Utils.HebrewCalendar.IsLeapYear(year);
@@ -501,9 +508,8 @@ namespace JewishCalendar
         /// <returns></returns>
         /// <remarks>This function will return the same value as 
         /// <see cref="JewishDateCalculations.MonthsInJewishYear(int)">JewishDateCalculations.MonthsInJewishYear</see>,
-        /// but internally uses System.Globalization.HebrewCalendar to retrieve its value. 
-        /// When using the JewishDate class which itself is based on System.Globalization.HebrewCalendar, 
-        /// using the class specific version of the function is more efficient.</remarks>
+        /// but internally uses HebrewCalendar.GetMonthsInYear which in turn uses HebrewCalendar.IsLeapYear 
+        /// to determine if the year is a leap year or not.</remarks>
         public static int MonthsInYear(int year)
         {
             return Utils.HebrewCalendar.GetMonthsInYear(year);

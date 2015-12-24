@@ -1,19 +1,16 @@
-﻿/*****************************************************************************************************************************
- * Does much of the actual Jewish Date calculations.
- * Does not rely on System.Globalization.HebrewCalendar so can be safely used with .NET micro projects.
- *
- * Most of the Jewish date logic and calculations were translated from the C code by CBS -
- * which in turn were translated from the Lisp code in "Calendrical Calculations" by Nachum Dershowitz and Edward M. Reingold
- * in Software---Practice & Experience, vol. 20, no. 9 (September, 1990), pp. 899--928.
- *****************************************************************************************************************************/
-
-using System;
+﻿using System;
 
 namespace JewishCalendar
 {
     /// <summary>
     /// Static class that contains functions for Jewish calendar calculations.
     /// </summary>
+    /// <remarks>This class does much of the actual Jewish Date calculations for the <see cref="JewishDateMicro">JewishDateMicro</see> class.
+    /// The calculations do not use System.Globalization.HebrewCalendar so they can be used with .NET micro projects.
+    /// Most of the Jewish date logic and calculations were translated from the C code
+    /// which in turn were translated from the Lisp code in "Calendrical Calculations" by Nachum Dershowitz and Edward M. Reingold
+    /// in Software---Practice &amp; Experience, vol. 20, no. 9 (September, 1990), pp. 899--928.
+    /// </remarks>
     public static class JewishDateCalculations
     {
         /// <summary>
@@ -25,9 +22,12 @@ namespace JewishCalendar
         /// Determines if the given Jewish Year is a Leap Year
         /// </summary>
         /// <param name="year"></param>
-        /// <returns></returns>
-        /// <remarks>If you are not using the .NET micro framework, use 
-        /// <see cref="JewishDate.IsLeapYear(int)">JewishDate.IsLeapYear</see> instead of this function.</remarks>
+        /// <returns>True if the year is a leap year and False if not</returns>
+        /// <remarks>This function is identical to
+        /// <see cref="JewishDate.IsLeapYear(int)">JewishDate.IsLeapYear</see>.
+        /// The only difference is, the JewishDate class's version uses Globalization.HebrewCalendars.IsLeapYear 
+        /// which adds a check to make sure that the year is within the range of the HebrewCalendar class.
+        /// </remarks>
         public static bool IsJewishLeapYear(int year)
         {
             return (((7 * year) + 1) % 19) < 7;
@@ -38,19 +38,11 @@ namespace JewishCalendar
         /// </summary>
         /// <param name="year"></param>
         /// <returns></returns>
-        /// <remarks>If you are not using the .NET micro framework, use 
-        /// <see cref="JewishDate.MonthsInYear(int)">JewishDate.MonthsInYear</see> 
-        /// instead of this function.</remarks>
+        /// <remarks>If you are not using the .NET micro framework, you can also use 
+        /// <see cref="JewishDate.MonthsInYear(int)">JewishDate.MonthsInYear</see>.</remarks>
         public static int MonthsInJewishYear(int year)
         {
-            if (IsJewishLeapYear(year))
-            {
-                return 13;
-            }
-            else
-            {
-                return 12;
-            }
+            return IsJewishLeapYear(year) ? 13 : 12;            
         }        
 
         /// <summary>

@@ -1,29 +1,24 @@
-﻿/**********************************************************************************************************
- * The regular .NET HebrewCalendar is  not available in the .NET Micro Framework,
- * so this class was created based on open source algorithms.
- * NOTE: for non micro framework projects, use JewishCalendar.JewishDate which being based
- * on the System.Globalization.HebrewCalendar is much more efficient (hence much faster)
- * than most of the functions in this class.
- * To use the dll with the .NET Micro Framework, the following items needs to be removed before compiling:
- *      1. The entire file "JewishDate.cs"
- *      2. The following line in "Utils.cs": public static HebrewCalendar HebrewCalendar = new HebrewCalendar();
- *      3. The following line in "Utils.cs": HebrewCultureInfo.DateTimeFormat.Calendar = HebrewCalendar;
- **********************************************************************************************************/
-
-using System;
+﻿using System;
 
 namespace JewishCalendar
 {
     /// <summary>
-    /// Represents a single day in the Jewish calendar.
+    /// Represents a single day in the Jewish Calendar.
     /// </summary>
     /// <remarks>
-    /// The regular .NET HebrewCalendar is  not available in the .NET Micro Framework,
-    /// so this class was created based on open source algorithms.
-    /// NOTE: for non micro framework projects, use JewishCalendar.JewishDate which being based
-    /// on the System.Globalization.HebrewCalendar is much more efficient (hence much faster)
-    /// than most of the functions in this class.
-    /// To use the dll with the .NET Micro Framework, the following items needs to be removed before compiling:
+    /// System.Globalization.HebrewCalendar is not available in the .NET Micro Framework,
+    /// so this class was created for use in MF projects.
+    /// The calculations and functions used by this class's representation of the Jewish Date are based on open source algorithms.
+    /// 
+    /// This class does not have a time of day component. 
+    /// The GregorianDate property can not be used to keep track of the time of day as the System.DateTime object
+    /// is generated anew for each call to the GregorianDate property and  it will always have a time of day of 12 AM.
+    /// 
+    /// IMPORTANT NOTE: for all other projects besides for Micro Framework projects, you should use the
+    /// JewishCalendar.JewishDate class which being based on System.Globalization.HebrewCalendar, 
+    /// is way more efficient - in benchmark testing we found it to be up to 20% quicker than this class.
+    /// 
+    /// When using the JewishCalendar dll with the .NET Micro Framework, the following items needs to be removed before compiling:
     ///      1. The entire file "JewishDate.cs"
     ///      2. The following line in "Utils.cs": public static HebrewCalendar HebrewCalendar = new HebrewCalendar();
     ///      3. The following line in "Utils.cs": HebrewCultureInfo.DateTimeFormat.Calendar = HebrewCalendar;

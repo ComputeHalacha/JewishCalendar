@@ -157,7 +157,7 @@ namespace JewishCalendar
         /// </summary>
         /// <param name="obj">The object to test</param>
         /// <param name="list">Params list of objects to look for object</param>
-        /// <returns></returns>
+        /// <returns>True if the item is in the list. Otherwise, False</returns>
         public static bool In(this object obj, params Object[] list)
         {
             return Array.IndexOf(list, obj) > -1;
@@ -165,50 +165,25 @@ namespace JewishCalendar
 
         /// <summary>
         /// Determines if the given Gregorian date and time is within the rules for DST.
-        /// If no time zone info is available, the US rules are used.
+        /// If no time zone info is available; if the location is in Israel, the current Israeli rules are used.
+        /// Otherwise, the US rules are used.
         /// </summary>
-        /// <param name="date"></param>
-        /// <param name="location"></param>
-        /// <returns></returns>
+        /// <param name="date">The secular date</param>
+        /// <param name="location">Where in the world?</param>
+        /// <returns>True if the given date and time is DST for the given location, otherwise False.</returns>
         public static bool IsDateTimeDST(DateTime date, Location location)
         {
             if (location != null && location.TimeZoneInfo != null)
             {
                 return location.TimeZoneInfo.IsDaylightSavingTime(date);
             }
-
-            int year = date.Year,
-                month = date.Month,
-                day = date.Day,
-                hour = date.Hour;
-
-            if (month < 3 || month == 12)
+            else if (location.IsInIsrael)
             {
-                return false;
+                return IsIsraelDst(date);
             }
-            else if (month > 3 && month < 11)
+            else
             {
-                return true;
-            }
-            //DST starts at 2:00 AM on the second Sunday in March
-            else if (month == 3)
-            {
-                //Gets day of week on March 1st
-                int firstDOW = getDOW(year, 3, 1);
-                //Gets date of second Sunday
-                int targetDate = firstDOW == 0 ? 8 : ((7 - (firstDOW + 7) % 7)) + 8;
-
-                return (day > targetDate || (day == targetDate && hour >= 2));
-            }
-            //DST ends at 2:00 AM on the first Sunday in November
-            else //dt.Month == 11
-            {
-                //Gets day of week on November 1st
-                int firstDOW = getDOW(year, 11, 1);
-                //Gets date of first Sunday
-                int targetDate = firstDOW == 0 ? 1 : ((7 - (firstDOW + 7) % 7)) + 1;
-
-                return (day < targetDate || (day == targetDate && hour < 2));
+                return IsUsaDst(date);
             }
         }
 
@@ -217,8 +192,8 @@ namespace JewishCalendar
         /// NOTE: The exact thousands numbers (1000, 2000, 3000 etc.)
         /// will look awfully similar to the single digits, but will be formatted with an apostrophe I.E. 2000 = "'ב"
         /// </summary>
-        /// <param name="number"></param>
-        /// <returns></returns>
+        /// <param name="number">The number to convert</param>
+        /// <returns>A Hebrew string representation of the number</returns>
         public static string ToNumberHeb(this int number)
         {
             if (number < 1)
@@ -285,8 +260,8 @@ namespace JewishCalendar
         /// <summary>
         /// Add two character suffix to number. e.g. 21st, 102nd, 93rd, 500th
         /// </summary>
-        /// <param name="num"></param>
-        /// <returns></returns>
+        /// <param name="num">The number to add the suffix to</param>
+        /// <returns>A string representation of the number as a sequence item</returns>
         public static string ToSuffixedString(this int num)
         {
             string t = num.ToString();
@@ -323,16 +298,89 @@ namespace JewishCalendar
         /// Get day of week using Zellers algorithm.
         /// </summary>
         /// <remarks>Day zero is Sunday</remarks>
-        /// <param name="year"></param>
-        /// <param name="month"></param>
-        /// <param name="day"></param>
-        /// <returns></returns>
+        /// <param name="year">The secular year</param>
+        /// <param name="month">The secular month</param>
+        /// <param name="day">The secular day</param>
+        /// <returns>The day of week index. Sunday is 0.</returns>
         private static int getDOW(int year, int month, int day)
         {
             int adjustment = (14 - month) / 12,
                 mm = month + 12 * adjustment - 2,
                 yy = year - adjustment;
             return (day + (13 * mm - 1) / 5 + yy + yy / 4 - yy / 100 + yy / 400) % 7;
+        }
+
+        /// <summary>
+        /// Determine if the given secular date and time is within DST using the (current [2015]) Israeli rules.
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        private static bool IsIsraelDst(DateTime date)
+        {
+            int year = date.Year, month = date.Month, day = date.Day, hour = date.Hour;
+
+            if (month > 10 || month < 3)
+            {
+                return false;
+            }
+            else if (month > 3 && month < 10)
+            {
+                return true;
+            }
+            //DST starts at 2 AM on the Friday before the last Sunday in March
+            else if (month == 3)
+            {
+                //Gets date of the Friday before the last Sunday
+                var lastFriday = (31 - getDOW(year, 3, 31)) - 2;
+                return (day > lastFriday || (day == lastFriday && hour >= 2));
+            }
+            //DST ends at 2 AM on the last Sunday in October
+            else
+            {
+                //We are in October.
+                //Get the date of last Sunday in October
+                var lastSunday = 31 - getDOW(year, 10, 31);
+                return (day < lastSunday || (day == lastSunday && hour < 2));
+            }
+        }
+
+        /// <summary>
+        /// Determine if the given secular date and time is within DST using the USA rules.
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        private static bool IsUsaDst(DateTime date)
+        {
+            int year = date.Year, month = date.Month, day = date.Day, hour = date.Hour;
+
+            if (month < 3 || month == 12)
+            {
+                return false;
+            }
+            else if (month > 3 && month < 11)
+            {
+                return true;
+            }
+            //DST starts at 2:00 AM on the second Sunday in March
+            else if (month == 3)
+            {
+                //Gets day of week on March 1st
+                int firstDOW = getDOW(year, 3, 1);
+                //Gets date of second Sunday
+                int targetDate = firstDOW == 0 ? 8 : ((7 - (firstDOW + 7) % 7)) + 8;
+
+                return (day > targetDate || (day == targetDate && hour >= 2));
+            }
+            //DST ends at 2:00 AM on the first Sunday in November
+            else //dt.Month == 11
+            {
+                //Gets day of week on November 1st
+                int firstDOW = getDOW(year, 11, 1);
+                //Gets date of first Sunday
+                int targetDate = firstDOW == 0 ? 1 : ((7 - (firstDOW + 7) % 7)) + 1;
+
+                return (day < targetDate || (day == targetDate && hour < 2));
+            }
         }
 
         #endregion Private Methods
