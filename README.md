@@ -85,7 +85,7 @@ In the repository, there are 8  projects.
 	* 	The XDK emulator tools are much easier to work with. 
 	* 	Cross platform development. The XDK has versions for Windows, Mac and Linux.
 	
-  On the other hand, code editing and debugging is somewhat smoother in VS and all the js/css minifying and bundling is taken care of for you automatically with the [Bundler & Minifier Extension](https://visualstudiogallery.msdn.microsoft.com/9ec27da7-e24b-4d56-8064-fd7e88ac1c40).
+  	On the other hand, code editing and debugging is somewhat smoother in VS and all the js/css minifying and bundling is taken care of for you automatically with the [Bundler & Minifier Extension](https://visualstudiogallery.msdn.microsoft.com/9ec27da7-e24b-4d56-8064-fd7e88ac1c40).
 	
 1. ***\JewishDatePicker\JewishDatePicker.cs***    
 	 The code for the **JewishDatePicker.dll**.    
