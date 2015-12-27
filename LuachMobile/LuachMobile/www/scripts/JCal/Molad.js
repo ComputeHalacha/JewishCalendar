@@ -33,7 +33,7 @@ Molad.getMolad = function (month, year) {
 
 // Returns the time of the molad as a string in the format: Monday Night, 8:33 PM and 12 Chalakim
 // The molad is always in Jerusalem so we use the Jerusalem sunset times
-// to determine whether to display "Night" or "Motzai Shabbos" etc.
+// to determine whether to display "Night" or "Motzai Shabbos" etc. (check this...)
 Molad.getString = function (year, month) {
     var molad = Molad.getMolad(month, year),
         nightfall = molad.jDate.getSunriseSunset(Location.getJerusalem()).sunset,

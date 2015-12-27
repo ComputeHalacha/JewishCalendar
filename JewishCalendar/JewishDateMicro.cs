@@ -24,6 +24,7 @@ namespace JewishCalendar
     ///      3. The following line in "Utils.cs": HebrewCultureInfo.DateTimeFormat.Calendar = HebrewCalendar;
     /// </remarks>
 
+    [Serializable]
     public class JewishDateMicro : IJewishDate
     {
         #region Public Properties
@@ -551,7 +552,7 @@ namespace JewishCalendar
             if (jd1 == null || jd2 == null || jd1 == jd2)
             {
                 return false;
-            }            
+            }
             return jd1.AbsoluteDate > jd2.AbsoluteDate;
         }
 

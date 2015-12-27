@@ -18,13 +18,8 @@
     <HtmlHelpName>Jewish Calendar Documentation</HtmlHelpName>
     <Language>en-US</Language>
     <DocumentationSources>
-      <DocumentationSource sourceFile="JewishCalendar\bin\Release\JewishDate.XML" />
-      <DocumentationSource sourceFile="JewishCalendar\bin\Release\JewishDate.dll" />
-      <DocumentationSource sourceFile="JewishDatePicker\bin\Release\JewishDate.xml" />
-      <DocumentationSource sourceFile="JewishDatePicker\bin\Release\JewishDate.dll" />
-      <DocumentationSource sourceFile="JewishCalendar\bin\Release\JewishCalendar.dll" />
       <DocumentationSource sourceFile="JewishCalendar\bin\Release\JewishCalendar.xml" />
-    </DocumentationSources>
+<DocumentationSource sourceFile="JewishCalendar\bin\Release\JewishCalendar.dll" /></DocumentationSources>
     <HelpFileVersion>1.0.0.0</HelpFileVersion>
     <MaximumGroupParts>2</MaximumGroupParts>
     <NamespaceGrouping>False</NamespaceGrouping>
@@ -70,22 +65,4 @@
     </PostBuildEvent>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="LuachProject\LuachProject\LuachProject.csproj">
-      <Name>LuachProject</Name>
-      <Project>{F603DE04-489B-4CE4-B949-8BA8BB5DFA6B}</Project>
-    </ProjectReference>
-    <ProjectReference Include="LuachProject\OmerReminders\OmerReminders.vbproj">
-      <Name>OmerReminder</Name>
-      <Project>{C64D9352-8941-4BD3-AD32-1A9FCE522810}</Project>
-    </ProjectReference>
-    <ProjectReference Include="JewishDatePicker\JewishDatePicker.csproj">
-      <Name>JewishDatePicker</Name>
-      <Project>{8076DABE-3604-4D94-A883-2DF9105FE54C}</Project>
-    </ProjectReference>
-    <ProjectReference Include="JewishCalendar\JewishCalendar.csproj">
-      <Name>JewishDate</Name>
-      <Project>{43E5C945-9D11-4097-9990-1D2AFC9E16D3}</Project>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

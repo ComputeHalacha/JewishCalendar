@@ -22,10 +22,11 @@ namespace JewishCalendar
     public class JewishDate : IJewishDate
     {
         #region Private Fields
-
+        //The minimum Jewish year that the HebrewCalendar calendar supports
+        private const int MIN_HC_YEAR = 5344;
         private int _day, _month, _year;
         private DateTime _gregorianDate;
-
+        
         #endregion Private Fields
 
         #region Public Constructors
@@ -49,7 +50,15 @@ namespace JewishCalendar
         /// <param name="day">The day of the month</param>
         public JewishDate(int year, int month, int day)
         {
-            this.GregorianDate = new DateTime(year, GetTishrieMonth(month, year), day, Utils.HebrewCalendar);
+            //If the year is less than the min supported date for Hebrew Calendar
+            if (year <= MIN_HC_YEAR)
+            {                
+                this.GregorianDate = new JewishDateMicro(year, month, day).GregorianDate;
+            }
+            else
+            {
+                this.GregorianDate = new DateTime(year, GetTishrieMonth(month, year), day, Utils.HebrewCalendar);
+            }
         }
 
         /// <summary>
@@ -61,8 +70,16 @@ namespace JewishCalendar
         /// <param name="timeOfDay"></param>
         public JewishDate(int year, int month, int day, TimeSpan timeOfDay)
         {
-            this.GregorianDate = new DateTime(year, GetTishrieMonth(month, year), day,
-                timeOfDay.Hours, timeOfDay.Minutes, timeOfDay.Seconds, Utils.HebrewCalendar);
+            if (year <= MIN_HC_YEAR)
+            {                
+                this.GregorianDate = new JewishDateMicro(year, month, day).GregorianDate;
+                this.GregorianDate.Add(timeOfDay);
+            }
+            else
+            {
+                this.GregorianDate = new DateTime(year, GetTishrieMonth(month, year), day,
+                    timeOfDay.Hours, timeOfDay.Minutes, timeOfDay.Seconds, Utils.HebrewCalendar);
+            }
         }
 
         /// <summary>
@@ -125,7 +142,7 @@ namespace JewishCalendar
         {
             get
             {
-                return new JewishDate(Utils.HebrewCalendar.MinSupportedDateTime);
+                return new JewishDate(DateTime.MinValue);
             }
         }
 
@@ -152,7 +169,7 @@ namespace JewishCalendar
         /// <summary>
         /// The day of the week for this Jewish Date
         /// </summary>
-        public System.DayOfWeek DayOfWeek { get { return Utils.HebrewCalendar.GetDayOfWeek(this.GregorianDate); } }
+        public System.DayOfWeek DayOfWeek { get { return this.GregorianDate.DayOfWeek; } }
 
         /// <summary>
         /// The secular date at midnight of this Jewish Date.
@@ -182,9 +199,20 @@ namespace JewishCalendar
 
                 //Calculate the values now and save them. 
                 //This will save the need to do the calculations each time one of the Properties are called
-                this._year = Utils.HebrewCalendar.GetYear(value);
-                this._month = GetNissanMonth(Utils.HebrewCalendar.GetMonth(value), this._year);
-                this._day = Utils.HebrewCalendar.GetDayOfMonth(value);
+                //If the date is less than the Hebrew Calendars min supported date we will work with the algorithms of the JewishDateMicro class.
+                if (this._gregorianDate.Year <= 1583)
+                {
+                    var jdm = new JewishDateMicro(this._gregorianDate);
+                    this._year = jdm.Year;
+                    this._month = jdm.Month;
+                    this._day = jdm.Day;
+                }
+                else
+                {
+                    this._year = Utils.HebrewCalendar.GetYear(value);
+                    this._month = GetNissanMonth(Utils.HebrewCalendar.GetMonth(value), this._year);
+                    this._day = Utils.HebrewCalendar.GetDayOfMonth(value);
+                }
             }
         }
 
@@ -484,7 +512,14 @@ namespace JewishCalendar
         /// using the class specific version of the function is more efficient.</remarks>
         public static bool IsLongCheshvan(int year)
         {
-            return Utils.HebrewCalendar.GetDaysInMonth(year, 2) == 30;
+            if (year <= MIN_HC_YEAR)
+            {
+                return JewishDateCalculations.IsLongCheshvan(year);
+            }
+            else
+            {
+                return Utils.HebrewCalendar.GetDaysInMonth(year, 2) == 30;
+            }
         }
 
         /// <summary>
@@ -499,7 +534,14 @@ namespace JewishCalendar
         /// using the class specific version of the function is more efficient.</remarks>
         public static bool IsShortKislev(int year)
         {
-            return Utils.HebrewCalendar.GetDaysInMonth(year, 3) == 29;
+            if (year <= MIN_HC_YEAR)
+            {
+                return JewishDateCalculations.IsShortKislev(year);
+            }
+            else
+            {
+                return Utils.HebrewCalendar.GetDaysInMonth(year, 3) == 29;
+            }
         }
 
         /// <summary>
@@ -513,7 +555,14 @@ namespace JewishCalendar
         /// to determine if the year is a leap year or not.</remarks>
         public static int MonthsInYear(int year)
         {
-            return Utils.HebrewCalendar.GetMonthsInYear(year);
+            if (year <= MIN_HC_YEAR)
+            {
+                return JewishDateCalculations.MonthsInJewishYear(year);
+            }
+            else
+            {
+                return Utils.HebrewCalendar.GetMonthsInYear(year);
+            }
         }
 
         /// <summary>
@@ -528,7 +577,14 @@ namespace JewishCalendar
         /// using the class specific version of the function is more efficient.</remarks>
         public static int DaysInJewishYear(int year)
         {
-            return Utils.HebrewCalendar.GetDaysInYear(year);
+            if (year <= MIN_HC_YEAR)
+            {
+                return JewishDateCalculations.DaysInJewishYear(year);
+            }
+            else
+            {
+                return Utils.HebrewCalendar.GetDaysInYear(year);
+            }
         }
 
         /// <summary>
@@ -544,7 +600,14 @@ namespace JewishCalendar
         /// using the class specific version of the function is more efficient.</remarks>
         public static int DaysInJewishMonth(int year, int month)
         {
-            return Utils.HebrewCalendar.GetDaysInMonth(year, GetTishrieMonth(month, year));
+            if (year <= MIN_HC_YEAR)
+            {
+                return JewishDateCalculations.DaysInJewishMonth(year, month);
+            }
+            else
+            {
+                return Utils.HebrewCalendar.GetDaysInMonth(year, GetTishrieMonth(month, year));
+            }
         }
         #endregion Public Static Methods
 
