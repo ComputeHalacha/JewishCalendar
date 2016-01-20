@@ -402,7 +402,10 @@ namespace LuachProject
             this.richTextBox1.Clear();
             this.richTextBox1.SelectionFont = this._lineValueFont;
             this.richTextBox1.SelectionColor = Color.RoyalBlue;
-            this.richTextBox1.SelectedText = this._displayingSecularDate.ToString("D", Program.HebrewCultureInfo) +
+            this.richTextBox1.SelectedText = this._displayingJewishDate.ToLongDateStringHeb() + 
+                Environment.NewLine;
+            this.richTextBox1.SelectionColor = Color.LightSteelBlue;
+            this.richTextBox1.SelectedText = this._displayingSecularDate.ToString("D", Program.HebrewCultureInfo) + 
                 Environment.NewLine;
             //If the secular day is a day behind as day being displayed is todays date and it is after sunset,
             //the user may get confused as the secular date for today and tomorrow will be the same.

@@ -347,6 +347,10 @@ namespace LuachProject
             this.richTextBox1.Clear();
             this.richTextBox1.SelectionFont = this._lineValueFont;
             this.richTextBox1.SelectionColor = Color.RoyalBlue;
+            this.richTextBox1.SelectedText = this._displayingJewishDate.DayOfWeek.ToString() + ", " +
+                this._displayingJewishDate.ToLongDateString() + 
+                Environment.NewLine;
+            this.richTextBox1.SelectionColor = Color.LightSteelBlue;
             this.richTextBox1.SelectedText = this._displayingSecularDate.ToString("D", System.Threading.Thread.CurrentThread.CurrentCulture) +
                 Environment.NewLine;
             //If the secular day is a day behind as day being displayed is todays date and it is after sunset,

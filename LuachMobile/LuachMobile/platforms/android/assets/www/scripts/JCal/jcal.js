@@ -311,11 +311,11 @@ Location.getJerusalem = function () {
 /******************************************************************************************************************************
  *  Represents a single day in the Jewish Calendar.
  *
- *  Many of the algorithms were taken by CBS from the C code  which was translated from the Lisp code
+ *  Many of the date conversion algorithms are based on the C code which was translated from Lisp
  *  in "Calendrical Calculations" by Nachum Dershowitz and Edward M. Reingold
  *  in Software---Practice & Experience, vol. 20, no. 9 (September, 1990), pp. 899--928.
  *
- *  Create a jDate with any of the following:
+ *  To create a jDate using the constructor, use one of the following:
  *  new jDate(javascriptDateObject) - Sets to the Jewish date on the given Gregorian date
  *  new jDate("January 1 2045") - Accepts any valid javascript Date string (uses javascripts new Date(String))
  *  new jDate(jewishYear, jewishMonth, jewishDay) - Months start at 1. Nissan is month 1 Adara Sheini is 13.
@@ -330,7 +330,7 @@ function jDate(arg, month, day) {
 
     //The day of the Jewish Month
     self.Day = NaN;
-    //The Jewish Month. As in the torah, Nissan is 1 and Adara Sheini is 13
+    //The Jewish Month. As in the Torah, Nissan is 1 and Adara Sheini is 13
     self.Month = NaN;
     //The Number of years since the creation of the world
     self.Year = NaN;
@@ -384,7 +384,8 @@ function jDate(arg, month, day) {
 }
 
 jDate.prototype = {
-    //Returns a valid javascript Date object that represents the Gregorian date that starts at midnight of the current Jewish date
+    //Returns a valid javascript Date object that represents the Gregorian date 
+    //that starts at midnight of the current Jewish date
     getDate: function () {
         var dt = new Date(2000, 0, 1); // 1/1/2000 is absolute date 730120
         dt.setDate((this.Abs - 730120) + 1);
@@ -532,7 +533,7 @@ jDate.prototype = {
         return jDate.getHoldidays(this, israel, hebrew);
     },
 
-    //Does the current Jewish date need candle lighting before sunset?
+    //Does the current Jewish date have candle lighting before sunset?
     hasCandleLighting: function () {
         var dow = this.getDayOfWeek();
 
@@ -586,7 +587,7 @@ jDate.prototype = {
         return Zmanim.getChatzos(this, location);
     },
 
-    //Gets the length of a single Sha'a Zmanis for the current Jewish date at the given Location.
+    //Gets the length of a single Sha'a Zmanis in minutes for the current Jewish date at the given Location.
     getShaaZmanis: function (location, offset) {
         if (!location) {
             throw new Error('To get the Shaa Zmanis, the location needs to be supplied');
@@ -606,9 +607,13 @@ jDate.prototype = {
 };
 
 /***************************************************************************************************************
-*  Converts to a Jewish Date. Sample of use - to get the current Jewish Date: jDate.toJDate(new Date()). 
-*  To print out the current date in English: jDate.toJDate(new Date()).toString() and in Hebrew: jDate.toJDate(new Date()).toStringHeb()
-*  Arguments to the jDate.toJDate function can be any of the following:
+*  Converts its argument/s to a Jewish Date. 
+*  Samples of use: 
+*    To get the current Jewish Date: jDate.toJDate(new Date()). 
+*    To print out the current date in English: jDate.toJDate(new Date()).toString() 
+*    To print out the current date in Hebrew: jDate.toJDate(new Date()).toStringHeb()
+*  
+*  Arguments to the jDate.toJDate function can be one of the following:
 *  jDate.toJDate(Date) - Sets to the Jewish date on the given Javascript Date object
 *  jDate.toJDate("January 1 2045") - Accepts any valid Javascript Date string (uses string constructor of Date object)
 *  jDate.toJDate(jewishYear, jewishMonth, jewishDay) - Months start at 1. Nissan is month 1 Adara Sheini is 13.
@@ -795,7 +800,7 @@ jDate.monthsJYear = function (year) {
     return jDate.isJdLeapY(year) ? 13 : 12;
 };
 
-//Gets an array[string] of holidays, fasts and any other special specifications for the given Jewish date.
+//Gets an Array[String] of holidays, fasts and any other special specifications for the given Jewish date.
 jDate.getHoldidays = function (jd, israel, hebrew) {
     var list = [],
         jYear = jd.Year,
@@ -811,6 +816,7 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
     else if (dayOfWeek === 6) {
         list.push(!hebrew ? "Shabbos Kodesh" : "שבת קודש");
 
+        //All months but Tishrei have Shabbos Mevarchim on the Shabbos before Rosh Chodesh
         if (jMonth != 6 && jDay > 22 && jDay < 30)
             list.push(!hebrew ? "Shabbos Mevarchim" : "מברכים החודש");
     }
@@ -828,7 +834,7 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
             var nextYearIsLeap = jDate.isJdLeapY(jYear + 1);
             //If next year is not a leap year, then vst"u starts on the 5th.
             //If next year is a leap year than vst"u starts on the 6th.
-            //If the 5th or 6th were shabbos than vst"u starts on the following day - Sunday.
+            //If the 5th or 6th were shabbos than vst"u starts on Sunday.
             if ((((sday === 5 || (sday === 6 && dayOfWeek === 0)) && (!nextYearIsLeap))) ||
                 ((sday === 6 || (sday === 7 && dayOfWeek === 0)) && nextYearIsLeap))
                 list.push(!hebrew ? "V'sain Tal U'Matar" : "ותן טל ומטר");
@@ -851,7 +857,7 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
                     (!hebrew ? "Pesach - Chol HaMoed" : "פסח - חול המועד") :
                     (!hebrew ? "Pesach - Second Day" : "פסח - יום שני"));
             else if ([17, 18, 19].has(jDay))
-                list.push(!hebrew ? "Pesach - Chol Ha'moed - Erev Yomtov" : "פסח - חול המועד");
+                list.push(!hebrew ? "Pesach - Chol Ha'moed" : "פסח - חול המועד");
             else if (jDay === 20)
                 list.push(!hebrew ? "Pesach - Chol Ha'moed - Erev Yomtov" : "פסח - חול המועד - ערב יו\"ט");
             else if (jDay === 21)
@@ -920,7 +926,9 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
             else if (jDay === 15)
                 list.push(!hebrew ? "First Day of Sukkos" : "חג הסוכות");
             else if (jDay === 16)
-                list.push(israel ? (!hebrew ? "Sukkos - Chol HaMoed" : "סוכות - חול המועד") : (!hebrew ? "Sukkos - Second Day" : "יום שני - חג הסוכות"));
+                list.push(israel ?
+                    (!hebrew ? "Sukkos - Chol HaMoed" : "סוכות - חול המועד") :
+                    (!hebrew ? "Sukkos - Second Day" : "יום שני - חג הסוכות"));
             else if ([17, 18, 19, 20].has(jDay))
                 list.push(!hebrew ? "Sukkos - Chol HaMoed" : "סוכות - חול המועד");
             else if (jDay === 21)
