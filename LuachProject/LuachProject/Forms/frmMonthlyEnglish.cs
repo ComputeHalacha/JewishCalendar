@@ -491,7 +491,7 @@ namespace LuachProject
 
                 foreach (SpecialDay sd in holidays)
                 {
-                    if (sd.DayType == SpecialDay.SpecialDayTypes.Shabbos)
+                    if (sd.DayType == SpecialDayTypes.Shabbos)
                     {
                         holidays.Remove(sd);
                         break;
@@ -518,15 +518,15 @@ namespace LuachProject
             {
                 var hlist = holidays.Cast<SpecialDay>();
                 if (hlist.Any(h =>
-                    (h.DayType & SpecialDay.SpecialDayTypes.HasCandleLighting) == SpecialDay.SpecialDayTypes.HasCandleLighting))
+                    (h.DayType & SpecialDayTypes.HasCandleLighting) == SpecialDayTypes.HasCandleLighting))
                 {
                     textZmanim += "Candles: " +
 
                         (zmanim.GetShkia() - this._currentLocation.CandleLighting).ToString() + "\n";
                 }
                 if (hlist.Any(h =>
-                    (h.DayType & SpecialDay.SpecialDayTypes.MajorYomTov) == SpecialDay.SpecialDayTypes.MajorYomTov ||
-                    (h.DayType & SpecialDay.SpecialDayTypes.MinorYomtov) == SpecialDay.SpecialDayTypes.MinorYomtov))
+                    (h.DayType & SpecialDayTypes.MajorYomTov) == SpecialDayTypes.MajorYomTov ||
+                    (h.DayType & SpecialDayTypes.MinorYomtov) == SpecialDayTypes.MinorYomtov))
                 {
                     g.FillRectangle(Program.YomtovBrush, rect);
                 }

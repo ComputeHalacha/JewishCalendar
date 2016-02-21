@@ -448,7 +448,7 @@ namespace LuachProject
                 }
                 this.richTextBox1.SelectedText = Environment.NewLine;
                 if (shkia != HourMinute.NoValue &&
-                    this._holidays.Any(h => h.DayType.HasFlag(SpecialDay.SpecialDayTypes.HasCandleLighting)))
+                    this._holidays.Any(h => h.DayType.HasFlag(SpecialDayTypes.HasCandleLighting)))
                 {
                     this.AddLine("הדלקת נרות", (shkia - this._zmanim.Location.CandleLighting).ToString24H());
                 }

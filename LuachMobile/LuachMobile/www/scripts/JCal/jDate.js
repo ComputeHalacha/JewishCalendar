@@ -510,6 +510,30 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
     else if (dayOfWeek === 6) {
         list.push(!hebrew ? "Shabbos Kodesh" : "שבת קודש");
 
+        if (jMonth === 1 && jDay > 7 && jDay < 15) {
+            list.push(!hebrew ? "Shabbos HaGadol" : "שבת הגדול");
+        }
+        else if (jMonth === 7 && jDay > 2 && jDay < 10) {
+            list.push(!hebrew ? "Shabbos Shuva" : "שבת שובה");
+        }
+        else if (jMonth === 5 && jDay > 2 && jDay < 10) {
+            list.push(!hebrew ? "Shabbos Chazon" : "שבת חזון");
+        }
+        else if ((jMonth === (isLeapYear ? 12 : 11) && jDay > 23 && jDay < 30) ||
+                (jMonth === (isLeapYear ? 13 : 12) && jDay === 1)) {
+            list.push(!hebrew ? "Parshas Shkalim" : "פרשת שקלים");
+        }
+        else if (jMonth === (isLeapYear ? 13 : 12) && jDay > 7 && jDay < 14) {
+            list.push(!hebrew ? "Parshas Zachor" : "פרשת זכור");
+        }
+        else if (jMonth === (isLeapYear ? 13 : 12) && jDay > 16 && jDay < 24) {
+            list.push(!hebrew ? "Parshas Parah" : "פרשת פרה");
+        }
+        else if ((jMonth === (isLeapYear ? 13 : 12) && jDay > 23 && jDay < 30) ||
+                (jMonth === 1 && jDay == 1)) {
+            list.push(!hebrew ? "Parshas Hachodesh" : "פרשת החודש");
+        }
+
         //All months but Tishrei have Shabbos Mevarchim on the Shabbos before Rosh Chodesh
         if (jMonth != 6 && jDay > 22 && jDay < 30)
             list.push(!hebrew ? "Shabbos Mevarchim" : "מברכים החודש");
@@ -536,8 +560,6 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
     }
     switch (jMonth) {
         case 1: //Nissan
-            if (dayOfWeek === 6 && jDay > 7 && jDay < 15)
-                list.push(!hebrew ? "Shabbos HaGadol" : "שבת הגדול");
             if (jDay === 12 && dayOfWeek === 4)
                 list.push(!hebrew ? "Bedikas Chametz" : "בדיקת חמץ");
             else if (jDay === 13 && dayOfWeek !== 5)
