@@ -166,7 +166,7 @@ namespace JewishCalendar
         /// <summary>
         /// Determines if the given Gregorian date and time is within the rules for DST.
         /// If no time zone info is available; if the location is in Israel, the current Israeli rules are used.
-        /// Otherwise, the US rules are used.
+        /// Otherwise, the local system rules are used. [This may be very incorrect if the user is viewing any other location but the local system one]
         /// </summary>
         /// <param name="date">The secular date</param>
         /// <param name="location">Where in the world?</param>
@@ -175,7 +175,7 @@ namespace JewishCalendar
         {
             if (location != null && location.TimeZoneInfo != null)
             {
-                return location.TimeZoneInfo.IsDaylightSavingTime(date);
+                return location.TimeZoneInfo.IsAmbiguousTime(date) || location.TimeZoneInfo.IsDaylightSavingTime(date);
             }
             else if (location.IsInIsrael)
             {
@@ -183,7 +183,9 @@ namespace JewishCalendar
             }
             else
             {
-                return IsUsaDst(date);
+                //Not sure about this. Should we return the current system setting or US rules?                
+                //return IsUsaDst(date);
+                return TimeZoneInfo.Local.IsAmbiguousTime(date) || TimeZoneInfo.Local.IsDaylightSavingTime(date);
             }
         }
 
@@ -315,7 +317,7 @@ namespace JewishCalendar
         /// </summary>
         /// <param name="date">The given date and time</param>
         /// <returns>Whether or not the given DateTime is during Daylight Savings Time</returns>
-        private static bool IsIsraelDst(DateTime date)
+        public static bool IsIsraelDst(DateTime date)
         {
             int year = date.Year, month = date.Month, day = date.Day, hour = date.Hour;
 
@@ -349,7 +351,7 @@ namespace JewishCalendar
         /// </summary>
         /// <param name="date">The given date and time</param>
         /// <returns>Whether or not the given DateTime is during Daylight Savings Time</returns>
-        private static bool IsUsaDst(DateTime date)
+        public static bool IsUsaDst(DateTime date)
         {
             int year = date.Year, month = date.Month, day = date.Day, hour = date.Hour;
 
