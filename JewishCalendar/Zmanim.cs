@@ -203,14 +203,14 @@ namespace JewishCalendar
             if (jDay == 30)
             {
                 int monthIndex = (jMonth == 12 && !isLeapYear) || jMonth == 13 ? 1 : jMonth + 1;
-                list.Add(new SpecialDay("Rosh Chodesh " + Utils.JewishMonthNamesEnglish[monthIndex],
-                   "ראש חודש " + Utils.JewishMonthNamesHebrew[monthIndex],
+                list.Add(new SpecialDay("Rosh Chodesh " + Utils.GetProperMonthName(jYear, jMonth),
+                   "ראש חודש " +  Utils.GetProperMonthNameHeb(jYear,monthIndex),
                    SpecialDayTypes.MinorYomtov));
             }
             else if (jDay == 1 && jMonth != 7)
             {
-                list.Add(new SpecialDay("Rosh Chodesh " + Utils.JewishMonthNamesEnglish[jMonth],
-                   "ראש חודש " + Utils.JewishMonthNamesHebrew[jMonth],
+                list.Add(new SpecialDay("Rosh Chodesh " + Utils.GetProperMonthName(jYear, jMonth),
+                   "ראש חודש " + Utils.GetProperMonthNameHeb(jYear, jMonth),
                    SpecialDayTypes.MinorYomtov));
             }
 

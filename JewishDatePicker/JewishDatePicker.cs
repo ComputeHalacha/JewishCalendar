@@ -269,7 +269,7 @@ namespace JewishDatePicker
             for (int i = 1; i <= (m ? 13 : 12); i++)
             {
                 this.cmbJMonth.Items.Add(new KeyValuePair<int, string>(i,
-                    this._language == Languages.Hebrew ? Utils.JewishMonthNamesHebrew[i] : Utils.JewishMonthNamesEnglish[i]));
+                    this._language == Languages.Hebrew ? Utils.GetProperMonthNameHeb(this.Value.Year, i) : Utils.GetProperMonthName(this.Value.Year, i)));
             }
         }
 

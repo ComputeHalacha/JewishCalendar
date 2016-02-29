@@ -794,20 +794,20 @@ namespace LuachProject
 
                 if (firstDayJMonth.Month == lastDayJMonth.Month)
                 {
-                    caption += Utils.JewishMonthNamesHebrew[firstDayJMonth.Month] +
+                    caption += Utils.GetProperMonthNameHeb(firstDayJMonth.Year, firstDayJMonth.Month) +
                         " " + (firstDayJMonth.Year % 1000).ToNumberHeb();
                 }
                 else if (firstDayJMonth.Year == lastDayJMonth.Year)
                 {
-                    caption += Utils.JewishMonthNamesHebrew[firstDayJMonth.Month] +
-                        " - " + Utils.JewishMonthNamesHebrew[lastDayJMonth.Month] +
+                    caption += Utils.GetProperMonthNameHeb(firstDayJMonth.Year, firstDayJMonth.Month) +
+                        " - " + Utils.GetProperMonthNameHeb(lastDayJMonth.Year, lastDayJMonth.Month) +
                         " " + (lastDayJMonth.Year % 1000).ToNumberHeb();
                 }
                 else
                 {
-                    caption += Utils.JewishMonthNamesHebrew[firstDayJMonth.Month] +
+                    caption += Utils.GetProperMonthNameHeb(firstDayJMonth.Year, firstDayJMonth.Month) +
                         " " + (firstDayJMonth.Year % 1000).ToNumberHeb() +
-                        " - " + Utils.JewishMonthNamesHebrew[lastDayJMonth.Month] +
+                        " - " + Utils.GetProperMonthNameHeb(lastDayJMonth.Year, lastDayJMonth.Month) +
                         " " + (lastDayJMonth.Year % 1000).ToNumberHeb();
                 }
             }

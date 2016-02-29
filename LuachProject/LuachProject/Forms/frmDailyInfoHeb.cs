@@ -425,7 +425,7 @@ namespace LuachProject
                     if (h.NameEnglish == "Shabbos Mevarchim")
                     {
                         var nextMonth = this._displayingJewishDate + 12;
-                        this.richTextBox1.SelectedText = " - חודש " + Utils.JewishMonthNamesHebrew[nextMonth.Month];
+                        this.richTextBox1.SelectedText = " - חודש " + Utils.GetProperMonthNameHeb(nextMonth.Year, nextMonth.Month);
                         var molad = Molad.GetMolad(nextMonth.Month, nextMonth.Year);
                         var dim = JewishDate.DaysInJewishMonth(this._displayingJewishDate.Year, this._displayingJewishDate.Month);
                         var dow = dim - this._displayingJewishDate.Day;

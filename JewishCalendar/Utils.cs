@@ -292,6 +292,44 @@ namespace JewishCalendar
             return t + suffix;
         }
 
+        /// <summary>
+        /// Gets the "proper" name for the given Jewish Month.
+        /// This means for a leap year, labeling each of the the 2 Adars.
+        /// </summary>
+        /// <param name="jYear"></param>
+        /// <param name="jMonth"></param>
+        /// <returns></returns>
+        public static string GetProperMonthName(int jYear, int jMonth)
+        {
+            if(jMonth == 12 && JewishDateCalculations.IsJewishLeapYear(jYear))
+            {
+                return "Adar Rishon";
+            }
+            else
+            {
+                return JewishMonthNamesEnglish[jMonth];
+            }
+        }
+
+        /// <summary>
+        /// Gets the "proper" name in Hebrew for the given Jewish Month.
+        /// This means for a leap year, labeling each of the the 2 Adars.
+        /// </summary>
+        /// <param name="jYear"></param>
+        /// <param name="jMonth"></param>
+        /// <returns></returns>
+        public static string GetProperMonthNameHeb(int jYear, int jMonth)
+        {
+            if (jMonth == 12 && JewishDateCalculations.IsJewishLeapYear(jYear))
+            {
+                return "אדר ראשון";
+            }
+            else
+            {
+                return JewishMonthNamesHebrew[jMonth];
+            }
+        }
+
         #endregion Public Methods
 
         #region Private Methods

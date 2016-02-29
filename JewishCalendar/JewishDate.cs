@@ -224,7 +224,7 @@ namespace JewishCalendar
         /// <summary>
         /// The name of the current Jewish Month (in English)
         /// </summary>
-        public string MonthName { get { return Utils.JewishMonthNamesEnglish[this.Month]; } }
+        public string MonthName { get { return Utils.GetProperMonthNameHeb(this.Year, this.Month); } }
 
         /// <summary>
         /// The number of years since creation
@@ -446,7 +446,11 @@ namespace JewishCalendar
         /// <returns></returns>
         public string ToLongDateStringHeb()
         {
-            return this.GregorianDate.ToString("D", Utils.HebrewCultureInfo);
+            var sb = new System.Text.StringBuilder();
+            sb.Append(Utils.JewishDOWNames[(int)this.DayOfWeek]);
+            sb.Append(" ");
+            sb.Append(this.ToShortDateStringHeb());
+            return sb.ToString();
         }
 
         /// <summary>
@@ -468,7 +472,13 @@ namespace JewishCalendar
         /// <returns></returns>
         public string ToShortDateStringHeb()
         {
-            return this.GregorianDate.ToString("d", Utils.HebrewCultureInfo);
+            var sb = new System.Text.StringBuilder();
+            sb.Append(this.Day.ToNumberHeb());
+            sb.Append(" ");
+            sb.Append(Utils.GetProperMonthNameHeb(this.Year, this.Month));
+            sb.Append(" ");
+            sb.Append(this.Year.ToNumberHeb());
+            return sb.ToString();
         }
 
         /// <summary>

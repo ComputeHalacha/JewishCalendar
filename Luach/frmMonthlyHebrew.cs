@@ -312,7 +312,7 @@ namespace Luach
             {
                 foreach (SpecialDay sd in holidays)
                 {
-                    if (sd.DayType == SpecialDay.SpecialDayTypes.Shabbos)
+                    if (sd.DayType == SpecialDayTypes.Shabbos)
                     {
                         holidays.Remove(sd);
                         break;
@@ -345,14 +345,14 @@ namespace Luach
                 if (holidays.Count > 0)
                 {
                     var hlist = holidays.Cast<SpecialDay>();
-                    if (hlist.Any(h => h.DayType.HasFlag(SpecialDay.SpecialDayTypes.HasCandleLighting)))
+                    if (hlist.Any(h => h.DayType.HasFlag(SpecialDayTypes.HasCandleLighting)))
                     {
                         textZmanim += "הדלק\"נ: " +
                             (zmanim.GetShkia() - this._currentLocation.CandleLighting).ToString24H() + "\n";
                     }
                     if (hlist.Any(h =>
-                        (h.DayType & SpecialDay.SpecialDayTypes.MajorYomTov) == SpecialDay.SpecialDayTypes.MajorYomTov ||
-                        (h.DayType & SpecialDay.SpecialDayTypes.MinorYomtov) == SpecialDay.SpecialDayTypes.MinorYomtov))
+                        (h.DayType & SpecialDayTypes.MajorYomTov) == SpecialDayTypes.MajorYomTov ||
+                        (h.DayType & SpecialDayTypes.MinorYomtov) == SpecialDayTypes.MinorYomtov))
                     {
                         g.FillRectangle(Program.YomtovBrush, rect);
                     }
@@ -517,7 +517,7 @@ namespace Luach
 
         private void SetCaptionText()
         {
-            string caption = Utils.JewishMonthNamesHebrew[this._currentJewishDate.Month] + " " +
+            string caption = Utils.GetProperMonthNameHeb(this._currentJewishDate.Year, this._currentJewishDate.Month)  + " " +
                 this._currentJewishDate.Year.ToNumberHeb() + "  |  ";
             DateTime firstDayGMonth = this._currentJewishDate.GregorianDate;
             DateTime lastDayGMonth = (this._currentJewishDate + (this._currentMonthLength - 1)).GregorianDate;

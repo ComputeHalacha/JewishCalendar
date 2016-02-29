@@ -60,7 +60,7 @@ namespace JewishCalendar
         /// <summary>
         /// The name of the current Jewish Month (in English)
         /// </summary>
-        public string MonthName { get { return Utils.JewishMonthNamesEnglish[this.Month]; } }
+        public string MonthName { get { return Utils.GetProperMonthName(this.Year, this.Month); } }
 
         /// <summary>
         /// The number of years since creation
@@ -398,8 +398,7 @@ namespace JewishCalendar
         /// <returns></returns>
         public string ToLongDateStringHeb()
         {
-            var sb = new System.Text.StringBuilder();
-            //Note for the .net micro framework there are no "format" functions
+            var sb = new System.Text.StringBuilder();                        
             sb.Append(Utils.JewishDOWNames[this.DayInWeek]);
             sb.Append(" ");
             sb.Append(this.ToShortDateStringHeb());
@@ -429,7 +428,7 @@ namespace JewishCalendar
             //Note for the .net micro framework there are no "format" functions
             sb.Append(this.Day.ToNumberHeb());
             sb.Append(" ");
-            sb.Append(Utils.JewishMonthNamesHebrew[this.Month]);
+            sb.Append(Utils.GetProperMonthNameHeb(this.Year, this.Month));
             sb.Append(" ");
             sb.Append(this.Year.ToNumberHeb());
             return sb.ToString();

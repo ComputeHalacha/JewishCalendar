@@ -724,7 +724,7 @@ namespace LuachProject
         private void SetCaptionText()
         {
             this.SuspendLayout();
-            string caption = Utils.JewishMonthNamesHebrew[this._displayedJewishMonth.Month] + " " +
+            string caption = Utils.GetProperMonthNameHeb(this._displayedJewishMonth.Year, this._displayedJewishMonth.Month) + " " +
                 this._displayedJewishMonth.Year.ToNumberHeb() + "  |  ";
             DateTime firstDayGMonth = this._displayedJewishMonth.GregorianDate;
             DateTime lastDayGMonth = (this._displayedJewishMonth + (this._currentMonthLength - 1)).GregorianDate;

@@ -8,8 +8,8 @@ namespace TestBenchmarks
 {
     class Program
     {
-        private static JewishDate jdDate = new JewishDate(startDate);
-        private static JewishDateMicro jdmDate = new JewishDateMicro(startDate);
+        private static JewishDate jdDate = new JewishDate();
+        private static JewishDateMicro jdmDate = new JewishDateMicro();
 
         static void Main(string[] args)
         {

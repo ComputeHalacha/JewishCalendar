@@ -191,7 +191,7 @@ namespace Luach
             {
                 this.richTextBox1.SelectedText = Environment.NewLine + Zmanim.GetHolidaysText(holidays, " - ", true) +
                     Environment.NewLine;
-                if (holidayList.Any(h => h.DayType.HasFlag(SpecialDay.SpecialDayTypes.HasCandleLighting)))
+                if (holidayList.Any(h => h.DayType.HasFlag(SpecialDayTypes.HasCandleLighting)))
                 {
                     this.AddLine("הדלקת נרות", (shkia - location.CandleLighting).ToString24H());
                 }
