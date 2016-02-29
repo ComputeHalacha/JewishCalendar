@@ -319,7 +319,7 @@ namespace LuachProject
                 this.JewishDate.ToLongDateStringHeb() + "  (" +
                 this.SecularDate.ToString("d", Program.HebrewCultureInfo) + ")";
             this.rbJewishYearly.Text = "אירוע שנתי בכל " + jdDay.ToNumberHeb() +
-                " " + Utils.JewishMonthNamesHebrew[jdMonth];
+                " " + Utils.GetProperMonthNameHeb(this.JewishDate.Year, jdMonth);
             this.rbJewishMonthly.Text = "אירוע חודשי בכל " + jdDay.ToNumberHeb() +
                 " לחודש העברי";
             this.rbSecularYearly.Text = "אירוע שנתי בכל " + sdDay.ToString() +

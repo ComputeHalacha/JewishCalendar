@@ -129,14 +129,39 @@ namespace LuachProject
         {
             var col = new UserOccasionColection();
             col.AddRange(from uo in Properties.Settings.Default.UserOccasions
-                         where (uo.UserOccasionType == UserOccasionTypes.OneTime && (uo.JewishDate == currDate || uo.SecularDate.Date == currDate.GregorianDate.Date)) ||
+                         where (uo.UserOccasionType == UserOccasionTypes.OneTime &&
+                            (uo.JewishDate == currDate || uo.SecularDate.Date == currDate.GregorianDate.Date)) ||
                                (uo.JewishDate <= currDate && (
-                                   (uo.UserOccasionType == UserOccasionTypes.HebrewDateRecurringYearly && (uo.JewishDate.Month == currDate.Month && uo.JewishDate.Day == currDate.Day)) ||
+                                   (uo.UserOccasionType == UserOccasionTypes.HebrewDateRecurringYearly && (uo.JewishDate.Day == currDate.Day && IsJewishMonthMatch(uo.JewishDate, currDate))) ||
                                    (uo.UserOccasionType == UserOccasionTypes.HebrewDateRecurringMonthly && (uo.JewishDate.Day == currDate.Day)) ||
-                                   (uo.UserOccasionType == UserOccasionTypes.SecularDateRecurringYearly && (uo.SecularDate.Month == currDate.GregorianDate.Month && uo.SecularDate.Day == currDate.GregorianDate.Day)) ||
+                                   (uo.UserOccasionType == UserOccasionTypes.SecularDateRecurringYearly && (uo.SecularDate.Day == currDate.GregorianDate.Day && uo.SecularDate.Month == currDate.GregorianDate.Month)) ||
                                    (uo.UserOccasionType == UserOccasionTypes.SecularDateRecurringMonthly && (uo.SecularDate.Day == currDate.GregorianDate.Day))))
                          select uo);
             return col;
+        }
+
+        /// <summary>
+        /// Determines if two months match  for a yahrtzeit or birthday etc.
+        /// </summary>
+        /// <param name="occDate"></param>
+        /// <param name="currDate"></param>
+        /// <returns></returns>
+        private static bool IsJewishMonthMatch(JewishDate occDate, JewishDate currDate)
+        {
+            bool isOccLeap = JewishDate.IsLeapYear(occDate.Year),
+                     isCurrLeap = JewishDate.IsLeapYear(currDate.Year);
+            int occMonth = occDate.Month,
+                currMonth = currDate.Month;
+
+            if (((isOccLeap && !isCurrLeap) && 
+                   ((occMonth == 13 && currMonth == 12) || (occMonth == 12 && currMonth == 11))) ||
+               (((!isOccLeap) && isCurrLeap) && 
+                   ((occMonth == 12 && currMonth == 13) || (occMonth == 11 && currMonth == 12))))
+            {
+                return true;
+            }
+
+            return occDate.Month == currDate.Month;
         }
 
         #endregion Public Methods
