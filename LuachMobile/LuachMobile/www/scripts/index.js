@@ -130,7 +130,10 @@
 
             html += '"><div class="jd">' +
                         Utils.toJNum(currJd.Day) +
-                    '</div><div class="sd">' + currSd.getDate() + '</div>';
+                    '</div><div class="sd' +
+                //The special days get a slightly different layout.
+                ((holidays && holidays.length) ? ' hh' : '') +
+                '">' + currSd.getDate() + '</div>';
 
             if (holidays && holidays.length) {
                 html += '<div class="ht">' + holidays.join('<br />') + '</div>' +
