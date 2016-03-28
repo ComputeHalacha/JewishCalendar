@@ -80,8 +80,7 @@
             $('#divCalendarPage #emLocDet').html('lat: ' +
                 location.Latitude.toString() +
                 ' long:' + location.Longitude.toString() +
-                (location.Israel ? ' | Israel' : '') + '  |  ' +
-                (location.IsDST ? 'DST' : 'not DST'));
+                (location.Israel ? ' | Israel' : ''));
         }
         showDate();
     }

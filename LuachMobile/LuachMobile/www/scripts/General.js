@@ -117,8 +117,7 @@ function setCurrentLocation() {
                 position.coords.latitude,
                 position.coords.longitude,
                 Utils.currUtcOffset(),
-                position.coords.altitude,
-                Utils.isDST());
+                position.coords.altitude);
             console.log('Location acquired from Cordova geolocation plugin.');
             setLocation(location, false, false);
         }, function () {

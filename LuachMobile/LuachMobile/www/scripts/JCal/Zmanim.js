@@ -198,18 +198,14 @@ Zmanim.timeAdj = function (time, date, location) {
     }
     hour = parseInt(time);
     min = parseInt(parseInt((time - hour) * 60 + 0.5));
-
-    if (location.IsDST) {
+    
+    var inCurrTZ = location.UTCOffset === Utils.currUtcOffset();
+    if (inCurrTZ && Utils.isDateDST(date)) {
         hour++;
     }
-    else if (location.isDST != false) {
-        var inCurrTZ = location.UTCOffset === Utils.currUtcOffset();
-        if (inCurrTZ && Utils.isDST(date)) {
-            hour++;
-        }
-        else if ((!inCurrTZ) && Utils.isUSA_DST(date, hour)) {
-            hour++;
-        }
+    else if ((!inCurrTZ) &&
+        ((loc.Israel && Utils.isIsrael_DST(date)) || Utils.isUSA_DST(date, hour))) {
+        hour++;
     }
 
     return Utils.fixHourMinute({ hour: hour, minute: min });

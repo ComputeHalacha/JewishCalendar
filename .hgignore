@@ -13,3 +13,4 @@ LuachMobile/LuachMobile/platforms/android/assets/
 LuachMobile/LuachMobile/www/scripts/bundle*
 LuachMobile/LuachMobile/www/css/bundle*
 LuachMobile/LuachMobile/www/scripts/JCal/jcal*
+*.log

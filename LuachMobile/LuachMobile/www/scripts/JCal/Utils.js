@@ -187,9 +187,14 @@ Utils.currUtcOffset = function () {
     return -parseInt(Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset()) / 60);
 };
 
+//Determines if the given date is within DST on the users system
+Utils.isDateDST = function (date) {
+    return (-parseInt(date.getTimezoneOffset() / 60)) !== Utils.currUtcOffset();
+};
+
 //Determines if the users system is currently set to DST
 Utils.isDST = function () {
-    return -parseInt(new Date().getTimezoneOffset() / 60) < Utils.currUtcOffset();
+    return Utils.isDateDST(new Date());
 };
 
 //Determines if the given date and time are during DST according to the USA rules
