@@ -58,9 +58,7 @@ Public Class frmCreateRemindersEng
 
             Dim oNameSpace As Outlook.NameSpace = olApp.GetNamespace("MAPI")
             Dim objApt As Outlook.AppointmentItem
-            Dim firstDayOfPesach As JewishDate = New JewishDate(Me._todayJD.Year +
-                If(Me._todayJD.Month > 3 OrElse (Me._todayJD.Month = 3 AndAlso Me._todayJD.Day > 5), 1, 0),
-                1, 15)
+            Dim firstDayOfPesach As JewishDate = GetFirstDayOfPesach(Me._todayJD)
             Dim count As Integer
 
             oNameSpace.Logon()
@@ -156,9 +154,7 @@ Public Class frmCreateRemindersEng
         Me.Cursor = Cursors.WaitCursor
 
         Try
-            Dim secondDayOfPesach As JewishDate = New JewishDate(Me._todayJD.Year +
-                If(Me._todayJD.Month > 3 OrElse (Me._todayJD.Month = 3 AndAlso Me._todayJD.Day > 5), 1, 0),
-                1, 16)
+            Dim secondDayOfPesach As JewishDate = GetFirstDayOfPesach(Me._todayJD) + 1
             Dim alarmTime As TimeSpan = Me.dtpTime.Value.TimeOfDay
             Dim isVistaPlus As Boolean = Convert.ToInt32(My.Computer.Info.OSVersion.Split(".")(0)) >= 6
             Dim path As String = Application.ExecutablePath

@@ -12,6 +12,18 @@ Module Program
     End Sub
 
     ''' <summary>
+    ''' Gets the upcoming first day of Pesach
+    ''' </summary>
+    ''' <param name="today"></param>
+    ''' <returns></returns>
+    Friend Function GetFirstDayOfPesach(today As JewishDate) As JewishDate
+        Return New JewishDate(today.Year +
+                        If((today.Month > 3 AndAlso today.Month < 7) OrElse
+                        (today.Month = 3 AndAlso today.Day > 5), 1, 0), 1, 15)
+    End Function
+
+
+    ''' <summary>
     ''' Loads the locations from the settings.
     ''' Note: the xml format for each locations is:
     '''     <L N="Ofakim" H="אופקים" I="Y">    <!--N = name of location, H = hebrew name (optional), I = is the location in Israel? [Y = yes] (optional)-->
