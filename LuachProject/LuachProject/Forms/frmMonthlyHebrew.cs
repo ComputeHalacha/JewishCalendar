@@ -160,14 +160,18 @@ namespace LuachProject
 
         private void button4_Click(object sender, EventArgs e)
         {
-            this.NavigateToMonth(new JewishDate(this._displayedJewishMonth.Year - 1,
-                this._displayedJewishMonth.Month, this._displayedJewishMonth.Day));
+            this.NavigateToMonth(new JewishDate(
+                this._displayedJewishMonth.Year - 1,
+                (this._displayedJewishMonth.Month == 13 ? 12 : this._displayedJewishMonth.Month), 
+                this._displayedJewishMonth.Day));
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            this.NavigateToMonth(new JewishDate(this._displayedJewishMonth.Year + 1,
-                this._displayedJewishMonth.Month, this._displayedJewishMonth.Day));
+            this.NavigateToMonth(new JewishDate(
+                this._displayedJewishMonth.Year + 1,
+                (this._displayedJewishMonth.Month == 13 ? 12 : this._displayedJewishMonth.Month), 
+                this._displayedJewishMonth.Day));
         }
 
         private void cmbLocation_SelectedIndexChanged(object sender, EventArgs e)
