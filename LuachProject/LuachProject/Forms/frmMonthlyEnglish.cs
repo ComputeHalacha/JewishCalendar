@@ -124,7 +124,7 @@ namespace LuachProject
             this._zmanimFont = new Font(this.Font.FontFamily, 8, FontStyle.Regular);
             this._secularDayFont = new Font(this.Font.FontFamily, 8.5f);
             this._userOccasionFont = this._zmanimFont;
-            this.jewishDatePicker1.DataBindings.Add("Value", this, "SelectedJewishDate", true, DataSourceUpdateMode.OnPropertyChanged);
+            this.jewishDatePicker1.DataBindings.Add("Value", this, "SelectedJewishDate", true, DataSourceUpdateMode.OnPropertyChanged, new JewishDate());
         }
 
         #endregion Constructors
@@ -490,6 +490,8 @@ namespace LuachProject
 
             if (currDate.DayOfWeek == DayOfWeek.Saturday)
             {
+                bool noSedra = false;
+
                 width = (this.pnlMain.Width - currX) - 1f;
                 rect.Width = width;
 
@@ -504,6 +506,10 @@ namespace LuachProject
 
                 foreach (SpecialDay sd in holidays)
                 {
+                    if((sd.DayType & SpecialDayTypes.MajorYomTov) == SpecialDayTypes.MajorYomTov)
+                    {
+                        noSedra = true;
+                    }
                     if (sd.NameEnglish == "Shabbos Mevarchim")
                     {
                         var nextMonth = currDate + 12;
@@ -513,8 +519,15 @@ namespace LuachProject
                     }
                 }
 
-                textZmanim = string.Join(" - ", Sedra.GetSedra(currDate, this._currentLocation.IsInIsrael).Select(i => i.nameEng)) +
-                        "\n" + Zmanim.GetHolidaysText(holidays, "\n", false);
+                if (noSedra)
+                {
+                    textZmanim = Zmanim.GetHolidaysText(holidays, "\n", false);
+                }
+                else
+                {
+                    textZmanim = string.Join(" - ", Sedra.GetSedra(currDate, this._currentLocation.IsInIsrael).Select(i => i.nameEng)) +
+                            "\n" + Zmanim.GetHolidaysText(holidays, "\n", false);
+                }
 
                 g.FillRectangle(Program.ShabbosBrush, rect);
             }

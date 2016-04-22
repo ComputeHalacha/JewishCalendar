@@ -386,6 +386,7 @@ namespace LuachProject
             this.richTextBox1.SelectedText = string.Format(" Zmanim for {0}{1}", this._zmanim.Location.Name, new string(' ', 150 - this._zmanim.Location.Name.Length));
             this.richTextBox1.SelectionBackColor = this.richTextBox1.BackColor;
             this.richTextBox1.SelectedText = Environment.NewLine + Environment.NewLine;
+                        
 
             if (netz == HourMinute.NoValue)
             {
@@ -393,13 +394,20 @@ namespace LuachProject
             }
             else
             {
+                if (this._displayingJewishDate.Month == 1 && this._displayingJewishDate.Day == 14)
+                {
+                    this.AddLine("Stop eating Chometz", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString24H());
+                    this.AddLine("Burn Chometz before", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 5D)).ToString24H());
+                    this.richTextBox1.SelectedText = Environment.NewLine;
+                }
+
                 this.AddLine("Alos Hashachar - 90", (netz - 90).ToString());
                 this.AddLine("Alos Hashachar - 72", (netz - 72).ToString());
                 this.AddLine("Netz Hachama", netz.ToString());
                 this.AddLine("Krias Shma - MG\"A", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 3D)).ToString());
                 this.AddLine("Krias Shma - GR\"A", (netz + (int)Math.Floor(shaaZmanis * 3D)).ToString());
                 this.AddLine("Zeman Tefillah - MG\"A", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString());
-                this.AddLine("Zeman Tefillah - GR\"A", (netz + (int)Math.Floor(shaaZmanis * 4D)).ToString());
+                this.AddLine("Zeman Tefillah - GR\"A", (netz + (int)Math.Floor(shaaZmanis * 4D)).ToString());               
             }
 
             if (netz != HourMinute.NoValue && shkia != HourMinute.NoValue)

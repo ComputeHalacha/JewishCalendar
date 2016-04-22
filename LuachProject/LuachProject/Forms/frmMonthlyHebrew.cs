@@ -124,7 +124,8 @@ namespace LuachProject
             this._zmanimFont = new Font(this.Font.FontFamily, 9, FontStyle.Regular);
             this._secularDayFont = new Font("Century Gothic", 8f);
             this._userOccasionFont = this._zmanimFont;
-            this.jewishDatePicker1.DataBindings.Add("Value", this, "SelectedJewishDate", true, DataSourceUpdateMode.OnPropertyChanged);
+            this.jewishDatePicker1.DataBindings.Add("Value", 
+                this, "SelectedJewishDate", true, DataSourceUpdateMode.OnPropertyChanged, new JewishDate());
         }
 
         #endregion Constructors
@@ -489,6 +490,8 @@ namespace LuachProject
 
             if (currDate.DayOfWeek == DayOfWeek.Saturday)
             {
+                bool noSedra = false;
+
                 foreach (SpecialDay sd in holidays)
                 {
                     if (sd.DayType == SpecialDayTypes.Shabbos)
@@ -500,17 +503,28 @@ namespace LuachProject
 
                 foreach (SpecialDay sd in holidays)
                 {
+                    if ((sd.DayType & SpecialDayTypes.MajorYomTov) == SpecialDayTypes.MajorYomTov)
+                    {
+                        noSedra = true;
+                    }
                     if (sd.NameEnglish == "Shabbos Mevarchim")
                     {
                         var nextMonth = currDate + 12;
                         var molad = Molad.GetMolad(nextMonth.Month, nextMonth.Year);
                         sd.NameHebrew += "\nמולד: " + molad.ToStringHeb(zmanim.GetShkia());
                         break;
-                    }
+                    }                    
                 }
 
-                textZmanim = string.Join(" - ", Sedra.GetSedra(currDate, this._currentLocation.IsInIsrael).Select(i =>
-                    i.nameHebrew)) + "\n" + Zmanim.GetHolidaysText(holidays, "\n", true);
+                if (noSedra)
+                {
+                    textZmanim += Zmanim.GetHolidaysText(holidays, "\n", true);
+                }
+                else
+                {
+                    textZmanim = string.Join(" - ", Sedra.GetSedra(currDate, this._currentLocation.IsInIsrael).Select(i =>
+                       i.nameHebrew)) + "\n" + Zmanim.GetHolidaysText(holidays, "\n", true);
+                }
 
                 g.FillRectangle(Program.ShabbosBrush, rect);
             }

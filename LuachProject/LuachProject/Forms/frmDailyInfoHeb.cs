@@ -478,13 +478,20 @@ namespace LuachProject
             }
             else
             {
+                if (this._displayingJewishDate.Month == 1 && this._displayingJewishDate.Day == 14)
+                {
+                    this.AddLine("סו\"ז אכילת חמץ", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString24H());
+                    this.AddLine("סו\"ז שריפת חמץ", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 5D)).ToString24H());
+                    this.richTextBox1.SelectedText = Environment.NewLine;
+                }
+
                 this.AddLine("עלות השחר - 90", (netz - 90).ToString24H());
                 this.AddLine("עלות השחר - 72", (netz - 72).ToString24H());
                 this.AddLine("הנץ החמה", netz.ToString24H());
                 this.AddLine("סוזק\"ש - מג\"א", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 3D)).ToString24H());
                 this.AddLine("סוזק\"ש - הגר\"א", (netz + (int)Math.Floor(shaaZmanis * 3D)).ToString24H());
                 this.AddLine("סוז\"ת - מג\"א", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString24H());
-                this.AddLine("סוז\"ת - הגר\"א", (netz + (int)Math.Floor(shaaZmanis * 4D)).ToString24H());
+                this.AddLine("סוז\"ת - הגר\"א", (netz + (int)Math.Floor(shaaZmanis * 4D)).ToString24H());                
             }
             if (netz != HourMinute.NoValue && shkia != HourMinute.NoValue)
             {
