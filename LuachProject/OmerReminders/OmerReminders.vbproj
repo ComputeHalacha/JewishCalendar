@@ -160,7 +160,8 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Win32.TaskScheduler">
+    <Reference Include="Microsoft.Win32.TaskScheduler, Version=2.5.3.0, Culture=neutral, PublicKeyToken=0d013ddd5178a2ae, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>Dlls\Microsoft.Win32.TaskScheduler.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -314,8 +315,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>COPY "$(TargetPath)" "$(SolutionDir)\LuachProject\$(OutDir)"
+COPY "$(TargetPath).config" "$(SolutionDir)\LuachProject\$(OutDir)"
+COPY "$(TargetDir)Microsoft.Win32.TaskScheduler.dll" "$(SolutionDir)\LuachProject\$(OutDir)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
