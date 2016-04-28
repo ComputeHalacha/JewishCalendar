@@ -75,8 +75,7 @@
 
     function getSpecialHtml(jd, location) {
         var holidays = location ? jd.getHolidays(location.Israel) : [],
-            html = '';
-
+            html = '';        
         if (holidays.length) {
             html += '<tr><td>' + getHolidayIcon(holidays) + '</td><td>';
             holidays.forEach(function (h) {
@@ -87,7 +86,10 @@
                 }
                 html += h + '<br />';
             });
-            html += '</td></tr>';
+            html += '</td></tr>';            
+        }
+        if (jd.hasEiruvTavshilin(location.Israel)) {
+            html += "<tr><td><strong>Eiruv Tavshilin</strong></td></tr>";
         }
         return html;
     }

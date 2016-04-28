@@ -227,6 +227,19 @@ jDate.prototype = {
         return jDate.getHoldidays(this, israel, hebrew);
     },
 
+    //Is the current Jewish Date the day before a yomtov that contains a Friday?
+    hasEiruvTavshilin: function (israel) {
+        var dow = this.getDayOfWeek();
+        //No Eiruv Tavshilin ever on Sunday, Monday, Tuesday, Friday or Shabbos
+        return (![0, 1, 2, 5, 6].has(dow)) &&
+            //Erev Yomtov (we already ruled out Erev Shabbos)
+            this.hasCandleLighting() &&
+            //Not erev yom kippur
+            this.Day !== 9 &&
+            //Erev rosh hashana on Wednesday OR erev yomtov in Chu"l on wednesday or Thursday OR erev yomtov in Israel on Thursday
+            (this.Month === 6 || ((!israel) && [3, 4].has(dow)) || (israel && dow === 4));
+    },
+
     //Does the current Jewish date have candle lighting before sunset?
     hasCandleLighting: function () {
         var dow = this.getDayOfWeek();
