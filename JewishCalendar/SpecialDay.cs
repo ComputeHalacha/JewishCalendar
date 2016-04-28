@@ -14,31 +14,30 @@ namespace JewishCalendar
         /// Shabbos
         /// </summary>
         Shabbos = 2,
-
         /// <summary>
         /// Major Yom Tov - where melacha is prohibited
         /// </summary>
         MajorYomTov = 4,
-
         /// <summary>
         /// Minor Yom Tov - where Melacha is permitted
         /// </summary>
         MinorYomtov = 16,
-
         /// <summary>
         /// A fast day
         /// </summary>
         FastDay = 32,
-
         /// <summary>
         /// Extra day information
         /// </summary>
         Information = 64,
-
         /// <summary>
         /// Erev shabbos or yomtov
         /// </summary>
-        HasCandleLighting = 128
+        HasCandleLighting = 128,
+        /// <summary>
+        /// Erev Yomtov - when Yomtov contains a Friday
+        /// </summary>
+        EruvTavshilin = 256
     };
 
     #endregion Public Enums

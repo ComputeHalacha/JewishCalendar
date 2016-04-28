@@ -324,6 +324,13 @@ namespace LuachProject
                         this.richTextBox1.SelectedText = Environment.NewLine + "Rosh Chodesh: " +
                             Utils.DaysOfWeek[dow] + (dim == 30 ? ", " + Utils.DaysOfWeek[(dow + 1) % 7] : "");
                     }
+                    if (h.DayType.HasFlag(SpecialDayTypes.EruvTavshilin))
+                    {
+                        this.richTextBox1.SelectedText = Environment.NewLine;
+                        this.richTextBox1.SelectionFont = this._lblOccasionFont;
+                        this.richTextBox1.SelectionColor = Color.Crimson;
+                        this.richTextBox1.SelectedText = "Eiruv Tavshilin" + Environment.NewLine;
+                    }
                 }
                 this.richTextBox1.SelectedText = Environment.NewLine;
                 if (shkia != HourMinute.NoValue &&

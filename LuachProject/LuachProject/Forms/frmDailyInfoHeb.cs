@@ -402,10 +402,10 @@ namespace LuachProject
             this.richTextBox1.Clear();
             this.richTextBox1.SelectionFont = this._lineValueFont;
             this.richTextBox1.SelectionColor = Color.RoyalBlue;
-            this.richTextBox1.SelectedText = this._displayingJewishDate.ToLongDateStringHeb() + 
+            this.richTextBox1.SelectedText = this._displayingJewishDate.ToLongDateStringHeb() +
                 Environment.NewLine;
             this.richTextBox1.SelectionColor = Color.LightSteelBlue;
-            this.richTextBox1.SelectedText = this._displayingSecularDate.ToString("D", Program.HebrewCultureInfo) + 
+            this.richTextBox1.SelectedText = this._displayingSecularDate.ToString("D", Program.HebrewCultureInfo) +
                 Environment.NewLine;
             //If the secular day is a day behind as day being displayed is todays date and it is after sunset,
             //the user may get confused as the secular date for today and tomorrow will be the same.
@@ -445,6 +445,13 @@ namespace LuachProject
                         this.richTextBox1.SelectionColor = Color.SteelBlue;
                         this.richTextBox1.SelectedText = Utils.GetOmerNusach(this._displayingJewishDate.GetDayOfOmer(), true, false) + Environment.NewLine;
                     }
+                    if (h.DayType.HasFlag(SpecialDayTypes.EruvTavshilin))
+                    {
+                        this.richTextBox1.SelectedText = Environment.NewLine;
+                        this.richTextBox1.SelectionFont = this._lblOccasionFont ;
+                        this.richTextBox1.SelectionColor = Color.Crimson;
+                        this.richTextBox1.SelectedText = "עירוב תבשילין" + Environment.NewLine;
+                    }
                 }
                 this.richTextBox1.SelectedText = Environment.NewLine;
                 if (shkia != HourMinute.NoValue &&
@@ -454,6 +461,7 @@ namespace LuachProject
                 }
             }
             this.richTextBox1.SelectedText = Environment.NewLine;
+            
             this.AddLine("פרשת השבוע",
                 string.Join(" ", Sedra.GetSedra(this._displayingJewishDate, this._zmanim.Location.IsInIsrael).Select(i => i.nameHebrew)));
             if (dy != null)
@@ -491,7 +499,7 @@ namespace LuachProject
                 this.AddLine("סוזק\"ש - מג\"א", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 3D)).ToString24H());
                 this.AddLine("סוזק\"ש - הגר\"א", (netz + (int)Math.Floor(shaaZmanis * 3D)).ToString24H());
                 this.AddLine("סוז\"ת - מג\"א", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString24H());
-                this.AddLine("סוז\"ת - הגר\"א", (netz + (int)Math.Floor(shaaZmanis * 4D)).ToString24H());                
+                this.AddLine("סוז\"ת - הגר\"א", (netz + (int)Math.Floor(shaaZmanis * 4D)).ToString24H());
             }
             if (netz != HourMinute.NoValue && shkia != HourMinute.NoValue)
             {

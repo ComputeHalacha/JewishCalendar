@@ -92,7 +92,7 @@
             currDOW = currJd.getDayOfWeek(),
             //Each week gets a row
             html = '<tr>',
-            //The currents days secular date
+            //The secular date for the current day 
             currSd = currJd.getDate(),
             //Today...
             today = new jDate(new Date());
@@ -156,7 +156,13 @@
         }
         html += '</tr>';
 
-        $('#divCalendarPage #tblCal').html(html).width($.mobile.pageContainer.width());
+        $('#divCalendarPage #tblCal')
+            //fill the calendar table with the html
+            .html(html)
+            //set the width to fill the screen
+            .width($.mobile.pageContainer.width())
+            //set the height to fit between the header and footer
+            .height($.mobile.pageContainer.width() * 0.88); 
 
         $('#divCalendarPage #tblCal td.hasDate').on('click', function () {
             //Set the global current date to the clicked day            
