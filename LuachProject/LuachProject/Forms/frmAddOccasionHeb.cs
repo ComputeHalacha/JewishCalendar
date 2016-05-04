@@ -118,7 +118,7 @@ namespace LuachProject
             this.llClearBackColor.Visible = (this._selectedBackColor != Color.Empty);
             this.SetLabels();
             //Repaint the background
-            this.Invalidate();
+            this.panel2.Invalidate();
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace LuachProject
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void frmAddOccasionHeb_Paint(object sender, PaintEventArgs e)
+        private void panel2_Paint(object sender, PaintEventArgs e)
         {
             //I'm Not sure why 0, 0 doesn't work (not enough time to investigate and it works fine this way :))
             RectangleF r = new RectangleF(-23, -22, this.Width + 30, this.Height + 22);
@@ -173,7 +173,7 @@ namespace LuachProject
             {
                 this.btnColor.BackColor = this.txtName.ForeColor = this._selectedForeColor = this.colorDialog1.Color;
                 //Repaint the background
-                this.Invalidate();
+                this.panel2.Invalidate();
             }
         }
 
@@ -185,7 +185,7 @@ namespace LuachProject
                 this.btnBGColor.BackColor = this.txtName.BackColor = this._selectedBackColor = this.colorDialog1.Color;
                 this.llClearBackColor.Visible = (this._selectedBackColor != Color.Empty);
                 //Repaint the background
-                this.Invalidate();
+                this.panel2.Invalidate();
             }
         }
 
@@ -194,7 +194,7 @@ namespace LuachProject
             this.btnBGColor.BackColor = this.txtName.BackColor = this._selectedBackColor = Color.Empty;
             this.llClearBackColor.Visible = (this._selectedBackColor != Color.Empty);
             //Repaint the background
-            this.Invalidate();
+            this.panel2.Invalidate();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -326,6 +326,6 @@ namespace LuachProject
                 " לחודש " + Program.HebrewCultureInfo.DateTimeFormat.MonthNames[sdMonth];
             this.rbSecularMonthly.Text = "אירוע חודשי בכל " + sdDay.ToString() +
                 " לחודש הלועזי";
-        }
+        }        
     }
 }
