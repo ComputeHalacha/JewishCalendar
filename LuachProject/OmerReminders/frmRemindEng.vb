@@ -39,7 +39,7 @@ Public Class frmRemindEng
             Dim english As Boolean = My.Settings.English
             Dim laOmer As Boolean = My.Settings.LaOmer
             Dim sfardi As Boolean = My.Settings.Sfardi
-            Dim bracha As String = "ברור אתה יי אלוהינו מלך העולם, אשר קדשנו במצותיו וציונו על ספירת העומר:"
+            Dim bracha As String = "ברוך אתה יי אלוהינו מלך העולם, אשר קדשנו במצותיו וציונו על ספירת העומר:"
             Dim nusach As String = Utils.GetOmerNusach(dayOfOmer, laOmer, sfardi) & ":"
             Dim harachaman As String = If(sfardi, "הרחמן הוא יחזיר עבודת בית המקדש למקומה במהרה בימינו. אמן:",
                                            "הרחמן הוא יחזיר לנו עבודת בית המקדש למקומה במהרה בימינו, אמן סלה:")

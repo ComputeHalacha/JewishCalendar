@@ -32,7 +32,7 @@ Partial Class frmRemindHeb
         Me.RichTextBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RichTextBox1.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.RichTextBox1.BackColor = System.Drawing.Color.White
         Me.RichTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.RichTextBox1.Cursor = System.Windows.Forms.Cursors.Default
         Me.RichTextBox1.DetectUrls = False
@@ -55,7 +55,7 @@ Partial Class frmRemindHeb
         Me.lblCaption.ForeColor = System.Drawing.Color.Maroon
         Me.lblCaption.Location = New System.Drawing.Point(19, 13)
         Me.lblCaption.Name = "lblCaption"
-        Me.lblCaption.Size = New System.Drawing.Size(86, 25)
+        Me.lblCaption.Size = New System.Drawing.Size(66, 18)
         Me.lblCaption.TabIndex = 1
         Me.lblCaption.Text = "Label1"
         '
@@ -70,12 +70,12 @@ Partial Class frmRemindHeb
         Me.Button1.Text = "סגור"
         Me.Button1.UseVisualStyleBackColor = True
         '
-        'frmRemind
+        'frmRemindHeb
         '
         Me.AcceptButton = Me.Button1
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 17.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.Tan
+        Me.BackColor = System.Drawing.Color.Lavender
         Me.CancelButton = Me.Button1
         Me.ClientSize = New System.Drawing.Size(611, 464)
         Me.Controls.Add(Me.Button1)
@@ -84,7 +84,7 @@ Partial Class frmRemindHeb
         Me.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
-        Me.Name = "frmRemind"
+        Me.Name = "frmRemindHeb"
         Me.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.RightToLeftLayout = True
         Me.ShowIcon = False
