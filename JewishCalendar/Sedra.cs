@@ -179,6 +179,7 @@ namespace JewishCalendar
         #region private
 
         private int _year;
+        private bool _inIsrael;
         private int[] _sedraArray;
         private int _sedraNumWeeks { get { return this._sedraArray.Length; } }
         private int _firstSatInYear;
@@ -187,7 +188,7 @@ namespace JewishCalendar
         {
             //If the last call is within the same year as this one, we reuse the data.
             //If memory is an issue, remove these next few lines
-            if (_lastSedraCalculated != null && _lastSedraCalculated._year == year)
+            if (_lastSedraCalculated != null && _lastSedraCalculated._year == year && _lastSedraCalculated._inIsrael == inIsrael)
             {
                 this._firstSatInYear = _lastSedraCalculated._firstSatInYear;
                 this._sedraArray = _lastSedraCalculated._sedraArray;
@@ -211,6 +212,8 @@ namespace JewishCalendar
                 yearType = YearType.Regular;
 
             this._year = year;
+            this._inIsrael = inIsrael;
+
             /* find and save the first shabbos on or after Rosh Hashana */
             this._firstSatInYear = GetDayOnOrBefore(6, roshHashana + 6);
 
@@ -236,21 +239,21 @@ namespace JewishCalendar
                         }
                         else if (yearType == YearType.Complete)
                         {
-                            this._sedraArray = inIsrael ? mon_short : mon_long;
+                            this._sedraArray = this._inIsrael ? mon_short : mon_long;
                         }
                         break;
 
                     case DayOfWeek.Tuesday:
                         if (yearType == YearType.Regular)
                         {
-                            this._sedraArray = inIsrael ? mon_short : mon_long;
+                            this._sedraArray = this._inIsrael ? mon_short : mon_long;
                         }
                         break;
 
                     case DayOfWeek.Thursday:
                         if (yearType == YearType.Regular)
                         {
-                            this._sedraArray = inIsrael ? thu_normal_Israel : thu_normal;
+                            this._sedraArray = this._inIsrael ? thu_normal_Israel : thu_normal;
                         }
                         else if (yearType == YearType.Complete)
                         {
@@ -273,25 +276,25 @@ namespace JewishCalendar
                         }
                         else if (yearType == YearType.Complete)
                         {
-                            this._sedraArray = inIsrael ? shabbos_short_leap : shabbos_long_leap;
+                            this._sedraArray = this._inIsrael ? shabbos_short_leap : shabbos_long_leap;
                         }
                         break;
 
                     case DayOfWeek.Monday:
                         if (yearType == YearType.Incomplete)
                         {
-                            this._sedraArray = inIsrael ? mon_short_leap_Israel : mon_short_leap;
+                            this._sedraArray = this._inIsrael ? mon_short_leap_Israel : mon_short_leap;
                         }
                         else if (yearType == YearType.Complete)
                         {
-                            this._sedraArray = inIsrael ? mon_long_leap_Israel : mon_long_leap;
+                            this._sedraArray = this._inIsrael ? mon_long_leap_Israel : mon_long_leap;
                         }
                         break;
 
                     case DayOfWeek.Tuesday:
                         if (yearType == YearType.Regular)
                         {
-                            this._sedraArray = inIsrael ? mon_long_leap_Israel : mon_long_leap;
+                            this._sedraArray = this._inIsrael ? mon_long_leap_Israel : mon_long_leap;
                         }
                         break;
 
