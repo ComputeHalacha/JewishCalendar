@@ -512,6 +512,7 @@ namespace LuachProject
             this.DisplayHolidays(shkia);
             this.DisplayZmanim(netz, shkia);
 
+            this.tableLayoutPanel1.Controls.Clear();
             foreach (UserOccasion occ in this._occasions)
             {
                 this.AddOccasion(occ);

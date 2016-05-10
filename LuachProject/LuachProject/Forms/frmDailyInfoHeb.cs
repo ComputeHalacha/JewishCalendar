@@ -516,6 +516,8 @@ namespace LuachProject
                 this.AddLine("צאת הכוכבים 45", (shkia + 45).ToString24H());
                 this.AddLine("רבינו תם", (shkia + 72).ToString24H());
             }
+
+            this.tableLayoutPanel1.Controls.Clear();
             foreach (UserOccasion occ in this._occasions)
             {
                 this.AddOccasion(occ);
