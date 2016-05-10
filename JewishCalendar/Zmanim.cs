@@ -495,7 +495,7 @@ namespace JewishCalendar
             {
                 foreach (SpecialDay sd in list)
                 {
-                    if (sd.DayType.HasFlag(SpecialDayTypes.HasCandleLighting))
+                    if (sd.DayType.IsSpecialDayType(SpecialDayTypes.HasCandleLighting))
                     {
                         sd.DayType = (SpecialDayTypes)(sd.DayType - SpecialDayTypes.HasCandleLighting);
                     }

@@ -17,7 +17,9 @@ namespace LuachProject
         internal static Brush SecularDayBrush = Brushes.DarkBlue;
         internal static Brush SelectedDayBackgroundBrush = new SolidBrush(Color.FromArgb(100, 100, 200, 255));
         internal static Brush ShabbosBrush = Brushes.LightSteelBlue;
-
+        internal static Brush MinorYomtovBrush = Brushes.GhostWhite;
+        internal static Brush MajorYomtovBrush = new SolidBrush(Color.FromArgb(75, Color.RoyalBlue));
+        internal static Brush ZmanimBrush = Brushes.RoyalBlue;
         internal static StringFormat StringFormat = new StringFormat
         {
             Trimming = StringTrimming.EllipsisCharacter,
@@ -26,8 +28,7 @@ namespace LuachProject
             FormatFlags = StringFormatFlags.LineLimit | StringFormatFlags.FitBlackBox
         };
 
-        internal static Brush YomtovBrush = Brushes.GhostWhite;
-        internal static Brush ZmanimBrush = Brushes.RoyalBlue;
+       
 
         static Program()
         {

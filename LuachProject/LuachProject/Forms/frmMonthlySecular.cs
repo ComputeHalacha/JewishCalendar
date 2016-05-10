@@ -555,8 +555,7 @@ namespace LuachProject
             else if (holidays.Count > 0)
             {
                 var hlist = holidays.Cast<SpecialDay>();
-                if (hlist.Any(h =>
-                    (h.DayType & SpecialDayTypes.HasCandleLighting) == SpecialDayTypes.HasCandleLighting))
+                if (hlist.Any(h => (h.DayType.IsSpecialDayType(SpecialDayTypes.HasCandleLighting))))
                 {
                     if (this._displayHebrew)
                     {
@@ -569,11 +568,13 @@ namespace LuachProject
                         (zmanim.GetShkia() - this._currentLocation.CandleLighting).ToString() + "\n";
                     }
                 }
-                if (hlist.Any(h =>
-                    (h.DayType & SpecialDayTypes.MajorYomTov) == SpecialDayTypes.MajorYomTov ||
-                    (h.DayType & SpecialDayTypes.MinorYomtov) == SpecialDayTypes.MinorYomtov))
+                if (hlist.Any(h => (h.DayType.IsSpecialDayType(SpecialDayTypes.MajorYomTov))))
                 {
-                    g.FillRectangle(Program.YomtovBrush, rect);
+                    g.FillRectangle(Program.MajorYomtovBrush, rect);
+                }
+                else if (hlist.Any(h => (h.DayType.IsSpecialDayType(SpecialDayTypes.MinorYomtov))))
+                {
+                    g.FillRectangle(Program.MinorYomtovBrush, rect);
                 }
                 textZmanim += Zmanim.GetHolidaysText(holidays, "\n", this._displayHebrew);
             }

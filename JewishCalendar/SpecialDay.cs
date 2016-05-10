@@ -7,7 +7,7 @@ namespace JewishCalendar
     /// <summary>
     /// Types of special days
     /// </summary>
-    [FlagsAttribute]
+    [Flags]
     public enum SpecialDayTypes
     {
         /// <summary>

@@ -445,7 +445,7 @@ namespace LuachProject
                         this.richTextBox1.SelectionColor = Color.SteelBlue;
                         this.richTextBox1.SelectedText = Utils.GetOmerNusach(this._displayingJewishDate.GetDayOfOmer(), true, false) + Environment.NewLine;
                     }
-                    if (h.DayType.HasFlag(SpecialDayTypes.EruvTavshilin))
+                    if (h.DayType.IsSpecialDayType(SpecialDayTypes.EruvTavshilin))
                     {
                         this.richTextBox1.SelectedText = Environment.NewLine;
                         this.richTextBox1.SelectionFont = this._lblOccasionFont ;
@@ -455,7 +455,7 @@ namespace LuachProject
                 }
                 this.richTextBox1.SelectedText = Environment.NewLine;
                 if (shkia != HourMinute.NoValue &&
-                    this._holidays.Any(h => h.DayType.HasFlag(SpecialDayTypes.HasCandleLighting)))
+                    this._holidays.Any(h => h.DayType.IsSpecialDayType(SpecialDayTypes.HasCandleLighting)))
                 {
                     this.AddLine("הדלקת נרות", (shkia - this._zmanim.Location.CandleLighting).ToString24H());
                 }
