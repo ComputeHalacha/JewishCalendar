@@ -124,7 +124,7 @@ namespace LuachProject
             this._zmanimFont = new Font(this.Font.FontFamily, 9, FontStyle.Regular);
             this._secularDayFont = new Font("Century Gothic", 8f);
             this._userOccasionFont = this._zmanimFont;
-            this.jewishDatePicker1.DataBindings.Add("Value", 
+            this.jewishDatePicker1.DataBindings.Add("Value",
                 this, "SelectedJewishDate", true, DataSourceUpdateMode.OnPropertyChanged, new JewishDate());
         }
 
@@ -163,7 +163,7 @@ namespace LuachProject
         {
             this.NavigateToMonth(new JewishDate(
                 this._displayedJewishMonth.Year - 1,
-                (this._displayedJewishMonth.Month == 13 ? 12 : this._displayedJewishMonth.Month), 
+                (this._displayedJewishMonth.Month == 13 ? 12 : this._displayedJewishMonth.Month),
                 this._displayedJewishMonth.Day));
         }
 
@@ -171,7 +171,7 @@ namespace LuachProject
         {
             this.NavigateToMonth(new JewishDate(
                 this._displayedJewishMonth.Year + 1,
-                (this._displayedJewishMonth.Month == 13 ? 12 : this._displayedJewishMonth.Month), 
+                (this._displayedJewishMonth.Month == 13 ? 12 : this._displayedJewishMonth.Month),
                 this._displayedJewishMonth.Day));
         }
 
@@ -503,7 +503,7 @@ namespace LuachProject
 
                 foreach (SpecialDay sd in holidays)
                 {
-                    if ((sd.DayType & SpecialDayTypes.MajorYomTov) == SpecialDayTypes.MajorYomTov)
+                    if (sd.DayType.IsSpecialDayType(SpecialDayTypes.MajorYomTov))
                     {
                         noSedra = true;
                     }
@@ -513,7 +513,7 @@ namespace LuachProject
                         var molad = Molad.GetMolad(nextMonth.Month, nextMonth.Year);
                         sd.NameHebrew += "\nמולד: " + molad.ToStringHeb(zmanim.GetShkia());
                         break;
-                    }                    
+                    }
                 }
 
                 if (noSedra)
@@ -538,16 +538,18 @@ namespace LuachProject
                 if (holidays.Count > 0)
                 {
                     var hlist = holidays.Cast<SpecialDay>();
-                    if (hlist.Any(h => h.DayType.HasFlag(SpecialDayTypes.HasCandleLighting)))
+                    if (hlist.Any(h => h.DayType.IsSpecialDayType(SpecialDayTypes.HasCandleLighting)))
                     {
                         textZmanim += "הדלק\"נ: " +
                             (zmanim.GetShkia() - this._currentLocation.CandleLighting).ToString24H() + "\n";
                     }
-                    if (hlist.Any(h =>
-                        (h.DayType & SpecialDayTypes.MajorYomTov) == SpecialDayTypes.MajorYomTov ||
-                        (h.DayType & SpecialDayTypes.MinorYomtov) == SpecialDayTypes.MinorYomtov))
+                    if (hlist.Any(h => (h.DayType.IsSpecialDayType(SpecialDayTypes.MajorYomTov))))
                     {
-                        g.FillRectangle(Program.YomtovBrush, rect);
+                        g.FillRectangle(Program.MajorYomtovBrush, rect);
+                    }
+                    else if (hlist.Any(h => (h.DayType.IsSpecialDayType(SpecialDayTypes.MinorYomtov))))
+                    {
+                        g.FillRectangle(Program.MinorYomtovBrush, rect);
                     }
 
                     textZmanim += Zmanim.GetHolidaysText(holidays, "\n", true);
@@ -766,7 +768,7 @@ namespace LuachProject
                     lastDayGMonth.ToString("MMMM", Program.HebrewCultureInfo) +
                     " (" + lastDayGMonth.Month.ToString() + ") " + lastDayGMonth.Year.ToString();
             }
-          
+
             this.lblMonthName.Text = caption;
             this.Text = "לוח - " + caption;
             this.ResumeLayout();

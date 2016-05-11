@@ -164,6 +164,17 @@ namespace JewishCalendar
         }
 
         /// <summary>
+        /// Determine if the given SpecialDayType contains the given type. Equivalent to Enum.HasFlag.
+        /// </summary>
+        /// <param name="specialDayType"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool IsSpecialDayType(this SpecialDayTypes specialDayType, SpecialDayTypes value)
+        {
+            return (specialDayType & value) == value;
+        }
+
+        /// <summary>
         /// Determines if the given Gregorian date and time is within the rules for DST.
         /// If no time zone info is available; if the location is in Israel, the current Israeli rules are used.
         /// Otherwise, the local system rules are used. [This may be very incorrect if the user is viewing any other location but the local system one]

@@ -324,7 +324,7 @@ namespace LuachProject
                         this.richTextBox1.SelectedText = Environment.NewLine + "Rosh Chodesh: " +
                             Utils.DaysOfWeek[dow] + (dim == 30 ? ", " + Utils.DaysOfWeek[(dow + 1) % 7] : "");
                     }
-                    if (h.DayType.HasFlag(SpecialDayTypes.EruvTavshilin))
+                    if (h.DayType.IsSpecialDayType(SpecialDayTypes.EruvTavshilin))
                     {
                         this.richTextBox1.SelectedText = Environment.NewLine;
                         this.richTextBox1.SelectionFont = this._lblOccasionFont;
@@ -334,7 +334,7 @@ namespace LuachProject
                 }
                 this.richTextBox1.SelectedText = Environment.NewLine;
                 if (shkia != HourMinute.NoValue &&
-                    this._holidays.Any(h => h.DayType.HasFlag(SpecialDayTypes.HasCandleLighting)))
+                    this._holidays.Any(h => h.DayType.IsSpecialDayType(SpecialDayTypes.HasCandleLighting)))
                 {
                     this.AddLine("Candle Lighting", (shkia - this._zmanim.Location.CandleLighting).ToString());
                 }
@@ -512,6 +512,7 @@ namespace LuachProject
             this.DisplayHolidays(shkia);
             this.DisplayZmanim(netz, shkia);
 
+            this.tableLayoutPanel1.Controls.Clear();
             foreach (UserOccasion occ in this._occasions)
             {
                 this.AddOccasion(occ);
