@@ -199,6 +199,37 @@ namespace JewishCalendar
                 {
                     list.Add(new SpecialDay("Shabbos Mevarchim", "מברכים החודש"));
                 }
+                //Perkei Avos. In Nissan from after the last day of Pesach
+                if ((jMonth == 1 && jDay > (inIsrael ? 21 : 22)) ||
+                    //All Shabbosim through Iyar, Sivan, Tamuz, Av and Ellul - besides for the day/s of Shavuos
+                    ((jMonth > 1 && jMonth < 7 && !((jMonth == 3 && jDay == 6) || (!inIsrael && jMonth == 3 && jDay == 7))) ||
+                    //In Tishrei until Sukkos besides for Rosh HAshana and Yom Kippur
+                    (jMonth == 7 && jDay < 15 && jDay > 2 && jDay != 10)))
+                {
+                    //Get the week number of since Pesach
+                    var perekAvos = ((jDate.AbsoluteDate - (new JewishDateMicro(jYear, 1, (inIsrael ? 22 : 23))).AbsoluteDate) % 6) + 1;
+                    //If shavuos was on Shabbos, we miss a week
+                    if(jMonth > 3 || (jMonth == 3 && jDay > 6) && new JewishDateMicro(jYear, 3, 6).DayOfWeek == DayOfWeek.Saturday )
+                    {
+                        perekAvos--;
+                    }
+                    //If Rosh Hashana was on Shabbos, we miss a week
+                    else if (jMonth == 7 && new JewishDateMicro(jYear, 1, 1).DayOfWeek == DayOfWeek.Saturday)
+                    {
+                        perekAvos--;
+                    }
+                    //If Yom Kippur was on Shabbos, we miss a week
+                    else if (jMonth == 7 &&  jDay > 10 && new JewishDateMicro(jYear, 1, 10).DayOfWeek == DayOfWeek.Saturday)
+                    {
+                        perekAvos--;
+                    }
+
+                    if (perekAvos > 0)
+                    {
+                        list.Add(new SpecialDay(perekAvos.ToSuffixedString() + 
+                            "Pirkei Avos - Perek", "פרקי אבות - פרק " + perekAvos.ToNumberHeb()));
+                    }
+                }
             }
             if (jDay == 30)
             {
@@ -254,12 +285,12 @@ namespace JewishCalendar
                     {
                         if (dayOfWeek == DayOfWeek.Thursday || ((!inIsrael) && dayOfWeek == DayOfWeek.Wednesday))
                         {
-                            list.Add(new SpecialDay("Pesach - Chol Ha'moed - Erev Yomtov", "פסח - חול המועד - ערב יו\"ט", 
+                            list.Add(new SpecialDay("Pesach - Chol Ha'moed - Erev Yomtov", "פסח - חול המועד - ערב יו\"ט",
                                 SpecialDayTypes.MinorYomtov | SpecialDayTypes.Information | SpecialDayTypes.HasCandleLighting | SpecialDayTypes.EruvTavshilin));
                         }
                         else
                         {
-                            list.Add(new SpecialDay("Pesach - Chol Ha'moed - Erev Yomtov", "פסח - חול המועד - ערב יו\"ט", 
+                            list.Add(new SpecialDay("Pesach - Chol Ha'moed - Erev Yomtov", "פסח - חול המועד - ערב יו\"ט",
                                 SpecialDayTypes.MinorYomtov | SpecialDayTypes.Information | SpecialDayTypes.HasCandleLighting));
                         }
                     }
@@ -293,7 +324,7 @@ namespace JewishCalendar
                     {
                         if (dayOfWeek == DayOfWeek.Thursday || ((!inIsrael) && dayOfWeek == DayOfWeek.Wednesday))
                         {
-                            list.Add(new SpecialDay("Erev Shavuos", "ערב שבועות", 
+                            list.Add(new SpecialDay("Erev Shavuos", "ערב שבועות",
                                 SpecialDayTypes.Information | SpecialDayTypes.HasCandleLighting | SpecialDayTypes.EruvTavshilin));
                         }
                         else
@@ -334,12 +365,12 @@ namespace JewishCalendar
                     {
                         if (dayOfWeek == DayOfWeek.Wednesday)
                         {
-                            list.Add(new SpecialDay("Erev Rosh Hashana", "ערב ראש השנה", 
+                            list.Add(new SpecialDay("Erev Rosh Hashana", "ערב ראש השנה",
                                 SpecialDayTypes.MinorYomtov | SpecialDayTypes.Information | SpecialDayTypes.HasCandleLighting | SpecialDayTypes.EruvTavshilin));
                         }
                         else
                         {
-                            list.Add(new SpecialDay("Erev Rosh Hashana", "ערב ראש השנה", 
+                            list.Add(new SpecialDay("Erev Rosh Hashana", "ערב ראש השנה",
                                 SpecialDayTypes.MinorYomtov | SpecialDayTypes.Information | SpecialDayTypes.HasCandleLighting));
                         }
                     }

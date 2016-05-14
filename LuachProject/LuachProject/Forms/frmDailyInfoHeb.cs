@@ -188,9 +188,11 @@ namespace LuachProject
 
         private void AddLine(string header, string value)
         {
-            this.richTextBox1.SelectionFont = this.richTextBox1.Font;
+            this.richTextBox1.SelectionAlignment = HorizontalAlignment.Left;
+            this.richTextBox1.SelectionFont = this.richTextBox1.Font;            
             this.richTextBox1.SelectedText = header.Trim() + " " +
-                new string('.', ((header.Length + value.Length) < 30 ? 55 - header.Length : 10)) + " ";
+                new string('.', 15) + " ";
+            this.richTextBox1.SelectionAlignment = HorizontalAlignment.Right;
             this.richTextBox1.SelectionFont = this._lineValueFont;
             this.richTextBox1.SelectionColor = Color.CornflowerBlue;
             this.richTextBox1.SelectedText = value.Trim() + Environment.NewLine;
