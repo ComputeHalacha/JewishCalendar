@@ -618,7 +618,8 @@ namespace LuachProject
             //Jewish day will be on the right, so we move the rectangle over to the right of the box.
             //No need to resize the width.
             rect.X += rect.Width;
-            g.DrawString(jDate.Day.ToNumberHeb(), this._jewishDayFont, Program.SecularDayBrush, rect, Program.StringFormat);
+            g.DrawString(jDate.Day.ToNumberHeb().Replace("'", ""), 
+                this._jewishDayFont, Program.SecularDayBrush, rect, Program.StringFormat);
             //Move rectangle back over to the left of the box
             rect.X = currX;
             //resize rectangle to fix whole box

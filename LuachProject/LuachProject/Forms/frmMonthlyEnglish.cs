@@ -473,7 +473,7 @@ namespace LuachProject
         {
             var zmanim = new Zmanim(currDate, this._currentLocation);
             var rect = new RectangleF(currX, currY, width, height);
-            var text = currDate.Day.ToNumberHeb();
+            var text = currDate.Day.ToNumberHeb().Replace("'", "");
             var holidays = Zmanim.GetHolidays(currDate, this._currentLocation.IsInIsrael);
 
             SingleDateInfo sdi = new SingleDateInfo(currDate, new RectangleF(rect.Location, rect.Size));

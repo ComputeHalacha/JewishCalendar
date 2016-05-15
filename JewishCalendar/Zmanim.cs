@@ -247,8 +247,7 @@ namespace JewishCalendar
 
             return list;
         }
-
-
+        
         /// <summary>
         /// Gets a dash delimited list of holidays for the given Jewish Day
         /// </summary>
@@ -344,7 +343,6 @@ namespace JewishCalendar
             if (netzShkia == null) { return new HourMinute(); }
             return netzShkia[1];
         }
-
         #endregion public static functions
 
         #region private static functions
@@ -407,38 +405,25 @@ namespace JewishCalendar
             {
                 list.Add(new SpecialDay("Shabbos Mevarchim", "מברכים החודש"));
             }
-            //Perkei Avos. In Nissan from after the last day of Pesach until Rosh Hashana
-            if ((jMonth == 1 && jDay > (inIsrael ? 21 : 22)) ||
-                //All Shabbosim through Iyar, Sivan, Tamuz, Av and Ellul - besides for the day/s of Shavuos and Tisha B'Av
-                ((jMonth > 1 && jMonth < 7 &&
-                    (!((jMonth == 3 && jDay == 6) || (!inIsrael && jMonth == 3 && jDay == 7))) &&
-                    (!(jMonth == 5 && jDay == 9)))))
-            {
-                //Get the week number of since Pesach
-                var perekAvos = ((jDate.AbsoluteDate - (new JewishDateMicro(jYear, 1, (inIsrael ? 22 : 23))).AbsoluteDate) % 6) + 1;
-                //If Shavuos was on Shabbos, we miss a week
-                if ((jMonth > 3 || (jMonth == 3 && jDay > 6)) && new JewishDateMicro(jYear, 3, 6).DayOfWeek == DayOfWeek.Saturday)
-                {
-                    perekAvos--;
-                    if (perekAvos == 0)
-                    {
-                        perekAvos = 6;
-                    }
-                }
-                //If Tisha B'Av was on Shabbos, we miss a week
-                if ((jMonth > 5 || (jMonth == 5 && jDay > 9)) && new JewishDateMicro(jYear, 5, 9).DayOfWeek == DayOfWeek.Saturday)
-                {
-                    perekAvos--;
-                    if (perekAvos == 0)
-                    {
-                        perekAvos = 6;
-                    }
-                }
 
-                list.Add(new SpecialDay(perekAvos.ToSuffixedString() +
-                    "Pirkei Avos - Perek", "פרקי אבות - פרק " + perekAvos.ToNumberHeb()));
+            SetPirkeiAvos(jDate, inIsrael, list, jYear, jMonth, jDay);
+        }
+
+        private static void SetPirkeiAvos(IJewishDate jDate, bool inIsrael, ArrayList list, int jYear, int jMonth, int jDay)
+        {
+            int[] prakim = PirkeiAvos.GetPirkeiAvos(jDate, inIsrael);
+            if(prakim.Length > 0)
+            {
+                string engStr = "", hebStr = "";
+                foreach(int p in prakim)
+                {
+                    engStr += (engStr.Length > 0 ? " and " : "") + p.ToSuffixedString();
+                    hebStr += (hebStr.Length > 0 ? ", " : "") + p.ToNumberHeb();
+                }
+                list.Add(new SpecialDay("Pirkei Avos - Perek " + engStr, "פרקי אבות - פרק " + hebStr));
             }
         }
+
         private static void AddNissanSpecialDays(bool inIsrael, ArrayList list, int jDay, DayOfWeek dayOfWeek)
         {
             if (jDay == 12 && dayOfWeek == DayOfWeek.Thursday)

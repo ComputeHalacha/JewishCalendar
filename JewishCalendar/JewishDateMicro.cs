@@ -83,18 +83,31 @@ namespace JewishCalendar
         public JewishDateMicro(Location location) : this(System.DateTime.Now, location) { }
 
         /// <summary>
+        /// Creates a new JewishDate with the specified Hebrew year, month, day and absolute day.
+        /// This is the quickest constructor as it does no calculations at all. 
+        /// Caution: If the absolute day doesn't correctly match the given year/month/day, weird things will happen.
+        /// </summary>
+        /// <param name="year">The year - counted from the creation of the world</param>
+        /// <param name="month">The Jewish month. As it is in the Torah, Nissan is 1.</param>
+        /// <param name="day">The day of the month</param>
+        /// <param name="absoluteDay">The "absolute day"</param>
+        public JewishDateMicro(int year, int month, int day, int absoluteDay)
+        {
+            this.Year = year;
+            this.Month = month;
+            this.Day = day;
+            this.AbsoluteDate = absoluteDay;
+        }
+
+        /// <summary>
         /// Creates a new JewishDate with the specified Hebrew year, month and day
         /// </summary>
         /// <param name="year">The year - counted from the creation of the world</param>
         /// <param name="month">The Jewish month. As it is in the Torah, Nissan is 1.</param>
         /// <param name="day">The day of the month</param>
-        public JewishDateMicro(int year, int month, int day)
-        {
-            this.Year = year;
-            this.Month = month;
-            this.Day = day;
-            this.AbsoluteDate = JewishDateCalculations.GetAbsoluteFromJewishDate(this.Year, this.Month, this.Day);
-        }
+        public JewishDateMicro(int year, int month, int day) :
+            this(year, month, day, JewishDateCalculations.GetAbsoluteFromJewishDate(year, month, day))
+        { }
 
         /// <summary>
         /// Creates a Jewish date that corresponds to the given Gregorian date
@@ -261,7 +274,8 @@ namespace JewishCalendar
                         year++;
                     }
                 }
-                else {
+                else
+                {
                     months++;
                     month--;
                     if (month < 1)
@@ -398,7 +412,7 @@ namespace JewishCalendar
         /// <returns></returns>
         public string ToLongDateStringHeb()
         {
-            var sb = new System.Text.StringBuilder();                        
+            var sb = new System.Text.StringBuilder();
             sb.Append(Utils.JewishDOWNames[this.DayInWeek]);
             sb.Append(" ");
             sb.Append(this.ToShortDateStringHeb());
