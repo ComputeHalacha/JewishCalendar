@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace JewishCalendar
+﻿namespace JewishCalendar
 {
     /// <summary>
     /// Represents a single day in the Jewish Calendar.
@@ -24,7 +22,7 @@ namespace JewishCalendar
     ///      3. The following line in "Utils.cs": HebrewCultureInfo.DateTimeFormat.Calendar = HebrewCalendar;
     /// </remarks>
 
-    [Serializable]
+    [System.Serializable]
     public class JewishDateMicro : IJewishDate
     {
         #region Public Properties
@@ -304,7 +302,7 @@ namespace JewishCalendar
                 day = this.Day,
                 miy = JewishDateCalculations.MonthsInJewishYear(year);
 
-            for (var i = 0; i < Math.Abs(months); i++)
+            for (var i = 0; i < System.Math.Abs(months); i++)
             {
                 if (months > 0)
                 {

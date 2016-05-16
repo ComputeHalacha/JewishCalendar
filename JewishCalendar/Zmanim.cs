@@ -447,21 +447,21 @@ namespace JewishCalendar
                 list.Add(new SpecialDay("First Day of Pesach", "פסח - יום ראשון", SpecialDayTypes.MajorYomTov));
             else if (jDay == 16)
                 list.Add(inIsrael ?
-                   (new SpecialDay("Pesach - Chol HaMoed", "פסח - חול המועד", SpecialDayTypes.MinorYomtov)) :
+                   (new SpecialDay("Pesach - Chol Ha'Moed", "פסח - חול המועד", SpecialDayTypes.MinorYomtov | SpecialDayTypes.CholHamoed)) :
                    (new SpecialDay("Pesach - Second Day", "פסח - יום שני", SpecialDayTypes.MajorYomTov)));
             else if (jDay.In(17, 18, 19))
-                list.Add(new SpecialDay("Pesach - Chol Ha'moed", "פסח - חול המועד", SpecialDayTypes.MinorYomtov));
+                list.Add(new SpecialDay("Pesach - Chol Ha'moed", "פסח - חול המועד", SpecialDayTypes.MinorYomtov | SpecialDayTypes.CholHamoed));
             else if (jDay == 20)
             {
                 if (dayOfWeek == DayOfWeek.Thursday || ((!inIsrael) && dayOfWeek == DayOfWeek.Wednesday))
                 {
                     list.Add(new SpecialDay("Pesach - Chol Ha'moed - Erev Yomtov", "פסח - חול המועד - ערב יו\"ט",
-                        SpecialDayTypes.MinorYomtov | SpecialDayTypes.Information | SpecialDayTypes.HasCandleLighting | SpecialDayTypes.EruvTavshilin));
+                        SpecialDayTypes.MinorYomtov | SpecialDayTypes.CholHamoed | SpecialDayTypes.Information | SpecialDayTypes.HasCandleLighting | SpecialDayTypes.EruvTavshilin));
                 }
                 else
                 {
                     list.Add(new SpecialDay("Pesach - Chol Ha'moed - Erev Yomtov", "פסח - חול המועד - ערב יו\"ט",
-                        SpecialDayTypes.MinorYomtov | SpecialDayTypes.Information | SpecialDayTypes.HasCandleLighting));
+                        SpecialDayTypes.MinorYomtov | SpecialDayTypes.CholHamoed | SpecialDayTypes.Information | SpecialDayTypes.HasCandleLighting));
                 }
             }
             else if (jDay == 21)
@@ -499,7 +499,8 @@ namespace JewishCalendar
                 }
                 else
                 {
-                    list.Add(new SpecialDay("Erev Shavuos", "ערב שבועות", SpecialDayTypes.Information | SpecialDayTypes.HasCandleLighting));
+                    list.Add(new SpecialDay("Erev Shavuos", "ערב שבועות", 
+                        SpecialDayTypes.Information | SpecialDayTypes.HasCandleLighting));
                 }
             }
             else if (jDay == 6)
@@ -507,7 +508,7 @@ namespace JewishCalendar
                     new SpecialDay("Shavuos", "חג השבועות", SpecialDayTypes.MajorYomTov) :
                     new SpecialDay("Shavuos - First Day", "שבועות - יום ראשון", SpecialDayTypes.MajorYomTov)));
             if (jDay == 7 && !inIsrael)
-                list.Add(new SpecialDay("Shavuos - Second Day", "שבועות - יום שני"));
+                list.Add(new SpecialDay("Shavuos - Second Day", "שבועות - יום שני", SpecialDayTypes.MajorYomTov));
         }
         private static void AddTamuzSpecialDays(ArrayList list, int jDay, DayOfWeek dayOfWeek)
         {
@@ -576,21 +577,23 @@ namespace JewishCalendar
                 list.Add(new SpecialDay("First Day of Sukkos", "חג הסוכות", SpecialDayTypes.MajorYomTov));
             else if (jDay == 16)
                 list.Add(inIsrael ? (
-                   new SpecialDay("Sukkos - Chol HaMoed", "סוכות - חול המועד", SpecialDayTypes.MinorYomtov)) : (
+                   new SpecialDay("Sukkos - Chol HaMoed", "סוכות - חול המועד", 
+                   SpecialDayTypes.MinorYomtov | SpecialDayTypes.CholHamoed)) : (
                    new SpecialDay("Sukkos - Second Day", "יום שני - חג הסוכות", SpecialDayTypes.MajorYomTov)));
             else if (jDay.In(17, 18, 19, 20))
-                list.Add(new SpecialDay("Sukkos - Chol HaMoed", "סוכות - חול המועד", SpecialDayTypes.MinorYomtov));
+                list.Add(new SpecialDay("Sukkos - Chol HaMoed", "סוכות - חול המועד", 
+                    SpecialDayTypes.MinorYomtov | SpecialDayTypes.CholHamoed));
             else if (jDay == 21)
             {
                 if ((!inIsrael) && dayOfWeek == DayOfWeek.Wednesday)
                 {
                     list.Add(new SpecialDay("Hoshana Rabba - Erev Yomtov", "הושענא רבה - ערב יו\"ט",
-                        SpecialDayTypes.MinorYomtov | SpecialDayTypes.Information | SpecialDayTypes.HasCandleLighting | SpecialDayTypes.EruvTavshilin));
+                        SpecialDayTypes.MinorYomtov | SpecialDayTypes.CholHamoed | SpecialDayTypes.Information | SpecialDayTypes.HasCandleLighting | SpecialDayTypes.EruvTavshilin));
                 }
                 else
                 {
                     list.Add(new SpecialDay("Hoshana Rabba - Erev Yomtov", "הושענא רבה - ערב יו\"ט",
-                        SpecialDayTypes.MinorYomtov | SpecialDayTypes.Information | SpecialDayTypes.HasCandleLighting));
+                        SpecialDayTypes.MinorYomtov | SpecialDayTypes.CholHamoed | SpecialDayTypes.Information | SpecialDayTypes.HasCandleLighting));
                 }
             }
             else if (jDay == 22)

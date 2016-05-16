@@ -506,7 +506,7 @@ namespace LuachProject
 
                 foreach (SpecialDay sd in holidays)
                 {
-                    if (sd.DayType.IsSpecialDayType(SpecialDayTypes.MajorYomTov))
+                    if (sd.DayType.IsSpecialDayType(SpecialDayTypes.MajorYomTov) || sd.DayType.IsSpecialDayType(SpecialDayTypes.CholHamoed))
                     {
                         noSedra = true;
                     }
