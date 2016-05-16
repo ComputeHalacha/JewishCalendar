@@ -114,6 +114,26 @@ Utils.toJNum = function (number) {
     return retval;
 };
 
+//Add two character suffix to number. e.g. 21st, 102nd, 93rd, 500th
+Utils.toSuffixed = function (num) {
+    var t = num.toString(),
+        suffix = "th";
+    if (t.length === 1 || (t[t.length - 2] !== '1')) {
+        switch (t[t.length - 1]) {
+            case '1':
+                suffix = "st";
+                break;
+            case '2':
+                suffix = "nd";
+                break;
+            case '3':
+                suffix = "rd";
+                break;
+        }
+    }
+    return t + suffix;
+};
+
 // Get day of week using Javascripts getDay function.
 //Important note: months starts at 1 not 0 like javascript
 //The DOW returned though, has Sunday = 0

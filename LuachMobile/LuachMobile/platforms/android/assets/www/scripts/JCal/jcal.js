@@ -114,6 +114,26 @@ Utils.toJNum = function (number) {
     return retval;
 };
 
+//Add two character suffix to number. e.g. 21st, 102nd, 93rd, 500th
+Utils.toSuffixed = function (num) {
+    var t = num.toString(),
+        suffix = "th";
+    if (t.length === 1 || (t[t.length - 2] !== '1')) {
+        switch (t[t.length - 1]) {
+            case '1':
+                suffix = "st";
+                break;
+            case '2':
+                suffix = "nd";
+                break;
+            case '3':
+                suffix = "rd";
+                break;
+        }
+    }
+    return t + suffix;
+};
+
 // Get day of week using Javascripts getDay function.
 //Important note: months starts at 1 not 0 like javascript
 //The DOW returned though, has Sunday = 0
@@ -306,6 +326,7 @@ Location.getJerusalem = function () {
 /// <reference path="Dafyomi.js" />
 /// <reference path="Utils.js" />
 /// <reference path="Sedra.js" />
+/// <reference path="PirkeiAvos.js" />
 "use strict";
 /******************************************************************************************************************************
  *  Represents a single day in the Jewish Calendar.
@@ -319,12 +340,14 @@ Location.getJerusalem = function () {
  *  new jDate("January 1 2045") - Accepts any valid javascript Date string (uses javascripts new Date(String))
  *  new jDate(jewishYear, jewishMonth, jewishDay) - Months start at 1. Nissan is month 1 Adara Sheini is 13.
  *  new jDate(jewishYear, jewishMonth) - Same as above, with Day defaulting to 1
- *  new jDate(absoluteDate) - The number of days elapsed since the theoretical date Sunday, December 31, 0001 BCE
  *  new jDate( { year: 5776, month: 4, day: 5 } ) - same as new jDate(jewishYear, jewishMonth, jewishDay)
  *  new jDate( { year: 5776, month: 4 } ) - same as new jDate(jewishYear, jewishMonth)
  *  new jDate( { year: 5776 } ) - sets to the first day of Rosh Hashana on the given year
+ *  new jDate(absoluteDate) - The number of days elapsed since the theoretical date Sunday, December 31, 0001 BCE
+ *  new jDate(jewishYear, jewishMonth, jewishDay, absoluteDate) - Most efficient constructor. Needs no calculations at all.
+ *  new jDate( { year: 5776, month: 4, day: 5, abs: 122548708 } ) - same as new jDate(jewishYear, jewishMonth, jewishDay, absoluteDate)
  *****************************************************************************************************************************/
-function jDate(arg, month, day) {
+function jDate(arg, month, day, abs) {
     var self = this;
 
     //The day of the Jewish Month
@@ -354,22 +377,25 @@ function jDate(arg, month, day) {
         }
     }
     else if (Utils.isNumber(arg)) {
-        //if no month and day was supplied, we assume that the first argument is an absolute date
-        if (typeof month === 'undefined') {
+        //if no other arguments were supplied, we assume that the supplied number is an absolute date
+        if (arguments.length === 1) {
             fromAbs(arg);
         }
+        //If the year and any other number is supplied, we set the year and create the date using either the supplied values or the defaults
         else {
             self.Year = arg;
-            self.Month = month;
+            self.Month = month || 7; //If no month was supplied, we take Tishrei
             self.Day = day || 1; //If no day was supplied, we take the first day of the month
-            self.Abs = jDate.absJd(self.Year, self.Month, self.Day);
+            //If the absolute date was supplied (very efficient), we use the supplied value, otherwise we calculate it.
+            self.Abs = abs || jDate.absJd(self.Year, self.Month, self.Day); 
         }
     }
-    else if (typeof arg === 'object' && typeof arg.year === 'number') {
+    //If arg is an object that has a "year" property that contains a valid value...
+    else if (typeof arg === 'object' && Utils.isNumber(arg.year)) {
         self.Day = arg.day || 1;
         self.Month = arg.month || 7;
         self.Year = arg.year;
-        self.Abs = jDate.absJd(self.Year, self.Month, self.Day);
+        self.Abs = arg.abs || jDate.absJd(self.Year, self.Month, self.Day);
     }
 
     //Sets the current Jewish date from the given absolute date
@@ -581,6 +607,11 @@ jDate.prototype = {
         return new Sedra(this, israel);
     },
 
+    //Get the sedra of the week for the current Jewish date
+    getPirkeiAvos: function (israel) {
+        return new PirkeiAvos(this, israel);
+    },
+
     //gets sunrise and sunset time for the current Jewish date at the given Location.
     //Return format: { sunrise: { hour: 6, minute: 18 }, sunset: { hour: 19, minute: 41 } }
     getSunriseSunset: function (location) {
@@ -633,18 +664,24 @@ jDate.prototype = {
 *  jDate.toJDate(jewishYear) - sets to the first day of Rosh Hashana on the given year 
 *  jDate.toJDate( { year: 5776, month: 4, day: 5 } ) - Months start at 1. Nissan is month 1 Adara Sheini is 13.
 *  jDate.toJDate( { year: 5776, month: 4 } ) - Same as above, with Day defaulting to 1
-*  jDate.toJDate( { year: 5776 } ) - sets to the first day of Rosh Hashana on the given year 
+*  jDate.toJDate( { year: 5776 } ) - sets to the first day of Rosh Hashana on the given year
+*  jDate.toJDate(jewishYear, jewishMonth, jewishDay, absoluteDate) - Most efficient. Needs no calculations at all. The absoluteDate is the number of days elapsed since the theoretical date Sunday, December 31, 0001 BCE.
+*  jDate.toJDate( { year: 5776, month: 4, day: 5, abs: 122548708 } ) - same as jDate.toJDate(jewishYear, jewishMonth, jewishDay, absoluteDate)
+ 
 ****************************************************************************************************************/
-jDate.toJDate = function (arg, month, year) {
-    if (Utils.isNumber(arg) && typeof month === 'undefined' && typeof day === 'undefined') {
-        return new jDate(1, 1, year);
+jDate.toJDate = function (arg, month, day, abs) {
+    // If just the year is set, then the date is set to Rosh Hashana of that year.
+    // In the above scenario, we can't just pass the args along, as the constructor will treat it as an absolute date.
+    //...and that folks, is actually the whole point of this function...
+    if (Utils.isNumber(arg) && arguments.length === 1) {
+        return new jDate(arg, 7, 1);
     }
     else {
-        return new jDate(arg, month, year);
+        return new jDate(arg, month, day, abs);
     }
 };
 
-//Calulate the Jewish date at the given absolute date
+//Calculate the Jewish date at the given absolute date
 jDate.fromAbs = function (absDay) {
     //To save on calculations, start with a few years before date
     var year = 3761 + parseInt(absDay / (absDay > 0 ? 366 : 300)),
@@ -1670,3 +1707,184 @@ Dafyomi.toStringHeb = function (jd) {
     var d = Dafyomi.getDaf(jd);
     return d.masechet.heb + " דף " + Utils.toJNum(d.masechet.daf);
 }
+/// <reference path="utils.js" />
+/// <reference path="jd.js" />
+"use strict";
+
+/****************************************************************************************************************
+ * Computes the Perek/Prakim of the week for the given Shabbos.
+ * Returns an array of prakim (integers) (either one or two) for the given Jewish Date
+ * Sample of use to get todays sedra in Israel:
+ *     var prakim = new PirkeiAvos(new jd(new Date(), true));
+ *     var str = 'Pirkei Avos: ' + prakim.map(function (s) { return Utils.toSuffixed(s) + ' Perek'; }).join(' and ');
+ * ***************************************************************************************************************/
+function PirkeiAvos(jd, israel) {
+    if (jd.getDayOfWeek() !== 6) {
+        return [];
+    }
+
+    var jYear = jd.Year,
+        jMonth = jd.Month,
+        jDay = jd.Day;
+
+    //Pirkei Avos is from after Pesach until Rosh Hashana
+    if ((jMonth === 1 && jDay > (israel ? 21 : 22)) ||
+        //All Shabbosim through Iyar, Sivan, Tamuz, Av - besides for the day/s of Shavuos and Tisha B'Av
+        ((jMonth > 1 && jMonth < 6 &&
+            (!((jMonth === 3 && jDay === 6) || (!israel && jMonth === 3 && jDay === 7))) &&
+            (!(jMonth === 5 && jDay === 9))))) {
+        return [PirkeiAvos.get1stPerek(jd, israel)];
+    }
+        //Ellul can have multiple prakim
+    else if (jMonth === 6) {
+        return PirkeiAvos.ellul(jd, israel);
+    }
+        //No Pirkei Avos
+    else {
+        return [];
+    }
+}
+
+PirkeiAvos.get1stPerek = function (jd, israel) {
+    var jYear = jd.Year,
+        jMonth = jd.Month,
+        jDay = jd.Day,
+        pes1 = new jDate(jYear, 1, 15),
+        //How many days after the first day of pesach was the first shabbos after pesach
+        shb1 = (israel ? 7 : 8) + (6 - pes1.getDayOfWeek()),
+        //What number shabbos after pesach is the current date
+        cShb = ((jMonth === 1 && jDay === (shb1 + 15)) ? 1 :
+            parseInt((jd.Abs - (pes1.Abs + shb1)) / 7) + 1),
+        prk = cShb % 6;
+    if (prk === 0) prk = 6;
+    //If the second day of Shavuos was on Shabbos, we missed a week. 
+    //The second day of Pesach is always the same day as the first day of Shavuos.
+    //So if Pesach was on Thursday, Shavuos will be on Friday and Shabbos in Chu"l.
+    //Pesach can never come out on Friday, so in E. Yisroel Shavuos is never on Shabbos.
+    if ((!israel) && pes1.getDayOfWeek() === 4 && (jMonth > 3 || (jMonth === 3 && jDay > 6))) {
+        prk = prk === 1 ? 6 : prk - 1;
+    }
+    //If Tisha B'Av was on Shabbos, we missed a week. The first day of Pesach is always the same day of the week as Tisha b'av.
+    if (pes1.getDayOfWeek() === 6 && (jMonth > 5 || (jMonth === 5 && jDay > 9))) {
+        prk = prk === 1 ? 6 : prk - 1;
+    }
+
+    return prk;
+};
+
+PirkeiAvos.ellul = function (jd, israel) {
+    var prakim,
+        jYear = jd.Year,
+        jMonth = jd.Month,
+        jDay = jd.Day,
+        //The fist day of Ellul.
+        //The year/month/day/absoluteDay constructor for JewishDateMicro is used for efficiency.
+        day1 = new jDate(jYear, 6, 1, jd.Abs - jd.Day + 1),
+        day1DOW = day1.getDayOfWeek(),
+        shabbos1Day = day1DOW === 6 ? 1 : ((6 - (day1DOW + 6) % 6) + 1),
+        shabbos1Date = new jDate(jYear, 6, shabbos1Day, day1.Abs + shabbos1Day - 1),
+        //Which shabbos in Ellul are we working out now?
+        cShb = jDay === shabbos1Day ? 1 : parseInt((jDay - shabbos1Day) / 7) + 1;
+
+    switch (PirkeiAvos.get1stPerek(shabbos1Date, israel)) {
+        case 1:
+            switch (cShb) {
+                case 1:
+                    prakim = [1];
+                    break;
+                case 2:
+                    prakim = [2];
+                    break;
+                case 3:
+                    prakim = [3, 4];
+                    break;
+                case 4:
+                    prakim = [5, 6];
+                    break;
+            }
+            break;
+        case 2:
+            switch (cShb) {
+                case 1:
+                    prakim = [2];
+                    break;
+                case 2:
+                    prakim = [3];
+                    break;
+                case 3:
+                    prakim = [4];
+                    break;
+                case 4:
+                    prakim = [5, 6];
+                    break;
+            }
+            break;
+        case 3:
+            switch (cShb) {
+                case 1:
+                    prakim = [3];
+                    break;
+                case 2:
+                    prakim = [4];
+                    break;
+                case 3:
+                    prakim = [5];
+                    break;
+                case 4:
+                    prakim = [6];
+                    break;
+            }
+            break;
+        case 4:
+            //This can only happen in Chutz La'aretz
+            switch (cShb) {
+                case 1:
+                    prakim = [4, 5];
+                    break;
+                case 2:
+                    prakim = [6, 1];
+                    break;
+                case 3:
+                    prakim = [2, 3];
+                    break;
+                case 4:
+                    prakim = [4, 5, 6];
+                    break;
+            }
+            break;
+        case 5:
+            switch (cShb) {
+                case 1:
+                    prakim = [5, 6];
+                    break;
+                case 2:
+                    prakim = [1, 2];
+                    break;
+                case 3:
+                    prakim = [3, 4];
+                    break;
+                case 4:
+                    prakim = [5, 6];
+                    break;
+            }
+            break;
+        case 6:
+            switch (cShb) {
+                case 1:
+                    prakim = [6];
+                    break;
+                case 2:
+                    prakim = [1, 2];
+                    break;
+                case 3:
+                    prakim = [3, 4];
+                    break;
+                case 4:
+                    prakim = [5, 6];
+                    break;
+            }
+            break;
+    }
+
+    return prakim || [];
+};

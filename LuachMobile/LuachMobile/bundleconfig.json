@@ -15,7 +15,8 @@
       "www/scripts/JCal/Zmanim.js",
       "www/scripts/JCal/Sedra.js",
       "www/scripts/JCal/Molad.js",
-      "www/scripts/JCal/Dafyomi.js"
+      "www/scripts/JCal/Dafyomi.js",
+      "www/scripts/JCal/PirkeiAvos.js"
     ],
     "sourceMap": true
   },

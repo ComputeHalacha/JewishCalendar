@@ -64,35 +64,25 @@
             //How many days after the first day of pesach was the first shabbos after pesach
             int firstShabbosInterval = (inIsrael ? 7 : 8) + (6 - _savedPesachDay1.DayInWeek);
             //What number shabbos after pesach is the current date
-            int currentShabbosNumber = (jDay == firstShabbosInterval + 15 ? 1 : 
+            int currentShabbosNumber = (jMonth == 1 && jDay == (firstShabbosInterval + 15) ? 1 :
                 ((jDate.AbsoluteDate - (_savedPesachDay1.AbsoluteDate + firstShabbosInterval)) / 7) + 1);
             int perekAvos = currentShabbosNumber % 6;
             if (perekAvos == 0)
             {
                 perekAvos = 6;
             }
-
-
             //If the second day of Shavuos was on Shabbos, we missed a week. 
             //The second day of Pesach is always the same day as the first day of Shavuos.
             //So if Pesach was on Thursday, Shavuos will be on Friday and Shabbos in Chu"l.
             //Pesach can never come out on Friday, so in E. Yisroel Shavuos is never on Shabbos.
             if ((!inIsrael) && _savedPesachDay1.DayOfWeek == System.DayOfWeek.Thursday && (jMonth > 3 || (jMonth == 3 && jDay > 6)))
             {
-                perekAvos--;
-                if (perekAvos == 0)
-                {
-                    perekAvos = 6;
-                }
+                perekAvos = (perekAvos == 1 ? 6 : perekAvos - 1);
             }
             //If Tisha B'Av was on Shabbos, we missed a week. The first day of Pesach is always the same day of the week as Tisha b'av.
             if (_savedPesachDay1.DayOfWeek == System.DayOfWeek.Saturday && (jMonth > 5 || (jMonth == 5 && jDay > 9)))
             {
-                perekAvos--;
-                if (perekAvos == 0)
-                {
-                    perekAvos = 6;
-                }
+                perekAvos = (perekAvos == 1 ? 6 : perekAvos - 1);
             }
 
             return perekAvos;

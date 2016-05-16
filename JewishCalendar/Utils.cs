@@ -271,7 +271,7 @@ namespace JewishCalendar
             {
                 retval = retval.Insert(retval.Length - 1, "\"");
             }
-           
+
             return retval.ToString();
         }
 
@@ -317,7 +317,7 @@ namespace JewishCalendar
         /// <returns></returns>
         public static string GetProperMonthName(int jYear, int jMonth)
         {
-            if(jMonth == 12 && JewishDateCalculations.IsJewishLeapYear(jYear))
+            if (jMonth == 12 && JewishDateCalculations.IsJewishLeapYear(jYear))
             {
                 return "Adar Rishon";
             }

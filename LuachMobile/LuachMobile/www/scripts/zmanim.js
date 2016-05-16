@@ -11,7 +11,7 @@
         $('#divZmanimPage #btnNextDay').on('click', function () { goDay(1); });
         $('#divZmanimPage #btnNextWeek').on('click', function () { goDay(7); });
         $('#divZmanimPage #btnPrevDay').on('click', function () { goDay(-1); });
-        $('#divZmanimPage #btnPrevWeek').on('click', function () { goDay(-7); });        
+        $('#divZmanimPage #btnPrevWeek').on('click', function () { goDay(-7); });
         if (!document.onLocationChanged.first(function (i) { return i['divZmanimPage']; })) {
             document.onLocationChanged.push({ 'divZmanimPage': locationChanged });
         }
@@ -62,7 +62,7 @@
         var location = getLocation();
         $('#divZmanimPage #h2Header').html(jd.toStringHeb() + '<br />' + jd.getDate().toDateString());
         $('#divZmanimPage #pSpecial').html(getSpecialHtml(jd, location));
-        $('#divZmanimPage #ulMain').html(getZmanimHtml(jd, location));        
+        $('#divZmanimPage #ulMain').html(getZmanimHtml(jd, location));
         $('#divZmanimPage #ulMain').listview("refresh");
     }
 
@@ -75,7 +75,7 @@
 
     function getSpecialHtml(jd, location) {
         var holidays = location ? jd.getHolidays(location.Israel) : [],
-            html = '';        
+            html = '';
         if (holidays.length) {
             html += '<tr><td>' + getHolidayIcon(holidays) + '</td><td>';
             holidays.forEach(function (h) {
@@ -86,7 +86,7 @@
                 }
                 html += h + '<br />';
             });
-            html += '</td></tr>';            
+            html += '</td></tr>';
         }
         if (jd.hasEiruvTavshilin(location.Israel)) {
             html += "<tr><td><strong>Eiruv Tavshilin</strong></td></tr>";
@@ -106,13 +106,20 @@
 
         if (jd.hasCandleLighting()) {
             html += addLine("Candle Lighting", jd.getCandleLighting(location), "Candle lighting time ");
-        }
+        }        
         html += addLine("Weekly Sedra",
             jd.getSedra(location.Israel).map(function (s) { return s.eng; }).join(' - '), "Parasha of the week");
         if (dy != null) {
             html += addLine("Daf Yomi", dy, "The Daf Yomi for this day");
         }
-
+        if (jd.Month < 7 && jd.getDayOfWeek() === 6) {
+            var pa = jd.getPirkeiAvos(location.Israel);
+            if (pa.length) {
+                html += addLine("Pirkei Avos", pa.map(function (s) {
+                    return Utils.toSuffixed(s) + ' Perek';
+                }).join(' and '), "The Perek/Prakim of Pirkei Avos");
+            }
+        }
         if (isNaN(netz.hour)) {
             html += addLine("Netz Hachama", "The does not rise", "Sunrise");
         }

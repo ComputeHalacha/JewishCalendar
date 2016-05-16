@@ -1,6 +1,7 @@
 /// <reference path="Dafyomi.js" />
 /// <reference path="Utils.js" />
 /// <reference path="Sedra.js" />
+/// <reference path="PirkeiAvos.js" />
 "use strict";
 /******************************************************************************************************************************
  *  Represents a single day in the Jewish Calendar.
@@ -14,12 +15,14 @@
  *  new jDate("January 1 2045") - Accepts any valid javascript Date string (uses javascripts new Date(String))
  *  new jDate(jewishYear, jewishMonth, jewishDay) - Months start at 1. Nissan is month 1 Adara Sheini is 13.
  *  new jDate(jewishYear, jewishMonth) - Same as above, with Day defaulting to 1
- *  new jDate(absoluteDate) - The number of days elapsed since the theoretical date Sunday, December 31, 0001 BCE
  *  new jDate( { year: 5776, month: 4, day: 5 } ) - same as new jDate(jewishYear, jewishMonth, jewishDay)
  *  new jDate( { year: 5776, month: 4 } ) - same as new jDate(jewishYear, jewishMonth)
  *  new jDate( { year: 5776 } ) - sets to the first day of Rosh Hashana on the given year
+ *  new jDate(absoluteDate) - The number of days elapsed since the theoretical date Sunday, December 31, 0001 BCE
+ *  new jDate(jewishYear, jewishMonth, jewishDay, absoluteDate) - Most efficient constructor. Needs no calculations at all.
+ *  new jDate( { year: 5776, month: 4, day: 5, abs: 122548708 } ) - same as new jDate(jewishYear, jewishMonth, jewishDay, absoluteDate)
  *****************************************************************************************************************************/
-function jDate(arg, month, day) {
+function jDate(arg, month, day, abs) {
     var self = this;
 
     //The day of the Jewish Month
@@ -49,22 +52,25 @@ function jDate(arg, month, day) {
         }
     }
     else if (Utils.isNumber(arg)) {
-        //if no month and day was supplied, we assume that the first argument is an absolute date
-        if (typeof month === 'undefined') {
+        //if no other arguments were supplied, we assume that the supplied number is an absolute date
+        if (arguments.length === 1) {
             fromAbs(arg);
         }
+        //If the year and any other number is supplied, we set the year and create the date using either the supplied values or the defaults
         else {
             self.Year = arg;
-            self.Month = month;
+            self.Month = month || 7; //If no month was supplied, we take Tishrei
             self.Day = day || 1; //If no day was supplied, we take the first day of the month
-            self.Abs = jDate.absJd(self.Year, self.Month, self.Day);
+            //If the absolute date was supplied (very efficient), we use the supplied value, otherwise we calculate it.
+            self.Abs = abs || jDate.absJd(self.Year, self.Month, self.Day); 
         }
     }
-    else if (typeof arg === 'object' && typeof arg.year === 'number') {
+    //If arg is an object that has a "year" property that contains a valid value...
+    else if (typeof arg === 'object' && Utils.isNumber(arg.year)) {
         self.Day = arg.day || 1;
         self.Month = arg.month || 7;
         self.Year = arg.year;
-        self.Abs = jDate.absJd(self.Year, self.Month, self.Day);
+        self.Abs = arg.abs || jDate.absJd(self.Year, self.Month, self.Day);
     }
 
     //Sets the current Jewish date from the given absolute date
@@ -276,6 +282,11 @@ jDate.prototype = {
         return new Sedra(this, israel);
     },
 
+    //Get the sedra of the week for the current Jewish date
+    getPirkeiAvos: function (israel) {
+        return new PirkeiAvos(this, israel);
+    },
+
     //gets sunrise and sunset time for the current Jewish date at the given Location.
     //Return format: { sunrise: { hour: 6, minute: 18 }, sunset: { hour: 19, minute: 41 } }
     getSunriseSunset: function (location) {
@@ -328,18 +339,24 @@ jDate.prototype = {
 *  jDate.toJDate(jewishYear) - sets to the first day of Rosh Hashana on the given year 
 *  jDate.toJDate( { year: 5776, month: 4, day: 5 } ) - Months start at 1. Nissan is month 1 Adara Sheini is 13.
 *  jDate.toJDate( { year: 5776, month: 4 } ) - Same as above, with Day defaulting to 1
-*  jDate.toJDate( { year: 5776 } ) - sets to the first day of Rosh Hashana on the given year 
+*  jDate.toJDate( { year: 5776 } ) - sets to the first day of Rosh Hashana on the given year
+*  jDate.toJDate(jewishYear, jewishMonth, jewishDay, absoluteDate) - Most efficient. Needs no calculations at all. The absoluteDate is the number of days elapsed since the theoretical date Sunday, December 31, 0001 BCE.
+*  jDate.toJDate( { year: 5776, month: 4, day: 5, abs: 122548708 } ) - same as jDate.toJDate(jewishYear, jewishMonth, jewishDay, absoluteDate)
+ 
 ****************************************************************************************************************/
-jDate.toJDate = function (arg, month, year) {
-    if (Utils.isNumber(arg) && typeof month === 'undefined' && typeof day === 'undefined') {
-        return new jDate(1, 1, year);
+jDate.toJDate = function (arg, month, day, abs) {
+    // If just the year is set, then the date is set to Rosh Hashana of that year.
+    // In the above scenario, we can't just pass the args along, as the constructor will treat it as an absolute date.
+    //...and that folks, is actually the whole point of this function...
+    if (Utils.isNumber(arg) && arguments.length === 1) {
+        return new jDate(arg, 7, 1);
     }
     else {
-        return new jDate(arg, month, year);
+        return new jDate(arg, month, day, abs);
     }
 };
 
-//Calulate the Jewish date at the given absolute date
+//Calculate the Jewish date at the given absolute date
 jDate.fromAbs = function (absDay) {
     //To save on calculations, start with a few years before date
     var year = 3761 + parseInt(absDay / (absDay > 0 ? 366 : 300)),
