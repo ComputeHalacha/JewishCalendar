@@ -336,7 +336,7 @@ html, body {
 }
 
 #tblCal {
-    height: 90%;
+    /*height: 90%;*/
 }
 
 #tblDOW th {
@@ -378,7 +378,7 @@ html, body {
 
 #tblCal .sd {
     color: #008;
-    font-size: 0.8em;
+    font-size: 1em;
     padding: 0;
     z-index: 1;
     position: absolute;
@@ -395,7 +395,7 @@ html, body {
 
 #tblCal .ht {
     color: #686;
-    font-size: 0.5em;
+    font-size: 0.7em;
     position: absolute;
     margin-left: auto;
     margin-right: auto;

@@ -42,13 +42,13 @@
         if (ui.toPage.attr('id') === 'divCalendarPage') {
             console.log('RAN pagecontainershow for: divCalendarPage');
             //We want the calendar table to fill up the the available height of the area between the header and footer, so we need the container to have it's height set.
-           /* $('#divCalendarPage div[data-role=main]').css({
-                'height': ($.mobile.pageContainer.height() -
-                    $('#divCalendarPage #divCalPageHeader').height() -
-                    $('#divCalendarPage #divCalPageFooter').height()) + 'px'
-            });*/
+            /* $('#divCalendarPage div[data-role=main]').css({
+                 'height': ($.mobile.pageContainer.height() -
+                     $('#divCalendarPage #divCalPageHeader').height() -
+                     $('#divCalendarPage #divCalPageFooter').height()) + 'px'
+             });*/
 
-        
+
             //On page show, display the info for the set location
             locationChanged();
         }
@@ -163,7 +163,10 @@
             //set the width to fill the screen
             .width($.mobile.pageContainer.width())
             //set the height to fit between the header and footer
-            .height($.mobile.pageContainer.width() * 0.88); 
+            .height($.mobile.pageContainer.innerHeight() -
+                $('#divCalPageHeader').outerHeight() -
+                $('#divCalPageFooter').outerHeight() -
+                $('#tblDOW').outerHeight());
 
         $('#divCalendarPage #tblCal td.hasDate').on('click', function () {
             //Set the global current date to the clicked day            

@@ -204,7 +204,7 @@ Zmanim.timeAdj = function (time, date, location) {
         hour++;
     }
     else if ((!inCurrTZ) &&
-        ((loc.Israel && Utils.isIsrael_DST(date)) || Utils.isUSA_DST(date, hour))) {
+        ((location.Israel && Utils.isIsrael_DST(date)) || Utils.isUSA_DST(date, hour))) {
         hour++;
     }
 
