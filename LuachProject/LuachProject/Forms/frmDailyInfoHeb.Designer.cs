@@ -89,6 +89,7 @@
             this.richTextBox1.Size = new System.Drawing.Size(1047, 396);
             this.richTextBox1.TabIndex = 10;
             this.richTextBox1.Text = "";
+            this.richTextBox1.WordWrap = false;
             // 
             // tableLayoutPanel1
             // 
@@ -105,7 +106,7 @@
             this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(10, 5, 0, 0);
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1059, 108);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1059, 109);
             this.tableLayoutPanel1.TabIndex = 15;
             // 
             // label2
@@ -114,7 +115,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.GhostWhite;
-            this.label2.Location = new System.Drawing.Point(5, 138);
+            this.label2.Location = new System.Drawing.Point(5, 139);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(1056, 17);
             this.label2.TabIndex = 14;

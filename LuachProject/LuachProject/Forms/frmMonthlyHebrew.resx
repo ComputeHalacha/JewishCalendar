@@ -122,7 +122,7 @@
   </metadata>
   <data name="jewishDatePicker1.MaxDate" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAEVKZXdpc2hDYWxlbmRhciwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0
+        AAEAAAD/////AQAAAAAAAAAMAgAAAEVKZXdpc2hDYWxlbmRhciwgVmVyc2lvbj0xLjEuOC4wLCBDdWx0
         dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAABlKZXdpc2hDYWxlbmRhci5KZXdpc2hE
         YXRlBAAAAARfZGF5Bl9tb250aAVfeWVhcg5fZ3JlZ29yaWFuRGF0ZQAAAAAICAgNAgAAAB0AAAAGAAAA
         bxcAAP//wrXi6s0JCw==
@@ -130,7 +130,7 @@
   </data>
   <data name="jewishDatePicker1.MinDate" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAEVKZXdpc2hDYWxlbmRhciwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0
+        AAEAAAD/////AQAAAAAAAAAMAgAAAEVKZXdpc2hDYWxlbmRhciwgVmVyc2lvbj0xLjEuOC4wLCBDdWx0
         dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAABlKZXdpc2hDYWxlbmRhci5KZXdpc2hE
         YXRlBAAAAARfZGF5Bl9tb250aAVfeWVhcg5fZ3JlZ29yaWFuRGF0ZQAAAAAICAgNAgAAAAcAAAAKAAAA
         3xQAAADAbNBun+0GCw==
@@ -138,7 +138,7 @@
   </data>
   <data name="jewishDatePicker1.Value" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAEVKZXdpc2hDYWxlbmRhciwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0
+        AAEAAAD/////AQAAAAAAAAAMAgAAAEVKZXdpc2hDYWxlbmRhciwgVmVyc2lvbj0xLjEuOC4wLCBDdWx0
         dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwFAQAAABlKZXdpc2hDYWxlbmRhci5KZXdpc2hE
         YXRlBAAAAARfZGF5Bl9tb250aAVfeWVhcg5fZ3JlZ29yaWFuRGF0ZQAAAAAICAgNAgAAAAMAAAAJAAAA
         kBYAAMZFNcPq7dKICw==

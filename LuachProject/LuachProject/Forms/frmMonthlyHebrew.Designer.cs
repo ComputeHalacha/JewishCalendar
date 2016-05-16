@@ -159,7 +159,7 @@
             this.splitContainer1.Panel2.ClientSizeChanged += new System.EventHandler(this.splitContainer1_Panel2_ClientSizeChanged);
             this.splitContainer1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.splitContainer1.Size = new System.Drawing.Size(1183, 701);
-            this.splitContainer1.SplitterDistance = 286;
+            this.splitContainer1.SplitterDistance = 287;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 3;
             this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
@@ -193,7 +193,7 @@
             this.splitContainer2.Panel2.Controls.Add(this.button1);
             this.splitContainer2.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.splitContainer2.Panel2MinSize = 134;
-            this.splitContainer2.Size = new System.Drawing.Size(895, 701);
+            this.splitContainer2.Size = new System.Drawing.Size(894, 701);
             this.splitContainer2.SplitterDistance = 540;
             this.splitContainer2.TabIndex = 0;
             this.splitContainer2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.splitContainer2_KeyDown);
@@ -206,7 +206,7 @@
             this.pnlMain.Location = new System.Drawing.Point(7, 0);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(878, 540);
+            this.pnlMain.Size = new System.Drawing.Size(877, 540);
             this.pnlMain.TabIndex = 0;
             this.pnlMain.TabStop = true;
             this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
@@ -286,7 +286,7 @@
             this.cmbLocation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbLocation.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.cmbLocation.FormattingEnabled = true;
-            this.cmbLocation.Location = new System.Drawing.Point(534, 121);
+            this.cmbLocation.Location = new System.Drawing.Point(533, 121);
             this.cmbLocation.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbLocation.Name = "cmbLocation";
             this.cmbLocation.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -301,7 +301,7 @@
             this.panel1.Controls.Add(this.rbInIsrael);
             this.panel1.Controls.Add(this.rbInChul);
             this.panel1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.panel1.Location = new System.Drawing.Point(657, 88);
+            this.panel1.Location = new System.Drawing.Point(656, 88);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
             this.panel1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -341,7 +341,7 @@
             this.label2.ForeColor = System.Drawing.Color.DimGray;
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(895, 18);
+            this.label2.Size = new System.Drawing.Size(894, 18);
             this.label2.TabIndex = 17;
             this.label2.Text = "לחץ פעמיים להוסיף אירוע   |   לנווט בין הימים השתמשו בלחצני החיצים";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -352,7 +352,7 @@
             this.label6.BackColor = System.Drawing.Color.LightSteelBlue;
             this.label6.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.label6.ForeColor = System.Drawing.Color.GhostWhite;
-            this.label6.Location = new System.Drawing.Point(534, 58);
+            this.label6.Location = new System.Drawing.Point(533, 58);
             this.label6.Name = "label6";
             this.label6.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
             this.label6.RightToLeft = System.Windows.Forms.RightToLeft.No;
