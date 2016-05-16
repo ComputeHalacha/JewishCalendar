@@ -25,7 +25,7 @@ namespace LuachProject
             Trimming = StringTrimming.EllipsisCharacter,
             Alignment = StringAlignment.Center,           
             LineAlignment = StringAlignment.Center,
-            FormatFlags = StringFormatFlags.LineLimit | StringFormatFlags.FitBlackBox
+            FormatFlags = StringFormatFlags.LineLimit | StringFormatFlags.FitBlackBox | StringFormatFlags.DirectionRightToLeft
         };
 
        

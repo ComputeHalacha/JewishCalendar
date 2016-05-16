@@ -406,22 +406,7 @@ namespace JewishCalendar
                 list.Add(new SpecialDay("Shabbos Mevarchim", "מברכים החודש"));
             }
 
-            SetPirkeiAvos(jDate, inIsrael, list, jYear, jMonth, jDay);
-        }
-
-        private static void SetPirkeiAvos(IJewishDate jDate, bool inIsrael, ArrayList list, int jYear, int jMonth, int jDay)
-        {
-            int[] prakim = PirkeiAvos.GetPirkeiAvos(jDate, inIsrael);
-            if(prakim.Length > 0)
-            {
-                string engStr = "", hebStr = "";
-                foreach(int p in prakim)
-                {
-                    engStr += (engStr.Length > 0 ? " and " : "") + p.ToSuffixedString();
-                    hebStr += (hebStr.Length > 0 ? ", " : "") + p.ToNumberHeb();
-                }
-                list.Add(new SpecialDay("Pirkei Avos - Perek " + engStr, "פרקי אבות - פרק " + hebStr));
-            }
+            SetPirkeiAvos(jDate, inIsrael, list);
         }
 
         private static void AddNissanSpecialDays(bool inIsrael, ArrayList list, int jDay, DayOfWeek dayOfWeek)
@@ -682,6 +667,20 @@ namespace JewishCalendar
                     list.Add(new SpecialDay("Purim", "פורים", SpecialDayTypes.MinorYomtov));
                 else if (jDay == 15)
                     list.Add(new SpecialDay("Shushan Purim", "שושן פורים", SpecialDayTypes.MinorYomtov));
+            }
+        }
+        private static void SetPirkeiAvos(IJewishDate jDate, bool inIsrael, ArrayList list)
+        {
+            int[] prakim = PirkeiAvos.GetPirkeiAvos(jDate, inIsrael);
+            if (prakim.Length > 0)
+            {
+                string engStr = "", hebStr = "";
+                foreach (int p in prakim)
+                {
+                    engStr += (engStr.Length > 0 ? " and " : "") + p.ToSuffixedString();
+                    hebStr += (hebStr.Length > 0 ? ", " : "") + p.ToNumberHeb();
+                }
+                list.Add(new SpecialDay("Pirkei Avos - Perek " + engStr, "פרקי אבות - פרק " + hebStr));
             }
         }
         #endregion

@@ -1,16 +1,18 @@
 ﻿namespace JewishCalendar
 {
     /// <summary>
-    /// Works out Pirkei Avos Perek/Prakim for summer months
+    /// Gets the Pirkei Avos Perek/Prakim for any given Shabbos in the summer months.
+    /// The rules are: the Parshiyaos, Nasso, Pinchas and Shoftim start a new cycle and the last two weeks in Ellul get double prakim.
+    /// The calculations of this class work OK for Eretz Yisroel, but Chu"l seems to be incorrect.
+    /// The issue is that in Chu"l, Achron Shel Pesach and the second day of Shavuos can both fall out on Shabbos.
     /// </summary>
     public static class PirkeiAvos
     {
         private static JewishDateMicro _savedPesachDay1;
         private static bool _savedInIsrael;
 
-
         /// <summary>
-        /// Returns an array of Perek number/s for the given Jewish Date and location/
+        /// Returns an array of Perek number/s for the given Jewish Date and location.
         /// If the given day does not have Pirkei Avos, an empty array is returned.
         /// </summary>
         /// <param name="jDate"></param>
