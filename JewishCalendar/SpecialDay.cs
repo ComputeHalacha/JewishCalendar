@@ -13,31 +13,35 @@ namespace JewishCalendar
         /// <summary>
         /// Shabbos
         /// </summary>
-        Shabbos = 2,
+        Shabbos = 0,
         /// <summary>
         /// Major Yom Tov - where melacha is prohibited
         /// </summary>
-        MajorYomTov = 4,
+        MajorYomTov = 1,
         /// <summary>
         /// Minor Yom Tov - where Melacha is permitted
         /// </summary>
-        MinorYomtov = 16,
+        MinorYomtov = 2,
+        /// <summary>
+        /// Chol Hamoed
+        /// </summary>
+        CholHamoed = 4,
         /// <summary>
         /// A fast day
         /// </summary>
-        FastDay = 32,
+        FastDay = 8,
         /// <summary>
         /// Extra day information
         /// </summary>
-        Information = 64,
+        Information = 16,
         /// <summary>
         /// Erev shabbos or yomtov
         /// </summary>
-        HasCandleLighting = 128,
+        HasCandleLighting = 32,
         /// <summary>
         /// Erev Yomtov - when Yomtov contains a Friday
         /// </summary>
-        EruvTavshilin = 256
+        EruvTavshilin = 64
     };
 
     #endregion Public Enums
@@ -89,7 +93,7 @@ namespace JewishCalendar
         public SpecialDay(string nameEnglish, string nameHebrew) : this(nameEnglish, nameHebrew, SpecialDayTypes.Information) { }
 
         #endregion Public Constructors
-        
+
         #region Public Methods
 
         /// <summary>

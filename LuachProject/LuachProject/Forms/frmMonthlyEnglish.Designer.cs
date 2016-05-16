@@ -158,7 +158,7 @@
             this.splitContainer1.Panel1.ClientSizeChanged += new System.EventHandler(this.splitContainer1_Panel1_ClientSizeChanged);
             this.splitContainer1.Panel1MinSize = 500;
             this.splitContainer1.Size = new System.Drawing.Size(1152, 690);
-            this.splitContainer1.SplitterDistance = 897;
+            this.splitContainer1.SplitterDistance = 885;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 0;
             this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
@@ -182,7 +182,7 @@
             this.splitContainer2.Panel2.Controls.Add(this.panel3);
             this.splitContainer2.Panel2.Controls.Add(this.label2);
             this.splitContainer2.Panel2MinSize = 155;
-            this.splitContainer2.Size = new System.Drawing.Size(897, 690);
+            this.splitContainer2.Size = new System.Drawing.Size(885, 690);
             this.splitContainer2.SplitterDistance = 534;
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 19;
@@ -195,7 +195,7 @@
             this.pnlMain.Location = new System.Drawing.Point(9, 0);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(888, 534);
+            this.pnlMain.Size = new System.Drawing.Size(876, 534);
             this.pnlMain.TabIndex = 0;
             this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
             this.pnlMain.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseClick);
@@ -216,7 +216,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel3.Location = new System.Drawing.Point(0, 35);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(897, 120);
+            this.panel3.Size = new System.Drawing.Size(885, 120);
             this.panel3.TabIndex = 19;
             // 
             // cmbLocation
@@ -426,7 +426,7 @@
             this.label2.ForeColor = System.Drawing.Color.DimGray;
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(897, 18);
+            this.label2.Size = new System.Drawing.Size(885, 18);
             this.label2.TabIndex = 16;
             this.label2.Text = "Click any day to see Zmanim, Occasions and Events   |   Double-click to add an Ev" +
     "ent   |   Use the arrow keys to navigate through the days.";

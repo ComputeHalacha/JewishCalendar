@@ -516,6 +516,8 @@ namespace LuachProject
 
             if (currDate.DayOfWeek == DayOfWeek.Saturday)
             {
+                bool noSedra = false;
+
                 width = (this.pnlMain.Width - currX) - 1f;
                 rect.Width = width;
 
@@ -530,6 +532,11 @@ namespace LuachProject
 
                 foreach (SpecialDay sd in holidays)
                 {
+                    if (sd.DayType.IsSpecialDayType(SpecialDayTypes.MajorYomTov) || sd.DayType.IsSpecialDayType(SpecialDayTypes.CholHamoed))
+                    {
+                        noSedra = true;
+                    }
+
                     if (sd.NameEnglish == "Shabbos Mevarchim")
                     {
                         var nextMonth = jDate + 12;
@@ -546,9 +553,18 @@ namespace LuachProject
                     }
                 }
 
-                textZmanim = string.Join(" - ", Sedra.GetSedra(jDate, this._currentLocation.IsInIsrael).Select(i =>
-                    (this._displayHebrew ? i.nameHebrew : i.nameEng))) +
-                        "\n" + Zmanim.GetHolidaysText(holidays, "\n", this._displayHebrew);
+                if (noSedra)
+                {
+                    textZmanim += Zmanim.GetHolidaysText(holidays, "\n", this._displayHebrew);
+                }
+                else
+                {
+                    textZmanim = string.Join(" - ", Sedra.GetSedra(jDate, this._currentLocation.IsInIsrael).Select(i =>
+                        (this._displayHebrew ? i.nameHebrew : i.nameEng))) +
+                            "\n" + Zmanim.GetHolidaysText(holidays, "\n", this._displayHebrew);
+                }
+
+                
 
                 g.FillRectangle(Program.ShabbosBrush, rect);
             }
@@ -618,7 +634,8 @@ namespace LuachProject
             //Jewish day will be on the right, so we move the rectangle over to the right of the box.
             //No need to resize the width.
             rect.X += rect.Width;
-            g.DrawString(jDate.Day.ToNumberHeb(), this._jewishDayFont, Program.SecularDayBrush, rect, Program.StringFormat);
+            g.DrawString(jDate.Day.ToNumberHeb().Replace("'", ""), 
+                this._jewishDayFont, Program.SecularDayBrush, rect, Program.StringFormat);
             //Move rectangle back over to the left of the box
             rect.X = currX;
             //resize rectangle to fix whole box

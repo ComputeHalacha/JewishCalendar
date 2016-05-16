@@ -203,7 +203,7 @@ namespace JewishCalendar
         /// <summary>
         /// Converts a number into its Jewish number equivalent. I.E. 254 is רכ"ד
         /// NOTE: The exact thousands numbers (1000, 2000, 3000 etc.)
-        /// will look awfully similar to the single digits, but will be formatted with an apostrophe I.E. 2000 = "'ב"
+        /// will look awfully similar to the single digits, but will be formatted with a double apostrophe I.E. 2000 = "''ב"
         /// </summary>
         /// <param name="number">The number to convert</param>
         /// <returns>A Hebrew string representation of the number</returns>
@@ -263,10 +263,15 @@ namespace JewishCalendar
             {
                 retval.Insert(0, "'");
             }
-            else if (retval.Length > 1)
+            else if (retval.Length == 1)
+            {
+                retval.Append("'");
+            }
+            else
             {
                 retval = retval.Insert(retval.Length - 1, "\"");
             }
+           
             return retval.ToString();
         }
 

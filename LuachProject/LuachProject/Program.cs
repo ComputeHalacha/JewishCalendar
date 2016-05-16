@@ -23,9 +23,9 @@ namespace LuachProject
         internal static StringFormat StringFormat = new StringFormat
         {
             Trimming = StringTrimming.EllipsisCharacter,
-            Alignment = StringAlignment.Center,
+            Alignment = StringAlignment.Center,           
             LineAlignment = StringAlignment.Center,
-            FormatFlags = StringFormatFlags.LineLimit | StringFormatFlags.FitBlackBox
+            FormatFlags = StringFormatFlags.LineLimit | StringFormatFlags.FitBlackBox | StringFormatFlags.DirectionRightToLeft
         };
 
        
