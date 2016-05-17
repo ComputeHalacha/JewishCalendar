@@ -7,11 +7,12 @@
     console.log('Start index.js');
     $(document).one('pagecreate', '#divCalendarPage', function () {
         console.log('RAN pagecreate on divCalendarPage');
-
+        $('body').css({ 'visibility': 'visible', 'background-color': '' });
         $('#divCalendarPage #btnNextMonth').on('click', function () { goMonth(1); });
         $('#divCalendarPage #btnNextYear').on('click', function () { goYear(1); });
         $('#divCalendarPage #btnPrevMonth').on('click', function () { goMonth(-1); });
         $('#divCalendarPage #btnPrevYear').on('click', function () { goYear(-1); });
+        $('#divCalendarPage #btnToday').on('click', function () { goToday(); });
         if (!document.onLocationChanged.first(function (i) { return !!i.divCalendarPage; })) {
             document.onLocationChanged.push({
                 'divCalendarPage': locationChanged
@@ -41,14 +42,6 @@
     $(document).on("pagecontainershow", $.mobile.pageContainer, function (e, ui) {
         if (ui.toPage.attr('id') === 'divCalendarPage') {
             console.log('RAN pagecontainershow for: divCalendarPage');
-            //We want the calendar table to fill up the the available height of the area between the header and footer, so we need the container to have it's height set.
-            /* $('#divCalendarPage div[data-role=main]').css({
-                 'height': ($.mobile.pageContainer.height() -
-                     $('#divCalendarPage #divCalPageHeader').height() -
-                     $('#divCalendarPage #divCalPageFooter').height()) + 'px'
-             });*/
-
-
             //On page show, display the info for the set location
             locationChanged();
         }
@@ -63,7 +56,7 @@
             jd = $(document).jqmData('currentjDate');
         }
         else {
-            showDate(new jDate(new Date()));
+            showDate(new jDate());
             return;
         }
 
@@ -208,6 +201,10 @@
         if (jd) {
             showDate(jd.addYears(num));
         }
+    }
+
+    function goToday() {
+        showDate(new jDate());
     }
 
     function getHolidays(jd, location) {
