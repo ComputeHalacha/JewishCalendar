@@ -7,7 +7,7 @@
     console.log('Start index.js');
     $(document).one('pagecreate', '#divCalendarPage', function () {
         console.log('RAN pagecreate on divCalendarPage');
-        $('body').css({ 'visibility': 'visible', 'background-color': '' });
+        $('body').css({ 'visibility': 'visible' });
         $('#divCalendarPage #btnNextMonth').on('click', function () { goMonth(1); });
         $('#divCalendarPage #btnNextYear').on('click', function () { goYear(1); });
         $('#divCalendarPage #btnPrevMonth').on('click', function () { goMonth(-1); });
