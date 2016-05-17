@@ -8,8 +8,10 @@
     "use strict";
     $(document).one('pagecreate', '#divZmanimPage', function () {
         console.log('RAN pagecreate on divZmanimPage');
+        $('body').css({ 'visibility': 'visible' });
         $('#divZmanimPage #btnNextDay').on('click', function () { goDay(1); });
         $('#divZmanimPage #btnNextWeek').on('click', function () { goDay(7); });
+        $('#divZmanimPage #btnZmanimToday').on('click', function () { goDay(); });
         $('#divZmanimPage #btnPrevDay').on('click', function () { goDay(-1); });
         $('#divZmanimPage #btnPrevWeek').on('click', function () { goDay(-7); });
         if (!document.onLocationChanged.first(function (i) { return i['divZmanimPage']; })) {
@@ -67,9 +69,14 @@
     }
 
     function goDay(num) {
-        var jd = $(document).jqmData('currentjDate');
-        if (jd) {
-            showDate(jd.addDays(num));
+        if (!num) {
+            showDate(new jDate());
+        }
+        else {
+            var jd = $(document).jqmData('currentjDate');
+            if (jd) {
+                showDate(jd.addDays(num));
+            }
         }
     }
 
@@ -106,7 +113,7 @@
 
         if (jd.hasCandleLighting()) {
             html += addLine("Candle Lighting", jd.getCandleLighting(location), "Candle lighting time ");
-        }        
+        }
         html += addLine("Weekly Sedra",
             jd.getSedra(location.Israel).map(function (s) { return s.eng; }).join(' - '), "Parasha of the week");
         if (dy != null) {
