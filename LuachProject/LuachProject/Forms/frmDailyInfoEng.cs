@@ -19,6 +19,7 @@ namespace LuachProject
         #region private fields
         private JewishDate _displayingJewishDate;
         private DateTime _displayingSecularDate;
+        private DateTime _secularDateAtMidnight;
         private frmAddOccasionEng _frmAddOccasionEng;
         private IEnumerable<SpecialDay> _holidays;
         private Font _lblOccasionFont;
@@ -55,7 +56,7 @@ namespace LuachProject
                 {
                     this._displayingJewishDate = value;
                     this.SetSecularDate();
-                    this._zmanim.SecularDate = this._displayingSecularDate;
+                    this._zmanim.SecularDate = this._secularDateAtMidnight;
                     this._holidays = Zmanim.GetHolidays(value, this._zmanim.Location.IsInIsrael).Cast<SpecialDay>();
                     this._occasions = UserOccasionColection.FromSettings(this._displayingJewishDate);
                     this.tableLayoutPanel1.Controls.Clear();
@@ -72,7 +73,7 @@ namespace LuachProject
             }
             set
             {
-                this._zmanim = new Zmanim(this._displayingSecularDate, value);
+                this._zmanim = new Zmanim(this._secularDateAtMidnight, value);
                 this._holidays = Zmanim.GetHolidays(this._displayingJewishDate, this._zmanim.Location.IsInIsrael).Cast<SpecialDay>();
                 this.ShowDateData();
             }
@@ -366,7 +367,7 @@ namespace LuachProject
             //If the secular day is a day behind as day being displayed is todays date and it is after sunset,
             //the user may get confused as the secular date for today and tomorrow will be the same.
             //So we esplain'in it to them...
-            if (this._displayingSecularDate.Date != this._displayingJewishDate.GregorianDate.Date)
+            if (this._secularDateAtMidnight.Date != this._displayingSecularDate.Date)
             {
                 html.Append("<div class=\"padWidth rosyBrown seven italic\">Note: The secular date begins at midnight</div>");
             }
@@ -450,24 +451,14 @@ namespace LuachProject
 
         private void SetSecularDate()
         {
-            //Are we displaying the current date and current location (best guess)?
-            var isHereAndNow = this._zmanim.Location.TimeZoneInfo != null &&
-                TimeZoneInfo.Local.Id == this._zmanim.Location.TimeZoneInfo.Id &&
-                new JewishDate(DateTime.Now, this._zmanim.Location) == this._displayingJewishDate;
-         
-            //If we are displaying todays date for the current time zone, we will show the "proper" secular date.
-            if (isHereAndNow)
-            {
-                this._displayingSecularDate = JewishDateCalculations.GetGregorianDateFromJewishDate(
-                    this._displayingJewishDate,
-                    (HourMinute)DateTime.Now.TimeOfDay,
-                    this._zmanim.Location);
-            }
-            else
-            {
-                this._displayingSecularDate = this._displayingJewishDate.GregorianDate;
-            }
-        }        
+            this._displayingSecularDate = this._displayingJewishDate.GregorianDate;
+            /*-------------------------------------------------------------------------------------------------------------------------------
+             * The zmanim shown will always be for the Gregorian Date that starts at midnight of the current Jewish Date.
+             * We use the JewishDateCalculations.GetGregorianDateFromJewishDate function 
+             * which gets the Gregorian Date that will be at midnight of the given Jewish day.  
+            ----------------------------------------------------------------------------------------------------------------------------------*/
+            this._secularDateAtMidnight = JewishDateCalculations.GetGregorianDateFromJewishDate(this._displayingJewishDate);
+        }
 
         private void PositionAddOccasion(Point? parentPoint)
         {

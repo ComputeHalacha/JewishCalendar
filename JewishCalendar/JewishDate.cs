@@ -60,8 +60,7 @@ namespace JewishCalendar
         public JewishDate(Location location) : this(DateTime.Now, location) { }
 
         /// <summary>
-        /// Creates a new JewishDate with the specified Hebrew year, month, day and absolute day.
-        /// This is the quickest constructor as it does no calculations at all. 
+        /// Creates a new JewishDate with the specified Hebrew year, month, day and absolute day.        
         /// Caution: If the absolute day doesn't correctly match the given year/month/day, weird things will happen.
         /// </summary>
         /// <param name="year">The year - counted from the creation of the world</param>
@@ -75,6 +74,25 @@ namespace JewishCalendar
             this._day = day;
             this._absoluteDate = absoluteDay;
             this._gregorianDate = JewishDateCalculations.GetGregorianDateFromJewishDate(this);
+        }
+
+        /// <summary>
+        /// Creates a new JewishDate with the specified Hebrew year, month, day, absolute day and Gregorian Date.
+        /// This is the quickest constructor as it does no calculations at all. 
+        /// Caution: If the absolute day doesn't correctly match the given year/month/day, weird things will happen.
+        /// </summary>
+        /// <param name="year">The year - counted from the creation of the world</param>
+        /// <param name="month">The Jewish month. As it is in the Torah, Nissan is 1.</param>
+        /// <param name="day">The day of the month</param>
+        /// <param name="absoluteDay">The "absolute day"</param>
+        /// <param name="gd">The secular date</param>
+        public JewishDate(int year, int month, int day, int absoluteDay, DateTime gd)
+        {
+            this._year = year;
+            this._month = month;
+            this._day = day;
+            this._absoluteDate = absoluteDay;
+            this._gregorianDate = gd;
         }
 
         /// <summary>

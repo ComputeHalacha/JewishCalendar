@@ -24,7 +24,8 @@ namespace LuachProject
         public frmAddOccasionEng()
         {
             InitializeComponent();
-            this.jewishDatePicker1.MinDate = new JewishDate(DateTime.MinValue.AddMonths(1));
+            this.jewishDatePicker1.MinDate = new JewishDate(3761, 11, 1, 13, new DateTime(1, 1, 13));
+            this.jewishDatePicker1.MaxDate = new JewishDate(5999, 6, 1, 817656, new DateTime(2239, 9, 1));
         }
 
         public frmAddOccasionEng(UserOccasion uoToEdit)

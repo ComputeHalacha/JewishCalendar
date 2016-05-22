@@ -48,7 +48,15 @@ namespace LuachProject
                 if (this._displayedJewishMonth == null || this._displayedJewishMonth.Year != value.Year || this._displayedJewishMonth.Month != value.Month)
                 {
                     //Set _currentJewishDate to first of month
-                    this._displayedJewishMonth = value - (value.Day - 1);
+                    this._displayedJewishMonth = new JewishDate(value.Year, value.Month, 1, value.AbsoluteDate - (value.Day - 1));
+                    if (this._displayedJewishMonth < this.jewishDatePicker1.MinDate)
+                    {
+                        this._displayedJewishMonth = this.jewishDatePicker1.MinDate;
+                    }
+                    else if (this._displayedJewishMonth > this.jewishDatePicker1.MaxDate)
+                    {
+                        this._displayedJewishMonth = this.jewishDatePicker1.MaxDate;
+                    }
                     this._currentMonthLength = JewishDateCalculations.DaysInJewishMonth(this._displayedJewishMonth.Year, this._displayedJewishMonth.Month);
                     this._currentMonthWeeks = (int)this._displayedJewishMonth.DayOfWeek >= 5 && _currentMonthLength > 29 ? 6 : 5;
                     this.SetCaptionText();
@@ -67,6 +75,7 @@ namespace LuachProject
             set
             {
                 this._currentLocation = value;
+                this.SetToday();
                 if (!this._loading)
                 {
                     //Location was changed, so we need to re-do the zmanim
@@ -138,7 +147,7 @@ namespace LuachProject
             Properties.Settings.Default.LastLanguage = "English";
             Properties.Settings.Default.Save();
 
-            InitializeComponent();            
+            InitializeComponent();
 
             this.ResizeBegin += (s, e) => { this._isResizing = true; };
             this.ResizeEnd += (s, e) => { this._isResizing = false; this.pnlMain.Invalidate(); };
@@ -148,7 +157,8 @@ namespace LuachProject
             this._zmanimFont = new Font(this.Font.FontFamily, 8, FontStyle.Regular);
             this._secularDayFont = new Font(this.Font.FontFamily, 8.5f);
             this._userOccasionFont = this._zmanimFont;
-            this.jewishDatePicker1.SetBoundsToSecular();
+            this.jewishDatePicker1.MinDate = new JewishDate(3761, 11, 1, 13, new DateTime(1, 1, 13));
+            this.jewishDatePicker1.MaxDate = new JewishDate(5999, 6, 1, 817656, new DateTime(2239, 9, 1));
             this.jewishDatePicker1.DataBindings.Add("Value", this, "SelectedJewishDate", true, DataSourceUpdateMode.OnPropertyChanged, new JewishDate());
         }
 
@@ -224,7 +234,7 @@ namespace LuachProject
             }
             if (this._todayJewishDate == null)
             {
-                this._todayJewishDate = new JewishCalendar.JewishDate(this._currentLocation);
+                this.SetToday();
             }
             if (this._selectedDay == null)
             {
@@ -832,7 +842,8 @@ namespace LuachProject
             frmDailyInfoEng f;
             if (!this.DailyPanelIsShowing)
             {
-                f = new frmDailyInfoEng(sdi.JewishDate, this._currentLocation);
+                f = new frmDailyInfoEng((sdi.JewishDate == this._todayJewishDate ? this._todayJewishDate : sdi.JewishDate),
+                    this._currentLocation);
                 f.TopLevel = false;
                 f.Parent = this;
                 f.OccasionWasChanged += delegate (object sender, JewishDate jd)
@@ -858,11 +869,23 @@ namespace LuachProject
             else
             {
                 f = this.splitContainer1.Panel2.Controls[0] as frmDailyInfoEng;
-                f.JewishDate = sdi.JewishDate;
+                f.JewishDate = (sdi.JewishDate == this._todayJewishDate ? this._todayJewishDate : sdi.JewishDate);
             }
             if (this.splitContainer1.Panel2Collapsed)
             {
                 this.splitContainer1.Panel2Collapsed = false;
+            }
+        }
+
+        private void SetToday()
+        {
+            if (Program.WeAreHere(this._currentLocation))
+            {
+                this._todayJewishDate = new JewishDate(this._currentLocation);
+            }
+            else
+            {
+                this._todayJewishDate = new JewishDate();
             }
         }
 

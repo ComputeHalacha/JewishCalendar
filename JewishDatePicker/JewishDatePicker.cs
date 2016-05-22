@@ -199,13 +199,16 @@ namespace JewishDatePicker
                 {
                     if (value < this._minDate)
                     {
-                        throw new ArgumentOutOfRangeException("Value", "Value can not be less than the MinDate");
+                        this._value = this._minDate;
                     }
-                    if (value > this._maxDate)
+                    else if (value > this._maxDate)
                     {
-                        throw new ArgumentOutOfRangeException("Value", "Value can not be more than the MaxDate");
+                        this._value = this._maxDate;
                     }
-                    this._value = value;
+                    else
+                    {
+                        this._value = value;
+                    }
                     this._isLoading = true;
                     this.SetCombosToShowValue();
                     this._isLoading = false;
@@ -217,12 +220,6 @@ namespace JewishDatePicker
         #endregion Public Properties
 
         #region Public Methods
-        public void SetBoundsToSecular()
-        {
-            this.MaxDate = JewishDate.MaxDate;
-            this.MinDate = new JewishDate(DateTime.MinValue);
-        }
-
         public virtual void RaiseValueChanged()
         {
             this.ValueChanged?.Invoke(this, new EventArgs());
