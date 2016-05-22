@@ -24,7 +24,7 @@ namespace LuachProject
         private JewishDate _displayedJewishMonth;
         private bool _isFirstOpen = true;
         private bool _isResizing;
-        private bool _loading;
+        private bool _loading = true;
         private Point _pnlMouseLocation;
         private Font _secularDayFont;
         private JewishDate _selectedDay;
@@ -74,18 +74,20 @@ namespace LuachProject
             }
             set
             {
-                this._currentLocation = value;
-                this.SetToday();
-                if (!this._loading)
+                if (this._currentLocation == null || this._currentLocation.Name != value.Name)
                 {
-                    //Location was changed, so we need to re-do the zmanim
-                    this.pnlMain.Invalidate();
+                    this._currentLocation = value;
                     Properties.Settings.Default.LocationName = value.Name;
                     Properties.Settings.Default.Save();
-
-                    if (this.DailyPanelIsShowing)
+                    this.SetToday();
+                    if (!this._loading)
                     {
-                        ((frmDailyInfoEng)this.splitContainer1.Panel2.Controls[0]).LocationForZmanim = value;
+                        //Location was changed, so we need to re-do the zmanim
+                        this.pnlMain.Invalidate();                 
+                        if (this.DailyPanelIsShowing)
+                        {
+                            ((frmDailyInfoEng)this.splitContainer1.Panel2.Controls[0]).LocationForZmanim = value;
+                        }
                     }
                 }
             }
@@ -165,6 +167,41 @@ namespace LuachProject
         #endregion Constructors
 
         #region Event Handlers
+        private void frmMonthlyEnglish_Load(object sender, EventArgs e)
+        {
+            Program.SetDoubleBuffered(this.pnlMain);
+            this.InitLocation();
+            if (this._todayJewishDate == null)
+            {
+                this.SetToday();
+            }
+            if (this._selectedDay == null)
+            {
+                this._selectedDay = this._todayJewishDate;
+            }
+            if (this._displayedJewishMonth == null)
+            {
+                this.DisplayedJewishMonth = this._todayJewishDate;
+            }
+            else
+            {
+                this.SetCaptionText();
+            }
+
+            this.llSefira.Visible = this._displayedJewishMonth.Month.In(1, 2);
+
+            this._loading = false;
+            this.EnableArrows();
+        }
+        private void frmMonthlyEnglish_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void frmMonthlyEnglish_Resize(object sender, EventArgs e)
+        {
+            this.pnlMain.Invalidate();
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -216,49 +253,7 @@ namespace LuachProject
                 this.LocationForZmanim = (JewishCalendar.Location)this.cmbLocation.SelectedItem;
             }
         }
-
-        private void frmMonthlyEnglish_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void frmMonthlyEnglish_Load(object sender, EventArgs e)
-        {
-            Program.SetDoubleBuffered(this.pnlMain);
-            this.SetLocationDataSource();
-            if (!this._currentLocation.IsInIsrael)
-            {
-                this._loading = true;
-                this.rbInChul.Checked = true;
-                this._loading = false;
-            }
-            if (this._todayJewishDate == null)
-            {
-                this.SetToday();
-            }
-            if (this._selectedDay == null)
-            {
-                this._selectedDay = this._todayJewishDate;
-            }
-            if (this._displayedJewishMonth == null)
-            {
-                this.DisplayedJewishMonth = this._todayJewishDate;
-            }
-            else
-            {
-                this.SetCaptionText();
-            }
-
-            this.llSefira.Visible = this._displayedJewishMonth.Month.In(1, 2);
-
-            this.EnableArrows();
-        }
-
-        private void frmMonthlyEnglish_Resize(object sender, EventArgs e)
-        {
-            this.pnlMain.Invalidate();
-        }
-
+               
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             new frmMonthlyHebrew()
@@ -831,6 +826,18 @@ namespace LuachProject
             this.Cursor = Cursors.Default;
 
             this.LocationForZmanim = (JewishCalendar.Location)this.cmbLocation.SelectedItem;
+        }
+
+        private void InitLocation()
+        {
+            var name = Properties.Settings.Default.LocationName;
+            var i = Program.LocationsList.FirstOrDefault(l => l.Name == name);
+            if (i != null)
+            {
+                this.rbInIsrael.Checked = i.IsInIsrael;
+                this.rbInChul.Checked = !i.IsInIsrael;
+            }
+            this.SetLocationDataSource();
         }
 
         private void ShowSingleDayInfo(SingleDateInfo sdi)

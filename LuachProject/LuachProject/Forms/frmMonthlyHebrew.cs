@@ -23,7 +23,7 @@ namespace LuachProject
         private JewishDate _displayedJewishMonth;
         private bool _isFirstOpen = true;
         private bool _isResizing;
-        private bool _loading;
+        private bool _loading = true;
         private Point _pnlMouseLocation;
         private Font _secularDayFont;
         private JewishDate _selectedDay;
@@ -35,7 +35,6 @@ namespace LuachProject
         #endregion Private Fields
 
         #region Properties
-
         public JewishDate DisplayedJewishMonth
         {
             get
@@ -90,7 +89,7 @@ namespace LuachProject
                     }
                 }
             }
-        }       
+        }
 
         public JewishDate SelectedJewishDate
         {
@@ -142,7 +141,6 @@ namespace LuachProject
         #endregion Properties
 
         #region Constructors
-
         public frmMonthlyHebrew()
         {
             Properties.Settings.Default.LastLanguage = "Hebrew";
@@ -170,12 +168,10 @@ namespace LuachProject
         private void frmMonthlyHebrew_Load(object sender, EventArgs e)
         {
             Program.SetDoubleBuffered(this.pnlMain);
-            this.SetLocationDataSource();
+            this.InitLocation();
             if (!this._currentLocation.IsInIsrael)
             {
-                this._loading = true;
                 this.rbInChul.Checked = true;
-                this._loading = false;
             }
             if (this._todayJewishDate == null)
             {
@@ -197,6 +193,7 @@ namespace LuachProject
             this.llSefirah.Visible = this._displayedJewishMonth.Month.In(1, 2);
 
             this.EnableArrows();
+            this._loading = false;
         }
 
         private void frmMonthlyHebrew_FormClosed(object sender, FormClosedEventArgs e)
@@ -397,7 +394,7 @@ namespace LuachProject
             currY = 25f;
 
             while (currDate.Month == this._displayedJewishMonth.Month)
-            {                
+            {
                 currX = (this.pnlMain.Right - dayWidth) - (dayWidth * (float)currDate.DayOfWeek);
                 var sdi = this.DrawSingleDay(e.Graphics, currDate, dayWidth, eachDayHeight, currX, currY);
 
@@ -480,7 +477,6 @@ namespace LuachProject
         #endregion Event Handlers
 
         #region Private Functions
-
         private void ClearSelectedDay()
         {
             if (this._selectedDay != null)
@@ -838,6 +834,19 @@ namespace LuachProject
             this.LocationForZmanim = (JewishCalendar.Location)this.cmbLocation.SelectedItem;
         }
 
+        private void InitLocation()
+        {
+            var name = Properties.Settings.Default.LocationName;
+            var i = Program.LocationsList.FirstOrDefault(l => l.Name == name);
+            if (i != null)
+            {
+                this.rbInIsrael.Checked = i.IsInIsrael;
+                this.rbInChul.Checked = !i.IsInIsrael;
+
+            }
+            this.SetLocationDataSource();
+        }
+
         private void ShowSingleDayInfo(SingleDateInfo sdi)
         {
             if (sdi == null)
@@ -847,7 +856,7 @@ namespace LuachProject
             frmDailyInfoHeb f;
             if (!this.DailyPanelIsShowing)
             {
-                f = new frmDailyInfoHeb((sdi.JewishDate == this._todayJewishDate ? this._todayJewishDate : sdi.JewishDate), 
+                f = new frmDailyInfoHeb((sdi.JewishDate == this._todayJewishDate ? this._todayJewishDate : sdi.JewishDate),
                     this._currentLocation);
                 f.TopLevel = false;
                 f.Parent = this;
