@@ -5,6 +5,13 @@
     /// The rules are: the Parshiyaos, Nasso, Pinchas and Shoftim start a new cycle and the last two weeks in Ellul get double prakim.
     /// The calculations of this class work OK for Eretz Yisroel, but Chu"l seems to be incorrect.
     /// The issue is that in Chu"l, Achron Shel Pesach and the second day of Shavuos can both fall out on Shabbos.
+    /// Sample code to get the Perek for the given Shabbos:
+    /// <code>
+    /// JewishCalendar.JewishDate jd = new JewishDate(5776, 2, 13);
+    /// int[] Prakim = PirkeiAvos.GetPirkeiAvos(jd, true);
+    /// string text = String.Join(" and ", prakim.Select(p => p.ToSuffixedString()) + 
+    ///     (prakim.Length > 1 ? " Prakim" : " Perek");
+    /// </code>
     /// </summary>
     public static class PirkeiAvos
     {
@@ -17,7 +24,9 @@
         /// </summary>
         /// <param name="jDate"></param>
         /// <param name="inIsrael"></param>
-        /// <returns></returns>
+        /// <returns>An array of integers representing the Perek/Prakim of the given Shabbos.
+        /// If the given day does not have Pirkei Avos, an empty array is returned.
+        /// </returns>
         public static int[] GetPirkeiAvos(IJewishDate jDate, bool inIsrael)
         {
             if (jDate.DayOfWeek != System.DayOfWeek.Saturday)
@@ -48,6 +57,13 @@
                 return new int[] { };
             }
         }
+
+        /// <summary>
+        /// Gets the single Perek for a typical Summer Shabbos day.
+        /// </summary>
+        /// <param name="jDate"></param>
+        /// <param name="inIsrael"></param>
+        /// <returns></returns>
         private static int GetSinglePerek(IJewishDate jDate, bool inIsrael)
         {
             int jYear = jDate.Year,
@@ -87,6 +103,13 @@
 
             return perekAvos;
         }
+
+        /// <summary>
+        /// Gets the double Prakim for the weeks in Ellul.
+        /// </summary>
+        /// <param name="jDate"></param>
+        /// <param name="inIsrael"></param>
+        /// <returns></returns>
         private static int[] GetEllulPrakim(IJewishDate jDate, bool inIsrael)
         {
             int[] prakim = null;
