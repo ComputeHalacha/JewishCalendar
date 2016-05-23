@@ -54,6 +54,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.llOpenOccasionList = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -96,7 +97,7 @@
             this.llSecularCalendar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.llSecularCalendar.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llSecularCalendar.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.llSecularCalendar.Location = new System.Drawing.Point(1006, 4);
+            this.llSecularCalendar.Location = new System.Drawing.Point(1005, 4);
             this.llSecularCalendar.Name = "llSecularCalendar";
             this.llSecularCalendar.Size = new System.Drawing.Size(134, 19);
             this.llSecularCalendar.TabIndex = 1;
@@ -111,7 +112,7 @@
             this.llSefira.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llSefira.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llSefira.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.llSefira.Location = new System.Drawing.Point(835, 4);
+            this.llSefira.Location = new System.Drawing.Point(706, 4);
             this.llSefira.Name = "llSefira";
             this.llSefira.Size = new System.Drawing.Size(165, 17);
             this.llSefira.TabIndex = 20;
@@ -432,12 +433,28 @@
     "ent   |   Use the arrow keys to navigate through the days.";
             this.label2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
+            // llOpenOccasionList
+            // 
+            this.llOpenOccasionList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.llOpenOccasionList.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.llOpenOccasionList.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.llOpenOccasionList.LinkColor = System.Drawing.Color.Green;
+            this.llOpenOccasionList.Location = new System.Drawing.Point(874, 4);
+            this.llOpenOccasionList.Name = "llOpenOccasionList";
+            this.llOpenOccasionList.Size = new System.Drawing.Size(128, 19);
+            this.llOpenOccasionList.TabIndex = 22;
+            this.llOpenOccasionList.TabStop = true;
+            this.llOpenOccasionList.Text = "List of Occasions";
+            this.llOpenOccasionList.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.llOpenOccasionList.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llOpenOccasionList_LinkClicked);
+            // 
             // frmMonthlyEnglish
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.ClientSize = new System.Drawing.Size(1152, 735);
+            this.Controls.Add(this.llOpenOccasionList);
             this.Controls.Add(this.llShowDaily);
             this.Controls.Add(this.llSefira);
             this.Controls.Add(this.llSecularCalendar);
@@ -495,5 +512,6 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.LinkLabel llShowDaily;
+        private System.Windows.Forms.LinkLabel llOpenOccasionList;
     }
 }

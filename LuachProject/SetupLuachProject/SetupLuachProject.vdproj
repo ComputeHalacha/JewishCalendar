@@ -51,6 +51,24 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_369CA5F3AABFBCDA203AD52A60D85FE6"
+        "OwnerKey" = "8:_09080A02D51B49738DDF657C3710EBBA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_369CA5F3AABFBCDA203AD52A60D85FE6"
+        "OwnerKey" = "8:_58A5B13B1CC244E198188C3CC9027262"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_369CA5F3AABFBCDA203AD52A60D85FE6"
+        "OwnerKey" = "8:_BF9E4E2B4721E5052AA9AE775F756610"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_5606CB3CDB3F43029B720AE51F6BFDA4"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -69,26 +87,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_7785830D84AC57FD959DFA14676B7234"
+        "MsmKey" = "8:_7E5C421902C94BC4C7818A80DA0AD1BC"
         "OwnerKey" = "8:_09080A02D51B49738DDF657C3710EBBA"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_88C5D343F42D8157BB9034E4176EA98A"
-        "OwnerKey" = "8:_09080A02D51B49738DDF657C3710EBBA"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_88C5D343F42D8157BB9034E4176EA98A"
-        "OwnerKey" = "8:_58A5B13B1CC244E198188C3CC9027262"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_88C5D343F42D8157BB9034E4176EA98A"
-        "OwnerKey" = "8:_7785830D84AC57FD959DFA14676B7234"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -99,14 +99,20 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_93D5FAC673C8F780F1ED18536F29A107"
+        "MsmKey" = "8:_BDA8726F449647558A30866D855A29AA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BF9E4E2B4721E5052AA9AE775F756610"
         "OwnerKey" = "8:_09080A02D51B49738DDF657C3710EBBA"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_BDA8726F449647558A30866D855A29AA"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_C026DBE6F8140DA3CA2B45957441E70A"
+        "OwnerKey" = "8:_58A5B13B1CC244E198188C3CC9027262"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -119,12 +125,6 @@
         {
         "MsmKey" = "8:_DA6580E58C06E228D89CEE3DB59C7138"
         "OwnerKey" = "8:_09080A02D51B49738DDF657C3710EBBA"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FDCB8E56DA6FEC520423FC10CFDE728B"
-        "OwnerKey" = "8:_58A5B13B1CC244E198188C3CC9027262"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -160,25 +160,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FDCB8E56DA6FEC520423FC10CFDE728B"
+        "OwnerKey" = "8:_C026DBE6F8140DA3CA2B45957441E70A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_93D5FAC673C8F780F1ED18536F29A107"
+        "OwnerKey" = "8:_7E5C421902C94BC4C7818A80DA0AD1BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7785830D84AC57FD959DFA14676B7234"
+        "OwnerKey" = "8:_BF9E4E2B4721E5052AA9AE775F756610"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_88C5D343F42D8157BB9034E4176EA98A"
+        "OwnerKey" = "8:_369CA5F3AABFBCDA203AD52A60D85FE6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -364,6 +364,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_369CA5F3AABFBCDA203AD52A60D85FE6"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:JewishCalendar, Version=1.1.8.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_369CA5F3AABFBCDA203AD52A60D85FE6"
+                    {
+                    "Name" = "8:JewishCalendar.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:JewishCalendar.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_19E9DA74A9084C23805177D4BE46ED91"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5606CB3CDB3F43029B720AE51F6BFDA4"
             {
             "SourcePath" = "8:..\\Fonts\\GOTHICI.TTF"
@@ -404,51 +435,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7785830D84AC57FD959DFA14676B7234"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7E5C421902C94BC4C7818A80DA0AD1BC"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:JewishDatePicker, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Itenso.TimePeriod, Version=1.4.11.0, Culture=neutral, PublicKeyToken=d7f23b760ed5c748, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_7785830D84AC57FD959DFA14676B7234"
+                    "_7E5C421902C94BC4C7818A80DA0AD1BC"
                     {
-                    "Name" = "8:JewishDatePicker.dll"
+                    "Name" = "8:Itenso.TimePeriod.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:JewishDatePicker.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_19E9DA74A9084C23805177D4BE46ED91"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_88C5D343F42D8157BB9034E4176EA98A"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:JewishCalendar, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_88C5D343F42D8157BB9034E4176EA98A"
-                    {
-                    "Name" = "8:JewishCalendar.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:JewishCalendar.dll"
+            "SourcePath" = "8:Itenso.TimePeriod.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_19E9DA74A9084C23805177D4BE46ED91"
@@ -497,37 +497,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_93D5FAC673C8F780F1ED18536F29A107"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Itenso.TimePeriod, Version=1.4.11.0, Culture=neutral, PublicKeyToken=d7f23b760ed5c748, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_93D5FAC673C8F780F1ED18536F29A107"
-                    {
-                    "Name" = "8:Itenso.TimePeriod.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Itenso.TimePeriod.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_19E9DA74A9084C23805177D4BE46ED91"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BDA8726F449647558A30866D855A29AA"
             {
             "SourcePath" = "8:..\\Fonts\\NRKIS.TTF"
@@ -546,6 +515,68 @@
             "Register" = "3:5"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BF9E4E2B4721E5052AA9AE775F756610"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:JewishDatePicker, Version=1.1.8.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_BF9E4E2B4721E5052AA9AE775F756610"
+                    {
+                    "Name" = "8:JewishDatePicker.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:JewishDatePicker.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_19E9DA74A9084C23805177D4BE46ED91"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C026DBE6F8140DA3CA2B45957441E70A"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.Win32.TaskScheduler, Version=2.5.3.0, Culture=neutral, PublicKeyToken=0d013ddd5178a2ae, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_C026DBE6F8140DA3CA2B45957441E70A"
+                    {
+                    "Name" = "8:Microsoft.Win32.TaskScheduler.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.Win32.TaskScheduler.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_19E9DA74A9084C23805177D4BE46ED91"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C53427799B0A4D6696C7BF6944B69443"
@@ -582,37 +613,6 @@
                     }
                 }
             "SourcePath" = "8:System.Xml.Serialization.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_19E9DA74A9084C23805177D4BE46ED91"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FDCB8E56DA6FEC520423FC10CFDE728B"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Win32.TaskScheduler, Version=2.5.3.0, Culture=neutral, PublicKeyToken=0d013ddd5178a2ae, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_FDCB8E56DA6FEC520423FC10CFDE728B"
-                    {
-                    "Name" = "8:Microsoft.Win32.TaskScheduler.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Microsoft.Win32.TaskScheduler.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_19E9DA74A9084C23805177D4BE46ED91"
@@ -708,15 +708,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:The Luach Project"
-        "ProductCode" = "8:{6AB5A686-5CC8-403A-8909-7E5BE7926DC4}"
-        "PackageCode" = "8:{CE9E7133-0972-4437-905B-2D104C160124}"
+        "ProductCode" = "8:{0811F505-D04C-409A-9F1D-9649A92CE4B7}"
+        "PackageCode" = "8:{8CCAAD33-3495-4AFE-B816-732A05D61B59}"
         "UpgradeCode" = "8:{94EC422E-1AFA-46ED-A945-710704E8EE9F}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.1.8"
+        "ProductVersion" = "8:1.1.9"
         "Manufacturer" = "8:Compute Software Solutions"
         "ARPHELPTELEPHONE" = "8:732-707-7307"
         "ARPHELPLINK" = "8:"
