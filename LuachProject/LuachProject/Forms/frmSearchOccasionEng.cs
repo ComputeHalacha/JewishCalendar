@@ -15,13 +15,16 @@ namespace LuachProject
         private void frmSearchOccasionEng_Load(object sender, EventArgs e)
         {
             var list = from UserOccasion u in Properties.Settings.Default.UserOccasions
-                       orderby u.JewishDate.GregorianDate
+                       orderby u.SecularDate != DateTime.MinValue ? u.SecularDate : u.JewishDate.GregorianDate
                        select new ListViewItem(new string[] {
+                           u.GetSettingDateString(false),
                            u.ToString(),
                             u.Name})
                        {
                            Tag = u,
-                           Font = this.Font
+                           Font = this.Font,
+                           ForeColor = u.Color,
+                           BackColor = u.BackColor
                        };
             this.listView1.Items.AddRange(list.ToArray());
         }
@@ -36,13 +39,16 @@ namespace LuachProject
             this.listView1.Items.Clear();
             var list = from UserOccasion u in Properties.Settings.Default.UserOccasions
                        where u.Name.ToLower().Contains(this.txtName.Text.ToLower())
-                       orderby u.JewishDate.GregorianDate
+                       orderby u.SecularDate != DateTime.MinValue ? u.SecularDate : u.JewishDate.GregorianDate
                        select new ListViewItem(new string[] {
+                            u.GetSettingDateString(false),
                             u.ToString(),
                             u.Name})
                        {
                            Tag = u,
-                           Font = this.Font
+                           Font = this.Font,
+                           ForeColor = u.Color,
+                           BackColor = u.BackColor
                        };
             this.listView1.Items.AddRange(list.ToArray());
         }
@@ -61,7 +67,7 @@ namespace LuachProject
             if (this.listView1.SelectedItems.Count > 0)
             {
                 var uo = (UserOccasion)this.listView1.SelectedItems.OfType<ListViewItem>().First().Tag;
-                ((dynamic)this.Owner).SelectedDate = uo.JewishDate.GregorianDate;            
+                ((dynamic)this.Owner).SelectedDate = uo.JewishDate.GregorianDate;
             }
         }
     }

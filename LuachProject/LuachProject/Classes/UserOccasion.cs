@@ -91,6 +91,39 @@ namespace LuachProject
             return "";
         }
 
+        public string GetSettingDateString(bool heb)
+        {
+            if (heb)
+            {
+                switch (this.UserOccasionType)
+                {
+                    case UserOccasionTypes.OneTime:                        
+                    case UserOccasionTypes.HebrewDateRecurringYearly:                        
+                    case UserOccasionTypes.HebrewDateRecurringMonthly:
+                        return this.JewishDate.ToLongDateStringHeb() + "  (" +
+                           this.JewishDate.GregorianDate.ToString("d", Program.HebrewCultureInfo) + ")";
+                    case UserOccasionTypes.SecularDateRecurringYearly:                        
+                    case UserOccasionTypes.SecularDateRecurringMonthly:
+                        return this.SecularDate.ToString("d", Program.HebrewCultureInfo);
+                }
+            }
+            else
+            {
+                switch (this.UserOccasionType)
+                {
+                    case UserOccasionTypes.OneTime:                        
+                    case UserOccasionTypes.HebrewDateRecurringYearly:                        
+                    case UserOccasionTypes.HebrewDateRecurringMonthly:
+                        return this.JewishDate.ToLongDateString() + "  (" +
+                            this.JewishDate.GregorianDate.ToShortDateString() + ")";
+                    case UserOccasionTypes.SecularDateRecurringYearly:                        
+                    case UserOccasionTypes.SecularDateRecurringMonthly:
+                        return this.SecularDate.ToLongDateString();
+                }
+            }
+            return "";
+        }
+
         /// <summary>
         /// Gets a string describing the number of times this occasions "anniversary" has occurred.
         /// </summary>
