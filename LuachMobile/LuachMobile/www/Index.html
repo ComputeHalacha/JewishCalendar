@@ -119,6 +119,16 @@
     <!-- Cordova reference, this is added to your app when it's built. -->
     <script src="cordova.js"></script>
 
+    <!--JQuery and JQuery mobile-->
+    <script src="//code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <script>
+        window.jQuery || document.write('<' + 'script src="scripts/jquery-2.2.3.min.js">\x3C/script>');
+    </script>
+    <script src="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script>
+        window.jQuery.mobile || document.write('<' + 'script src="scripts/jquery.mobile-1.4.5.min.js">\x3C/script>');
+    </script>    
+
     <!--FOR DEVELEOPMENT-->
     <script src="scripts/JCal/Utils.js"></script>
     <script src="scripts/JCal/Location.js"></script>
@@ -127,16 +137,14 @@
     <script src="scripts/JCal/Sedra.js"></script>
     <script src="scripts/JCal/Molad.js"></script>
     <script src="scripts/JCal/Dafyomi.js"></script>
-    <script src="scripts/JCal/PirkeiAvos.js"></script>
-    <script src="scripts/jquery-2.1.4.min.js"></script>
-    <script src="scripts/init.js"></script>
-    <script src="scripts/jquery.mobile-1.4.5.min.js"></script>
-    <!--script src="scripts/knockout-3.4.0.js"></script-->
+    <script src="scripts/JCal/PirkeiAvos.js"></script>         
+    <script src="scripts/init.js"></script>    
     <script src="scripts/platformOverrides.js"></script>
     <script src="scripts/General.js"></script>
     <script src="scripts/index.js"></script>
     <script src="scripts/zmanim.js"></script>
     <script src="scripts/locations.js"></script>
+
     <!--FOR PRODUCTION>
     <script src="scripts/JCal/jcal.min.js"></script>
     <script src="scripts/bundle.min.js"></script-->

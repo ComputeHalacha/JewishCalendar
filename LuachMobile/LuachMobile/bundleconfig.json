@@ -38,7 +38,6 @@
     "inputFiles": [
       "www/scripts/jquery-2.1.4.min.js",
       "www/scripts/init.js",    
-      "www/scripts/jquery.mobile-1.4.5.min.js",      
       "www/scripts/platformOverrides.js",
       "www/scripts/General.js",
       "www/scripts/index.js",
