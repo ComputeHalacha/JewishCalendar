@@ -191,6 +191,18 @@ namespace LuachProject
             }
         }
 
+        private void llOccasionList_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if(this._displayHebrew)
+            {
+                new frmSearchOccasionHeb().Show(this);
+            }
+            else
+            {
+                new frmSearchOccasionEng().Show(this);
+            }
+        }
+
         private void cmbLocation_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!this._loading)
@@ -896,6 +908,7 @@ namespace LuachProject
                 this.btnPreviousYear.Left = this.btnPreviousMonth.Left;
                 this.llChangeLanguage.Text = "English";
                 this.llToJewishCalendar.Text = "לוח עברי";
+                this.llOccasionList.Text = "רשימת אירועים";
                 this.cmbLocation.DisplayMember = "NameHebrew";
                 this.dateTimePicker1.Left = this.lblNavigationHeader.Left + 15;
                 this.dateTimePicker1.Format = DateTimePickerFormat.Custom;
@@ -940,6 +953,7 @@ namespace LuachProject
                 this.btnPreviousYear.Left = this.lblNavigationHeader.Left;
                 this.llChangeLanguage.Text = "עברית";
                 this.llToJewishCalendar.Text = "Jewish Calendar";
+                this.llOccasionList.Text = "List of Occasions";
                 this.cmbLocation.DisplayMember = "Name";
                 this.dateTimePicker1.Left = this.lblNavigationHeader.Right - this.dateTimePicker1.Width - 15;
                 this.dateTimePicker1.Format = DateTimePickerFormat.Long;
@@ -1046,5 +1060,27 @@ namespace LuachProject
         }
 
         #endregion Private Functions
+
+        #region Public Functions
+        public void EditOccasion(UserOccasion uo)
+        {
+            this.SelectedDate = uo.JewishDate.GregorianDate;            
+            var sdi = this._singleDateInfoList.FirstOrDefault(t => t.JewishDate.GregorianDate.Date == this.SelectedDate.Date);
+            if (uo != null && this.DailyPanelIsShowing)
+            {
+                if (this._displayHebrew)
+                {
+                    var f = this.splitContainer1.Panel2.Controls[0] as frmDailyInfoHeb;
+                    f.EditOccasion(uo, new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));                    
+                }
+                else
+                {
+                    var f = this.splitContainer1.Panel2.Controls[0] as frmDailyInfoEng;
+                    f.EditOccasion(uo, new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
+                }
+                
+            }
+        }
+        #endregion        
     }
 }

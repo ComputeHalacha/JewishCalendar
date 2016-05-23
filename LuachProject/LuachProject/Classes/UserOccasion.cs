@@ -44,6 +44,53 @@ namespace LuachProject
         public DateTime SecularDate { get; set; }
         public UserOccasionTypes UserOccasionType { get; set; }
 
+        public string ToString(bool heb = false)
+        {
+            if (heb)
+            {
+                switch (this.UserOccasionType)
+                {
+                    case UserOccasionTypes.OneTime:
+                        return "אירוע חד פעמי בתאריך " +
+                           this.JewishDate.ToLongDateStringHeb() + "  (" +
+                           this.JewishDate.GregorianDate.ToString("d", Program.HebrewCultureInfo) + ")";
+                    case UserOccasionTypes.HebrewDateRecurringYearly:
+                        return "אירוע שנתי בכל " + this.JewishDate.Day.ToNumberHeb() +
+                            " " + Utils.GetProperMonthNameHeb(this.JewishDate.Year, this.JewishDate.Month);
+                    case UserOccasionTypes.HebrewDateRecurringMonthly:
+                        return "אירוע חודשי בכל " + this.JewishDate.Day.ToNumberHeb() +
+                            " לחודש העברי";
+                    case UserOccasionTypes.SecularDateRecurringYearly:
+                        return "אירוע שנתי בכל " + this.SecularDate.Day.ToString() +
+                            " לחודש " + Program.HebrewCultureInfo.DateTimeFormat.MonthNames[this.SecularDate.Month];
+                    case UserOccasionTypes.SecularDateRecurringMonthly:
+                        return "אירוע חודשי בכל " + this.SecularDate.Day.ToString() + " לחודש הלועזי";
+                }
+            }
+            else
+            {
+                switch (this.UserOccasionType)
+                {
+                    case UserOccasionTypes.OneTime:
+                        return "One time event on " + this.JewishDate.ToLongDateString() + "  (" +
+                            this.JewishDate.GregorianDate.ToShortDateString() + ")";
+                    case UserOccasionTypes.HebrewDateRecurringYearly:
+                        return "Yearly event on the " + this.JewishDate.Day.ToSuffixedString() +
+                            " day of " + this.JewishDate.MonthName;
+                    case UserOccasionTypes.HebrewDateRecurringMonthly:
+                        return "Monthly event on the " + this.JewishDate.Day.ToSuffixedString()
+                            + " day of each Jewish month";
+                    case UserOccasionTypes.SecularDateRecurringYearly:
+                        return "Yearly event on the " + this.SecularDate.Day.ToSuffixedString() +
+                            " day of " + this.SecularDate.ToString("MMMM");
+                    case UserOccasionTypes.SecularDateRecurringMonthly:
+                        return "Monthly event on the " + this.SecularDate.Day.ToSuffixedString() +
+                            " day of each Secular month";
+                }
+            }
+            return "";
+        }
+
         /// <summary>
         /// Gets a string describing the number of times this occasions "anniversary" has occurred.
         /// </summary>
@@ -153,9 +200,9 @@ namespace LuachProject
             int occMonth = occDate.Month,
                 currMonth = currDate.Month;
 
-            if (((isOccLeap && !isCurrLeap) && 
+            if (((isOccLeap && !isCurrLeap) &&
                    ((occMonth == 13 && currMonth == 12) || (occMonth == 12 && currMonth == 11))) ||
-               (((!isOccLeap) && isCurrLeap) && 
+               (((!isOccLeap) && isCurrLeap) &&
                    ((occMonth == 12 && currMonth == 13) || (occMonth == 11 && currMonth == 12))))
             {
                 return true;

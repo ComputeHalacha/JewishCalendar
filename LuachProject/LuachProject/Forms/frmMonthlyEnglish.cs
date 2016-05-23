@@ -97,6 +97,26 @@ namespace LuachProject
             }
         }
 
+        public DateTime SelectedDate
+        {
+            get
+            {
+                return this._selectedDay.GregorianDate;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    var jd = new JewishDate(value);
+                    if (this._displayedJewishMonth.Month != jd.Month || this._displayedJewishMonth.Year != jd.Year)
+                    {
+                        this.DisplayedJewishMonth = jd;
+                    }
+                    this.SelectSingleDay(jd);
+                }
+            }
+        }
+
         public bool DailyPanelIsShowing
         {
             get
@@ -247,6 +267,11 @@ namespace LuachProject
                 WindowState = this.WindowState
             }.Show();
             this.Hide();
+        }
+
+        private void llOpenOccasionList_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            new frmSearchOccasionEng().Show(this);
         }
 
         private void llSefira_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -834,5 +859,17 @@ namespace LuachProject
         }
 
         #endregion Private Functions
+        #region Public Functions
+        public void EditOccasion(UserOccasion uo)
+        {
+            this.SelectedJewishDate = uo.JewishDate;
+            var sdi = this._singleDateInfoList.FirstOrDefault(t => t.JewishDate == this._selectedDay);
+            if (uo != null && this.DailyPanelIsShowing)
+            {
+                var f = this.splitContainer1.Panel2.Controls[0] as frmDailyInfoEng;
+                f.EditOccasion(uo, new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
+            }
+        }
+        #endregion
     }
 }

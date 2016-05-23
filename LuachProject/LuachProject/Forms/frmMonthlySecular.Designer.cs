@@ -34,7 +34,9 @@
             this.llChangeLanguage = new System.Windows.Forms.LinkLabel();
             this.llToJewishCalendar = new System.Windows.Forms.LinkLabel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.llShowDaily = new System.Windows.Forms.LinkLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.llOccasionList = new System.Windows.Forms.LinkLabel();
             this.splitContainer1 = new LuachProject.CuelessSplitContainer();
             this.splitContainer2 = new LuachProject.CuelessSplitContainer();
             this.pnlMain = new System.Windows.Forms.Panel();
@@ -52,7 +54,6 @@
             this.btnNextYear = new System.Windows.Forms.Button();
             this.btnPreviousMonth = new System.Windows.Forms.Button();
             this.lblInstructions = new System.Windows.Forms.Label();
-            this.llShowDaily = new System.Windows.Forms.LinkLabel();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -107,6 +108,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.llOccasionList);
             this.panel2.Controls.Add(this.llShowDaily);
             this.panel2.Controls.Add(this.lblMonthName);
             this.panel2.Controls.Add(this.llChangeLanguage);
@@ -116,6 +118,36 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1298, 45);
             this.panel2.TabIndex = 22;
+            // 
+            // llShowDaily
+            // 
+            this.llShowDaily.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.llShowDaily.Font = new System.Drawing.Font("Century Gothic", 6.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.llShowDaily.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.llShowDaily.LinkColor = System.Drawing.Color.SlateGray;
+            this.llShowDaily.Location = new System.Drawing.Point(1177, 28);
+            this.llShowDaily.Name = "llShowDaily";
+            this.llShowDaily.Size = new System.Drawing.Size(120, 19);
+            this.llShowDaily.TabIndex = 22;
+            this.llShowDaily.TabStop = true;
+            this.llShowDaily.Text = "Show Zmanim ˃";
+            this.llShowDaily.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.llShowDaily.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llShowDaily_LinkClick);
+            // 
+            // llOccasionList
+            // 
+            this.llOccasionList.Dock = System.Windows.Forms.DockStyle.Right;
+            this.llOccasionList.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.llOccasionList.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.llOccasionList.LinkColor = System.Drawing.Color.Green;
+            this.llOccasionList.Location = new System.Drawing.Point(1040, 0);
+            this.llOccasionList.Name = "llOccasionList";
+            this.llOccasionList.Size = new System.Drawing.Size(139, 45);
+            this.llOccasionList.TabIndex = 23;
+            this.llOccasionList.TabStop = true;
+            this.llOccasionList.Text = "List of Occasions";
+            this.llOccasionList.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.llOccasionList.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llOccasionList_LinkClicked);
             // 
             // splitContainer1
             // 
@@ -154,7 +186,7 @@
             this.splitContainer2.Panel2.Controls.Add(this.lblInstructions);
             this.splitContainer2.Panel2MinSize = 100;
             this.splitContainer2.Size = new System.Drawing.Size(966, 690);
-            this.splitContainer2.SplitterDistance = 552;
+            this.splitContainer2.SplitterDistance = 561;
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 1;
             this.splitContainer2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.splitContainer2_KeyDown);
@@ -166,7 +198,7 @@
             this.pnlMain.Location = new System.Drawing.Point(9, 0);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(957, 552);
+            this.pnlMain.Size = new System.Drawing.Size(957, 561);
             this.pnlMain.TabIndex = 0;
             this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
             this.pnlMain.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseClick);
@@ -186,7 +218,7 @@
             this.pnlControls.Controls.Add(this.btnNextYear);
             this.pnlControls.Controls.Add(this.btnPreviousMonth);
             this.pnlControls.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlControls.Location = new System.Drawing.Point(0, 17);
+            this.pnlControls.Location = new System.Drawing.Point(0, 8);
             this.pnlControls.Name = "pnlControls";
             this.pnlControls.Size = new System.Drawing.Size(966, 120);
             this.pnlControls.TabIndex = 19;
@@ -393,21 +425,6 @@
     "ent   |   Use the arrow keys to navigate through the days.";
             this.lblInstructions.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // llShowDaily
-            // 
-            this.llShowDaily.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.llShowDaily.Font = new System.Drawing.Font("Century Gothic", 6.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.llShowDaily.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.llShowDaily.LinkColor = System.Drawing.Color.SlateGray;
-            this.llShowDaily.Location = new System.Drawing.Point(1177, 28);
-            this.llShowDaily.Name = "llShowDaily";
-            this.llShowDaily.Size = new System.Drawing.Size(120, 19);
-            this.llShowDaily.TabIndex = 22;
-            this.llShowDaily.TabStop = true;
-            this.llShowDaily.Text = "Show Zmanim ˃";
-            this.llShowDaily.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.llShowDaily.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llShowDaily_LinkClick);
-            // 
             // frmMonthlySecular
             // 
             this.BackColor = System.Drawing.Color.GhostWhite;
@@ -462,5 +479,6 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.LinkLabel llShowDaily;
+        private System.Windows.Forms.LinkLabel llOccasionList;
     }
 }

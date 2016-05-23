@@ -97,6 +97,26 @@ namespace LuachProject
             }
         }
 
+        public DateTime SelectedDate
+        {
+            get
+            {
+                return this._selectedDay.GregorianDate;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    var jd = new JewishDate(value);
+                    if (this._displayedJewishMonth.Month != jd.Month || this._displayedJewishMonth.Year != jd.Year)
+                    {
+                        this.DisplayedJewishMonth = jd;
+                    }
+                    this.SelectSingleDay(jd);
+                }
+            }
+        }
+
         public bool DailyPanelIsShowing
         {
             get
@@ -270,6 +290,11 @@ namespace LuachProject
             a.Start();
         }
 
+        private void llSearchOccasion_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            new frmSearchOccasionHeb().Show(this);
+        }
+
         private void pnlMain_MouseClick(object sender, MouseEventArgs e)
         {
             var sdi = this.GetSingleDateInfoFromLocation(this._pnlMouseLocation);
@@ -437,7 +462,6 @@ namespace LuachProject
                     break;
             }
         }
-
         #endregion Event Handlers
 
         #region Private Functions
@@ -840,6 +864,19 @@ namespace LuachProject
             }
         }
 
-        #endregion Private Functions       
+        #endregion Private Functions               
+
+        #region Public Functions
+        public void EditOccasion(UserOccasion uo)
+        {
+            this.SelectedJewishDate = uo.JewishDate;
+            var sdi = this._singleDateInfoList.FirstOrDefault(t => t.JewishDate == this._selectedDay);
+            if (uo != null && this.DailyPanelIsShowing)
+            {
+                var f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
+                f.EditOccasion(uo, new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
+            }
+        }
+        #endregion
     }
 }
