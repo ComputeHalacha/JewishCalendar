@@ -43,7 +43,7 @@
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.BackColor = System.Drawing.SystemColors.Control;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(865, 548);
+            this.btnCancel.Location = new System.Drawing.Point(772, 548);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(94, 31);
             this.btnCancel.TabIndex = 12;
@@ -65,7 +65,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtName.Location = new System.Drawing.Point(12, 42);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(947, 23);
+            this.txtName.Size = new System.Drawing.Size(854, 23);
             this.txtName.TabIndex = 0;
             this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
@@ -85,7 +85,7 @@
             this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listView1.Location = new System.Drawing.Point(12, 85);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(947, 442);
+            this.listView1.Size = new System.Drawing.Size(854, 442);
             this.listView1.TabIndex = 13;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -95,7 +95,7 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Date";
-            this.columnHeader1.Width = 150;
+            this.columnHeader1.Width = 200;
             // 
             // columnHeader3
             // 
@@ -105,14 +105,14 @@
             // columnHeader2
             // 
             this.columnHeader2.Text = "Occasion Type";
-            this.columnHeader2.Width = 350;
+            this.columnHeader2.Width = 400;
             // 
             // label2
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.label2.ForeColor = System.Drawing.Color.DimGray;
-            this.label2.Location = new System.Drawing.Point(340, 530);
+            this.label2.Location = new System.Drawing.Point(294, 530);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(291, 25);
             this.label2.TabIndex = 18;
@@ -125,7 +125,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(971, 591);
+            this.ClientSize = new System.Drawing.Size(878, 591);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.txtName);
@@ -133,9 +133,9 @@
             this.Controls.Add(this.btnCancel);
             this.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "frmSearchOccasionEng";
-            this.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "List of Occasions";
             this.Load += new System.EventHandler(this.frmSearchOccasionEng_Load);

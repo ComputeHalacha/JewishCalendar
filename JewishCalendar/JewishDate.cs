@@ -224,7 +224,7 @@ namespace JewishCalendar
         /// <summary>
         /// The name of the current Jewish Month (in English)
         /// </summary>
-        public string MonthName { get { return Utils.GetProperMonthNameHeb(this.Year, this.Month); } }
+        public string MonthName { get { return Utils.GetProperMonthName(this.Year, this.Month); } }
 
         /// <summary>
         /// The number of years since creation
