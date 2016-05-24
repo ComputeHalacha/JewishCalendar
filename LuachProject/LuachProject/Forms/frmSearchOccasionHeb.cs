@@ -17,9 +17,9 @@ namespace LuachProject
             var list = from UserOccasion u in Properties.Settings.Default.UserOccasions
                        orderby u.SecularDate != DateTime.MinValue ? u.SecularDate : u.JewishDate.GregorianDate
                        select new ListViewItem(new string[] {
+                           u.Name,
                            u.GetSettingDateString(true),
-                           u.ToString(true),
-                            u.Name})
+                           u.ToString(true) })
                        {
                            Tag = u,
                            Font = this.Font,
@@ -41,9 +41,9 @@ namespace LuachProject
                        where u.Name.ToLower().Contains(this.txtName.Text.ToLower())
                        orderby u.SecularDate != DateTime.MinValue ? u.SecularDate : u.JewishDate.GregorianDate
                        select new ListViewItem(new string[] {
+                            u.Name,
                             u.GetSettingDateString(true),
-                            u.ToString(true),
-                            u.Name})
+                            u.ToString(true) })
                        {
                            Tag = u,
                            Font = this.Font,
