@@ -1081,6 +1081,24 @@ namespace LuachProject
                 
             }
         }
+
+        public void Reload()
+        {
+            this.pnlMain.Invalidate();
+            if (this.DailyPanelIsShowing)
+            {
+                if (this._displayHebrew)
+                {
+                    var f = this.splitContainer1.Panel2.Controls[0] as frmDailyInfoHeb;
+                    f.ShowDateData();
+                }
+                else
+                {
+                    var f = this.splitContainer1.Panel2.Controls[0] as frmDailyInfoEng;
+                    f.ShowDateData();
+                }
+            }
+        }
         #endregion        
     }
 }

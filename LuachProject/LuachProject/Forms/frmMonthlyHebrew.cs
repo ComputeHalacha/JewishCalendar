@@ -877,6 +877,16 @@ namespace LuachProject
                 f.EditOccasion(uo, new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
             }
         }
+
+        public void Reload()
+        {
+            this.pnlMain.Invalidate();
+            if (this.DailyPanelIsShowing)
+            {
+                var f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
+                f.ShowDateData();
+            }
+        }
         #endregion
     }
 }

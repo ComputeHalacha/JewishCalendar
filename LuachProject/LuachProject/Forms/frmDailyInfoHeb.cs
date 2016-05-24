@@ -171,7 +171,10 @@ namespace LuachProject
                 {
                     this.tableLayoutPanel1.Controls.Remove(lbl);
                     this.tableLayoutPanel1.Controls.Remove(lnkLbl);
-                    this.tableLayoutPanel1.RowCount -= 1;
+                    if (this.tableLayoutPanel1.RowCount > 0)
+                    {
+                        this.tableLayoutPanel1.RowCount -= 1;
+                    }                    
                 }
                 else
                 {
@@ -389,7 +392,7 @@ namespace LuachProject
             this.richTextBox1.SelectedText = Environment.NewLine;
         }
 
-        private void ShowDateData()
+        internal void ShowDateData()
         {
             this.Cursor = Cursors.WaitCursor;
             var dy = DafYomi.GetDafYomi(this._displayingJewishDate);

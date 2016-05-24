@@ -142,10 +142,7 @@ namespace LuachProject
 
             Properties.Settings.Default.Save();
 
-            if (OccasionWasChanged != null)
-            {
-                OccasionWasChanged(this, this.UserOccasion);
-            }
+            OccasionWasChanged?.Invoke(this, this.UserOccasion);
 
             this.Close();
         }
@@ -190,10 +187,7 @@ namespace LuachProject
                 Properties.Settings.Default.Save();
                 this.UserOccasion = null;
 
-                if (OccasionWasChanged != null)
-                {
-                    OccasionWasChanged(this, this.UserOccasion);
-                }
+                OccasionWasChanged?.Invoke(this, this.UserOccasion);
 
                 this.Close();
             }

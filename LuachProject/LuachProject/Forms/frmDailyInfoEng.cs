@@ -174,7 +174,10 @@ namespace LuachProject
                 {
                     this.tableLayoutPanel1.Controls.Remove(lbl);
                     this.tableLayoutPanel1.Controls.Remove(lnkLbl);
-                    this.tableLayoutPanel1.RowCount -= 1;
+                    if (this.tableLayoutPanel1.RowCount > 0)
+                    {
+                        this.tableLayoutPanel1.RowCount -= 1;
+                    }
                 }
                 else
                 {
@@ -500,7 +503,7 @@ namespace LuachProject
             this._frmAddOccasionEng.ResumeLayout();
         }
 
-        private void ShowDateData()
+        internal void ShowDateData()
         {
             this.Cursor = Cursors.WaitCursor;
             var netzshkia = this._zmanim.GetNetzShkia();
