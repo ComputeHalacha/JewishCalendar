@@ -1,0 +1,404 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topics>
+  <topic id="N:JewishCalendar" project="_Namespaces" file="18a4a48b-dc39-fbc0-84c4-3e48ee9fed2c">
+    <topic id="T:JewishCalendar.Daf" project="JewishCalendar" file="338112be-8b87-01a2-f210-64bf0a41c2da">
+      <topic id="M:JewishCalendar.Daf.#ctor(JewishCalendar.Masechta,System.Int32)" project="JewishCalendar" file="7249f64f-84e4-5c4f-4982-c660e2a2ae13" />
+      <topic id="Properties.T:JewishCalendar.Daf" project="JewishCalendar" file="4119053c-222e-660e-62de-cdeb693990ab">
+        <topic id="P:JewishCalendar.Daf.DafNumber" project="JewishCalendar" file="7a0ced7a-cd1d-fd01-eef1-05da5cecf571" />
+        <topic id="P:JewishCalendar.Daf.Masechta" project="JewishCalendar" file="a887c4d6-3b0f-199a-be01-efa440fc8e44" />
+      </topic>
+      <topic id="Methods.T:JewishCalendar.Daf" project="JewishCalendar" file="dbab7830-c5c7-7cc9-2bc5-e72c98c15753">
+        <topic id="M:JewishCalendar.Daf.ToString" project="JewishCalendar" file="10ec3f94-7d77-b132-c372-ab0d56ced5c0" />
+        <topic id="M:JewishCalendar.Daf.ToStringHeb" project="JewishCalendar" file="33068aa6-387a-487a-6aa7-4b8b866fe5b3" />
+      </topic>
+    </topic>
+    <topic id="T:JewishCalendar.DafYomi" project="JewishCalendar" file="1bed8368-ba49-2c8d-c7d6-610d07b14cdc">
+      <topic id="M:JewishCalendar.DafYomi.#cctor" project="JewishCalendar" file="a7edad29-e0ca-96b8-b39e-4df00c6a3eec" />
+      <topic id="Methods.T:JewishCalendar.DafYomi" project="JewishCalendar" file="3d5343b7-abf7-9806-c9e8-c30778fab19a">
+        <topic id="M:JewishCalendar.DafYomi.GetDafYomi(JewishCalendar.IJewishDate)" project="JewishCalendar" file="05386416-c5ea-aeca-7f56-71bdecc3ce9f" />
+        <topic id="M:JewishCalendar.DafYomi.GetSingleDaf(System.Int32)" project="JewishCalendar" file="4c7f41c9-37af-2d54-51d0-032ff5a83677" />
+      </topic>
+    </topic>
+    <topic id="T:JewishCalendar.HourMinute" project="JewishCalendar" file="4bc11758-6856-bfa4-038e-9ec9b3d76c0c">
+      <topic id="Properties.T:JewishCalendar.HourMinute" project="JewishCalendar" file="0b4ffae7-1b16-ad79-d6a4-50966948f402">
+        <topic id="P:JewishCalendar.HourMinute.NoValue" project="JewishCalendar" file="5677845c-24a8-9203-a4bd-2e877348c4e9" />
+        <topic id="P:JewishCalendar.HourMinute.TotalMinutes" project="JewishCalendar" file="29d2ecbf-8699-e044-4dd6-0cdee9f56fe3" />
+      </topic>
+      <topic id="Methods.T:JewishCalendar.HourMinute" project="JewishCalendar" file="529895bb-62c9-2f65-6961-8e931395effb">
+        <topic id="M:JewishCalendar.HourMinute.Equals(System.Object)" project="JewishCalendar" file="2beb0fa8-ddf9-553f-83bf-9cbc4f9e8b82" />
+        <topic id="M:JewishCalendar.HourMinute.GetHashCode" project="JewishCalendar" file="c85faf36-4cca-2f2f-a631-92e00b606e6b" />
+        <topic id="M:JewishCalendar.HourMinute.ToString" project="JewishCalendar" file="61bf85e4-8e2e-36d4-7adc-9a98ddd02d65" />
+        <topic id="M:JewishCalendar.HourMinute.ToString24H" project="JewishCalendar" file="f096920f-e968-0749-07ac-5d3b6a364f13" />
+        <topic id="M:JewishCalendar.HourMinute.ToTimeSpan" project="JewishCalendar" file="311afa76-92fd-2238-6a52-cb0d30c5d8d3" />
+      </topic>
+      <topic id="Operators.T:JewishCalendar.HourMinute" project="JewishCalendar" file="7ff4df8d-f6da-4560-c054-8cafbddf318f">
+        <topic id="Overload:JewishCalendar.HourMinute.op_Addition" project="JewishCalendar" file="b48bc29c-c21a-4a5a-2dde-e572b46dfcd0">
+          <topic id="M:JewishCalendar.HourMinute.op_Addition(JewishCalendar.HourMinute,JewishCalendar.HourMinute)" project="JewishCalendar" file="20b89729-5436-baf5-72cd-bc07473ad4b5" />
+          <topic id="M:JewishCalendar.HourMinute.op_Addition(JewishCalendar.HourMinute,System.Int32)" project="JewishCalendar" file="94950e19-d92e-53e7-1eee-f4c7d5f1f86e" />
+          <topic id="M:JewishCalendar.HourMinute.op_Addition(JewishCalendar.HourMinute,System.TimeSpan)" project="JewishCalendar" file="9c1616d4-ea84-572d-6ef6-e895cd03ab9b" />
+        </topic>
+        <topic id="Overload:JewishCalendar.HourMinute.op_Equality" project="JewishCalendar" file="5d237357-d690-1171-97c4-7057e0e8afaa">
+          <topic id="M:JewishCalendar.HourMinute.op_Equality(JewishCalendar.HourMinute,JewishCalendar.HourMinute)" project="JewishCalendar" file="5c8fb0f1-1c3a-2272-4e69-960713a5f972" />
+          <topic id="M:JewishCalendar.HourMinute.op_Equality(JewishCalendar.HourMinute,System.TimeSpan)" project="JewishCalendar" file="1d74de8e-8e2d-43ec-8f47-eff321168d18" />
+        </topic>
+        <topic id="Overload:JewishCalendar.HourMinute.op_Explicit" project="JewishCalendar" file="d54c6954-acc9-c2e7-cfad-cf78486531f1">
+          <topic id="M:JewishCalendar.HourMinute.op_Explicit(System.TimeSpan)~JewishCalendar.HourMinute" project="JewishCalendar" file="6b14b133-d763-89f7-c428-33ca6ad5076c" />
+          <topic id="M:JewishCalendar.HourMinute.op_Explicit(JewishCalendar.HourMinute)~System.TimeSpan" project="JewishCalendar" file="68fc332c-b457-2606-3050-77861a98c390" />
+        </topic>
+        <topic id="Overload:JewishCalendar.HourMinute.op_GreaterThan" project="JewishCalendar" file="330f3249-938e-7e61-5546-907b292d7e83">
+          <topic id="M:JewishCalendar.HourMinute.op_GreaterThan(JewishCalendar.HourMinute,JewishCalendar.HourMinute)" project="JewishCalendar" file="7c4c0fec-a39a-7b8d-cde1-50d4e2d94f2e" />
+          <topic id="M:JewishCalendar.HourMinute.op_GreaterThan(JewishCalendar.HourMinute,System.TimeSpan)" project="JewishCalendar" file="65a93baa-31d5-9523-146a-1b21d01eb174" />
+        </topic>
+        <topic id="Overload:JewishCalendar.HourMinute.op_GreaterThanOrEqual" project="JewishCalendar" file="c992dd60-decd-a732-8cd0-14e266473740">
+          <topic id="M:JewishCalendar.HourMinute.op_GreaterThanOrEqual(JewishCalendar.HourMinute,JewishCalendar.HourMinute)" project="JewishCalendar" file="f79bc461-5657-fde6-5f3d-17dd0df62cf2" />
+          <topic id="M:JewishCalendar.HourMinute.op_GreaterThanOrEqual(JewishCalendar.HourMinute,System.TimeSpan)" project="JewishCalendar" file="7f4a5618-67b1-39c3-ee38-9a7b6764625a" />
+        </topic>
+        <topic id="Overload:JewishCalendar.HourMinute.op_Inequality" project="JewishCalendar" file="5109a9d7-7f89-e631-83ba-62ff9563daca">
+          <topic id="M:JewishCalendar.HourMinute.op_Inequality(JewishCalendar.HourMinute,JewishCalendar.HourMinute)" project="JewishCalendar" file="9cdf9f61-cc54-b34a-550f-c4aff0cc4ae3" />
+          <topic id="M:JewishCalendar.HourMinute.op_Inequality(JewishCalendar.HourMinute,System.TimeSpan)" project="JewishCalendar" file="2d3cb0fa-4943-a913-32ed-ce7e587daf8e" />
+        </topic>
+        <topic id="Overload:JewishCalendar.HourMinute.op_LessThan" project="JewishCalendar" file="726dfc92-e261-12a4-8a16-1e531975cc6f">
+          <topic id="M:JewishCalendar.HourMinute.op_LessThan(JewishCalendar.HourMinute,JewishCalendar.HourMinute)" project="JewishCalendar" file="44239097-2e44-c832-b55d-ae43a5a084b4" />
+          <topic id="M:JewishCalendar.HourMinute.op_LessThan(JewishCalendar.HourMinute,System.TimeSpan)" project="JewishCalendar" file="5d092bb4-25d1-68af-6cf0-b5bc73dcca23" />
+        </topic>
+        <topic id="Overload:JewishCalendar.HourMinute.op_LessThanOrEqual" project="JewishCalendar" file="b8492fa5-6507-af6e-61e7-74e59d2c28d4">
+          <topic id="M:JewishCalendar.HourMinute.op_LessThanOrEqual(JewishCalendar.HourMinute,JewishCalendar.HourMinute)" project="JewishCalendar" file="8e399931-648c-a398-326e-476e680f2131" />
+          <topic id="M:JewishCalendar.HourMinute.op_LessThanOrEqual(JewishCalendar.HourMinute,System.TimeSpan)" project="JewishCalendar" file="ed75a332-c0a5-7b3e-375e-e024558fbb92" />
+        </topic>
+        <topic id="Overload:JewishCalendar.HourMinute.op_Subtraction" project="JewishCalendar" file="dfdeefea-bb2d-6090-3727-78c43688e75d">
+          <topic id="M:JewishCalendar.HourMinute.op_Subtraction(JewishCalendar.HourMinute,JewishCalendar.HourMinute)" project="JewishCalendar" file="7db24b8c-69f3-0e7b-3b7c-19e9e811ff45" />
+          <topic id="M:JewishCalendar.HourMinute.op_Subtraction(JewishCalendar.HourMinute,System.Int32)" project="JewishCalendar" file="2c60e318-2b82-cb35-8b5d-5d3ac8cc948d" />
+          <topic id="M:JewishCalendar.HourMinute.op_Subtraction(JewishCalendar.HourMinute,System.TimeSpan)" project="JewishCalendar" file="e8e3739d-bac6-b232-d3af-e3a8b25f9456" />
+        </topic>
+      </topic>
+      <topic id="Fields.T:JewishCalendar.HourMinute" project="JewishCalendar" file="1cd4221e-5020-348f-9367-b283698bb990">
+        <topic id="F:JewishCalendar.HourMinute.Hour" project="JewishCalendar" file="25d59997-ef95-dbee-5b42-6ce718ced353" />
+        <topic id="F:JewishCalendar.HourMinute.Minute" project="JewishCalendar" file="48f39c5c-20fe-afeb-4adb-5781e09828dc" />
+      </topic>
+    </topic>
+    <topic id="T:JewishCalendar.IJewishDate" project="JewishCalendar" file="a7424b72-b4db-4011-8b64-818dd615d7e2">
+      <topic id="Properties.T:JewishCalendar.IJewishDate" project="JewishCalendar" file="a20bf415-b6ec-e4cf-e36a-4c04f469d576">
+        <topic id="P:JewishCalendar.IJewishDate.AbsoluteDate" project="JewishCalendar" file="95409590-460f-6bf3-99ce-c968eb373905" />
+        <topic id="P:JewishCalendar.IJewishDate.Day" project="JewishCalendar" file="9d6abcd0-a841-5f47-6d22-cebea9e66b0f" />
+        <topic id="P:JewishCalendar.IJewishDate.DayOfWeek" project="JewishCalendar" file="60abce51-126a-e728-5f75-b16e248c4625" />
+        <topic id="P:JewishCalendar.IJewishDate.GregorianDate" project="JewishCalendar" file="ed960dda-ab99-efc3-4288-1a2150da0cab" />
+        <topic id="P:JewishCalendar.IJewishDate.Month" project="JewishCalendar" file="4260a217-3bf3-7870-275d-355bb982921e" />
+        <topic id="P:JewishCalendar.IJewishDate.MonthName" project="JewishCalendar" file="49c440c3-d17b-4900-7084-0531d066a2bd" />
+        <topic id="P:JewishCalendar.IJewishDate.Year" project="JewishCalendar" file="81758195-1784-fb27-9602-a04ade673f68" />
+      </topic>
+      <topic id="Methods.T:JewishCalendar.IJewishDate" project="JewishCalendar" file="1f94f97b-d795-3f2c-52fb-634b6b3a21a6">
+        <topic id="M:JewishCalendar.IJewishDate.AddMonths(System.Int32)" project="JewishCalendar" file="fe41f041-4881-457a-01e9-b5ca40f1678b" />
+        <topic id="M:JewishCalendar.IJewishDate.AddYears(System.Int32)" project="JewishCalendar" file="3bfb8b2d-3317-2056-6df8-9b17b954dcfd" />
+        <topic id="M:JewishCalendar.IJewishDate.DateDiffMonth(JewishCalendar.IJewishDate)" project="JewishCalendar" file="daf14b62-7cc9-e1a8-a44b-8542ddc471cd" />
+        <topic id="M:JewishCalendar.IJewishDate.GetDayOfOmer" project="JewishCalendar" file="75881bdd-9384-de85-eb1f-535dae162cb2" />
+        <topic id="M:JewishCalendar.IJewishDate.ToLongDateString" project="JewishCalendar" file="b108bba7-d87e-6f4d-b22b-31789349607a" />
+        <topic id="M:JewishCalendar.IJewishDate.ToLongDateStringHeb" project="JewishCalendar" file="514a100c-0a82-e0d3-aeb4-c48d1b1895ec" />
+        <topic id="M:JewishCalendar.IJewishDate.ToShortDateString" project="JewishCalendar" file="223178f5-feb4-fb3d-daa7-7ca892f310c4" />
+        <topic id="M:JewishCalendar.IJewishDate.ToShortDateStringHeb" project="JewishCalendar" file="dd78fb0d-8519-9532-af01-d4cabc78c8e8" />
+        <topic id="M:JewishCalendar.IJewishDate.ToString" project="JewishCalendar" file="1b0c8308-1a2f-acb3-ab93-cce46c23e6d4" />
+      </topic>
+    </topic>
+    <topic id="T:JewishCalendar.JewishDate" project="JewishCalendar" file="61a78053-1b09-163d-ff3b-c98c0fd1c3d2">
+      <topic id="Overload:JewishCalendar.JewishDate.#ctor" project="JewishCalendar" file="c30ec18a-b6e2-d0be-a986-c6d33727ffde">
+        <topic id="M:JewishCalendar.JewishDate.#ctor" project="JewishCalendar" file="c1bbcb23-dc65-5926-1ca4-220da2c1210a" />
+        <topic id="M:JewishCalendar.JewishDate.#ctor(System.DateTime)" project="JewishCalendar" file="2fa7e126-9187-9fa1-1c53-59f492da2c0e" />
+        <topic id="M:JewishCalendar.JewishDate.#ctor(JewishCalendar.Location)" project="JewishCalendar" file="6b2d4319-c67d-3651-bf61-0150a73b267e" />
+        <topic id="M:JewishCalendar.JewishDate.#ctor(System.DateTime,JewishCalendar.Location)" project="JewishCalendar" file="90f86cf1-cb65-3b4a-4ade-0ef7a1b3e01b" />
+        <topic id="M:JewishCalendar.JewishDate.#ctor(System.Int32,System.Int32,System.Int32)" project="JewishCalendar" file="1c3d3673-c931-242c-84b2-06949b2a5929" />
+        <topic id="M:JewishCalendar.JewishDate.#ctor(System.Int32,System.Int32,System.Int32,System.TimeSpan)" project="JewishCalendar" file="c2e669ef-5fda-a5f0-8699-a2f52eee735e" />
+      </topic>
+      <topic id="Properties.T:JewishCalendar.JewishDate" project="JewishCalendar" file="e28e0077-e5cb-2f3d-66d0-90974d0f07b8">
+        <topic id="P:JewishCalendar.JewishDate.AbsoluteDate" project="JewishCalendar" file="61974d1f-a4ba-c965-0f8a-fd8ea9814a2d" />
+        <topic id="P:JewishCalendar.JewishDate.Day" project="JewishCalendar" file="506f3ada-d6d3-0686-46e8-2f61891f4561" />
+        <topic id="P:JewishCalendar.JewishDate.DayOfWeek" project="JewishCalendar" file="ae7f8b32-701a-d045-685e-48ee3fee08aa" />
+        <topic id="P:JewishCalendar.JewishDate.GregorianDate" project="JewishCalendar" file="b78807ac-f2b4-84bc-ddca-fc26cf03b331" />
+        <topic id="P:JewishCalendar.JewishDate.MaxDate" project="JewishCalendar" file="d6a703da-f959-6532-32e8-564ba2c7ed15" />
+        <topic id="P:JewishCalendar.JewishDate.MinDate" project="JewishCalendar" file="d205e1b5-b51e-fef0-5d00-a7a3358cd33d" />
+        <topic id="P:JewishCalendar.JewishDate.Month" project="JewishCalendar" file="188b6982-1c6c-898b-f12d-c19149c38f4c" />
+        <topic id="P:JewishCalendar.JewishDate.MonthName" project="JewishCalendar" file="558cbe7f-2638-fe3d-96a5-3388298d18fe" />
+        <topic id="P:JewishCalendar.JewishDate.Year" project="JewishCalendar" file="d7dcefa8-1178-733a-c31e-e7b664749f1c" />
+      </topic>
+      <topic id="Methods.T:JewishCalendar.JewishDate" project="JewishCalendar" file="0cfadcaf-4c8c-2bc2-f90f-cbeda854dfaf">
+        <topic id="M:JewishCalendar.JewishDate.AddMonths(System.Int32)" project="JewishCalendar" file="7aaf288f-5d96-f8ee-6d3a-d69b6a51c46c" />
+        <topic id="M:JewishCalendar.JewishDate.AddYears(System.Int32)" project="JewishCalendar" file="eedb87b2-7d61-9faa-4079-f78f634b15e7" />
+        <topic id="M:JewishCalendar.JewishDate.DateDiffMonth(JewishCalendar.IJewishDate)" project="JewishCalendar" file="f8d138e2-65cb-e7bb-e6cc-1eae23bd6c23" />
+        <topic id="M:JewishCalendar.JewishDate.DaysInJewishMonth(System.Int32,System.Int32)" project="JewishCalendar" file="6a6937b3-6a25-2dd1-e189-9fffff2de9d7" />
+        <topic id="M:JewishCalendar.JewishDate.DaysInJewishYear(System.Int32)" project="JewishCalendar" file="71def355-ab5f-0a3b-2409-abb9290f0533" />
+        <topic id="M:JewishCalendar.JewishDate.Equals(System.Object)" project="JewishCalendar" file="2b219406-513d-4bd7-2d17-964e3731d7f8" />
+        <topic id="M:JewishCalendar.JewishDate.GetDayOfOmer" project="JewishCalendar" file="2089e0a4-fdea-64ee-eae8-0797308fdf04" />
+        <topic id="M:JewishCalendar.JewishDate.GetHashCode" project="JewishCalendar" file="cc105afd-0af4-55d9-751d-188d94567fcf" />
+        <topic id="M:JewishCalendar.JewishDate.GetNissanMonth(System.Int32,System.Int32)" project="JewishCalendar" file="0cfcd2c4-25ea-b478-d4d5-37d05b4a4e39" />
+        <topic id="M:JewishCalendar.JewishDate.GetSecularDate(JewishCalendar.HourMinute,JewishCalendar.Location)" project="JewishCalendar" file="d95cf478-be61-15c8-a963-5a6900b13361" />
+        <topic id="M:JewishCalendar.JewishDate.GetTishrieMonth(System.Int32,System.Int32)" project="JewishCalendar" file="16c6c7ae-5b30-9019-a025-a837e2e6dcb1" />
+        <topic id="M:JewishCalendar.JewishDate.IsLeapYear(System.Int32)" project="JewishCalendar" file="2f06f3f3-ee67-8652-6ac9-f520f74c5e4f" />
+        <topic id="M:JewishCalendar.JewishDate.IsLongCheshvan(System.Int32)" project="JewishCalendar" file="1fa66adf-9008-0c66-d9b4-ee2f2a3d9bae" />
+        <topic id="M:JewishCalendar.JewishDate.IsShortKislev(System.Int32)" project="JewishCalendar" file="4701b9a4-839e-43a5-237f-aba0f7729174" />
+        <topic id="M:JewishCalendar.JewishDate.MonthsInYear(System.Int32)" project="JewishCalendar" file="8836b268-d7a2-1462-24e1-ef34ee4f4a10" />
+        <topic id="M:JewishCalendar.JewishDate.ToLongDateString" project="JewishCalendar" file="c318553d-17cc-16a6-9d69-46b5c75d329e" />
+        <topic id="M:JewishCalendar.JewishDate.ToLongDateStringHeb" project="JewishCalendar" file="c6ef107e-4017-6a9f-b861-6815c6d805ea" />
+        <topic id="M:JewishCalendar.JewishDate.ToShortDateString" project="JewishCalendar" file="9d7b625d-fa75-78ac-cac7-fcfd2e130cea" />
+        <topic id="M:JewishCalendar.JewishDate.ToShortDateStringHeb" project="JewishCalendar" file="d3eb65a3-521d-f96e-bf46-a10ba512c284" />
+        <topic id="M:JewishCalendar.JewishDate.ToString" project="JewishCalendar" file="7bfc3abf-9584-aadb-d686-8daafae7df6b" />
+      </topic>
+      <topic id="Operators.T:JewishCalendar.JewishDate" project="JewishCalendar" file="4b854718-e899-5c83-bfde-77d2179e7892">
+        <topic id="M:JewishCalendar.JewishDate.op_Addition(JewishCalendar.JewishDate,System.Int32)" project="JewishCalendar" file="1383dddc-2216-9014-4f1d-814a7012319a" />
+        <topic id="M:JewishCalendar.JewishDate.op_Equality(JewishCalendar.JewishDate,JewishCalendar.IJewishDate)" project="JewishCalendar" file="a1d14f25-8bdc-1ca3-fb9d-ecfae4c14a39" />
+        <topic id="M:JewishCalendar.JewishDate.op_Explicit(JewishCalendar.JewishDateMicro)~JewishCalendar.JewishDate" project="JewishCalendar" file="3b8cab16-efcb-b8fa-d89e-888891e4620c" />
+        <topic id="M:JewishCalendar.JewishDate.op_GreaterThan(JewishCalendar.JewishDate,JewishCalendar.IJewishDate)" project="JewishCalendar" file="b62cdff7-9273-14d5-0c2d-db73e3218122" />
+        <topic id="M:JewishCalendar.JewishDate.op_GreaterThanOrEqual(JewishCalendar.JewishDate,JewishCalendar.IJewishDate)" project="JewishCalendar" file="c6591d08-e064-1f4c-3b7c-12bfdc40ced9" />
+        <topic id="M:JewishCalendar.JewishDate.op_Inequality(JewishCalendar.JewishDate,JewishCalendar.IJewishDate)" project="JewishCalendar" file="2fcb9fb2-b128-c72b-e69e-a2618b095fbf" />
+        <topic id="M:JewishCalendar.JewishDate.op_LessThan(JewishCalendar.JewishDate,JewishCalendar.IJewishDate)" project="JewishCalendar" file="3fe120cd-4bf9-9d9d-f655-1961cae7cf95" />
+        <topic id="M:JewishCalendar.JewishDate.op_LessThanOrEqual(JewishCalendar.JewishDate,JewishCalendar.IJewishDate)" project="JewishCalendar" file="d8773634-791b-bcf4-7cbe-634fbf74d557" />
+        <topic id="Overload:JewishCalendar.JewishDate.op_Subtraction" project="JewishCalendar" file="7e33d418-e995-5ec6-e866-89cda0eea28e">
+          <topic id="M:JewishCalendar.JewishDate.op_Subtraction(JewishCalendar.JewishDate,JewishCalendar.JewishDate)" project="JewishCalendar" file="a3bf2139-d6d5-cd40-dec3-e5f12c97659f" />
+          <topic id="M:JewishCalendar.JewishDate.op_Subtraction(JewishCalendar.JewishDate,System.Int32)" project="JewishCalendar" file="cfe4ba37-2277-e5fa-5a1e-cacb3adcde41" />
+        </topic>
+      </topic>
+    </topic>
+    <topic id="T:JewishCalendar.JewishDateCalculations" project="JewishCalendar" file="33cd901a-ffb5-87c7-aa0b-02645f0ac723">
+      <topic id="Methods.T:JewishCalendar.JewishDateCalculations" project="JewishCalendar" file="91e523d0-8af8-f571-7f63-337a675e7c2a">
+        <topic id="M:JewishCalendar.JewishDateCalculations.DaysInGregorianMonth(System.Int32,System.Int32)" project="JewishCalendar" file="094e1e65-bd0d-7b5b-8dc5-3b52920cc7b8" />
+        <topic id="M:JewishCalendar.JewishDateCalculations.DaysInJewishMonth(System.Int32,System.Int32)" project="JewishCalendar" file="420f8e9e-1289-c52b-e1d4-eee555a67004" />
+        <topic id="M:JewishCalendar.JewishDateCalculations.DaysInJewishYear(System.Int32)" project="JewishCalendar" file="2b66612c-de9e-48b1-2d50-13afd52c60fc" />
+        <topic id="M:JewishCalendar.JewishDateCalculations.GetAbsoluteFromGregorianDate(System.Int32,System.Int32,System.Int32)" project="JewishCalendar" file="5402bcec-7514-4afb-fd1b-697b4745e9d0" />
+        <topic id="M:JewishCalendar.JewishDateCalculations.GetAbsoluteFromJewishDate(System.Int32,System.Int32,System.Int32)" project="JewishCalendar" file="d7c714c5-90f2-c8ce-3d35-647c2d65824b" />
+        <topic id="M:JewishCalendar.JewishDateCalculations.GetElapsedDays(System.Int32)" project="JewishCalendar" file="6996c292-8d72-37e2-77dd-1bf27ee71cb7" />
+        <topic id="M:JewishCalendar.JewishDateCalculations.IsJewishLeapYear(System.Int32)" project="JewishCalendar" file="c895064d-3ed8-1524-4545-b8d2c0831ee0" />
+        <topic id="M:JewishCalendar.JewishDateCalculations.IsLongCheshvan(System.Int32)" project="JewishCalendar" file="4959d98a-ab27-447c-ac76-1275751652b0" />
+        <topic id="M:JewishCalendar.JewishDateCalculations.IsSameDate(JewishCalendar.IJewishDate,JewishCalendar.IJewishDate)" project="JewishCalendar" file="389ce531-8d69-7deb-f39e-ca24613c6934" />
+        <topic id="M:JewishCalendar.JewishDateCalculations.IsShortKislev(System.Int32)" project="JewishCalendar" file="aab7cfa7-608b-1a3b-2b1a-5631c7eac039" />
+        <topic id="M:JewishCalendar.JewishDateCalculations.MonthsInJewishYear(System.Int32)" project="JewishCalendar" file="6176fc1a-8218-b374-3ea4-9749c226ceed" />
+      </topic>
+      <topic id="Fields.T:JewishCalendar.JewishDateCalculations" project="JewishCalendar" file="fe8b54bc-d59b-c64d-7f92-18d2f1e5391e">
+        <topic id="F:JewishCalendar.JewishDateCalculations.HEBREW_EPOCH" project="JewishCalendar" file="b60a002f-6e62-df12-d4c0-1dce3f133ea7" />
+      </topic>
+    </topic>
+    <topic id="T:JewishCalendar.JewishDateMicro" project="JewishCalendar" file="241b98c6-ebfe-6a44-c0f3-e60ab0e7f5d4">
+      <topic id="Overload:JewishCalendar.JewishDateMicro.#ctor" project="JewishCalendar" file="cbb45bc7-7b25-4694-e367-bab7afdc71d4">
+        <topic id="M:JewishCalendar.JewishDateMicro.#ctor" project="JewishCalendar" file="0383bb0b-e337-bfa6-7174-86458179b862" />
+        <topic id="M:JewishCalendar.JewishDateMicro.#ctor(System.DateTime)" project="JewishCalendar" file="37315a09-faea-2db3-75b8-c830afaa163f" />
+        <topic id="M:JewishCalendar.JewishDateMicro.#ctor(System.Int32)" project="JewishCalendar" file="858f1f1c-e509-576e-0513-2bd3af1417f5" />
+        <topic id="M:JewishCalendar.JewishDateMicro.#ctor(JewishCalendar.Location)" project="JewishCalendar" file="aba144f4-e43a-81df-acee-b8d3eb88375b" />
+        <topic id="M:JewishCalendar.JewishDateMicro.#ctor(System.DateTime,JewishCalendar.Location)" project="JewishCalendar" file="183acea3-72f1-1126-ee5e-b44396370eed" />
+        <topic id="M:JewishCalendar.JewishDateMicro.#ctor(System.Int32,System.Int32,System.Int32)" project="JewishCalendar" file="1ec966be-5bc3-f3c6-1db5-f1f2ad01cc67" />
+        <topic id="M:JewishCalendar.JewishDateMicro.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)" project="JewishCalendar" file="7d7f274c-0aca-3b1b-5c4f-ecea12f8603f" />
+      </topic>
+      <topic id="Properties.T:JewishCalendar.JewishDateMicro" project="JewishCalendar" file="17cea763-d66b-df9e-5f51-e0e3b084d69f">
+        <topic id="P:JewishCalendar.JewishDateMicro.AbsoluteDate" project="JewishCalendar" file="2ebf55fd-6422-d455-9e71-4be13cdc2da6" />
+        <topic id="P:JewishCalendar.JewishDateMicro.Day" project="JewishCalendar" file="6f231466-aa42-4c51-1213-cd30c0633620" />
+        <topic id="P:JewishCalendar.JewishDateMicro.DayInWeek" project="JewishCalendar" file="a034465f-4d88-438a-28d9-93c0c71c8f67" />
+        <topic id="P:JewishCalendar.JewishDateMicro.DayOfWeek" project="JewishCalendar" file="98bcc593-3b99-7f2a-5e7c-2b0961411bcd" />
+        <topic id="P:JewishCalendar.JewishDateMicro.GregorianDate" project="JewishCalendar" file="6d577fd1-cf21-e271-6e2e-596f44a1c659" />
+        <topic id="P:JewishCalendar.JewishDateMicro.Month" project="JewishCalendar" file="314d236b-61bd-49e2-5491-bbd577e11b3a" />
+        <topic id="P:JewishCalendar.JewishDateMicro.MonthName" project="JewishCalendar" file="958df9b0-2935-30fe-9ed7-4a74925725c8" />
+        <topic id="P:JewishCalendar.JewishDateMicro.Year" project="JewishCalendar" file="2e9f3965-c315-381b-2585-6585d989994c" />
+      </topic>
+      <topic id="Methods.T:JewishCalendar.JewishDateMicro" project="JewishCalendar" file="88e29976-86a0-5fea-74d4-aca52d5add23">
+        <topic id="M:JewishCalendar.JewishDateMicro.AddMonths(System.Int32)" project="JewishCalendar" file="1ce28454-9bfd-6425-ca70-872e70611c69" />
+        <topic id="M:JewishCalendar.JewishDateMicro.AddYears(System.Int32)" project="JewishCalendar" file="ad95813c-3413-a54b-84c7-e8fc2bd6d7c4" />
+        <topic id="M:JewishCalendar.JewishDateMicro.DateDiffMonth(JewishCalendar.IJewishDate)" project="JewishCalendar" file="12e32f17-1d32-8d7e-60f3-3c4f2f56786e" />
+        <topic id="M:JewishCalendar.JewishDateMicro.Equals(System.Object)" project="JewishCalendar" file="4694f653-7dd9-6691-75e3-e0b4f018e1d7" />
+        <topic id="M:JewishCalendar.JewishDateMicro.GetDayOfOmer" project="JewishCalendar" file="47ffe8e3-5fda-a195-0273-96b54f9a052f" />
+        <topic id="M:JewishCalendar.JewishDateMicro.GetHashCode" project="JewishCalendar" file="25de1e43-2e07-5dc1-f015-0abbb5adffd9" />
+        <topic id="M:JewishCalendar.JewishDateMicro.SetFromAbsoluteDate(System.Int32)" project="JewishCalendar" file="e92c93e6-710e-4c21-de08-1a0f9747e095" />
+        <topic id="M:JewishCalendar.JewishDateMicro.ToLongDateString" project="JewishCalendar" file="49127758-28e9-83c9-96ee-69e439177e6c" />
+        <topic id="M:JewishCalendar.JewishDateMicro.ToLongDateStringHeb" project="JewishCalendar" file="fb6bf799-1b70-9965-14ba-91ef3f455a7c" />
+        <topic id="M:JewishCalendar.JewishDateMicro.ToShortDateString" project="JewishCalendar" file="a1693211-40b8-4338-4fad-282ccac261ad" />
+        <topic id="M:JewishCalendar.JewishDateMicro.ToShortDateStringHeb" project="JewishCalendar" file="3b399c3e-4bfd-1114-345d-4deae9f250c7" />
+        <topic id="M:JewishCalendar.JewishDateMicro.ToString" project="JewishCalendar" file="c5f71efa-eae5-dec8-8262-ff4311d3cc58" />
+      </topic>
+      <topic id="Operators.T:JewishCalendar.JewishDateMicro" project="JewishCalendar" file="7f6884cd-756b-c622-be77-2e4de813b02b">
+        <topic id="M:JewishCalendar.JewishDateMicro.op_Addition(JewishCalendar.JewishDateMicro,System.Int32)" project="JewishCalendar" file="a148b010-2727-6747-7bfd-3b61524062a5" />
+        <topic id="M:JewishCalendar.JewishDateMicro.op_Equality(JewishCalendar.JewishDateMicro,JewishCalendar.IJewishDate)" project="JewishCalendar" file="07410fd4-89cb-8699-cd41-bc8c36327c2d" />
+        <topic id="M:JewishCalendar.JewishDateMicro.op_GreaterThan(JewishCalendar.JewishDateMicro,JewishCalendar.IJewishDate)" project="JewishCalendar" file="f576e79d-c0d3-923c-2b32-c45732a49fca" />
+        <topic id="M:JewishCalendar.JewishDateMicro.op_GreaterThanOrEqual(JewishCalendar.JewishDateMicro,JewishCalendar.IJewishDate)" project="JewishCalendar" file="95dd0024-5bc9-46d7-40ff-7baac140b450" />
+        <topic id="M:JewishCalendar.JewishDateMicro.op_Inequality(JewishCalendar.JewishDateMicro,JewishCalendar.IJewishDate)" project="JewishCalendar" file="4a666fc5-f03b-d3e6-ea9a-9db75e87273f" />
+        <topic id="M:JewishCalendar.JewishDateMicro.op_LessThan(JewishCalendar.JewishDateMicro,JewishCalendar.IJewishDate)" project="JewishCalendar" file="d1501494-c944-3d18-8210-21e432d70789" />
+        <topic id="M:JewishCalendar.JewishDateMicro.op_LessThanOrEqual(JewishCalendar.JewishDateMicro,JewishCalendar.IJewishDate)" project="JewishCalendar" file="441d2bb7-2597-99c9-18a9-6e929b4db48b" />
+        <topic id="Overload:JewishCalendar.JewishDateMicro.op_Subtraction" project="JewishCalendar" file="d9650f1d-c540-0c0a-49eb-e6b23ba9f9b1">
+          <topic id="M:JewishCalendar.JewishDateMicro.op_Subtraction(JewishCalendar.JewishDateMicro,JewishCalendar.JewishDateMicro)" project="JewishCalendar" file="87ea6e56-4ad6-619d-7c7d-50683e561910" />
+          <topic id="M:JewishCalendar.JewishDateMicro.op_Subtraction(JewishCalendar.JewishDateMicro,System.Int32)" project="JewishCalendar" file="60f3b16f-0f85-7e79-162a-4de1261c8568" />
+        </topic>
+      </topic>
+    </topic>
+    <topic id="T:JewishCalendar.Location" project="JewishCalendar" file="39588893-3f5b-4feb-2abc-1bf586ce07fe">
+      <topic id="Overload:JewishCalendar.Location.#ctor" project="JewishCalendar" file="9a489d29-2593-4a23-44d2-fb09fc58977b">
+        <topic id="M:JewishCalendar.Location.#ctor" project="JewishCalendar" file="69d0a6e8-b2d8-af75-98cd-1734d17fa433" />
+        <topic id="M:JewishCalendar.Location.#ctor(System.String,System.Int32,System.Double,System.Double)" project="JewishCalendar" file="ba7a8786-9da2-95e9-2d7c-68e287b678dd" />
+      </topic>
+      <topic id="Properties.T:JewishCalendar.Location" project="JewishCalendar" file="56123e48-0148-90df-50ff-8a5496335eda">
+        <topic id="P:JewishCalendar.Location.CandleLighting" project="JewishCalendar" file="4ac9bd33-e6ca-2c9c-41d8-8a8b6ae00a4f" />
+        <topic id="P:JewishCalendar.Location.Elevation" project="JewishCalendar" file="57c01f2b-c10f-e39d-2a79-aa5ac24de7c4" />
+        <topic id="P:JewishCalendar.Location.IsInIsrael" project="JewishCalendar" file="e3ce0921-9cdb-1ddb-432d-01728e82c75c" />
+        <topic id="P:JewishCalendar.Location.LatitudeDegrees" project="JewishCalendar" file="24cedbf6-8775-1354-0e1d-b4f903a6e5c3" />
+        <topic id="P:JewishCalendar.Location.LatitudeMinutes" project="JewishCalendar" file="daeea953-810c-0892-b6c2-5023ead490c2" />
+        <topic id="P:JewishCalendar.Location.LatitudeType" project="JewishCalendar" file="e9a33c48-39b5-1962-b55f-18c67fae21ba" />
+        <topic id="P:JewishCalendar.Location.LongitudeDegrees" project="JewishCalendar" file="4bf91fa4-ccf9-f1ea-16f9-06fb03911ee7" />
+        <topic id="P:JewishCalendar.Location.LongitudeMinutes" project="JewishCalendar" file="787a4d1f-3e83-92d7-218a-902b040e56ea" />
+        <topic id="P:JewishCalendar.Location.LongitudeType" project="JewishCalendar" file="df202aeb-8b22-8ddf-0260-4394960d852b" />
+        <topic id="P:JewishCalendar.Location.Name" project="JewishCalendar" file="31099977-65ac-1d23-1ee8-94321d7d0d85" />
+        <topic id="P:JewishCalendar.Location.NameHebrew" project="JewishCalendar" file="4488c962-ddc0-4d80-5bfe-7628b749e3c5" />
+        <topic id="P:JewishCalendar.Location.TimeZone" project="JewishCalendar" file="ca929fa3-5472-32cd-4cb7-44e2ac33c2d1" />
+        <topic id="P:JewishCalendar.Location.TimeZoneInfo" project="JewishCalendar" file="69b817f0-c879-ec8d-8354-f03586a03cf1" />
+        <topic id="P:JewishCalendar.Location.TimeZoneName" project="JewishCalendar" file="0d6a2a1a-f361-f7f3-a446-ad6ba9d3d0fd" />
+      </topic>
+      <topic id="Methods.T:JewishCalendar.Location" project="JewishCalendar" file="33affc3c-c4ac-12d7-27b2-f6e375575870">
+        <topic id="M:JewishCalendar.Location.ToString" project="JewishCalendar" file="a802c8a6-481d-de9f-bf80-d3a8365de845" />
+      </topic>
+    </topic>
+    <topic id="T:JewishCalendar.Location.LatitudeTypes" project="JewishCalendar" file="99773cb4-1e1a-c482-fb2e-013af650cfe1" />
+    <topic id="T:JewishCalendar.Location.LongitudeTypes" project="JewishCalendar" file="f8353190-f15a-5f51-c463-0621970c49df" />
+    <topic id="T:JewishCalendar.Masechta" project="JewishCalendar" file="572fdd7a-250e-92d5-a826-fd2e60056ae9">
+      <topic id="M:JewishCalendar.Masechta.#ctor(System.String,System.String,System.Int32)" project="JewishCalendar" file="91f862a4-fd3e-cc1f-44b9-488a8bb26a3c" />
+      <topic id="Methods.T:JewishCalendar.Masechta" project="JewishCalendar" file="802c0d04-32ab-6dd8-1971-3ef3abb2172f" />
+      <topic id="Fields.T:JewishCalendar.Masechta" project="JewishCalendar" file="fb166708-8e32-860d-0003-b140e3357e1f">
+        <topic id="F:JewishCalendar.Masechta.Dappim" project="JewishCalendar" file="bbe7d9a5-87ea-837e-a436-98baae4a9e46" />
+        <topic id="F:JewishCalendar.Masechta.NameEnglish" project="JewishCalendar" file="d5b49a13-0124-eabb-b2e2-e42c5433d275" />
+        <topic id="F:JewishCalendar.Masechta.NameHebrew" project="JewishCalendar" file="73a7f6e6-d792-d2c3-1d9d-46f667c24b4e" />
+      </topic>
+    </topic>
+    <topic id="T:JewishCalendar.Molad" project="JewishCalendar" file="f514b95e-d9b9-a2ba-3a64-b12b1441cf85">
+      <topic id="M:JewishCalendar.Molad.#ctor" project="JewishCalendar" file="823adf6b-9f2f-da83-8981-d3c2fd816d21" />
+      <topic id="Properties.T:JewishCalendar.Molad" project="JewishCalendar" file="c6838f90-7782-673b-9371-85c8202776b1">
+        <topic id="P:JewishCalendar.Molad.Chalakim" project="JewishCalendar" file="3c99c5e2-b74d-9be4-f563-997a493501b3" />
+        <topic id="P:JewishCalendar.Molad.JewishDate" project="JewishCalendar" file="52c71a11-d90e-84d1-b04d-9341f59aed0c" />
+        <topic id="P:JewishCalendar.Molad.Time" project="JewishCalendar" file="33d76ba2-88dc-893a-fa7b-4e8b7183fe54" />
+      </topic>
+      <topic id="Methods.T:JewishCalendar.Molad" project="JewishCalendar" file="fcbea718-f6d9-518a-044b-033f0c7fda7f">
+        <topic id="M:JewishCalendar.Molad.GetMolad(System.Int32,System.Int32)" project="JewishCalendar" file="a01c1d78-a54d-c19c-cb16-f58d47b02567" />
+        <topic id="Overload:JewishCalendar.Molad.ToString" project="JewishCalendar" file="2900f399-8e98-401b-cd7e-30018f833733">
+          <topic id="M:JewishCalendar.Molad.ToString" project="JewishCalendar" file="aa751563-b846-2e9e-d275-1b5202e62a06" />
+          <topic id="M:JewishCalendar.Molad.ToString(JewishCalendar.HourMinute)" project="JewishCalendar" file="1134435f-fd9b-c4d0-db82-71c3fde7ecb6" />
+        </topic>
+        <topic id="M:JewishCalendar.Molad.ToStringHeb(JewishCalendar.HourMinute)" project="JewishCalendar" file="7689cc04-0c27-0350-3ef9-3f78935ae464" />
+      </topic>
+    </topic>
+    <topic id="T:JewishCalendar.Parsha" project="JewishCalendar" file="b7cf79d0-9113-4609-e57d-d3caf6bae1f8">
+      <topic id="M:JewishCalendar.Parsha.#ctor(System.String,System.String)" project="JewishCalendar" file="07f4428f-3098-68eb-90a7-81a51f8479c2" />
+      <topic id="Methods.T:JewishCalendar.Parsha" project="JewishCalendar" file="ffa218c4-f987-e4b5-771a-22ba2162cfc3" />
+      <topic id="Fields.T:JewishCalendar.Parsha" project="JewishCalendar" file="d0ade1ea-11c6-ddd5-9922-8be643e51630">
+        <topic id="F:JewishCalendar.Parsha.nameEng" project="JewishCalendar" file="65b07dd8-2911-da85-b3c8-2f5cde6b2637" />
+        <topic id="F:JewishCalendar.Parsha.nameHebrew" project="JewishCalendar" file="13466263-14fd-b96b-1aa4-54f780d0bcc2" />
+      </topic>
+    </topic>
+    <topic id="T:JewishCalendar.PirkeiAvos" project="JewishCalendar" file="23d36460-3d76-0a5e-1d4d-9c3b2d92b5e3">
+      <topic id="Methods.T:JewishCalendar.PirkeiAvos" project="JewishCalendar" file="09288932-895d-b0fe-8ec8-255299efe15c">
+        <topic id="M:JewishCalendar.PirkeiAvos.GetEllulPrakim(JewishCalendar.IJewishDate,System.Boolean)" project="JewishCalendar" file="2917d674-4297-a1cc-f36e-c399bd38c85f" />
+        <topic id="M:JewishCalendar.PirkeiAvos.GetPirkeiAvos(JewishCalendar.IJewishDate,System.Boolean)" project="JewishCalendar" file="c346947b-1dc9-0c20-3893-9f068e702291" />
+        <topic id="M:JewishCalendar.PirkeiAvos.GetSinglePerek(JewishCalendar.IJewishDate,System.Boolean)" project="JewishCalendar" file="51bdeaf4-5fef-46bb-0d02-5cd7f74e0793" />
+      </topic>
+    </topic>
+    <topic id="T:JewishCalendar.Sedra" project="JewishCalendar" file="941705af-262e-37ae-723e-028e4a2fbefa">
+      <topic id="M:JewishCalendar.Sedra.#ctor(System.Int32,System.Boolean)" project="JewishCalendar" file="d71bda24-cd9f-726c-d106-4a9bbc56c67e" />
+      <topic id="M:JewishCalendar.Sedra.#cctor" project="JewishCalendar" file="82c91fe5-62b1-2102-b111-8ebc36d7046b" />
+      <topic id="Properties.T:JewishCalendar.Sedra" project="JewishCalendar" file="8fef676b-fc26-1f13-7ca6-f35ec8932079">
+        <topic id="P:JewishCalendar.Sedra._sedraNumWeeks" project="JewishCalendar" file="2fff1fd0-ccea-3d9a-23d9-9592102381af" />
+      </topic>
+      <topic id="Methods.T:JewishCalendar.Sedra" project="JewishCalendar" file="120139f3-6ac4-2398-bf6c-71d75f1d1e68">
+        <topic id="M:JewishCalendar.Sedra.GetDayOnOrBefore(System.Int32,System.Int32)" project="JewishCalendar" file="8125d59c-d5c9-b51e-c874-1346f865616d" />
+        <topic id="M:JewishCalendar.Sedra.GetSedra(JewishCalendar.IJewishDate,System.Boolean)" project="JewishCalendar" file="68cac6f1-9320-c8ef-74ba-4be6f15072aa" />
+      </topic>
+    </topic>
+    <topic id="T:JewishCalendar.Sedra.YearType" project="JewishCalendar" file="25e4e31d-a442-8650-12c2-3112bcfa259f" />
+    <topic id="T:JewishCalendar.SpecialDay" project="JewishCalendar" file="af4614dd-bdf9-6463-5270-c0f353208a13">
+      <topic id="Overload:JewishCalendar.SpecialDay.#ctor" project="JewishCalendar" file="5328cb60-9a80-64e1-e3e0-f34e9f8b358d">
+        <topic id="M:JewishCalendar.SpecialDay.#ctor(System.String,System.String)" project="JewishCalendar" file="b6f3be45-f281-903e-832b-fe00ec04ea15" />
+        <topic id="M:JewishCalendar.SpecialDay.#ctor(System.String,System.String,JewishCalendar.SpecialDayTypes)" project="JewishCalendar" file="bc23791e-1fef-e307-5f6b-f503e7a97bd9" />
+      </topic>
+      <topic id="Properties.T:JewishCalendar.SpecialDay" project="JewishCalendar" file="90d9b01f-0420-2845-30f4-a22f3a613550">
+        <topic id="P:JewishCalendar.SpecialDay.DayType" project="JewishCalendar" file="863f589e-714f-96ea-e9ec-c7828cea42ff" />
+        <topic id="P:JewishCalendar.SpecialDay.NameEnglish" project="JewishCalendar" file="63ea247c-2bbc-383f-8ce1-3ac55fa1b2b9" />
+        <topic id="P:JewishCalendar.SpecialDay.NameHebrew" project="JewishCalendar" file="87f339f6-d689-f470-2df8-2de8e244cbb8" />
+      </topic>
+      <topic id="Methods.T:JewishCalendar.SpecialDay" project="JewishCalendar" file="0273c2a2-186f-499e-6a89-ccc887c57586">
+        <topic id="M:JewishCalendar.SpecialDay.ToString" project="JewishCalendar" file="202b5dc3-1359-afc8-f443-940be4ad25f3" />
+      </topic>
+    </topic>
+    <topic id="T:JewishCalendar.SpecialDayTypes" project="JewishCalendar" file="b9b40f4d-292f-24ad-9cf6-2dc899570733" />
+    <topic id="T:JewishCalendar.Utils" project="JewishCalendar" file="075b32fc-7655-57fd-8ff6-9c74fdfe6c0a">
+      <topic id="M:JewishCalendar.Utils.#cctor" project="JewishCalendar" file="8fcd1337-7216-8f0f-1f26-dec21be5d794" />
+      <topic id="Methods.T:JewishCalendar.Utils" project="JewishCalendar" file="f6e345d0-cc98-c53a-1be9-96f07b50628e">
+        <topic id="M:JewishCalendar.Utils.getDOW(System.Int32,System.Int32,System.Int32)" project="JewishCalendar" file="4bbfb8dd-2d98-9e14-fe1c-25f8684264f3" />
+        <topic id="M:JewishCalendar.Utils.GetOmerNusach(System.Int32,System.Boolean,System.Boolean)" project="JewishCalendar" file="ef09b535-38e5-3c3c-2e2a-caf73d1e0d56" />
+        <topic id="M:JewishCalendar.Utils.GetProperMonthName(System.Int32,System.Int32)" project="JewishCalendar" file="e1a85c0d-df77-ec43-457b-3ebfe77cf7f9" />
+        <topic id="M:JewishCalendar.Utils.GetProperMonthNameHeb(System.Int32,System.Int32)" project="JewishCalendar" file="e060f592-4bcb-4324-1feb-69d73a1d7766" />
+        <topic id="M:JewishCalendar.Utils.In(System.Object,System.Object[])" project="JewishCalendar" file="53ee2894-3532-6ef3-3d81-98b938080c9c" />
+        <topic id="M:JewishCalendar.Utils.IsDateTimeDST(System.DateTime,JewishCalendar.Location)" project="JewishCalendar" file="4bf9f75e-69b5-d90d-87b0-424a75a8c7cf" />
+        <topic id="M:JewishCalendar.Utils.IsIsraelDst(System.DateTime)" project="JewishCalendar" file="8c7d939d-18e8-9a6a-ced9-ebaa080a3070" />
+        <topic id="M:JewishCalendar.Utils.IsSpecialDayType(JewishCalendar.SpecialDayTypes,JewishCalendar.SpecialDayTypes)" project="JewishCalendar" file="e197471b-ab34-c5de-9973-d08706127048" />
+        <topic id="M:JewishCalendar.Utils.IsUsaDst(System.DateTime)" project="JewishCalendar" file="9db5b3c3-6868-327f-4dbb-1c277da7158f" />
+        <topic id="M:JewishCalendar.Utils.ToNumberHeb(System.Int32)" project="JewishCalendar" file="f475edbf-39cf-50de-c25a-c12a1f9723a2" />
+        <topic id="M:JewishCalendar.Utils.ToSuffixedString(System.Int32)" project="JewishCalendar" file="c032e50a-5faf-0575-c8f8-e546ca86e2e6" />
+      </topic>
+      <topic id="Fields.T:JewishCalendar.Utils" project="JewishCalendar" file="ead9b402-5bd0-f55b-46a6-74d32d72f725">
+        <topic id="F:JewishCalendar.Utils.DaysOfWeek" project="JewishCalendar" file="764989cd-8b69-c50f-d6d5-4aa873560195" />
+        <topic id="F:JewishCalendar.Utils.HebrewCalendar" project="JewishCalendar" file="e9727e03-78d1-3b49-e9b5-3961c253105d" />
+        <topic id="F:JewishCalendar.Utils.HebrewCultureInfo" project="JewishCalendar" file="b60b3488-846f-f93e-d934-9239cf6b0948" />
+        <topic id="F:JewishCalendar.Utils.JewishDOWNames" project="JewishCalendar" file="94dec850-430f-af78-5940-27592037edf9" />
+        <topic id="F:JewishCalendar.Utils.JewishMonthNamesEnglish" project="JewishCalendar" file="12ce41f1-b6c5-fdef-ee8e-46a5e838266d" />
+        <topic id="F:JewishCalendar.Utils.JewishMonthNamesHebrew" project="JewishCalendar" file="4bd3886c-cd1d-e695-b214-9c154dcb0a5d" />
+      </topic>
+    </topic>
+    <topic id="T:JewishCalendar.Zmanim" project="JewishCalendar" file="d42c79f3-9103-946b-8590-ad890a20c05e">
+      <topic id="Overload:JewishCalendar.Zmanim.#ctor" project="JewishCalendar" file="90f0e633-c67a-3171-4af1-4a321f6c9376">
+        <topic id="M:JewishCalendar.Zmanim.#ctor(System.DateTime,JewishCalendar.Location)" project="JewishCalendar" file="56f11446-b603-8782-9de2-ad6a0c3a977a" />
+        <topic id="M:JewishCalendar.Zmanim.#ctor(JewishCalendar.IJewishDate,JewishCalendar.Location)" project="JewishCalendar" file="2a2e4aab-3bb4-f6d5-4214-aa8a36db37d5" />
+      </topic>
+      <topic id="Properties.T:JewishCalendar.Zmanim" project="JewishCalendar" file="b9d1e1ed-7560-21b8-0710-8d0fe7dd68da">
+        <topic id="P:JewishCalendar.Zmanim.Location" project="JewishCalendar" file="75643fa8-74e1-dcd7-5525-c2d4e4646f8b" />
+        <topic id="P:JewishCalendar.Zmanim.SecularDate" project="JewishCalendar" file="a769f118-bcc6-25cd-70c3-9ce7afd458c1" />
+      </topic>
+      <topic id="Methods.T:JewishCalendar.Zmanim" project="JewishCalendar" file="dcf2b24d-1673-8623-d04a-afc5f0163ae0">
+        <topic id="M:JewishCalendar.Zmanim.AddAdarSpecialDays(System.Collections.ArrayList,System.Int32,System.Int32,System.DayOfWeek,System.Boolean)" project="JewishCalendar" file="e1c95bf0-0cbd-b5e0-4962-324d52e9a5bc" />
+        <topic id="M:JewishCalendar.Zmanim.AddAvSpecialDays(System.Collections.ArrayList,System.Int32,System.DayOfWeek)" project="JewishCalendar" file="6c0b781e-cf56-26bb-6a65-077751777647" />
+        <topic id="M:JewishCalendar.Zmanim.AddCheshvanSpecialDays(System.Boolean,System.Collections.ArrayList,System.Int32,System.DayOfWeek)" project="JewishCalendar" file="8d4573b4-d0fa-ca4d-6084-a07d6bb5be90" />
+        <topic id="M:JewishCalendar.Zmanim.AddEllulSpecialDays(System.Collections.ArrayList,System.Int32,System.DayOfWeek)" project="JewishCalendar" file="549772f4-99ce-389e-b473-6a2bc402bbaf" />
+        <topic id="M:JewishCalendar.Zmanim.AddIyarSpecialDays(System.Collections.ArrayList,System.Int32,System.DayOfWeek)" project="JewishCalendar" file="7ae2ebeb-d8db-5871-d0ba-c872f9f09fa0" />
+        <topic id="M:JewishCalendar.Zmanim.AddKislevSpecialDays(System.Collections.ArrayList,System.Int32)" project="JewishCalendar" file="50f8ff79-9eb0-d9a2-3194-cbe2964453af" />
+        <topic id="M:JewishCalendar.Zmanim.AddNissanSpecialDays(System.Boolean,System.Collections.ArrayList,System.Int32,System.DayOfWeek)" project="JewishCalendar" file="2a34be8a-75c4-2c4c-2d3e-119bf6e63b47" />
+        <topic id="M:JewishCalendar.Zmanim.AddRoshChodeshSpecialDays(System.Collections.ArrayList,System.Int32,System.Int32,System.Int32,System.Boolean)" project="JewishCalendar" file="cc8434a3-7550-1ffb-1488-0a4c68843eee" />
+        <topic id="M:JewishCalendar.Zmanim.AddShabbosSpecialDays(JewishCalendar.IJewishDate,System.Boolean,System.Collections.ArrayList,System.Boolean)" project="JewishCalendar" file="3200de72-f512-2b52-a008-13a6ae6dff7e" />
+        <topic id="M:JewishCalendar.Zmanim.AddShvatSpecialDays(System.Collections.ArrayList,System.Int32)" project="JewishCalendar" file="bcec723f-ae80-ddf1-71d3-db3606835907" />
+        <topic id="M:JewishCalendar.Zmanim.AddSivanSpecialDays(System.Boolean,System.Collections.ArrayList,System.Int32,System.DayOfWeek)" project="JewishCalendar" file="68d168dd-0fc4-d3b9-70d9-77bb517306fb" />
+        <topic id="M:JewishCalendar.Zmanim.AddTamuzSpecialDays(System.Collections.ArrayList,System.Int32,System.DayOfWeek)" project="JewishCalendar" file="2df47890-dffb-5086-e828-6cfa67360be0" />
+        <topic id="M:JewishCalendar.Zmanim.AddTevesSpecialDays(System.Collections.ArrayList,System.Int32,System.Int32)" project="JewishCalendar" file="c541647a-20dd-908a-e8cd-fc383513a838" />
+        <topic id="M:JewishCalendar.Zmanim.AddTishreiSpecialDays(System.Boolean,System.Collections.ArrayList,System.Int32,System.DayOfWeek)" project="JewishCalendar" file="f457a1a7-2d17-4dd1-b94d-da0c49705b61" />
+        <topic id="M:JewishCalendar.Zmanim.Adj(System.Double)" project="JewishCalendar" file="797716bd-095d-003b-46e3-47afd73640ea" />
+        <topic id="M:JewishCalendar.Zmanim.DegToDec(System.Double,System.Double)" project="JewishCalendar" file="fd477a9d-9f4e-fc79-57f6-042f5e0170ee" />
+        <topic id="Overload:JewishCalendar.Zmanim.GetChatzos" project="JewishCalendar" file="c29970c1-4c35-16c5-6757-b2905b806528">
+          <topic id="M:JewishCalendar.Zmanim.GetChatzos" project="JewishCalendar" file="dc872842-45ec-027d-57df-149899c035fc" />
+          <topic id="M:JewishCalendar.Zmanim.GetChatzos(System.DateTime,JewishCalendar.Location)" project="JewishCalendar" file="48b8a5ae-d3e1-7194-4dda-efeeb0e429a1" />
+        </topic>
+        <topic id="M:JewishCalendar.Zmanim.GetDayOfYear(System.DateTime)" project="JewishCalendar" file="eb66862e-5e7a-8e37-21ed-a0176961557d" />
+        <topic id="M:JewishCalendar.Zmanim.GetHolidays(JewishCalendar.IJewishDate,System.Boolean)" project="JewishCalendar" file="32fdbaf0-6b97-1c89-06c5-f19cad923bb1" />
+        <topic id="Overload:JewishCalendar.Zmanim.GetHolidaysText" project="JewishCalendar" file="13213f67-d909-db80-877e-ac928c7e402d">
+          <topic id="M:JewishCalendar.Zmanim.GetHolidaysText(System.Collections.ArrayList,System.String,System.Boolean)" project="JewishCalendar" file="eabcfeef-a86c-8c2a-7d51-1464021c5bdf" />
+          <topic id="M:JewishCalendar.Zmanim.GetHolidaysText(JewishCalendar.IJewishDate,System.Boolean,System.Boolean)" project="JewishCalendar" file="1b33f89e-38d4-9d54-b43f-dfb6c1351774" />
+          <topic id="M:JewishCalendar.Zmanim.GetHolidaysText(JewishCalendar.SpecialDay[],System.String,System.Boolean)" project="JewishCalendar" file="80bbb79a-af0c-55c5-35e2-2389c84bb441" />
+        </topic>
+        <topic id="Overload:JewishCalendar.Zmanim.GetNetz" project="JewishCalendar" file="4401e7dc-5d8e-d85d-1910-86e5be02371b">
+          <topic id="M:JewishCalendar.Zmanim.GetNetz" project="JewishCalendar" file="ae16d7e1-060a-a70e-e35e-152ddd5fa50b" />
+          <topic id="M:JewishCalendar.Zmanim.GetNetz(System.DateTime,JewishCalendar.Location,System.Boolean)" project="JewishCalendar" file="9355a8b5-e333-49d7-920a-932df5f2b591" />
+        </topic>
+        <topic id="Overload:JewishCalendar.Zmanim.GetNetzShkia" project="JewishCalendar" file="42066651-fcf5-9b82-3d4f-b16a5fa1a907">
+          <topic id="M:JewishCalendar.Zmanim.GetNetzShkia(System.Boolean)" project="JewishCalendar" file="c6d0e68b-3ff3-3306-275f-cf36ba0331ae" />
+          <topic id="M:JewishCalendar.Zmanim.GetNetzShkia(System.DateTime,JewishCalendar.Location,System.Boolean)" project="JewishCalendar" file="ca58f01a-1c54-6ec2-d5c1-93dbdc452840" />
+        </topic>
+        <topic id="Overload:JewishCalendar.Zmanim.GetShaaZmanis" project="JewishCalendar" file="3c0f4acf-34a0-dfed-0cbe-32b097afd413">
+          <topic id="M:JewishCalendar.Zmanim.GetShaaZmanis(System.Int32)" project="JewishCalendar" file="e22c56a5-df02-29c8-83a6-6566644960f9" />
+          <topic id="M:JewishCalendar.Zmanim.GetShaaZmanis(System.DateTime,JewishCalendar.Location,System.Int32)" project="JewishCalendar" file="7afdd112-dc8e-8823-2aca-17d339be23c1" />
+        </topic>
+        <topic id="Overload:JewishCalendar.Zmanim.GetShkia" project="JewishCalendar" file="8adf485b-83ab-67f0-7fad-b43f577b0db7">
+          <topic id="M:JewishCalendar.Zmanim.GetShkia" project="JewishCalendar" file="2a2bac3d-7c8f-83b0-98cc-4af2fe13b5c8" />
+          <topic id="M:JewishCalendar.Zmanim.GetShkia(System.DateTime,JewishCalendar.Location,System.Boolean)" project="JewishCalendar" file="673190f3-13db-5685-1380-809cbd47e328" />
+        </topic>
+        <topic id="M:JewishCalendar.Zmanim.IsSecularLeapYear(System.Int32)" project="JewishCalendar" file="43310340-e3a7-1008-1e93-6f63c24a8644" />
+        <topic id="M:JewishCalendar.Zmanim.L(System.Double)" project="JewishCalendar" file="a94889e3-1ce8-7544-2c38-6b3001651d1a" />
+        <topic id="M:JewishCalendar.Zmanim.M(System.Double)" project="JewishCalendar" file="27b4a6a6-c771-8e5c-a00a-2aea6f4c2237" />
+        <topic id="M:JewishCalendar.Zmanim.RadToDeg(System.Double)" project="JewishCalendar" file="fdbe2091-b13a-a0de-654e-2344b4ea08fb" />
+        <topic id="M:JewishCalendar.Zmanim.SetPirkeiAvos(JewishCalendar.IJewishDate,System.Boolean,System.Collections.ArrayList)" project="JewishCalendar" file="8d224271-b19f-c96b-6f5d-679efd75f328" />
+        <topic id="M:JewishCalendar.Zmanim.TimeAdj(System.Double,System.DateTime,JewishCalendar.Location)" project="JewishCalendar" file="fba59b29-0221-bc63-fa9f-c0984160b59c" />
+      </topic>
+    </topic>
+  </topic>
+</topics>
