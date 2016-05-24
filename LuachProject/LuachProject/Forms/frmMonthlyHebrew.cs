@@ -292,7 +292,7 @@ namespace LuachProject
 
         private void llSearchOccasion_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            new frmSearchOccasionHeb().Show(this);
+            new frmOccasionListHeb().Show(this);
         }
 
         private void pnlMain_MouseClick(object sender, MouseEventArgs e)

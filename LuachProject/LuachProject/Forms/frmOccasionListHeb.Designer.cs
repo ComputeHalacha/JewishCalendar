@@ -1,6 +1,6 @@
 ﻿namespace LuachProject
 {
-    partial class frmSearchOccasionHeb
+    partial class frmOccasionListHeb
     {
         /// <summary>
         /// Required designer variable.
@@ -122,7 +122,7 @@
             this.label2.Text = "בחר שורה כדי ללכת לתאריך האירוע | לחץ פעמיים כדי לפתוח האירוע לעדכון";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // frmSearchOccasionHeb
+            // frmOccasionListHeb
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -137,13 +137,13 @@
             this.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.Name = "frmSearchOccasionHeb";
+            this.Name = "frmOccasionListHeb";
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.RightToLeftLayout = true;
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "רשימת אירועים";
-            this.Load += new System.EventHandler(this.frmSearchOccasionHeb_Load);
+            this.Load += new System.EventHandler(this.frmOccasionListHeb_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

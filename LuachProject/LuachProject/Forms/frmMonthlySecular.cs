@@ -195,11 +195,11 @@ namespace LuachProject
         {
             if(this._displayHebrew)
             {
-                new frmSearchOccasionHeb().Show(this);
+                new frmOccasionListHeb().Show(this);
             }
             else
             {
-                new frmSearchOccasionEng().Show(this);
+                new frmOccasionList().Show(this);
             }
         }
 

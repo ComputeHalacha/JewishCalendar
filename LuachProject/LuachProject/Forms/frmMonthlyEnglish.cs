@@ -271,7 +271,7 @@ namespace LuachProject
 
         private void llOpenOccasionList_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            new frmSearchOccasionEng().Show(this);
+            new frmOccasionList().Show(this);
         }
 
         private void llSefira_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

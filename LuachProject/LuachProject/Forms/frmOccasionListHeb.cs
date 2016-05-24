@@ -4,15 +4,15 @@ using System.Windows.Forms;
 
 namespace LuachProject
 {
-    public partial class frmSearchOccasionHeb : Form
+    public partial class frmOccasionListHeb : Form
     {
 
-        public frmSearchOccasionHeb()
+        public frmOccasionListHeb()
         {
             InitializeComponent();
         }
 
-        private void frmSearchOccasionHeb_Load(object sender, EventArgs e)
+        private void frmOccasionListHeb_Load(object sender, EventArgs e)
         {
             var list = from UserOccasion u in Properties.Settings.Default.UserOccasions
                        orderby u.SecularDate != DateTime.MinValue ? u.SecularDate : u.JewishDate.GregorianDate
