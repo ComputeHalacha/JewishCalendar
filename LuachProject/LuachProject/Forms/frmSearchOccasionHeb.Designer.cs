@@ -43,7 +43,7 @@
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnCancel.BackColor = System.Drawing.SystemColors.Control;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(748, 548);
+            this.btnCancel.Location = new System.Drawing.Point(748, 561);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(94, 31);
             this.btnCancel.TabIndex = 12;
@@ -77,17 +77,17 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listView1.BackColor = System.Drawing.Color.Lavender;
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader3,
             this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3});
+            this.columnHeader2});
             this.listView1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
             this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listView1.Location = new System.Drawing.Point(12, 85);
+            this.listView1.Location = new System.Drawing.Point(12, 71);
             this.listView1.Name = "listView1";
             this.listView1.RightToLeftLayout = true;
-            this.listView1.Size = new System.Drawing.Size(830, 442);
+            this.listView1.Size = new System.Drawing.Size(830, 454);
             this.listView1.TabIndex = 13;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -97,28 +97,29 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "תאריך";
-            this.columnHeader1.Width = 244;
+            this.columnHeader1.Width = 300;
             // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "סוג אירוע";
-            this.columnHeader2.Width = 324;
+            this.columnHeader2.Width = 320;
             // 
             // columnHeader3
             // 
             this.columnHeader3.Text = "תיאור האירוע";
-            this.columnHeader3.Width = 258;
+            this.columnHeader3.Width = 200;
             // 
             // label2
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.label2.ForeColor = System.Drawing.Color.DimGray;
-            this.label2.Location = new System.Drawing.Point(282, 530);
+            this.label2.Location = new System.Drawing.Point(12, 532);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(291, 25);
+            this.label2.Size = new System.Drawing.Size(830, 25);
             this.label2.TabIndex = 18;
-            this.label2.Text = "לחץ פעמיים כדי לפתוח האירוע לעדכון";
+            this.label2.Text = "בחר שורה כדי ללכת לתאריך האירוע | לחץ פעמיים כדי לפתוח האירוע לעדכון";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // frmSearchOccasionHeb
@@ -127,18 +128,19 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(854, 591);
+            this.ClientSize = new System.Drawing.Size(854, 604);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnCancel);
             this.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.ForeColor = System.Drawing.Color.Black;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "frmSearchOccasionHeb";
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.RightToLeftLayout = true;
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "רשימת אירועים";
             this.Load += new System.EventHandler(this.frmSearchOccasionHeb_Load);

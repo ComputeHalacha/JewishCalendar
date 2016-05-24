@@ -43,9 +43,9 @@
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.BackColor = System.Drawing.SystemColors.Control;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(865, 548);
+            this.btnCancel.Location = new System.Drawing.Point(882, 582);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(94, 31);
+            this.btnCancel.Size = new System.Drawing.Size(107, 33);
             this.btnCancel.TabIndex = 12;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = false;
@@ -53,9 +53,9 @@
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(12, 22);
+            this.label3.Location = new System.Drawing.Point(14, 23);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(573, 17);
+            this.label3.Size = new System.Drawing.Size(655, 18);
             this.label3.TabIndex = 7;
             this.label3.Text = "Search for an occasion:";
             // 
@@ -63,9 +63,9 @@
             // 
             this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtName.Location = new System.Drawing.Point(12, 42);
+            this.txtName.Location = new System.Drawing.Point(14, 45);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(947, 23);
+            this.txtName.Size = new System.Drawing.Size(975, 23);
             this.txtName.TabIndex = 0;
             this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
@@ -76,16 +76,16 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listView1.BackColor = System.Drawing.Color.Lavender;
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
             this.columnHeader3,
+            this.columnHeader1,
             this.columnHeader2});
-            this.listView1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listView1.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Bold);
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
             this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listView1.Location = new System.Drawing.Point(12, 85);
+            this.listView1.Location = new System.Drawing.Point(14, 75);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(947, 442);
+            this.listView1.Size = new System.Drawing.Size(975, 474);
             this.listView1.TabIndex = 13;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -95,47 +95,48 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Date";
-            this.columnHeader1.Width = 150;
+            this.columnHeader1.Width = 340;
             // 
             // columnHeader3
             // 
             this.columnHeader3.Text = "Occasion Name";
-            this.columnHeader3.Width = 250;
+            this.columnHeader3.Width = 288;
             // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "Occasion Type";
-            this.columnHeader2.Width = 350;
+            this.columnHeader2.Width = 330;
             // 
             // label2
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.label2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.ForeColor = System.Drawing.Color.DimGray;
-            this.label2.Location = new System.Drawing.Point(340, 530);
+            this.label2.Location = new System.Drawing.Point(14, 552);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(291, 25);
+            this.label2.Size = new System.Drawing.Size(976, 27);
             this.label2.TabIndex = 18;
-            this.label2.Text = "Double click an occasion to open for editing";
+            this.label2.Text = "Select an occasion to navigate to that Date | Double click an occasion to open it" +
+    " for editing";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // frmSearchOccasionEng
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(971, 591);
+            this.ClientSize = new System.Drawing.Size(1003, 628);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnCancel);
-            this.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Font = new System.Drawing.Font("Century Gothic", 7.8F);
+            this.ForeColor = System.Drawing.Color.Black;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "frmSearchOccasionEng";
-            this.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "List of Occasions";
             this.Load += new System.EventHandler(this.frmSearchOccasionEng_Load);
