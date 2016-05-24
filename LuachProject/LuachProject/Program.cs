@@ -23,12 +23,10 @@ namespace LuachProject
         internal static StringFormat StringFormat = new StringFormat
         {
             Trimming = StringTrimming.EllipsisCharacter,
-            Alignment = StringAlignment.Center,           
+            Alignment = StringAlignment.Center,
             LineAlignment = StringAlignment.Center,
             FormatFlags = StringFormatFlags.LineLimit | StringFormatFlags.FitBlackBox | StringFormatFlags.DirectionRightToLeft
         };
-
-       
 
         static Program()
         {
@@ -36,70 +34,6 @@ namespace LuachProject
             {
                 Properties.Settings.Default.UserOccasions = new UserOccasionColection();
                 Properties.Settings.Default.Save();
-            }
-        }
-
-        /// </summary>
-        public static void LoadLocations()
-        {
-            LocationsList = new List<Location>();
-            using (var ms = new System.IO.StringReader(Properties.Resources.LocationsList))
-            {
-                var settings = new System.Xml.XmlReaderSettings() { IgnoreWhitespace = true };
-                using (var xr = System.Xml.XmlReader.Create(ms, settings))
-                {
-                    while (xr.ReadToFollowing("L"))
-                    {
-                        string name = xr.GetAttribute("N").Trim();
-                        string heb = xr.GetAttribute("H") ?? name;
-                        bool inIsrael = xr.GetAttribute("I") == "Y";
-                        int timeZone;
-                        int elevation = 0;
-                        double latitude;
-                        double longitute;
-                        int candleLighting;
-                        string timeZoneName = null;
-
-                        xr.ReadToDescendant("T");
-                        timeZone = xr.ReadElementContentAsInt("T", "");
-                        if (xr.Name == "E")
-                        {
-                            elevation = xr.ReadElementContentAsInt("E", "");
-                        }
-
-                        latitude = xr.ReadElementContentAsDouble("LT", "");
-                        longitute = xr.ReadElementContentAsDouble("LN", "");
-
-                        if (xr.Name == "CL")
-                        {
-                            candleLighting = xr.ReadElementContentAsInt("CL", "");
-                        }
-                        else
-                        {
-                            candleLighting = inIsrael ? 30 : 18;
-                        }
-
-                        if (xr.Name == "TZN")
-                        {
-                            timeZoneName = xr.ReadElementContentAsString("TZN", "");
-                        }
-                        else if (inIsrael)
-                        {
-                            timeZoneName = "Israel Standard Time";
-                        }
-
-                        LocationsList.Add(new Location(name, timeZone, latitude, longitute)
-                        {
-                            NameHebrew = heb,
-                            Elevation = elevation,
-                            IsInIsrael = inIsrael,
-                            TimeZoneName = timeZoneName,
-                            CandleLighting = candleLighting
-                        });
-                    }
-                    xr.Close();
-                }
-                ms.Close();
             }
         }
 
@@ -178,5 +112,68 @@ namespace LuachProject
                 <CL>30</CL>    <!--Candle-lighting: minutes before sunset (optional)-->
                 <TZN>Israel Standard Time</TZN>    <!--Time zone name (optional)-->
             </L>     */
+        /// </summary>
+        public static void LoadLocations()
+        {
+            LocationsList = new List<Location>();
+            using (var ms = new System.IO.StringReader(Properties.Resources.LocationsList))
+            {
+                var settings = new System.Xml.XmlReaderSettings() { IgnoreWhitespace = true };
+                using (var xr = System.Xml.XmlReader.Create(ms, settings))
+                {
+                    while (xr.ReadToFollowing("L"))
+                    {
+                        string name = xr.GetAttribute("N").Trim();
+                        string heb = xr.GetAttribute("H") ?? name;
+                        bool inIsrael = xr.GetAttribute("I") == "Y";
+                        int timeZone;
+                        int elevation = 0;
+                        double latitude;
+                        double longitute;
+                        int candleLighting;
+                        string timeZoneName = null;
+
+                        xr.ReadToDescendant("T");
+                        timeZone = xr.ReadElementContentAsInt("T", "");
+                        if (xr.Name == "E")
+                        {
+                            elevation = xr.ReadElementContentAsInt("E", "");
+                        }
+
+                        latitude = xr.ReadElementContentAsDouble("LT", "");
+                        longitute = xr.ReadElementContentAsDouble("LN", "");
+
+                        if (xr.Name == "CL")
+                        {
+                            candleLighting = xr.ReadElementContentAsInt("CL", "");
+                        }
+                        else
+                        {
+                            candleLighting = inIsrael ? 30 : 18;
+                        }
+
+                        if (xr.Name == "TZN")
+                        {
+                            timeZoneName = xr.ReadElementContentAsString("TZN", "");
+                        }
+                        else if (inIsrael)
+                        {
+                            timeZoneName = "Israel Standard Time";
+                        }
+
+                        LocationsList.Add(new Location(name, timeZone, latitude, longitute)
+                        {
+                            NameHebrew = heb,
+                            Elevation = elevation,
+                            IsInIsrael = inIsrael,
+                            TimeZoneName = timeZoneName,
+                            CandleLighting = candleLighting
+                        });
+                    }
+                    xr.Close();
+                }
+                ms.Close();
+            }
+        }
     }
 }

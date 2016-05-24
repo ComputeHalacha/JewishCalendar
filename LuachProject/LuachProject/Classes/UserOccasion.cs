@@ -20,30 +20,16 @@ namespace LuachProject
     /// </summary>
     public class UserOccasion
     {
-        #region Private Fields
-
-        [NonSerialized]
-        private System.Drawing.RectangleF _rectangle;
-
-        #endregion Private Fields
-
         #region Public Properties
-
         public ColorXML BackColor { get; set; }
         public ColorXML Color { get; set; }
         public JewishDate JewishDate { get; set; }
         public string Name { get; set; }
         public string Notes { get; set; }
-
-        public System.Drawing.RectangleF Rectangle
-        {
-            get { return this._rectangle; }
-            set { this._rectangle = value; }
-        }
-
+        [System.Xml.Serialization.XmlIgnore]
+        public System.Drawing.RectangleF Rectangle { get; set; }
         public DateTime SecularDate { get; set; }
         public UserOccasionTypes UserOccasionType { get; set; }
-
         public string ToString(bool heb = false)
         {
             if (heb)
@@ -221,7 +207,7 @@ namespace LuachProject
         }
 
         /// <summary>
-        /// Determines if two months match  for a yahrtzeit or birthday etc.
+        /// Determines if two months match for a yahrtzeit or birthday etc.
         /// </summary>
         /// <param name="occDate"></param>
         /// <param name="currDate"></param>
