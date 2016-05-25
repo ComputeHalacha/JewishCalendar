@@ -197,7 +197,7 @@ namespace LuachProject
             col.AddRange(from uo in Properties.Settings.Default.UserOccasions
                          where (uo.UserOccasionType == UserOccasionTypes.OneTime &&
                             (uo.JewishDate == currDate || uo.SecularDate.Date == currDate.GregorianDate.Date)) ||
-                               (uo.JewishDate <= currDate && (
+                               ((uo.JewishDate == null || uo.JewishDate <= currDate) && (
                                    (uo.UserOccasionType == UserOccasionTypes.HebrewDateRecurringYearly && (uo.JewishDate.Day == currDate.Day && IsJewishMonthMatch(uo.JewishDate, currDate))) ||
                                    (uo.UserOccasionType == UserOccasionTypes.HebrewDateRecurringMonthly && (uo.JewishDate.Day == currDate.Day)) ||
                                    (uo.UserOccasionType == UserOccasionTypes.SecularDateRecurringYearly && (uo.SecularDate.Day == currDate.GregorianDate.Day && uo.SecularDate.Month == currDate.GregorianDate.Month)) ||

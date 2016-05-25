@@ -2,12 +2,12 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using JewishCalendar;
 
 namespace LuachProject
 {
     public partial class frmOccasionList : Form
     {
-
         public frmOccasionList()
         {
             InitializeComponent();
@@ -52,6 +52,16 @@ namespace LuachProject
             if (this.listView1.SelectedItems.Count > 0)
             {
                 this.GoToSelectedOccasionDate();
+                this.Close();
+            }
+        }
+
+
+        private void goToUpcomingOccurenceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.listView1.SelectedItems.Count > 0)
+            {
+                this.GoToSelectedOccasionUpcoming();
                 this.Close();
             }
         }
@@ -139,13 +149,13 @@ namespace LuachProject
                         }
                         catch
                         {
-                            MessageBox.Show("We were not able to import any Occasions from " + sfd.FileName + 
+                            MessageBox.Show("We were not able to import any Occasions from " + sfd.FileName +
                                 ".\nPlease assure that the selected file is a valid Occasion file, and that it was not edited incorrectly.",
                                 "Luach Project - Import Occasions", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             //Let the user try again...
                             llImportList_LinkClicked(sender, e);
                             return;
-                        }                       
+                        }
                     }
 
                     if (uoc != null && uoc.Count > 0)
@@ -202,7 +212,59 @@ namespace LuachProject
             if (this.listView1.SelectedItems.Count > 0)
             {
                 var uo = (UserOccasion)this.listView1.SelectedItems.OfType<ListViewItem>().First().Tag;
-                ((dynamic)this.Owner).SelectedDate = uo.JewishDate.GregorianDate;
+                ((dynamic)this.Owner).SelectedDate = (uo.JewishDate != null ? uo.JewishDate.GregorianDate : uo.SecularDate);
+            }
+        }
+
+        private void GoToSelectedOccasionUpcoming()
+        {
+            if (this.listView1.SelectedItems.Count > 0)
+            {
+                //The selected occasion
+                UserOccasion uo = (UserOccasion)this.listView1.SelectedItems.OfType<ListViewItem>().First().Tag;
+                //will be used  as variable of which date to navigate to
+                DateTime date = DateTime.Now;
+                DateTime now = date;
+                JewishDate todayJd = new JewishDate(now);
+
+                switch (uo.UserOccasionType)
+                {
+                    case UserOccasionTypes.OneTime:
+                        //return setting date
+                        date = uo.JewishDate.GregorianDate;
+                        break;
+                    case UserOccasionTypes.HebrewDateRecurringYearly:
+                        var jdYearly = new JewishDate(todayJd.Year, uo.JewishDate.Month, uo.JewishDate.Day);
+                        while (jdYearly.GregorianDate < now)
+                        {
+                            jdYearly = (JewishDate)jdYearly.AddYears(1);
+                        }
+                        date = jdYearly.GregorianDate;
+                        break;
+                    case UserOccasionTypes.HebrewDateRecurringMonthly:
+                        var jdMonthly = new JewishDate(todayJd.Year, todayJd.Month, uo.JewishDate.Day);
+                        while (jdMonthly.GregorianDate < now)
+                        {
+                            jdMonthly = (JewishDate)jdMonthly.AddMonths(1);
+                        }
+                        date = jdMonthly.GregorianDate;
+                        break;
+                    case UserOccasionTypes.SecularDateRecurringYearly:
+                        date = new DateTime(now.Year, uo.SecularDate.Month, uo.SecularDate.Day, now.Hour, now.Minute, now.Second, now.Millisecond);
+                        while (date < now)
+                        {
+                            date = date.AddYears(1);
+                        }
+                        break;
+                    case UserOccasionTypes.SecularDateRecurringMonthly:
+                        date = new DateTime(now.Year, now.Month, uo.SecularDate.Day, now.Hour, now.Minute, now.Second, now.Millisecond);
+                        while (date < now)
+                        {
+                            date = date.AddMonths(1);
+                        }
+                        break;
+                }
+                ((dynamic)this.Owner).SelectedDate = date;
             }
         }
     }

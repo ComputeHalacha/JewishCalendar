@@ -45,6 +45,8 @@
             this.llImportList = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.goToUpcomingOccurenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -123,17 +125,19 @@
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.goToDateToolStripMenuItem,
+            this.goToUpcomingOccurenceToolStripMenuItem,
             this.editThisOccasionToolStripMenuItem,
+            this.toolStripSeparator1,
             this.deleteThisOccasionToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(255, 110);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(320, 142);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // goToDateToolStripMenuItem
             // 
             this.goToDateToolStripMenuItem.Name = "goToDateToolStripMenuItem";
             this.goToDateToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.goToDateToolStripMenuItem.Size = new System.Drawing.Size(254, 26);
+            this.goToDateToolStripMenuItem.Size = new System.Drawing.Size(319, 26);
             this.goToDateToolStripMenuItem.Text = "Go to &Date";
             this.goToDateToolStripMenuItem.Click += new System.EventHandler(this.goToDateToolStripMenuItem_Click);
             // 
@@ -141,7 +145,7 @@
             // 
             this.editThisOccasionToolStripMenuItem.Name = "editThisOccasionToolStripMenuItem";
             this.editThisOccasionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.editThisOccasionToolStripMenuItem.Size = new System.Drawing.Size(254, 26);
+            this.editThisOccasionToolStripMenuItem.Size = new System.Drawing.Size(319, 26);
             this.editThisOccasionToolStripMenuItem.Text = "&Edit this Occasion";
             this.editThisOccasionToolStripMenuItem.Click += new System.EventHandler(this.editThisOccasionToolStripMenuItem_Click);
             // 
@@ -149,7 +153,7 @@
             // 
             this.deleteThisOccasionToolStripMenuItem.Name = "deleteThisOccasionToolStripMenuItem";
             this.deleteThisOccasionToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.deleteThisOccasionToolStripMenuItem.Size = new System.Drawing.Size(254, 26);
+            this.deleteThisOccasionToolStripMenuItem.Size = new System.Drawing.Size(319, 26);
             this.deleteThisOccasionToolStripMenuItem.Text = "&Delete this Occasion";
             this.deleteThisOccasionToolStripMenuItem.Click += new System.EventHandler(this.deleteThisOccasionToolStripMenuItem_Click);
             // 
@@ -209,6 +213,19 @@
             this.label1.Text = "|";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // goToUpcomingOccurenceToolStripMenuItem
+            // 
+            this.goToUpcomingOccurenceToolStripMenuItem.Name = "goToUpcomingOccurenceToolStripMenuItem";
+            this.goToUpcomingOccurenceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
+            this.goToUpcomingOccurenceToolStripMenuItem.Size = new System.Drawing.Size(319, 26);
+            this.goToUpcomingOccurenceToolStripMenuItem.Text = "Go to &Upcoming Occurence";
+            this.goToUpcomingOccurenceToolStripMenuItem.Click += new System.EventHandler(this.goToUpcomingOccurenceToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(316, 6);
+            // 
             // frmOccasionList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -255,5 +272,7 @@
         private System.Windows.Forms.ToolStripMenuItem goToDateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editThisOccasionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteThisOccasionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem goToUpcomingOccurenceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
