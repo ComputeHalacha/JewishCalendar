@@ -38,15 +38,15 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.goToDateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.goToUpcomingOccurenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editThisOccasionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.deleteThisOccasionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
             this.llExportList = new System.Windows.Forms.LinkLabel();
             this.llImportList = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.goToUpcomingOccurenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -130,7 +130,7 @@
             this.toolStripSeparator1,
             this.deleteThisOccasionToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(320, 142);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(320, 114);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // goToDateToolStripMenuItem
@@ -141,6 +141,14 @@
             this.goToDateToolStripMenuItem.Text = "Go to &Date";
             this.goToDateToolStripMenuItem.Click += new System.EventHandler(this.goToDateToolStripMenuItem_Click);
             // 
+            // goToUpcomingOccurenceToolStripMenuItem
+            // 
+            this.goToUpcomingOccurenceToolStripMenuItem.Name = "goToUpcomingOccurenceToolStripMenuItem";
+            this.goToUpcomingOccurenceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
+            this.goToUpcomingOccurenceToolStripMenuItem.Size = new System.Drawing.Size(319, 26);
+            this.goToUpcomingOccurenceToolStripMenuItem.Text = "Go to &Upcoming Occurence";
+            this.goToUpcomingOccurenceToolStripMenuItem.Click += new System.EventHandler(this.goToUpcomingOccurenceToolStripMenuItem_Click);
+            // 
             // editThisOccasionToolStripMenuItem
             // 
             this.editThisOccasionToolStripMenuItem.Name = "editThisOccasionToolStripMenuItem";
@@ -148,6 +156,11 @@
             this.editThisOccasionToolStripMenuItem.Size = new System.Drawing.Size(319, 26);
             this.editThisOccasionToolStripMenuItem.Text = "&Edit this Occasion";
             this.editThisOccasionToolStripMenuItem.Click += new System.EventHandler(this.editThisOccasionToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(316, 6);
             // 
             // deleteThisOccasionToolStripMenuItem
             // 
@@ -203,7 +216,7 @@
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.Color.DimGray;
             this.label1.Location = new System.Drawing.Point(902, 553);
@@ -212,19 +225,6 @@
             this.label1.TabIndex = 21;
             this.label1.Text = "|";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // goToUpcomingOccurenceToolStripMenuItem
-            // 
-            this.goToUpcomingOccurenceToolStripMenuItem.Name = "goToUpcomingOccurenceToolStripMenuItem";
-            this.goToUpcomingOccurenceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
-            this.goToUpcomingOccurenceToolStripMenuItem.Size = new System.Drawing.Size(319, 26);
-            this.goToUpcomingOccurenceToolStripMenuItem.Text = "Go to &Upcoming Occurence";
-            this.goToUpcomingOccurenceToolStripMenuItem.Click += new System.EventHandler(this.goToUpcomingOccurenceToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(316, 6);
             // 
             // frmOccasionList
             // 

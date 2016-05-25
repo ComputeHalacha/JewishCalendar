@@ -76,7 +76,15 @@ namespace LuachProject
             }
             return "";
         }
+        #endregion Public Properties
 
+        #region Public Functions
+
+        /// <summary>
+        /// Returns a sring representation of the initial setting date of the UserOccasion
+        /// </summary>
+        /// <param name="heb"></param>
+        /// <returns></returns>
         public string GetSettingDateString(bool heb)
         {
             if (heb)
@@ -173,7 +181,56 @@ namespace LuachProject
             return 0;
         }
 
-        #endregion Public Properties
+        /// <summary>
+        /// Return the next occurrence (from the current system date) of this UserOccasion
+        /// </summary>
+        /// <returns></returns>
+        public DateTime GetUpcomingOccurence()
+        {
+            DateTime now = DateTime.Now;
+            DateTime retVal = now;             
+            JewishDate todayJd = new JewishDate(now);
+
+            switch (this.UserOccasionType)
+            {
+                case UserOccasionTypes.OneTime:
+                    //return setting date
+                    retVal = this.JewishDate.GregorianDate;
+                    break;
+                case UserOccasionTypes.HebrewDateRecurringYearly:
+                    var jdYearly = new JewishDate(todayJd.Year, this.JewishDate.Month, this.JewishDate.Day);
+                    while (jdYearly.GregorianDate < now)
+                    {
+                        jdYearly = (JewishDate)jdYearly.AddYears(1);
+                    }
+                    retVal = jdYearly.GregorianDate;
+                    break;
+                case UserOccasionTypes.HebrewDateRecurringMonthly:
+                    var jdMonthly = new JewishDate(todayJd.Year, todayJd.Month, this.JewishDate.Day);
+                    while (jdMonthly.GregorianDate < now)
+                    {
+                        jdMonthly = (JewishDate)jdMonthly.AddMonths(1);
+                    }
+                    retVal = jdMonthly.GregorianDate;
+                    break;
+                case UserOccasionTypes.SecularDateRecurringYearly:
+                    retVal = new DateTime(now.Year, this.SecularDate.Month, this.SecularDate.Day, now.Hour, now.Minute, now.Second, now.Millisecond);
+                    while (retVal < now)
+                    {
+                        retVal = retVal.AddYears(1);
+                    }
+                    break;
+                case UserOccasionTypes.SecularDateRecurringMonthly:
+                    retVal = new DateTime(now.Year, now.Month, this.SecularDate.Day, now.Hour, now.Minute, now.Second, now.Millisecond);
+                    while (retVal < now)
+                    {
+                        retVal = retVal.AddMonths(1);
+                    }
+                    break;
+            }
+            return retVal;
+        }
+        #endregion Public Functions
     }
 
     [Serializable]

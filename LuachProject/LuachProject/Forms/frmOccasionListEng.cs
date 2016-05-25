@@ -222,49 +222,7 @@ namespace LuachProject
             {
                 //The selected occasion
                 UserOccasion uo = (UserOccasion)this.listView1.SelectedItems.OfType<ListViewItem>().First().Tag;
-                //will be used  as variable of which date to navigate to
-                DateTime date = DateTime.Now;
-                DateTime now = date;
-                JewishDate todayJd = new JewishDate(now);
-
-                switch (uo.UserOccasionType)
-                {
-                    case UserOccasionTypes.OneTime:
-                        //return setting date
-                        date = uo.JewishDate.GregorianDate;
-                        break;
-                    case UserOccasionTypes.HebrewDateRecurringYearly:
-                        var jdYearly = new JewishDate(todayJd.Year, uo.JewishDate.Month, uo.JewishDate.Day);
-                        while (jdYearly.GregorianDate < now)
-                        {
-                            jdYearly = (JewishDate)jdYearly.AddYears(1);
-                        }
-                        date = jdYearly.GregorianDate;
-                        break;
-                    case UserOccasionTypes.HebrewDateRecurringMonthly:
-                        var jdMonthly = new JewishDate(todayJd.Year, todayJd.Month, uo.JewishDate.Day);
-                        while (jdMonthly.GregorianDate < now)
-                        {
-                            jdMonthly = (JewishDate)jdMonthly.AddMonths(1);
-                        }
-                        date = jdMonthly.GregorianDate;
-                        break;
-                    case UserOccasionTypes.SecularDateRecurringYearly:
-                        date = new DateTime(now.Year, uo.SecularDate.Month, uo.SecularDate.Day, now.Hour, now.Minute, now.Second, now.Millisecond);
-                        while (date < now)
-                        {
-                            date = date.AddYears(1);
-                        }
-                        break;
-                    case UserOccasionTypes.SecularDateRecurringMonthly:
-                        date = new DateTime(now.Year, now.Month, uo.SecularDate.Day, now.Hour, now.Minute, now.Second, now.Millisecond);
-                        while (date < now)
-                        {
-                            date = date.AddMonths(1);
-                        }
-                        break;
-                }
-                ((dynamic)this.Owner).SelectedDate = date;
+                ((dynamic)this.Owner).SelectedDate = uo.GetUpcomingOccurence();
             }
         }
     }
