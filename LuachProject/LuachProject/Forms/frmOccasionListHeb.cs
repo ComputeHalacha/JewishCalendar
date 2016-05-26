@@ -16,6 +16,21 @@ namespace LuachProject
 
         private void frmOccasionListHeb_Load(object sender, EventArgs e)
         {
+            if (this.Owner is frmMonthlyHebrew)
+            {
+                ((frmMonthlyHebrew)this.Owner).OccasionWasChanged += delegate
+                {
+                    this.LoadList();
+                };
+            }
+            else if (this.Owner is frmMonthlySecular)
+            {
+                ((frmMonthlySecular)this.Owner).OccasionWasChanged += delegate
+                {
+                    this.LoadList();
+                };
+            }
+
             this.LoadList();
         }
 
@@ -179,6 +194,7 @@ namespace LuachProject
 
         private void LoadList()
         {
+            this.listView1.SuspendLayout();
             this.listView1.Items.Clear();
             var search = this.txtName.Text.ToLower();
             var list = from UserOccasion u in Properties.Settings.Default.UserOccasions
@@ -195,6 +211,7 @@ namespace LuachProject
                            BackColor = u.BackColor
                        };
             this.listView1.Items.AddRange(list.ToArray());
+            this.listView1.ResumeLayout();
         }
 
         private void EditSelectedOccasion()
@@ -211,7 +228,8 @@ namespace LuachProject
             if (this.listView1.SelectedItems.Count > 0)
             {
                 var uo = (UserOccasion)this.listView1.SelectedItems.OfType<ListViewItem>().First().Tag;
-                ((dynamic)this.Owner).SelectedDate = (uo.JewishDate != null ? uo.JewishDate.GregorianDate : uo.SecularDate);
+                ((dynamic)this.Owner).SelectedDate = 
+                    (uo.JewishDate != null ? uo.JewishDate.GregorianDate : uo.SecularDate);
             }
         }
 
@@ -220,7 +238,7 @@ namespace LuachProject
             if (this.listView1.SelectedItems.Count > 0)
             {
                 //The selected occasion
-                UserOccasion uo = (UserOccasion)this.listView1.SelectedItems.OfType<ListViewItem>().First().Tag;                
+                UserOccasion uo = (UserOccasion)this.listView1.SelectedItems.OfType<ListViewItem>().First().Tag;
                 ((dynamic)this.Owner).SelectedDate = uo.GetUpcomingOccurence();
             }
         }

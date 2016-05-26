@@ -9,6 +9,10 @@ namespace LuachProject
 {
     public partial class frmMonthlySecular : Form
     {
+        #region Events
+        public event EventHandler OccasionWasChanged;
+        #endregion Events
+
         #region Private Fields
 
         private Location _currentLocation;
@@ -981,8 +985,9 @@ namespace LuachProject
             if (f is frmDailyInfoEng)
             {
                 ((frmDailyInfoEng)f).OccasionWasChanged += delegate (object sender, JewishDate jd)
-                {
+                {                    
                     this.RefreshDay(jd);
+                    this.OccasionWasChanged?.Invoke(f, new EventArgs());
                 };
                 ((frmDailyInfoEng)f).FormClosed += delegate
                 {
@@ -995,6 +1000,7 @@ namespace LuachProject
                 ((frmDailyInfoHeb)f).OccasionWasChanged += delegate (object sender, JewishDate jd)
                 {
                     this.RefreshDay(jd);
+                    this.OccasionWasChanged?.Invoke(f, new EventArgs());
                 };
                 ((frmDailyInfoHeb)f).FormClosed += delegate
                 {

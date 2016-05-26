@@ -15,6 +15,21 @@ namespace LuachProject
 
         private void frmOccasionListEng_Load(object sender, EventArgs e)
         {
+            if (this.Owner is frmMonthlyEnglish)
+            {
+                ((frmMonthlyEnglish)this.Owner).OccasionWasChanged += delegate
+                {
+                    this.LoadList();
+                };
+            }
+            else if (this.Owner is frmMonthlySecular)
+            {
+                ((frmMonthlySecular)this.Owner).OccasionWasChanged += delegate
+                {
+                    this.LoadList();
+                };
+            }
+
             this.LoadList();
         }
 
@@ -180,6 +195,7 @@ namespace LuachProject
 
         private void LoadList()
         {
+            this.listView1.SuspendLayout();
             this.listView1.Items.Clear();
             var search = this.txtName.Text.ToLower();
             var list = from UserOccasion u in Properties.Settings.Default.UserOccasions
@@ -196,6 +212,7 @@ namespace LuachProject
                            BackColor = u.BackColor
                        };
             this.listView1.Items.AddRange(list.ToArray());
+            this.listView1.ResumeLayout();
         }
 
         private void EditSelectedOccasion()

@@ -10,6 +10,10 @@ namespace LuachProject
 {
     public partial class frmMonthlyEnglish : Form
     {
+        #region Events
+        public event EventHandler OccasionWasChanged;
+        #endregion Events
+
         #region Private Fields
 
         private Location _currentLocation;
@@ -836,6 +840,7 @@ namespace LuachProject
                         sd.UpdateOccasions();
                         this.RedrawSingleDay(sd);
                     }
+                    this.OccasionWasChanged?.Invoke(f, new EventArgs());
                 };
                 f.FormClosed += delegate
                 {

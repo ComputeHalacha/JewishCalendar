@@ -142,10 +142,7 @@ namespace LuachProject
                     this.AddOccasion(uo);
                     this.tableLayoutPanel1.BackColor = (uo.BackColor != Color.Empty ? uo.BackColor.Color : Color.GhostWhite);
                 }
-                if (OccasionWasChanged != null)
-                {
-                    OccasionWasChanged(this, (uo != null ? uo.JewishDate : this._displayingJewishDate));
-                }
+                OccasionWasChanged?.Invoke(this, (uo != null ? uo.JewishDate : this._displayingJewishDate));
             };
         }
 
@@ -162,10 +159,8 @@ namespace LuachProject
 
             this._frmAddOccasionHeb.OccasionWasChanged += delegate (object sndr, UserOccasion uo)
             {
-                if (OccasionWasChanged != null)
-                {
-                    OccasionWasChanged(this, (uo != null ? uo.JewishDate : this._displayingJewishDate));
-                }
+                OccasionWasChanged?.Invoke(this, (uo != null ? uo.JewishDate : this._displayingJewishDate));
+
                 if (this._frmAddOccasionHeb.UserOccasion == null ||
                 (!UserOccasionColection.FromSettings(this._displayingJewishDate).Contains(this._frmAddOccasionHeb.UserOccasion)))
                 {
