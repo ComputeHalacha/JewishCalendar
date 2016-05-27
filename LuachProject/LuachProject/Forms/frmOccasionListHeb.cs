@@ -174,13 +174,26 @@ namespace LuachProject
 
                     if (uoc != null && uoc.Count > 0)
                     {
-                        Properties.Settings.Default.UserOccasions.AddRange(uoc);
-                        Properties.Settings.Default.Save();
-                        ((dynamic)this.Owner).Reload();
-                        this.LoadList();
-                        MessageBox.Show(uoc.Count.ToString() + " אירועים הובאו בהצלחה מקובץ " + sfd.FileName,
-                            "לוח - ייבוא אירועים");
-                        return;
+                        using (var fi = new frmImportOccasionsHeb(uoc))
+                        {
+                            if (fi.ShowDialog() == DialogResult.OK)
+                            {
+                                Properties.Settings.Default.UserOccasions.AddRange(fi.OcassionList);
+                                Properties.Settings.Default.Save();
+                                ((dynamic)this.Owner).Reload();
+                                this.LoadList();
+                                MessageBox.Show(fi.OcassionList.Count.ToString() + " אירועים הובאו בהצלחה מקובץ " + sfd.FileName,
+                                    "לוח - ייבוא אירועים");
+                            }
+                            else
+                            {
+                                MessageBox.Show("לא הובאו שום אירועים מקובץ " + sfd.FileName,
+                                    "לוח - ייבוא אירועים",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                        }
+
+                        return;                        
                     }
                     else
                     {

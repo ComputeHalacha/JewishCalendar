@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using JewishCalendar;
 
 namespace LuachProject
 {
@@ -175,12 +174,24 @@ namespace LuachProject
 
                     if (uoc != null && uoc.Count > 0)
                     {
-                        Properties.Settings.Default.UserOccasions.AddRange(uoc);
-                        Properties.Settings.Default.Save();
-                        ((dynamic)this.Owner).Reload();
-                        this.LoadList();
-                        MessageBox.Show(uoc.Count.ToString() + " Occasions have been successfully imported from " + sfd.FileName,
-                            "Luach Project - Import Occasions");
+                        using (var fi = new frmImportOccasionsEng(uoc))
+                        {
+                            if (fi.ShowDialog() == DialogResult.OK)
+                            {
+                                Properties.Settings.Default.UserOccasions.AddRange(fi.OcassionList);
+                                Properties.Settings.Default.Save();
+                                ((dynamic)this.Owner).Reload();
+                                this.LoadList();
+                                MessageBox.Show(fi.OcassionList.Count.ToString() + " Occasions have been successfully imported from " + sfd.FileName,
+                                    "Luach Project - Import Occasions");
+                            }
+                            else
+                            {
+                                MessageBox.Show("No occasions were imported from " + sfd.FileName,
+                                    "Luach Project - Import Occasions", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                        }
+
                         return;
                     }
                     else
