@@ -1,6 +1,5 @@
 ﻿Imports System.Linq
 Imports JewishCalendar
-Imports Microsoft.Win32
 Imports Microsoft.Win32.TaskScheduler
 Imports Outlook = Microsoft.Office.Interop.Outlook
 
@@ -22,6 +21,8 @@ Public Class frmCreateRemindersHeb
             'First item in the list
             loc = DirectCast(Me.cbLocations.SelectedItem, Location)
         End If
+
+        My.Settings.English = False
 
         Me._todayJD = New JewishDate(loc)
         Me.rbIsrael.Checked = loc.IsInIsrael
@@ -146,78 +147,25 @@ Public Class frmCreateRemindersHeb
         Me.Cursor = Cursors.WaitCursor
 
         Try
-            Dim secondDayOfPesach As JewishDate = GetFirstDayOfPesach(Me._todayJD) + 1
-            Dim alarmTime As TimeSpan = Me.dtpTime.Value.TimeOfDay
-            Dim isVistaPlus As Boolean = Convert.ToInt32(My.Computer.Info.OSVersion.Split(".")(0)) >= 6
-            Dim path As String = Application.ExecutablePath
-            Dim folder As String = Application.StartupPath
-            Dim ts As New TaskService()
-            Dim td As TaskDefinition = ts.NewTask()
-            Dim dt As DailyTrigger = New DailyTrigger(1)
-            Dim action As New ExecAction(path, "-remind", folder)
-
-            Try
-                td.Actions.Add(action)
-                dt.StartBoundary = (secondDayOfPesach.GregorianDate.Date + alarmTime)
-                dt.EndBoundary = (((secondDayOfPesach + 49).GregorianDate.Date) + alarmTime).AddHours(1)
-                td.Triggers.Add(dt)
-
-                If isVistaPlus Then
-                    td.Principal.LogonType = TaskLogonType.InteractiveToken
-                    td.Principal.UserId = My.User.CurrentPrincipal.Identity.Name
-                    td.RegistrationInfo.Date = DateTime.Now
-                    td.RegistrationInfo.Author = "CBS - Compute.co.il"
-                    td.RegistrationInfo.Version = New Version("6.1.3")
-                    td.RegistrationInfo.Description = "This task was created by the Omer Reminder application. " &
-                        "It runs each day at the time specified and shows a reminder to count Sefiras Ha'omer. " &
-                        "After the 49th day of the Omer, the task will be automatically deleted."
-                    td.Settings.AllowDemandStart = True
-                    td.Settings.AllowHardTerminate = True
-                    td.Settings.StartWhenAvailable = True
-                    td.Settings.DeleteExpiredTaskAfter = New TimeSpan(0, 0, 0, 1)
-                    td.Settings.DisallowStartIfOnBatteries = False
-                    td.Settings.DisallowStartOnRemoteAppSession = False
-                    td.Settings.ExecutionTimeLimit = New TimeSpan(1, 0, 0, 0, 0)
-                    td.Settings.StopIfGoingOnBatteries = False
-                    td.Settings.WakeToRun = True
-                End If
-
-                ts.RootFolder.RegisterTaskDefinition("Omer Reminders", td)
-
-                MessageBox.Show("התזכורות הורשמו בהצלחה.",
+            Program.CreateDailyReminders(Me._todayJD, Me.dtpTime.Value.TimeOfDay)
+            MessageBox.Show("התזכורות הורשמו בהצלחה.",
                 "תזכורת ספירת העומר",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information)
-            Catch nse As TSNotSupportedException
-                MessageBox.Show("אי אפשר לרשום תזכורות בגירסת חלונות שהותקנה במחשב זה." &
-                               Environment.NewLine &
-                               nse.Message,
-                           "תזכורת ספירת העומר",
-                           MessageBoxButtons.OK,
-                           MessageBoxIcon.Error)
-
-            Catch ex As Exception
-                MessageBox.Show("ארעה תקלה בעת הרשמת התזורות." &
-                                Environment.NewLine &
-                                If(ex.InnerException IsNot Nothing, ex.InnerException.Message, ex.Message),
-                            "תזכורת ספירת העומר",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error)
-            End Try
-
-            action.Dispose()
-            ts.Dispose()
-            dt.Dispose()
-            ts.Dispose()
-
+        Catch nse As TSNotSupportedException
+            MessageBox.Show("אי אפשר לרשום תזכורות בגירסת חלונות שהותקנה במחשב זה." &
+                           Environment.NewLine &
+                           nse.Message,
+                       "תזכורת ספירת העומר",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Error)
         Catch ex As Exception
-            MessageBox.Show("ארעה תקלה בעת הרשמת התזורות" &
-                                Environment.NewLine &
-                                If(ex.InnerException IsNot Nothing, ex.InnerException.Message, ex.Message),
-                            "תזכורת ספירת העומר",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error)
-
+            MessageBox.Show("ארעה תקלה בעת הרשמת התזכורות." &
+                            Environment.NewLine &
+                            If(ex.InnerException IsNot Nothing, ex.InnerException.Message, ex.Message),
+                        "תזכורת ספירת העומר",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error)
         Finally
             Me.Cursor = Cursors.Default
         End Try

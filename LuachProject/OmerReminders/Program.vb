@@ -1,4 +1,7 @@
-﻿Imports JewishCalendar
+﻿Imports System.Linq
+Imports JewishCalendar
+Imports Microsoft.Win32
+Imports Microsoft.Win32.TaskScheduler
 
 Module Program
     ''' <summary>
@@ -22,6 +25,94 @@ Module Program
                         (today.Month = 3 AndAlso today.Day > 5), 1, 0), 1, 15)
     End Function
 
+    Friend Sub CreateDailyReminders(todayJD As JewishDate, alarmTime As TimeSpan)
+        Dim secondDayOfPesach As JewishDate = GetFirstDayOfPesach(todayJD) + 1
+        Dim isVistaPlus As Boolean = Convert.ToInt32(My.Computer.Info.OSVersion.Split(".")(0)) >= 6
+        Dim path As String = Application.ExecutablePath
+        Dim folder As String = Application.StartupPath
+        Dim ts As New TaskService()
+        Dim td As TaskDefinition = ts.NewTask()
+        Dim dt As DailyTrigger = New DailyTrigger(1)
+        Dim action As New ExecAction(path, "-remind" & If(My.Settings.English, "", " -lang heb"), folder)
+
+        Try
+            td.Actions.Add(action)
+            dt.StartBoundary = (secondDayOfPesach.GregorianDate.Date + alarmTime)
+            dt.EndBoundary = (((secondDayOfPesach + 49).GregorianDate.Date) + alarmTime).AddHours(1)
+            td.Triggers.Add(dt)
+
+            If isVistaPlus Then
+                td.Principal.LogonType = TaskLogonType.InteractiveToken
+                td.Principal.UserId = My.User.CurrentPrincipal.Identity.Name
+                td.RegistrationInfo.Date = DateTime.Now
+                td.RegistrationInfo.Author = "CBS - Compute.co.il"
+                td.RegistrationInfo.Version = New Version("6.1.3")
+                td.RegistrationInfo.Description = "This task was created by the Omer Reminder application. " &
+                            "It runs each day at the time specified and shows a reminder to count Sefiras Ha'omer. " &
+                            "After the 49th day of the Omer, the task will be automatically deleted."
+                td.Settings.AllowDemandStart = True
+                td.Settings.AllowHardTerminate = True
+                td.Settings.StartWhenAvailable = True
+                td.Settings.DeleteExpiredTaskAfter = New TimeSpan(0, 0, 0, 1)
+                td.Settings.DisallowStartIfOnBatteries = False
+                td.Settings.DisallowStartOnRemoteAppSession = False
+                td.Settings.ExecutionTimeLimit = New TimeSpan(1, 0, 0, 0, 0)
+                td.Settings.StopIfGoingOnBatteries = False
+                td.Settings.WakeToRun = True
+            End If
+            ts.RootFolder.RegisterTaskDefinition("Omer Reminders", td)
+        Catch nse As TSNotSupportedException
+            Throw nse
+        Catch ex As Exception
+            Throw ex
+        Finally
+            action.Dispose()
+            ts.Dispose()
+            dt.Dispose()
+            ts.Dispose()
+        End Try
+    End Sub
+
+    Friend Sub CreateOneTimeReminder(dt As DateTime)
+        Dim isVistaPlus As Boolean = Convert.ToInt32(My.Computer.Info.OSVersion.Split(".")(0)) >= 6
+        Dim path As String = Application.ExecutablePath
+        Dim folder As String = Application.StartupPath
+        Dim ts As New TaskService()
+        Dim td As TaskDefinition = ts.NewTask()
+        Dim trg As TimeTrigger = New TimeTrigger(dt) With {.EndBoundary = dt.AddHours(1)}
+        Dim action As New ExecAction(path, "-remind" & If(My.Settings.English, "", " -lang heb"), folder)
+
+        Try
+            td.Actions.Add(action)
+            td.Triggers.Add(trg)
+
+            If isVistaPlus Then
+                td.Principal.LogonType = TaskLogonType.InteractiveToken
+                td.Principal.UserId = My.User.CurrentPrincipal.Identity.Name
+                td.RegistrationInfo.Date = DateTime.Now
+                td.RegistrationInfo.Author = "CBS - Compute.co.il"
+                td.RegistrationInfo.Version = New Version("6.1.3")
+                td.RegistrationInfo.Description = "This task was created by the Omer Reminder application. "
+                td.Settings.StartWhenAvailable = True
+                td.Settings.DeleteExpiredTaskAfter = New TimeSpan(0, 0, 0, 1)
+                td.Settings.DisallowStartIfOnBatteries = False
+                td.Settings.DisallowStartOnRemoteAppSession = False
+                td.Settings.ExecutionTimeLimit = New TimeSpan(1, 0, 0, 0, 0)
+                td.Settings.StopIfGoingOnBatteries = False
+                td.Settings.WakeToRun = True
+            End If
+            ts.RootFolder.RegisterTaskDefinition("OmerReminder_Temporary {" & Guid.NewGuid().ToString() & "}", td)
+        Catch nse As TSNotSupportedException
+            Throw nse
+        Catch ex As Exception
+            Throw ex
+        Finally
+            action.Dispose()
+            ts.Dispose()
+            trg.Dispose()
+            ts.Dispose()
+        End Try
+    End Sub
 
     ''' <summary>
     ''' Loads the locations from the settings.

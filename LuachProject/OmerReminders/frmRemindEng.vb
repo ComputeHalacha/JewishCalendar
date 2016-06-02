@@ -8,21 +8,12 @@ Public Class frmRemindEng
 
         ' This call is required by the designer.
         InitializeComponent()
-
-        ' Add any initialization after the InitializeComponent() call.
-        If My.Settings.English Then
-            Me.RightToLeft = Windows.Forms.RightToLeft.No
-            Me.RightToLeftLayout = False
-        Else
-            Me.RightToLeft = Windows.Forms.RightToLeft.Yes
-            Me.RightToLeftLayout = True
-        End If
     End Sub
 
     Private Sub frmRemind_Load(sender As Object, e As System.EventArgs) Handles Me.Load
         Me.Hide()
         Me.SuspendLayout()
-
+        Me.dtpRemindLater.Value = DateTime.Now.AddHours(1)
         Me._todayJD = New JewishDate(Program.LocationsList.FirstOrDefault(Function(l) l.Name = My.Settings.LocationName))
         Dim dayOfOmer As Integer = Me._todayJD.GetDayOfOmer()
 
@@ -36,7 +27,6 @@ Public Class frmRemindEng
         End If
 
         Try
-            Dim english As Boolean = My.Settings.English
             Dim laOmer As Boolean = My.Settings.LaOmer
             Dim sfardi As Boolean = My.Settings.Sfardi
             Dim bracha As String = "ברוך אתה יי אלוהינו מלך העולם, אשר קדשנו במצותיו וציונו על ספירת העומר:"
@@ -44,12 +34,7 @@ Public Class frmRemindEng
             Dim harachaman As String = If(sfardi, "הרחמן הוא יחזיר עבודת בית המקדש למקומה במהרה בימינו. אמן:",
                                            "הרחמן הוא יחזיר לנו עבודת בית המקדש למקומה במהרה בימינו, אמן סלה:")
 
-            If english Then
-                lblCaption.Text = "Count Sefiras Ha'omer - Day " & dayOfOmer
-            Else
-                lblCaption.Text = "לספור ספירת העומר - יום " & dayOfOmer
-            End If
-
+            lblCaption.Text = "Count Sefiras Ha'omer - Day " & dayOfOmer
             Me.Text = Me.lblCaption.Text
 
             With Me.RichTextBox1
@@ -92,5 +77,38 @@ Public Class frmRemindEng
 
     Private Sub Button1_Click(sender As System.Object, e As System.EventArgs) Handles Button1.Click
         If My.Application.IsReminderRun Then Application.Exit()
+    End Sub
+
+    Private Sub btnRemindLater_Click(sender As Object, e As EventArgs) Handles btnRemindLater.Click
+        Do While Me.dtpRemindLater.Value < DateTime.Now
+            Me.dtpRemindLater.Value = Me.dtpRemindLater.Value.AddDays(1)
+        Loop
+
+        Try
+            Program.CreateOneTimeReminder(Me.dtpRemindLater.Value)
+            MessageBox.Show("Reminder was successfully created.",
+                "Create Windows Reminder",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information)
+            If My.Application.IsReminderRun Then
+                Application.Exit()
+            Else
+                Me.Close()
+            End If
+        Catch nse As TSNotSupportedException
+            MessageBox.Show("This action is not supported on your operating system." &
+                           Environment.NewLine &
+                           nse.Message,
+                       "Create Windows Reminder",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Error)
+        Catch ex As Exception
+            MessageBox.Show("There was a problem during the registration of the Window Tasks Reminders:" &
+                            Environment.NewLine &
+                            If(ex.InnerException IsNot Nothing, ex.InnerException.Message, ex.Message),
+                        "Create Windows Reminder",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error)
+        End Try
     End Sub
 End Class

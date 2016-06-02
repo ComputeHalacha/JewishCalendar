@@ -12,7 +12,7 @@ Public Class frmRemindHeb
     Private Sub frmRemind_Load(sender As Object, e As System.EventArgs) Handles Me.Load
         Me.Hide()
         Me.SuspendLayout()
-
+        Me.dtpRemindLater.Value = DateTime.Now.AddHours(1)
         Me._todayJD = New JewishDate(Program.LocationsList.FirstOrDefault(Function(l) l.Name = My.Settings.LocationName))
         Dim dayOfOmer As Integer = Me._todayJD.GetDayOfOmer()
 
@@ -76,5 +76,38 @@ Public Class frmRemindHeb
 
     Private Sub Button1_Click(sender As System.Object, e As System.EventArgs) Handles Button1.Click
         If My.Application.IsReminderRun Then Application.Exit()
+    End Sub
+
+    Private Sub btnRemindLater_Click(sender As Object, e As EventArgs) Handles btnRemindLater.Click
+        Do While Me.dtpRemindLater.Value < DateTime.Now
+            Me.dtpRemindLater.Value = Me.dtpRemindLater.Value.AddDays(1)
+        Loop
+
+        Try
+            Program.CreateOneTimeReminder(Me.dtpRemindLater.Value)
+            MessageBox.Show("התזכורת נרשם בהצלחה.",
+                "תזכורת ספירת העומר",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information)
+            If My.Application.IsReminderRun Then
+                Application.Exit()
+            Else
+                Me.Close()
+            End If
+        Catch nse As TSNotSupportedException
+            MessageBox.Show("אי אפשר לרשום תזכורות בגירסת חלונות שהותקנה במחשב זה." &
+                           Environment.NewLine &
+                           nse.Message,
+                       "תזכורת ספירת העומר",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Error)
+        Catch ex As Exception
+            MessageBox.Show("ארעה תקלה בעת הרשמת התזכורות." &
+                            Environment.NewLine &
+                            If(ex.InnerException IsNot Nothing, ex.InnerException.Message, ex.Message),
+                        "תזכורת ספירת העומר",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error)
+        End Try
     End Sub
 End Class
