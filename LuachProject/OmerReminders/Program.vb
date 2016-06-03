@@ -1,5 +1,4 @@
-﻿Imports System.Linq
-Imports JewishCalendar
+﻿Imports JewishCalendar
 Imports Microsoft.Win32
 Imports Microsoft.Win32.TaskScheduler
 
@@ -79,9 +78,10 @@ Module Program
         Dim folder As String = Application.StartupPath
         Dim ts As New TaskService()
         Dim td As TaskDefinition = ts.NewTask()
-        Dim trg As TimeTrigger = New TimeTrigger(dt) With {.EndBoundary = dt.AddHours(1)}
-        Dim action As New ExecAction(path, "-remind" & If(My.Settings.English, "", " -lang heb"), folder)
-
+        Dim trg As TimeTrigger = New TimeTrigger(dt) With {.EndBoundary = dt.AddYears(1)}
+        Dim taskName As String = "Omer_Reminder_Temporary_" & Guid.NewGuid().ToString()
+        Dim action As New ExecAction(path, "-remind -taskname " & taskName &
+                                     If(My.Settings.English, "", " -lang heb"), folder)
         Try
             td.Actions.Add(action)
             td.Triggers.Add(trg)
@@ -101,7 +101,7 @@ Module Program
                 td.Settings.StopIfGoingOnBatteries = False
                 td.Settings.WakeToRun = True
             End If
-            ts.RootFolder.RegisterTaskDefinition("OmerReminder_Temporary {" & Guid.NewGuid().ToString() & "}", td)
+            ts.RootFolder.RegisterTaskDefinition(taskName, td)
         Catch nse As TSNotSupportedException
             Throw nse
         Catch ex As Exception
@@ -113,6 +113,30 @@ Module Program
             ts.Dispose()
         End Try
     End Sub
+
+    Friend Function IsOutlookInstalled() As Boolean
+        'Would the following line work? Or does it just show that the reference to the interop exists?
+        'Return Type.GetTypeFromProgID("Outlook.Application") IsNot Nothing
+
+        Dim path As String = "Software\Microsoft\Windows\CurrentVersion\App Paths\outlook.exe"
+        Dim rk As RegistryKey
+
+        rk = Registry.CurrentUser
+        rk = rk.OpenSubKey(path, False)
+
+        If rk Is Nothing Then
+            rk = Registry.LocalMachine
+            rk = rk.OpenSubKey(path, False)
+        End If
+
+        If rk IsNot Nothing Then
+            rk.Close()
+            rk.Dispose()
+            Return True
+        Else
+            Return False
+        End If
+    End Function
 
     ''' <summary>
     ''' Loads the locations from the settings.

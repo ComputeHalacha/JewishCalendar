@@ -23,6 +23,12 @@ Namespace My
                 Else
                     My.Application.MainForm = New frmRemindEng()
                 End If
+                'If the -taskname flag is supplied, the task is a one time reminder and should be deleted.
+                If args.Contains("-taskname") Then
+                    Using ts As New Microsoft.Win32.TaskScheduler.TaskService()
+                        ts.RootFolder.DeleteTask(args(args.IndexOf("-taskname") + 1))
+                    End Using
+                End If
             Else
                 If args.Contains("-lang") AndAlso args(args.IndexOf("-lang") + 1) = "heb" Then
                     My.Application.MainForm = New frmCreateRemindersHeb()

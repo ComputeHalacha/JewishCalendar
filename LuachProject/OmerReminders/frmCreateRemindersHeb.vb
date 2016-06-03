@@ -7,7 +7,7 @@ Public Class frmCreateRemindersHeb
     Private _loaded As Boolean
     Private _todayJD As JewishDate = Nothing
 
-    Private Sub Form1_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.FillLocations()
 
         Dim loc As Location = Nothing
@@ -29,20 +29,20 @@ Public Class frmCreateRemindersHeb
         Me.rbBaOmer.Checked = (Not Me.rbLaOmer.Checked) AndAlso (Not rbSfardi.Checked)
         Me.ShowLinkToReminder()
         Me._loaded = True
-        Me.btnCreateOutlookReminders.Enabled = Me.btnDeleteOutlookReminders.Enabled = IsOutlookInstalled()
+        Me.btnCreateOutlookReminders.Enabled = Me.btnDeleteOutlookReminders.Enabled = Program.IsOutlookInstalled()
     End Sub
 
-    Private Sub Form1_FormClosing(sender As System.Object, e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
+    Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         My.Settings.LocationName = DirectCast(Me.cbLocations.SelectedItem, Location).Name
         My.Settings.Save()
     End Sub
 
-    Private Sub btnCreateOutlookReminders_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCreateOutlookReminders.Click
+    Private Sub btnCreateOutlookReminders_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCreateOutlookReminders.Click
         If Not Me.FieldsAreValid() Then Exit Sub
 
         Me.Cursor = Cursors.WaitCursor
 
-        If Not Me.IsOutlookInstalled() Then
+        If Not Program.IsOutlookInstalled() Then
             MessageBox.Show("תוכנת אוטלוק לא נמצא במחשב זה.",
                             "תזכורת ספירת העומר",
                             MessageBoxButtons.OK,
@@ -57,7 +57,7 @@ Public Class frmCreateRemindersHeb
 
             Dim oNameSpace As Outlook.NameSpace = olApp.GetNamespace("MAPI")
             Dim objApt As Outlook.AppointmentItem
-            Dim firstDayOfPesach As JewishDate = GetFirstDayOfPesach(Me._todayJD)
+            Dim firstDayOfPesach As JewishDate = Program.GetFirstDayOfPesach(Me._todayJD)
             Dim count As Integer
 
             oNameSpace.Logon()
@@ -102,7 +102,7 @@ Public Class frmCreateRemindersHeb
             Next i
             Me.Cursor = Cursors.Default
             MessageBox.Show(count.ToString() & " תזכורות יוצרו בהצלחה.")
-        Catch ex As System.Exception
+        Catch ex As Exception
             MessageBox.Show("ארעה תקלה בעת יצירת התזכורות." & vbCrLf & ex.Message)
         Finally
             Me.Cursor = Cursors.Default
@@ -110,7 +110,7 @@ Public Class frmCreateRemindersHeb
         End Try
     End Sub
 
-    Private Sub btnDeleteOutlookReminders_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteOutlookReminders.Click
+    Private Sub btnDeleteOutlookReminders_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnDeleteOutlookReminders.Click
         Try
             Me.Cursor = Cursors.WaitCursor
             Dim olApp As Outlook.Application = New Outlook.Application()
@@ -134,14 +134,14 @@ Public Class frmCreateRemindersHeb
             objApt = Nothing
             Me.Cursor = Cursors.Default
             MessageBox.Show("נמחקו " & count.ToString() & " תזכורות או אירועי יום של ספירת העומר.")
-        Catch ex As System.Exception
+        Catch ex As Exception
             MessageBox.Show("ארעה תקלה בעת הסרת התזכורות." & vbCrLf & ex.Message)
         Finally
             Me.Cursor = Cursors.Default
         End Try
     End Sub
 
-    Private Sub btnCreateWindowsReminders_Click(sender As System.Object, e As System.EventArgs) Handles btnCreateWindowsReminders.Click
+    Private Sub btnCreateWindowsReminders_Click(sender As Object, e As EventArgs) Handles btnCreateWindowsReminders.Click
         If Not Me.FieldsAreValid() Then Exit Sub
 
         Me.Cursor = Cursors.WaitCursor
@@ -171,27 +171,27 @@ Public Class frmCreateRemindersHeb
         End Try
     End Sub
 
-    Private Sub btnDeleteWindowsReminders_Click(sender As System.Object, e As System.EventArgs) Handles btnDeleteWindowsReminders.Click
+    Private Sub btnDeleteWindowsReminders_Click(sender As Object, e As EventArgs) Handles btnDeleteWindowsReminders.Click
         Me.Cursor = Cursors.WaitCursor
-        Try
-            Dim ts As New TaskService()
-            ts.RootFolder.DeleteTask("Omer Reminders")
-            MessageBox.Show("התזכורות הוסרו בהצלחה.",
+        Using ts As New TaskService()
+            Try
+                ts.RootFolder.DeleteTask("Omer Reminders")
+                MessageBox.Show("התזכורות הוסרו בהצלחה.",
+                                    "תזכורת ספירת העומר",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information)
+            Catch ex As Exception
+                MessageBox.Show("ארעה תקלה בעת הסרת התזכורות." & Environment.NewLine & ex.Message,
                                 "תזכורת ספירת העומר",
                                 MessageBoxButtons.OK,
-                                MessageBoxIcon.Information)
-        Catch ex As Exception
-            MessageBox.Show("ארעה תקלה בעת הסרת התזכורות." & Environment.NewLine & ex.Message,
-                            "תזכורת ספירת העומר",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error)
-        Finally
-            Me.Cursor = Cursors.Default
-
-        End Try
+                                MessageBoxIcon.Error)
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
+        End Using
     End Sub
 
-    Private Sub rbLocs_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles rbWorld.CheckedChanged
+    Private Sub rbLocs_CheckedChanged(sender As Object, e As EventArgs) Handles rbWorld.CheckedChanged
         If Me._loaded Then
             Me.FillLocations()
             My.Settings.LocationName = DirectCast(Me.cbLocations.SelectedItem, Location).Name
@@ -199,7 +199,7 @@ Public Class frmCreateRemindersHeb
         End If
     End Sub
 
-    Private Sub llPreviewToday_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles llPreviewToday.LinkClicked
+    Private Sub llPreviewToday_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles llPreviewToday.LinkClicked
         If Me._loaded Then
             My.Settings.LocationName = DirectCast(Me.cbLocations.SelectedItem, Location).Name
             My.Settings.Save()
@@ -209,14 +209,14 @@ Public Class frmCreateRemindersHeb
         End If
     End Sub
 
-    Private Sub cbLocations_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles cbLocations.SelectedIndexChanged
+    Private Sub cbLocations_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbLocations.SelectedIndexChanged
         If Me._loaded Then
             My.Settings.LocationName = DirectCast(Me.cbLocations.SelectedItem, Location).Name
             Me.ShowLinkToReminder()
         End If
     End Sub
 
-    Private Sub cbLocations_Format(sender As System.Object, e As System.Windows.Forms.ListControlConvertEventArgs) Handles cbLocations.Format
+    Private Sub cbLocations_Format(sender As Object, e As ListControlConvertEventArgs) Handles cbLocations.Format
         Dim l As Location = e.ListItem
         e.Value = If(Not String.IsNullOrEmpty(l.NameHebrew), l.NameHebrew, l.Name)
     End Sub
@@ -249,15 +249,15 @@ Public Class frmCreateRemindersHeb
         Me._loaded = loaded
     End Sub
 
-    Private Sub rbLaOmer_Click(sender As System.Object, e As System.EventArgs) Handles rbLaOmer.Click
+    Private Sub rbLaOmer_Click(sender As Object, e As EventArgs) Handles rbLaOmer.Click
         Me.rbLaOmer.Checked = True
     End Sub
 
-    Private Sub rbBaOmer_Click(sender As System.Object, e As System.EventArgs) Handles rbBaOmer.Click
+    Private Sub rbBaOmer_Click(sender As Object, e As EventArgs) Handles rbBaOmer.Click
         Me.rbBaOmer.Checked = True
     End Sub
 
-    Private Sub rbSfardi_Click(sender As System.Object, e As System.EventArgs) Handles rbSfardi.Click
+    Private Sub rbSfardi_Click(sender As Object, e As EventArgs) Handles rbSfardi.Click
         Me.rbSfardi.Checked = True
     End Sub
 
@@ -275,10 +275,6 @@ Public Class frmCreateRemindersHeb
             Me.llPreviewToday.Visible = False
         End If
     End Sub
-
-    Private Function IsOutlookInstalled() As Boolean
-        Return Type.GetTypeFromProgID("Outlook.Application") IsNot Nothing
-    End Function
 
     Private Function FieldsAreValid() As Boolean
         If Not (Me.rbLaOmer.Checked OrElse Me.rbBaOmer.Checked OrElse Me.rbSfardi.Checked) Then

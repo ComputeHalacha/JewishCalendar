@@ -1,6 +1,5 @@
 ﻿Imports System.Linq
 Imports JewishCalendar
-Imports Microsoft.Win32
 Imports Microsoft.Win32.TaskScheduler
 Imports Outlook = Microsoft.Office.Interop.Outlook
 
@@ -30,7 +29,7 @@ Public Class frmCreateRemindersEng
         Me.rbHebrew.Checked = Not Me.rbEnglish.Checked
         Me.rbBaOmer.Checked = (Not Me.rbLaOmer.Checked) AndAlso (Not rbSfardi.Checked)
         Me.ShowLinkToReminder()
-        Me.btnCreateOutlookReminders.Enabled = Me.btnDeleteOutlookReminders.Enabled = IsOutlookInstalled()
+        Me.btnCreateOutlookReminders.Enabled = Me.btnDeleteOutlookReminders.Enabled = Program.IsOutlookInstalled()
 
         Me._loaded = True
     End Sub
@@ -45,7 +44,7 @@ Public Class frmCreateRemindersEng
 
         Me.Cursor = Cursors.WaitCursor
 
-        If Not Me.IsOutlookInstalled() Then
+        If Not Program.IsOutlookInstalled() Then
             MessageBox.Show("This option is only available if Microsoft Outlook is installed on this computer.",
                             "Create Outlook Reminders",
                             MessageBoxButtons.OK,
@@ -181,22 +180,22 @@ Public Class frmCreateRemindersEng
 
     Private Sub btnDeleteWindowsReminders_Click(sender As System.Object, e As System.EventArgs) Handles btnDeleteWindowsReminders.Click
         Me.Cursor = Cursors.WaitCursor
-        Try
-            Dim ts As New TaskService()
-            ts.RootFolder.DeleteTask("Omer Reminders")
-            MessageBox.Show("Reminders were successfully deleted.",
+        Using ts As New TaskService()
+            Try
+                ts.RootFolder.DeleteTask("Omer Reminders")
+                MessageBox.Show("Reminders were successfully deleted.",
+                                    "Delete Windows Reminder",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information)
+            Catch ex As Exception
+                MessageBox.Show("There was a problem during the removal of the Window Reminders:" & Environment.NewLine & ex.Message,
                                 "Delete Windows Reminder",
                                 MessageBoxButtons.OK,
-                                MessageBoxIcon.Information)
-        Catch ex As Exception
-            MessageBox.Show("There was a problem during the removal of the Window Reminders:" & Environment.NewLine & ex.Message,
-                            "Delete Windows Reminder",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error)
-        Finally
-            Me.Cursor = Cursors.Default
-
-        End Try
+                                MessageBoxIcon.Error)
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
+        End Using
     End Sub
 
     Private Sub rbLocs_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles rbWorld.CheckedChanged
@@ -281,25 +280,4 @@ Public Class frmCreateRemindersEng
             Me.llPreviewToday.Visible = False
         End If
     End Sub
-
-    Private Function IsOutlookInstalled() As Boolean
-        Dim path As String = "Software\Microsoft\Windows\CurrentVersion\App Paths\outlook.exe"
-        Dim rk As RegistryKey
-
-        rk = Registry.CurrentUser
-        rk = rk.OpenSubKey(path, False)
-
-        If rk Is Nothing Then
-            rk = Registry.LocalMachine
-            rk = rk.OpenSubKey(path, False)
-        End If
-
-        If rk IsNot Nothing Then
-            rk.Close()
-            rk.Dispose()
-            Return True
-        Else
-            Return False
-        End If
-    End Function
 End Class
