@@ -68,8 +68,7 @@ Public Class frmRemindEng
         'If today is the last day of the Omer, try to remove tasks.
         If dayOfOmer = 49 AndAlso My.Application.IsReminderRun Then
             Try
-                Dim ts As New TaskService()
-                ts.RootFolder.DeleteTask("Omer Reminders")
+                Program.DeleteDailyReminders()
             Catch
             End Try
         End If

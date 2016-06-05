@@ -1,6 +1,5 @@
 ﻿Imports System.Linq
 Imports JewishCalendar
-Imports Microsoft.Win32.TaskScheduler
 Imports Outlook = Microsoft.Office.Interop.Outlook
 
 Public Class frmCreateRemindersHeb
@@ -152,7 +151,7 @@ Public Class frmCreateRemindersHeb
                 "תזכורת ספירת העומר",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information)
-        Catch nse As TSNotSupportedException
+        Catch nse As Microsoft.Win32.TaskScheduler.TSNotSupportedException
             MessageBox.Show("אי אפשר לרשום תזכורות בגירסת חלונות שהותקנה במחשב זה." &
                            Environment.NewLine &
                            nse.Message,
@@ -173,22 +172,20 @@ Public Class frmCreateRemindersHeb
 
     Private Sub btnDeleteWindowsReminders_Click(sender As Object, e As EventArgs) Handles btnDeleteWindowsReminders.Click
         Me.Cursor = Cursors.WaitCursor
-        Using ts As New TaskService()
-            Try
-                ts.RootFolder.DeleteTask("Omer Reminders")
-                MessageBox.Show("התזכורות הוסרו בהצלחה.",
-                                    "תזכורת ספירת העומר",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information)
-            Catch ex As Exception
-                MessageBox.Show("ארעה תקלה בעת הסרת התזכורות." & Environment.NewLine & ex.Message,
+        Try
+            Program.DeleteDailyReminders()
+            MessageBox.Show("התזכורות הוסרו בהצלחה.",
                                 "תזכורת ספירת העומר",
                                 MessageBoxButtons.OK,
-                                MessageBoxIcon.Error)
-            Finally
-                Me.Cursor = Cursors.Default
-            End Try
-        End Using
+                                MessageBoxIcon.Information)
+        Catch ex As Exception
+            MessageBox.Show("ארעה תקלה בעת הסרת התזכורות." & Environment.NewLine & ex.Message,
+                            "תזכורת ספירת העומר",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error)
+        Finally
+            Me.Cursor = Cursors.Default
+        End Try
     End Sub
 
     Private Sub rbLocs_CheckedChanged(sender As Object, e As EventArgs) Handles rbWorld.CheckedChanged

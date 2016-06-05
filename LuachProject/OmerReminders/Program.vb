@@ -3,6 +3,8 @@ Imports Microsoft.Win32
 Imports Microsoft.Win32.TaskScheduler
 
 Module Program
+    Friend Const RemindersTaskName As String = "Omer Reminders"
+
     ''' <summary>
     ''' Holds the list of locations
     ''' </summary>
@@ -59,7 +61,7 @@ Module Program
                 td.Settings.StopIfGoingOnBatteries = False
                 td.Settings.WakeToRun = True
             End If
-            ts.RootFolder.RegisterTaskDefinition("Omer Reminders", td)
+            ts.RootFolder.RegisterTaskDefinition(Program.RemindersTaskName, td)
         Catch nse As TSNotSupportedException
             Throw nse
         Catch ex As Exception
@@ -72,13 +74,19 @@ Module Program
         End Try
     End Sub
 
+    Friend Sub DeleteDailyReminders()
+        Using ts As New TaskService()
+            ts.RootFolder.DeleteTask(Program.RemindersTaskName)
+        End Using
+    End Sub
+
     Friend Sub CreateOneTimeReminder(dt As DateTime)
         Dim isVistaPlus As Boolean = Convert.ToInt32(My.Computer.Info.OSVersion.Split(".")(0)) >= 6
         Dim path As String = Application.ExecutablePath
         Dim folder As String = Application.StartupPath
         Dim ts As New TaskService()
         Dim td As TaskDefinition = ts.NewTask()
-        Dim trg As TimeTrigger = New TimeTrigger(dt) With {.EndBoundary = dt.AddYears(1)}
+        Dim trg As TimeTrigger = New TimeTrigger(dt) With {.EndBoundary = dt.AddDays(1)}
         Dim taskName As String = "Omer_Reminder_Temporary_" & Guid.NewGuid().ToString()
         Dim action As New ExecAction(path, "-remind -taskname " & taskName &
                                      If(My.Settings.English, "", " -lang heb"), folder)
@@ -115,7 +123,7 @@ Module Program
     End Sub
 
     Friend Function IsOutlookInstalled() As Boolean
-        'Would the following line work? Or does it just show that the reference to the interop exists?
+        'Does the following line work? Or does it just show that the reference to the interop assembly exists in HKEY_CLASSES_ROOT?
         'Return Type.GetTypeFromProgID("Outlook.Application") IsNot Nothing
 
         Dim path As String = "Software\Microsoft\Windows\CurrentVersion\App Paths\outlook.exe"
@@ -125,8 +133,7 @@ Module Program
         rk = rk.OpenSubKey(path, False)
 
         If rk Is Nothing Then
-            rk = Registry.LocalMachine
-            rk = rk.OpenSubKey(path, False)
+            rk = Registry.LocalMachine.OpenSubKey(path, False)
         End If
 
         If rk IsNot Nothing Then

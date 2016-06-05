@@ -49,7 +49,7 @@ Partial Class frmRemindHeb
         Me.RichTextBox1.Size = New System.Drawing.Size(586, 333)
         Me.RichTextBox1.TabIndex = 0
         Me.RichTextBox1.TabStop = False
-        Me.RichTextBox1.Text = "This is a test!!"
+        Me.RichTextBox1.Text = "היום וכו."
         '
         'lblCaption
         '
@@ -58,9 +58,9 @@ Partial Class frmRemindHeb
         Me.lblCaption.ForeColor = System.Drawing.Color.Maroon
         Me.lblCaption.Location = New System.Drawing.Point(19, 13)
         Me.lblCaption.Name = "lblCaption"
-        Me.lblCaption.Size = New System.Drawing.Size(86, 25)
+        Me.lblCaption.Size = New System.Drawing.Size(161, 25)
         Me.lblCaption.TabIndex = 1
-        Me.lblCaption.Text = "Label1"
+        Me.lblCaption.Text = "ספירת העומר יום..."
         '
         'Button1
         '

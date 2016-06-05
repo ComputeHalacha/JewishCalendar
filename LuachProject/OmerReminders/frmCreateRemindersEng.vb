@@ -1,6 +1,5 @@
 ﻿Imports System.Linq
 Imports JewishCalendar
-Imports Microsoft.Win32.TaskScheduler
 Imports Outlook = Microsoft.Office.Interop.Outlook
 
 Public Class frmCreateRemindersEng
@@ -159,7 +158,7 @@ Public Class frmCreateRemindersEng
                 "Create Windows Reminder",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information)
-        Catch nse As TSNotSupportedException
+        Catch nse As Microsoft.Win32.TaskScheduler.TSNotSupportedException
             MessageBox.Show("This action is not supported on your operating system." &
                            Environment.NewLine &
                            nse.Message,
@@ -180,22 +179,20 @@ Public Class frmCreateRemindersEng
 
     Private Sub btnDeleteWindowsReminders_Click(sender As System.Object, e As System.EventArgs) Handles btnDeleteWindowsReminders.Click
         Me.Cursor = Cursors.WaitCursor
-        Using ts As New TaskService()
-            Try
-                ts.RootFolder.DeleteTask("Omer Reminders")
-                MessageBox.Show("Reminders were successfully deleted.",
-                                    "Delete Windows Reminder",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information)
-            Catch ex As Exception
-                MessageBox.Show("There was a problem during the removal of the Window Reminders:" & Environment.NewLine & ex.Message,
+        Try
+            Program.DeleteDailyReminders()
+            MessageBox.Show("Reminders were successfully deleted.",
                                 "Delete Windows Reminder",
                                 MessageBoxButtons.OK,
-                                MessageBoxIcon.Error)
-            Finally
-                Me.Cursor = Cursors.Default
-            End Try
-        End Using
+                                MessageBoxIcon.Information)
+        Catch ex As Exception
+            MessageBox.Show("There was a problem during the removal of the Window Reminders:" & Environment.NewLine & ex.Message,
+                            "Delete Windows Reminder",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error)
+        Finally
+            Me.Cursor = Cursors.Default
+        End Try
     End Sub
 
     Private Sub rbLocs_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles rbWorld.CheckedChanged
