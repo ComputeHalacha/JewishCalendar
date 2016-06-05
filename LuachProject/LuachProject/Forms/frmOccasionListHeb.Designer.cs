@@ -36,23 +36,23 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.label2 = new System.Windows.Forms.Label();
-            this.llExport = new System.Windows.Forms.LinkLabel();
-            this.llImport = new System.Windows.Forms.LinkLabel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.goToDateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.goToUpcomingOccurenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editThisOccasionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.deleteThisOccasionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label2 = new System.Windows.Forms.Label();
+            this.llExport = new System.Windows.Forms.LinkLabel();
+            this.llImport = new System.Windows.Forms.LinkLabel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnClose
             // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.BackColor = System.Drawing.SystemColors.Control;
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnClose.Location = new System.Drawing.Point(748, 577);
@@ -65,10 +65,10 @@
             // 
             // label3
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 22);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(830, 17);
+            this.label3.Size = new System.Drawing.Size(227, 17);
             this.label3.TabIndex = 7;
             this.label3.Text = "חפש ע\"פ שם אירוע או חלק ממנה:";
             // 
@@ -122,56 +122,6 @@
             this.columnHeader2.Text = "סוג אירוע";
             this.columnHeader2.Width = 320;
             // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label2.ForeColor = System.Drawing.Color.DimGray;
-            this.label2.Location = new System.Drawing.Point(9, 521);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(537, 25);
-            this.label2.TabIndex = 18;
-            this.label2.Text = "בחר שורה כדי ללכת לתאריך האירוע | לחץ פעמיים כדי לפתוח האירוע לעדכון";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // llExport
-            // 
-            this.llExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.llExport.AutoSize = true;
-            this.llExport.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.llExport.Location = new System.Drawing.Point(803, 523);
-            this.llExport.Name = "llExport";
-            this.llExport.Size = new System.Drawing.Size(38, 17);
-            this.llExport.TabIndex = 19;
-            this.llExport.TabStop = true;
-            this.llExport.Text = "ייצוא";
-            this.llExport.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llExport_LinkClicked);
-            // 
-            // llImport
-            // 
-            this.llImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.llImport.AutoSize = true;
-            this.llImport.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.llImport.Location = new System.Drawing.Point(745, 523);
-            this.llImport.Name = "llImport";
-            this.llImport.Size = new System.Drawing.Size(39, 17);
-            this.llImport.TabIndex = 20;
-            this.llImport.TabStop = true;
-            this.llImport.Text = "ייבוא";
-            this.llImport.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llImport_LinkClicked);
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.Color.DimGray;
-            this.label1.Location = new System.Drawing.Point(787, 523);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(13, 17);
-            this.label1.TabIndex = 22;
-            this.label1.Text = "|";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -221,6 +171,56 @@
             this.deleteThisOccasionToolStripMenuItem.Size = new System.Drawing.Size(261, 26);
             this.deleteThisOccasionToolStripMenuItem.Text = "מחק האירוע";
             this.deleteThisOccasionToolStripMenuItem.Click += new System.EventHandler(this.deleteThisOccasionToolStripMenuItem_Click);
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label2.ForeColor = System.Drawing.Color.DimGray;
+            this.label2.Location = new System.Drawing.Point(9, 521);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(537, 25);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "בחר שורה כדי ללכת לתאריך האירוע | לחץ פעמיים כדי לפתוח האירוע לעדכון";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // llExport
+            // 
+            this.llExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.llExport.AutoSize = true;
+            this.llExport.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.llExport.Location = new System.Drawing.Point(803, 523);
+            this.llExport.Name = "llExport";
+            this.llExport.Size = new System.Drawing.Size(38, 17);
+            this.llExport.TabIndex = 19;
+            this.llExport.TabStop = true;
+            this.llExport.Text = "ייצוא";
+            this.llExport.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llExport_LinkClicked);
+            // 
+            // llImport
+            // 
+            this.llImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.llImport.AutoSize = true;
+            this.llImport.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.llImport.Location = new System.Drawing.Point(745, 523);
+            this.llImport.Name = "llImport";
+            this.llImport.Size = new System.Drawing.Size(39, 17);
+            this.llImport.TabIndex = 20;
+            this.llImport.TabStop = true;
+            this.llImport.Text = "ייבוא";
+            this.llImport.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llImport_LinkClicked);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.DimGray;
+            this.label1.Location = new System.Drawing.Point(787, 523);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(13, 17);
+            this.label1.TabIndex = 22;
+            this.label1.Text = "|";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // frmOccasionListHeb
             // 
