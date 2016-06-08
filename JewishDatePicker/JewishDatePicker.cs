@@ -17,7 +17,7 @@ namespace JewishDatePicker
 
         private Languages _language;
 
-        private JewishDate_ _value = new JewishDate_();
+        private JewishDate _value = new JewishDate();
 
         #endregion Private Fields
 
@@ -25,8 +25,8 @@ namespace JewishDatePicker
 
         public JewishDatePicker()
         {
-            this.MinDate = JewishDate_.MinDate;
-            this.MaxDate = JewishDate_.MaxDate;
+            this.MinDate = JewishDate.MinDate;
+            this.MaxDate = JewishDate.MaxDate;
 
             InitializeComponent();
 
@@ -148,9 +148,9 @@ namespace JewishDatePicker
             }
         }
 
-        public JewishDate_ MaxDate { get; set; }
+        public JewishDate MaxDate { get; set; }
 
-        public JewishDate_ MinDate { get; set; }
+        public JewishDate MinDate { get; set; }
 
         [DefaultValue(RightToLeft.Yes)]
         public override RightToLeft RightToLeft
@@ -170,7 +170,7 @@ namespace JewishDatePicker
         }
 
         [Bindable(true)]
-        public JewishDate_ Value
+        public JewishDate Value
         {
             get
             {
@@ -253,8 +253,8 @@ namespace JewishDatePicker
             }
 
             this.cmbJDay.Items.Clear();
-
-            int d = JewishDate_.DaysInJewishMonth(this._value.Year, this._value.Month);
+                        
+            int d = JewishDateCalculations.DaysInJewishMonth(this._value.Year, this._value.Month);
             for (int i = 1; i <= d; i++)
             {
                 this.cmbJDay.Items.Add(new KeyValuePair<int, string>(i,
@@ -265,7 +265,7 @@ namespace JewishDatePicker
         private void FillJewishMonthsCombo()
         {
             this.cmbJMonth.Items.Clear();
-            bool m = JewishDate_.IsLeapYear(this.Value.Year);
+            bool m = JewishDateCalculations.IsJewishLeapYear(this.Value.Year);
             for (int i = 1; i <= (m ? 13 : 12); i++)
             {
                 this.cmbJMonth.Items.Add(new KeyValuePair<int, string>(i,
@@ -337,12 +337,12 @@ namespace JewishDatePicker
                 month = ((KeyValuePair<int, string>)this.cmbJMonth.SelectedItem).Key,
                 day = ((KeyValuePair<int, string>)this.cmbJDay.SelectedItem).Key;
 
-            if (day == 30 && JewishDate_.DaysInJewishMonth(year, month) == 29)
+            if (day == 30 && JewishDateCalculations.DaysInJewishMonth(year, month) == 29)
             {
                 day = 29;
             }
 
-            this.Value = new JewishDate_(year, month, day);
+            this.Value = new JewishDate(year, month, day);
         }
 
         #endregion Private Methods

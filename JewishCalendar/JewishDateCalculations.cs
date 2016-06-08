@@ -30,7 +30,7 @@ namespace JewishCalendar
         /// <param name="year"></param>
         /// <returns>True if the year is a leap year and False if not</returns>
         /// <remarks>This function is identical to
-        /// <see cref="JewishDate_.IsLeapYear(int)">JewishDate.IsLeapYear</see>.
+        /// <see cref="JewishDateCalculations.IsJewishLeapYear(int)">JewishDate.IsLeapYear</see>.
         /// The only difference is, the JewishDate class's version uses Globalization.HebrewCalendars.IsLeapYear 
         /// which adds a check to make sure that the year is within the range of the HebrewCalendar class.
         /// </remarks>
@@ -45,7 +45,7 @@ namespace JewishCalendar
         /// <param name="year">The Jewish Year for which to get the number of months for</param>
         /// <returns>The number of months in the given year</returns>
         /// <remarks>If you are not using the .NET micro framework, you can also use 
-        /// <see cref="JewishDate_.MonthsInYear(int)">JewishDate.MonthsInYear</see>.</remarks>
+        /// <see cref="JewishDate.MonthsInYear(int)">JewishDate.MonthsInYear</see>.</remarks>
         public static int MonthsInJewishYear(int year)
         {
             return IsJewishLeapYear(year) ? 13 : 12;
@@ -57,7 +57,7 @@ namespace JewishCalendar
         /// <param name="year">The given Jewish Year</param>
         /// <returns>Whether or not Cheshvan has 30 days in the given year</returns>
         /// <remarks>If you are not using the .NET micro framework, use 
-        /// <see cref="JewishDate_.IsLongCheshvan(int)">JewishDate.IsLongCheshvan</see> 
+        /// <see cref="JewishDate.IsLongCheshvan(int)">JewishDate.IsLongCheshvan</see> 
         /// instead of this function.</remarks>
         public static bool IsLongCheshvan(int year)
         {
@@ -70,7 +70,7 @@ namespace JewishCalendar
         /// <param name="year">The given Jewish Year</param>
         /// <returns>Whether or not Kislev has 29 days in the given year</returns>
         /// <remarks>If you are not using the .NET micro framework, use 
-        /// <see cref="JewishDate_.IsShortKislev(int)">JewishDate.IsShortKislev</see> 
+        /// <see cref="JewishDate.IsShortKislev(int)">JewishDate.IsShortKislev</see> 
         /// instead of this function.</remarks>
         public static bool IsShortKislev(int year)
         {
@@ -84,7 +84,7 @@ namespace JewishCalendar
         /// <param name="month">The Nissan based Jewish Month (Nissan is 1 and Adar Sheini is 13)</param>
         /// <returns>The number of days in the given Jewish Month</returns>
         /// <remarks>If you are not using the .NET micro framework, use 
-        /// <see cref="JewishDate_.DaysInJewishMonth(int, int)">JewishDate.DaysInJewishMonth</see> 
+        /// <see cref="JewishDateCalculations.DaysInJewishMonth(int, int)">JewishDate.DaysInJewishMonth</see> 
         /// instead of this function.</remarks>
         public static int DaysInJewishMonth(int year, int month)
         {
@@ -107,7 +107,7 @@ namespace JewishCalendar
         /// <param name="year">The given Jewish Year</param>
         /// <returns>The number of days in the given Jewish Year</returns>
         /// <remarks>If you are not using the .NET micro framework, use 
-        /// <see cref="JewishDate_.DaysInJewishYear(int)">JewishDate.DaysInHebrewYear</see> 
+        /// <see cref="JewishDate.DaysInJewishYear(int)">JewishDate.DaysInHebrewYear</see> 
         /// instead of this function.</remarks>
         public static int DaysInJewishYear(int year)
         {

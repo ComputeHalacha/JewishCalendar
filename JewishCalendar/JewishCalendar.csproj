@@ -47,7 +47,6 @@
     <Compile Include="DafYomi.cs" />
     <Compile Include="HourMinute.cs" />
     <Compile Include="IJewishDate.cs" />
-    <Compile Include="JewishDate_.cs" />
     <Compile Include="JewishDateCalculations.cs" />
     <Compile Include="JewishDate.cs" />
     <Compile Include="Molad.cs" />

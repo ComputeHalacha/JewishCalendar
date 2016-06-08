@@ -20,14 +20,14 @@ Module Program
     ''' </summary>
     ''' <param name="today"></param>
     ''' <returns></returns>
-    Friend Function GetFirstDayOfPesach(today As JewishDate_) As JewishDate_
-        Return New JewishDate_(today.Year +
+    Friend Function GetFirstDayOfPesach(today As JewishDate) As JewishDate
+        Return New JewishDate(today.Year +
                         If((today.Month > 3 AndAlso today.Month < 7) OrElse
                         (today.Month = 3 AndAlso today.Day > 5), 1, 0), 1, 15)
     End Function
 
-    Friend Sub CreateDailyReminders(todayJD As JewishDate_, alarmTime As TimeSpan)
-        Dim secondDayOfPesach As JewishDate_ = GetFirstDayOfPesach(todayJD) + 1
+    Friend Sub CreateDailyReminders(todayJD As JewishDate, alarmTime As TimeSpan)
+        Dim secondDayOfPesach As JewishDate = GetFirstDayOfPesach(todayJD) + 1
         Dim isVistaPlus As Boolean = Convert.ToInt32(My.Computer.Info.OSVersion.Split(".")(0)) >= 6
         Dim path As String = Application.ExecutablePath
         Dim folder As String = Application.StartupPath

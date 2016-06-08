@@ -256,13 +256,11 @@
             this.jewishDatePicker1.Language = JewishDatePicker.JewishDatePicker.Languages.English;
             this.jewishDatePicker1.Location = new System.Drawing.Point(122, 2);
             this.jewishDatePicker1.Margin = new System.Windows.Forms.Padding(0);
-            this.jewishDatePicker1.MaxDate = ((JewishCalendar.JewishDate_)(resources.GetObject("jewishDatePicker1.MaxDate")));
-            this.jewishDatePicker1.MinDate = ((JewishCalendar.JewishDate_)(resources.GetObject("jewishDatePicker1.MinDate")));
             this.jewishDatePicker1.Name = "jewishDatePicker1";
             this.jewishDatePicker1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.jewishDatePicker1.Size = new System.Drawing.Size(343, 29);
             this.jewishDatePicker1.TabIndex = 17;
-            this.jewishDatePicker1.Value = ((JewishCalendar.JewishDate_)(resources.GetObject("jewishDatePicker1.Value")));
+            this.jewishDatePicker1.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.Value")));
             // 
             // label1
             // 

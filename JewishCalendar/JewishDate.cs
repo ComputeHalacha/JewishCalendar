@@ -65,9 +65,26 @@
         /// </summary>
         public int Year { get; private set; }
 
+        /// <summary>
+        /// Minimum valid date that can be represented by this class
+        /// </summary>
+        public static JewishDate MinDate { get; private set; }
+        /// <summary>
+        /// Maximum valid date that can be represented by this class
+        /// </summary>
+        public static JewishDate MaxDate { get; private set; }
+
         #endregion Public Properties
 
         #region Constructors
+        /// <summary>
+        /// static constructor
+        /// </summary>
+        static JewishDate()
+        {
+            MinDate = new JewishDate(1, 7, 1);
+            MaxDate = new JewishDate(5999, 6, 29);
+        }
 
         /// <summary>
         /// Empty constructor. Sets the date to the current system date.
@@ -387,6 +404,34 @@
         public override int GetHashCode()
         {
             return this.Year.GetHashCode() ^ this.Month.GetHashCode() ^ this.Day.GetHashCode();
+        }
+
+        /// <summary>
+        /// Returns the correct Secular Date for this JewishDate at the given Time and Location.
+        /// </summary>
+        /// <param name="location"></param>
+        /// <param name="timeOfDay"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// When using a JewishDate constructor that takes a "Location" object,
+        /// if the initializing DateTime was after sunset, the date was set to the next day.
+        /// The GregorianDate property will therefore not properly reflect the true Secular date until midnight.
+        /// This function returns the correct GregorianDate for this JewishDate at the given time and place.
+        /// </remarks>
+        public System.DateTime GetSecularDate(HourMinute timeOfDay, Location location)
+        {
+            //Sunset is never, ever before mid-day (not even at the North and South Poles)
+            if (timeOfDay.Hour > 12 && timeOfDay >= new Zmanim(this.GregorianDate, location).GetShkia())
+            {
+                // From sunset to midnight:
+                // Jewish today is Secular tomorrow and Secular Today is Jewish Yesterday
+                // (please sir, keep your yarmulka on!) [double meanings all around]
+                return this.GregorianDate.AddDays(-1);
+            }
+            else
+            {
+                return this.GregorianDate;
+            }
         }
 
         /// <summary>
