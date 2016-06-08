@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace JewishCalendar
 {
@@ -13,6 +14,11 @@ namespace JewishCalendar
     /// </remarks>
     public static class JewishDateCalculations
     {
+        /// <summary>
+        /// To save on calculations, a table of years and their elapsed days values is saved in memory
+        /// </summary>
+        private static Dictionary<int, int> _yearCache = new Dictionary<int, int>();
+
         /// <summary>
         /// Absolute date of start of Jewish calendar
         /// </summary>
@@ -42,7 +48,7 @@ namespace JewishCalendar
         /// <see cref="JewishDate.MonthsInYear(int)">JewishDate.MonthsInYear</see>.</remarks>
         public static int MonthsInJewishYear(int year)
         {
-            return IsJewishLeapYear(year) ? 13 : 12;            
+            return IsJewishLeapYear(year) ? 13 : 12;
         }
 
         /// <summary>
@@ -118,7 +124,7 @@ namespace JewishCalendar
         {
             if (jd2 == null) return false;
             return jd1.Year == jd2.Year && jd1.Month == jd2.Month && jd1.Day == jd2.Day;
-        }        
+        }
 
         /// <summary>
         /// The number of days elapsed since the theoretical Gregorian date Sunday, December 31, 1 BCE.
@@ -218,30 +224,36 @@ namespace JewishCalendar
         /// <returns>The number of days elapsed</returns>
         private static int GetElapsedDays(int year)
         {
-            int MonthsElapsed = (235 * ((year - 1) / 19)) + (12 * ((year - 1) % 19)) + (7 * ((year - 1) % 19) + 1) / 19; // Leap months this cycle -  Regular months in this cycle. -  Months in complete cycles so far.
-            int PartsElapsed = 204 + 793 * (MonthsElapsed % 1080);
-            int HoursElapsed = 5 + 12 * MonthsElapsed + 793 * (MonthsElapsed / 1080) + PartsElapsed / 1080;
-            int ConjunctionDay = (1 + 29 * MonthsElapsed + HoursElapsed / 24);
-            int ConjunctionParts = 1080 * (HoursElapsed % 24) + PartsElapsed % 1080;
-            int AlternativeDay;
-            if ((ConjunctionParts >= 19440) || (((ConjunctionDay % 7) == 2) && (ConjunctionParts >= 9924) && (!IsJewishLeapYear(year))) || (((ConjunctionDay % 7) == 1) && (ConjunctionParts >= 16789) && (IsJewishLeapYear(year - 1)))) // at the end of a leap year -  15 hours, 589 parts or later... -  ...or is on a Monday at... -  ...of a common year, -  at 9 hours, 204 parts or later... -  ...or is on a Tuesday... -  If new moon is at or after midday,
+            if (_yearCache.ContainsKey(year))
+            {
+                return _yearCache[year];
+            }
+
+            int monthsElapsed = (235 * ((year - 1) / 19)) + (12 * ((year - 1) % 19)) + (7 * ((year - 1) % 19) + 1) / 19; // Leap months this cycle -  Regular months in this cycle. -  Months in complete cycles so far.
+            int partsElapsed = 204 + 793 * (monthsElapsed % 1080);
+            int hoursElapsed = 5 + 12 * monthsElapsed + 793 * (monthsElapsed / 1080) + partsElapsed / 1080;
+            int conjunctionDay = (1 + 29 * monthsElapsed + hoursElapsed / 24);
+            int conjunctionParts = 1080 * (hoursElapsed % 24) + partsElapsed % 1080;
+            int alternativeDay = conjunctionDay;
+            
+            // at the end of a leap year -  15 hours, 589 parts or later... -  ...or is on a Monday at... -  ...of a common year, -  at 9 hours, 204 parts or later... -  ...or is on a Tuesday... -  If new moon is at or after midday,
+            if ((conjunctionParts >= 19440) || 
+                (((conjunctionDay % 7) == 2) && (conjunctionParts >= 9924) && (!IsJewishLeapYear(year))) || 
+                (((conjunctionDay % 7) == 1) && (conjunctionParts >= 16789) && (IsJewishLeapYear(year - 1)))) 
             {
                 // Then postpone Rosh HaShanah one day
-                AlternativeDay = (ConjunctionDay + 1);
+                alternativeDay += 1;
             }
-            else
-            {
-                AlternativeDay = ConjunctionDay;
-            }
-            if (((AlternativeDay % 7) == 0) || ((AlternativeDay % 7) == 3) || ((AlternativeDay % 7) == 5)) // or Friday -  or Wednesday, -  If Rosh HaShanah would occur on Sunday,
+            
+            if ((alternativeDay % 7).In(0, 3, 5)) // or Friday -  or Wednesday, -  If Rosh HaShanah would occur on Sunday,
             {
                 // Then postpone it one (more) day
-                return (1 + AlternativeDay);
+                alternativeDay += 1;
             }
-            else
-            {
-                return AlternativeDay;
-            }
+
+            _yearCache.Add(year, alternativeDay);
+
+            return alternativeDay;
         }
     }
 }

@@ -466,7 +466,8 @@ jDate.yearCache = [];
 
 //Elapsed days since creation of the world until Rosh Hashana of the given year
 jDate.tDays = function (year) {
-    //As this function is called many times for all types of calculations, we save a list of years with their elapsed values.
+    /*As this function is called many times, often on the same year for all types of calculations, 
+    we save a list of years with their elapsed values.*/
     var cached = jDate.yearCache.first(function (y) {
         return y.year === year;
     });
