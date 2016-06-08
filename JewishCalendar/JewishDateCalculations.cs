@@ -134,20 +134,20 @@ namespace JewishCalendar
         /// </summary>
         public static int GetAbsoluteFromJewishDate(int year, int month, int day)
         {
-            int DayInYear = day; // Days so far this month.
+            int dayInYear = day; // Days so far this month.
             if (month < 7)
             { // Before Tishrei, so add days in prior months
                 // this year before and after Nissan.
                 int m = 7;
                 while (m <= (MonthsInJewishYear(year)))
                 {
-                    DayInYear = DayInYear + DaysInJewishMonth(year, m);
+                    dayInYear = dayInYear + DaysInJewishMonth(year, m);
                     m++;
                 };
                 m = 1;
                 while (m < month)
                 {
-                    DayInYear = DayInYear + DaysInJewishMonth(year, m);
+                    dayInYear = dayInYear + DaysInJewishMonth(year, m);
                     m++;
                 }
             }
@@ -156,12 +156,12 @@ namespace JewishCalendar
                 int m = 7;
                 while (m < month)
                 {
-                    DayInYear = DayInYear + DaysInJewishMonth(year, m);
+                    dayInYear = dayInYear + DaysInJewishMonth(year, m);
                     m++;
                 }
             }
             // Days elapsed before absolute date 1. -  Days in prior years.
-            return DayInYear + (GetElapsedDays(year) + HEBREW_EPOCH);
+            return dayInYear + (GetElapsedDays(year) + HEBREW_EPOCH);
         }
 
         /// <summary>

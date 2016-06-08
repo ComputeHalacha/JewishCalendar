@@ -14,7 +14,7 @@
     /// 
     /// IMPORTANT NOTE: for all other projects besides for Micro Framework projects, you should use the
     /// JewishCalendar.JewishDate class which being based on System.Globalization.HebrewCalendar, 
-    /// is way more efficient - in benchmark testing we found it to be up to 20% quicker than this class.
+    /// is slightly more efficient - in benchmark testing we found it to be slightly quicker than this class.
     /// 
     /// When using the JewishCalendar dll with the .NET Micro Framework, the following items needs to be removed before compiling:
     ///      1. The entire file "JewishDate.cs"
