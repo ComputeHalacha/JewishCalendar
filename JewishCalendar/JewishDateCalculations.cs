@@ -43,9 +43,7 @@ namespace JewishCalendar
         /// Gets the number of months in the given Jewish year
         /// </summary>
         /// <param name="year">The Jewish Year for which to get the number of months for</param>
-        /// <returns>The number of months in the given year</returns>
-        /// <remarks>If you are not using the .NET micro framework, you can also use 
-        /// <see cref="JewishDate.MonthsInYear(int)">JewishDate.MonthsInYear</see>.</remarks>
+        /// <returns>The number of months in the given year</returns>        
         public static int MonthsInJewishYear(int year)
         {
             return IsJewishLeapYear(year) ? 13 : 12;
@@ -55,10 +53,7 @@ namespace JewishCalendar
         /// Does Cheshvan have a full 30 days in the given Jewish Year?
         /// </summary>
         /// <param name="year">The given Jewish Year</param>
-        /// <returns>Whether or not Cheshvan has 30 days in the given year</returns>
-        /// <remarks>If you are not using the .NET micro framework, use 
-        /// <see cref="JewishDate.IsLongCheshvan(int)">JewishDate.IsLongCheshvan</see> 
-        /// instead of this function.</remarks>
+        /// <returns>Whether or not Cheshvan has 30 days in the given year</returns>       
         public static bool IsLongCheshvan(int year)
         {
             return (DaysInJewishYear(year) % 10) == 5;
@@ -68,10 +63,7 @@ namespace JewishCalendar
         /// Does Kislev have 29 days for the given Jewish year?
         /// </summary>
         /// <param name="year">The given Jewish Year</param>
-        /// <returns>Whether or not Kislev has 29 days in the given year</returns>
-        /// <remarks>If you are not using the .NET micro framework, use 
-        /// <see cref="JewishDate.IsShortKislev(int)">JewishDate.IsShortKislev</see> 
-        /// instead of this function.</remarks>
+        /// <returns>Whether or not Kislev has 29 days in the given year</returns>        
         public static bool IsShortKislev(int year)
         {
             return (DaysInJewishYear(year) % 10) == 3;
@@ -105,10 +97,7 @@ namespace JewishCalendar
         /// From Rosh Hashana of the given year until the next Rosh Hashana.
         /// </summary>
         /// <param name="year">The given Jewish Year</param>
-        /// <returns>The number of days in the given Jewish Year</returns>
-        /// <remarks>If you are not using the .NET micro framework, use 
-        /// <see cref="JewishDate.DaysInJewishYear(int)">JewishDate.DaysInHebrewYear</see> 
-        /// instead of this function.</remarks>
+        /// <returns>The number of days in the given Jewish Year</returns>        
         public static int DaysInJewishYear(int year)
         {
             return ((GetElapsedDays(year + 1)) - (GetElapsedDays(year)));

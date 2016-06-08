@@ -44,10 +44,20 @@ namespace LuachProject
             }
             set
             {
-                if (this._displayedJewishMonth == null || this._displayedJewishMonth.Year != value.Year || this._displayedJewishMonth.Month != value.Month)
+                if (this._displayedJewishMonth == null || 
+                    this._displayedJewishMonth.Year != value.Year || 
+                    this._displayedJewishMonth.Month != value.Month)
                 {
                     //Set _currentJewishDate to first of month
                     this._displayedJewishMonth = value - (value.Day - 1);
+                    if(this._displayedJewishMonth < this.jewishDatePicker1.MinDate)
+                    {
+                        this._displayedJewishMonth = this.jewishDatePicker1.MinDate;
+                    }
+                    else if (this._displayedJewishMonth > this.jewishDatePicker1.MaxDate)
+                    {
+                        this._displayedJewishMonth = this.jewishDatePicker1.MaxDate;
+                    }
                     this._currentMonthLength = JewishDateCalculations.DaysInJewishMonth(this._displayedJewishMonth.Year, this._displayedJewishMonth.Month);
                     this._currentMonthWeeks = (int)this._displayedJewishMonth.DayOfWeek >= 5 && _currentMonthLength > 29 ? 6 : 5;
                     this.SetCaptionText();
@@ -147,6 +157,7 @@ namespace LuachProject
             this._zmanimFont = new Font(this.Font.FontFamily, 9, FontStyle.Regular);
             this._secularDayFont = new Font("Century Gothic", 8f);
             this._userOccasionFont = this._zmanimFont;
+            this.jewishDatePicker1.MinDate = new JewishDate(DateTime.MinValue.AddMonths(1));
             this.jewishDatePicker1.DataBindings.Add("Value",
                 this, "SelectedJewishDate", true, DataSourceUpdateMode.OnPropertyChanged, new JewishDate());
         }

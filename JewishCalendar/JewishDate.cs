@@ -222,9 +222,19 @@
                     int day, month, year;
 
                     // Search forward year by year from approximate year
-                    year = d / 366;
+                    year = d / 366;                    
                     while (d >= JewishDateCalculations.GetAbsoluteFromGregorianDate(year + 1, 1, 1))
+                    {
                         year++;
+                    }
+                    if (year < 1)
+                    {
+                        throw new System.Exception("The JewishDate is before the Secular calendar began");
+                    }
+                    else if (year > 9999)
+                    {
+                        throw new System.Exception("The JewishDate is after DateTime.MaxValue");
+                    }
                     // Search forward month by month from January
                     month = 1;
                     while (d > JewishDateCalculations.GetAbsoluteFromGregorianDate(

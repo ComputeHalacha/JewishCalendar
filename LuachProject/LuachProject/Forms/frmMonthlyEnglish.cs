@@ -138,7 +138,7 @@ namespace LuachProject
             Properties.Settings.Default.LastLanguage = "English";
             Properties.Settings.Default.Save();
 
-            InitializeComponent();
+            InitializeComponent();            
 
             this.ResizeBegin += (s, e) => { this._isResizing = true; };
             this.ResizeEnd += (s, e) => { this._isResizing = false; this.pnlMain.Invalidate(); };
@@ -148,6 +148,7 @@ namespace LuachProject
             this._zmanimFont = new Font(this.Font.FontFamily, 8, FontStyle.Regular);
             this._secularDayFont = new Font(this.Font.FontFamily, 8.5f);
             this._userOccasionFont = this._zmanimFont;
+            this.jewishDatePicker1.SetBoundsToSecular();
             this.jewishDatePicker1.DataBindings.Add("Value", this, "SelectedJewishDate", true, DataSourceUpdateMode.OnPropertyChanged, new JewishDate());
         }
 
