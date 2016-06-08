@@ -3,7 +3,7 @@ Imports JewishCalendar
 Imports Microsoft.Win32.TaskScheduler
 
 Public Class frmRemindEng
-    Private _todayJD As JewishDate
+    Private _todayJD As JewishDate_
     Public Sub New()
 
         ' This call is required by the designer.
@@ -14,7 +14,7 @@ Public Class frmRemindEng
         Me.Hide()
         Me.SuspendLayout()
         Me.dtpRemindLater.Value = DateTime.Now.AddHours(1)
-        Me._todayJD = New JewishDate(Program.LocationsList.FirstOrDefault(Function(l) l.Name = My.Settings.LocationName))
+        Me._todayJD = New JewishDate_(Program.LocationsList.FirstOrDefault(Function(l) l.Name = My.Settings.LocationName))
         Dim dayOfOmer As Integer = Me._todayJD.GetDayOfOmer()
 
         If dayOfOmer = 0 Then

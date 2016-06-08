@@ -21,15 +21,15 @@ namespace LuachProject
         private int _currentMonthWeeks;
         private Font _dayFont;
         private Font _dayHeadersFont;
-        private JewishDate _displayedJewishMonth;
+        private JewishDate_ _displayedJewishMonth;
         private bool _isFirstOpen = true;
         private bool _isResizing;
         private bool _loading;
         private Point _pnlMouseLocation;
         private Font _secularDayFont;
-        private JewishDate _selectedDay;
+        private JewishDate_ _selectedDay;
         private List<SingleDateInfo> _singleDateInfoList = new List<SingleDateInfo>();
-        private JewishDate _todayJewishDate;
+        private JewishDate_ _todayJewishDate;
         private Font _userOccasionFont;
         private Font _zmanimFont;
 
@@ -37,7 +37,7 @@ namespace LuachProject
 
         #region Properties
 
-        public JewishDate DisplayedJewishMonth
+        public JewishDate_ DisplayedJewishMonth
         {
             get
             {
@@ -49,7 +49,7 @@ namespace LuachProject
                 {
                     //Set _currentJewishDate to first of month
                     this._displayedJewishMonth = value - (value.Day - 1);
-                    this._currentMonthLength = JewishDate.DaysInJewishMonth(this._displayedJewishMonth.Year, this._displayedJewishMonth.Month);
+                    this._currentMonthLength = JewishDate_.DaysInJewishMonth(this._displayedJewishMonth.Year, this._displayedJewishMonth.Month);
                     this._currentMonthWeeks = (int)this._displayedJewishMonth.DayOfWeek >= 5 && _currentMonthLength > 29 ? 6 : 5;
                     this.SetCaptionText();
                     this.llSefira.Visible = this._displayedJewishMonth.Month.In(1, 2);
@@ -82,7 +82,7 @@ namespace LuachProject
             }
         }
 
-        public JewishDate SelectedJewishDate
+        public JewishDate_ SelectedJewishDate
         {
             get
             {
@@ -111,7 +111,7 @@ namespace LuachProject
             {
                 if (value != null)
                 {
-                    var jd = new JewishDate(value);
+                    var jd = new JewishDate_(value);
                     if (this._displayedJewishMonth.Month != jd.Month || this._displayedJewishMonth.Year != jd.Year)
                     {
                         this.DisplayedJewishMonth = jd;
@@ -148,7 +148,7 @@ namespace LuachProject
             this._zmanimFont = new Font(this.Font.FontFamily, 8, FontStyle.Regular);
             this._secularDayFont = new Font(this.Font.FontFamily, 8.5f);
             this._userOccasionFont = this._zmanimFont;
-            this.jewishDatePicker1.DataBindings.Add("Value", this, "SelectedJewishDate", true, DataSourceUpdateMode.OnPropertyChanged, new JewishDate());
+            this.jewishDatePicker1.DataBindings.Add("Value", this, "SelectedJewishDate", true, DataSourceUpdateMode.OnPropertyChanged, new JewishDate_());
         }
 
         #endregion Constructors
@@ -184,7 +184,7 @@ namespace LuachProject
 
         private void button4_Click(object sender, EventArgs e)
         {
-            this.NavigateToMonth(new JewishDate(
+            this.NavigateToMonth(new JewishDate_(
                 this._displayedJewishMonth.Year - 1,
                 (this._displayedJewishMonth.Month == 13 ? 12 : this._displayedJewishMonth.Month),
                 this._displayedJewishMonth.Day));
@@ -192,7 +192,7 @@ namespace LuachProject
 
         private void button5_Click(object sender, EventArgs e)
         {
-            this.NavigateToMonth(new JewishDate(
+            this.NavigateToMonth(new JewishDate_(
                 this._displayedJewishMonth.Year + 1,
                 (this._displayedJewishMonth.Month == 13 ? 12 : this._displayedJewishMonth.Month),
                 this._displayedJewishMonth.Day));
@@ -222,7 +222,7 @@ namespace LuachProject
             }
             if (this._todayJewishDate == null)
             {
-                this._todayJewishDate = new JewishCalendar.JewishDate(this._currentLocation);
+                this._todayJewishDate = new JewishCalendar.JewishDate_(this._currentLocation);
             }
             if (this._selectedDay == null)
             {
@@ -498,7 +498,7 @@ namespace LuachProject
             g.DrawString(text, this._dayHeadersFont, Program.DayHeadersTextBrush, rect, Program.StringFormat);
         }
 
-        private SingleDateInfo DrawSingleDay(Graphics g, JewishDate currDate, float width, float height, float currX, float currY)
+        private SingleDateInfo DrawSingleDay(Graphics g, JewishDate_ currDate, float width, float height, float currX, float currY)
         {
             var zmanim = new Zmanim(currDate, this._currentLocation);
             var rect = new RectangleF(currX, currY, width, height);
@@ -683,14 +683,14 @@ namespace LuachProject
                 t.Rectangle.Bottom > location.Y);
         }
 
-        private void NavigateToDay(JewishDate jd)
+        private void NavigateToDay(JewishDate_ jd)
         {
             //Go to the correct month
             this.DisplayedJewishMonth = jd;
             this.SelectSingleDay(jd);
         }
 
-        private void NavigateToMonth(JewishDate jd)
+        private void NavigateToMonth(JewishDate_ jd)
         {
             int day = 0;
             if (this._selectedDay != null)
@@ -702,13 +702,13 @@ namespace LuachProject
 
             if (day > 0)
             {
-                if (day == 30 && JewishDate.DaysInJewishMonth(
+                if (day == 30 && JewishDate_.DaysInJewishMonth(
                     this._displayedJewishMonth.Year, this._displayedJewishMonth.Month) == 29)
                 {
                     day = 29;
                 }
 
-                this.SelectSingleDay(new JewishDate(this._displayedJewishMonth.Year,
+                this.SelectSingleDay(new JewishDate_(this._displayedJewishMonth.Year,
                     this._displayedJewishMonth.Month, day));
             }
 
@@ -731,7 +731,7 @@ namespace LuachProject
             }
         }
 
-        private void SelectSingleDay(JewishDate jd)
+        private void SelectSingleDay(JewishDate_ jd)
         {
             if (this._selectedDay != jd)
             {
@@ -832,7 +832,7 @@ namespace LuachProject
                 f = new frmDailyInfoEng(sdi.JewishDate, this._currentLocation);
                 f.TopLevel = false;
                 f.Parent = this;
-                f.OccasionWasChanged += delegate (object sender, JewishDate jd)
+                f.OccasionWasChanged += delegate (object sender, JewishDate_ jd)
                 {
                     var sd = this._singleDateInfoList.FirstOrDefault(d => d.JewishDate == jd);
                     if (sd != null)

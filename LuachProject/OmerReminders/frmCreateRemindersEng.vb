@@ -4,7 +4,7 @@ Imports Outlook = Microsoft.Office.Interop.Outlook
 
 Public Class frmCreateRemindersEng
     Private _loaded As Boolean
-    Private _todayJD As JewishDate = Nothing
+    Private _todayJD As JewishDate_ = Nothing
 
     Private Sub Form1_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         Me.FillLocations()
@@ -23,7 +23,7 @@ Public Class frmCreateRemindersEng
 
         My.Settings.English = True
 
-        Me._todayJD = New JewishDate(loc)
+        Me._todayJD = New JewishDate_(loc)
         Me.rbIsrael.Checked = loc.IsInIsrael
         Me.rbHebrew.Checked = Not Me.rbEnglish.Checked
         Me.rbBaOmer.Checked = (Not Me.rbLaOmer.Checked) AndAlso (Not rbSfardi.Checked)
@@ -58,18 +58,18 @@ Public Class frmCreateRemindersEng
 
             Dim oNameSpace As Outlook.NameSpace = olApp.GetNamespace("MAPI")
             Dim objApt As Outlook.AppointmentItem
-            Dim firstDayOfPesach As JewishDate = GetFirstDayOfPesach(Me._todayJD)
+            Dim firstDayOfPesach As JewishDate_ = GetFirstDayOfPesach(Me._todayJD)
             Dim count As Integer
 
             oNameSpace.Logon()
 
             For i As Integer = 1 To 49
-                Dim jd As JewishDate = firstDayOfPesach + i
+                Dim jd As JewishDate_ = firstDayOfPesach + i
 
                 If jd >= Me._todayJD Then
                     Dim dayOfOmer As Integer = jd.GetDayOfOmer()
                     Dim nusach As String = Utils.GetOmerNusach(dayOfOmer, Me.rbLaOmer.Checked, Me.rbSfardi.Checked)
-                    Dim yesterday As JewishDate = jd - 1
+                    Dim yesterday As JewishDate_ = jd - 1
                     Dim alarmTime As TimeSpan = Me.dtpTime.Value.TimeOfDay
                     Dim subs As String
 

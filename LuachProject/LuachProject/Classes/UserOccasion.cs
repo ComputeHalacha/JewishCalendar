@@ -23,7 +23,7 @@ namespace LuachProject
         #region Public Properties
         public ColorXML BackColor { get; set; }
         public ColorXML Color { get; set; }
-        public JewishDate JewishDate { get; set; }
+        public JewishDate_ JewishDate { get; set; }
         public string Name { get; set; }
         public string Notes { get; set; }
         [System.Xml.Serialization.XmlIgnore]
@@ -124,7 +124,7 @@ namespace LuachProject
         /// <param name="jd">The "current" date</param>
         /// <param name="hebrew">Should the string be in Hebrew?</param>
         /// <returns></returns>
-        public string GetAnniversaryString(JewishDate jd, bool hebrew)
+        public string GetAnniversaryString(JewishDate_ jd, bool hebrew)
         {
             int num = this.GetNumberAnniversary(jd);
             if (num > 0)
@@ -150,7 +150,7 @@ namespace LuachProject
         /// </summary>
         /// <param name="jd"></param>
         /// <returns></returns>
-        public int GetNumberAnniversary(JewishDate jd)
+        public int GetNumberAnniversary(JewishDate_ jd)
         {
             switch (this.UserOccasionType)
             {
@@ -162,7 +162,7 @@ namespace LuachProject
                     //Add up all the months for all the intervening years
                     for (var year = this.JewishDate.Year; year < jd.Year; year++)
                     {
-                        months += JewishDate.IsLeapYear(year) ? 13 : 12;
+                        months += JewishDate_.IsLeapYear(year) ? 13 : 12;
                     }
                     //Add or subtract months from the current year
                     months += jd.Month - this.JewishDate.Month;
@@ -189,7 +189,7 @@ namespace LuachProject
         {
             DateTime now = DateTime.Now;
             DateTime retVal = now;             
-            JewishDate todayJd = new JewishDate(now);
+            JewishDate_ todayJd = new JewishDate_(now);
 
             switch (this.UserOccasionType)
             {
@@ -198,18 +198,18 @@ namespace LuachProject
                     retVal = this.JewishDate.GregorianDate;
                     break;
                 case UserOccasionTypes.HebrewDateRecurringYearly:
-                    var jdYearly = new JewishDate(todayJd.Year, this.JewishDate.Month, this.JewishDate.Day);
+                    var jdYearly = new JewishDate_(todayJd.Year, this.JewishDate.Month, this.JewishDate.Day);
                     while (jdYearly.GregorianDate < now)
                     {
-                        jdYearly = (JewishDate)jdYearly.AddYears(1);
+                        jdYearly = (JewishDate_)jdYearly.AddYears(1);
                     }
                     retVal = jdYearly.GregorianDate;
                     break;
                 case UserOccasionTypes.HebrewDateRecurringMonthly:
-                    var jdMonthly = new JewishDate(todayJd.Year, todayJd.Month, this.JewishDate.Day);
+                    var jdMonthly = new JewishDate_(todayJd.Year, todayJd.Month, this.JewishDate.Day);
                     while (jdMonthly.GregorianDate < now)
                     {
-                        jdMonthly = (JewishDate)jdMonthly.AddMonths(1);
+                        jdMonthly = (JewishDate_)jdMonthly.AddMonths(1);
                     }
                     retVal = jdMonthly.GregorianDate;
                     break;
@@ -248,7 +248,7 @@ namespace LuachProject
         /// </summary>
         /// <param name="currDate"></param>
         /// <returns></returns>
-        public static UserOccasionColection FromSettings(JewishDate currDate)
+        public static UserOccasionColection FromSettings(JewishDate_ currDate)
         {
             var col = new UserOccasionColection();
             col.AddRange(from uo in Properties.Settings.Default.UserOccasions
@@ -269,10 +269,10 @@ namespace LuachProject
         /// <param name="occDate"></param>
         /// <param name="currDate"></param>
         /// <returns></returns>
-        private static bool IsJewishMonthMatch(JewishDate occDate, JewishDate currDate)
+        private static bool IsJewishMonthMatch(JewishDate_ occDate, JewishDate_ currDate)
         {
-            bool isOccLeap = JewishDate.IsLeapYear(occDate.Year),
-                     isCurrLeap = JewishDate.IsLeapYear(currDate.Year);
+            bool isOccLeap = JewishDate_.IsLeapYear(occDate.Year),
+                     isCurrLeap = JewishDate_.IsLeapYear(currDate.Year);
             int occMonth = occDate.Month,
                 currMonth = currDate.Month;
 

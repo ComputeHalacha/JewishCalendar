@@ -266,8 +266,8 @@ namespace LuachProject
             {
                 new frmMonthlyHebrew()
                 {
-                    DisplayedJewishMonth = new JewishDate(this._dateBeingDisplayed),
-                    SelectedJewishDate = new JewishDate(this._selectedDay.GetValueOrDefault()),
+                    DisplayedJewishMonth = new JewishDate_(this._dateBeingDisplayed),
+                    SelectedJewishDate = new JewishDate_(this._selectedDay.GetValueOrDefault()),
                     StartPosition = this.StartPosition,
                     Bounds = this.Bounds,
                     WindowState = this.WindowState
@@ -277,8 +277,8 @@ namespace LuachProject
             {
                 new frmMonthlyEnglish()
                 {
-                    DisplayedJewishMonth = new JewishDate(this._dateBeingDisplayed),
-                    SelectedJewishDate = new JewishDate(this._selectedDay.GetValueOrDefault()),
+                    DisplayedJewishMonth = new JewishDate_(this._dateBeingDisplayed),
+                    SelectedJewishDate = new JewishDate_(this._selectedDay.GetValueOrDefault()),
                     StartPosition = this.StartPosition,
                     Bounds = this.Bounds,
                     WindowState = this.WindowState
@@ -512,7 +512,7 @@ namespace LuachProject
 
         private SingleDateInfo DrawSingleDay(Graphics g, DateTime currDate, float width, float height, float currX, float currY)
         {
-            var jDate = new JewishDate(currDate);
+            var jDate = new JewishDate_(currDate);
             var zmanim = new Zmanim(jDate, this._currentLocation);
             var rect = new RectangleF(currX, currY, width, height);
             var text = currDate.Day.ToString();
@@ -722,7 +722,7 @@ namespace LuachProject
 
             if (day > 0)
             {
-                if (day == 30 && JewishDate.DaysInJewishMonth(
+                if (day == 30 && JewishDate_.DaysInJewishMonth(
                     this._dateBeingDisplayed.Year, this._dateBeingDisplayed.Month) == 29)
                 {
                     day = 29;
@@ -762,7 +762,7 @@ namespace LuachProject
         /// This function is run after adding or editing a UserOccasion
         /// </summary>
         /// <param name="jd"></param>
-        private void RefreshDay(JewishDate jd)
+        private void RefreshDay(JewishDate_ jd)
         {
             var sd = this._singleDateInfoList.FirstOrDefault(d => d.JewishDate == jd);
             if (sd != null)
@@ -818,8 +818,8 @@ namespace LuachProject
         private void SetCaptionText()
         {
             string caption;
-            JewishDate firstDayJMonth = new JewishDate(this._dateBeingDisplayed);
-            JewishDate lastDayJMonth = new JewishDate(
+            JewishDate_ firstDayJMonth = new JewishDate_(this._dateBeingDisplayed);
+            JewishDate_ lastDayJMonth = new JewishDate_(
                 new DateTime(this.CurrentDate.Year, this.CurrentDate.Month, this._currentMonthLength));
 
             if (DisplayHebrew)
@@ -984,7 +984,7 @@ namespace LuachProject
         {
             if (f is frmDailyInfoEng)
             {
-                ((frmDailyInfoEng)f).OccasionWasChanged += delegate (object sender, JewishDate jd)
+                ((frmDailyInfoEng)f).OccasionWasChanged += delegate (object sender, JewishDate_ jd)
                 {                    
                     this.RefreshDay(jd);
                     this.OccasionWasChanged?.Invoke(f, new EventArgs());
@@ -997,7 +997,7 @@ namespace LuachProject
             }
             else
             {
-                ((frmDailyInfoHeb)f).OccasionWasChanged += delegate (object sender, JewishDate jd)
+                ((frmDailyInfoHeb)f).OccasionWasChanged += delegate (object sender, JewishDate_ jd)
                 {
                     this.RefreshDay(jd);
                     this.OccasionWasChanged?.Invoke(f, new EventArgs());

@@ -11,7 +11,7 @@ namespace LuachProject
     {
         #region events
 
-        public event EventHandler<JewishDate> OccasionWasChanged;
+        public event EventHandler<JewishDate_> OccasionWasChanged;
 
         #endregion events
 
@@ -19,7 +19,7 @@ namespace LuachProject
 
         private Font _dateDiffDaysFont;
         private Font _dateDiffExpFont;
-        private JewishDate _displayingJewishDate;
+        private JewishDate_ _displayingJewishDate;
         private DateTime _displayingSecularDate;
         private frmAddOccasionHeb _frmAddOccasionHeb;
         private IEnumerable<SpecialDay> _holidays;
@@ -33,7 +33,7 @@ namespace LuachProject
 
         #region constructor
 
-        public frmDailyInfoHeb(JewishDate jd, Location location)
+        public frmDailyInfoHeb(JewishDate_ jd, Location location)
         {
             this._displayingJewishDate = jd;
             this._zmanim = new Zmanim(jd, location);
@@ -53,7 +53,7 @@ namespace LuachProject
 
         #region properties
 
-        public JewishDate JewishDate
+        public JewishDate_ JewishDate
         {
             get
             {
@@ -235,7 +235,7 @@ namespace LuachProject
         {
             return this._zmanim.Location.TimeZoneInfo != null &&
                 TimeZoneInfo.Local.Id == this._zmanim.Location.TimeZoneInfo.Id &&
-                new JewishDate(DateTime.Now, this._zmanim.Location) == this._displayingJewishDate;
+                new JewishDate_(DateTime.Now, this._zmanim.Location) == this._displayingJewishDate;
         }
 
         private void PositionAddOccasion(Point? parentPoint)
@@ -308,7 +308,7 @@ namespace LuachProject
 
         private void SetDateDiff()
         {
-            JewishDate now = new JewishDate(this._zmanim.Location);
+            JewishDate_ now = new JewishDate_(this._zmanim.Location);
             int diffDays = this._displayingJewishDate.AbsoluteDate - now.AbsoluteDate;
 
             if (diffDays == 0)
@@ -427,7 +427,7 @@ namespace LuachProject
                         var nextMonth = this._displayingJewishDate + 12;
                         this.richTextBox1.SelectedText = " - חודש " + Utils.GetProperMonthNameHeb(nextMonth.Year, nextMonth.Month);
                         var molad = Molad.GetMolad(nextMonth.Month, nextMonth.Year);
-                        var dim = JewishDate.DaysInJewishMonth(this._displayingJewishDate.Year, this._displayingJewishDate.Month);
+                        var dim = JewishDate_.DaysInJewishMonth(this._displayingJewishDate.Year, this._displayingJewishDate.Month);
                         var dow = dim - this._displayingJewishDate.Day;
                         if (dim == 30)
                         {

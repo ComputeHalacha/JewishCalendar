@@ -24,7 +24,7 @@ namespace LuachProject
 
         public CloseStyles CloseStyle { get; set; }
 
-        public JewishDate JewishDate
+        public JewishDate_ JewishDate
         {
             get
             {
@@ -278,7 +278,7 @@ namespace LuachProject
             {
                 this.Focus();
                 this._loading = true;
-                this.JewishDate = new JewishCalendar.JewishDate(this.SecularDate);
+                this.JewishDate = new JewishCalendar.JewishDate_(this.SecularDate);
                 this.SetLabels();
                 this._loading = false;
                 this.dateTimePicker1.Focus();
