@@ -14,7 +14,7 @@
  *  new jDate() - Sets the Jewish Date for the current system date
  *  new jDate(javascriptDateObject) - Sets to the Jewish date on the given Gregorian date
  *  new jDate("January 1 2045") - Accepts any valid javascript Date string (uses javascripts new Date(String))
- *  new jDate(jewishYear, jewishMonth, jewishDay) - Months start at 1. Nissan is month 1 Adara Sheini is 13.
+ *  new jDate(jewishYear, jewishMonth, jewishDay) - Months start at 1. Nissan is month 1 Adar Sheini is 13.
  *  new jDate(jewishYear, jewishMonth) - Same as above, with Day defaulting to 1
  *  new jDate( { year: 5776, month: 4, day: 5 } ) - same as new jDate(jewishYear, jewishMonth, jewishDay)
  *  new jDate( { year: 5776, month: 4 } ) - same as new jDate(jewishYear, jewishMonth)
@@ -65,7 +65,7 @@ function jDate(arg, month, day, abs) {
             self.Year = arg;
             self.Month = month || 7; //If no month was supplied, we take Tishrei
             self.Day = day || 1; //If no day was supplied, we take the first day of the month
-            //If the absolute date was supplied (very efficient), we use the supplied value, otherwise we calculate it.
+            //If the absolute date was also supplied (very efficient), we use the supplied value, otherwise we calculate it.
             self.Abs = abs || jDate.absJd(self.Year, self.Month, self.Day);
         }
     }
@@ -406,8 +406,7 @@ jDate.absSd = function (date) {
 //Calculate the absolute date for the given Jewish Date
 jDate.absJd = function (year, month, day) {
     var dayInYear = day; // Days so far this month.
-    if (month < 7) { // Before Tishrei, so add days in prior months
-        // this year before and after Nissan.
+    if (month < 7) { // Before Tishrei, so add days in prior months this year before and after Nissan.
         var m = 7;
         while (m <= (jDate.monthsJYear(year))) {
             dayInYear += jDate.daysJMonth(year, m);
@@ -462,8 +461,20 @@ jDate.daysJMonth = function (year, month) {
     }
 };
 
-//Elapsed days
+//Keeps a "repository" of years that have had their elapsed days previously calculated. Format: { year:5776, elapsed:2109283 }
+jDate.yearCache = [];
+
+//Elapsed days since creation of the world until Rosh Hashana of the given year
 jDate.tDays = function (year) {
+    //As this function is called many times for all types of calculations, we save a list of years with their elapsed values.
+    var cached = jDate.yearCache.first(function (y) {
+        return y.year === year;
+    });
+    //If this year was already calculated and cached, then we return the cached value.
+    if (cached) {
+        return cached.elapsed;
+    }
+
     var months = parseInt((235 * parseInt((year - 1) / 19)) + // Leap months this cycle
             (12 * ((year - 1) % 19)) +                        // Regular months in this cycle.
             (7 * ((year - 1) % 19) + 1) / 19),                // Months in complete cycles so far.
@@ -485,14 +496,16 @@ jDate.tDays = function (year) {
     else {
         altDay = conjDay;
     }
-    // or Friday -  or Wednesday, -  If Rosh HaShanah would occur on Sunday,
-    if (((altDay % 7) == 0) || ((altDay % 7) == 3) || ((altDay % 7) == 5)) {
-        // Then postpone it one (more) day
-        return (1 + altDay);
+
+    // A day is added if Rosh HaShanah would occur on Sunday, Friday or Wednesday,
+    if ([0, 3, 5].has(altDay % 7)) {
+        altDay += 1;
     }
-    else {
-        return altDay;
-    }
+
+    //Add this year to the cache to save on calculations later on
+    jDate.yearCache.push({ year: year, elapsed: altDay });
+
+    return altDay;
 };
 
 //Number of days in the given Jewish Year
