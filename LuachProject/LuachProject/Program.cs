@@ -96,7 +96,7 @@ namespace LuachProject
                 }
             }
 
-            JewishDateMicro jd = new JewishDateMicro();
+            JewishDate jd = new JewishDate();
             var ad = (jd.AbsoluteDate.ToString());
             Application.Run(form ?? new frmMonthlyEnglish());
         }

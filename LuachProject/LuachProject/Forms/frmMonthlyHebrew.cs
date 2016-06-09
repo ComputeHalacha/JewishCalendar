@@ -44,11 +44,21 @@ namespace LuachProject
             }
             set
             {
-                if (this._displayedJewishMonth == null || this._displayedJewishMonth.Year != value.Year || this._displayedJewishMonth.Month != value.Month)
+                if (this._displayedJewishMonth == null || 
+                    this._displayedJewishMonth.Year != value.Year || 
+                    this._displayedJewishMonth.Month != value.Month)
                 {
                     //Set _currentJewishDate to first of month
                     this._displayedJewishMonth = value - (value.Day - 1);
-                    this._currentMonthLength = JewishDate.DaysInJewishMonth(this._displayedJewishMonth.Year, this._displayedJewishMonth.Month);
+                    if(this._displayedJewishMonth < this.jewishDatePicker1.MinDate)
+                    {
+                        this._displayedJewishMonth = this.jewishDatePicker1.MinDate;
+                    }
+                    else if (this._displayedJewishMonth > this.jewishDatePicker1.MaxDate)
+                    {
+                        this._displayedJewishMonth = this.jewishDatePicker1.MaxDate;
+                    }
+                    this._currentMonthLength = JewishDateCalculations.DaysInJewishMonth(this._displayedJewishMonth.Year, this._displayedJewishMonth.Month);
                     this._currentMonthWeeks = (int)this._displayedJewishMonth.DayOfWeek >= 5 && _currentMonthLength > 29 ? 6 : 5;
                     this.SetCaptionText();
                     this.llSefirah.Visible = this._displayedJewishMonth.Month.In(1, 2);
@@ -698,7 +708,7 @@ namespace LuachProject
 
             if (day > 0)
             {
-                if (day == 30 && JewishDate.DaysInJewishMonth(
+                if (day == 30 && JewishDateCalculations.DaysInJewishMonth(
                     this._displayedJewishMonth.Year, this._displayedJewishMonth.Month) == 29)
                 {
                     day = 29;

@@ -162,7 +162,7 @@ namespace LuachProject
                     //Add up all the months for all the intervening years
                     for (var year = this.JewishDate.Year; year < jd.Year; year++)
                     {
-                        months += JewishDate.IsLeapYear(year) ? 13 : 12;
+                        months += JewishDateCalculations.IsJewishLeapYear(year) ? 13 : 12;
                     }
                     //Add or subtract months from the current year
                     months += jd.Month - this.JewishDate.Month;
@@ -271,8 +271,8 @@ namespace LuachProject
         /// <returns></returns>
         private static bool IsJewishMonthMatch(JewishDate occDate, JewishDate currDate)
         {
-            bool isOccLeap = JewishDate.IsLeapYear(occDate.Year),
-                     isCurrLeap = JewishDate.IsLeapYear(currDate.Year);
+            bool isOccLeap = JewishDateCalculations.IsJewishLeapYear(occDate.Year),
+                     isCurrLeap = JewishDateCalculations.IsJewishLeapYear(currDate.Year);
             int occMonth = occDate.Month,
                 currMonth = currDate.Month;
 

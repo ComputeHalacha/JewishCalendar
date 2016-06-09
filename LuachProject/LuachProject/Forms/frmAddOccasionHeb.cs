@@ -53,6 +53,7 @@ namespace LuachProject
         public frmAddOccasionHeb()
         {
             InitializeComponent();
+            this.jewishDatePicker1.SetBoundsToSecular();
         }
 
         public frmAddOccasionHeb(UserOccasion uoToEdit)

@@ -8,7 +8,7 @@
         /// <summary>
         /// The date of the molad
         /// </summary>
-        public JewishDateMicro JewishDate { get; set; }
+        public JewishDate JewishDate { get; set; }
 
         /// <summary>
         /// Represents the time of the molad - not including the chalakim
@@ -118,7 +118,7 @@
 
             return new Molad
             {
-                JewishDate = new JewishDateMicro((1 + (29 * totalMonths)) + (hoursElapsed / 24)),
+                JewishDate = new JewishDate((1 + (29 * totalMonths)) + (hoursElapsed / 24)),
                 Time = new HourMinute { Hour = hoursElapsed % 24, Minute = (parts % 1080) / 18 },
                 Chalakim = parts % 18
             };

@@ -197,7 +197,7 @@ namespace LuachProject
 
         private void llOccasionList_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if(this._displayHebrew)
+            if (this._displayHebrew)
             {
                 new frmOccasionListHeb().Show(this);
             }
@@ -580,7 +580,7 @@ namespace LuachProject
                             "\n" + Zmanim.GetHolidaysText(holidays, "\n", this._displayHebrew);
                 }
 
-                
+
 
                 g.FillRectangle(Program.ShabbosBrush, rect);
             }
@@ -650,7 +650,7 @@ namespace LuachProject
             //Jewish day will be on the right, so we move the rectangle over to the right of the box.
             //No need to resize the width.
             rect.X += rect.Width;
-            g.DrawString(jDate.Day.ToNumberHeb().Replace("'", ""), 
+            g.DrawString(jDate.Day.ToNumberHeb().Replace("'", ""),
                 this._jewishDayFont, Program.SecularDayBrush, rect, Program.StringFormat);
             //Move rectangle back over to the left of the box
             rect.X = currX;
@@ -722,7 +722,7 @@ namespace LuachProject
 
             if (day > 0)
             {
-                if (day == 30 && JewishDate.DaysInJewishMonth(
+                if (day == 30 && JewishDateCalculations.DaysInJewishMonth(
                     this._dateBeingDisplayed.Year, this._dateBeingDisplayed.Month) == 29)
                 {
                     day = 29;
@@ -985,7 +985,7 @@ namespace LuachProject
             if (f is frmDailyInfoEng)
             {
                 ((frmDailyInfoEng)f).OccasionWasChanged += delegate (object sender, JewishDate jd)
-                {                    
+                {
                     this.RefreshDay(jd);
                     this.OccasionWasChanged?.Invoke(f, new EventArgs());
                 };
@@ -1070,21 +1070,21 @@ namespace LuachProject
         #region Public Functions
         public void EditOccasion(UserOccasion uo)
         {
-            this.SelectedDate = uo.JewishDate.GregorianDate;            
+            this.SelectedDate = uo.JewishDate.GregorianDate;
             var sdi = this._singleDateInfoList.FirstOrDefault(t => t.JewishDate.GregorianDate.Date == this.SelectedDate.Date);
             if (uo != null && this.DailyPanelIsShowing)
             {
                 if (this._displayHebrew)
                 {
                     var f = this.splitContainer1.Panel2.Controls[0] as frmDailyInfoHeb;
-                    f.EditOccasion(uo, new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));                    
+                    f.EditOccasion(uo, new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
                 }
                 else
                 {
                     var f = this.splitContainer1.Panel2.Controls[0] as frmDailyInfoEng;
                     f.EditOccasion(uo, new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
                 }
-                
+
             }
         }
 

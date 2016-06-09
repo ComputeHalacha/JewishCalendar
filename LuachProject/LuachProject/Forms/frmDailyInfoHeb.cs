@@ -67,12 +67,14 @@ namespace LuachProject
                     //If we are displaying todays date for the current time zone, we will show the "proper" secular date.
                     if (this.IsHereAndNow())
                     {
-                        this._displayingSecularDate = this._displayingJewishDate.GetSecularDate(
-                            (HourMinute)DateTime.Now.TimeOfDay, this._zmanim.Location);
+                        this._displayingSecularDate = this._displayingJewishDate.GregorianDate;                        
                     }
                     else
                     {
-                        this._displayingSecularDate = this._displayingJewishDate.GregorianDate;
+                        this._displayingSecularDate = JewishDateCalculations.GetGregorianDateFromJewishDate(
+                            this._displayingJewishDate,
+                            (HourMinute)DateTime.Now.TimeOfDay,
+                            this._zmanim.Location);
                     }
                     this._zmanim.SecularDate = this._displayingSecularDate;
                     this._holidays = Zmanim.GetHolidays(value, this._zmanim.Location.IsInIsrael).Cast<SpecialDay>();
@@ -111,12 +113,14 @@ namespace LuachProject
             //If we are displaying todays date for the current time zone, we will show the "proper" secular date.
             if (this.IsHereAndNow())
             {
-                this._displayingSecularDate = this._displayingJewishDate.GetSecularDate(
-                    (HourMinute)DateTime.Now.TimeOfDay, this._zmanim.Location);
+                this._displayingSecularDate = this._displayingJewishDate.GregorianDate;
             }
             else
             {
-                this._displayingSecularDate = this._displayingJewishDate.GregorianDate;
+                this._displayingSecularDate = JewishDateCalculations.GetGregorianDateFromJewishDate(
+                            this._displayingJewishDate,
+                            (HourMinute)DateTime.Now.TimeOfDay,
+                            this._zmanim.Location);
             }
 
             this.ShowDateData();
@@ -427,7 +431,7 @@ namespace LuachProject
                         var nextMonth = this._displayingJewishDate + 12;
                         this.richTextBox1.SelectedText = " - חודש " + Utils.GetProperMonthNameHeb(nextMonth.Year, nextMonth.Month);
                         var molad = Molad.GetMolad(nextMonth.Month, nextMonth.Year);
-                        var dim = JewishDate.DaysInJewishMonth(this._displayingJewishDate.Year, this._displayingJewishDate.Month);
+                        var dim = JewishDateCalculations.DaysInJewishMonth(this._displayingJewishDate.Year, this._displayingJewishDate.Month);
                         var dow = dim - this._displayingJewishDate.Day;
                         if (dim == 30)
                         {

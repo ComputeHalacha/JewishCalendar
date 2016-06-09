@@ -1,7 +1,7 @@
 ﻿/****************************************************************************************************************
  * Computes the Sedra/Sedras of the week for the given day.
  * Sample of use:
- *     var sedras = JewishCalendar.Sedra.GetSedra(iJewishdate, isInIsrael);
+ *     var sedras = JewishCalendar.Sedra.GetSedra(JewishDate, isInIsrael);
  *     string strSedra = string.Join(" - ", sedras.Select(i => i.nameEng));
  * The code was converted to C# and tweaked by CBS.
  * It is directly based on the C code in Danny Sadinoff's HebCal - Copyright (C) 1994.
@@ -325,7 +325,7 @@ namespace JewishCalendar
         /// <param name="date"></param>
         /// <param name="inIsrael"></param>
         /// <returns></returns>
-        public static Parsha[] GetSedra(IJewishDate date, bool inIsrael)
+        public static Parsha[] GetSedra(JewishDate date, bool inIsrael)
         {
             Parsha[] parshaArray;
 

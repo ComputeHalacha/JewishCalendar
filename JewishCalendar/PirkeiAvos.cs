@@ -15,7 +15,7 @@
     /// </summary>
     public static class PirkeiAvos
     {
-        private static JewishDateMicro _savedPesachDay1;
+        private static JewishDate _savedPesachDay1;
         private static bool _savedInIsrael;
 
         /// <summary>
@@ -27,7 +27,7 @@
         /// <returns>An array of integers representing the Perek/Prakim of the given Shabbos.
         /// If the given day does not have Pirkei Avos, an empty array is returned.
         /// </returns>
-        public static int[] GetPirkeiAvos(IJewishDate jDate, bool inIsrael)
+        public static int[] GetPirkeiAvos(JewishDate jDate, bool inIsrael)
         {
             if (jDate.DayOfWeek != System.DayOfWeek.Saturday)
             {
@@ -64,7 +64,7 @@
         /// <param name="jDate"></param>
         /// <param name="inIsrael"></param>
         /// <returns></returns>
-        private static int GetSinglePerek(IJewishDate jDate, bool inIsrael)
+        private static int GetSinglePerek(JewishDate jDate, bool inIsrael)
         {
             int jYear = jDate.Year,
                jMonth = jDate.Month,
@@ -73,7 +73,7 @@
             //Save the first day of Pesach. Most subsequent calls will be for the same year and location.
             if (_savedPesachDay1 == null || jYear != _savedPesachDay1.Year || _savedInIsrael != inIsrael)
             {
-                _savedPesachDay1 = new JewishDateMicro(jYear, 1, 15);
+                _savedPesachDay1 = new JewishDate(jYear, 1, 15);
                 _savedInIsrael = inIsrael;
             }
 
@@ -110,7 +110,7 @@
         /// <param name="jDate"></param>
         /// <param name="inIsrael"></param>
         /// <returns></returns>
-        private static int[] GetEllulPrakim(IJewishDate jDate, bool inIsrael)
+        private static int[] GetEllulPrakim(JewishDate jDate, bool inIsrael)
         {
             int[] prakim = null;
             int jYear = jDate.Year,
@@ -118,10 +118,10 @@
                 jDay = jDate.Day;
             //The fist day of Ellul.
             //The year/month/day/absoluteDay constructor for JewishDateMicro is used for efficiency.
-            JewishDateMicro day1 = new JewishDateMicro(jYear, 6, 1, jDate.AbsoluteDate - jDate.Day + 1);
+            JewishDate day1 = new JewishDate(jYear, 6, 1, jDate.AbsoluteDate - jDate.Day + 1);
             int day1DOW = day1.DayInWeek;
             int shabbos1Day = day1DOW == 6 ? 1 : ((6 - (day1DOW + 6) % 6) + 1);
-            JewishDateMicro shabbos1Date = new JewishDateMicro(jYear, 6, shabbos1Day, day1.AbsoluteDate + shabbos1Day - 1);
+            JewishDate shabbos1Date = new JewishDate(jYear, 6, shabbos1Day, day1.AbsoluteDate + shabbos1Day - 1);
             //Which shabbos in Ellul are we working out now?
             int currentShabbosNumber = jDay == shabbos1Day ? 1 : ((jDay - shabbos1Day) / 7) + 1;
 

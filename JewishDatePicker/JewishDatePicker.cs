@@ -20,15 +20,16 @@ namespace JewishDatePicker
         private JewishDate _value = new JewishDate();
 
         #endregion Private Fields
+        private JewishDate _minDate = JewishDate.MinDate;
+        private JewishDate _maxDate = JewishDate.MaxDate;
 
         #region Public Constructors
 
         public JewishDatePicker()
         {
-            this.MinDate = JewishDate.MinDate;
-            this.MaxDate = JewishDate.MaxDate;
-
             InitializeComponent();
+
+            if (this._value == null) this._value = new JewishDate();
 
             this.cmbJYear.DisplayMember = "Value";
             this.cmbJYear.ValueMember = "Key";
@@ -51,6 +52,8 @@ namespace JewishDatePicker
         #region Public Events
 
         public event EventHandler ValueChanged;
+        public event EventHandler MaxValueChanged;
+        public event EventHandler MinValueChanged;
 
         #endregion Public Events
 
@@ -128,29 +131,43 @@ namespace JewishDatePicker
             {
                 this._language = value;
                 this.RightToLeft = this._language == Languages.Hebrew ? RightToLeft.Yes : RightToLeft.No;
+                this.RefillCombos();
+            }
+        }
 
-                if (this.cmbJYear.Items.Count > 0)
+        public JewishDate MaxDate
+        {
+            get
+            {
+                return this._maxDate;
+            }
+            set
+            {
+                if (value != this._maxDate)
                 {
-                    this.cmbJYear.SelectedIndexChanged -= new System.EventHandler(this.cmbJYear_SelectedIndexChanged);
-                    this.cmbJMonth.SelectedIndexChanged -= new System.EventHandler(this.cmbJMonth_SelectedIndexChanged);
-                    this.cmbJDay.SelectedIndexChanged -= new System.EventHandler(this.cmbJDay_SelectedIndexChanged);
-
-                    this.cmbJYear.Items.Clear();
-                    this.FillJewishYearsCombo();
-                    this.FillJewishMonthsCombo();
-                    this.FillJewishDaysCombo();
-                    this.SetCombosToShowValue();
-
-                    this.cmbJYear.SelectedIndexChanged += new System.EventHandler(this.cmbJYear_SelectedIndexChanged);
-                    this.cmbJMonth.SelectedIndexChanged += new System.EventHandler(this.cmbJMonth_SelectedIndexChanged);
-                    this.cmbJDay.SelectedIndexChanged += new System.EventHandler(this.cmbJDay_SelectedIndexChanged);
+                    this._maxDate = value;
+                    this.RefillCombos();
+                    this.RaiseMaxValueChanged();
                 }
             }
         }
 
-        public JewishDate MaxDate { get; set; }
-
-        public JewishDate MinDate { get; set; }
+        public JewishDate MinDate
+        {
+            get
+            {
+                return this._minDate;
+            }
+            set
+            {
+                if (this._minDate != value)
+                {
+                    this._minDate = value;
+                    this.RefillCombos();
+                    this.RaiseMinValueChanged();
+                }
+            }
+        }
 
         [DefaultValue(RightToLeft.Yes)]
         public override RightToLeft RightToLeft
@@ -180,11 +197,11 @@ namespace JewishDatePicker
             {
                 if (this._value != value)
                 {
-                    if (value < MinDate)
+                    if (value < this._minDate)
                     {
                         throw new ArgumentOutOfRangeException("Value", "Value can not be less than the MinDate");
                     }
-                    if (value > MaxDate)
+                    if (value > this._maxDate)
                     {
                         throw new ArgumentOutOfRangeException("Value", "Value can not be more than the MaxDate");
                     }
@@ -200,13 +217,25 @@ namespace JewishDatePicker
         #endregion Public Properties
 
         #region Public Methods
+        public void SetBoundsToSecular()
+        {
+            this.MaxDate = JewishDate.MaxDate;
+            this.MinDate = new JewishDate(DateTime.MinValue);
+        }
 
         public virtual void RaiseValueChanged()
         {
-            if (this.ValueChanged != null)
-            {
-                this.ValueChanged(this, new EventArgs());
-            }
+            this.ValueChanged?.Invoke(this, new EventArgs());
+        }
+
+        public virtual void RaiseMaxValueChanged()
+        {
+            this.MaxValueChanged?.Invoke(this, new EventArgs());
+        }
+
+        public virtual void RaiseMinValueChanged()
+        {
+            this.MinValueChanged?.Invoke(this, new EventArgs());
         }
 
         #endregion Public Methods
@@ -254,7 +283,7 @@ namespace JewishDatePicker
 
             this.cmbJDay.Items.Clear();
 
-            int d = JewishDate.DaysInJewishMonth(this._value.Year, this._value.Month);
+            int d = JewishDateCalculations.DaysInJewishMonth(this._value.Year, this._value.Month);
             for (int i = 1; i <= d; i++)
             {
                 this.cmbJDay.Items.Add(new KeyValuePair<int, string>(i,
@@ -265,7 +294,7 @@ namespace JewishDatePicker
         private void FillJewishMonthsCombo()
         {
             this.cmbJMonth.Items.Clear();
-            bool m = JewishDate.IsLeapYear(this.Value.Year);
+            bool m = JewishDateCalculations.IsJewishLeapYear(this._value.Year);
             for (int i = 1; i <= (m ? 13 : 12); i++)
             {
                 this.cmbJMonth.Items.Add(new KeyValuePair<int, string>(i,
@@ -275,7 +304,7 @@ namespace JewishDatePicker
 
         private void FillJewishYearsCombo()
         {
-            for (int i = this.MinDate.Year; i <= this.MaxDate.Year; i++)
+            for (int i = this._minDate.Year; i <= this._maxDate.Year; i++)
             {
                 this.cmbJYear.Items.Add(new KeyValuePair<int, string>(i,
                     this._language == Languages.Hebrew ? i.ToNumberHeb() : i.ToString()));
@@ -337,7 +366,7 @@ namespace JewishDatePicker
                 month = ((KeyValuePair<int, string>)this.cmbJMonth.SelectedItem).Key,
                 day = ((KeyValuePair<int, string>)this.cmbJDay.SelectedItem).Key;
 
-            if (day == 30 && JewishDate.DaysInJewishMonth(year, month) == 29)
+            if (day == 30 && JewishDateCalculations.DaysInJewishMonth(year, month) == 29)
             {
                 day = 29;
             }
@@ -345,6 +374,25 @@ namespace JewishDatePicker
             this.Value = new JewishDate(year, month, day);
         }
 
+        private void RefillCombos()
+        {
+            if (this.cmbJYear.Items.Count > 0)
+            {
+                this.cmbJYear.SelectedIndexChanged -= new System.EventHandler(this.cmbJYear_SelectedIndexChanged);
+                this.cmbJMonth.SelectedIndexChanged -= new System.EventHandler(this.cmbJMonth_SelectedIndexChanged);
+                this.cmbJDay.SelectedIndexChanged -= new System.EventHandler(this.cmbJDay_SelectedIndexChanged);
+
+                this.cmbJYear.Items.Clear();
+                this.FillJewishYearsCombo();
+                this.FillJewishMonthsCombo();
+                this.FillJewishDaysCombo();
+                this.SetCombosToShowValue();
+
+                this.cmbJYear.SelectedIndexChanged += new System.EventHandler(this.cmbJYear_SelectedIndexChanged);
+                this.cmbJMonth.SelectedIndexChanged += new System.EventHandler(this.cmbJMonth_SelectedIndexChanged);
+                this.cmbJDay.SelectedIndexChanged += new System.EventHandler(this.cmbJDay_SelectedIndexChanged);
+            }
+        }
         #endregion Private Methods
     }
 }
