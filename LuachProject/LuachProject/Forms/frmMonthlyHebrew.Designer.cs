@@ -252,8 +252,7 @@
             this.jewishDatePicker1.Margin = new System.Windows.Forms.Padding(0);
             this.jewishDatePicker1.Name = "jewishDatePicker1";
             this.jewishDatePicker1.Size = new System.Drawing.Size(312, 30);
-            this.jewishDatePicker1.TabIndex = 18;
-            this.jewishDatePicker1.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.Value")));
+            this.jewishDatePicker1.TabIndex = 18;            
             // 
             // button4
             // 

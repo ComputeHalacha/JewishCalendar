@@ -259,8 +259,7 @@
             this.jewishDatePicker1.Name = "jewishDatePicker1";
             this.jewishDatePicker1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.jewishDatePicker1.Size = new System.Drawing.Size(343, 29);
-            this.jewishDatePicker1.TabIndex = 17;
-            this.jewishDatePicker1.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.Value")));
+            this.jewishDatePicker1.TabIndex = 17;            
             // 
             // label1
             // 
