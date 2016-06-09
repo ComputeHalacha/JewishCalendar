@@ -18,8 +18,8 @@
     <HtmlHelpName>Jewish Calendar Documentation</HtmlHelpName>
     <Language>en-US</Language>
     <DocumentationSources>
-      <DocumentationSource sourceFile="JewishCalendar\bin\Release\JewishCalendar.xml" />
-<DocumentationSource sourceFile="JewishCalendar\bin\Release\JewishCalendar.dll" /></DocumentationSources>
+      <DocumentationSource sourceFile="JewishCalendar\bin\Debug\JewishCalendar.dll" />
+<DocumentationSource sourceFile="JewishCalendar\bin\Debug\JewishCalendar.xml" /></DocumentationSources>
     <HelpFileVersion>1.0.0.0</HelpFileVersion>
     <MaximumGroupParts>2</MaximumGroupParts>
     <NamespaceGrouping>False</NamespaceGrouping>
@@ -35,6 +35,12 @@
     <NamespaceSummaries>
       <NamespaceSummaryItem name="JewishCalendar" isDocumented="True" xmlns="">Contains classes for the Jewish Calendar</NamespaceSummaryItem>
     </NamespaceSummaries>
+    <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
+    <HelpFileFormat>HtmlHelp1</HelpFileFormat>
+    <IndentHtml>False</IndentHtml>
+    <KeepLogFile>True</KeepLogFile>
+    <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
+    <CleanIntermediates>True</CleanIntermediates>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
 			 the build.  The others are optional common platform types that may appear. -->

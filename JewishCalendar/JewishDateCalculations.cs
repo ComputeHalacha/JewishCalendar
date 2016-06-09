@@ -6,7 +6,7 @@ namespace JewishCalendar
     /// <summary>
     /// Static class that contains functions for Jewish calendar calculations.
     /// </summary>
-    /// <remarks>This class does much of the actual Jewish Date calculations for the <see cref="JewishDate">JewishDateMicro</see> class.
+    /// <remarks>This class does much of the actual Jewish Date calculations for the <see cref="JewishDate">JewishDate</see> class.
     /// The calculations do not use System.Globalization.HebrewCalendar so they can be used with .NET micro projects.
     /// Most of the Jewish date logic and calculations were translated from the C code
     /// which in turn were translated from the Lisp code in "Calendrical Calculations" by Nachum Dershowitz and Edward M. Reingold

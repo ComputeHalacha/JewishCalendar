@@ -8,136 +8,33 @@
     /// 
     /// <list type="numeric">
     /// <listheader>This class has 3 main advantages over System.Globalization.HebrewCalendar:</listheader>
+    /// 
     /// <item>
-    /// The Months are numbered from Nissan as opposed to Tishrei. The regular .NET class System.Globalization.HebrewCalendar has Tishrei as month #1.
+    /// The Months are numbered from Nissan. The regular .NET class System.Globalization.HebrewCalendar has Tishrei as month #1.
     /// This becomes confusing, as months after Adar get a different number -
     /// depending on whether the year is a leap year or not.
-    /// The Torah also instructs us to call Nissan the first month. (See Ramban in drasha for Rosh Hashana)
+    /// The Torah also instructs us to call Nissan the first month. (See Ramban in Drasha for Rosh Hashana)
     /// Hence this "Nissan first" Jewish Date class.
     /// </item>
+    /// 
     /// <item>
-    /// It can represent Jewish dates before the Common Era
+    /// It can represent any Jewish Date from creation until the Jewish year 6000. 
+    /// System.Globalization.HebrewCalendar can only represent dates starting from the Gregorian year 1583.
     /// </item>
+    /// 
     /// <item>
-    /// It can be used for .NET Micro Framework projects which do not have access to System.Globalization.HebrewCalendar
+    /// It can be used for projects which do not have access to System.Globalization.HebrewCalendar,
+    /// such as .NET Micro Framework projects etc.
     /// </item>
     /// </list>     
     /// </remarks>
-
     [System.Serializable]
     public class JewishDate
     {
+        #region Private Variables
         private int _day, _month, _year, _absoluteDate;
         private System.DateTime _gregorianDate;
-
-        #region Public Properties
-        /// <summary>
-        /// The number of days elapsed since the theoretical Gregorian date Sunday, December 31, 1 BCE.
-        /// Since there is no year 0 in the calendar, the year following 1 BCE is 1 CE.
-        /// So, the Gregorian date January 1, 1 CE is absolute date number 1.
-        /// </summary>
-        public int AbsoluteDate
-        {
-            get
-            {
-                return this._absoluteDate;
-            }
-            set
-            {
-                if (value != this._absoluteDate)
-                {
-                    this.SetFromAbsoluteDate(value);
-                    this._gregorianDate = JewishDateCalculations.GetGregorianDateFromJewishDate(this);
-                }
-            }
-        }
-
-        /// <summary>
-        /// The Day in the month for this Jewish Date.
-        /// NOTE: Not always correct; from nightfall until midnight should really be the next Jewish day.
-        /// </summary>
-        public int Day { get { return this._day; } }
-
-        /// <summary>
-        /// The index of the day of the week for this Jewish Date. Sunday is 0.
-        /// </summary>
-        public int DayInWeek { get { return System.Math.Abs(this.AbsoluteDate % 7); } }
-
-        /// <summary>
-        /// The day of the week for this Jewish Date (from Midnight to Midnight)
-        /// </summary>
-        public System.DayOfWeek DayOfWeek { get { return (System.DayOfWeek)this.DayInWeek; } }
-
-        /// <summary>
-        /// The Jewish Month. As in the Torah, Nissan is month 1
-        /// </summary>
-        public int Month { get{ return this._month; } }
-
-        /// <summary>
-        /// The name of the current Jewish Month (in English)
-        /// </summary>
-        public string MonthName { get { return Utils.GetProperMonthName(this._year, this._month); } }
-
-        /// <summary>
-        /// The number of years since creation
-        /// </summary>
-        public int Year { get { return this._year; } }
-
-        /// <summary>
-        /// Represents the time of day for this JewishDate
-        /// </summary>
-        public System.TimeSpan TimeOfDay { get; set; }
-        /// <summary>
-        /// Get the Gregorian Date for the current Hebrew Date
-        /// </summary>
-        /// <returns></returns>
-        public System.DateTime GregorianDate
-        {
-            get
-            {
-                return this._gregorianDate;
-            }
-            set
-            {
-                if(this._gregorianDate != value)
-                {
-                    this._gregorianDate = value;
-                    this.SetFromAbsoluteDate(JewishDateCalculations.GetAbsoluteFromGregorianDate(value));                    
-                    this.TimeOfDay = value.TimeOfDay;
-                }
-            }
-        }
-
-        /// <summary>
-        /// The Hour component of the time of day represented by this Jewish Date
-        /// </summary>
-        public int Hour { get { return this.TimeOfDay.Hours; } }
-
-        /// <summary>
-        /// The Minute component of the time of day represented by this Jewish Date
-        /// </summary>
-        public int Minute { get { return this.TimeOfDay.Minutes; } }
-
-        /// <summary>
-        /// The Second component of the time of day represented by this Jewish Date
-        /// </summary>
-        public int Second { get { return this.TimeOfDay.Seconds; } }
-
-        /// <summary>
-        /// The Millisecond component of the time of day represented by this Jewish Date
-        /// </summary>
-        public int Millisecond { get { return this.TimeOfDay.Milliseconds; } }
-
-        /// <summary>
-        /// Minimum valid date that can be represented by this class
-        /// </summary>
-        public static JewishDate MinDate { get; private set; }
-        /// <summary>
-        /// Maximum valid date that can be represented by this class
-        /// </summary>
-        public static JewishDate MaxDate { get; private set; }
-
-        #endregion Public Properties
+        #endregion
 
         #region Constructors
         /// <summary>
@@ -276,6 +173,115 @@
         }
 
         #endregion Constructors
+
+        #region Public Properties
+        /// <summary>
+        /// The number of days elapsed since the theoretical Gregorian date Sunday, December 31, 1 BCE.
+        /// Since there is no year 0 in the calendar, the year following 1 BCE is 1 CE.
+        /// So, the Gregorian date January 1, 1 CE is absolute date number 1.
+        /// </summary>
+        public int AbsoluteDate
+        {
+            get
+            {
+                return this._absoluteDate;
+            }
+            set
+            {
+                if (value != this._absoluteDate)
+                {
+                    this.SetFromAbsoluteDate(value);
+                    this._gregorianDate = JewishDateCalculations.GetGregorianDateFromJewishDate(this);
+                }
+            }
+        }
+
+        /// <summary>
+        /// The Day in the month for this Jewish Date.
+        /// NOTE: Not always correct; from nightfall until midnight should really be the next Jewish day.
+        /// </summary>
+        public int Day { get { return this._day; } }
+
+        /// <summary>
+        /// The index of the day of the week for this Jewish Date. Sunday is 0.
+        /// </summary>
+        public int DayInWeek { get { return System.Math.Abs(this.AbsoluteDate % 7); } }
+
+        /// <summary>
+        /// The day of the week for this Jewish Date (from Midnight to Midnight)
+        /// </summary>
+        public System.DayOfWeek DayOfWeek { get { return (System.DayOfWeek)this.DayInWeek; } }
+
+        /// <summary>
+        /// The Jewish Month. As in the Torah, Nissan is month 1
+        /// </summary>
+        public int Month { get { return this._month; } }
+
+        /// <summary>
+        /// The name of the current Jewish Month (in English)
+        /// </summary>
+        public string MonthName { get { return Utils.GetProperMonthName(this._year, this._month); } }
+
+        /// <summary>
+        /// The number of years since creation
+        /// </summary>
+        public int Year { get { return this._year; } }
+
+        /// <summary>
+        /// Represents the time of day for this JewishDate
+        /// </summary>
+        public System.TimeSpan TimeOfDay { get; set; }
+        /// <summary>
+        /// Get the Gregorian Date for the current Hebrew Date
+        /// </summary>
+        /// <returns></returns>
+        public System.DateTime GregorianDate
+        {
+            get
+            {
+                return this._gregorianDate;
+            }
+            set
+            {
+                if (this._gregorianDate != value)
+                {
+                    this._gregorianDate = value;
+                    this.SetFromAbsoluteDate(JewishDateCalculations.GetAbsoluteFromGregorianDate(value));
+                    this.TimeOfDay = value.TimeOfDay;
+                }
+            }
+        }
+
+        /// <summary>
+        /// The Hour component of the time of day represented by this Jewish Date
+        /// </summary>
+        public int Hour { get { return this.TimeOfDay.Hours; } }
+
+        /// <summary>
+        /// The Minute component of the time of day represented by this Jewish Date
+        /// </summary>
+        public int Minute { get { return this.TimeOfDay.Minutes; } }
+
+        /// <summary>
+        /// The Second component of the time of day represented by this Jewish Date
+        /// </summary>
+        public int Second { get { return this.TimeOfDay.Seconds; } }
+
+        /// <summary>
+        /// The Millisecond component of the time of day represented by this Jewish Date
+        /// </summary>
+        public int Millisecond { get { return this.TimeOfDay.Milliseconds; } }
+
+        /// <summary>
+        /// Minimum valid date that can be represented by this class
+        /// </summary>
+        public static JewishDate MinDate { get; private set; }
+        /// <summary>
+        /// Maximum valid date that can be represented by this class
+        /// </summary>
+        public static JewishDate MaxDate { get; private set; }
+
+        #endregion Public Properties
 
         #region Public Functions
         /// <summary>
