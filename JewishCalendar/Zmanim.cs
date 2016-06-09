@@ -48,7 +48,7 @@ namespace JewishCalendar
         /// </summary>
         /// <param name="hd"></param>
         /// <param name="loc"></param>
-        public Zmanim(IJewishDate hd, Location loc)
+        public Zmanim(JewishDate hd, Location loc)
             : this(hd.GregorianDate, loc)
         { }
 
@@ -145,7 +145,7 @@ namespace JewishCalendar
         /// the .NET Micro framework which does not support generic lists.
         /// For regular projects just use as follows: GetHolidays(jDate, inIsrael).Cast&lt;JewishCalendar.SpecialDay&gt;()
         /// </remarks>
-        public static ArrayList GetHolidays(IJewishDate jDate, bool inIsrael)
+        public static ArrayList GetHolidays(JewishDate jDate, bool inIsrael)
         {
             ArrayList list = new ArrayList();
             int jYear = jDate.Year;
@@ -276,7 +276,7 @@ namespace JewishCalendar
         /// <param name="inIsrael"></param>
         /// <param name="hebrew"></param>
         /// <returns></returns>
-        public static string GetHolidaysText(IJewishDate jdate, bool inIsrael, bool hebrew)
+        public static string GetHolidaysText(JewishDate jdate, bool inIsrael, bool hebrew)
         {
             return GetHolidaysText(GetHolidays(jdate, inIsrael), " - ", hebrew);
         }
@@ -362,7 +362,7 @@ namespace JewishCalendar
                    SpecialDayTypes.MinorYomtov));
             }
         }
-        private static void AddShabbosSpecialDays(IJewishDate jDate, bool inIsrael, ArrayList list, bool isLeapYear)
+        private static void AddShabbosSpecialDays(JewishDate jDate, bool inIsrael, ArrayList list, bool isLeapYear)
         {
             int jYear = jDate.Year,
                 jMonth = jDate.Month,
@@ -669,7 +669,7 @@ namespace JewishCalendar
                     list.Add(new SpecialDay("Shushan Purim", "שושן פורים", SpecialDayTypes.MinorYomtov));
             }
         }
-        private static void SetPirkeiAvos(IJewishDate jDate, bool inIsrael, ArrayList list)
+        private static void SetPirkeiAvos(JewishDate jDate, bool inIsrael, ArrayList list)
         {
             int[] prakim = PirkeiAvos.GetPirkeiAvos(jDate, inIsrael);
             if (prakim.Length > 0)

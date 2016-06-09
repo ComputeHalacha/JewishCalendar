@@ -109,17 +109,26 @@ namespace JewishCalendar
         /// <param name="jd1">This JewishDate</param>
         /// <param name="jd2">The JewishDate to test against this one</param>
         /// <returns>Whether or not the two represent the same Jewish calendar date</returns>
-        public static bool IsSameDate(this IJewishDate jd1, IJewishDate jd2)
+        public static bool IsSameDate(this JewishDate jd1, JewishDate jd2)
         {
             if (jd2 == null) return false;
             return jd1.Year == jd2.Year && jd1.Month == jd2.Month && jd1.Day == jd2.Day;
         }
 
         /// <summary>
+        /// Gets the Gregorian date that starts at midnight of the given Jewish Date
+        /// </summary>
+        /// <param name="jd"></param>
+        /// <returns></returns>
+        public static DateTime GetGregorianDateFromJewishDate(JewishDate jd)
+        {
+            return GetGregorianDateFromAbsolute(jd.AbsoluteDate).Add(jd.TimeOfDay);
+        }
+
+        /// <summary>
         /// The number of days elapsed since the theoretical Gregorian date Sunday, December 31, 1 BCE.
         /// Since there is no year 0 in the calendar, the year following 1 BCE is 1 CE.
         /// So, the Gregorian date January 1, 1 CE is absolute date number 1.
-        /// NOTE: This function should only be used if you don't have access to System.Globalization.HebrewCalendar.
         /// </summary>
         public static int GetAbsoluteFromJewishDate(int year, int month, int day)
         {
@@ -154,9 +163,21 @@ namespace JewishCalendar
         }
 
         /// <summary>
+        /// Computed the absolute date for the given Gregorian Date
+        /// NOTE: If you are not using the .NET micro framework, 
+        /// you can use the following instead: (int)((YOUR_DATETIME.Subtract(new DateTime(1, 1, 1)).TotalDays + 1));
+        /// </summary>
+        /// <param name="date">The Gregorian Date</param>
+        /// <returns></returns>
+        public static int GetAbsoluteFromGregorianDate(DateTime date)
+        {
+            return GetAbsoluteFromGregorianDate(date.Year, date.Month, date.Day);
+        }
+
+        /// <summary>
         /// Computed the absolute date for the given Gregorian Year, Month and Day
-        /// NOTE: If you are not using the .NET micro framework, do not use this function!
-        /// Use the following instead: (int)((YOUR_DATETIME.Subtract(new DateTime(1, 1, 1)).TotalDays + 1));
+        /// NOTE: If you are not using the .NET micro framework, 
+        /// you can use the following instead: (int)((new DateTime(year, month, day).Subtract(new DateTime(1, 1, 1)).TotalDays + 1));
         /// </summary>
         /// <param name="year">The Gregorian Year</param>
         /// <param name="month">The Gregorian Month</param>
@@ -179,9 +200,52 @@ namespace JewishCalendar
         }
 
         /// <summary>
+        /// Calculates the Gregorian Date from an Absolute Date
+        /// The Absolute Date is the number of days elapsed since the theoretical Gregorian date Sunday, December 31, 1 BCE.
+        /// Since there is no year 0 in the calendar, the year following 1 BCE is 1 CE.
+        /// So, the Gregorian date January 1, 1 CE is absolute date number 1.
+        /// </summary>
+        /// <param name="abs"></param>
+        /// <returns></returns>
+        public static DateTime GetGregorianDateFromAbsolute(int abs)
+        {
+            if (abs >= 730120) // 1/1/2000
+            {
+                return new DateTime(2000, 1, 1).AddDays(abs - 730120);
+            }
+            else
+            {
+                int day, month, year;
+
+                // Search forward year by year from approximate year
+                year = abs / 366;
+                while (abs >= GetAbsoluteFromGregorianDate(year + 1, 1, 1))
+                {
+                    year++;
+                }
+                if (year < 1)
+                {
+                    return DateTime.MinValue;
+                }
+                else if (year > 9999)
+                {
+                    return DateTime.MaxValue;
+                }
+                // Search forward month by month from January
+                month = 1;
+                while (abs > GetAbsoluteFromGregorianDate(
+                    year, month, DaysInGregorianMonth(month, year)))
+                    month++;
+                day = abs - GetAbsoluteFromGregorianDate(year, month, 1) + 1;
+
+                return new DateTime(year, month, day);
+            }
+        }
+
+        /// <summary>
         /// Compute the number of days in the given month of the Gregorian calendar.
-        /// NOTE: If you are not using the .NET Micro framework, do not use this function!
-        /// Use the GregorianCalendar.GetDaysInMonth function instead
+        /// NOTE: If you are not using the .NET Micro framework, 
+        /// you can use the GregorianCalendar.GetDaysInMonth function instead of this function
         /// </summary>
         /// <param name="month">The Gregorian Month</param>
         /// <param name="year">The Gregorian Year</param>
@@ -206,6 +270,39 @@ namespace JewishCalendar
         }
 
         /// <summary>
+        /// Returns the correct Secular Date for a JewishDate at the given Time and Location.
+        /// </summary>
+        /// <param name="jd">The Jewish Date</param>
+        /// <param name="location"></param>
+        /// <param name="timeOfDay"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// When using a JewishDate constructor that takes a "Location" object,
+        /// if the initializing DateTime was after sunset, the Jewish date was set to the next day, but not the GregorianDate.
+        /// The GregorianDate property therefore only represents the correct Secular Date for the original location and time.
+        /// This function returns the correct GregorianDate for a JewishDate at the given time and place.
+        /// </remarks>
+        public static DateTime GetGregorianDateFromJewishDate(JewishDate jd, HourMinute timeOfDay, Location location)
+        {
+            //The Gregorian date that starts at midnight of the given Jewish Date
+            DateTime gregDateAtMidnight = GetGregorianDateFromJewishDate(jd);
+
+            //If given time is after mid-day (sunset is never, ever before mid-day; not even at the North and South Poles)
+            //and given time is after sunset at the given location
+            if (timeOfDay.Hour >= 12 && timeOfDay >= new Zmanim(jd.GregorianDate, location).GetShkia())
+            {
+                // From sunset to midnight:
+                // Jewish today is Secular tomorrow and Secular Today is Jewish Yesterday
+                // (please sir, keep your yarmulka on!) [double meanings all around]
+                return gregDateAtMidnight.AddDays(-1);
+            }
+            else
+            {
+                return gregDateAtMidnight;
+            }
+        }
+
+        /// <summary>
         /// Computes the number of days elapsed from the Sunday prior to the start of the
         /// Jewish calendar to the mean conjunction of Tishrei of the given Jewish year.
         /// </summary>
@@ -224,16 +321,16 @@ namespace JewishCalendar
             int conjunctionDay = (1 + 29 * monthsElapsed + hoursElapsed / 24);
             int conjunctionParts = 1080 * (hoursElapsed % 24) + partsElapsed % 1080;
             int alternativeDay = conjunctionDay;
-            
+
             // at the end of a leap year -  15 hours, 589 parts or later... -  ...or is on a Monday at... -  ...of a common year, -  at 9 hours, 204 parts or later... -  ...or is on a Tuesday... -  If new moon is at or after midday,
-            if ((conjunctionParts >= 19440) || 
-                (((conjunctionDay % 7) == 2) && (conjunctionParts >= 9924) && (!IsJewishLeapYear(year))) || 
-                (((conjunctionDay % 7) == 1) && (conjunctionParts >= 16789) && (IsJewishLeapYear(year - 1)))) 
+            if ((conjunctionParts >= 19440) ||
+                (((conjunctionDay % 7) == 2) && (conjunctionParts >= 9924) && (!IsJewishLeapYear(year))) ||
+                (((conjunctionDay % 7) == 1) && (conjunctionParts >= 16789) && (IsJewishLeapYear(year - 1))))
             {
                 // Then postpone Rosh HaShanah one day
                 alternativeDay += 1;
             }
-            
+
             if ((alternativeDay % 7).In(0, 3, 5)) // or Friday -  or Wednesday, -  If Rosh HaShanah would occur on Sunday,
             {
                 // Then postpone it one (more) day

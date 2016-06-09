@@ -27,7 +27,7 @@
         /// <returns>An array of integers representing the Perek/Prakim of the given Shabbos.
         /// If the given day does not have Pirkei Avos, an empty array is returned.
         /// </returns>
-        public static int[] GetPirkeiAvos(IJewishDate jDate, bool inIsrael)
+        public static int[] GetPirkeiAvos(JewishDate jDate, bool inIsrael)
         {
             if (jDate.DayOfWeek != System.DayOfWeek.Saturday)
             {
@@ -64,7 +64,7 @@
         /// <param name="jDate"></param>
         /// <param name="inIsrael"></param>
         /// <returns></returns>
-        private static int GetSinglePerek(IJewishDate jDate, bool inIsrael)
+        private static int GetSinglePerek(JewishDate jDate, bool inIsrael)
         {
             int jYear = jDate.Year,
                jMonth = jDate.Month,
@@ -110,7 +110,7 @@
         /// <param name="jDate"></param>
         /// <param name="inIsrael"></param>
         /// <returns></returns>
-        private static int[] GetEllulPrakim(IJewishDate jDate, bool inIsrael)
+        private static int[] GetEllulPrakim(JewishDate jDate, bool inIsrael)
         {
             int[] prakim = null;
             int jYear = jDate.Year,

@@ -29,6 +29,8 @@ namespace JewishDatePicker
         {
             InitializeComponent();
 
+            if (this._value == null) this._value = new JewishDate();
+
             this.cmbJYear.DisplayMember = "Value";
             this.cmbJYear.ValueMember = "Key";
             this.cmbJMonth.DisplayMember = "Value";
@@ -292,7 +294,7 @@ namespace JewishDatePicker
         private void FillJewishMonthsCombo()
         {
             this.cmbJMonth.Items.Clear();
-            bool m = JewishDateCalculations.IsJewishLeapYear(this.Value.Year);
+            bool m = JewishDateCalculations.IsJewishLeapYear(this._value.Year);
             for (int i = 1; i <= (m ? 13 : 12); i++)
             {
                 this.cmbJMonth.Items.Add(new KeyValuePair<int, string>(i,

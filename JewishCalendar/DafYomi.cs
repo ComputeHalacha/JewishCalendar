@@ -19,7 +19,7 @@
         /// </summary>
         /// <param name="jewishDate">The Jewish date for which to get the Daf Yomi information</param>
         /// <returns>A Daf object containing the DafYomi information for the given day</returns>
-        public static Daf GetDafYomi(IJewishDate jewishDate)
+        public static Daf GetDafYomi(JewishDate jewishDate)
         {
             return GetSingleDaf(jewishDate.AbsoluteDate);
         }
@@ -140,7 +140,7 @@
     /// <summary>
     /// Represents a single Masechta in Shas.
     /// This structure is not meant to be instantiated directly.
-    /// To access the DafYomi, use <see cref="DafYomi.GetDafYomi(IJewishDate)"/>
+    /// To access the DafYomi, use <see cref="DafYomi.GetDafYomi(JewishDate)"/>
     /// </summary>
     public struct Masechta
     {
@@ -171,7 +171,7 @@
     /// <summary>
     /// Represents a single Daf in Shas.
     /// This class is not meant to be instantiated directly.
-    /// To access the DafYomi, use <see cref="DafYomi.GetDafYomi(IJewishDate)"/>
+    /// To access the DafYomi, use <see cref="DafYomi.GetDafYomi(JewishDate)"/>
     /// </summary>
     public class Daf
     {
