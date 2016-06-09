@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace LuachProject
 {
@@ -174,6 +175,22 @@ namespace LuachProject
                 }
                 ms.Close();
             }
+        }
+
+        public static void SetDoubleBuffered(Control c)
+        {
+            //Taxes: Remote Desktop Connection and painting
+            //http://blogs.msdn.com/oldnewthing/archive/2006/01/03/508694.aspx
+            if (SystemInformation.TerminalServerSession)
+                return;
+
+            PropertyInfo aProp =
+                  typeof(Control).GetProperty(
+                        "DoubleBuffered",
+                        BindingFlags.NonPublic |
+                        BindingFlags.Instance);
+
+            aProp.SetValue(c, true, null);
         }
     }
 }

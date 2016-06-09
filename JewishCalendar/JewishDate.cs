@@ -27,19 +27,36 @@
     [System.Serializable]
     public class JewishDate
     {
+        private int _day, _month, _year, _absoluteDate;
+        private System.DateTime _gregorianDate;
+
         #region Public Properties
         /// <summary>
         /// The number of days elapsed since the theoretical Gregorian date Sunday, December 31, 1 BCE.
         /// Since there is no year 0 in the calendar, the year following 1 BCE is 1 CE.
         /// So, the Gregorian date January 1, 1 CE is absolute date number 1.
         /// </summary>
-        public int AbsoluteDate { get; private set; }
+        public int AbsoluteDate
+        {
+            get
+            {
+                return this._absoluteDate;
+            }
+            set
+            {
+                if (value != this._absoluteDate)
+                {
+                    this.SetFromAbsoluteDate(value);
+                    this._gregorianDate = JewishDateCalculations.GetGregorianDateFromJewishDate(this);
+                }
+            }
+        }
 
         /// <summary>
         /// The Day in the month for this Jewish Date.
         /// NOTE: Not always correct; from nightfall until midnight should really be the next Jewish day.
         /// </summary>
-        public int Day { get; private set; }
+        public int Day { get { return this._day; } }
 
         /// <summary>
         /// The index of the day of the week for this Jewish Date. Sunday is 0.
@@ -54,17 +71,17 @@
         /// <summary>
         /// The Jewish Month. As in the Torah, Nissan is month 1
         /// </summary>
-        public int Month { get; private set; }
+        public int Month { get{ return this._month; } }
 
         /// <summary>
         /// The name of the current Jewish Month (in English)
         /// </summary>
-        public string MonthName { get { return Utils.GetProperMonthName(this.Year, this.Month); } }
+        public string MonthName { get { return Utils.GetProperMonthName(this._year, this._month); } }
 
         /// <summary>
         /// The number of years since creation
         /// </summary>
-        public int Year { get; private set; }
+        public int Year { get { return this._year; } }
 
         /// <summary>
         /// Represents the time of day for this JewishDate
@@ -74,7 +91,22 @@
         /// Get the Gregorian Date for the current Hebrew Date
         /// </summary>
         /// <returns></returns>
-        public System.DateTime GregorianDate { get; private set; }
+        public System.DateTime GregorianDate
+        {
+            get
+            {
+                return this._gregorianDate;
+            }
+            set
+            {
+                if(this._gregorianDate != value)
+                {
+                    this._gregorianDate = value;
+                    this.SetFromAbsoluteDate(JewishDateCalculations.GetAbsoluteFromGregorianDate(value));                    
+                    this.TimeOfDay = value.TimeOfDay;
+                }
+            }
+        }
 
         /// <summary>
         /// The Hour component of the time of day represented by this Jewish Date
@@ -139,11 +171,11 @@
         /// <param name="absoluteDay">The "absolute day"</param>
         public JewishDate(int year, int month, int day, int absoluteDay)
         {
-            this.Year = year;
-            this.Month = month;
-            this.Day = day;
-            this.AbsoluteDate = absoluteDay;
-            this.GregorianDate = JewishDateCalculations.GetGregorianDateFromJewishDate(this);
+            this._year = year;
+            this._month = month;
+            this._day = day;
+            this._absoluteDate = absoluteDay;
+            this._gregorianDate = JewishDateCalculations.GetGregorianDateFromJewishDate(this);
         }
 
         /// <summary>
@@ -160,10 +192,10 @@
         /// Creates a Jewish date that corresponds to the given Gregorian date
         /// </summary>
         /// <param name="date">The Gregorian date from which to create the Jewish Date</param>
-        public JewishDate(System.DateTime date)            
+        public JewishDate(System.DateTime date)
         {
             this.SetFromAbsoluteDate(JewishDateCalculations.GetAbsoluteFromGregorianDate(date));
-            this.GregorianDate = date;
+            this._gregorianDate = date;
             this.TimeOfDay = date.TimeOfDay;
         }
 
@@ -181,9 +213,9 @@
             {
                 abs++;
             }
-            
+
             this.SetFromAbsoluteDate(abs);
-            this.GregorianDate = date;
+            this._gregorianDate = date;
             this.TimeOfDay = date.TimeOfDay;
         }
 
@@ -197,7 +229,7 @@
         public JewishDate(int absoluteDate)
         {
             this.SetFromAbsoluteDate(absoluteDate);
-            this.GregorianDate = JewishDateCalculations.GetGregorianDateFromJewishDate(this);
+            this._gregorianDate = JewishDateCalculations.GetGregorianDateFromJewishDate(this);
         }
 
         /// <summary>
@@ -210,37 +242,37 @@
         /// <param name="absoluteDate"></param>
         private void SetFromAbsoluteDate(int absoluteDate)
         {
-            this.AbsoluteDate = absoluteDate;            
+            this._absoluteDate = absoluteDate;
 
             //To save on calculations, start with an estimation of a few years before date
-            this.Year = 3761 + (absoluteDate / (absoluteDate > 0 ? 366 : 300));
+            this._year = 3761 + (absoluteDate / (absoluteDate > 0 ? 366 : 300));
 
             //The following in from the original code; it starts the calculations way back when and takes almost as long to calculate all of them...
-            //this.Year = ((absoluteDate + JewishDateCalculations.HEBREW_EPOCH) / 366); // Approximation from below.
+            //this._year = ((absoluteDate + JewishDateCalculations.HEBREW_EPOCH) / 366); // Approximation from below.
 
             // Search forward for year from the approximation.
-            while (absoluteDate >= JewishDateCalculations.GetAbsoluteFromJewishDate((this.Year + 1), 7, 1))
+            while (absoluteDate >= JewishDateCalculations.GetAbsoluteFromJewishDate((this._year + 1), 7, 1))
             {
-                this.Year++;
+                this._year++;
             }
             // Search forward for month from either Tishrei or Nissan.
-            if (absoluteDate < JewishDateCalculations.GetAbsoluteFromJewishDate(this.Year, 1, 1))
+            if (absoluteDate < JewishDateCalculations.GetAbsoluteFromJewishDate(this._year, 1, 1))
             {
-                this.Month = 7; //  Start at Tishrei
+                this._month = 7; //  Start at Tishrei
             }
             else
             {
-                this.Month = 1; //  Start at Nissan
+                this._month = 1; //  Start at Nissan
             }
             while (absoluteDate > JewishDateCalculations.GetAbsoluteFromJewishDate(
-                this.Year, 
-                this.Month, 
-                (JewishDateCalculations.DaysInJewishMonth(this.Year, this.Month))))
+                this._year,
+                this._month,
+                (JewishDateCalculations.DaysInJewishMonth(this._year, this._month))))
             {
-                this.Month++;
+                this._month++;
             }
             // Calculate the day by subtraction.
-            this.Day = (absoluteDate - JewishDateCalculations.GetAbsoluteFromJewishDate(this.Year, this.Month, 1) + 1);
+            this._day = (absoluteDate - JewishDateCalculations.GetAbsoluteFromJewishDate(this._year, this._month, 1) + 1);
         }
 
         #endregion Constructors
@@ -274,11 +306,11 @@
         /// return 1 even though they are only a day or two apart</remarks>
         public int DateDiffMonth(JewishDate jd)
         {
-            int month = jd.Month,
-             year = jd.Year,
+            int month = jd._month,
+             year = jd._year,
              months = 0;
 
-            while (!(year == this.Year && month == this.Month))
+            while (!(year == this._year && month == this._month))
             {
                 if (this.AbsoluteDate > jd.AbsoluteDate)
                 {
@@ -318,9 +350,9 @@
         /// <returns></returns>
         public JewishDate AddMonths(int months)
         {
-            int year = this.Year,
-                month = this.Month,
-                day = this.Day,
+            int year = this._year,
+                month = this._month,
+                day = this._day,
                 miy = JewishDateCalculations.MonthsInJewishYear(year);
 
             for (var i = 0; i < System.Math.Abs(months); i++)
@@ -366,9 +398,9 @@
         /// </remarks>
         public JewishDate AddYears(int years)
         {
-            int year = this.Year + years,
-                month = this.Month,
-                day = this.Day;
+            int year = this._year + years,
+                month = this._month,
+                day = this._day;
 
             if (month == 13 && !JewishDateCalculations.IsJewishLeapYear(year))
             {
@@ -394,9 +426,9 @@
         public int GetDayOfOmer()
         {
             int dayOfOmer = 0;
-            if ((this.Month == 1 && this.Day > 15) || this.Month == 2 || (this.Month == 3 && this.Day < 6))
+            if ((this._month == 1 && this._day > 15) || this._month == 2 || (this._month == 3 && this._day < 6))
             {
-                dayOfOmer = (this - new JewishDate(this.Year, 1, 15));
+                dayOfOmer = (this - new JewishDate(this._year, 1, 15));
             }
             return dayOfOmer;
         }
@@ -407,8 +439,8 @@
         /// <returns></returns>
         public override int GetHashCode()
         {
-            return this.Year.GetHashCode() ^ this.Month.GetHashCode() ^ this.Day.GetHashCode();
-        }        
+            return this._year.GetHashCode() ^ this._month.GetHashCode() ^ this._day.GetHashCode();
+        }
 
         /// <summary>
         /// Returns the Jewish date in the format: The 14th day of Adar, 5775
@@ -418,10 +450,10 @@
         {
             var sb = new System.Text.StringBuilder();
             sb.Append("The ");
-            sb.Append(this.Day.ToSuffixedString());
+            sb.Append(this._day.ToSuffixedString());
             sb.Append(" day of ");
             sb.Append(this.MonthName);
-            sb.Append(", " + this.Year.ToString());
+            sb.Append(", " + this._year.ToString());
             return sb.ToString();
         }
 
@@ -446,8 +478,8 @@
         {
             var sb = new System.Text.StringBuilder();
             sb.Append(this.MonthName);
-            sb.Append(" " + this.Day);
-            sb.Append(", " + this.Year.ToString());
+            sb.Append(" " + this._day);
+            sb.Append(", " + this._year.ToString());
             return sb.ToString();
         }
 
@@ -459,11 +491,11 @@
         {
             var sb = new System.Text.StringBuilder();
             //Note for the .net micro framework there are no "format" functions
-            sb.Append(this.Day.ToNumberHeb());
+            sb.Append(this._day.ToNumberHeb());
             sb.Append(" ");
-            sb.Append(Utils.GetProperMonthNameHeb(this.Year, this.Month));
+            sb.Append(Utils.GetProperMonthNameHeb(this._year, this._month));
             sb.Append(" ");
-            sb.Append(this.Year.ToNumberHeb());
+            sb.Append(this._year.ToNumberHeb());
             return sb.ToString();
         }
 

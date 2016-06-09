@@ -227,6 +227,7 @@ namespace LuachProject
 
         private void frmMonthlySecular_Load(object sender, EventArgs e)
         {
+            Program.SetDoubleBuffered(this.pnlMain);
             this.SetLocationDataSource();
             if (!this._currentLocation.IsInIsrael)
             {

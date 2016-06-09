@@ -162,7 +162,7 @@ namespace LuachProject
         }
 
         #endregion Constructors
-
+        
         #region Event Handlers
 
         private void button1_Click(object sender, EventArgs e)
@@ -223,6 +223,7 @@ namespace LuachProject
 
         private void frmMonthlyHebrew_Load(object sender, EventArgs e)
         {
+            Program.SetDoubleBuffered(this.pnlMain);
             this.SetLocationDataSource();
             if (!this._currentLocation.IsInIsrael)
             {
