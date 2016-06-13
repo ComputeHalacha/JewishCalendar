@@ -68,6 +68,11 @@
             new Masechta ("Niddah", "נדה",73)
         };
 
+        /// <summary>
+        /// Gets the DafYomi for the given day
+        /// </summary>
+        /// <param name="absoluteDate"></param>
+        /// <returns></returns>
         private static Daf GetSingleDaf(int absoluteDate)
         {
             int dafcnt = 40;

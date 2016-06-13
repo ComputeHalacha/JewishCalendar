@@ -48,10 +48,10 @@ namespace JewishCalendar
         /// <summary>
         /// Create a new location.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="timeZone"></param>
-        /// <param name="latitude"></param>
-        /// <param name="longitute"></param>
+        /// <param name="name">Name of Location</param>
+        /// <param name="timeZone">The number of hours this location is offset from GMT (UTC)</param>
+        /// <param name="latitude">The latitude of this location</param>
+        /// <param name="longitute">The longitude of this location</param>
         public Location(string name, int timeZone, double latitude, double longitute)
         {
             this.Name = name;

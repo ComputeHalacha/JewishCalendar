@@ -309,8 +309,8 @@ namespace JewishCalendar
         /// <summary>
         /// Tests 2 HourMinute objects for equality.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">The object to compare to this one.</param>
+        /// <returns>True if the two object are Equal</returns>
         public override bool Equals(object obj)
         {
             if (obj is HourMinute)
@@ -326,7 +326,7 @@ namespace JewishCalendar
         /// <summary>
         /// Returns the hashcode for this instance
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The HashCode for this instance</returns>
         public override int GetHashCode()
         {
             return this.Hour.GetHashCode() ^ this.Minute.GetHashCode();
