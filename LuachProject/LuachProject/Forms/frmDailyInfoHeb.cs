@@ -509,6 +509,8 @@ namespace LuachProject
             {
                 this.AddLine("חצות היום והלילה", chatzos.ToString24H());
                 this.AddLine("מנחה גדולה", (chatzos + (int)(shaaZmanis * 0.5)).ToString24H());
+                this.AddLine("מנחה קטנה", (netz + (int)(shaaZmanis * 9.5)).ToString24H());
+                this.AddLine("פלג המנחה", (netz + (int)(shaaZmanis * 10.75)).ToString24H());
             }
             if (shkia == HourMinute.NoValue)
             {
@@ -519,6 +521,8 @@ namespace LuachProject
                 this.AddLine("שקיעת החמה", shkia.ToString24H());
                 this.AddLine("צאת הכוכבים 45", (shkia + 45).ToString24H());
                 this.AddLine("רבינו תם", (shkia + 72).ToString24H());
+                this.AddLine("72 דקות זמניות", (shkia + (int)(shaaZmanis * 1.2)).ToString24H());
+                this.AddLine("72 דקות זמניות לחומרה", (shkia + (int)(shaaZmanis90 * 1.2)).ToString24H());
             }
 
             this.tableLayoutPanel1.Controls.Clear();

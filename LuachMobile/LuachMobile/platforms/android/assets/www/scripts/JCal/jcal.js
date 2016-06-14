@@ -336,9 +336,10 @@ Location.getJerusalem = function () {
  *  in Software---Practice & Experience, vol. 20, no. 9 (September, 1990), pp. 899--928.
  *
  *  To create a jDate using the constructor, use one of the following:
+ *  new jDate() - Sets the Jewish Date for the current system date
  *  new jDate(javascriptDateObject) - Sets to the Jewish date on the given Gregorian date
  *  new jDate("January 1 2045") - Accepts any valid javascript Date string (uses javascripts new Date(String))
- *  new jDate(jewishYear, jewishMonth, jewishDay) - Months start at 1. Nissan is month 1 Adara Sheini is 13.
+ *  new jDate(jewishYear, jewishMonth, jewishDay) - Months start at 1. Nissan is month 1 Adar Sheini is 13.
  *  new jDate(jewishYear, jewishMonth) - Same as above, with Day defaulting to 1
  *  new jDate( { year: 5776, month: 4, day: 5 } ) - same as new jDate(jewishYear, jewishMonth, jewishDay)
  *  new jDate( { year: 5776, month: 4 } ) - same as new jDate(jewishYear, jewishMonth)
@@ -359,7 +360,10 @@ function jDate(arg, month, day, abs) {
     //The number of days since the theoretical date: Dec. 31, 0001 BCE
     self.Abs = NaN;
 
-    if (arg instanceof Date) {
+    if (arguments.length === 0) {
+        fromAbs(jDate.absSd(new Date()));
+    }
+    else if (arg instanceof Date) {
         if (arg.isvalid()) {
             fromAbs(jDate.absSd(arg));
         }
@@ -381,16 +385,16 @@ function jDate(arg, month, day, abs) {
         if (arguments.length === 1) {
             fromAbs(arg);
         }
-        //If the year and any other number is supplied, we set the year and create the date using either the supplied values or the defaults
+            //If the year and any other number is supplied, we set the year and create the date using either the supplied values or the defaults
         else {
             self.Year = arg;
             self.Month = month || 7; //If no month was supplied, we take Tishrei
             self.Day = day || 1; //If no day was supplied, we take the first day of the month
-            //If the absolute date was supplied (very efficient), we use the supplied value, otherwise we calculate it.
-            self.Abs = abs || jDate.absJd(self.Year, self.Month, self.Day); 
+            //If the absolute date was also supplied (very efficient), we use the supplied value, otherwise we calculate it.
+            self.Abs = abs || jDate.absJd(self.Year, self.Month, self.Day);
         }
     }
-    //If arg is an object that has a "year" property that contains a valid value...
+        //If arg is an object that has a "year" property that contains a valid value...
     else if (typeof arg === 'object' && Utils.isNumber(arg.year)) {
         self.Day = arg.day || 1;
         self.Month = arg.month || 7;
@@ -657,6 +661,7 @@ jDate.prototype = {
 *    To print out the current date in Hebrew: jDate.toJDate(new Date()).toStringHeb()
 *  
 *  Arguments to the jDate.toJDate function can be one of the following:
+*  jDate.toJDate() - Sets the Jewish Date for the current system date
 *  jDate.toJDate(Date) - Sets to the Jewish date on the given Javascript Date object
 *  jDate.toJDate("January 1 2045") - Accepts any valid Javascript Date string (uses string constructor of Date object)
 *  jDate.toJDate(jewishYear, jewishMonth, jewishDay) - Months start at 1. Nissan is month 1 Adara Sheini is 13.
@@ -670,10 +675,13 @@ jDate.prototype = {
  
 ****************************************************************************************************************/
 jDate.toJDate = function (arg, month, day, abs) {
-    // If just the year is set, then the date is set to Rosh Hashana of that year.
-    // In the above scenario, we can't just pass the args along, as the constructor will treat it as an absolute date.
-    //...and that folks, is actually the whole point of this function...
-    if (Utils.isNumber(arg) && arguments.length === 1) {
+    if (arguments.length === 0) {
+        return new jDate();
+    }
+        // If just the year is set, then the date is set to Rosh Hashana of that year.
+        // In the above scenario, we can't just pass the args along, as the constructor will treat it as an absolute date.
+        //...and that folks, is actually the whole point of this function...
+    else if (Utils.isNumber(arg) && arguments.length === 1) {
         return new jDate(arg, 7, 1);
     }
     else {
@@ -723,8 +731,7 @@ jDate.absSd = function (date) {
 //Calculate the absolute date for the given Jewish Date
 jDate.absJd = function (year, month, day) {
     var dayInYear = day; // Days so far this month.
-    if (month < 7) { // Before Tishrei, so add days in prior months
-        // this year before and after Nissan.
+    if (month < 7) { // Before Tishrei, so add days in prior months this year before and after Nissan.
         var m = 7;
         while (m <= (jDate.monthsJYear(year))) {
             dayInYear += jDate.daysJMonth(year, m);
@@ -779,8 +786,21 @@ jDate.daysJMonth = function (year, month) {
     }
 };
 
-//Elapsed days
+//Keeps a "repository" of years that have had their elapsed days previously calculated. Format: { year:5776, elapsed:2109283 }
+jDate.yearCache = [];
+
+//Elapsed days since creation of the world until Rosh Hashana of the given year
 jDate.tDays = function (year) {
+    /*As this function is called many times, often on the same year for all types of calculations, 
+    we save a list of years with their elapsed values.*/
+    var cached = jDate.yearCache.first(function (y) {
+        return y.year === year;
+    });
+    //If this year was already calculated and cached, then we return the cached value.
+    if (cached) {
+        return cached.elapsed;
+    }
+
     var months = parseInt((235 * parseInt((year - 1) / 19)) + // Leap months this cycle
             (12 * ((year - 1) % 19)) +                        // Regular months in this cycle.
             (7 * ((year - 1) % 19) + 1) / 19),                // Months in complete cycles so far.
@@ -802,14 +822,16 @@ jDate.tDays = function (year) {
     else {
         altDay = conjDay;
     }
-    // or Friday -  or Wednesday, -  If Rosh HaShanah would occur on Sunday,
-    if (((altDay % 7) == 0) || ((altDay % 7) == 3) || ((altDay % 7) == 5)) {
-        // Then postpone it one (more) day
-        return (1 + altDay);
+
+    // A day is added if Rosh HaShanah would occur on Sunday, Friday or Wednesday,
+    if ([0, 3, 5].has(altDay % 7)) {
+        altDay += 1;
     }
-    else {
-        return altDay;
-    }
+
+    //Add this year to the cache to save on calculations later on
+    jDate.yearCache.push({ year: year, elapsed: altDay });
+
+    return altDay;
 };
 
 //Number of days in the given Jewish Year

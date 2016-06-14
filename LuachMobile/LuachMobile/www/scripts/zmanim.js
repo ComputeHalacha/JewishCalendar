@@ -143,6 +143,8 @@
         if (!(isNaN(netz.hour) || isNaN(shkia.hour))) {
             html += addLine("Chatzos - Day & Night", chatzos, "Time of Chatzos - both day and night");
             html += addLine("Mincha Gedolah", Utils.addMinutes(chatzos, parseInt(shaaZmanis * 0.5)));
+            html += addLine("Mincha Ktana", Utils.addMinutes(netz, parseInt(shaaZmanis * 9.5)));
+            html += addLine("Plag HaMincha", Utils.addMinutes(netz, parseInt(shaaZmanis * 10.75)));
         }
 
         if (isNaN(shkia.hour)) {
@@ -152,6 +154,8 @@
             html += addLine("Shkias Hachama", shkia, "Sunset");
             html += addLine("Nightfall 45", Utils.addMinutes(shkia, 45), "45 minutes after sunset");
             html += addLine("Rabbeinu Tam", Utils.addMinutes(shkia, 72), "72 minutes after sunset");
+            html += addLine("72 \"Dakot Zmaniot\"", Utils.addMinutes(shkia, parseInt(shaaZmanis * 1.2)), "72 proportional minutes after sunset");
+            html += addLine("72 \"Dakot Zmaniot MA\"", Utils.addMinutes(shkia, parseInt(shaaZmanis90 * 1.2)), "72 strict proportional minutes after sunset");
         }
 
         return html;
