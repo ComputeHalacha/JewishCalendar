@@ -428,6 +428,8 @@ namespace LuachProject
             {
                 this.AddLine("Chatzos - Day & Night", chatzos.ToString());
                 this.AddLine("Mincha Gedolah", (chatzos + (int)(shaaZmanis * 0.5)).ToString());
+                this.AddLine("Mincha Ktanah", (netz + (int)(shaaZmanis * 9.5)).ToString());
+                this.AddLine("Plag Hamincha", (netz + (int)(shaaZmanis * 10.75)).ToString());
             }
 
             if (shkia == HourMinute.NoValue)
@@ -439,6 +441,8 @@ namespace LuachProject
                 this.AddLine("Shkias Hachama", shkia.ToString());
                 this.AddLine("Nightfall 45", (shkia + 45).ToString());
                 this.AddLine("Rabbeinu Tam", (shkia + 72).ToString());
+                this.AddLine("72 \"Zmaniot\"", (shkia + (int)(shaaZmanis * 1.2)).ToString());
+                this.AddLine("72 \"Zmaniot MA\"", (shkia + (int)(shaaZmanis90 * 1.2)).ToString());
             }
         }
 

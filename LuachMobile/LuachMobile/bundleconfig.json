@@ -3,8 +3,32 @@
     "outputFileName": "www/index.html",
     "inputFiles": [
       "www/index.html"
+    ]
+  },
+  {
+    "outputFileName": "www/css/bundle.css",
+    "inputFiles": [
+      "www/css/jquery.mobile.structure-1.4.5.min.css",
+      "www/themes/JewishCalendarMobile.min.css",
+      "www/themes/jquery.mobile.icons.min.css",
+      "www/css/fa/css/font-awesome.min.css",
+      "www/css/general.css",
+      "www/css/index.css",
+      "www/css/zmanim.css"
+    ]
+  },
+  {
+    "outputFileName": "www/scripts/bundle.js",
+    "inputFiles": [
+      "www/scripts/jquery-2.1.4.min.js",
+      "www/scripts/init.js",
+      "www/scripts/platformOverrides.js",
+      "www/scripts/General.js",
+      "www/scripts/index.js",
+      "www/scripts/zmanim.js",
+      "www/scripts/locations.js"
     ],
-    "sourceMap": false
+    "sourceMap": true
   },
   {
     "outputFileName": "www/scripts/JCal/jcal.js",
@@ -17,33 +41,6 @@
       "www/scripts/JCal/Molad.js",
       "www/scripts/JCal/Dafyomi.js",
       "www/scripts/JCal/PirkeiAvos.js"
-    ],
-    "sourceMap": true
-  },
-  {
-    "outputFileName": "www/css/bundle.css",
-    "inputFiles": [
-      "www/css/jquery.mobile.structure-1.4.5.min.css",
-      "www/themes/JewishCalendarMobile.min.css",
-      "www/themes/jquery.mobile.icons.min.css",
-      "www/css/fa/css/font-awesome.min.css",
-      "www/css/general.css",
-      "www/css/index.css",
-      "www/css/zmanim.css"
-    ],
-    "sourceMap": false
-  },
-  {
-    "outputFileName": "www/scripts/bundle.js",
-    "inputFiles": [
-      "www/scripts/jquery-2.1.4.min.js",
-      "www/scripts/init.js",    
-      "www/scripts/platformOverrides.js",
-      "www/scripts/General.js",
-      "www/scripts/index.js",
-      "www/scripts/zmanim.js",
-      "www/scripts/locations.js"
-    ],
-    "sourceMap": true
+    ]
   }
 ]

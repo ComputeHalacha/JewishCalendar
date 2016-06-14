@@ -1,4 +1,6 @@
-﻿namespace JewishCalendar
+﻿using System;
+
+namespace JewishCalendar
 {
     /// <summary>
     /// Represents a single day in the Jewish calendar - Month are Nissan based.
@@ -7,10 +9,10 @@
     /// The calculations and functions used by this class's representation of the Jewish Date are based on open source algorithms.
     /// 
     /// <list type="numeric">
-    /// <listheader>This class has 3 main advantages over System.Globalization.HebrewCalendar:</listheader>
+    /// <listheader>This class has 3 main advantages over Globalization.HebrewCalendar:</listheader>
     /// 
     /// <item>
-    /// The Months are numbered from Nissan. The regular .NET class System.Globalization.HebrewCalendar has Tishrei as month #1.
+    /// The Months are numbered from Nissan. The regular .NET class Globalization.HebrewCalendar has Tishrei as month #1.
     /// This becomes confusing, as months after Adar get a different number -
     /// depending on whether the year is a leap year or not.
     /// The Torah also instructs us to call Nissan the first month. (See Ramban in Drasha for Rosh Hashana)
@@ -19,21 +21,21 @@
     /// 
     /// <item>
     /// It can represent any Jewish Date from creation until the Jewish year 6000. 
-    /// System.Globalization.HebrewCalendar can only represent dates starting from the Gregorian year 1583.
+    /// Globalization.HebrewCalendar can only represent dates starting from the Gregorian year 1583.
     /// </item>
     /// 
     /// <item>
-    /// It can be used for projects which do not have access to System.Globalization.HebrewCalendar,
+    /// It can be used for projects which do not have access to Globalization.HebrewCalendar,
     /// such as .NET Micro Framework projects etc.
     /// </item>
     /// </list>     
     /// </remarks>
-    [System.Serializable]
+    [Serializable]
     public class JewishDate
     {
         #region Private Variables
         private int _day, _month, _year, _absoluteDate;
-        private System.DateTime _gregorianDate;
+        private DateTime _gregorianDate;
         #endregion
 
         #region Constructors
@@ -49,13 +51,13 @@
         /// <summary>
         /// Empty constructor. Sets the date to the current system date.
         /// </summary>
-        public JewishDate() : this(System.DateTime.Now) { }
+        public JewishDate() : this(DateTime.Now) { }
 
         /// <summary>
         /// Get the current Jewish date in the given location. Cut-off time is sunset.
         /// </summary>
         /// <param name="location">The location. This will be used to determine the time of sunset.</param>
-        public JewishDate(Location location) : this(System.DateTime.Now, location) { }
+        public JewishDate(Location location) : this(DateTime.Now, location) { }
 
         /// <summary>
         /// Creates a new JewishDate with the specified Hebrew year, month, day and absolute day.
@@ -89,7 +91,7 @@
         /// Creates a Jewish date that corresponds to the given Gregorian date
         /// </summary>
         /// <param name="date">The Gregorian date from which to create the Jewish Date</param>
-        public JewishDate(System.DateTime date)
+        public JewishDate(DateTime date)
         {
             this.SetFromAbsoluteDate(JewishDateCalculations.GetAbsoluteFromGregorianDate(date));
             this._gregorianDate = date;
@@ -101,7 +103,7 @@
         /// </summary>
         /// <param name="date">The Gregorian date from which to create the Jewish Date</param>
         /// <param name="location">The location. This will be used to determine the time of sunset.</param>
-        public JewishDate(System.DateTime date, Location location)
+        public JewishDate(DateTime date, Location location)
         {
             int abs = JewishDateCalculations.GetAbsoluteFromGregorianDate(date);
             Zmanim zman = new Zmanim(date, location);
@@ -198,19 +200,18 @@
 
         /// <summary>
         /// The Day in the month for this Jewish Date.
-        /// NOTE: Not always correct; from nightfall until midnight should really be the next Jewish day.
         /// </summary>
         public int Day { get { return this._day; } }
 
         /// <summary>
         /// The index of the day of the week for this Jewish Date. Sunday is 0.
         /// </summary>
-        public int DayInWeek { get { return System.Math.Abs(this.AbsoluteDate % 7); } }
+        public int DayInWeek { get { return Math.Abs(this.AbsoluteDate % 7); } }
 
         /// <summary>
-        /// The day of the week for this Jewish Date (from Midnight to Midnight)
+        /// The day of the week for this Jewish Date
         /// </summary>
-        public System.DayOfWeek DayOfWeek { get { return (System.DayOfWeek)this.DayInWeek; } }
+        public DayOfWeek DayOfWeek { get { return (DayOfWeek)this.DayInWeek; } }
 
         /// <summary>
         /// The Jewish Month. As in the Torah, Nissan is month 1
@@ -230,12 +231,13 @@
         /// <summary>
         /// Represents the time of day for this JewishDate
         /// </summary>
-        public System.TimeSpan TimeOfDay { get; set; }
+        public TimeSpan TimeOfDay { get; set; }
+
         /// <summary>
         /// Get the Gregorian Date for the current Hebrew Date
         /// </summary>
         /// <returns></returns>
-        public System.DateTime GregorianDate
+        public DateTime GregorianDate
         {
             get
             {
@@ -275,6 +277,7 @@
         /// <summary>
         /// Minimum valid date that can be represented by this class
         /// </summary>
+        /// 
         public static JewishDate MinDate { get; private set; }
         /// <summary>
         /// Maximum valid date that can be represented by this class
@@ -361,7 +364,7 @@
                 day = this._day,
                 miy = JewishDateCalculations.MonthsInJewishYear(year);
 
-            for (var i = 0; i < System.Math.Abs(months); i++)
+            for (var i = 0; i < Math.Abs(months); i++)
             {
                 if (months > 0)
                 {
