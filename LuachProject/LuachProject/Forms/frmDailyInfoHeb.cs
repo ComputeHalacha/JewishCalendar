@@ -395,9 +395,12 @@ namespace LuachProject
         {
             this.Cursor = Cursors.WaitCursor;
             var dy = DafYomi.GetDafYomi(this._displayingJewishDate);
-            var netzshkia = this._zmanim.GetNetzShkia();
+            var netzshkia = this._zmanim.GetNetzShkia(true);
             var netz = netzshkia[0];
             var shkia = netzshkia[1];
+            var netzshkiaMishor = this._zmanim.GetNetzShkia(false);
+            var netzHaMishor = netzshkiaMishor[0];
+            var shkiaHaMishor = netzshkiaMishor[1];
             var chatzos = this._zmanim.GetChatzos();
             var shaaZmanis = this._zmanim.GetShaaZmanis();
             var shaaZmanis90 = this._zmanim.GetShaaZmanis(90);
@@ -498,8 +501,9 @@ namespace LuachProject
                 }
 
                 this.AddLine("עלות השחר - 90", (netz - 90).ToString24H());
-                this.AddLine("עלות השחר - 72", (netz - 72).ToString24H());
+                this.AddLine("עלות השחר - 72", (netz - 72).ToString24H());               
                 this.AddLine("הנץ החמה", netz.ToString24H());
+                this.AddLine("הנץ החמה - מישור", netzHaMishor.ToString24H());
                 this.AddLine("סוזק\"ש - מג\"א", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 3D)).ToString24H());
                 this.AddLine("סוזק\"ש - הגר\"א", (netz + (int)Math.Floor(shaaZmanis * 3D)).ToString24H());
                 this.AddLine("סוז\"ת - מג\"א", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString24H());
