@@ -73,7 +73,7 @@ namespace LuachProject
                     {
                         this._displayingSecularDate = JewishDateCalculations.GetGregorianDateFromJewishDate(
                             this._displayingJewishDate,
-                            (HourMinute)DateTime.Now.TimeOfDay, 
+                            (HourMinute)DateTime.Now.TimeOfDay,
                             this._zmanim.Location);
                     }
                     this._zmanim.SecularDate = this._displayingSecularDate;
@@ -362,7 +362,7 @@ namespace LuachProject
             this.richTextBox1.SelectionFont = this._lineValueFont;
             this.richTextBox1.SelectionColor = Color.RoyalBlue;
             this.richTextBox1.SelectedText = this._displayingJewishDate.DayOfWeek.ToString() + ", " +
-                this._displayingJewishDate.ToLongDateString() + 
+                this._displayingJewishDate.ToLongDateString() +
                 Environment.NewLine;
             this.richTextBox1.SelectionColor = Color.LightSteelBlue;
             this.richTextBox1.SelectedText = this._displayingSecularDate.ToString("D", System.Threading.Thread.CurrentThread.CurrentCulture) +
@@ -400,7 +400,7 @@ namespace LuachProject
             this.richTextBox1.SelectedText = string.Format(" Zmanim for {0}{1}", this._zmanim.Location.Name, new string(' ', 150 - this._zmanim.Location.Name.Length));
             this.richTextBox1.SelectionBackColor = this.richTextBox1.BackColor;
             this.richTextBox1.SelectedText = Environment.NewLine + Environment.NewLine;
-                        
+
 
             if (netz == HourMinute.NoValue)
             {
@@ -418,10 +418,14 @@ namespace LuachProject
                 this.AddLine("Alos Hashachar - 90", (netz - 90).ToString());
                 this.AddLine("Alos Hashachar - 72", (netz - 72).ToString());
                 this.AddLine("Netz Hachama", netz.ToString());
+                if (this._zmanim.Location.Elevation != 0)
+                {
+                    this.AddLine("Netz Hachama - sea level", this._zmanim.GetNetzShkia(false)[0].ToString());
+                }
                 this.AddLine("Krias Shma - MG\"A", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 3D)).ToString());
                 this.AddLine("Krias Shma - GR\"A", (netz + (int)Math.Floor(shaaZmanis * 3D)).ToString());
                 this.AddLine("Zeman Tefillah - MG\"A", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString());
-                this.AddLine("Zeman Tefillah - GR\"A", (netz + (int)Math.Floor(shaaZmanis * 4D)).ToString());               
+                this.AddLine("Zeman Tefillah - GR\"A", (netz + (int)Math.Floor(shaaZmanis * 4D)).ToString());
             }
 
             if (netz != HourMinute.NoValue && shkia != HourMinute.NoValue)

@@ -67,7 +67,7 @@ namespace LuachProject
                     //If we are displaying todays date for the current time zone, we will show the "proper" secular date.
                     if (this.IsHereAndNow())
                     {
-                        this._displayingSecularDate = this._displayingJewishDate.GregorianDate;                        
+                        this._displayingSecularDate = this._displayingJewishDate.GregorianDate;
                     }
                     else
                     {
@@ -173,7 +173,7 @@ namespace LuachProject
                     if (this.tableLayoutPanel1.RowCount > 0)
                     {
                         this.tableLayoutPanel1.RowCount -= 1;
-                    }                    
+                    }
                 }
                 else
                 {
@@ -191,7 +191,7 @@ namespace LuachProject
         private void AddLine(string header, string value)
         {
             this.richTextBox1.SelectionAlignment = HorizontalAlignment.Left;
-            this.richTextBox1.SelectionFont = this.richTextBox1.Font;            
+            this.richTextBox1.SelectionFont = this.richTextBox1.Font;
             this.richTextBox1.SelectedText = header.Trim() + " " +
                 new string('.', 15) + " ";
             this.richTextBox1.SelectionAlignment = HorizontalAlignment.Right;
@@ -398,9 +398,6 @@ namespace LuachProject
             var netzshkia = this._zmanim.GetNetzShkia(true);
             var netz = netzshkia[0];
             var shkia = netzshkia[1];
-            var netzshkiaMishor = this._zmanim.GetNetzShkia(false);
-            var netzHaMishor = netzshkiaMishor[0];
-            var shkiaHaMishor = netzshkiaMishor[1];
             var chatzos = this._zmanim.GetChatzos();
             var shaaZmanis = this._zmanim.GetShaaZmanis();
             var shaaZmanis90 = this._zmanim.GetShaaZmanis(90);
@@ -455,7 +452,7 @@ namespace LuachProject
                     if (h.DayType.IsSpecialDayType(SpecialDayTypes.EruvTavshilin))
                     {
                         this.richTextBox1.SelectedText = Environment.NewLine;
-                        this.richTextBox1.SelectionFont = this._lblOccasionFont ;
+                        this.richTextBox1.SelectionFont = this._lblOccasionFont;
                         this.richTextBox1.SelectionColor = Color.Crimson;
                         this.richTextBox1.SelectedText = "עירוב תבשילין" + Environment.NewLine;
                     }
@@ -468,7 +465,7 @@ namespace LuachProject
                 }
             }
             this.richTextBox1.SelectedText = Environment.NewLine;
-            
+
             this.AddLine("פרשת השבוע",
                 string.Join(" ", Sedra.GetSedra(this._displayingJewishDate, this._zmanim.Location.IsInIsrael).Select(i => i.nameHebrew)));
             if (dy != null)
@@ -501,9 +498,12 @@ namespace LuachProject
                 }
 
                 this.AddLine("עלות השחר - 90", (netz - 90).ToString24H());
-                this.AddLine("עלות השחר - 72", (netz - 72).ToString24H());               
+                this.AddLine("עלות השחר - 72", (netz - 72).ToString24H());
                 this.AddLine("הנץ החמה", netz.ToString24H());
-                this.AddLine("הנץ החמה - מישור", netzHaMishor.ToString24H());
+                if (this._zmanim.Location.Elevation != 0)
+                {
+                    this.AddLine("הנץ החמה - מישור", this._zmanim.GetNetzShkia(false)[0].ToString24H());
+                }
                 this.AddLine("סוזק\"ש - מג\"א", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 3D)).ToString24H());
                 this.AddLine("סוזק\"ש - הגר\"א", (netz + (int)Math.Floor(shaaZmanis * 3D)).ToString24H());
                 this.AddLine("סוז\"ת - מג\"א", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString24H());
