@@ -71,7 +71,7 @@
             this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(3);
             this.splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.splitContainer1.Size = new System.Drawing.Size(1056, 608);
-            this.splitContainer1.SplitterDistance = 398;
+            this.splitContainer1.SplitterDistance = 454;
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 13;
             // 
@@ -86,7 +86,7 @@
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(0);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(1047, 396);
+            this.richTextBox1.Size = new System.Drawing.Size(1047, 452);
             this.richTextBox1.TabIndex = 10;
             this.richTextBox1.Text = "";
             this.richTextBox1.WordWrap = false;
@@ -106,7 +106,7 @@
             this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(10, 5, 0, 0);
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1059, 109);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1059, 55);
             this.tableLayoutPanel1.TabIndex = 15;
             // 
             // label2
@@ -115,7 +115,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.GhostWhite;
-            this.label2.Location = new System.Drawing.Point(5, 139);
+            this.label2.Location = new System.Drawing.Point(5, 85);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(1056, 17);
             this.label2.TabIndex = 14;
@@ -141,7 +141,7 @@
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.button1.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.button1.Location = new System.Drawing.Point(3, 152);
+            this.button1.Location = new System.Drawing.Point(3, 96);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(1048, 50);
             this.button1.TabIndex = 13;
