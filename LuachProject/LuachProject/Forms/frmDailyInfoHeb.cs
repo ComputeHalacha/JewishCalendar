@@ -29,7 +29,7 @@ namespace LuachProject
         private Font _sefirahFont;
         private Font _boldFont;
         private JewishCalendar.Zmanim _zmanim;
-        private float _oneDot;
+        private int _tabSpaces;
 
         #endregion private fields
 
@@ -126,10 +126,13 @@ namespace LuachProject
                             this._zmanim.Location);
             }
 
-            //Gets the width of a single dot. Will be used for spacing. (I'm sure there is a better way!)
+
             using (var g = this.splitContainer1.Panel1.CreateGraphics())
             {
-                this._oneDot = g.MeasureString("\t", this.richTextBox1.Font).Width;
+                //Gets the width of a single space. Will be used for spacing.
+                var oneSpaceWidth = g.MeasureString(" ", this._boldFont).Width;
+                //Will be set as the tab width for the "header" of each header/value line in the richTextBox
+                this._tabSpaces = (int)((this.richTextBox1.Width * 0.75) / oneSpaceWidth);
             }
 
             this.ShowDateData();
@@ -200,8 +203,9 @@ namespace LuachProject
         private void AddLine(string header, string value, bool addTabs = true, bool bold = false)
         {
             this.richTextBox1.SelectionFont = (bold ? this._boldFont : this.richTextBox1.Font);
-            this.richTextBox1.SelectedText = header.Trim() +
-                (addTabs ? this.GetDots(header, value) : " ....  ");
+            this.richTextBox1.SelectionTabs = new int[] { 0, addTabs ? 
+                this._tabSpaces : (int)(this._tabSpaces * 0.6) };
+            this.richTextBox1.SelectedText = header.Trim() + "\t";
             this.richTextBox1.SelectionFont = this._lineValueFont;
             this.richTextBox1.SelectionColor = Color.CornflowerBlue;
             this.richTextBox1.SelectedText = value.Trim() + Environment.NewLine;
@@ -471,16 +475,18 @@ namespace LuachProject
                 if (shkia != HourMinute.NoValue &&
                     this._holidays.Any(h => h.DayType.IsSpecialDayType(SpecialDayTypes.HasCandleLighting)))
                 {
-                    this.AddLine("הדלקת נרות", (shkia - this._zmanim.Location.CandleLighting).ToString24H(), false);
+                    this.AddLine("הדלקת נרות", (shkia - this._zmanim.Location.CandleLighting).ToString24H(), 
+                        addTabs: false);
                 }
             }
             this.richTextBox1.SelectedText = Environment.NewLine;
 
             this.AddLine("פרשת השבוע",
-                string.Join(" ", Sedra.GetSedra(this._displayingJewishDate, this._zmanim.Location.IsInIsrael).Select(i => i.nameHebrew)), false);
+                string.Join(" ", Sedra.GetSedra(this._displayingJewishDate, this._zmanim.Location.IsInIsrael).Select(i => i.nameHebrew)), 
+                addTabs: false);
             if (dy != null)
             {
-                this.AddLine("דף יומי", dy.ToStringHeb(), false);
+                this.AddLine("דף יומי", dy.ToStringHeb(), addTabs: false);
             }
 
             this.richTextBox1.SelectedText = Environment.NewLine;
@@ -502,8 +508,10 @@ namespace LuachProject
             {
                 if (this._displayingJewishDate.Month == 1 && this._displayingJewishDate.Day == 14)
                 {
-                    this.AddLine("סו\"ז אכילת חמץ", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString24H(), bold: true);
-                    this.AddLine("סו\"ז שריפת חמץ", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 5D)).ToString24H(), bold: true);
+                    this.AddLine("סו\"ז אכילת חמץ", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString24H(), 
+                        bold: true);
+                    this.AddLine("סו\"ז שריפת חמץ", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 5D)).ToString24H(), 
+                        bold: true);
                     this.richTextBox1.SelectedText = Environment.NewLine;
                 }
 
@@ -559,18 +567,6 @@ namespace LuachProject
             this.tableLayoutPanel1.BackColor = (bg != Color.Empty ? bg.Color : Color.GhostWhite);
 
             this.Cursor = Cursors.Default;
-        }
-
-        private string GetDots(string header, string val)
-        {
-            string dots;
-            using (var g = this.splitContainer1.Panel1.CreateGraphics())
-            {
-                float headerW = g.MeasureString(header.Trim(), this.richTextBox1.Font).Width;
-                float valueW = g.MeasureString(val.Trim(), this._lineValueFont).Width;
-                dots = new string('\t', (int)Math.Ceiling((this.Width - (headerW + valueW)) / this._oneDot));
-            }
-            return dots;
         }
         #endregion private functions        
     }

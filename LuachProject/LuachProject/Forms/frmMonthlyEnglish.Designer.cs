@@ -86,7 +86,7 @@
             this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.linkLabel1.Location = new System.Drawing.Point(10, 9);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(44, 14);
+            this.linkLabel1.Size = new System.Drawing.Size(35, 12);
             this.linkLabel1.TabIndex = 19;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "עברית";
@@ -138,7 +138,7 @@
             this.llShowDaily.LinkColor = System.Drawing.Color.SlateGray;
             this.llShowDaily.Location = new System.Drawing.Point(1073, 30);
             this.llShowDaily.Name = "llShowDaily";
-            this.llShowDaily.Size = new System.Drawing.Size(95, 14);
+            this.llShowDaily.Size = new System.Drawing.Size(77, 11);
             this.llShowDaily.TabIndex = 21;
             this.llShowDaily.TabStop = true;
             this.llShowDaily.Text = "Show Zmanim ˃";
@@ -230,7 +230,7 @@
             this.cmbLocation.Location = new System.Drawing.Point(3, 85);
             this.cmbLocation.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbLocation.Name = "cmbLocation";
-            this.cmbLocation.Size = new System.Drawing.Size(351, 24);
+            this.cmbLocation.Size = new System.Drawing.Size(351, 21);
             this.cmbLocation.Sorted = true;
             this.cmbLocation.TabIndex = 5;
             this.cmbLocation.SelectedIndexChanged += new System.EventHandler(this.cmbLocation_SelectedIndexChanged);
@@ -254,12 +254,15 @@
             this.jewishDatePicker1.Font = new System.Drawing.Font("Century Gothic", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.jewishDatePicker1.ForeColor = System.Drawing.Color.White;
             this.jewishDatePicker1.Language = JewishDatePicker.JewishDatePicker.Languages.English;
-            this.jewishDatePicker1.Location = new System.Drawing.Point(122, 2);
+            this.jewishDatePicker1.Location = new System.Drawing.Point(142, 2);
             this.jewishDatePicker1.Margin = new System.Windows.Forms.Padding(0);
+            this.jewishDatePicker1.MaxDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MaxDate")));
+            this.jewishDatePicker1.MinDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MinDate")));
             this.jewishDatePicker1.Name = "jewishDatePicker1";
             this.jewishDatePicker1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.jewishDatePicker1.Size = new System.Drawing.Size(343, 29);
-            this.jewishDatePicker1.TabIndex = 17;            
+            this.jewishDatePicker1.Size = new System.Drawing.Size(323, 27);
+            this.jewishDatePicker1.TabIndex = 17;
+            this.jewishDatePicker1.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.Value")));
             // 
             // label1
             // 
@@ -447,7 +450,7 @@
             // 
             // frmMonthlyEnglish
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.ClientSize = new System.Drawing.Size(1152, 735);
@@ -463,7 +466,6 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "frmMonthlyEnglish";
             this.Text = "Luach";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmMonthlyEnglish_FormClosed);
             this.Load += new System.EventHandler(this.frmMonthlyEnglish_Load);
             this.Resize += new System.EventHandler(this.frmMonthlyEnglish_Resize);

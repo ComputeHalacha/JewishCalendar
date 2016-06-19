@@ -135,7 +135,7 @@
             this.llShowDaily.LinkColor = System.Drawing.Color.LightSlateGray;
             this.llShowDaily.Location = new System.Drawing.Point(1091, 21);
             this.llShowDaily.Name = "llShowDaily";
-            this.llShowDaily.Size = new System.Drawing.Size(96, 13);
+            this.llShowDaily.Size = new System.Drawing.Size(85, 11);
             this.llShowDaily.TabIndex = 5;
             this.llShowDaily.TabStop = true;
             this.llShowDaily.Text = "הצג לוח זמנים ˃";
@@ -175,7 +175,7 @@
             this.splitContainer1.Panel2.ClientSizeChanged += new System.EventHandler(this.splitContainer1_Panel2_ClientSizeChanged);
             this.splitContainer1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.splitContainer1.Size = new System.Drawing.Size(1183, 701);
-            this.splitContainer1.SplitterDistance = 287;
+            this.splitContainer1.SplitterDistance = 248;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 3;
             this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
@@ -209,7 +209,7 @@
             this.splitContainer2.Panel2.Controls.Add(this.button1);
             this.splitContainer2.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.splitContainer2.Panel2MinSize = 134;
-            this.splitContainer2.Size = new System.Drawing.Size(894, 701);
+            this.splitContainer2.Size = new System.Drawing.Size(933, 701);
             this.splitContainer2.SplitterDistance = 540;
             this.splitContainer2.TabIndex = 0;
             this.splitContainer2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.splitContainer2_KeyDown);
@@ -222,7 +222,7 @@
             this.pnlMain.Location = new System.Drawing.Point(7, 0);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(877, 540);
+            this.pnlMain.Size = new System.Drawing.Size(916, 540);
             this.pnlMain.TabIndex = 0;
             this.pnlMain.TabStop = true;
             this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
@@ -248,11 +248,14 @@
             this.jewishDatePicker1.BackColor = System.Drawing.Color.LightSteelBlue;
             this.jewishDatePicker1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.jewishDatePicker1.ForeColor = System.Drawing.Color.White;
-            this.jewishDatePicker1.Location = new System.Drawing.Point(154, -3);
+            this.jewishDatePicker1.Location = new System.Drawing.Point(186, -3);
             this.jewishDatePicker1.Margin = new System.Windows.Forms.Padding(0);
+            this.jewishDatePicker1.MaxDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MaxDate")));
+            this.jewishDatePicker1.MinDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MinDate")));
             this.jewishDatePicker1.Name = "jewishDatePicker1";
-            this.jewishDatePicker1.Size = new System.Drawing.Size(312, 30);
-            this.jewishDatePicker1.TabIndex = 18;            
+            this.jewishDatePicker1.Size = new System.Drawing.Size(280, 26);
+            this.jewishDatePicker1.TabIndex = 18;
+            this.jewishDatePicker1.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.Value")));
             // 
             // button4
             // 
@@ -299,11 +302,11 @@
             this.cmbLocation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbLocation.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.cmbLocation.FormattingEnabled = true;
-            this.cmbLocation.Location = new System.Drawing.Point(533, 121);
+            this.cmbLocation.Location = new System.Drawing.Point(572, 121);
             this.cmbLocation.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbLocation.Name = "cmbLocation";
             this.cmbLocation.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.cmbLocation.Size = new System.Drawing.Size(351, 26);
+            this.cmbLocation.Size = new System.Drawing.Size(351, 22);
             this.cmbLocation.Sorted = true;
             this.cmbLocation.TabIndex = 5;
             this.cmbLocation.SelectedIndexChanged += new System.EventHandler(this.cmbLocation_SelectedIndexChanged);
@@ -314,7 +317,7 @@
             this.panel1.Controls.Add(this.rbInIsrael);
             this.panel1.Controls.Add(this.rbInChul);
             this.panel1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.panel1.Location = new System.Drawing.Point(656, 88);
+            this.panel1.Location = new System.Drawing.Point(695, 88);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
             this.panel1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -354,7 +357,7 @@
             this.label2.ForeColor = System.Drawing.Color.DimGray;
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(894, 18);
+            this.label2.Size = new System.Drawing.Size(933, 18);
             this.label2.TabIndex = 17;
             this.label2.Text = "לחץ פעמיים להוסיף אירוע   |   לנווט בין הימים השתמשו בלחצני החיצים";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -365,7 +368,7 @@
             this.label6.BackColor = System.Drawing.Color.LightSteelBlue;
             this.label6.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.label6.ForeColor = System.Drawing.Color.GhostWhite;
-            this.label6.Location = new System.Drawing.Point(533, 58);
+            this.label6.Location = new System.Drawing.Point(572, 58);
             this.label6.Name = "label6";
             this.label6.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
             this.label6.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -428,7 +431,7 @@
             // 
             // frmMonthlyHebrew
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.ClientSize = new System.Drawing.Size(1183, 736);
@@ -446,7 +449,6 @@
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.RightToLeftLayout = true;
             this.Text = "לוח";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmMonthlyHebrew_FormClosed);
             this.Load += new System.EventHandler(this.frmMonthlyHebrew_Load);
             this.Resize += new System.EventHandler(this.frmMonthlyHebrew_Resize);

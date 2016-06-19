@@ -27,7 +27,9 @@ namespace LuachProject
         private Font _lineValueFont;
         private IEnumerable<UserOccasion> _occasions;
         private Font _sefirahFont;
+        private Font _boldFont;
         private JewishCalendar.Zmanim _zmanim;
+        private int _tabSpaces;
 
         #endregion private fields
 
@@ -44,6 +46,7 @@ namespace LuachProject
 
             this._lblOccasionFont = new Font(this.Font, FontStyle.Bold);
             this._lineValueFont = new Font(this.richTextBox1.Font, FontStyle.Bold);
+            this._boldFont = new Font(this.richTextBox1.Font, FontStyle.Bold);
             this._dateDiffDaysFont = new Font(this.richTextBox1.Font.FontFamily, 9f, FontStyle.Bold);
             this._dateDiffExpFont = new Font(this.richTextBox1.Font.FontFamily, 7.3f, FontStyle.Italic);
             this._sefirahFont = new Font("Tahoma", 9f);
@@ -123,6 +126,14 @@ namespace LuachProject
                             this._zmanim.Location);
             }
 
+            using (var g = this.splitContainer1.Panel1.CreateGraphics())
+            {
+                //Gets the width of a single space. Will be used for spacing.
+                var oneSpaceWidth = g.MeasureString(" ", this._boldFont).Width;
+                //Will be set as the tab width for the "header" of each header/value line in the richTextBox
+                this._tabSpaces = (int)((this.richTextBox1.Width * 0.5) / oneSpaceWidth);
+            }
+
             this.ShowDateData();
         }
 
@@ -196,11 +207,12 @@ namespace LuachProject
             this.PositionAddOccasion(parentPoint);
         }
 
-        private void AddLine(string header, string value)
+        private void AddLine(string header, string value, bool addTabs = true, bool bold = false)
         {
-            this.richTextBox1.SelectionFont = this.richTextBox1.Font;
-            this.richTextBox1.SelectedText = header.Trim() + " " +
-                new string('.', ((header.Length + value.Length) < 35 ? 35 - header.Length : 5)) + " ";
+            this.richTextBox1.SelectionFont = (bold ? this._boldFont : this.richTextBox1.Font);
+            this.richTextBox1.SelectionTabs = new int[] { 0, addTabs ?
+                this._tabSpaces : (int)(this._tabSpaces * 0.6) };
+            this.richTextBox1.SelectedText = header.Trim() + "\t";
             this.richTextBox1.SelectionFont = this._lineValueFont;
             this.richTextBox1.SelectionColor = Color.CornflowerBlue;
             this.richTextBox1.SelectedText = value.Trim() + Environment.NewLine;
@@ -343,7 +355,7 @@ namespace LuachProject
                 if (shkia != HourMinute.NoValue &&
                     this._holidays.Any(h => h.DayType.IsSpecialDayType(SpecialDayTypes.HasCandleLighting)))
                 {
-                    this.AddLine("Candle Lighting", (shkia - this._zmanim.Location.CandleLighting).ToString());
+                    this.AddLine("Candle Lighting", (shkia - this._zmanim.Location.CandleLighting).ToString(), addTabs: false);
                 }
 
                 if (this._holidays.Any(h => h.NameEnglish.Contains("Sefiras Ha'omer")))
@@ -378,7 +390,7 @@ namespace LuachProject
             }
         }
 
-        private void DisplayZmanim(HourMinute netz, HourMinute shkia)
+        private void DisplayZmanim(HourMinute netz, HourMinute shkia, HourMinute netzMishor, HourMinute shkiaMishor)
         {
             var dy = DafYomi.GetDafYomi(this._displayingJewishDate);
             var chatzos = this._zmanim.GetChatzos();
@@ -388,10 +400,11 @@ namespace LuachProject
 
             this.richTextBox1.SelectedText = Environment.NewLine;
             this.AddLine("Weekly Sedra",
-                string.Join(" ", Sedra.GetSedra(this._displayingJewishDate, this._zmanim.Location.IsInIsrael).Select(i => i.nameEng)));
+                string.Join(" ", Sedra.GetSedra(this._displayingJewishDate, this._zmanim.Location.IsInIsrael).Select(i => i.nameEng)),
+                addTabs: false);
             if (dy != null)
             {
-                this.AddLine("Daf Yomi", dy.ToString());
+                this.AddLine("Daf Yomi", dy.ToString(), addTabs: false);
             }
             this.richTextBox1.SelectedText = Environment.NewLine;
             this.richTextBox1.SelectionBackColor = Color.LightSteelBlue;
@@ -404,45 +417,52 @@ namespace LuachProject
 
             if (netz == HourMinute.NoValue)
             {
-                this.AddLine("Netz Hachama", "The does not rise");
+                this.AddLine("Netz Hachama", "The does not rise", bold: true);
             }
             else
             {
                 if (this._displayingJewishDate.Month == 1 && this._displayingJewishDate.Day == 14)
                 {
-                    this.AddLine("Stop eating Chometz", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString24H());
-                    this.AddLine("Burn Chometz before", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 5D)).ToString24H());
+                    this.AddLine("Stop eating Chometz", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString24H(),
+                        bold: true);
+                    this.AddLine("Burn Chometz before", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 5D)).ToString24H(), 
+                        bold: true);
                     this.richTextBox1.SelectedText = Environment.NewLine;
                 }
 
-                this.AddLine("Alos Hashachar - 90", (netz - 90).ToString());
-                this.AddLine("Alos Hashachar - 72", (netz - 72).ToString());
-                this.AddLine("Netz Hachama", netz.ToString());
-                if (this._zmanim.Location.Elevation != 0)
+                this.AddLine("Alos Hashachar - 90", (netzMishor - 90).ToString());
+                this.AddLine("Alos Hashachar - 72", (netzMishor - 72).ToString());
+                this.AddLine("Netz Hachama", netz.ToString(), bold:true);
+                if (netz != netzMishor)
                 {
-                    this.AddLine("Netz Hachama - sea level", this._zmanim.GetNetzShkia(false)[0].ToString());
+                    this.AddLine("Sunrise at sea level", netzMishor.ToString());
                 }
-                this.AddLine("Krias Shma - MG\"A", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 3D)).ToString());
-                this.AddLine("Krias Shma - GR\"A", (netz + (int)Math.Floor(shaaZmanis * 3D)).ToString());
-                this.AddLine("Zeman Tefillah - MG\"A", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString());
-                this.AddLine("Zeman Tefillah - GR\"A", (netz + (int)Math.Floor(shaaZmanis * 4D)).ToString());
+                this.AddLine("Krias Shma - MG\"A", ((netzMishor - 90) + (int)Math.Floor(shaaZmanis90 * 3D)).ToString());
+                this.AddLine("Krias Shma - GR\"A", (netzMishor + (int)Math.Floor(shaaZmanis * 3D)).ToString());
+                this.AddLine("Zeman Tefillah - MG\"A", ((netzMishor - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString());
+                this.AddLine("Zeman Tefillah - GR\"A", (netzMishor + (int)Math.Floor(shaaZmanis * 4D)).ToString());
             }
 
             if (netz != HourMinute.NoValue && shkia != HourMinute.NoValue)
             {
                 this.AddLine("Chatzos - Day & Night", chatzos.ToString());
                 this.AddLine("Mincha Gedolah", (chatzos + (int)(shaaZmanis * 0.5)).ToString());
-                this.AddLine("Mincha Ktanah", (netz + (int)(shaaZmanis * 9.5)).ToString());
-                this.AddLine("Plag Hamincha", (netz + (int)(shaaZmanis * 10.75)).ToString());
+                this.AddLine("Mincha Ktanah", (netzMishor + (int)(shaaZmanis * 9.5)).ToString());
+                this.AddLine("Plag Hamincha", (netzMishor + (int)(shaaZmanis * 10.75)).ToString());
             }
 
             if (shkia == HourMinute.NoValue)
             {
-                this.AddLine("Shkias Hachama", "The sun does not set");
+                this.AddLine("Shkias Hachama", "The sun does not set", bold:true);
             }
             else
             {
-                this.AddLine("Shkias Hachama", shkia.ToString());
+                if (shkia != shkiaMishor)
+                {
+                    this.AddLine("Sunset at " + (this._zmanim.Location.Elevation * 3.28084).ToString() + " ft.",
+                        shkiaMishor.ToString());
+                }
+                this.AddLine("Shkias Hachama", shkia.ToString(), bold:true);
                 this.AddLine("Nightfall 45", (shkia + 45).ToString());
                 this.AddLine("Rabbeinu Tam", (shkia + 72).ToString());
                 this.AddLine("72 \"Zmaniot\"", (shkia + (int)(shaaZmanis * 1.2)).ToString());
@@ -518,14 +538,17 @@ namespace LuachProject
         internal void ShowDateData()
         {
             this.Cursor = Cursors.WaitCursor;
-            var netzshkia = this._zmanim.GetNetzShkia();
+            var netzshkia = this._zmanim.GetNetzShkia(true);
+            var netzshkiaMishor = this._zmanim.GetNetzShkia(false);
             var netz = netzshkia[0];
             var shkia = netzshkia[1];
+            var netzMishor = netzshkiaMishor[0];
+            var shkiaMishor = netzshkiaMishor[1];
 
             this.DisplayToday();
             this.DisplayDateDiff();
             this.DisplayHolidays(shkia);
-            this.DisplayZmanim(netz, shkia);
+            this.DisplayZmanim(netz, shkia, netzMishor, shkiaMishor);
 
             this.tableLayoutPanel1.Controls.Clear();
             foreach (UserOccasion occ in this._occasions)
