@@ -79,6 +79,7 @@
             // 
             this.richTextBox1.BackColor = System.Drawing.Color.White;
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox1.DetectUrls = false;
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox1.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox1.ForeColor = System.Drawing.Color.DimGray;
@@ -89,7 +90,6 @@
             this.richTextBox1.Size = new System.Drawing.Size(1047, 452);
             this.richTextBox1.TabIndex = 10;
             this.richTextBox1.Text = "";
-            this.richTextBox1.WordWrap = false;
             // 
             // tableLayoutPanel1
             // 
@@ -106,7 +106,7 @@
             this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(10, 5, 0, 0);
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1059, 55);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1059, 56);
             this.tableLayoutPanel1.TabIndex = 15;
             // 
             // label2
@@ -115,7 +115,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.GhostWhite;
-            this.label2.Location = new System.Drawing.Point(5, 85);
+            this.label2.Location = new System.Drawing.Point(5, 86);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(1056, 17);
             this.label2.TabIndex = 14;
