@@ -226,7 +226,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Luach.ico" />
-    <Content Include="Resources\DailyInfoHTMLTemplate.html" />
+    <Content Include="Resources\InfoHTMLHeb.html" />
     <None Include="Resources\page_next_classy-icons-set1.png" />
     <None Include="Resources\page_next_classy-icons-set.png" />
   </ItemGroup>

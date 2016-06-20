@@ -68,17 +68,17 @@ namespace LuachProject.Properties {
         ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
         ///    &lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
         ///    &lt;style type=&quot;text/css&quot;&gt;
-        ///        .td{font-family:Tahoma;font-size:10pt;}
-        ///        .dimGray{color:#696969;}
-        ///        .cornSilk{color:#FFF8DC;}
-        ///        .lightSteelBlue{color:#B0C4DE;}
-        ///        .ghostWhite{color:#F8F8FF;}
-        ///        .bold{font-weight:bold;}
-        ///        .dateDiffExpFont{font-size:7.3pt;font-style:italic;color:#905A [rest of string was truncated]&quot;;.
+        ///        html, body { font-family: Tahoma; font-size: 10pt; color: #696969; margin: 0; padding: 0; direction: rtl; }
+        ///        .seven { font-size: 7.3pt; }
+        ///        .eight { font-size: 8pt; }
+        ///        .nine { font-size: 9pt; }
+        ///        .ten { font-size: 10pt; }
+        ///        .bold { font-weight: bold; }
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string DailyInfoHTMLTemplate {
+        internal static string InfoHTMLHeb {
             get {
-                return ResourceManager.GetString("DailyInfoHTMLTemplate", resourceCulture);
+                return ResourceManager.GetString("InfoHTMLHeb", resourceCulture);
             }
         }
         

@@ -515,7 +515,7 @@ namespace LuachProject
                 this.AddLine(html, "72 דקות זמניות לחומרה", (shkia + (int)(shaaZmanis90 * 1.2)).ToString24H());
             }
             html.Append("</table>");            
-            this.webBrowser1.DocumentText = Properties.Resources.DailyInfoHTMLTemplate                
+            this.webBrowser1.DocumentText = Properties.Resources.InfoHTMLHeb                
                 .Replace("{{BODY}}", html.ToString());            
 
             this.tableLayoutPanel1.Controls.Clear();
