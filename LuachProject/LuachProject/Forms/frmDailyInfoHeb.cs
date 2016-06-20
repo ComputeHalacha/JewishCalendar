@@ -181,13 +181,14 @@ namespace LuachProject
 
         private void AddLine(StringBuilder sb, string header, string value, bool wideDescription = true, bool bold = false)
         {
-            sb.Append("<div class=\"clear\">");
-            sb.AppendFormat("<div class=\"{0} cornFlowerBlue bold\">{1}</div>",
-                (wideDescription ? "narrow" : "medium"), value);
-            sb.AppendFormat("<div class=\"{0}{1}\">{2}</div>",
+            sb.Append("<tr>");
+            sb.AppendFormat("<td class=\"{0}{1}\"><span>{2}</span></td><td>&nbsp;</td>",
                 (wideDescription ? "wide" : "medium"),
                 (bold ? " bold" : ""), header);
-            sb.Append("</div>");
+            sb.AppendFormat("<td class=\"{0} cornFlowerBlue bold nobg\">{1}</td>",
+                (wideDescription ? "narrow" : "medium"),
+                value);
+            sb.Append("</tr>");
         }
 
         private void AddOccasion(UserOccasion occ)
@@ -402,9 +403,10 @@ namespace LuachProject
                 html.Append("<div class=\"full rosyBrown seven italic\">שים לב: תאריך הלועזי מתחיל בשעה 0:00</div>");
             }
             html.AppendFormat("<div class=\"full purpleoid seven italic\">{0}</div>", this.GetDateDiff());
-            html.Append("<br />");
+            html.Append("<br /><table>");
             if (this._holidays.Count() > 0)
             {
+                html.Append("<tr><td class=\"nobg\" colspan=\"3\">");
                 foreach (var h in this._holidays)
                 {
                     html.AppendFormat("<div class=\"full\">{0}", h.NameHebrew);
@@ -436,7 +438,7 @@ namespace LuachProject
                         html.Append("<div class=\"full crimson bold\">עירוב תבשילין</div>");
                     }
                 }
-                html.Append("<br />");
+                html.Append("</td></tr>");
                 if (shkia != HourMinute.NoValue &&
                     this._holidays.Any(h => h.DayType.IsSpecialDayType(SpecialDayTypes.HasCandleLighting)))
                 {
@@ -444,7 +446,7 @@ namespace LuachProject
                         wideDescription: false);
                 }
             }
-            html.Append("<br />");
+            html.Append("<tr><td class=\"nobg\" colspan=\"3\">&nbsp;</td></tr>");
 
             this.AddLine(html, "פרשת השבוע",
                 string.Join(" ", Sedra.GetSedra(this._displayingJewishDate, this._zmanim.Location.IsInIsrael).Select(i => i.nameHebrew)),
@@ -454,10 +456,10 @@ namespace LuachProject
                 this.AddLine(html, "דף יומי", dy.ToStringHeb(), wideDescription: false);
             }
 
-            html.Append("<br /><br />");
+            html.Append("</table><br /><br />");
             html.AppendFormat("<div class=\"full lightSteelBlueBG ghostWhite ten bold clear\">זמני היום ב{0}</div>",
                 this._zmanim.Location.NameHebrew);
-            html.Append("<br />");
+            html.Append("<br /><table>");
 
             if (netz == HourMinute.NoValue)
             {
@@ -512,9 +514,9 @@ namespace LuachProject
                 this.AddLine(html, "72 דקות זמניות", (shkia + (int)(shaaZmanis * 1.2)).ToString24H());
                 this.AddLine(html, "72 דקות זמניות לחומרה", (shkia + (int)(shaaZmanis90 * 1.2)).ToString24H());
             }
-            this.webBrowser1.DocumentText = Properties.Resources.DailyInfoHTMLTemplate
-                .Replace("{{DIRECTION}}", "rtl")
-                .Replace("{{BODY}}", html.ToString());
+            html.Append("</table>");            
+            this.webBrowser1.DocumentText = Properties.Resources.DailyInfoHTMLTemplate                
+                .Replace("{{BODY}}", html.ToString());            
 
             this.tableLayoutPanel1.Controls.Clear();
             foreach (UserOccasion occ in this._occasions)
