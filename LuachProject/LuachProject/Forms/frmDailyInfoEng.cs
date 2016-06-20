@@ -29,8 +29,6 @@ namespace LuachProject
         private Font _sefirahFont;
         private Font _boldFont;
         private JewishCalendar.Zmanim _zmanim;
-        private int _tabSpaces;
-
         #endregion private fields
 
         #region constructor
@@ -124,19 +122,10 @@ namespace LuachProject
                             this._displayingJewishDate,
                             (HourMinute)DateTime.Now.TimeOfDay,
                             this._zmanim.Location);
-            }
-
-            using (var g = this.splitContainer1.Panel1.CreateGraphics())
-            {
-                //Gets the width of a single space. Will be used for spacing.
-                var oneSpaceWidth = g.MeasureString(" ", this._boldFont).Width;
-                //Will be set as the tab width for the "header" of each header/value line in the richTextBox
-                this._tabSpaces = (int)((this.richTextBox1.Width * 0.5) / oneSpaceWidth);
-            }
+            }            
 
             this.ShowDateData();
         }
-
         #endregion event handlers
 
         #region private functions
