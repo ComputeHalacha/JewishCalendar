@@ -61,6 +61,50 @@ namespace LuachProject.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;!doctype html&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;title&gt;Luach Project Daily Info&lt;/title&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///    &lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+        ///    &lt;style type=&quot;text/css&quot;&gt;
+        ///        html, body { font-family: Century Gothic; font-size: 9pt; color: #696969; margin: 0; padding: 0; }
+        ///        .seven { font-size: 7.3pt; }
+        ///        .eight { font-size: 8pt; }
+        ///        .nine { font-size: 9pt; }
+        ///        .ten { font-size: 10pt; }
+        ///        .bold { font-weight: bold; }
+        ///        .i [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string InfoHTMLEng {
+            get {
+                return ResourceManager.GetString("InfoHTMLEng", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!doctype html&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;title&gt;Luach Project Daily Info&lt;/title&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///    &lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+        ///    &lt;style type=&quot;text/css&quot;&gt;
+        ///        html, body { font-family: Tahoma; font-size: 10pt; color: #696969; margin: 0; padding: 0; direction: rtl; }
+        ///        .seven { font-size: 7.3pt; }
+        ///        .eight { font-size: 8pt; }
+        ///        .nine { font-size: 9pt; }
+        ///        .ten { font-size: 10pt; }
+        ///        .bold { font-weight: bold; }
+        ///  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string InfoHTMLHeb {
+            get {
+                return ResourceManager.GetString("InfoHTMLHeb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;LS&gt;&lt;L N=&quot;Ofakim&quot; H=&quot;אופקים&quot; I=&quot;Y&quot;&gt;&lt;T&gt;2&lt;/T&gt;&lt;E&gt;170&lt;/E&gt;&lt;LT&gt;31.32&lt;/LT&gt;&lt;LN&gt;-34.62&lt;/LN&gt;&lt;/L&gt;&lt;L N=&quot;Eilat&quot; H=&quot;אילת&quot; I=&quot;Y&quot;&gt;&lt;T&gt;2&lt;/T&gt;&lt;LT&gt;29.55&lt;/LT&gt;&lt;LN&gt;-34.95&lt;/LN&gt;&lt;/L&gt;&lt;L N=&quot;Elad&quot; H=&quot;אלעד&quot; I=&quot;Y&quot;&gt;&lt;T&gt;2&lt;/T&gt;&lt;E&gt;150&lt;/E&gt;&lt;LT&gt;32.05&lt;/LT&gt;&lt;LN&gt;-34.95&lt;/LN&gt;&lt;/L&gt;&lt;L N=&quot;Ashdod&quot; H=&quot;אשדוד&quot; I=&quot;Y&quot;&gt;&lt;T&gt;2&lt;/T&gt;&lt;LT&gt;31.78&lt;/LT&gt;&lt;LN&gt;-34.63&lt;/LN&gt;&lt;/L&gt;&lt;L N=&quot;Ashkelon&quot; H=&quot;אשקלון&quot; I=&quot;Y&quot;&gt;&lt;T&gt;2&lt;/T&gt;&lt;LT&gt;31.65&lt;/LT&gt;&lt;LN&gt;-34.57&lt;/LN&gt;&lt;/L&gt;&lt;L N=&quot;Be&apos;er Ya&apos;akov&quot; H=&quot;באר יעקב&quot; I=&quot;Y&quot;&gt;&lt;T&gt;2&lt;/T&gt;&lt;LT&gt;31.93&lt;/LT&gt;&lt;LN&gt;-34.83&lt;/LN&gt;....
         /// </summary>
         internal static string LocationsList {
