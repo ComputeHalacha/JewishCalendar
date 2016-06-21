@@ -132,8 +132,6 @@
             this.jewishDatePicker1.Language = JewishDatePicker.JewishDatePicker.Languages.English;
             this.jewishDatePicker1.Location = new System.Drawing.Point(515, 55);
             this.jewishDatePicker1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.jewishDatePicker1.MaxDate = new JewishCalendar.JewishDate(System.DateTime.MaxValue);
-            this.jewishDatePicker1.MinDate = new JewishCalendar.JewishDate(System.DateTime.MinValue);
             this.jewishDatePicker1.Name = "jewishDatePicker1";
             this.jewishDatePicker1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.jewishDatePicker1.Size = new System.Drawing.Size(247, 31);

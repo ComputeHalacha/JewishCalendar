@@ -23,7 +23,7 @@ namespace LuachProject
         private IEnumerable<SpecialDay> _holidays;
         private Font _lblOccasionFont;
         private IEnumerable<UserOccasion> _occasions;
-        private JewishCalendar.Zmanim _zmanim;
+        private Zmanim _zmanim;
         #endregion private fields
 
         #region constructor
@@ -43,7 +43,6 @@ namespace LuachProject
         #endregion constructor
 
         #region properties
-
         public JewishDate JewishDate
         {
             get
@@ -93,7 +92,6 @@ namespace LuachProject
         #endregion properties
 
         #region event handlers
-
         private void button1_Click(object sender, EventArgs e)
         {
             AddNewOccasion(null);
@@ -118,7 +116,7 @@ namespace LuachProject
         }
         #endregion event handlers
 
-        #region private functions
+        #region public and internal functions
         public void AddNewOccasion(Point? parentPoint)
         {
             if (this._frmAddOccasionEng != null)
@@ -185,6 +183,43 @@ namespace LuachProject
             this.PositionAddOccasion(parentPoint);
         }
 
+        internal void ShowDateData()
+        {
+            this.Cursor = Cursors.WaitCursor;
+            var netzshkia = this._zmanim.GetNetzShkia(true);
+            var netzshkiaMishor = this._zmanim.GetNetzShkia(false);
+            var netz = netzshkia[0];
+            var shkia = netzshkia[1];
+            var netzMishor = netzshkiaMishor[0];
+            var shkiaMishor = netzshkiaMishor[1];
+            var html = new StringBuilder();
+
+            this.DisplayToday(html);
+            this.DisplayDateDiff(html);
+            html.Append("<br />");
+            this.DisplayHolidays(html, shkia);
+            this.DisplayZmanim(html, netz, shkia, netzMishor, shkiaMishor);
+
+            this.webBrowser1.DocumentText = Properties.Resources.InfoHTMLEng
+                .Replace("{{BODY}}", html.ToString());
+
+            this.tableLayoutPanel1.Controls.Clear();
+            foreach (UserOccasion occ in this._occasions)
+            {
+                this.AddOccasion(occ);
+            }
+
+            var bg = (from o in this._occasions
+                      where o.BackColor != Color.Empty
+                      select o.BackColor).FirstOrDefault();
+
+            this.tableLayoutPanel1.BackColor = (bg != Color.Empty ? bg.Color : Color.GhostWhite);
+
+            this.Cursor = Cursors.Default;
+        }
+        #endregion
+
+        #region private functions       
         private void AddLine(StringBuilder sb, string header, string value, bool wideDescription = true, bool bold = false)
         {
             sb.Append("<tr>");
@@ -500,42 +535,6 @@ namespace LuachProject
 
             this._frmAddOccasionEng.ResumeLayout();
         }
-
-        internal void ShowDateData()
-        {
-            this.Cursor = Cursors.WaitCursor;
-            var netzshkia = this._zmanim.GetNetzShkia(true);
-            var netzshkiaMishor = this._zmanim.GetNetzShkia(false);
-            var netz = netzshkia[0];
-            var shkia = netzshkia[1];
-            var netzMishor = netzshkiaMishor[0];
-            var shkiaMishor = netzshkiaMishor[1];
-            var html = new StringBuilder();
-
-            this.DisplayToday(html);
-            this.DisplayDateDiff(html);
-            html.Append("<br />");
-            this.DisplayHolidays(html, shkia);
-            this.DisplayZmanim(html, netz, shkia, netzMishor, shkiaMishor);
-
-            this.webBrowser1.DocumentText = Properties.Resources.InfoHTMLEng
-                .Replace("{{BODY}}", html.ToString());
-
-            this.tableLayoutPanel1.Controls.Clear();
-            foreach (UserOccasion occ in this._occasions)
-            {
-                this.AddOccasion(occ);
-            }
-
-            var bg = (from o in this._occasions
-                      where o.BackColor != Color.Empty
-                      select o.BackColor).FirstOrDefault();
-
-            this.tableLayoutPanel1.BackColor = (bg != Color.Empty ? bg.Color : Color.GhostWhite);
-
-            this.Cursor = Cursors.Default;
-        }
-
         #endregion private functions
     }
 }
