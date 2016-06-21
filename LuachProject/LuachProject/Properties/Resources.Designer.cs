@@ -92,11 +92,10 @@ namespace LuachProject.Properties {
         ///    &lt;style type=&quot;text/css&quot;&gt;
         ///        html, body { font-family: Tahoma; font-size: 10pt; color: #696969; margin: 0; padding: 0; direction: rtl; }
         ///        .seven { font-size: 7.3pt; }
-        ///        .eight { font-size: 8pt; }
         ///        .nine { font-size: 9pt; }
         ///        .ten { font-size: 10pt; }
         ///        .bold { font-weight: bold; }
-        ///  [rest of string was truncated]&quot;;.
+        ///        .italic { font-style: italic; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string InfoHTMLHeb {
             get {
