@@ -316,9 +316,7 @@
             this.jewishDatePicker1.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.jewishDatePicker1.ForeColor = System.Drawing.Color.Black;
             this.jewishDatePicker1.Location = new System.Drawing.Point(46, 39);
-            this.jewishDatePicker1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.jewishDatePicker1.MaxDate = new JewishCalendar.JewishDate(System.DateTime.MaxValue);
-            this.jewishDatePicker1.MinDate = new JewishCalendar.JewishDate(System.DateTime.MinValue);
+            this.jewishDatePicker1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);            
             this.jewishDatePicker1.Name = "jewishDatePicker1";
             this.jewishDatePicker1.Size = new System.Drawing.Size(247, 30);
             this.jewishDatePicker1.TabIndex = 7;

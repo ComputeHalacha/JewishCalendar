@@ -195,7 +195,7 @@ namespace JewishDatePicker
             }
             set
             {
-                if (this._value != value)
+                if (this._value == null || this._value != value)
                 {
                     if (value < this._minDate)
                     {
@@ -293,6 +293,11 @@ namespace JewishDatePicker
 
         private void FillJewishMonthsCombo()
         {
+            if (this._value == null)
+            {
+                return;
+            }
+
             this.cmbJMonth.Items.Clear();
             bool m = JewishDateCalculations.IsJewishLeapYear(this._value.Year);
             for (int i = 1; i <= (m ? 13 : 12); i++)
