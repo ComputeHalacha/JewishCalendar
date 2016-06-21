@@ -301,78 +301,74 @@ namespace LuachProject
             this._frmAddOccasionHeb.ResumeLayout();
         }
 
-        private string GetDateDiff()
+        private void DisplayDateDiff(StringBuilder html)
         {
             JewishDate now = new JewishDate(this._zmanim.Location);
             int diffDays = this._displayingJewishDate.AbsoluteDate - now.AbsoluteDate;
 
+            html.Append("<div class=\"full\">");
+
             if (diffDays == 0)
             {
-                return "היום";
+                html.Append("היום");
             }
             else if (diffDays == 1)
             {
-                return "מחר";
+                html.Append("מחר");
             }
             else if (diffDays == 2)
             {
-                return "מחרתיים";
+                html.Append("מחרתיים");
             }
             else if (diffDays == -1)
             {
-                return "אתמול";
-            }
-
-            int totalDays = Math.Abs(diffDays);
-            var diffText = new System.Text.StringBuilder();
-            if (diffDays < 0)
-            {
-                diffText.AppendFormat("לפני {0:N0} ימים", totalDays);
+                html.Append("אתמול");
             }
             else
             {
-                diffText.AppendFormat("בעוד {0:N0} ימים", totalDays);
-            }
+                int totalDays = Math.Abs(diffDays);
 
-            if (totalDays > 29)
-            {
-                var dateDiff = new Itenso.TimePeriod.DateDiff(
-                    this._displayingJewishDate.GregorianDate, now.GregorianDate);
-                int years = Math.Abs(dateDiff.ElapsedYears),
-                    months = Math.Abs(dateDiff.ElapsedMonths);
-
-                if (years + months > 0)
+                if (diffDays < 0)
                 {
-                    int singleDays = Math.Abs(dateDiff.ElapsedDays);
+                    html.AppendFormat("לפני {0:N0} ימים", totalDays);
+                }
+                else
+                {
+                    html.AppendFormat("בעוד {0:N0} ימים", totalDays);
+                }
 
+                if (totalDays > 29)
+                {
+                    var dateDiff = new Itenso.TimePeriod.DateDiff(
+                        this._displayingJewishDate.GregorianDate, now.GregorianDate);
+                    int years = Math.Abs(dateDiff.ElapsedYears),
+                        months = Math.Abs(dateDiff.ElapsedMonths);
 
-                    if (years >= 1)
+                    if (years + months > 0)
                     {
-                        diffText.AppendFormat("{0:N0} {1}",
-                            (int)years, years >= 2 ? "שנים" : "שנה");
+                        int singleDays = Math.Abs(dateDiff.ElapsedDays);
+
+                        html.Append("&nbsp;&nbsp;<span class=\"purpleoid seven italic\">");
+                       
+                        if (years >= 1)
+                        {
+                            html.AppendFormat("{0:N0} {1}", years, years >= 2 ? "שנים" : "שנה");
+                        }
+                        if (months >= 1)
+                        {
+                            html.AppendFormat(" {0:N0} {1}", months, (months >= 2 ? "חודשים" : "חודש"));
+                        }
+                        if (singleDays >= 1)
+                        {
+                            html.AppendFormat(" {0:N0} {1}", singleDays, (singleDays >= 2 ? "ימים" : "יום"));
+                        }
+
+                        html.Append("</span>");
                     }
-                    if (months >= 1)
-                    {
-                        diffText.AppendFormat("{0}{1:N0} חודש{2}",
-
-                            diffText.Length > 0 ? " " : "",
-                            (int)months,
-                            (months >= 2 ? "ים" : ""));
-                    }
-                    if (singleDays >= 1)
-                    {
-                        diffText.AppendFormat("{0}{1:N0} {2}",
-
-                            (diffText.Length > 0 ? " " : ""),
-                            (int)singleDays,
-                            (singleDays >= 2 ? "ימים" : "יום"));
-                    }
-                    diffText.Insert(0, "    ");
-
-
                 }
             }
-            return diffText.ToString();
+
+            html.Append("</div>");
         }
 
         internal void ShowDateData()
@@ -402,11 +398,12 @@ namespace LuachProject
             {
                 html.Append("<div class=\"full rosyBrown seven italic\">שים לב: תאריך הלועזי מתחיל בשעה 0:00</div>");
             }
-            html.AppendFormat("<div class=\"full purpleoid seven italic\">{0}</div>", this.GetDateDiff());
-            html.Append("<br /><table>");
+
+            this.DisplayDateDiff(html);
+
+            html.Append("<br />");
             if (this._holidays.Count() > 0)
-            {
-                html.Append("<tr><td class=\"nobg\" colspan=\"3\">");
+            {                
                 foreach (var h in this._holidays)
                 {
                     html.AppendFormat("<div class=\"full\">{0}", h.NameHebrew);
@@ -426,27 +423,29 @@ namespace LuachProject
                         html.AppendFormat("<div>ראש חודש: {0}{1}</div>",
                             Utils.JewishDOWNames[dow], (dim == 30 ? ", " + Utils.JewishDOWNames[(dow + 1) % 7] : ""));
                     }
-                    else if (h.NameEnglish.Contains("Sefiras Ha'omer"))
+                    html.Append("</div>");
+                    if (h.NameEnglish.Contains("Sefiras Ha'omer"))
                     {
                         html.AppendFormat("<div class=\"nine bluoid\">{0}</div>",
                             Utils.GetOmerNusach(this._displayingJewishDate.GetDayOfOmer(), true, false));
-                    }
-                    html.Append("</div>");
+                    }                    
 
                     if (h.DayType.IsSpecialDayType(SpecialDayTypes.EruvTavshilin))
                     {
                         html.Append("<div class=\"full crimson bold\">עירוב תבשילין</div>");
                     }
-                }
-                html.Append("</td></tr>");
-                if (shkia != HourMinute.NoValue &&
-                    this._holidays.Any(h => h.DayType.IsSpecialDayType(SpecialDayTypes.HasCandleLighting)))
-                {
-                    this.AddLine(html, "הדלקת נרות", (shkia - this._zmanim.Location.CandleLighting).ToString24H(),
-                        wideDescription: false);
-                }
+                }                
             }
-            html.Append("<tr><td class=\"nobg\" colspan=\"3\">&nbsp;</td></tr>");
+
+            html.Append("<table>");
+
+            if (shkia != HourMinute.NoValue &&
+                    this._holidays.Any(h => h.DayType.IsSpecialDayType(SpecialDayTypes.HasCandleLighting)))
+            {
+                this.AddLine(html, "הדלקת נרות", (shkia - this._zmanim.Location.CandleLighting).ToString24H(),
+                    wideDescription: false);
+                html.Append("<tr><td class=\"nobg\" colspan=\"3\">&nbsp;</td></tr>");
+            }            
 
             this.AddLine(html, "פרשת השבוע",
                 string.Join(" ", Sedra.GetSedra(this._displayingJewishDate, this._zmanim.Location.IsInIsrael).Select(i => i.nameHebrew)),
@@ -456,10 +455,10 @@ namespace LuachProject
                 this.AddLine(html, "דף יומי", dy.ToStringHeb(), wideDescription: false);
             }
 
-            html.Append("</table><br /><br />");
+            html.Append("</table><br />");
             html.AppendFormat("<div class=\"full lightSteelBlueBG ghostWhite ten bold clear\">זמני היום ב{0}</div>",
                 this._zmanim.Location.NameHebrew);
-            html.Append("<br /><table>");
+            html.Append("<table>");
 
             if (netz == HourMinute.NoValue)
             {
@@ -514,9 +513,9 @@ namespace LuachProject
                 this.AddLine(html, "72 דקות זמניות", (shkia + (int)(shaaZmanis * 1.2)).ToString24H());
                 this.AddLine(html, "72 דקות זמניות לחומרה", (shkia + (int)(shaaZmanis90 * 1.2)).ToString24H());
             }
-            html.Append("</table>");            
-            this.webBrowser1.DocumentText = Properties.Resources.InfoHTMLHeb                
-                .Replace("{{BODY}}", html.ToString());            
+            html.Append("</table>");
+            this.webBrowser1.DocumentText = Properties.Resources.InfoHTMLHeb
+                .Replace("{{BODY}}", html.ToString());
 
             this.tableLayoutPanel1.Controls.Clear();
             foreach (UserOccasion occ in this._occasions)

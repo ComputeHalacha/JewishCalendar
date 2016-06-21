@@ -68,6 +68,28 @@ namespace LuachProject.Properties {
         ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
         ///    &lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
         ///    &lt;style type=&quot;text/css&quot;&gt;
+        ///        html, body { font-family: Century Gothic; font-size: 9pt; color: #696969; margin: 0; padding: 0; }
+        ///        .seven { font-size: 7.3pt; }
+        ///        .eight { font-size: 8pt; }
+        ///        .nine { font-size: 9pt; }
+        ///        .ten { font-size: 10pt; }
+        ///        .bold { font-weight: bold; }
+        ///        .i [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string InfoHTMLEng {
+            get {
+                return ResourceManager.GetString("InfoHTMLEng", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!doctype html&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;title&gt;Luach Project Daily Info&lt;/title&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///    &lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+        ///    &lt;style type=&quot;text/css&quot;&gt;
         ///        html, body { font-family: Tahoma; font-size: 10pt; color: #696969; margin: 0; padding: 0; direction: rtl; }
         ///        .seven { font-size: 7.3pt; }
         ///        .eight { font-size: 8pt; }
