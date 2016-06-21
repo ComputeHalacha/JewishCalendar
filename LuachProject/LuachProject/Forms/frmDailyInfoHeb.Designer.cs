@@ -77,6 +77,7 @@
             // webBrowser1
             // 
             this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser1.IsWebBrowserContextMenuEnabled = false;
             this.webBrowser1.Location = new System.Drawing.Point(0, 0);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
@@ -100,7 +101,7 @@
             this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(10, 5, 0, 0);
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1059, 59);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1059, 60);
             this.tableLayoutPanel1.TabIndex = 15;
             // 
             // label2
@@ -109,7 +110,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.GhostWhite;
-            this.label2.Location = new System.Drawing.Point(5, 89);
+            this.label2.Location = new System.Drawing.Point(5, 90);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(1056, 17);
             this.label2.TabIndex = 14;

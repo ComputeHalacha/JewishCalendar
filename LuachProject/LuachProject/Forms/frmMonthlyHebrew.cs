@@ -44,13 +44,13 @@ namespace LuachProject
             }
             set
             {
-                if (this._displayedJewishMonth == null || 
-                    this._displayedJewishMonth.Year != value.Year || 
+                if (this._displayedJewishMonth == null ||
+                    this._displayedJewishMonth.Year != value.Year ||
                     this._displayedJewishMonth.Month != value.Month)
                 {
                     //Set _currentJewishDate to first of month
                     this._displayedJewishMonth = value - (value.Day - 1);
-                    if(this._displayedJewishMonth < this.jewishDatePicker1.MinDate)
+                    if (this._displayedJewishMonth < this.jewishDatePicker1.MinDate)
                     {
                         this._displayedJewishMonth = this.jewishDatePicker1.MinDate;
                     }
@@ -162,7 +162,7 @@ namespace LuachProject
         }
 
         #endregion Constructors
-        
+
         #region Event Handlers
 
         private void button1_Click(object sender, EventArgs e)
@@ -808,7 +808,8 @@ namespace LuachProject
             }
 
             this.lblMonthName.Text = caption;
-            this.Text = "לוח - " + caption;
+            this.Text = "לוח -  " + caption + 
+                "       [גירסה " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + "]";
             this.ResumeLayout();
         }
 

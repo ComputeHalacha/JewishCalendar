@@ -796,7 +796,8 @@ namespace LuachProject
             }
 
             this.lblMonthName.Text = caption;
-            this.Text = "Luach - " + caption;
+            this.Text = "Luach - " + caption +
+                "       [Version - " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + "]";
         }
 
         private void SetLocationDataSource()

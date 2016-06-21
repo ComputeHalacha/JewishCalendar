@@ -271,7 +271,7 @@ namespace LuachProject
             JewishDate now = new JewishDate(this._zmanim.Location);
             int diffDays = this._displayingJewishDate.AbsoluteDate - now.AbsoluteDate;
 
-            html.Append("<div class=\"full\">");
+            html.Append("<div class=\"padWidth\">");
 
             if (diffDays == 0)
             {
@@ -321,7 +321,7 @@ namespace LuachProject
                         }
                         if (singleDays >= 1)
                         {
-                            html.AppendFormat(" {0:N0} day{2}", singleDays, singleDays > 1 ? "s" : "");
+                            html.AppendFormat(" {0:N0} day{1}", singleDays, singleDays > 1 ? "s" : "");
                         }
 
                         html.Append("</span>");
@@ -337,7 +337,7 @@ namespace LuachProject
             {                
                 foreach (var h in this._holidays)
                 {
-                    html.AppendFormat("<div class=\"full\">{0}", h.NameEnglish);                    
+                    html.AppendFormat("<div class=\"padWidth\">{0}", h.NameEnglish);                    
                     if (h.NameEnglish == "Shabbos Mevarchim")
                     {
                         var nextMonth = this._displayingJewishDate + 12;
@@ -364,7 +364,7 @@ namespace LuachProject
 
                     if (h.DayType.IsSpecialDayType(SpecialDayTypes.EruvTavshilin))
                     {
-                        html.Append("<div class=\"full eight bold crimson\">Eiruv Tavshilin</div>");                        
+                        html.Append("<div class=\"padWidth eight bold crimson\">Eiruv Tavshilin</div>");                        
                     }
                 }
             }
@@ -379,10 +379,10 @@ namespace LuachProject
 
         private void DisplayToday(StringBuilder html)
         {
-            html.AppendFormat("<div class=\"full royalBlue bold\">{0}, {1}</div>",
+            html.AppendFormat("<div class=\"padWidth royalBlue bold\">{0}, {1}</div>",
                 this._displayingJewishDate.DayOfWeek,
                 this._displayingJewishDate.ToLongDateString());
-            html.AppendFormat("<div class=\"full lightSteelBlue\">{0}</div>",
+            html.AppendFormat("<div class=\"padWidth lightSteelBlue\">{0}</div>",
                 this._displayingSecularDate.ToString("D", System.Threading.Thread.CurrentThread.CurrentCulture));
 
 
@@ -391,7 +391,7 @@ namespace LuachProject
             //So we esplain'in it to them...
             if (this._displayingSecularDate.Date != this._displayingJewishDate.GregorianDate.Date)
             {
-                html.Append("<div class=\"full rosyBrown seven italic\">Note: The secular date begins at midnight</div>");
+                html.Append("<div class=\"padWidth rosyBrown seven italic\">Note: The secular date begins at midnight</div>");
             }
         }
 
@@ -411,7 +411,7 @@ namespace LuachProject
             }
 
             html.Append("</table><br />");
-            html.AppendFormat("<div class=\"full lightSteelBlueBG ghostWhite ten bold clear\">Zmanim for {0}</div>",
+            html.AppendFormat("<div class=\"padBoth lightSteelBlueBG ghostWhite nine bold clear\">Zmanim for {0}</div>",
                 this._zmanim.Location.Name);
             html.Append("<table>");            
 

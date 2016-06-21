@@ -867,7 +867,9 @@ namespace LuachProject
             }
 
             this.lblMonthName.Text = caption;
-            this.Text = (DisplayHebrew ? "לוח לועזי" : "Secular Calendar") + " - " + caption;
+            this.Text = (DisplayHebrew ? "לוח לועזי" : "Secular Calendar") + " - " + caption +
+                "       [" + (DisplayHebrew ? "גירסה " : "Version ") + 
+                System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + "]";
         }
 
         private void SetControlsPerLanguage()
