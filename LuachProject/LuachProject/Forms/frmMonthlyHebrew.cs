@@ -164,6 +164,47 @@ namespace LuachProject
         #endregion Constructors
 
         #region Event Handlers
+        private void frmMonthlyHebrew_Load(object sender, EventArgs e)
+        {
+            Program.SetDoubleBuffered(this.pnlMain);
+            this.SetLocationDataSource();
+            if (!this._currentLocation.IsInIsrael)
+            {
+                this._loading = true;
+                this.rbInChul.Checked = true;
+                this._loading = false;
+            }
+            if (this._todayJewishDate == null)
+            {
+                this._todayJewishDate = new JewishDate(this._currentLocation);
+            }
+            if (this._selectedDay == null)
+            {
+                this._selectedDay = this._todayJewishDate;
+            }
+            if (this._displayedJewishMonth == null)
+            {
+                this.DisplayedJewishMonth = this._todayJewishDate;
+            }
+            else
+            {
+                this.SetCaptionText();
+            }
+
+            this.llSefirah.Visible = this._displayedJewishMonth.Month.In(1, 2);
+
+            this.EnableArrows();
+        }
+
+        private void frmMonthlyHebrew_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void frmMonthlyHebrew_Resize(object sender, EventArgs e)
+        {
+            this.pnlMain.Invalidate();
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -215,49 +256,7 @@ namespace LuachProject
                 this.LocationForZmanim = (JewishCalendar.Location)this.cmbLocation.SelectedItem;
             }
         }
-
-        private void frmMonthlyHebrew_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void frmMonthlyHebrew_Load(object sender, EventArgs e)
-        {
-            Program.SetDoubleBuffered(this.pnlMain);
-            this.SetLocationDataSource();
-            if (!this._currentLocation.IsInIsrael)
-            {
-                this._loading = true;
-                this.rbInChul.Checked = true;
-                this._loading = false;
-            }
-            if (this._todayJewishDate == null)
-            {
-                this._todayJewishDate = new JewishCalendar.JewishDate(this._currentLocation);
-            }
-            if (this._selectedDay == null)
-            {
-                this._selectedDay = this._todayJewishDate;
-            }
-            if (this._displayedJewishMonth == null)
-            {
-                this.DisplayedJewishMonth = this._todayJewishDate;
-            }
-            else
-            {
-                this.SetCaptionText();
-            }
-
-            this.llSefirah.Visible = this._displayedJewishMonth.Month.In(1, 2);
-
-            this.EnableArrows();
-        }
-
-        private void frmMonthlyHebrew_Resize(object sender, EventArgs e)
-        {
-            this.pnlMain.Invalidate();
-        }
-
+        
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             new frmMonthlyEnglish()
@@ -808,7 +807,7 @@ namespace LuachProject
             }
 
             this.lblMonthName.Text = caption;
-            this.Text = "לוח -  " + caption + 
+            this.Text = "לוח -  " + caption +
                 "       [גירסה " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + "]";
             this.ResumeLayout();
         }
@@ -872,7 +871,7 @@ namespace LuachProject
             else
             {
                 f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
-                f.JewishDate = sdi.JewishDate;
+                    f.JewishDate = sdi.JewishDate;
             }
             if (this.splitContainer1.Panel1Collapsed)
             {

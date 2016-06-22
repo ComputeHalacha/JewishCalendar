@@ -53,18 +53,7 @@ namespace LuachProject
                 if (value != this._displayingJewishDate)
                 {
                     this._displayingJewishDate = value;
-                    //If we are displaying todays date for the current time zone, we will show the "proper" secular date.
-                    if (this.IsHereAndNow())
-                    {
-                        this._displayingSecularDate = this._displayingJewishDate.GregorianDate;
-                    }
-                    else
-                    {
-                        this._displayingSecularDate = JewishDateCalculations.GetGregorianDateFromJewishDate(
-                            this._displayingJewishDate,
-                            (HourMinute)DateTime.Now.TimeOfDay,
-                            this._zmanim.Location);
-                    }
+                    this.SetSecularDate();
                     this._zmanim.SecularDate = this._displayingSecularDate;
                     this._holidays = Zmanim.GetHolidays(value, this._zmanim.Location.IsInIsrael).Cast<SpecialDay>();
                     this._occasions = UserOccasionColection.FromSettings(this._displayingJewishDate);
@@ -99,22 +88,9 @@ namespace LuachProject
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //If we are displaying todays date for the current time zone, we will show the "proper" secular date.
-            if (this.IsHereAndNow())
-            {
-                this._displayingSecularDate = this._displayingJewishDate.GregorianDate;
-            }
-            else
-            {
-                this._displayingSecularDate = JewishDateCalculations.GetGregorianDateFromJewishDate(
-                            this._displayingJewishDate,
-                            (HourMinute)DateTime.Now.TimeOfDay,
-                            this._zmanim.Location);
-            }
-
+            this.SetSecularDate();
             this.ShowDateData();
         }
-
         #endregion event handlers
 
         #region public and internal functions
@@ -386,11 +362,25 @@ namespace LuachProject
             this.tableLayoutPanel1.Controls.Add(lbl);
         }
 
-        private bool IsHereAndNow()
+        private void SetSecularDate()
         {
-            return this._zmanim.Location.TimeZoneInfo != null &&
+            //Are we displaying the current date and current location (best guess)?
+            var isHereAndNow = this._zmanim.Location.TimeZoneInfo != null &&
                 TimeZoneInfo.Local.Id == this._zmanim.Location.TimeZoneInfo.Id &&
                 new JewishDate(DateTime.Now, this._zmanim.Location) == this._displayingJewishDate;
+
+            //If we are displaying todays date for the current time zone, we will show the "proper" secular date.
+            if (isHereAndNow)
+            {
+                this._displayingSecularDate = JewishDateCalculations.GetGregorianDateFromJewishDate(
+                    this._displayingJewishDate,
+                    (HourMinute)DateTime.Now.TimeOfDay,
+                    this._zmanim.Location);
+            }
+            else
+            {
+                this._displayingSecularDate = this._displayingJewishDate.GregorianDate;
+            }
         }
 
         private void PositionAddOccasion(Point? parentPoint)
