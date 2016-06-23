@@ -259,10 +259,15 @@ namespace LuachProject
 
                 this.AddLine(html, "עלות השחר - 90", (netzMishor - 90).ToString24H());
                 this.AddLine(html, "עלות השחר - 72", (netzMishor - 72).ToString24H());
-                this.AddLine(html, "הנה\"ח - מ " + this._zmanim.Location.Elevation.ToString() + " מטר",
-                    netz.ToString24H(), bold: true);
-                if (netz != netzMishor)
+
+                if (netz == netzMishor)
                 {
+                    this.AddLine(html, "הנץ החמה", netz.ToString24H(), bold: true);
+                }
+                else
+                {
+                    this.AddLine(html, "הנה\"ח - מ " + this._zmanim.Location.Elevation.ToString() + " מטר",
+                        netz.ToString24H(), bold: true);
                     this.AddLine(html, "הנה\"ח -  גובה פני הים",
                         netzMishor.ToString24H());
                 }
@@ -284,12 +289,17 @@ namespace LuachProject
             }
             else
             {
-                if (shkia != shkiaMishor)
+                if (shkia == shkiaMishor)
                 {
-                    this.AddLine(html, "שקה\"ח - מ " + this._zmanim.Location.Elevation.ToString() + " מטר",
-                        shkiaMishor.ToString24H());
+                    this.AddLine(html, "שקיעת החמה", shkiaMishor.ToString24H(), bold: true);
                 }
-                this.AddLine(html, "שקה\"ח - גובה פני הים", shkia.ToString24H(), bold: true);
+                else
+                {
+                    this.AddLine(html, "שקה\"ח - גובה פני הים", shkiaMishor.ToString24H(), bold: true);
+                    this.AddLine(html, "שקה\"ח - מ " + this._zmanim.Location.Elevation.ToString() + " מטר",
+                        shkia.ToString24H());
+                }
+
                 this.AddLine(html, "צאת הכוכבים 45", (shkia + 45).ToString24H());
                 this.AddLine(html, "רבינו תם", (shkia + 72).ToString24H());
                 this.AddLine(html, "72 דקות זמניות", (shkia + (int)(shaaZmanis * 1.2)).ToString24H());
@@ -371,7 +381,7 @@ namespace LuachProject
              * We use the JewishDateCalculations.GetGregorianDateFromJewishDate function 
              * which gets the Gregorian Date that will be at midnight of the given Jewish day.  
             ----------------------------------------------------------------------------------------------------------------------------------*/
-            this._secularDateAtMidnight = JewishDateCalculations.GetGregorianDateFromJewishDate(this._displayingJewishDate);            
+            this._secularDateAtMidnight = JewishDateCalculations.GetGregorianDateFromJewishDate(this._displayingJewishDate);
         }
 
         private void PositionAddOccasion(Point? parentPoint)
@@ -490,7 +500,7 @@ namespace LuachProject
                         int singleDays = Math.Abs(dateDiff.ElapsedDays);
 
                         html.Append("&nbsp;&nbsp;<span class=\"purpleoid seven italic\">");
-                       
+
                         if (years >= 1)
                         {
                             html.AppendFormat("{0:N0} {1}", years, years >= 2 ? "שנים" : "שנה");

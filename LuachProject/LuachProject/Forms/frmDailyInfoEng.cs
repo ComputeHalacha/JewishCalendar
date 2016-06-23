@@ -434,17 +434,17 @@ namespace LuachProject
                 this.AddLine(html, "Shkias Hachama", "The sun does not set", bold: true);
             }
             else
-            {
+            {                
+                this.AddLine(html, "Shkias Hachama", shkiaMishor.ToString(), bold: true);
                 if (shkia != shkiaMishor)
                 {
-                    this.AddLine(html, "Sunset at " + (this._zmanim.Location.Elevation * 3.28084).ToString() + " ft.",
-                        shkiaMishor.ToString());
+                    this.AddLine(html, "Sunset at " + (this._zmanim.Location.Elevation * 3.28084).ToString("N0") + " ft.",
+                        shkia.ToString());
                 }
-                this.AddLine(html, "Shkias Hachama", shkia.ToString(), bold: true);
-                this.AddLine(html, "Nightfall 45", (shkia + 45).ToString());
-                this.AddLine(html, "Rabbeinu Tam", (shkia + 72).ToString());
-                this.AddLine(html, "72 \"Zmaniot\"", (shkia + (int)(shaaZmanis * 1.2)).ToString());
-                this.AddLine(html, "72 \"Zmaniot MA\"", (shkia + (int)(shaaZmanis90 * 1.2)).ToString());
+                this.AddLine(html, "Nightfall 45", (shkiaMishor + 45).ToString());
+                this.AddLine(html, "Rabbeinu Tam", (shkiaMishor + 72).ToString());
+                this.AddLine(html, "72 \"Zmaniot\"", (shkiaMishor + (int)(shaaZmanis * 1.2)).ToString());
+                this.AddLine(html, "72 \"Zmaniot MA\"", (shkiaMishor + (int)(shaaZmanis90 * 1.2)).ToString());
             }
             html.Append("</table>");
         }

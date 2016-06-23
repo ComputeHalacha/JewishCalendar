@@ -74,18 +74,20 @@ namespace LuachProject
             }
             set
             {
-                this._currentLocation = value;
-                this.SetToday();
-                if (!this._loading)
+                if (this._currentLocation == null || this._currentLocation.Name != value.Name)
                 {
-                    //Location was changed, so we need to re-do the zmanim
-                    this.pnlMain.Invalidate();
+                    this._currentLocation = value;
                     Properties.Settings.Default.LocationName = value.Name;
                     Properties.Settings.Default.Save();
-
-                    if (this.DailyPanelIsShowing)
+                    this.SetToday();
+                    if (!this._loading)
                     {
-                        ((frmDailyInfoHeb)this.splitContainer1.Panel1.Controls[0]).LocationForZmanim = value;
+                        //Location was changed, so we need to re-do the zmanim
+                        this.pnlMain.Invalidate();                     
+                        if (this.DailyPanelIsShowing)
+                        {
+                            ((frmDailyInfoHeb)this.splitContainer1.Panel1.Controls[0]).LocationForZmanim = value;
+                        }
                     }
                 }
             }
