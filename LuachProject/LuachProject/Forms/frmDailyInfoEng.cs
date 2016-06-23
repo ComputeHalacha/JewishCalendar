@@ -38,7 +38,7 @@ namespace LuachProject
 
             InitializeComponent();
 
-            this._lblOccasionFont = new Font(this.Font, FontStyle.Bold);            
+            this._lblOccasionFont = new Font(this.Font, FontStyle.Bold);
         }
 
         #endregion constructor
@@ -91,7 +91,7 @@ namespace LuachProject
         {
             this.SetSecularDate();
             this.ShowDateData();
-        }        
+        }
         #endregion event handlers
 
         #region public and internal functions
@@ -304,7 +304,7 @@ namespace LuachProject
 
                         html.Append("</span>");
                     }
-                }                
+                }
             }
             html.Append("</div>");
         }
@@ -312,15 +312,15 @@ namespace LuachProject
         private void DisplayHolidays(StringBuilder html, HourMinute shkia)
         {
             if (this._holidays.Count() > 0)
-            {                
+            {
                 foreach (var h in this._holidays)
                 {
-                    html.AppendFormat("<div class=\"padWidth\">{0}", h.NameEnglish);                    
+                    html.AppendFormat("<div class=\"padWidth\">{0}", h.NameEnglish);
                     if (h.NameEnglish == "Shabbos Mevarchim")
                     {
                         var nextMonth = this._displayingJewishDate + 12;
                         html.AppendFormat(" - Chodesh {0}", nextMonth.MonthName);
-                        
+
                         var molad = Molad.GetMolad(nextMonth.Month, nextMonth.Year);
                         var dim = JewishDateCalculations.DaysInJewishMonth(this._displayingJewishDate.Year, this._displayingJewishDate.Month);
                         var dow = dim - this._displayingJewishDate.Day;
@@ -337,12 +337,12 @@ namespace LuachProject
                     if (h.NameEnglish.Contains("Sefiras Ha'omer"))
                     {
                         html.AppendFormat("<div class=\"tahoma nine steelBlue\">{0}</div>",
-                          Utils.GetOmerNusach(this._displayingJewishDate.GetDayOfOmer(), true, false));                        
+                          Utils.GetOmerNusach(this._displayingJewishDate.GetDayOfOmer(), true, false));
                     }
 
                     if (h.DayType.IsSpecialDayType(SpecialDayTypes.EruvTavshilin))
                     {
-                        html.Append("<div class=\"padWidth eight bold crimson\">Eiruv Tavshilin</div>");                        
+                        html.Append("<div class=\"padWidth eight bold crimson\">Eiruv Tavshilin</div>");
                     }
                 }
             }
@@ -379,7 +379,7 @@ namespace LuachProject
             var chatzos = this._zmanim.GetChatzos();
             var shaaZmanis = this._zmanim.GetShaaZmanis();
             var shaaZmanis90 = this._zmanim.GetShaaZmanis(90);
-            
+
             this.AddLine(html, "Weekly Sedra",
                 string.Join(" ", Sedra.GetSedra(this._displayingJewishDate, this._zmanim.Location.IsInIsrael).Select(i => i.nameEng)),
                 wideDescription: false);
@@ -391,7 +391,7 @@ namespace LuachProject
             html.Append("</table><br />");
             html.AppendFormat("<div class=\"padBoth lightSteelBlueBG ghostWhite nine bold clear\">Zmanim for {0}</div>",
                 this._zmanim.Location.Name);
-            html.Append("<table>");            
+            html.Append("<table>");
 
             if (netz == HourMinute.NoValue)
             {
@@ -413,7 +413,7 @@ namespace LuachProject
                 this.AddLine(html, "Netz Hachama", netz.ToString(), bold: true);
                 if (netz != netzMishor)
                 {
-                    this.AddLine(html, "Sunrise at sea level", netzMishor.ToString());
+                    this.AddLine(html, "Sunrise <em class=\"reg lightSteelBlue\">...at sea level</em>", netzMishor.ToString());
                 }
                 this.AddLine(html, "Krias Shma - MG\"A", ((netzMishor - 90) + (int)Math.Floor(shaaZmanis90 * 3D)).ToString());
                 this.AddLine(html, "Krias Shma - GR\"A", (netzMishor + (int)Math.Floor(shaaZmanis * 3D)).ToString());
@@ -434,17 +434,21 @@ namespace LuachProject
                 this.AddLine(html, "Shkias Hachama", "The sun does not set", bold: true);
             }
             else
-            {                
-                this.AddLine(html, "Shkias Hachama", shkiaMishor.ToString(), bold: true);
-                if (shkia != shkiaMishor)
+            {
+                if (shkia == shkiaMishor)
                 {
-                    this.AddLine(html, "Sunset at " + (this._zmanim.Location.Elevation * 3.28084).ToString("N0") + " ft.",
-                        shkia.ToString());
+                    this.AddLine(html, "Shkias Hachama", shkia.ToString(), bold: true);
                 }
-                this.AddLine(html, "Nightfall 45", (shkiaMishor + 45).ToString());
-                this.AddLine(html, "Rabbeinu Tam", (shkiaMishor + 72).ToString());
-                this.AddLine(html, "72 \"Zmaniot\"", (shkiaMishor + (int)(shaaZmanis * 1.2)).ToString());
-                this.AddLine(html, "72 \"Zmaniot MA\"", (shkiaMishor + (int)(shaaZmanis90 * 1.2)).ToString());
+                else
+                {
+                    this.AddLine(html, "Sunset <em class=\"reg lightSteelBlue\">...at Sea Level</em>", shkiaMishor.ToString());
+                    this.AddLine(html, "Shkiah <em class=\"reg lightSteelBlue\"> ...at " + (this._zmanim.Location.Elevation * 3.28084).ToString("N0") + " ft.</em>",
+                        shkia.ToString(), bold: true);
+                }
+                this.AddLine(html, "Nightfall 45", (shkia + 45).ToString());
+                this.AddLine(html, "Rabbeinu Tam", (shkia + 72).ToString());
+                this.AddLine(html, "72 \"Zmaniot\"", (shkia + (int)(shaaZmanis * 1.2)).ToString());
+                this.AddLine(html, "72 \"Zmaniot MA\"", (shkia + (int)(shaaZmanis90 * 1.2)).ToString());
             }
             html.Append("</table>");
         }

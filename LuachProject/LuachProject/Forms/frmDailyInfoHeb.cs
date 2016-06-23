@@ -266,9 +266,9 @@ namespace LuachProject
                 }
                 else
                 {
-                    this.AddLine(html, "הנה\"ח - מ " + this._zmanim.Location.Elevation.ToString() + " מטר",
+                    this.AddLine(html, "הנה\"ח <span class=\"reg lightSteelBlue\">...מ " + this._zmanim.Location.Elevation.ToString() + " מטר</span>",
                         netz.ToString24H(), bold: true);
-                    this.AddLine(html, "הנה\"ח -  גובה פני הים",
+                    this.AddLine(html, "הנה\"ח <span class=\"reg lightSteelBlue\">...גובה פני הים</span>",
                         netzMishor.ToString24H());
                 }
                 this.AddLine(html, "סוזק\"ש - מג\"א", ((netzMishor - 90) + (int)Math.Floor(shaaZmanis90 * 3D)).ToString24H());
@@ -291,13 +291,13 @@ namespace LuachProject
             {
                 if (shkia == shkiaMishor)
                 {
-                    this.AddLine(html, "שקיעת החמה", shkiaMishor.ToString24H(), bold: true);
+                    this.AddLine(html, "שקיעת החמה", shkia.ToString24H(), bold: true);
                 }
                 else
                 {
-                    this.AddLine(html, "שקה\"ח - גובה פני הים", shkiaMishor.ToString24H(), bold: true);
-                    this.AddLine(html, "שקה\"ח - מ " + this._zmanim.Location.Elevation.ToString() + " מטר",
-                        shkia.ToString24H());
+                    this.AddLine(html, "שקה\"ח <span class=\"reg lightSteelBlue\">...גובה פני הים</span>", shkiaMishor.ToString24H());
+                    this.AddLine(html, "שקה\"ח <span class=\"reg lightSteelBlue\">...מ " + this._zmanim.Location.Elevation.ToString() + " מטר</span>",
+                        shkia.ToString24H(), bold: true);
                 }
 
                 this.AddLine(html, "צאת הכוכבים 45", (shkia + 45).ToString24H());
