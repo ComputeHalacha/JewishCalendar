@@ -6,6 +6,7 @@ class Location:
         self.longitude = longitude
         self.utcOffset  = 2 if israel else (utcOffset or -int(longitude / 15))
         self.elevation = elevation or 0
-        
+
+    @staticmethod
     def getJerusalem():
         return Location("Jerusalem", True, 31.78, -35.22, 2, 775)

@@ -1,9 +1,11 @@
 import datetime
 from .Utils import Utils
 
+
 class JewishDate:
     
-    # To save on repeat calculations, a "repository" of years that have had their elapsed days previously calculated by the tDays function is kept in memory.
+    # To save on repeat calculations, a "repository" of years that have had their elapsed days previously calculated
+    # by the tDays function is kept in memory.
     # Format of each entry is a tuple of (year, elapsed)
     __yearCache = []
     
@@ -54,6 +56,7 @@ class JewishDate:
             Utils.toJNum(self.year % 1000))
     
     # Create a new JewishDate with the given Jewish Year, Month and Day
+    @staticmethod
     def create(year, month, day):
         ordinal = JewishDate.toordinal(year, month, day)
         return JewishDate(year, month, day, ordinal)
@@ -61,6 +64,7 @@ class JewishDate:
     # Create a JewishDate for the given ordinal.
     # The ordinal is the number of days elapsed since Teves 17, 3761 (12/31/0001 BCE)
     # This is also returned by pythons datetime.date.toordinal().
+    @staticmethod
     def fromordinal(ordinal):
         # To save on calculations, start with a few years before date
         year = 3761 + int(ordinal / (366 if ordinal > 0 else 300))
@@ -77,6 +81,7 @@ class JewishDate:
         return JewishDate(year, month, day, ordinal)
             
     #Elapsed days since creation of the world until Rosh Hashana of the given year
+    @staticmethod
     def tDays(year):
         '''As this function is called many times, often on the same year for all types of calculations,
         we save a list of years with their elapsed values.'''
@@ -122,6 +127,7 @@ class JewishDate:
 
     #Number of days in the given Jewish Month.
     # Nissan is 1 and Adar Sheini is 13.
+    @staticmethod
     def daysJMonth(year, month):
         if ((month == 2) or (month == 4) or (month == 6) or ((month == 8) and
             (not JewishDate.isLongCheshvan(year))) or ((month == 9) and JewishDate.isShortKislev(year)) or (month == 10) or ((month == 12) and
@@ -131,31 +137,38 @@ class JewishDate:
             return 30
 
     # Does Cheshvan for the given Jewish Year have 30 days?
+    @staticmethod
     def isLongCheshvan(year):
         return (JewishDate.daysJYear(year) % 10) == 5
     
     # Does Kislev for the given Jewish Year have 29 days?
+    @staticmethod
     def isShortKislev (year):
         return (JewishDate.daysJYear(year) % 10) == 3
     
     # Does the given Jewish Year have 13 months?
+    @staticmethod
     def isJdLeapY(year):
         return (((7 * year) + 1) % 19) < 7
     
     # Number of months in Jewish Year
+    @staticmethod
     def monthsJYear(year):
         return 13 if JewishDate.isJdLeapY(year) else 12
 
+    @staticmethod
     def fromdate(date):
         return JewishDate.fromordinal(date.toordinal())
     
     def todate(self):
         return datetime.date.fromordinal(self.ordinal)
-    
+
+    @staticmethod
     def today():
         return JewishDate.fromordinal(datetime.date.today().toordinal())
 
     # Return the proleptic ordinal of the JewishDate, where Teves 18, 3761 (1/1/0001) has ordinal 1.
+    @staticmethod
     def toordinal(year, month, day):
         dayInYear = day # Days so far this month.
         if (month < 7): # Before Tishrei, so add days in prior months this year before and after Nissan.
@@ -168,7 +181,6 @@ class JewishDate:
             while (m < month):
                 dayInYear += JewishDate.daysJMonth(year, m)
                 m += 1
-            
         
         else:    # Add days in prior months this year
             m = 7
@@ -179,7 +191,7 @@ class JewishDate:
         # Days elapsed before ordinal date 1. -  Days in prior years.
         return dayInYear + (JewishDate.tDays(year) + (-1373429))
         
-        # Gets an array[string] of holidays, fasts and any other special specifications for the current Jewish date.
+    # Gets an array[string] of holidays, fasts and any other special specifications for the current Jewish date.
     def getHolidays(self, israel, hebrew):
         list = []
         jYear = self.year
@@ -225,7 +237,7 @@ class JewishDate:
             sday = secDate.day
             # The three possible dates for starting vt"u are the 5th, 6th and 7th of December
             if (sday in [5, 6, 7]):
-                nextYearIsLeap = jDate.isJdLeapY(jYear + 1)
+                nextYearIsLeap = JewishDate.isJdLeapY(jYear + 1)
                 # If next year is not a leap year, then vst"u starts on the 5th.
                 # If next year is a leap year than vst"u starts on the 6th.
                 # If the 5th or 6th were shabbos than vst"u starts on Sunday.
@@ -301,7 +313,7 @@ class JewishDate:
                     list.append("חג הסוכות" if hebrew else "First Day of Sukkos")
                 elif (jDay == 16):
                     list.append(('סוכות - חול המועד' if hebrew else 'Sukkos - Chol HaMoed') if  israel else ('חג הסוכות - יום שני' if hebrew else 'Sukkos - Second Day'))
-                elif (jday in [17, 18, 19, 20]):
+                elif (jDay in [17, 18, 19, 20]):
                     list.append("סוכות - חול המועד" if hebrew else "Sukkos - Chol HaMoed")
                 elif (jDay == 21):
                     list.append('הושענא רבה - ערב יו"ט' if hebrew else "Hoshana Rabba - Erev Yomtov")
@@ -334,7 +346,7 @@ class JewishDate:
                 elif (jDay == 30):
                     list.append("'חנוכה - נר ו" if hebrew else "Chanuka - Six Candles")
             elif jMonth ==10: # Teves
-                if (jDate.isShortKislev(jYear)):
+                if (JewishDate.isShortKislev(jYear)):
                     if (jDay == 1):
                         list.append("'חנוכה - נר ו" if hebrew else "Chanuka - Six Candles")
                     elif (jDay == 2):
@@ -368,12 +380,11 @@ class JewishDate:
                         list.append("שושן פורים" if hebrew else "Shushan Purim")
         # If it is during Sefiras Ha'omer
         if ((jMonth == 1 and jDay > 15) or jMonth == 2 or (jMonth == 3 and jDay < 6)):
-            dayOfSefirah = jd.getDayOfOmer()
+            dayOfSefirah = self.getDayOfOmer()
             if (dayOfSefirah > 0):
                 list.append("ספירת העומר - יום " + dayOfSefirah.toString() if hebrew else "Sefiras Ha'omer - Day " + dayOfSefirah.toString())
 
         return list
-
 
     # Is the current Jewish Date the day before a yomtov that contains a Friday?
     def hasEiruvTavshilin(self, israel):
@@ -388,7 +399,7 @@ class JewishDate:
             (self.month == 6 or ((not israel) and dow in [3, 4]) or (israel and dow == 4))
 
     # Does the current Jewish date have candle lighting before sunset?
-    def hasCandleLighting():
+    def hasCandleLighting(self):
         dow = self.getDayOfWeek()
         if (dow == 5):
             return True
