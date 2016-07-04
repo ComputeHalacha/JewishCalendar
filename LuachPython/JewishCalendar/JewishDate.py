@@ -161,7 +161,7 @@ class JewishDate:
         return JewishDate.fromordinal(date.toordinal())
     
     def todate(self):
-        return datetime.date.fromordinal(self.ordinal)
+        return datetime.datetime.fromordinal(self.ordinal)
 
     @staticmethod
     def today():

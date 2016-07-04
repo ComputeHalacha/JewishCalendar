@@ -1,7 +1,6 @@
 from datetime import date
-import datetime
-import math
-from pytz import tzinfo
+import time
+from tzlocal import get_localzone
 
 
 class Utils:
@@ -83,20 +82,20 @@ class Utils:
     # Note: this is not affected by DST - unlike javascripts getTimezoneOffset() function which gives you the current offset.
     @staticmethod
     def currUtcOffset():
-        date = datetime.today()
-        jan = datetime(date.getFullYear(), 0, 1)
-        jul = datetime(date.getFullYear(), 6, 1)
-        return -int(math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset()) / 60)
+        is_dst = time.daylight and time.localtime().tm_isdst > 0
+        return - int((time.altzone if is_dst else time.timezone) / 3600)
 
     # Determines if the given date is within DST on the users system
     @staticmethod
-    def isDateDST(date):
-        return (-int(date.getTimezoneOffset() / 60)) != Utils.currUtcOffset()
+    def isDateDST(dt):
+        tz = get_localzone()  # local timezone
+        d = dt(tz)  # or some other local date
+        utc_offset = d.utcoffset().total_seconds() /3600
 
     # Determines if the users system is currently set to DST
     @staticmethod
     def isDST():
-        return Utils.isDateDST(datetime.datetime.today())
+        return time.localtime().tm_isdst
 
     # Determines if the given date and time are during DST according to the USA rules
     @staticmethod
@@ -128,9 +127,9 @@ class Utils:
     # Determines if the given date and time is during DST according to the current (5776) Israeli rules
     @staticmethod
     def isIsrael_DST(dt):
-        year = dt.getFullYear()
-        month = dt.getMonth() + 1
-        day = dt.getDate()
+        year = dt.year
+        month = dt.month
+        day = dt.day
         hour = dt.hour
 
         if (month > 10 or month < 3):
