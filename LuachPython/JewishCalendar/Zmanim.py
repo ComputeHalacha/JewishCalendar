@@ -1,17 +1,22 @@
 import datetime
 import math
-from .JewishDate import JewishDate
-from .HourMinute import HourMinute
-from .Location import Location
-from .Utils import Utils
+from JewishCalendar.JewishDate import JewishDate
+from JewishCalendar.HourMinute import HourMinute
+from JewishCalendar.Location import Location
+from JewishCalendar.Utils import Utils
 
 '''Computes the daily Zmanim for any single date at any location.
  The astronomical and mathematical calculations were directly adapted from the excellent
- Jewish calendar calculation in C# Copyright © by Ulrich and Ziporah Greve (2005) '''
+ Jewish calendar calculation in C# Copyright © by Ulrich and Ziporah Greve (2005)
+ To get the zmanim for today in Jerusalem use:
+    jd = JewishDate.today()
+    zm = Zmanim(date=jd)
+    print(zm.getSunTimes())
+'''
 
 
 class Zmanim:
-    def __init__(self, location, date = datetime.datetime.today()):
+    def __init__(self, location = Location.getJerusalem(), date = datetime.datetime.today()):
         self.location = location or Location.getJerusalem()
         if isinstance(date, datetime.datetime):
             self.seculardate = date
@@ -22,7 +27,7 @@ class Zmanim:
 
     '''Gets sunrise and sunset time for the current date.
     Returns a tuple of HourMinute objects (sunrise, sunset)'''
-    def getSunTimes(self, considerElevation):
+    def getSunTimes(self, considerElevation=True):
         sunrise = HourMinute(0, 0)
         sunset = HourMinute(0, 0)
         day = Zmanim.dayOfYear(self.seculardate)
@@ -130,6 +135,11 @@ class Zmanim:
             hour += 1
         hm.hour = hour
         hm.minute = min
+
+if __name__ == '__main__'"":
+    jd = JewishDate.today()
+    zm = Zmanim(date=jd)
+    print(zm.getSunTimes())
 
 
 

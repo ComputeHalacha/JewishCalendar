@@ -1,5 +1,5 @@
 import datetime
-from .Utils import Utils
+from JewishCalendar.Utils import Utils
 
 
 class JewishDate:
@@ -411,3 +411,10 @@ class JewishDate:
                (self.month == 3 and self.day == 5) or \
                (self.month == 6 and self.day == 29) or \
                (self.month == 7 and self.day in [9, 14, 21]))
+
+
+if __name__ == '__main__':
+    # to print todays Jewish Date and any Holidays for today in Hebrew
+    jd = JewishDate.today()
+    print(jd.toStringHeb(), jd.getHolidays(True, True))
+

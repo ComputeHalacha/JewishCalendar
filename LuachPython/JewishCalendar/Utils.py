@@ -99,11 +99,10 @@ class Utils:
 
     # Determines if the given date and time are during DST according to the USA rules
     @staticmethod
-    def isUSA_DST(dt):
+    def isUSA_DST(dt, hour):
         year = dt.year
         month = dt.month
         day = dt.day
-        hour = dt.hour
 
         if (month < 3 or month == 12):
             return False
