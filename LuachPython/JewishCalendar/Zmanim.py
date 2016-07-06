@@ -1,9 +1,9 @@
 import datetime
 import math
-from JewishCalendar.JewishDate import JewishDate
-from JewishCalendar.HourMinute import HourMinute
-from JewishCalendar.Location import Location
-from JewishCalendar.Utils import Utils
+from JewishDate import JewishDate
+from HourMinute import HourMinute
+from Location import Location
+from Utils import Utils
 
 '''Computes the daily Zmanim for any single date at any location.
  The astronomical and mathematical calculations were directly adapted from the excellent
@@ -82,6 +82,36 @@ class Zmanim:
                 sunset.hour += 12
     
         return (sunrise, sunset)
+        
+    def getChatzos(self):
+        netzShkia =  self.getSunTimes(False)
+        netz = netzShkia[0]
+        shkia = netzShkia[1]
+        noValue = HourMinute(0, 0)
+        
+        if netz == noValue or shkia == noValue:
+            None
+        else:
+            chatzi = int((shkia.totalMinutes() - netz.totalMinutes()) / 2)
+            return netz + chatzi
+            
+    def getShaaZmanis(self):
+        return HourMinute(0, 0)
+        
+    def getCandleLighting(self):
+        set = self.getSunTimes()[1]
+        if self.location.candles:
+              return set.addtime(0, -(self.location.candles))
+        elif not self.location.israel:
+            return set.addtime(0, -18)
+        else:  
+            loclc = self.location.name.lower()
+            if loclc in ['jerusalem', 'yerush', 'petach', 'petah', 'petak']:
+                  return set.addtime(0, -40)
+            elif loclc in  ['haifa', 'chaifa', 'be\'er sheva', 'beersheba']:
+                  return set.addtime(0, -22)
+            else:
+                return Utils.addMinutes(set, -30)
 
     @staticmethod
     def isSecularLeapYear(year):
@@ -140,8 +170,4 @@ if __name__ == '__main__'"":
     jd = JewishDate.today()
     zm = Zmanim(date=jd)
     print(zm.getSunTimes())
-
-
-
-
-
+    print(zm.getChatzos())

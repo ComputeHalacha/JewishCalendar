@@ -1,5 +1,5 @@
 import datetime
-from JewishCalendar.Utils import Utils
+from Utils import Utils
 
 
 class JewishDate:
@@ -412,7 +412,13 @@ class JewishDate:
                (self.month == 6 and self.day == 29) or \
                (self.month == 7 and self.day in [9, 14, 21]))
 
-
+    # Gets the candle lighting time for the current Jewish date for the given Location.
+    def getCandleLighting(self, location):
+        if self.hasCandleLighting():
+            return Zmanim(self, location).getCandleLighting()
+        else:
+            return None
+            
 if __name__ == '__main__':
     # to print todays Jewish Date and any Holidays for today in Hebrew
     jd = JewishDate.today()

@@ -19,9 +19,15 @@ class HourMinute:
     
     def __add__(self, other):
         return self.add(other)
+        
+    def __eq__(self, other):
+        return self.hour == other.hour and self.minute == other.minute
     
-    def add(self, hm):
-        return HourMinute(self.hour + hm.hour, self.minute + hm.minute)
+    def add(self, other):
+        if isinstance(other, HourMinute):
+            return HourMinute(self.hour + hm.hour, self.minute + hm.minute)
+        elif isinstance(other, int):
+            return HourMinute.fromMinutes(self.totalMinutes() + other)
         
     # Add the given number of minutes and hours to the given time
     def addtime(self, hours=0, minutes=0):
@@ -41,3 +47,7 @@ class HourMinute:
             return '{0}:{1:02d} {2}'.format(self.hour % 12,
                     self.minute,
                     'AM' if self.hour <= 12 else 'PM')
+    
+    @staticmethod                
+    def fromMinutes(minutes):
+        return HourMinute(int(minutes / 60), minutes % 60)
