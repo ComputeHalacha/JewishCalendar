@@ -99,19 +99,19 @@ class Zmanim:
         return HourMinute(0, 0)
         
     def getCandleLighting(self):
-        set = self.getSunTimes()[1]
+        shkiah = self.getSunTimes()[1]
         if self.location.candles:
-              return set.addtime(0, -(self.location.candles))
+              return shkiah.addtime(0, -(self.location.candles))
         elif not self.location.israel:
-            return set.addtime(0, -18)
+            return shkiah.addtime(0, -18)
         else:  
             loclc = self.location.name.lower()
             if loclc in ['jerusalem', 'yerush', 'petach', 'petah', 'petak']:
-                  return set.addtime(0, -40)
-            elif loclc in  ['haifa', 'chaifa', 'be\'er sheva', 'beersheba']:
-                  return set.addtime(0, -22)
+                  return shkiah.addtime(0, -40)
+            elif loclc in ['haifa', 'chaifa', 'be\'er sheva', 'beersheba']:
+                  return shkiah.addtime(0, -22)
             else:
-                return Utils.addMinutes(set, -30)
+                return shkiah.addtime(0, -30)
 
     @staticmethod
     def isSecularLeapYear(year):

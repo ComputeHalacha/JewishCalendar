@@ -91,6 +91,7 @@ class Utils:
         tz = get_localzone()  # local timezone
         d = dt(tz)  # or some other local date
         utc_offset = d.utcoffset().total_seconds() /3600
+        return d.utcoffset
 
     # Determines if the users system is currently set to DST
     @staticmethod

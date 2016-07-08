@@ -14,18 +14,18 @@ class Molad:
     @staticmethod
     def getMolad (month, year):
         monthAdj = month - 7
-    
+
         if (monthAdj < 0):
             monthAdj += JewishDate.monthsJYear(year)
-        
+
         totalMonths = int(monthAdj + 235 * int((year - 1) / 19) + 12 * ((year - 1) % 19) + ((((year - 1) % 19) * 7) + 1) / 19)
         partsElapsed = 204 + (793 * (totalMonths % 1080))
         hoursElapsed = 5 + (12 * totalMonths) + 793 * int(totalMonths / 1080) + int(partsElapsed / 1080) - 6
         parts = int((partsElapsed % 1080) + 1080 * (hoursElapsed % 24))
-    
+
         return dict(JewishDate=JewishDate.fromordinal((1 + (29 * int(totalMonths))) + int((hoursElapsed / 24))), time=HourMinute(int(hoursElapsed) % 24, int((parts % 1080) / 18) ), chalakim=parts % 18)
-                
-    
+
+
     
     #  Returns the time of the molad as a string in the format: Monday Night, 8:33 PM and 12 Chalakim
     #  The molad is always in Jerusalem so we use the Jerusalem sunset times
@@ -38,19 +38,19 @@ class Molad:
         isNight = molad['time'].totalMinutes() >=  nightfall.totalMinutes()
         dow = molad['JewishDate'].getDayOfWeek()
         text = ''
-    
+
         if (dow == 6 and isNight):
             text += "Motzai Shabbos,"
         elif (dow == 5 and isNight):
-            text += "Shabbos Night,"        
+            text += "Shabbos Night,"
         else:
             text += Utils.dowEng[dow] + (" Night" if isNight else "")
-        
+
         text += " " + str(molad['time']) + " and " + str(molad['chalakim']) + " Chalakim"
-    
+
         return text
-    
-    
+
+
     #  Returns the time of the molad as a string in the format: ליל שני 20:33 12 חלקים
     #  The molad is always in Jerusalem so we use the Jerusalem sunset times
     #  to determine whether to display "ליל/יום" or "מוצאי שב"ק" etc.
@@ -60,7 +60,7 @@ class Molad:
         isNight = Utils.totalMinutes(Utils.timeDiff(molad.time, nightfall)) >= 0
         dow = molad.JewishDate.getDayOfWeek()
         text = ''
-    
+
         if (dow == 6):
             text += ('מוצאי שב״ק' if isNight else 'יום שב״ק')
         elif (dow == 5):
@@ -68,7 +68,7 @@ class Molad:
         else:
             text += ('ליל' if isNight else 'יום') +                Utils.dowHeb[dow].replace("יום", "")
         str += " " + Utils.getTimeString(molad.time, True) + " " +            molad.chalakim.toString() + " חלקים"
-    
+
         return str
         
 if __name__ == '__main__':

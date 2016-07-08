@@ -62,7 +62,7 @@ class Dafyomi:
         dafcnt = 40
         osday = date(1923, 8, 11).toordinal()
         nsday = date(1975, 5, 24).toordinal()
-    
+
         #  No cycle, new cycle, old cycle
         if (ordinal < osday):
             return None # [2] yomi hadn't started yet
@@ -72,17 +72,17 @@ class Dafyomi:
         else:
             cno = 1 + int((ordinal - osday) / 2702)
             dno = int((ordinal - osday) / 2702)
-        
+
         # Find the[2] taking note that the cycle changed slightly after cycle 7.
         total = blatt = 0
         count = -1
-    
+
         #  Fix Shekalim for old cycles
         if (cno <= 7):
             Dafyomi.__masechtaList[4][2] = 13
         else:
             Dafyomi.__masechtaList[4][2] = 22
-    
+
         #  Find the daf
         j = 0
         while (j < dafcnt):
@@ -92,15 +92,15 @@ class Dafyomi:
                 blatt = (Dafyomi.__masechtaList[j][2] + 1) - (total - dno)
                 #  fiddle with the weird ones near the end
                 if count == 36:
-                    blatt = blatt + 21
+                    blatt += 21
                 elif count == 37:
-                    blatt = blatt + 24
+                    blatt += 24
                 elif count == 38:
-                    blatt = blatt + 33
+                    blatt += 33
                 #  Bailout
                 j = 1 + dafcnt
             j += 1
-        
+
         return Dafyomi.__masechtaList[count], blatt
 
 
@@ -111,6 +111,7 @@ class Dafyomi:
         return d[0][0] + ", Daf " + str(d[1])
 
     # Returns the name of the Masechta and[2] number in Hebrew. For example: 'סוכה דף כ.
+    @staticmethod
     def toStringHeb(jd):
         d = Dafyomi.getDaf(jd)
         return d[0][1] + " דף " + Utils.toJNum(d[1])
