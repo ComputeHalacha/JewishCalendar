@@ -1,5 +1,5 @@
 import datetime
-from Utils import Utils
+from JewishCalendar.Utils import Utils
 
 
 class JewishDate:

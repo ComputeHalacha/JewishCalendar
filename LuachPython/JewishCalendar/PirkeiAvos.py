@@ -1,4 +1,4 @@
-from JewishDate import JewishDate
+from JewishCalendar.JewishDate import JewishDate
 '''****************************************************************************************************************
  * Computes the Perek/Prakim of the week for the given Shabbos.
  * Returns a list of prakim (integers) (either one or two) for the given Jewish Date
