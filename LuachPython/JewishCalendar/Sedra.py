@@ -1,4 +1,8 @@
-from JewishCalendar.JewishDate import JewishDate
+try:
+    from JewishCalendar.JewishDate import JewishDate
+except ImportError:
+    from JewishDate import JewishDate
+
 
 '''************************************************************************************
  * Computes the Sedra/Sedras of the week for the given day.

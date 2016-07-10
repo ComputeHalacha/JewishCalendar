@@ -1,9 +1,16 @@
 import datetime
 import math
-from JewishCalendar.JewishDate import JewishDate
-from JewishCalendar.HourMinute import HourMinute
-from JewishCalendar.Location import Location
-from JewishCalendar.Utils import Utils
+try:
+    from JewishCalendar.JewishDate import JewishDate
+    from JewishCalendar.HourMinute import HourMinute
+    from JewishCalendar.Location import Location
+    from JewishCalendar.Utils import Utils
+except ImportError:
+    from JewishDate import JewishDate
+    from HourMinute import HourMinute
+    from Location import Location
+    from Utils import Utils
+
 
 '''Computes the daily Zmanim for any single date at any location.
  The astronomical and mathematical calculations were directly adapted from the excellent

@@ -1,10 +1,14 @@
-from JewishCalendar.Utils import Utils
-from JewishCalendar.JewishDate import JewishDate
 from datetime import date
+try:
+    from JewishCalendar.Utils import Utils
+    from JewishCalendar.JewishDate import JewishDate
+except ImportError:
+    from Utils import Utils
+    from JewishDate import JewishDate
 
 '''
   Computes the Day Yomi for the given day.
-  Sample of use - to get todays daf:
+  Sample of use - to get today's daf:
       dafEng = Dafyomi.toString(JewishDate.today())
       dafHeb = Dafyomi.toStringHeb(JewishDate.today())
   The code was converted to python and tweaked by CBS.
@@ -15,53 +19,53 @@ from datetime import date
 class Dafyomi:
 
     __masechtaList = (
-        ['Berachos', 'ברכות', 64],
-        ['Shabbos', 'שבת', 157],
-        ['Eruvin', 'ערובין', 105],
-        ['Pesachim', 'פסחים', 121],
-        ['Shekalim', 'שקלים', 22],
-        ['Yoma', 'יומא', 88],
-        ['Sukkah', 'סוכה', 56],
-        ['Beitzah', 'ביצה', 40],
-        ['Rosh Hashana', 'ראש השנה', 35],
-        ['Taanis', 'תענית', 31],
-        ['Megillah', 'מגילה', 32],
-        ['Moed Katan', 'מועד קטן', 29],
-        ['Chagigah', 'חגיגה', 27],
-        ['Yevamos', 'יבמות', 122],
-        ['Kesubos', 'כתובות', 112],
-        ['Nedarim', 'נדרים', 91],
-        ['Nazir', 'נזיר', 66],
-        ['Sotah', 'סוטה', 49],
-        ['Gitin', 'גיטין', 90],
-        ['Kiddushin', 'קדושין', 82],
-        ['Baba Kamma', 'בבא קמא', 119],
-        ['Baba Metzia', 'בבא מציעא', 119],
-        ['Baba Batra', 'בבא בתרא', 176],
-        ['Sanhedrin', 'סנהדרין', 113],
-        ['Makkot', 'מכות', 24],
-        ['Shevuot', 'שבועות', 49],
-        ['Avodah Zarah', 'עבודה זרה', 76],
-        ['Horayot', 'הוריות', 14],
-        ['Zevachim', 'זבחים', 120],
-        ['Menachos', 'מנחות', 110],
-        ['Chullin', 'חולין', 142],
-        ['Bechoros', 'בכורות', 61],
-        ['Arachin', 'ערכין', 34],
-        ['Temurah', 'תמורה', 34],
-        ['Kerisos', 'כריתות', 28],
-        ['Meilah', 'מעילה', 22],
-        ['Kinnim', 'קנים', 4],
-        ['Tamid', 'תמיד', 10],
-        ['Midos', 'מדות', 4],
+        ('Berachos', 'ברכות', 64),
+        ('Shabbos', 'שבת', 157),
+        ('Eruvin', 'ערובין', 105),
+        ('Pesachim', 'פסחים', 121),
+        ['Shekalim', 'שקלים', 22],  #shkalim needs to be mutable
+        ('Yoma', 'יומא', 88),
+        ('Sukkah', 'סוכה', 56),
+        ('Beitzah', 'ביצה', 40),
+        ('Rosh Hashana', 'ראש השנה', 35),
+        ('Taanis', 'תענית', 31),
+        ('Megillah', 'מגילה', 32),
+        ('Moed Katan', 'מועד קטן', 29),
+        ('Chagigah', 'חגיגה', 27),
+        ('Yevamos', 'יבמות', 122),
+        ('Kesubos', 'כתובות', 112),
+        ('Nedarim', 'נדרים', 91),
+        ('Nazir', 'נזיר', 66),
+        ('Sotah', 'סוטה', 49),
+        ('Gitin', 'גיטין', 90),
+        ('Kiddushin', 'קדושין', 82),
+        ('Baba Kamma', 'בבא קמא', 119),
+        ('Baba Metzia', 'בבא מציעא', 119),
+        ('Baba Batra', 'בבא בתרא', 176),
+        ('Sanhedrin', 'סנהדרין', 113),
+        ('Makkot', 'מכות', 24),
+        ('Shevuot', 'שבועות', 49),
+        ('Avodah Zarah', 'עבודה זרה', 76),
+        ('Horayot', 'הוריות', 14),
+        ('Zevachim', 'זבחים', 120),
+        ('Menachos', 'מנחות', 110),
+        ('Chullin', 'חולין', 142),
+        ('Bechoros', 'בכורות', 61),
+        ('Arachin', 'ערכין', 34),
+        ('Temurah', 'תמורה', 34),
+        ('Kerisos', 'כריתות', 28),
+        ('Meilah', 'מעילה', 22),
+        ('Kinnim', 'קנים', 4),
+        ('Tamid', 'תמיד', 10),
+        ('Midos', 'מדות', 4),
         ('Niddah', 'נדה', 73))
 
     @staticmethod
     def getDaf(jd):
         ordinal = jd.ordinal
         dafcnt = 40
-        osday = date(1923, 8, 11).toordinal()
-        nsday = date(1975, 5, 24).toordinal()
+        osday = date(1923, 9, 11).toordinal()
+        nsday = date(1975, 6, 24).toordinal()
 
         #  No cycle, new cycle, old cycle
         if (ordinal < osday):
@@ -122,4 +126,3 @@ if __name__ == '__main__':
     dafHeb = Dafyomi.toStringHeb(jd)
     print(dafEng)
     print(dafHeb)
-

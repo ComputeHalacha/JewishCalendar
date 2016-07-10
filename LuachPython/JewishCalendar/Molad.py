@@ -1,7 +1,13 @@
-from JewishCalendar.JewishDate import JewishDate
-from JewishCalendar.HourMinute import HourMinute
-from JewishCalendar.Utils import Utils
-from JewishCalendar.Zmanim import Zmanim
+try:
+    from JewishCalendar.JewishDate import JewishDate
+    from JewishCalendar.HourMinute import HourMinute
+    from JewishCalendar.Utils import Utils
+    from JewishCalendar.Zmanim import Zmanim
+except ImportError:
+    from JewishDate import JewishDate
+    from HourMinute import HourMinute
+    from Utils import Utils
+    from Zmanim import Zmanim
 
 ''' Returns the molad for the given jewish month and year.
  Algorithm was adapted from Hebcal by Danny Sadinoff.

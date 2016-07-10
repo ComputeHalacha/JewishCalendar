@@ -1,11 +1,14 @@
 import datetime
-from JewishCalendar.Utils import Utils
+try:
+    from JewishCalendar.Utils import Utils
+except ImportError:
+    from Utils import Utils
 
 
 class JewishDate:
     
-    # To save on repeat calculations, a "repository" of years that have had their elapsed days previously calculated
-    # by the tDays function is kept in memory.
+    # To save on repeat calculations, a "cache" of years that have had their elapsed days previously calculated
+    # by the tDays function is kept in memory. ("memoizing")
     # Format of each entry is a tuple of (year, elapsed)
     __yearCache = []
     
@@ -84,7 +87,7 @@ class JewishDate:
     @staticmethod
     def tDays(year):
         '''As this function is called many times, often on the same year for all types of calculations,
-        we save a list of years with their elapsed values.'''
+        we cache a list of years with their elapsed values.'''
         cached = next((f for f in JewishDate.__yearCache if f[0] == year), None)
     
         # If this year was already calculated and cached, 
