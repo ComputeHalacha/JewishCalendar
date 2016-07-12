@@ -327,7 +327,7 @@ namespace JewishCalendar
             HourMinute netz = netzShkia[0] - offset,
                 shkia = netzShkia[1] + offset;
 
-            return (shkia.TotalMinutes - netz.TotalMinutes) / 12;
+            return (shkia.TotalMinutes - netz.TotalMinutes) / 12d;
         }
 
         /// <summary>

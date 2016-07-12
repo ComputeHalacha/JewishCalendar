@@ -3,7 +3,6 @@ try:
 except ImportError:
     from JewishDate import JewishDate
 
-
 '''****************************************************************************************************************
  * Computes the Perek/Prakim of the week for the given Shabbos.
  * Returns a list of prakim (integers) (either one or two) for the given Jewish Date
@@ -29,7 +28,9 @@ def getpirkeiavos(jd, israel):
 
     # Pirkei Avos is from after Pesach until Rosh Hashana
     # All Shabbosim through Iyar, Sivan, Tamuz, Av - besides for the day/s of Shavuos and Tisha B'Av
-    if (jMonth == 1 and jDay > (21 if israel else 22)) or ((jMonth > 1 and jMonth < 6 and (not ((jMonth == 3 and jDay == 6) or (not israel and jMonth == 3 and jDay == 7))) and (not (jMonth == 5 and jDay == 9)))):
+    if (jMonth == 1 and jDay > (21 if israel else 22)) or ((jMonth > 1 and jMonth < 6 and (
+    not ((jMonth == 3 and jDay == 6) or (not israel and jMonth == 3 and jDay == 7))) and (
+    not (jMonth == 5 and jDay == 9)))):
         return [get1stPerek(jd, israel)]
 
     # Ellul can have multiple prakim
@@ -38,6 +39,7 @@ def getpirkeiavos(jd, israel):
         # No Pirkei Avos
     else:
         return []
+
 
 def get1stPerek(jd, israel):
     jYear = jd.year
@@ -48,7 +50,7 @@ def get1stPerek(jd, israel):
     shb1 = (7 if israel else 8) + (6 - pes1.getDayOfWeek())
     # What number shabbos after pesach is the current date
     cShb = (1 if (jMonth == 1 and jDay == (shb1 + 15)) else
-        int((jd.ordinal - (pes1.ordinal + shb1)) / 7) + 1)
+            int((jd.ordinal - (pes1.ordinal + shb1)) / 7) + 1)
     prk = cShb % 6
     if (prk == 0):
         prk = 6
@@ -64,7 +66,7 @@ def get1stPerek(jd, israel):
     return prk
 
 
-def ellul (jd, israel):
+def ellul(jd, israel):
     prakim = None
     jYear = jd.year
     jMonth = jd.month
@@ -89,55 +91,57 @@ def ellul (jd, israel):
         elif cShb == 4:
             prakim = [5, 6]
     elif perek1 == 2:
-            if cShb == 1:
-                prakim = [2]
-            elif cShb == 2:
-                prakim = [3]
-            elif cShb == 3:
-                prakim = [4]
-            elif cShb == 4:
-                prakim = [5, 6]
+        if cShb == 1:
+            prakim = [2]
+        elif cShb == 2:
+            prakim = [3]
+        elif cShb == 3:
+            prakim = [4]
+        elif cShb == 4:
+            prakim = [5, 6]
     elif perek1 == 3:
-            if cShb == 1:
-                prakim = [3]
-            elif cShb == 2:
-                prakim = [4]
-            elif cShb == 3:
-                prakim = [5]
-            elif cShb == 4:
-                prakim = [6]
+        if cShb == 1:
+            prakim = [3]
+        elif cShb == 2:
+            prakim = [4]
+        elif cShb == 3:
+            prakim = [5]
+        elif cShb == 4:
+            prakim = [6]
     elif perek1 == 4:
         # This can only happen in Chutz La'aretz
-            if cShb == 1:
-                prakim = [4, 5]
-            elif cShb == 2:
-                prakim = [6, 1]
-            elif cShb == 3:
-                prakim = [2, 3]
-            elif cShb == 4:
-                prakim = [4, 5, 6]
+        if cShb == 1:
+            prakim = [4, 5]
+        elif cShb == 2:
+            prakim = [6, 1]
+        elif cShb == 3:
+            prakim = [2, 3]
+        elif cShb == 4:
+            prakim = [4, 5, 6]
     elif perek1 == 5:
-            if cShb == 1:
-                prakim = [5, 6]
-            elif cShb == 2:
-                prakim = [1, 2]
-            elif cShb == 3:
-                prakim = [3, 4]
-            elif cShb == 4:
-                prakim = [5, 6]
+        if cShb == 1:
+            prakim = [5, 6]
+        elif cShb == 2:
+            prakim = [1, 2]
+        elif cShb == 3:
+            prakim = [3, 4]
+        elif cShb == 4:
+            prakim = [5, 6]
     elif perek1 == 6:
-            if cShb == 1:
-                prakim = [6]
-            elif cShb == 2:
-                prakim = [1, 2]
-            elif cShb == 3:
-                prakim = [3, 4]
-            elif cShb == 4:
-                prakim = [5, 6]
+        if cShb == 1:
+            prakim = [6]
+        elif cShb == 2:
+            prakim = [1, 2]
+        elif cShb == 3:
+            prakim = [3, 4]
+        elif cShb == 4:
+            prakim = [5, 6]
     return prakim or []
-        
+
+
 if __name__ == '__main__':
     from Utils import Utils
+
     chukas5776 = JewishDate.create(5776, 4, 3)
     prakim = getpirkeiavos(chukas5776, True)
     text = 'Pirkei Avos: ' + ' and '.join([Utils.toSuffixed(p) + ' Perek' for p in prakim])

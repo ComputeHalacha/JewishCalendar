@@ -1,6 +1,10 @@
 from datetime import date
 import time
 from tzlocal import get_localzone
+#try:
+#    from JewishCalendar.JewishDate import JewishDate
+# except ImportError:
+#    from JewishDate import JewishDate
 
 
 class Utils:
@@ -72,8 +76,17 @@ class Utils:
         return t + suffix
 
 
+    # Gets the "proper" name for the given Jewish Month.
+    # This means for a leap year, labeling each of the the 2 Adars.
+    @staticmethod
+    def properMonthName(jYear, jMonth, hebrew=False):
+        if jMonth == 12 and JewishDate.isJdLeapY(jYear):
+            return "Adar Rishon" if not hebrew else "אדר ראשון"
+        else:
+            return jMonthsEng[jMonth] if not hebrew else jMonthsHeb[jMonth]
+
     #  Get day of week using Pythons datetime.date.isoweekday function.
-    # As opposed to Pythons function, this function returns Sunday as 0
+    # As opposed to Pythons function, this function returns Sunday as 
     @staticmethod
     def getSdDOW(year, month, day):
         return date(year, month, day).isoweekday() % 7

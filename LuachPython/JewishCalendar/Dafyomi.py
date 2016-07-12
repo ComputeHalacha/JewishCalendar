@@ -1,4 +1,5 @@
 from datetime import date
+
 try:
     from JewishCalendar.Utils import Utils
     from JewishCalendar.JewishDate import JewishDate
@@ -17,13 +18,12 @@ except ImportError:
 
 
 class Dafyomi:
-
     __masechtaList = (
         ('Berachos', 'ברכות', 64),
         ('Shabbos', 'שבת', 157),
         ('Eruvin', 'ערובין', 105),
         ('Pesachim', 'פסחים', 121),
-        ['Shekalim', 'שקלים', 22],  #shkalim needs to be mutable
+        ['Shekalim', 'שקלים', 22],  # shkalim needs to be mutable
         ('Yoma', 'יומא', 88),
         ('Sukkah', 'סוכה', 56),
         ('Beitzah', 'ביצה', 40),
@@ -69,7 +69,7 @@ class Dafyomi:
 
         #  No cycle, new cycle, old cycle
         if (ordinal < osday):
-            return None # [2] yomi hadn't started yet
+            return None  # [2] yomi hadn't started yet
         if (ordinal >= nsday):
             cno = 8 + int(((ordinal - nsday) / 2711))
             dno = (ordinal - nsday) % 2711
@@ -87,7 +87,7 @@ class Dafyomi:
         else:
             Dafyomi.__masechtaList[4][2] = 22
 
-        #  Find the daf
+        # Find the daf
         j = 0
         while (j < dafcnt):
             count += 1
@@ -101,12 +101,11 @@ class Dafyomi:
                     blatt += 24
                 elif count == 38:
                     blatt += 33
-                #  Bailout
+                # Bailout
                 j = 1 + dafcnt
             j += 1
 
         return Dafyomi.__masechtaList[count], blatt
-
 
     # Returns the name of the Masechta and[2] number in English, For example: Sukkah, Daf 3
     @staticmethod
@@ -119,7 +118,8 @@ class Dafyomi:
     def toStringHeb(jd):
         d = Dafyomi.getDaf(jd)
         return d[0][1] + " דף " + Utils.toJNum(d[1])
-        
+
+
 if __name__ == '__main__':
     jd = JewishDate.today()
     dafEng = Dafyomi.toString(jd)

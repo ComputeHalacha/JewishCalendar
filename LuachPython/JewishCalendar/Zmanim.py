@@ -1,5 +1,6 @@
 import datetime
 import math
+
 try:
     from JewishCalendar.JewishDate import JewishDate
     from JewishCalendar.HourMinute import HourMinute
@@ -10,7 +11,6 @@ except ImportError:
     from HourMinute import HourMinute
     from Location import Location
     from Utils import Utils
-
 
 '''Computes the daily Zmanim for any single date at any location.
  The astronomical and mathematical calculations were directly adapted from the excellent
@@ -23,7 +23,7 @@ except ImportError:
 
 
 class Zmanim:
-    def __init__(self, location = Location.getJerusalem(), date = datetime.datetime.today()):
+    def __init__(self, location=Location.getJerusalem(), date=datetime.datetime.today()):
         self.location = location or Location.getJerusalem()
         if isinstance(date, datetime.datetime):
             self.seculardate = date
@@ -34,14 +34,16 @@ class Zmanim:
 
     '''Gets sunrise and sunset time for the current date.
     Returns a tuple of HourMinute objects (sunrise, sunset)'''
+
     def getSunTimes(self, considerElevation=True):
         sunrise = HourMinute(0, 0)
         sunset = HourMinute(0, 0)
         day = Zmanim.dayOfYear(self.seculardate)
-        zeninthDeg = 90 
+        zeninthDeg = 90
         zenithMin = 50
         earthRadius = 6356900
-        zenithAtElevation = Zmanim.__degToDec(zeninthDeg, zenithMin) + Zmanim.__radToDeg(math.acos(earthRadius / (earthRadius + ((self.location.elevation or 0) if considerElevation else 0))))
+        zenithAtElevation = Zmanim.__degToDec(zeninthDeg, zenithMin) + Zmanim.__radToDeg(
+            math.acos(earthRadius / (earthRadius + ((self.location.elevation or 0) if considerElevation else 0))))
         zeninthDeg = math.floor(zenithAtElevation)
         zenithMin = (zenithAtElevation - math.floor(zenithAtElevation)) * 60
         cosZen = math.cos(0.01745 * Zmanim.__degToDec(zeninthDeg, zenithMin))
@@ -87,36 +89,45 @@ class Zmanim:
             Zmanim.__set_time(sunset, utSet + self.location.utcOffset, self.seculardate, self.location)
             while (sunset.hour < 12):
                 sunset.hour += 12
-    
+
         return (sunrise, sunset)
-        
-    def getChatzos(self):
-        netzShkia =  self.getSunTimes(False)
+
+    def getChatzos(self, suntimes=None):
+        netzShkia = suntimes or self.getSunTimes(False)
         netz = netzShkia[0]
         shkia = netzShkia[1]
         noValue = HourMinute(0, 0)
-        
+
         if netz == noValue or shkia == noValue:
-            None
+            return None
         else:
             chatzi = int((shkia.totalMinutes() - netz.totalMinutes()) / 2)
             return netz + chatzi
-            
-    def getShaaZmanis(self):
-        return HourMinute(0, 0)
-        
+
+    def getShaaZmanis(self, offset=0, netzshkia=None):
+        if netzshkia is None:
+            netzshkia = self.getSunTimes(True)
+        netz = netzshkia[0] - offset
+        shkia = netzshkia[1] + offset
+        noValue = HourMinute(0, 0)
+
+        if netz == noValue or shkia == noValue:
+            return None
+        else:
+            return (shkia.totalMinutes() - netz.totalMinutes()) / 12.0
+
     def getCandleLighting(self):
         shkiah = self.getSunTimes()[1]
         if self.location.candles:
-              return shkiah.addtime(0, -(self.location.candles))
+            return shkiah.addtime(0, -(self.location.candles))
         elif not self.location.israel:
             return shkiah.addtime(0, -18)
-        else:  
+        else:
             loclc = self.location.name.lower()
             if loclc in ['jerusalem', 'yerush', 'petach', 'petah', 'petak']:
-                  return shkiah.addtime(0, -40)
+                return shkiah.addtime(0, -40)
             elif loclc in ['haifa', 'chaifa', 'be\'er sheva', 'beersheba']:
-                  return shkiah.addtime(0, -22)
+                return shkiah.addtime(0, -22)
             else:
                 return shkiah.addtime(0, -30)
 
@@ -138,15 +149,15 @@ class Zmanim:
             return monCount[dt.month] + dt.day
 
     @staticmethod
-    def __degToDec (deg, min):
+    def __degToDec(deg, min):
         return (deg + min / 60.0)
 
     @staticmethod
-    def __m (x):
+    def __m(x):
         return 0.9856 * x - 3.251
 
     @staticmethod
-    def __l (x):
+    def __l(x):
         return x + 1.916 * math.sin(0.01745 * x) + 0.02 * math.sin(2 * 0.01745 * x) + 282.565
 
     @staticmethod
@@ -163,15 +174,15 @@ class Zmanim:
             time += 24
         hour = int(time)
         min = int(int((time - hour) * 60 + 0.5))
-        
+
         inCurrTZ = location.utcOffset == Utils.currUtcOffset()
         if (inCurrTZ and Utils.isDateDST(date)):
             hour += 1
-        elif ((not inCurrTZ) and
-            ((location.israel and Utils.isIsrael_DST(date)) or Utils.isUSA_DST(date, hour))):
+        elif ((not inCurrTZ) and ((location.israel and Utils.isIsrael_DST(date)) or Utils.isUSA_DST(date, hour))):
             hour += 1
         hm.hour = hour
         hm.minute = min
+
 
 if __name__ == '__main__'"":
     jd = JewishDate.today()
