@@ -1,16 +1,10 @@
 import datetime
 import math
 
-try:
-    from JewishCalendar.JewishDate import JewishDate
-    from JewishCalendar.HourMinute import HourMinute
-    from JewishCalendar.Location import Location
-    from JewishCalendar.Utils import Utils
-except ImportError:
-    from JewishDate import JewishDate
-    from HourMinute import HourMinute
-    from Location import Location
-    from Utils import Utils
+import JewishDate
+from HourMinute import HourMinute
+from Location import Location
+from Utils import Utils
 
 '''Computes the daily Zmanim for any single date at any location.
  The astronomical and mathematical calculations were directly adapted from the excellent
@@ -27,7 +21,7 @@ class Zmanim:
         self.location = location or Location.getJerusalem()
         if isinstance(date, datetime.datetime):
             self.seculardate = date
-        elif isinstance(date, JewishDate):
+        elif isinstance(date, JewishDate.JewishDate):
             self.seculardate = date.todate()
         else:
             raise ValueError('date must be either a python or Jewish date')
@@ -185,7 +179,7 @@ class Zmanim:
 
 
 if __name__ == '__main__'"":
-    jd = JewishDate.today()
+    jd = JewishDate.JewishDate.today()
     zm = Zmanim(date=jd)
     print(zm.getSunTimes())
     print(zm.getChatzos())

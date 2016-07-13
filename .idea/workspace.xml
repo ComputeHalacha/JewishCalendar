@@ -2,19 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="93fbe4e7-0230-466c-8980-11c76d6190c0" name="Default" comment="Changed imports.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/CB.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.hgignore" afterPath="$PROJECT_DIR$/.hgignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JewishCalendar/Zmanim.cs" afterPath="$PROJECT_DIR$/JewishCalendar/Zmanim.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/JewishCalendar/Dafyomi.py" afterPath="$PROJECT_DIR$/LuachPython/JewishCalendar/Dafyomi.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/JewishCalendar/HourMinute.py" afterPath="$PROJECT_DIR$/LuachPython/JewishCalendar/HourMinute.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/JewishCalendar/JewishDate.py" afterPath="$PROJECT_DIR$/LuachPython/JewishCalendar/JewishDate.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/JewishCalendar/PirkeiAvos.py" afterPath="$PROJECT_DIR$/LuachPython/JewishCalendar/PirkeiAvos.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/JewishCalendar/Sedra.py" afterPath="$PROJECT_DIR$/LuachPython/JewishCalendar/Sedra.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/JewishCalendar/Utils.py" afterPath="$PROJECT_DIR$/LuachPython/JewishCalendar/Utils.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/JewishCalendar/Zmanim.py" afterPath="$PROJECT_DIR$/LuachPython/JewishCalendar/Zmanim.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/JewishCalendar/__init__.py" afterPath="$PROJECT_DIR$/LuachPython/JewishCalendar/__init__.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/Luach.py" afterPath="$PROJECT_DIR$/LuachPython/Luach.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/LuachPython.pyproj" afterPath="$PROJECT_DIR$/LuachPython/LuachPython.pyproj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/__init__.py" afterPath="$PROJECT_DIR$/LuachPython/__init__.py" />
     </list>
     <ignored path="JewishCalendar.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -43,11 +37,12 @@
         <option value="$PROJECT_DIR$/LuachPython/__init__.py" />
         <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/Dafyomi.py" />
         <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/HourMinute.py" />
-        <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/JewishDate.py" />
-        <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/PirkeiAvos.py" />
         <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/Sedra.py" />
         <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/Utils.py" />
         <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/Zmanim.py" />
+        <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/JewishDate.py" />
+        <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/PirkeiAvos.py" />
+        <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/__init__.py" />
         <option value="$PROJECT_DIR$/LuachPython/Luach.py" />
       </list>
     </option>
@@ -99,8 +94,108 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
+      <pane id="Scope">
+        <subPane subId="Problems" />
+        <subPane subId="Changed Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="JewishCalendar">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="LuachPython">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="JewishCalendar">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="LuachPython">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="JewishCalendar">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="JewishCalendar">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+        <subPane subId="Default">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="JewishCalendar">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="LuachPython">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="JewishCalendar">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="LuachPython">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="JewishCalendar">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="JewishCalendar">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches">
+        <subPane />
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -157,7 +252,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$USER_HOME$/AppData/Local/Programs/Python/Python35/python.exe" />
-    <property name="settings.editor.selected.configurable" value="preferences.editor" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Console Font" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="SearchEverywhereHistoryKey" value="candle&#9;null&#9;null" />
   </component>
@@ -179,23 +274,6 @@
       <option name="SHOW_COMMAND_LINE" value="true" />
       <method />
     </configuration>
-    <configuration default="false" name="tzfile" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/site-packages/pytz" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="JewishCalendar" />
-      <option name="SCRIPT_NAME" value="$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/site-packages/pytz/tzfile.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
     <configuration default="false" name="Dafyomi" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -213,7 +291,7 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="Molad" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -225,12 +303,12 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="JewishCalendar" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/LuachPython/JewishCalendar/Molad.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/LuachPython/JewishCalendar/__init__.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="PirkeiAvos" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="JewishDate" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -242,7 +320,24 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="JewishCalendar" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/LuachPython/JewishCalendar/PirkeiAvos.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/LuachPython/JewishCalendar/JewishDate.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Zmanim" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/LuachPython/JewishCalendar" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="JewishCalendar" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/LuachPython/JewishCalendar/Zmanim.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -383,18 +478,18 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.Luach" />
-      <item index="1" class="java.lang.String" itemvalue="Python.tzfile" />
-      <item index="2" class="java.lang.String" itemvalue="Python.Dafyomi" />
-      <item index="3" class="java.lang.String" itemvalue="Python.Molad" />
-      <item index="4" class="java.lang.String" itemvalue="Python.PirkeiAvos" />
+      <item index="1" class="java.lang.String" itemvalue="Python.Dafyomi" />
+      <item index="2" class="java.lang.String" itemvalue="Python.__init__" />
+      <item index="3" class="java.lang.String" itemvalue="Python.JewishDate" />
+      <item index="4" class="java.lang.String" itemvalue="Python.Zmanim" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python.Luach" />
-        <item index="1" class="java.lang.String" itemvalue="Python.Dafyomi" />
-        <item index="2" class="java.lang.String" itemvalue="Python.PirkeiAvos" />
-        <item index="3" class="java.lang.String" itemvalue="Python.Molad" />
-        <item index="4" class="java.lang.String" itemvalue="Python.tzfile" />
+        <item index="1" class="java.lang.String" itemvalue="Python.__init__" />
+        <item index="2" class="java.lang.String" itemvalue="Python.JewishDate" />
+        <item index="3" class="java.lang.String" itemvalue="Python.Zmanim" />
+        <item index="4" class="java.lang.String" itemvalue="Python.Dafyomi" />
       </list>
     </recent_temporary>
   </component>
@@ -434,11 +529,11 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919955" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295711" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3122886" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4723788" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32839224" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40360767" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40293455" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -467,6 +562,18 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/LuachPython/JewishCalendar/Zmanim.py</url>
+          <line>113</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/LuachPython/JewishCalendar/Zmanim.py</url>
+          <line>20</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -474,7 +581,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="14" />
+      <option name="time" value="16" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -490,10 +597,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#414#478#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -567,13 +670,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.PyCharm2016.1/system/python_stubs/-12785272/builtins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="2762" column="8" selection-start-line="2762" selection-start-column="8" selection-end-line="2762" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LuachMobile/LuachMobile/www/scripts/JCal/jDate.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2400">
@@ -630,24 +726,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/Dafyomi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="23" column="32" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/HourMinute.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="25">
           <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/JewishDate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="95" column="25" selection-start-line="95" selection-start-column="25" selection-end-line="95" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -665,59 +747,89 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/PirkeiAvos.py">
+    <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/Dafyomi.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="8" column="24" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
+        <state relative-caret-position="285">
+          <caret line="23" column="32" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydev_run_in_console.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="477">
+          <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/Sedra.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="97" column="16" selection-start-line="97" selection-start-column="8" selection-end-line="97" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/Utils.py">
+    <entry file="file://$USER_HOME$/.PyCharm2016.1/system/python_stubs/-12785272/builtins.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="6" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        <state relative-caret-position="719">
+          <caret line="744" column="8" selection-start-line="744" selection-start-column="8" selection-end-line="744" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/Zmanim.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="165">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
-            <element signature="e#391#759#1" expanded="true" />
-            <element signature="e#874#1187#0" expanded="true" />
-            <element signature="e#1370#3864#0" expanded="true" />
-            <element signature="e#3915#4249#0" expanded="true" />
-            <element signature="e#4314#4650#0" expanded="true" />
-            <element signature="e#4693#5271#0" expanded="true" />
-            <element signature="e#5332#5488#0" expanded="true" />
-            <element signature="e#5539#5794#0" expanded="true" />
-            <element signature="e#5852#5877#0" expanded="true" />
-            <element signature="e#5921#5946#0" expanded="true" />
-            <element signature="e#5990#6075#0" expanded="true" />
-            <element signature="e#6121#6147#0" expanded="true" />
-            <element signature="e#6200#6221#0" expanded="true" />
-            <element signature="e#6295#6725#0" expanded="true" />
+            <element signature="e#136#504#1" expanded="true" />
+            <element signature="e#1126#3620#0" expanded="true" />
+            <element signature="e#3671#4005#0" expanded="true" />
+            <element signature="e#4070#4406#0" expanded="true" />
+            <element signature="e#4449#5027#0" expanded="true" />
+            <element signature="e#5088#5244#0" expanded="true" />
+            <element signature="e#5295#5550#0" expanded="true" />
+            <element signature="e#5608#5633#0" expanded="true" />
+            <element signature="e#5677#5702#0" expanded="true" />
+            <element signature="e#5746#5831#0" expanded="true" />
+            <element signature="e#5877#5903#0" expanded="true" />
+            <element signature="e#5956#5977#0" expanded="true" />
+            <element signature="e#6051#6481#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/JewishDate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="32" column="20" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/PirkeiAvos.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/Utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="15" column="7" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1334">
+          <caret line="141" column="32" selection-start-line="141" selection-start-column="32" selection-end-line="141" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LuachPython/Luach.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1850">
-          <caret line="101" column="77" selection-start-line="101" selection-start-column="77" selection-end-line="101" selection-end-column="77" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#414#478#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="299">
+          <caret line="17" column="25" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -725,5 +837,20 @@
   <component name="hg4idea.settings">
     <option name="CHECK_INCOMING_OUTGOING" value="true" />
     <option name="RECENT_HG_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>

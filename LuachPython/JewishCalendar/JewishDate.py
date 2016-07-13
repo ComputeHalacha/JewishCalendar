@@ -1,9 +1,6 @@
 import datetime
-
-try:
-    from JewishCalendar.Utils import Utils
-except ImportError:
-    from Utils import Utils
+from Utils import Utils
+import Zmanim
 
 
 class JewishDate:
@@ -20,6 +17,18 @@ class JewishDate:
 
     def __repr__(self):
         return self.toString()
+
+    def __gt__(self, other):
+        return self.ordinal > other.ordinal
+
+    def __lt__(self, other):
+        return self.ordinal < other.ordinal
+
+    def __eq__(self, other):
+        return self.ordinal == other.ordinal
+
+    def __ne__(self, other):
+        return self.ordinal != other.ordinal
 
     def getDayOfWeek(self):
         return self.ordinal % 7
@@ -429,7 +438,7 @@ class JewishDate:
     # Gets the candle lighting time for the current Jewish date for the given Location.
     def getCandleLighting(self, location):
         if self.hasCandleLighting():
-            return Zmanim(self, location).getCandleLighting()
+            return Zmanim.Zmanim(location, self).getCandleLighting()
         else:
             return None
 

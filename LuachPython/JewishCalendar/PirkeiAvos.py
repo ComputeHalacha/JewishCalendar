@@ -22,7 +22,6 @@ def getpirkeiavos(jd, israel):
     if (jd.getDayOfWeek() != 6):
         return []
 
-    jYear = jd.year
     jMonth = jd.month
     jDay = jd.day
 
