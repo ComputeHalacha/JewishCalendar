@@ -14,8 +14,14 @@ class HourMinute:
         self.hour = hour
         self.minute = minute
 
+    def __str__(self, army=True):
+        return self.tostring(army)
+
     def __repr__(self):
-        return self.tostring()
+        return 'HourMinute(hour=%r, minute=%r)' % (self.hour, self.minute)
+
+    def __int__(self):
+        return self.totalMinutes()
 
     def __add__(self, other):
         return self.add(other)
@@ -45,11 +51,12 @@ class HourMinute:
     # otherwise it will be 23:42
     def tostring(self, army=True):
         if army:
-            return '{0:02d}:{1:02d}'.format(self.hour, self.minute)
+            return '{}:{:02d}'.format(self.hour, self.minute)
         else:
-            return '{0}:{1:02d} {2}'.format(self.hour % 12,
-                                            self.minute,
-                                            'AM' if self.hour <= 12 else 'PM')
+            return '{}:{:02d} {}'.format(
+                12 if self.hour % 12 == 0 else self.hour % 12,
+                self.minute,
+                'AM' if self.hour <= 12 else 'PM')
 
     @staticmethod
     def fromMinutes(minutes):

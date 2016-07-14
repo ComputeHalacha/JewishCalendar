@@ -1,13 +1,7 @@
-try:
-    from JewishCalendar.JewishDate import JewishDate
-    from JewishCalendar.HourMinute import HourMinute
-    from JewishCalendar.Utils import Utils
-    from JewishCalendar.Zmanim import Zmanim
-except ImportError:
-    from JewishDate import JewishDate
-    from HourMinute import HourMinute
-    from Utils import Utils
-    from Zmanim import Zmanim
+from JewishCalendar.JewishDate import JewishDate
+from JewishCalendar.HourMinute import HourMinute
+import JewishCalendar.Utils as Utils
+from JewishCalendar.Zmanim import Zmanim
 
 ''' Returns the molad for the given jewish month and year.
  Algorithm was adapted from Hebcal by Danny Sadinoff.
@@ -40,7 +34,7 @@ class Molad:
     def getString(year, month):
         molad = Molad.getMolad(month, year)
         zmanim  = Zmanim(date=molad['JewishDate'])
-        nightfall = zmanim.getSunTimes()[1]
+        _, nightfall = zmanim.getSunTimes()
         isNight = molad['time'].totalMinutes() >=  nightfall.totalMinutes()
         dow = molad['JewishDate'].getDayOfWeek()
         text = ''

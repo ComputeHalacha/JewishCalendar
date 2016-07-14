@@ -1,13 +1,11 @@
 import datetime
-from Utils import Utils
-import Zmanim
-
+import JewishCalendar.Utils as Utils
 
 class JewishDate:
     # To save on repeat calculations, a "cache" of years that have had their elapsed days previously calculated
     # by the tDays function is kept in memory. ("memoizing")
     # Format of each entry is a tuple of (year, elapsed)
-    __yearCache = []
+    __yearCache = {}
 
     def __init__(self, year, month, day, ordinal):
         self.year = year
@@ -15,8 +13,15 @@ class JewishDate:
         self.day = day
         self.ordinal = ordinal
 
-    def __repr__(self):
+    def __str__(self):
         return self.toString()
+
+    def __repr__(self):
+        return 'JewishDate(year=%r, month=%r, day=%r, ordinal=%r)' % (
+            self.year, self.month, self.day, self.ordinal)
+
+    def __int__(self):
+        return self.ordinal
 
     def __gt__(self, other):
         return self.ordinal > other.ordinal
@@ -29,6 +34,12 @@ class JewishDate:
 
     def __ne__(self, other):
         return self.ordinal != other.ordinal
+
+    def __add__(self, other):
+        return self.addDays(other)
+
+    def __sub__(self, other):
+        return self.addDays(-other)
 
     def getDayOfWeek(self):
         return self.ordinal % 7
@@ -96,13 +107,12 @@ class JewishDate:
     @staticmethod
     def tDays(year):
         '''As this function is called many times, often on the same year for all types of calculations,
-        we cache a list of years with their elapsed values.'''
-        cached = next((f[1] for f in JewishDate.__yearCache if f[0] == year), None)
-
+        we cache a list of years with their elapsed values.'''        
+        
         # If this year was already calculated and cached, 
         # then we return the cached value.
-        if cached:
-            return cached
+        if year in JewishDate.__yearCache:
+            return JewishDate.__yearCache[year]
 
         months = int((235 * int((year - 1) / 19)) +  # Leap months this cycle
                      (12 * ((year - 1) % 19)) +  # Regular months in this cycle.
@@ -129,7 +139,7 @@ class JewishDate:
             altDay += 1
 
         # Add this year to the cache to save on calculations later on
-        JewishDate.__yearCache.append((year, altDay))
+        JewishDate.__yearCache[year] = altDay
 
         return altDay
 
@@ -438,7 +448,8 @@ class JewishDate:
     # Gets the candle lighting time for the current Jewish date for the given Location.
     def getCandleLighting(self, location):
         if self.hasCandleLighting():
-            return Zmanim.Zmanim(location, self).getCandleLighting()
+            from JewishCalendar.Zmanim import Zmanim
+            return Zmanim(location, self).getCandleLighting()
         else:
             return None
 

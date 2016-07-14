@@ -1,7 +1,4 @@
-try:
-    from JewishCalendar.JewishDate import JewishDate
-except ImportError:
-    from JewishDate import JewishDate
+from JewishCalendar.JewishDate import JewishDate
 
 '''****************************************************************************************************************
  * Computes the Perek/Prakim of the week for the given Shabbos.
@@ -139,7 +136,7 @@ def ellul(jd, israel):
 
 
 if __name__ == '__main__':
-    from Utils import Utils
+    import JewishCalendar.Utils as Utils
 
     chukas5776 = JewishDate.create(5776, 4, 3)
     prakim = getpirkeiavos(chukas5776, True)

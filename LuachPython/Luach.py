@@ -1,9 +1,11 @@
 from json import load
-import LuachPython.JewishCalendar
-import JewishDate
-from Location import Location
+import JewishCalendar
+from JewishCalendar.JewishDate import JewishDate
+from JewishCalendar.Location import Location
+from JewishCalendar.HourMinute import HourMinute
 
-HEBREW = False
+HEBREW = True
+ARMYTIME = True
 
 
 def display(title, value):
@@ -11,6 +13,8 @@ def display(title, value):
         print(title)
     else:
         try:
+            if isinstance(value, HourMinute):
+                value = value.tostring(ARMYTIME)
             if HEBREW:
                 print('{:.<25}{:.>25}'.format(title, str(value)))
             else:
@@ -25,15 +29,16 @@ if __name__ == '__main__':
     mi = [Location.parse(m) for m in b['locations'] if m['n'].lower().startswith(cityNameStart)]
     if len(mi):
         lo = mi[0]
-        jd = JewishDate.JewishDate.today()
-        nextweek = jd.addDays(7)
+        print('** ZMANIM FOR UPCOMING WEEK IN {} {:*<15}'.format(lo.name.upper(), ''))
+        jd = JewishDate.today()
+        nextweek = jd + 7
         while jd < nextweek:
             print('\n--{:-<50}'.format(jd.todate().strftime('%A, %B %d, %Y')))
-            infos = LuachPython.JewishCalendar.getDailyInfo(jd, lo, HEBREW)
-            dz = LuachPython.JewishCalendar.getDailyZmanim(jd, lo, HEBREW)
+            infos = JewishCalendar.getDailyInfo(jd, lo, HEBREW)
+            dz = JewishCalendar.getDailyZmanim(jd, lo, HEBREW)
             for i, v in infos.items():
                 display(i, v)
             for i, v in dz.items():
                 display(i, v)
-            jd = jd.addDays(1)
+            jd += 1
 

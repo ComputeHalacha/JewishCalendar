@@ -1,18 +1,18 @@
 from collections import OrderedDict
 from math import floor
-import JewishDate
-from Zmanim import Zmanim
-from Utils import Utils
-from Molad import Molad
-from HourMinute import HourMinute
-from Sedra import Sedra
-from Dafyomi import Dafyomi
-import PirkeiAvos
 
 # Returns an OrderedDict of information about the given day.
 # Entries include: "Date", "Parshas Hashavua", any holidays or fasts,
 # "Eruv Tavshilin", "Candle Lighting" and "Daf Yomi".
 def getDailyInfo(jd, location, hebrew):
+    from JewishCalendar.JewishDate import JewishDate
+    import JewishCalendar.Utils as Utils
+    from JewishCalendar.Molad import Molad
+    from JewishCalendar.HourMinute import HourMinute
+    from JewishCalendar.Sedra import Sedra
+    from JewishCalendar.Dafyomi import Dafyomi
+    import JewishCalendar.PirkeiAvos as PirkeiAvos
+
     infos = OrderedDict()
     sedras = Sedra.getsedra(jd, location.israel)
     holidays = jd.getHolidays(location.israel, hebrew)
@@ -69,14 +69,14 @@ def getDailyInfo(jd, location, hebrew):
 
 
 def getDailyZmanim(jd, location, hebrew):
+    from JewishCalendar.Zmanim import Zmanim
+    from JewishCalendar.HourMinute import HourMinute
+
     infos = OrderedDict()
     z = Zmanim(location, jd)
-    st = z.getSunTimes(True)
-    netz = st[0]
-    shkia = st[1]
+    netz, shkia = z.getSunTimes(True)
     stMishor = z.getSunTimes(False)
-    netzMishor = stMishor[0]
-    shkiaMishor = stMishor[1]
+    netzMishor, shkiaMishor = stMishor
     shaaZmanis = z.getShaaZmanis(netzshkia=stMishor)
     shaaZmanis90 = z.getShaaZmanis(90, stMishor)
     chatzos = z.getChatzos(stMishor)

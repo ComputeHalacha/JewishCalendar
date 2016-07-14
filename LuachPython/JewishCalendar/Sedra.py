@@ -1,7 +1,4 @@
-try:
-    from JewishCalendar.JewishDate import JewishDate
-except ImportError:
-    from JewishDate import JewishDate
+from .JewishDate import JewishDate
 
 '''************************************************************************************
  * Computes the Sedra/Sedras of the week for the given day.
@@ -202,5 +199,5 @@ class Sedra:
 
 if __name__ == '__main__':
     sedras = Sedra.getsedra(JewishDate.today(), True)
-    text = (' - ').join([s[0] for s in sedras])
+    text = ' - '.join([s[0] for s in sedras])
     print(text)

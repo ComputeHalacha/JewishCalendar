@@ -1,11 +1,7 @@
+from collections import namedtuple
 from datetime import date
-
-try:
-    from JewishCalendar.Utils import Utils
-    from JewishCalendar.JewishDate import JewishDate
-except ImportError:
-    from Utils import Utils
-    from JewishDate import JewishDate
+import JewishCalendar.Utils as Utils
+from JewishCalendar.JewishDate import JewishDate
 
 '''
   Computes the Day Yomi for the given day.
@@ -16,49 +12,52 @@ except ImportError:
   It is directly based on the C code in Danny Sadinoff's HebCal - Copyright (C) 1994.
   The HebCal code for dafyomi was adapted by Aaron Peromsik from Bob Newell's public domain daf.el.'''
 
+# Represents a single Masechta
+Masechta = namedtuple('Masechta', 'eng heb dappim')
+
 
 class Dafyomi:
-    __masechtaList = (
-        ('Berachos', 'ברכות', 64),
-        ('Shabbos', 'שבת', 157),
-        ('Eruvin', 'ערובין', 105),
-        ('Pesachim', 'פסחים', 121),
-        ['Shekalim', 'שקלים', 22],  # shkalim needs to be mutable
-        ('Yoma', 'יומא', 88),
-        ('Sukkah', 'סוכה', 56),
-        ('Beitzah', 'ביצה', 40),
-        ('Rosh Hashana', 'ראש השנה', 35),
-        ('Taanis', 'תענית', 31),
-        ('Megillah', 'מגילה', 32),
-        ('Moed Katan', 'מועד קטן', 29),
-        ('Chagigah', 'חגיגה', 27),
-        ('Yevamos', 'יבמות', 122),
-        ('Kesubos', 'כתובות', 112),
-        ('Nedarim', 'נדרים', 91),
-        ('Nazir', 'נזיר', 66),
-        ('Sotah', 'סוטה', 49),
-        ('Gitin', 'גיטין', 90),
-        ('Kiddushin', 'קדושין', 82),
-        ('Baba Kamma', 'בבא קמא', 119),
-        ('Baba Metzia', 'בבא מציעא', 119),
-        ('Baba Batra', 'בבא בתרא', 176),
-        ('Sanhedrin', 'סנהדרין', 113),
-        ('Makkot', 'מכות', 24),
-        ('Shevuot', 'שבועות', 49),
-        ('Avodah Zarah', 'עבודה זרה', 76),
-        ('Horayot', 'הוריות', 14),
-        ('Zevachim', 'זבחים', 120),
-        ('Menachos', 'מנחות', 110),
-        ('Chullin', 'חולין', 142),
-        ('Bechoros', 'בכורות', 61),
-        ('Arachin', 'ערכין', 34),
-        ('Temurah', 'תמורה', 34),
-        ('Kerisos', 'כריתות', 28),
-        ('Meilah', 'מעילה', 22),
-        ('Kinnim', 'קנים', 4),
-        ('Tamid', 'תמיד', 10),
-        ('Midos', 'מדות', 4),
-        ('Niddah', 'נדה', 73))
+    __masechtaList = [
+        Masechta('Berachos', 'ברכות', 64),
+        Masechta('Shabbos', 'שבת', 157),
+        Masechta('Eruvin', 'ערובין', 105),
+        Masechta('Pesachim', 'פסחים', 121),
+        Masechta('Shekalim', 'שקלים', 22),
+        Masechta('Yoma', 'יומא', 88),
+        Masechta('Sukkah', 'סוכה', 56),
+        Masechta('Beitzah', 'ביצה', 40),
+        Masechta('Rosh Hashana', 'ראש השנה', 35),
+        Masechta('Taanis', 'תענית', 31),
+        Masechta('Megillah', 'מגילה', 32),
+        Masechta('Moed Katan', 'מועד קטן', 29),
+        Masechta('Chagigah', 'חגיגה', 27),
+        Masechta('Yevamos', 'יבמות', 122),
+        Masechta('Kesubos', 'כתובות', 112),
+        Masechta('Nedarim', 'נדרים', 91),
+        Masechta('Nazir', 'נזיר', 66),
+        Masechta('Sotah', 'סוטה', 49),
+        Masechta('Gitin', 'גיטין', 90),
+        Masechta('Kiddushin', 'קדושין', 82),
+        Masechta('Baba Kamma', 'בבא קמא', 119),
+        Masechta('Baba Metzia', 'בבא מציעא', 119),
+        Masechta('Baba Batra', 'בבא בתרא', 176),
+        Masechta('Sanhedrin', 'סנהדרין', 113),
+        Masechta('Makkot', 'מכות', 24),
+        Masechta('Shevuot', 'שבועות', 49),
+        Masechta('Avodah Zarah', 'עבודה זרה', 76),
+        Masechta('Horayot', 'הוריות', 14),
+        Masechta('Zevachim', 'זבחים', 120),
+        Masechta('Menachos', 'מנחות', 110),
+        Masechta('Chullin', 'חולין', 142),
+        Masechta('Bechoros', 'בכורות', 61),
+        Masechta('Arachin', 'ערכין', 34),
+        Masechta('Temurah', 'תמורה', 34),
+        Masechta('Kerisos', 'כריתות', 28),
+        Masechta('Meilah', 'מעילה', 22),
+        Masechta('Kinnim', 'קנים', 4),
+        Masechta('Tamid', 'תמיד', 10),
+        Masechta('Midos', 'מדות', 4),
+        Masechta('Niddah', 'נדה', 73)]
 
     @staticmethod
     def getDaf(jd):
@@ -68,9 +67,9 @@ class Dafyomi:
         nsday = date(1975, 6, 24).toordinal()
 
         #  No cycle, new cycle, old cycle
-        if (ordinal < osday):
+        if ordinal < osday:
             return None  # [2] yomi hadn't started yet
-        if (ordinal >= nsday):
+        if ordinal >= nsday:
             cno = 8 + int(((ordinal - nsday) / 2711))
             dno = (ordinal - nsday) % 2711
         else:
@@ -82,18 +81,16 @@ class Dafyomi:
         count = -1
 
         #  Fix Shekalim for old cycles
-        if (cno <= 7):
-            Dafyomi.__masechtaList[4][2] = 13
-        else:
-            Dafyomi.__masechtaList[4][2] = 22
+        if cno <= 7:
+            Dafyomi.__masechtaList[4] = Masechta('Shekalim', 'שקלים', 13)
 
         # Find the daf
         j = 0
         while (j < dafcnt):
             count += 1
-            total = total + Dafyomi.__masechtaList[j][2] - 1
+            total = total + Dafyomi.__masechtaList[j].dappim - 1
             if (dno < total):
-                blatt = (Dafyomi.__masechtaList[j][2] + 1) - (total - dno)
+                blatt = (Dafyomi.__masechtaList[j].dappim + 1) - (total - dno)
                 #  fiddle with the weird ones near the end
                 if count == 36:
                     blatt += 21
@@ -107,17 +104,17 @@ class Dafyomi:
 
         return Dafyomi.__masechtaList[count], blatt
 
-    # Returns the name of the Masechta and[2] number in English, For example: Sukkah, Daf 3
+    # Returns the name of the Masechta and daf number in English, For example: Sukkah, Daf 3
     @staticmethod
     def toString(jd):
         d = Dafyomi.getDaf(jd)
-        return d[0][0] + ", Daf " + str(d[1])
+        return d[0].eng + ", Daf " + str(d[1])
 
-    # Returns the name of the Masechta and[2] number in Hebrew. For example: 'סוכה דף כ.
+    # Returns the name of the Masechta and daf number in Hebrew. For example: 'סוכה דף כ.
     @staticmethod
     def toStringHeb(jd):
         d = Dafyomi.getDaf(jd)
-        return d[0][1] + " דף " + Utils.toJNum(d[1])
+        return d[0].heb + " דף " + Utils.toJNum(d[1])
 
 
 if __name__ == '__main__':
