@@ -21,16 +21,16 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="JewishCalendar\Dafyomi.py" />
-    <Compile Include="JewishCalendar\HourMinute.py" />
-    <Compile Include="JewishCalendar\JewishDate.py" />
-    <Compile Include="JewishCalendar\Location.py" />
-    <Compile Include="JewishCalendar\Molad.py" />
-    <Compile Include="JewishCalendar\PirkeiAvos.py" />
-    <Compile Include="JewishCalendar\Sedra.py" />
-    <Compile Include="JewishCalendar\Utils.py" />
-    <Compile Include="JewishCalendar\Zmanim.py" />
-    <Compile Include="JewishCalendar\__init__.py" />
+    <Compile Include="jcal\dafyomi.py" />
+    <Compile Include="jcal\hourminute.py" />
+    <Compile Include="jcal\jdate.py" />
+    <Compile Include="jcal\location.py" />
+    <Compile Include="jcal\molad.py" />
+    <Compile Include="jcal\pirkeiavos.py" />
+    <Compile Include="jcal\sedra.py" />
+    <Compile Include="jcal\utils.py" />
+    <Compile Include="jcal\zmanim.py" />
+    <Compile Include="jcal\__init__.py" />
     <Compile Include="Luach.py" />
     <Compile Include="__init__.py" />
   </ItemGroup>
@@ -39,7 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Files" />
-    <Folder Include="JewishCalendar" />
+    <Folder Include="jcal\" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\3.5" />

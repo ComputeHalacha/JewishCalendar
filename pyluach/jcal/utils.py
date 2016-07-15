@@ -75,8 +75,8 @@ def toSuffixed(num):
 # Gets the "proper" name for the given Jewish Month.
 # This means for a leap year, labeling each of the the 2 Adars.
 def properMonthName(jYear, jMonth, hebrew=False):
-    from JewishCalendar.JewishDate import JewishDate
-    if jMonth == 12 and JewishDate.isJdLeapY(jYear):
+    from jcal.jdate import JDate
+    if jMonth == 12 and JDate.isJdLeapY(jYear):
         return "Adar Rishon" if not hebrew else "אדר ראשון"
     else:
         return jMonthsEng[jMonth] if not hebrew else jMonthsHeb[jMonth]
