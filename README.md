@@ -1,10 +1,10 @@
-# JewishCalendar - The Luach Project - jCal.js #
+# JewishCalendar - The Luach Project - jCal.js - pyluach #
 
 A repository of Jewish Calendar projects containing:
 
 1. ***Jewish Calendar .NET Library*** -  A .NET code library for integrating Jewish calendar capabilities into any .NET application, app or site.
 1. ***jCal.js*** - A javascript stand-alone library to add full Jewish Date functionality to any Javascript code.
-1. ***LuachPython*** - A Python stand-alone library to add full Jewish Date functionality to any Python code.
+1. ***pyluach*** - A Python stand-alone library to add full Jewish Date functionality to any Python code.
 1. ***Luach Project***  - A Luach Windows applications
 1. ***Luach Project Mobile App***  - A Luach Mobile application
 
@@ -37,7 +37,7 @@ A repository of Jewish Calendar projects containing:
 * Jewish date calculation functions such as calculation of interval between dates etc.
 
 
-### LuachPython ###
+### pyluach ###
 
 * Python library for Jewish date calculations
 * Written in pure python. The only outside package used is tzlocal.
