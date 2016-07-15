@@ -5,8 +5,41 @@ from jcal.hourminute import HourMinute
 from jcal.jdate import JDate
 from jcal.location import Location
 
-HEBREW = False
-ARMY_TIME = False
+__doc__ = '''Display to console a full week of Zmanim for anywhere in the world.
+Use - to display the upcoming week for Lakewood NJ:
+   import luach
+   from jcal.jdate import JDate
+   jd = JDate.today()
+   luach.display_week(jd, 'lakewood')'''
+
+HEBREW = True
+ARMY_TIME = True
+
+
+def display_week(startjd, namesearch):
+    file = open('Files/LocationsList.json', 'r', encoding='utf-8')
+    b = json.load(file)
+    loc_raw = next(iter([m for m in b['locations']
+                         if namesearch.lower() in m['n'].lower()]), None)
+    if loc_raw:
+        location = Location.parse(loc_raw)
+        if HEBREW:
+            print('** זמני היום {} - {} {:*<15}'.format(startjd.tostring_heb(), location.hebrew.upper(), ''))
+        else:
+            print('** ZMANIM FOR WEEK STARTING {} IN {} {:*<15}'.format(startjd, location.name.upper(), ''))
+        jd = startjd
+        nextweek = jd + 7
+        while jd < nextweek:
+            print('\n--{:-<50}'.format(jd.todate().strftime('%A, %B %d, %Y')))
+            infos = jcal.getdailyinfo(jd, location, HEBREW)
+            dz = jcal.getdailyzmanim(jd, location, HEBREW)
+            for i, v in infos.items():
+                display(i, v)
+            for i, v in dz.items():
+                display(i, v)
+            jd += 1
+    else:
+        print('No location found that matches with "%s"' % (namesearch))
 
 
 def display(title, value):
@@ -22,29 +55,6 @@ def display(title, value):
                 print('{:.<30} {}'.format(title, str(value)))
         except TypeError:
             print('{}.........{}'.format(title, value))
-
-
-def display_week(startjd, namesearch):
-    file = open('Files/LocationsList.json', 'r', encoding='utf-8')
-    b = json.load(file)
-    loc_raw = next(iter([m for m in b['locations']
-                         if namesearch.lower() in m['n'].lower()]), None)
-    if loc_raw:
-        location = Location.parse(loc_raw)
-        print('** ZMANIM FOR WEEK STARTING {} IN {} {:*<15}'.format(startjd, location.name.upper(), ''))
-        jd = startjd
-        nextweek = jd + 7
-        while jd < nextweek:
-            print('\n--{:-<50}'.format(jd.todate().strftime('%A, %B %d, %Y')))
-            infos = jcal.getdailyinfo(jd, location, HEBREW)
-            dz = jcal.getdailyzmanim(jd, location, HEBREW)
-            for i, v in infos.items():
-                display(i, v)
-            for i, v in dz.items():
-                display(i, v)
-            jd += 1
-    else:
-        print('No location found that matches with "%s"' % (namesearch))
 
 
 if __name__ == '__main__':

@@ -6,7 +6,7 @@ class Location:
         self.longitude = longitude
         self.utcOffset = 2 if israel else (utcOffset or -int(longitude / 15))
         self.elevation = elevation or 0
-        self.hebrew = ''
+        self.hebrew = name # defaults to the English name
         self.candles = 0
 
     def __repr__(self):
