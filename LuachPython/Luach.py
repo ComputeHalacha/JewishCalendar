@@ -1,11 +1,12 @@
-from json import load
+import json
+
 import JewishCalendar
+from JewishCalendar.HourMinute import HourMinute
 from JewishCalendar.JewishDate import JewishDate
 from JewishCalendar.Location import Location
-from JewishCalendar.HourMinute import HourMinute
 
-HEBREW = True
-ARMYTIME = True
+HEBREW = False
+ARMYTIME = False
 
 
 def display(title, value):
@@ -22,23 +23,29 @@ def display(title, value):
         except TypeError:
             print('{}.........{}'.format(title, value))
 
-if __name__ == '__main__':
-    cityNameStart = 'Modi'.lower()
+
+def displayWeek(startJd, nameSearch):
     file = open('Files/LocationsList.json', 'r', encoding='utf-8')
-    b = load(file)
-    mi = [Location.parse(m) for m in b['locations'] if m['n'].lower().startswith(cityNameStart)]
-    if len(mi):
-        lo = mi[0]
-        print('** ZMANIM FOR UPCOMING WEEK IN {} {:*<15}'.format(lo.name.upper(), ''))
-        jd = JewishDate.today()
+    b = json.load(file)
+    loc_raw = next(iter([m for m in b['locations']
+                         if nameSearch.lower() in m['n'].lower()]), None)
+    if loc_raw:
+        location = Location.parse(loc_raw)
+        print('** ZMANIM FOR WEEK STARTING {} IN {} {:*<15}'.format(startJd, location.name.upper(), ''))
+        jd = startJd
         nextweek = jd + 7
         while jd < nextweek:
             print('\n--{:-<50}'.format(jd.todate().strftime('%A, %B %d, %Y')))
-            infos = JewishCalendar.getDailyInfo(jd, lo, HEBREW)
-            dz = JewishCalendar.getDailyZmanim(jd, lo, HEBREW)
+            infos = JewishCalendar.getDailyInfo(jd, location, HEBREW)
+            dz = JewishCalendar.getDailyZmanim(jd, location, HEBREW)
             for i, v in infos.items():
                 display(i, v)
             for i, v in dz.items():
                 display(i, v)
             jd += 1
+    else:
+        print('No location found that matches with "%s"' % (nameSearch))
 
+
+if __name__ == '__main__':
+    displayWeek(JewishDate.create(5776, 5, 5), 'Lakewood')

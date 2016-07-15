@@ -2,18 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="93fbe4e7-0230-466c-8980-11c76d6190c0" name="Default" comment="Changed imports.">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/JewishCalendar.iml" afterPath="$PROJECT_DIR$/.idea/JewishCalendar.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/LuachPython/GUI/__init__.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/JewishCalendar/Dafyomi.py" afterPath="$PROJECT_DIR$/LuachPython/JewishCalendar/Dafyomi.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/JewishCalendar/HourMinute.py" afterPath="$PROJECT_DIR$/LuachPython/JewishCalendar/HourMinute.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/JewishCalendar/JewishDate.py" afterPath="$PROJECT_DIR$/LuachPython/JewishCalendar/JewishDate.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/JewishCalendar/Location.py" afterPath="$PROJECT_DIR$/LuachPython/JewishCalendar/Location.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/JewishCalendar/Molad.py" afterPath="$PROJECT_DIR$/LuachPython/JewishCalendar/Molad.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/JewishCalendar/PirkeiAvos.py" afterPath="$PROJECT_DIR$/LuachPython/JewishCalendar/PirkeiAvos.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/JewishCalendar/Sedra.py" afterPath="$PROJECT_DIR$/LuachPython/JewishCalendar/Sedra.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/JewishCalendar/Utils.py" afterPath="$PROJECT_DIR$/LuachPython/JewishCalendar/Utils.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/JewishCalendar/Zmanim.py" afterPath="$PROJECT_DIR$/LuachPython/JewishCalendar/Zmanim.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/JewishCalendar/__init__.py" afterPath="$PROJECT_DIR$/LuachPython/JewishCalendar/__init__.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LuachPython/Luach.py" afterPath="$PROJECT_DIR$/LuachPython/Luach.py" />
     </list>
     <ignored path="JewishCalendar.iws" />
@@ -34,36 +25,30 @@
     <favorites_list name="JewishCalendar" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="Luach.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/LuachPython/Luach.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#21#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/LuachPython/__init__.py" />
+        <option value="$PROJECT_DIR$/LuachPython/Luach.py" />
+        <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/__init__.py" />
+        <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/Dafyomi.py" />
         <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/HourMinute.py" />
         <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/Location.py" />
+        <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/Molad.py" />
         <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/Sedra.py" />
         <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/Utils.py" />
-        <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/Molad.py" />
-        <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/Dafyomi.py" />
         <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/Zmanim.py" />
-        <option value="$PROJECT_DIR$/LuachPython/Luach.py" />
-        <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/PirkeiAvos.py" />
-        <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/__init__.py" />
         <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/JewishDate.py" />
+        <option value="$PROJECT_DIR$/LuachPython/JewishCalendar/PirkeiAvos.py" />
       </list>
     </option>
   </component>
@@ -114,58 +99,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JewishCalendar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JewishCalendar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JewishCalendar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JewishCalendar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JewishCalendar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LuachPython" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JewishCalendar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JewishCalendar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LuachPython" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JewishCalendar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="Scope">
         <subPane subId="Problems" />
         <subPane subId="Changed Files">
@@ -268,6 +201,16 @@
       <pane id="Scratches">
         <subPane />
       </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="JewishCalendar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -275,8 +218,9 @@
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Font" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="SearchEverywhereHistoryKey" value="candle&#9;null&#9;null" />
+    <property name="full.screen.before.presentation.mode" value="false" />
   </component>
-  <component name="RunManager" selected="Python.Luach">
+  <component name="RunManager" selected="Python.PirkeiAvos">
     <configuration default="false" name="Luach" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -505,10 +449,10 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.Luach" />
-        <item index="1" class="java.lang.String" itemvalue="Python.JewishDate" />
-        <item index="2" class="java.lang.String" itemvalue="Python.__init__" />
-        <item index="3" class="java.lang.String" itemvalue="Python.PirkeiAvos" />
+        <item index="0" class="java.lang.String" itemvalue="Python.PirkeiAvos" />
+        <item index="1" class="java.lang.String" itemvalue="Python.Luach" />
+        <item index="2" class="java.lang.String" itemvalue="Python.JewishDate" />
+        <item index="3" class="java.lang.String" itemvalue="Python.__init__" />
         <item index="4" class="java.lang.String" itemvalue="Python.Dafyomi" />
       </list>
     </recent_temporary>
@@ -542,14 +486,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14112051" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4723788" sideWeight="0.50422835" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919955" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295711" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4723788" sideWeight="0.49577168" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4723788" sideWeight="0.50422835" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32844242" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.244921" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4717833" sideWeight="0.49577168" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32807216" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -562,6 +506,25 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919955" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4723788" sideWeight="0.50422835" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919955" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29909706" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4723788" sideWeight="0.49577168" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32807216" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14112051" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919955" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40248027" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -585,7 +548,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/LuachPython/JewishCalendar/JewishDate.py</url>
-          <line>452</line>
+          <line>463</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>
@@ -596,7 +559,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="23" />
+      <option name="time" value="25" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -605,9 +568,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LuachPython/Luach.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LuachPython/Luach.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -623,15 +597,8 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <element signature="e#513#535#0" expanded="true" />
-            <element signature="e#569#690#0" expanded="true" />
-            <element signature="e#723#742#0" expanded="true" />
-            <element signature="e#1080#1106#0" expanded="true" />
-            <element signature="e#1146#1173#0" expanded="true" />
-            <element signature="e#2053#2225#0" expanded="true" />
-            <element signature="e#2340#2537#0" expanded="true" />
-            <element signature="e#21976#22157#0" expanded="true" />
+            <element signature="e#0#15#0" expanded="false" />
+            <element signature="e#8454#19628#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -655,15 +622,8 @@
         <state relative-caret-position="483">
           <caret line="32" column="20" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="20" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <element signature="e#513#535#0" expanded="true" />
-            <element signature="e#569#690#0" expanded="true" />
-            <element signature="e#723#742#0" expanded="true" />
-            <element signature="e#1080#1106#0" expanded="true" />
-            <element signature="e#1146#1173#0" expanded="true" />
-            <element signature="e#2053#2225#0" expanded="true" />
-            <element signature="e#2340#2537#0" expanded="true" />
-            <element signature="e#21976#22157#0" expanded="true" />
+            <element signature="e#0#15#0" expanded="false" />
+            <element signature="e#8454#19628#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -836,6 +796,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/LuachPython/Luach.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="16" column="25" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/Dafyomi.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/HourMinute.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -845,8 +826,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/Location.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="348">
+          <caret line="28" column="8" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/Molad.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -859,70 +847,36 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/Utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="148" column="0" selection-start-line="148" selection-start-column="0" selection-end-line="148" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/Molad.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="3" column="40" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/Dafyomi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="2" column="36" selection-start-line="2" selection-start-column="36" selection-end-line="2" selection-end-column="36" />
+        <state relative-caret-position="376">
+          <caret line="157" column="0" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/Zmanim.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="700">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/PirkeiAvos.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2688">
-          <caret line="137" column="26" selection-start-line="137" selection-start-column="26" selection-end-line="137" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="15" column="25" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
+        <state relative-caret-position="364">
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/JewishDate.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="5" column="60" selection-start-line="5" selection-start-column="60" selection-end-line="5" selection-end-column="60" />
+        <state relative-caret-position="468">
+          <caret line="444" column="23" selection-start-line="444" selection-start-column="23" selection-end-line="444" selection-end-column="23" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <element signature="e#513#535#0" expanded="true" />
-            <element signature="e#569#690#0" expanded="true" />
-            <element signature="e#723#742#0" expanded="true" />
-            <element signature="e#1080#1106#0" expanded="true" />
-            <element signature="e#1146#1173#0" expanded="true" />
-            <element signature="e#2053#2225#0" expanded="true" />
-            <element signature="e#2340#2537#0" expanded="true" />
-            <element signature="e#21976#22157#0" expanded="true" />
+            <element signature="e#0#15#0" expanded="false" />
+            <element signature="e#8454#19628#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LuachPython/Luach.py">
+    <entry file="file://$PROJECT_DIR$/LuachPython/JewishCalendar/PirkeiAvos.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        <state relative-caret-position="-198">
+          <caret line="47" column="8" selection-start-line="47" selection-start-column="8" selection-end-line="47" selection-end-column="8" />
           <folding>
-            <element signature="e#0#21#0" expanded="true" />
+            <element signature="e#864#1524#0" expanded="true" />
+            <element signature="e#2801#4795#0" expanded="true" />
           </folding>
         </state>
       </provider>
