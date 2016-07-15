@@ -1,7 +1,7 @@
-import JewishCalendar.Utils as Utils
-from JewishCalendar.HourMinute import HourMinute
-from JewishCalendar.JewishDate import JewishDate
-from JewishCalendar.Zmanim import Zmanim
+import jcal.utils as Utils
+from jcal.hourminute import HourMinute
+from jcal.jdate import JDate
+from jcal.zmanim import Zmanim
 
 ''' Returns the molad for the given jewish month and year.
  Algorithm was adapted from Hebcal by Danny Sadinoff.
@@ -17,7 +17,7 @@ class Molad:
         monthAdj = month - 7
 
         if (monthAdj < 0):
-            monthAdj += JewishDate.monthsJYear(year)
+            monthAdj += JDate.monthsJYear(year)
 
         totalMonths = int(
             monthAdj + 235 * int((year - 1) / 19) + 12 * ((year - 1) % 19) + ((((year - 1) % 19) * 7) + 1) / 19)
@@ -25,7 +25,7 @@ class Molad:
         hoursElapsed = 5 + (12 * totalMonths) + 793 * int(totalMonths / 1080) + int(partsElapsed / 1080) - 6
         parts = int((partsElapsed % 1080) + 1080 * (hoursElapsed % 24))
 
-        return dict(JewishDate=JewishDate.fromordinal((1 + (29 * int(totalMonths))) + int((hoursElapsed / 24))),
+        return dict(JDate=JDate.fromordinal((1 + (29 * int(totalMonths))) + int((hoursElapsed / 24))),
                     time=HourMinute(int(hoursElapsed) % 24, int((parts % 1080) / 18)), chalakim=parts % 18)
 
     #  Returns the time of the molad as a string in the format: Monday Night, 8:33 PM and 12 Chalakim
@@ -34,10 +34,10 @@ class Molad:
     @staticmethod
     def getString(year, month):
         molad = Molad.getMolad(month, year)
-        zmanim = Zmanim(date=molad['JewishDate'])
+        zmanim = Zmanim(date=molad['JDate'])
         _, nightfall = zmanim.getSunTimes()
         isNight = molad['time'].totalMinutes() >= nightfall.totalMinutes()
-        dow = molad['JewishDate'].getDayOfWeek()
+        dow = molad['JDate'].getdow()
         text = ''
 
         if (dow == 6 and isNight):
@@ -56,9 +56,9 @@ class Molad:
     #  to determine whether to display "ליל/יום" or "מוצאי שב"ק" etc.
     def getStringHeb(year, month):
         molad = Molad.getMolad(month, year)
-        nightfall = molad.JewishDate.getSunriseSunset(Location.getJerusalem()).sunset
+        nightfall = molad.JDate.getSunriseSunset(Location.getJerusalem()).sunset
         isNight = Utils.totalMinutes(Utils.timeDiff(molad.time, nightfall)) >= 0
-        dow = molad.JewishDate.getDayOfWeek()
+        dow = molad.JDate.getdow()
         text = ''
 
         if (dow == 6):
@@ -67,7 +67,7 @@ class Molad:
             text += ('ליל שב״ק' if isNight else 'ערב שב״ק')
         else:
             text += ('ליל' if isNight else 'יום') + Utils.dowHeb[dow].replace("יום", "")
-        str += " " + Utils.getTimeString(molad.time, True) + " " + molad.chalakim.toString() + " חלקים"
+        str += " " + Utils.getTimeString(molad.time, True) + " " + molad.chalakim.tostring() + " חלקים"
 
         return str
 

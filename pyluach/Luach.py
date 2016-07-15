@@ -1,9 +1,9 @@
 import json
 
-import JewishCalendar
-from JewishCalendar.HourMinute import HourMinute
-from JewishCalendar.JewishDate import JewishDate
-from JewishCalendar.Location import Location
+import jcal
+from jcal.hourminute import HourMinute
+from jcal.jdate import JDate
+from jcal.location import Location
 
 HEBREW = False
 ARMYTIME = False
@@ -24,7 +24,7 @@ def display(title, value):
             print('{}.........{}'.format(title, value))
 
 
-def displayWeek(startJd, nameSearch):
+def display_week(startJd, nameSearch):
     file = open('Files/LocationsList.json', 'r', encoding='utf-8')
     b = json.load(file)
     loc_raw = next(iter([m for m in b['locations']
@@ -36,8 +36,8 @@ def displayWeek(startJd, nameSearch):
         nextweek = jd + 7
         while jd < nextweek:
             print('\n--{:-<50}'.format(jd.todate().strftime('%A, %B %d, %Y')))
-            infos = JewishCalendar.getDailyInfo(jd, location, HEBREW)
-            dz = JewishCalendar.getDailyZmanim(jd, location, HEBREW)
+            infos = jcal.getdailyinfo(jd, location, HEBREW)
+            dz = jcal.getdailyzmanim(jd, location, HEBREW)
             for i, v in infos.items():
                 display(i, v)
             for i, v in dz.items():
@@ -48,4 +48,4 @@ def displayWeek(startJd, nameSearch):
 
 
 if __name__ == '__main__':
-    displayWeek(JewishDate.create(5776, 5, 5), 'Lakewood')
+    display_week(JDate.create(5776, 5, 5), 'Lakewood')

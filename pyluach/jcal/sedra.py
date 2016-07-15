@@ -1,10 +1,10 @@
-from .JewishDate import JewishDate
+from jcal.jdate import JDate
 
 '''************************************************************************************
  * Computes the Sedra/Sedras of the week for the given day.
  * Returns an array of sedras (either one or two) for the given Jewish Date
  * Sample of use to get todays sedra in Israel:
- *     sedras = Sedra.getsedra(JewishDate.today(), True)
+ *     sedras = Sedra.getsedra(JDate.today(), True)
  *     text = (' - ').join([s[0] for s in sedras])
  * The code was converted to python and tweaked by CBS.
  * It is directly based on the C code in Danny Sadinoff's HebCal - Copyright (C) 1994.
@@ -133,9 +133,9 @@ class Sedra:
                         Sedra.__lastCalculatedYear['israel'] == israel:
             return Sedra.__lastCalculatedYear
 
-        longCheshvon = JewishDate.isLongCheshvan(year)
-        shortKislev = JewishDate.isShortKislev(year)
-        roshHashana = JewishDate.toordinal(year, 7, 1)
+        longCheshvon = JDate.has_long_cheshvan(year)
+        shortKislev = JDate.isShortKislev(year)
+        roshHashana = JDate.toordinal(year, 7, 1)
         roshHashanaDOW = abs(roshHashana % 7)
         firstSatInYear = Sedra.getDayOnOrBefore(6, roshHashana + 6)
         yearType = 'regular'
@@ -145,7 +145,7 @@ class Sedra:
         elif (not longCheshvon and shortKislev):
             yearType = 'incomplete'
 
-        if (not JewishDate.isJdLeapY(year)):
+        if (not JDate.isJdLeapY(year)):
             if roshHashanaDOW == 6:
                 if (yearType == "incomplete"):
                     sArray = Sedra.__shabbos_short
@@ -198,6 +198,6 @@ class Sedra:
 
 
 if __name__ == '__main__':
-    sedras = Sedra.getsedra(JewishDate.today(), True)
+    sedras = Sedra.getsedra(JDate.today(), True)
     text = ' - '.join([s[0] for s in sedras])
     print(text)

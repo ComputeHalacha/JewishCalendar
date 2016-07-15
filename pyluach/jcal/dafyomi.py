@@ -1,14 +1,14 @@
 from collections import namedtuple
 from datetime import date
 
-import JewishCalendar.Utils as Utils
-from JewishCalendar.JewishDate import JewishDate
+import jcal.utils as Utils
+from jcal.jdate import JDate
 
 '''
   Computes the Day Yomi for the given day.
   Sample of use - to get today's daf:
-      dafEng = Dafyomi.toString(JewishDate.today())
-      dafHeb = Dafyomi.toStringHeb(JewishDate.today())
+      dafEng = Dafyomi.tostring(JDate.today())
+      dafHeb = Dafyomi.tostring_heb(JDate.today())
   The code was converted to python and tweaked by CBS.
   It is directly based on the C code in Danny Sadinoff's HebCal - Copyright (C) 1994.
   The HebCal code for dafyomi was adapted by Aaron Peromsik from Bob Newell's public domain daf.el.'''
@@ -18,7 +18,7 @@ class Dafyomi:
     # Represents a single Masechta
     Masechta = namedtuple('Masechta', 'eng heb dappim')
 
-    __masechtaList = [
+    _masechtaList = [
         Masechta('Berachos', 'ברכות', 64),
         Masechta('Shabbos', 'שבת', 157),
         Masechta('Eruvin', 'ערובין', 105),
@@ -61,7 +61,7 @@ class Dafyomi:
         Masechta('Niddah', 'נדה', 73)]
 
     @staticmethod
-    def getDaf(jd):
+    def getdaf(jd):
         ordinal = jd.ordinal
         dafcnt = 40
         osday = date(1923, 9, 11).toordinal()
@@ -83,15 +83,15 @@ class Dafyomi:
 
         #  Fix Shekalim for old cycles
         if cno <= 7:
-            Dafyomi.__masechtaList[4] = Masechta('Shekalim', 'שקלים', 13)
+            Dafyomi._masechtaList[4] = Masechta('Shekalim', 'שקלים', 13)
 
         # Find the daf
         j = 0
         while (j < dafcnt):
             count += 1
-            total = total + Dafyomi.__masechtaList[j].dappim - 1
+            total = total + Dafyomi._masechtaList[j].dappim - 1
             if (dno < total):
-                blatt = (Dafyomi.__masechtaList[j].dappim + 1) - (total - dno)
+                blatt = (Dafyomi._masechtaList[j].dappim + 1) - (total - dno)
                 #  fiddle with the weird ones near the end
                 if count == 36:
                     blatt += 21
@@ -103,24 +103,24 @@ class Dafyomi:
                 j = 1 + dafcnt
             j += 1
 
-        return Dafyomi.__masechtaList[count], blatt
+        return Dafyomi._masechtaList[count], blatt
 
     # Returns the name of the Masechta and daf number in English, For example: Sukkah, Daf 3
     @staticmethod
-    def toString(jd):
-        d = Dafyomi.getDaf(jd)
+    def tostring(jd):
+        d = Dafyomi.getdaf(jd)
         return d[0].eng + ", Daf " + str(d[1])
 
     # Returns the name of the Masechta and daf number in Hebrew. For example: 'סוכה דף כ.
     @staticmethod
-    def toStringHeb(jd):
-        d = Dafyomi.getDaf(jd)
+    def tostring_heb(jd):
+        d = Dafyomi.getdaf(jd)
         return d[0].heb + " דף " + Utils.toJNum(d[1])
 
 
 if __name__ == '__main__':
-    jd = JewishDate.today()
-    dafEng = Dafyomi.toString(jd)
-    dafHeb = Dafyomi.toStringHeb(jd)
+    jd = JDate.today()
+    dafEng = Dafyomi.tostring(jd)
+    dafHeb = Dafyomi.tostring_heb(jd)
     print(dafEng)
     print(dafHeb)

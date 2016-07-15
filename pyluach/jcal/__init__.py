@@ -5,30 +5,30 @@ from math import floor
 # Returns an OrderedDict of information about the given day.
 # Entries include: "Date", "Parshas Hashavua", any holidays or fasts,
 # "Eruv Tavshilin", "Candle Lighting" and "Daf Yomi".
-def getDailyInfo(jd, location, hebrew):
-    from JewishCalendar.JewishDate import JewishDate
-    import JewishCalendar.Utils as Utils
-    from JewishCalendar.Molad import Molad
-    from JewishCalendar.HourMinute import HourMinute
-    from JewishCalendar.Sedra import Sedra
-    from JewishCalendar.Dafyomi import Dafyomi
-    import JewishCalendar.PirkeiAvos as PirkeiAvos
+def getdailyinfo(jd, location, hebrew):
+    from jcal.jdate import JDate
+    import jcal.utils as Utils
+    from jcal.molad import Molad
+    from jcal.hourminute import HourMinute
+    from jcal.sedra import Sedra
+    from jcal.dafyomi import Dafyomi
+    import jcal.pirkeiavos as PirkeiAvos
 
     infos = OrderedDict()
     sedras = Sedra.getsedra(jd, location.israel)
     holidays = jd.getHolidays(location.israel)
 
     if hebrew:
-        infos['תאריך'] = jd.toStringHeb()
+        infos['תאריך'] = jd.tostring_heb()
         infos['פרשת השבוע'] = ' - '.join([s[1] for s in sedras])
         for h in holidays:
             hText = h.heb
             if 'מברכים' in hText:
-                nextMonth = jd.addDays(12)
+                nextMonth = jd.add_days(12)
                 hText += '- חודש ' + Utils.properMonthName(nextMonth.year, nextMonth.month)
                 hText += '\nהמולד: ' + Molad.getStringHeb(nextMonth.month, nextMonth.year)
-                dim = JewishDate.daysJMonth(jd.year, jd.month)
-                dow = dim - jd.getDayOfWeek() - (1 if dim == 30 else 0)
+                dim = JDate.days_in_jmonth(jd.year, jd.month)
+                dow = dim - jd.getdow() - (1 if dim == 30 else 0)
                 hText += '\nראש חודש: ' + Utils.dowHeb[dow]
                 if dim == 30:
                     hText += ", " + Utils.dowHeb[(dow + 1) % 7]
@@ -37,22 +37,22 @@ def getDailyInfo(jd, location, hebrew):
             infos['עירוב תבשילין'] = ''
         if jd.hasCandleLighting():
             infos['הדלקת נרות'] = jd.getCandleLighting(location)
-        infos['דף יומי'] = Dafyomi.toStringHeb(jd)
-        if jd.getDayOfWeek() == 6:
+        infos['דף יומי'] = Dafyomi.tostring_heb(jd)
+        if jd.getdow() == 6:
             prakim = PirkeiAvos.getpirkeiavos(jd, location.israel)
             if prakim:
                 infos['פרקי אבות'] = ' פרק' + ' ופרק '.join([Utils.jsd[p - 1] for p in prakim])
     else:
-        infos["Date"] = jd.toString()
+        infos["Date"] = jd.tostring()
         infos['Parshas Hashavua'] = ' - '.join([s[0] for s in sedras])
         for h in holidays:
             hText = h.eng
             if 'Mevarchim' in hText:
-                nextMonth = jd.addDays(12)
+                nextMonth = jd.add_days(12)
                 hText += '- Chodesh ' + Utils.properMonthName(nextMonth.year, nextMonth.month)
                 hText += '\nThe Molad: ' + Molad.getStringHeb(nextMonth.month, nextMonth.year)
-                dim = JewishDate.daysJMonth(jd.year, jd.month)
-                dow = dim - jd.getDayOfWeek() - (1 if dim == 30 else 0)
+                dim = JDate.days_in_jmonth(jd.year, jd.month)
+                dow = dim - jd.getdow() - (1 if dim == 30 else 0)
                 hText += '\nRosh Chodesh: ' + Utils.dowHeb[dow]
                 if dim == 30:
                     hText += ", " + Utils.dowEng[(dow + 1) % 7]
@@ -61,17 +61,17 @@ def getDailyInfo(jd, location, hebrew):
             infos['Eruv Tavshilin'] = ''
         if jd.hasCandleLighting():
             infos['Candle Lighting'] = jd.getCandleLighting(location)
-        infos['Daf Yomi'] = Dafyomi.toString(jd)
-        if jd.getDayOfWeek() == 6:
+        infos['Daf Yomi'] = Dafyomi.tostring(jd)
+        if jd.getdow() == 6:
             prakim = PirkeiAvos.getpirkeiavos(jd, location.israel)
             if prakim:
                 infos['Pirkei Avos'] = ' and '.join([Utils.toSuffixed(p) + ' Perek' for p in prakim])
     return infos
 
 
-def getDailyZmanim(jd, location, hebrew):
-    from JewishCalendar.Zmanim import Zmanim
-    from JewishCalendar.HourMinute import HourMinute
+def getdailyzmanim(jd, location, hebrew):
+    from jcal.zmanim import Zmanim
+    from jcal.hourminute import HourMinute
 
     infos = OrderedDict()
     z = Zmanim(location, jd)

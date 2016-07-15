@@ -1,16 +1,18 @@
 import datetime
 import math
 
-import JewishCalendar.Utils as Utils
-from JewishCalendar.HourMinute import HourMinute
-from JewishCalendar.JewishDate import JewishDate
-from JewishCalendar.Location import Location
+import jcal.utils as Utils
+from jcal.hourminute import HourMinute
+from jcal.jdate import JDate
+from jcal.location import Location
 
 '''Computes the daily Zmanim for any single date at any location.
  The astronomical and mathematical calculations were directly adapted from the excellent
  Jewish calendar calculation in C# Copyright © by Ulrich and Ziporah Greve (2005)
  To get the zmanim for today in Jerusalem use:
-    jd = JewishDate.today()
+    from jcal.jdate import JDate
+    from jcal.Zmanim import Zmanim
+    jd = JDate.today()
     zm = Zmanim(date=jd)
     print(zm.getSunTimes())
 '''
@@ -21,7 +23,7 @@ class Zmanim:
         self.location = location or Location.getJerusalem()
         if isinstance(dt, datetime.datetime):
             self.seculardate = dt
-        elif isinstance(dt, JewishDate):
+        elif isinstance(dt, JDate):
             self.seculardate = dt.todate()
         else:
             raise ValueError('date must be either a python or Jewish date')
@@ -179,7 +181,7 @@ class Zmanim:
 
 
 if __name__ == '__main__'"":
-    jd = JewishDate.today()
+    jd = JDate.today()
     zm = Zmanim(date=jd)
     print(zm.getSunTimes())
     print(zm.getChatzos())
