@@ -7,17 +7,17 @@ from jcal.zmanim import Zmanim
  Algorithm was adapted from Hebcal by Danny Sadinoff.
  
   Example of use:
-  moladString = Molad.getString(5776, 10)
+  moladString = Molad.molad_string(5776, 10)
  '''
 
 
 class Molad:
     @staticmethod
-    def getMolad(month, year):
+    def get_molad(month, year):
         monthAdj = month - 7
 
         if (monthAdj < 0):
-            monthAdj += JDate.monthsJYear(year)
+            monthAdj += JDate.months_in_jyear(year)
 
         totalMonths = int(
             monthAdj + 235 * int((year - 1) / 19) + 12 * ((year - 1) % 19) + ((((year - 1) % 19) * 7) + 1) / 19)
@@ -32,11 +32,11 @@ class Molad:
     #  The molad is always in Jerusalem so we use the Jerusalem sunset times
     #  to determine whether to display "Night" or "Motzai Shabbos" etc. (check this...)
     @staticmethod
-    def getString(year, month):
-        molad = Molad.getMolad(month, year)
+    def molad_string(year, month):
+        molad = Molad.get_molad(month, year)
         zmanim = Zmanim(date=molad['JDate'])
-        _, nightfall = zmanim.getSunTimes()
-        isNight = molad['time'].totalMinutes() >= nightfall.totalMinutes()
+        _, nightfall = zmanim.get_sun_times()
+        isNight = molad['time'].total_minutes() >= nightfall.total_minutes()
         dow = molad['JDate'].getdow()
         text = ''
 
@@ -54,10 +54,10 @@ class Molad:
     #  Returns the time of the molad as a string in the format: ליל שני 20:33 12 חלקים
     #  The molad is always in Jerusalem so we use the Jerusalem sunset times
     #  to determine whether to display "ליל/יום" or "מוצאי שב"ק" etc.
-    def getStringHeb(year, month):
-        molad = Molad.getMolad(month, year)
-        nightfall = molad.JDate.getSunriseSunset(Location.getJerusalem()).sunset
-        isNight = Utils.totalMinutes(Utils.timeDiff(molad.time, nightfall)) >= 0
+    def molad_string_heb(year, month):
+        molad = Molad.get_molad(month, year)
+        nightfall = molad.JDate.getSunriseSunset(Location.get_jerusalem()).sunset
+        isNight = Utils.total_minutes(Utils.timeDiff(molad.time, nightfall)) >= 0
         dow = molad.JDate.getdow()
         text = ''
 
@@ -73,4 +73,4 @@ class Molad:
 
 
 if __name__ == '__main__':
-    print(Molad.getString(5776, 4))
+    print(Molad.molad_string(5776, 4))

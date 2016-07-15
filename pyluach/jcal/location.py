@@ -14,7 +14,7 @@ class Location:
             self.n, self.i, self.latitude, self.longitude, self.utcOffset, self.elevation)
 
     @staticmethod
-    def getJerusalem():
+    def get_jerusalem():
         j = Location("Jerusalem", True, 31.78, -35.22, 2, 775)
         j.hebrew = 'ירושלים'
         j.candles = 40

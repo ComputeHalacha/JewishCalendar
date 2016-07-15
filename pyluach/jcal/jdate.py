@@ -73,9 +73,9 @@ class JDate:
     # Returns the current Jewish date in the format: יום חמישי כ"א כסלו תשע"ו
     def tostring_heb(self):
         return "{} {} {} {}".format(Utils.dowHeb[self.getdow()],
-                                    Utils.toJNum(self.day),
+                                    Utils.to_jnum(self.day),
                                     Utils.jMonthsHeb[self.month],
-                                    Utils.toJNum(self.year % 1000))
+                                    Utils.to_jnum(self.year % 1000))
 
     # Create a new JDate with the given Jewish Year, Month and Day
     @staticmethod
@@ -128,8 +128,8 @@ class JDate:
         at 9 hours, 204 parts or later... - ...or is on a Tuesday... -
         If new moon is at or after midday,'''
         if ((conjParts >= 19440) or (
-                ((conjDay % 7) == 2) and (conjParts >= 9924) and (not JDate.isJdLeapY(year))) or (
-                ((conjDay % 7) == 1) and (conjParts >= 16789) and (JDate.isJdLeapY(year - 1)))):
+                        ((conjDay % 7) == 2) and (conjParts >= 9924) and (not JDate.isleap_jyear(year))) or (
+                        ((conjDay % 7) == 1) and (conjParts >= 16789) and (JDate.isleap_jyear(year - 1)))):
             # Then postpone Rosh HaShanah one day
             altDay = (conjDay + 1)
         else:
@@ -155,8 +155,8 @@ class JDate:
     def days_in_jmonth(year, month):
         if ((month == 2) or (month == 4) or (month == 6) or (
             (month == 8) and (not JDate.has_long_cheshvan(year))) or (
-            (month == 9) and JDate.isShortKislev(year)) or (month == 10) or (
-            (month == 12) and (not JDate.isJdLeapY(year))) or (month == 13)):
+                    (month == 9) and JDate.has_short_kislev(year)) or (month == 10) or (
+                    (month == 12) and (not JDate.isleap_jyear(year))) or (month == 13)):
             return 29
         else:
             return 30
@@ -168,18 +168,18 @@ class JDate:
 
     # Does Kislev for the given Jewish Year have 29 days?
     @staticmethod
-    def isShortKislev(year):
+    def has_short_kislev(year):
         return (JDate.days_in_jyear(year) % 10) == 3
 
     # Does the given Jewish Year have 13 months?
     @staticmethod
-    def isJdLeapY(year):
+    def isleap_jyear(year):
         return (((7 * year) + 1) % 19) < 7
 
     # Number of months in Jewish Year
     @staticmethod
-    def monthsJYear(year):
-        return 13 if JDate.isJdLeapY(year) else 12
+    def months_in_jyear(year):
+        return 13 if JDate.isleap_jyear(year) else 12
 
     @staticmethod
     def fromdate(date):
@@ -200,7 +200,7 @@ class JDate:
         if (month < 7):  # Before Tishrei, so add days in prior months this year before and after
             # Nissan.
             m = 7
-            while (m <= (JDate.monthsJYear(year))):
+            while (m <= (JDate.months_in_jyear(year))):
                 dayInYear += JDate.days_in_jmonth(year, m)
                 m += 1
 
@@ -221,14 +221,14 @@ class JDate:
     # Gets an list of holidays, fasts and any other special
     # specifications for the current Jewish date.
     # Each item is a namedtuple instance of type Entry(heb, eng)
-    def getHolidays(self, israel):
+    def get_holidays(self, israel):
         Entry = namedtuple('Entry', 'heb eng')
         list = []
         jYear = self.year
         jMonth = self.month
         jDay = self.day
         dayOfWeek = self.getdow()
-        isLeapYear = JDate.isJdLeapY(jYear)
+        isleap_jyear = JDate.isleap_jyear(jYear)
         secDate = self.todate()
 
         if dayOfWeek == 5:
@@ -242,14 +242,14 @@ class JDate:
                 list.append(Entry("שבת שובה", "Shabbos Shuva"))
             elif (jMonth == 5 and jDay > 2 and jDay < 10):
                 list.append(Entry("שבת חזון", "Shabbos Chazon"))
-            elif ((jMonth == (isLeapYear and 12 or 11) and jDay > 23 and jDay < 30) or (
-                    jMonth == (isLeapYear and 13 or 12) and jDay == 1)):
+            elif ((jMonth == (isleap_jyear and 12 or 11) and jDay > 23 and jDay < 30) or (
+                            jMonth == (isleap_jyear and 13 or 12) and jDay == 1)):
                 list.append(Entry("פרשת שקלים", "Parshas Shkalim"))
-            elif (jMonth == (isLeapYear and 13 or 12) and jDay > 7 and jDay < 14):
+            elif (jMonth == (isleap_jyear and 13 or 12) and jDay > 7 and jDay < 14):
                 list.append(Entry("פרשת זכור", "Parshas Zachor"))
-            elif (jMonth == (isLeapYear and 13 or 12) and jDay > 16 and jDay < 24):
+            elif (jMonth == (isleap_jyear and 13 or 12) and jDay > 16 and jDay < 24):
                 list.append(Entry("פרשת פרה", "Parshas Parah"))
-            elif ((jMonth == (isLeapYear and 13 or 12) and jDay > 23 and jDay < 30) or
+            elif ((jMonth == (isleap_jyear and 13 or 12) and jDay > 23 and jDay < 30) or
                       (jMonth == 1 and jDay == 1)):
                 list.append(Entry("פרשת החודש", "Parshas Hachodesh"))
 
@@ -258,7 +258,7 @@ class JDate:
             if (jMonth != 6 and jDay > 22 and jDay < 30):
                 list.append(Entry("מברכים החודש", "Shabbos Mevarchim"))
         if (jDay == 30):
-            monthIndex = (1 if (jMonth == 12 and not isLeapYear) or jMonth == 13 else jMonth + 1)
+            monthIndex = (1 if (jMonth == 12 and not isleap_jyear) or jMonth == 13 else jMonth + 1)
             list.append(Entry("ראש חודש " + Utils.jMonthsHeb[monthIndex],
                               "Rosh Chodesh " + Utils.jMonthsEng[monthIndex]))
         elif (jDay == 1 and jMonth != 7):
@@ -271,7 +271,7 @@ class JDate:
             # The three possible dates for starting vt"u are the 5th, 6th and
             # 7th of December
             if (sday in [5, 6, 7]):
-                nextYearIsLeap = JDate.isJdLeapY(jYear + 1)
+                nextYearIsLeap = JDate.isleap_jyear(jYear + 1)
                 # If next year is not a leap year, then vst"u starts on the
                 # 5th.
                 # If next year is a leap year than vst"u starts on the 6th.
@@ -386,7 +386,7 @@ class JDate:
             elif (jDay == 30):
                 list.append(Entry("'חנוכה - נר ו", "Chanuka - Six Candles"))
         elif jMonth == 10:  # Teves
-            if (JDate.isShortKislev(jYear)):
+            if (JDate.has_short_kislev(jYear)):
                 if (jDay == 1):
                     list.append(Entry("'חנוכה - נר ו", "Chanuka - Six Candles"))
                 elif (jDay == 2):
@@ -404,7 +404,7 @@ class JDate:
             if (jDay == 15):
                 list.append(Entry("ט\"ו בשבט", "Tu B'Shvat"))
             elif jMonth in [12, 13]:  # Both Adars
-                if (jMonth == 12 and isLeapYear):  # Adar Rishon in a leap year
+                if (jMonth == 12 and isleap_jyear):  # Adar Rishon in a leap year
                     if (jDay == 14):
                         list.append(Entry("פורים קטן", "Purim Katan"))
                     elif (jDay == 15):
@@ -429,7 +429,7 @@ class JDate:
 
     # Is the current Jewish Date the day before a yomtov that contains a
     # Friday?
-    def hasEiruvTavshilin(self, israel):
+    def has_eiruv_tavshilin(self, israel):
         dow = self.getdow()
         # No Eiruv Tavshilin ever on Sunday, Monday, Tuesday, Friday or Shabbos
         # If it is Erev Yomtov
@@ -437,12 +437,12 @@ class JDate:
         # Erev rosh hashana on Wednesday OR erev yomtov in Chu"l on wednesday
         # or Thursday OR erev yomtov in Israel on Thursday
         return (dow not in [0, 1, 2, 5, 6]) and \
-               self.hasCandleLighting() and \
+               self.has_candle_lighting() and \
                self.day != 9 and \
                (self.month == 6 or ((not israel) and dow in [3, 4]) or (israel and dow == 4))
 
     # Does the current Jewish date have candle lighting before sunset?
-    def hasCandleLighting(self):
+    def has_candle_lighting(self):
         dow = self.getdow()
         if (dow == 5):
             return True
@@ -458,10 +458,10 @@ class JDate:
 
     # Gets the candle lighting time for the current Jewish date for the given
     # Location.
-    def getCandleLighting(self, location):
-        if self.hasCandleLighting():
+    def get_candle_lighting(self, location):
+        if self.has_candle_lighting():
             from jcal.zmanim import Zmanim
-            return Zmanim(location, self).getCandleLighting()
+            return Zmanim(location, self).get_candle_lighting()
         else:
             return None
 
@@ -469,4 +469,4 @@ class JDate:
 if __name__ == '__main__':
     # to print todays Jewish Date and any Holidays for today in Hebrew
     jd = JDate.today()
-    print(jd.tostring_heb(), jd.getHolidays(True))
+    print(jd.tostring_heb(), jd.get_holidays(True))

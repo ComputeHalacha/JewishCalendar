@@ -21,7 +21,7 @@ class HourMinute:
         return 'HourMinute(hour=%r, minute=%r)' % (self.hour, self.minute)
 
     def __int__(self):
-        return self.totalMinutes()
+        return self.total_minutes()
 
     def __add__(self, other):
         return self.add(other)
@@ -36,14 +36,14 @@ class HourMinute:
         if isinstance(other, HourMinute):
             return HourMinute(self.hour + other.hour, self.minute + other.minute)
         elif isinstance(other, int):
-            return HourMinute.fromMinutes(self.totalMinutes() + other)
+            return HourMinute.from_minutes(self.total_minutes() + other)
 
     # Add the given number of minutes and hours to the given time
     def addtime(self, hours=0, minutes=0):
         return HourMinute(self.hour + hours, self.minute + minutes)
 
     # Gets the total number of minutes in the given time
-    def totalMinutes(self) -> int:
+    def total_minutes(self) -> int:
         return self.hour * 60 + self.minute
 
     # Returns the given time in a formatted string.
@@ -59,5 +59,5 @@ class HourMinute:
                 'AM' if self.hour <= 12 else 'PM')
 
     @staticmethod
-    def fromMinutes(minutes):
+    def from_minutes(minutes):
         return HourMinute(int(minutes / 60), minutes % 60)

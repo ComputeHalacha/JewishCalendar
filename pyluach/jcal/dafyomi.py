@@ -115,7 +115,7 @@ class Dafyomi:
     @staticmethod
     def tostring_heb(jd):
         d = Dafyomi.getdaf(jd)
-        return d[0].heb + " דף " + Utils.toJNum(d[1])
+        return d[0].heb + " דף " + Utils.to_jnum(d[1])
 
 
 if __name__ == '__main__':

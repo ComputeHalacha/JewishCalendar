@@ -15,8 +15,8 @@ def getdailyinfo(jd, location, hebrew):
     import jcal.pirkeiavos as PirkeiAvos
 
     infos = OrderedDict()
-    sedras = Sedra.getsedra(jd, location.israel)
-    holidays = jd.getHolidays(location.israel)
+    sedras = Sedra.get_sedra(jd, location.israel)
+    holidays = jd.get_holidays(location.israel)
 
     if hebrew:
         infos['תאריך'] = jd.tostring_heb()
@@ -25,21 +25,21 @@ def getdailyinfo(jd, location, hebrew):
             hText = h.heb
             if 'מברכים' in hText:
                 nextMonth = jd.add_days(12)
-                hText += '- חודש ' + Utils.properMonthName(nextMonth.year, nextMonth.month)
-                hText += '\nהמולד: ' + Molad.getStringHeb(nextMonth.month, nextMonth.year)
+                hText += '- חודש ' + Utils.proper_jmonth_name(nextMonth.year, nextMonth.month)
+                hText += '\nהמולד: ' + Molad.molad_string_heb(nextMonth.month, nextMonth.year)
                 dim = JDate.days_in_jmonth(jd.year, jd.month)
                 dow = dim - jd.getdow() - (1 if dim == 30 else 0)
                 hText += '\nראש חודש: ' + Utils.dowHeb[dow]
                 if dim == 30:
                     hText += ", " + Utils.dowHeb[(dow + 1) % 7]
             infos[hText] = ''
-        if jd.hasEiruvTavshilin(location.israel):
+        if jd.has_eiruv_tavshilin(location.israel):
             infos['עירוב תבשילין'] = ''
-        if jd.hasCandleLighting():
-            infos['הדלקת נרות'] = jd.getCandleLighting(location)
+        if jd.has_candle_lighting():
+            infos['הדלקת נרות'] = jd.get_candle_lighting(location)
         infos['דף יומי'] = Dafyomi.tostring_heb(jd)
         if jd.getdow() == 6:
-            prakim = PirkeiAvos.getpirkeiavos(jd, location.israel)
+            prakim = PirkeiAvos.get_pirkeiavos(jd, location.israel)
             if prakim:
                 infos['פרקי אבות'] = ' פרק' + ' ופרק '.join([Utils.jsd[p - 1] for p in prakim])
     else:
@@ -49,23 +49,23 @@ def getdailyinfo(jd, location, hebrew):
             hText = h.eng
             if 'Mevarchim' in hText:
                 nextMonth = jd.add_days(12)
-                hText += '- Chodesh ' + Utils.properMonthName(nextMonth.year, nextMonth.month)
-                hText += '\nThe Molad: ' + Molad.getStringHeb(nextMonth.month, nextMonth.year)
+                hText += '- Chodesh ' + Utils.proper_jmonth_name(nextMonth.year, nextMonth.month)
+                hText += '\nThe Molad: ' + Molad.molad_string_heb(nextMonth.month, nextMonth.year)
                 dim = JDate.days_in_jmonth(jd.year, jd.month)
                 dow = dim - jd.getdow() - (1 if dim == 30 else 0)
                 hText += '\nRosh Chodesh: ' + Utils.dowHeb[dow]
                 if dim == 30:
                     hText += ", " + Utils.dowEng[(dow + 1) % 7]
             infos[hText] = ''
-        if jd.hasEiruvTavshilin(location.israel):
+        if jd.has_eiruv_tavshilin(location.israel):
             infos['Eruv Tavshilin'] = ''
-        if jd.hasCandleLighting():
-            infos['Candle Lighting'] = jd.getCandleLighting(location)
+        if jd.has_candle_lighting():
+            infos['Candle Lighting'] = jd.get_candle_lighting(location)
         infos['Daf Yomi'] = Dafyomi.tostring(jd)
         if jd.getdow() == 6:
-            prakim = PirkeiAvos.getpirkeiavos(jd, location.israel)
+            prakim = PirkeiAvos.get_pirkeiavos(jd, location.israel)
             if prakim:
-                infos['Pirkei Avos'] = ' and '.join([Utils.toSuffixed(p) + ' Perek' for p in prakim])
+                infos['Pirkei Avos'] = ' and '.join([Utils.to_suffixed(p) + ' Perek' for p in prakim])
     return infos
 
 
@@ -75,12 +75,12 @@ def getdailyzmanim(jd, location, hebrew):
 
     infos = OrderedDict()
     z = Zmanim(location, jd)
-    netz, shkia = z.getSunTimes(True)
-    stMishor = z.getSunTimes(False)
+    netz, shkia = z.get_sun_times(True)
+    stMishor = z.get_sun_times(False)
     netzMishor, shkiaMishor = stMishor
-    shaaZmanis = z.getShaaZmanis(netzshkia=stMishor)
-    shaaZmanis90 = z.getShaaZmanis(90, stMishor)
-    chatzos = z.getChatzos(stMishor)
+    shaaZmanis = z.get_shaa_zmanis(netzshkia=stMishor)
+    shaaZmanis90 = z.get_shaa_zmanis(90, stMishor)
+    chatzos = z.get_chatzos(stMishor)
     noValue = HourMinute(0, 0)
 
     if hebrew:
@@ -92,20 +92,24 @@ def getdailyzmanim(jd, location, hebrew):
         else:
             infos["עלות השחר 90"] = netzMishor - 90
             infos["עלות השחר 72"] = netzMishor - 72
+
             if netz == netzMishor:
                 infos["הנץ החמה"] = netz
             else:
                 infos["הנץ החמה מגובה " + str(location.elevation) + " מטר"] = netz
                 infos["הנץ החמה מגובה פני הים"] = netzMishor
-                infos['סוזק\"ש - מג\"א'] = (netzMishor - 90) + int(floor(shaaZmanis90 * 3))
-                infos['סוזק\"ש - הגר\"א'] = netzMishor + int(floor(shaaZmanis * 3))
-                infos['סוז\"ת - מג\"א'] = (netzMishor - 90) + int(floor(shaaZmanis90 * 4))
-                infos['סוז\"ת - הגר\"א'] = netzMishor + int(floor(shaaZmanis * 4))
+
+            infos['סוזק\"ש - מג\"א'] = (netzMishor - 90) + int(floor(shaaZmanis90 * 3))
+            infos['סוזק\"ש - הגר\"א'] = netzMishor + int(floor(shaaZmanis * 3))
+            infos['סוז\"ת - מג\"א'] = (netzMishor - 90) + int(floor(shaaZmanis90 * 4))
+            infos['סוז\"ת - הגר\"א'] = netzMishor + int(floor(shaaZmanis * 4))
+
         if netz != noValue and shkia != noValue:
             infos['חצות היום והלילה'] = chatzos
             infos['מנחה גדולה'] = (chatzos + int(shaaZmanis * 0.5))
             infos['מנחה קטנה'] = netzMishor + int(shaaZmanis * 9.5)
             infos['פלג המנחה'] = netzMishor + int(shaaZmanis * 10.75)
+
         if shkia == noValue:
             infos["שקיעת החמה"] = "השמש אינו שוקעת"
         else:
@@ -133,10 +137,12 @@ def getdailyzmanim(jd, location, hebrew):
             else:
                 infos['Netz Hachama ({} feet)'.format(feet)] = netz
                 infos["Netz Hachama (Sea Level)"] = netzMishor
-                infos['Zman Krias Shma - MG"A'] = (netzMishor - 90) + int(floor(shaaZmanis90 * 3))
-                infos['Zman Krias Shma - GR"A'] = netzMishor + int(floor(shaaZmanis * 3))
-                infos['Zman Tefillah - MG"A'] = (netzMishor - 90) + int(floor(shaaZmanis90 * 4))
-                infos['Zman Tefillah - GR"A'] = netzMishor + int(floor(shaaZmanis * 4))
+
+            infos['Zman Krias Shma - MG"A'] = (netzMishor - 90) + int(floor(shaaZmanis90 * 3))
+            infos['Zman Krias Shma - GR"A'] = netzMishor + int(floor(shaaZmanis * 3))
+            infos['Zman Tefillah - MG"A'] = (netzMishor - 90) + int(floor(shaaZmanis90 * 4))
+            infos['Zman Tefillah - GR"A'] = netzMishor + int(floor(shaaZmanis * 4))
+
         if netz != noValue and shkia != noValue:
             infos['Chatzos (day and night)'] = chatzos
             infos['Mincha Gedola'] = (chatzos + int(shaaZmanis * 0.5))

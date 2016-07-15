@@ -8,14 +8,14 @@ from jcal.jdate import JDate
  *     from Utils import Utils
  *     import PirkeiAvos
  *     chukas5776 = JDate.create(5776, 4, 3)
- *     prakim = PirkeiAvos.getpirkeiavos(chukas5776, True)
- *     text = 'Pirkei Avos: ' + ' and '.join([Utils.toSuffixed(p) +
+ *     prakim = PirkeiAvos.get_pirkeiavos(chukas5776, True)
+ *     text = 'Pirkei Avos: ' + ' and '.join([Utils.to_suffixed(p) +
  *     ' Perek' for p in prakim])
  *     print(text)
  ***************************************************************************************************************'''
 
 
-def getpirkeiavos(jd, israel):
+def get_pirkeiavos(jd, israel):
     if jd.getdow() != 6:
         return []
 
@@ -139,6 +139,6 @@ if __name__ == '__main__':
     import jcal.utils as Utils
 
     chukas5776 = JDate.create(5776, 4, 10)
-    prakim = getpirkeiavos(chukas5776, True)
-    text = 'Pirkei Avos: ' + ' and '.join([Utils.toSuffixed(p) + ' Perek' for p in prakim])
+    prakim = get_pirkeiavos(chukas5776, True)
+    text = 'Pirkei Avos: ' + ' and '.join([Utils.to_suffixed(p) + ' Perek' for p in prakim])
     print(text)

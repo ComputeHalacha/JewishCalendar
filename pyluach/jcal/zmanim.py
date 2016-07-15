@@ -14,13 +14,13 @@ from jcal.location import Location
     from jcal.Zmanim import Zmanim
     jd = JDate.today()
     zm = Zmanim(date=jd)
-    print(zm.getSunTimes())
+    print(zm.get_sun_times())
 '''
 
 
 class Zmanim:
-    def __init__(self, location=Location.getJerusalem(), dt=datetime.datetime.today()):
-        self.location = location or Location.getJerusalem()
+    def __init__(self, location=Location.get_jerusalem(), dt=datetime.datetime.today()):
+        self.location = location or Location.get_jerusalem()
         if isinstance(dt, datetime.datetime):
             self.seculardate = dt
         elif isinstance(dt, JDate):
@@ -31,18 +31,18 @@ class Zmanim:
     '''Gets sunrise and sunset time for the current date.
     Returns a tuple of HourMinute objects (sunrise, sunset)'''
 
-    def getSunTimes(self, considerElevation=True):
+    def get_sun_times(self, considerElevation=True):
         sunrise = HourMinute(0, 0)
         sunset = HourMinute(0, 0)
-        day = Zmanim.dayOfYear(self.seculardate)
+        day = Zmanim.day_of_syear(self.seculardate)
         zeninthDeg = 90
         zenithMin = 50
         earthRadius = 6356900
-        zenithAtElevation = Zmanim.__degToDec(zeninthDeg, zenithMin) + Zmanim.__radToDeg(
+        zenithAtElevation = Zmanim._degtodec(zeninthDeg, zenithMin) + Zmanim._radtodeg(
             math.acos(earthRadius / (earthRadius + ((self.location.elevation or 0) if considerElevation else 0))))
         zeninthDeg = math.floor(zenithAtElevation)
         zenithMin = (zenithAtElevation - math.floor(zenithAtElevation)) * 60
-        cosZen = math.cos(0.01745 * Zmanim.__degToDec(zeninthDeg, zenithMin))
+        cosZen = math.cos(0.01745 * Zmanim._degtodec(zeninthDeg, zenithMin))
         longitude = self.location.longitude
         lonHour = longitude / 15
         latitude = self.location.latitude
@@ -50,10 +50,10 @@ class Zmanim:
         sinLat = math.sin(0.01745 * latitude)
         tRise = day + (6 + lonHour) / 24
         tSet = day + (18 + lonHour) / 24
-        xmRise = Zmanim.__m(tRise)
-        xlRise = Zmanim.__l(xmRise)
-        xmSet = Zmanim.__m(tSet)
-        xlSet = Zmanim.__l(xmSet)
+        xmRise = Zmanim._m(tRise)
+        xlRise = Zmanim._l(xmRise)
+        xmSet = Zmanim._m(tSet)
+        xlSet = Zmanim._l(xmSet)
         aRise = 57.29578 * math.atan(0.91746 * math.tan(0.01745 * xlRise))
         aSet = 57.29578 * math.atan(0.91746 * math.tan(0.01745 * xlSet))
         if (abs(aRise + 360 - xlRise) > 90):
@@ -74,22 +74,22 @@ class Zmanim:
         hSet = (cosZen - sinDec * sinLat) / (cosDec * cosLat)
         if abs(hRise) <= 1:
             hRise = 57.29578 * math.acos(hRise)
-            utRise = ((360 - hRise) / 15) + ahrRise + Zmanim.__adj(tRise) + lonHour
-            Zmanim.__set_time(sunrise, utRise + self.location.utcOffset, self.seculardate, self.location)
+            utRise = ((360 - hRise) / 15) + ahrRise + Zmanim._adjust(tRise) + lonHour
+            Zmanim._set_time(sunrise, utRise + self.location.utcOffset, self.seculardate, self.location)
             while (sunrise.hour > 12):
                 sunrise.hour -= 12
 
         if abs(hSet) <= 1:
             hSet = 57.29578 * math.acos(hSet)
-            utSet = (hRise / 15) + ahrSet + Zmanim.__adj(tSet) + lonHour
-            Zmanim.__set_time(sunset, utSet + self.location.utcOffset, self.seculardate, self.location)
+            utSet = (hRise / 15) + ahrSet + Zmanim._adjust(tSet) + lonHour
+            Zmanim._set_time(sunset, utSet + self.location.utcOffset, self.seculardate, self.location)
             while (sunset.hour < 12):
                 sunset.hour += 12
 
         return (sunrise, sunset)
 
-    def getChatzos(self, suntimes=None):
-        netzShkia = suntimes or self.getSunTimes(False)
+    def get_chatzos(self, suntimes=None):
+        netzShkia = suntimes or self.get_sun_times(False)
         netz = netzShkia[0]
         shkia = netzShkia[1]
         noValue = HourMinute(0, 0)
@@ -97,12 +97,12 @@ class Zmanim:
         if netz == noValue or shkia == noValue:
             return None
         else:
-            chatzi = int((shkia.totalMinutes() - netz.totalMinutes()) / 2)
+            chatzi = int((shkia.total_minutes() - netz.total_minutes()) / 2)
             return netz + chatzi
 
-    def getShaaZmanis(self, offset=0, netzshkia=None):
+    def get_shaa_zmanis(self, offset=0, netzshkia=None):
         if netzshkia is None:
-            netzshkia = self.getSunTimes(True)
+            netzshkia = self.get_sun_times(True)
         netz = netzshkia[0] - offset
         shkia = netzshkia[1] + offset
         noValue = HourMinute(0, 0)
@@ -110,10 +110,10 @@ class Zmanim:
         if netz == noValue or shkia == noValue:
             return None
         else:
-            return (shkia.totalMinutes() - netz.totalMinutes()) / 12.0
+            return (shkia.total_minutes() - netz.total_minutes()) / 12.0
 
-    def getCandleLighting(self):
-        shkiah = self.getSunTimes()[1]
+    def get_candle_lighting(self):
+        shkiah = self.get_sun_times()[1]
         if self.location.candles:
             return shkiah.addtime(0, -(self.location.candles))
         elif not self.location.israel:
@@ -128,7 +128,7 @@ class Zmanim:
                 return shkiah.addtime(0, -30)
 
     @staticmethod
-    def isSecularLeapYear(year):
+    def is_syear_leap(year):
         if (year % 400 == 0):
             return True
         if (year % 100 != 0):
@@ -137,45 +137,52 @@ class Zmanim:
         return False
 
     @staticmethod
-    def dayOfYear(dt):
+    def day_of_syear(dt):
         monCount = [0, 1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366]
-        if ((dt.month > 2) and (Zmanim.isSecularLeapYear(dt.year))):
+        if ((dt.month > 2) and (Zmanim.is_syear_leap(dt.year))):
             return monCount[dt.month] + dt.day + 1
         else:
             return monCount[dt.month] + dt.day
 
+    # convert degrees to decimal
     @staticmethod
-    def __degToDec(deg, min):
+    def _degtodec(deg, min):
         return (deg + min / 60.0)
 
     @staticmethod
-    def __m(x):
+    def _m(x):
         return 0.9856 * x - 3.251
 
     @staticmethod
-    def __l(x):
+    def _l(x):
         return x + 1.916 * math.sin(0.01745 * x) + 0.02 * math.sin(2 * 0.01745 * x) + 282.565
 
     @staticmethod
-    def __adj(x):
+    def _adjust(x):
         return -0.06571 * x - 6.62
 
+    # convert radians to degress
     @staticmethod
-    def __radToDeg(rad):
+    def _radtodeg(rad):
         return 57.29578 * rad
 
     @staticmethod
-    def __set_time(hm, time, date, location):
+    def _set_time(hm, time, date, location):
         if (time < 0):
             time += 24
         hour = int(time)
         min = int(int((time - hour) * 60 + 0.5))
 
-        inCurrTZ = location.utcOffset == Utils.currUtcOffset()
-        if (inCurrTZ and Utils.isDateDST(date)):
+        while min >= 60:
             hour += 1
-        elif ((not inCurrTZ) and ((location.israel and Utils.isIsrael_DST(date)) or Utils.isUSA_DST(date, hour))):
+            min -= 60
+
+        inCurrTZ = location.utcOffset == Utils.curr_utc_offset()
+        if (inCurrTZ and Utils.is_sd_dst(date)):
             hour += 1
+        elif ((not inCurrTZ) and ((location.israel and Utils.is_il_dst(date)) or Utils.is_usa_dst(date, hour))):
+            hour += 1
+
         hm.hour = hour
         hm.minute = min
 
@@ -183,5 +190,5 @@ class Zmanim:
 if __name__ == '__main__'"":
     jd = JDate.today()
     zm = Zmanim(date=jd)
-    print(zm.getSunTimes())
-    print(zm.getChatzos())
+    print(zm.get_sun_times())
+    print(zm.get_chatzos())
