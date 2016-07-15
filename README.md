@@ -4,6 +4,7 @@ A repository of Jewish Calendar projects containing:
 
 1. ***Jewish Calendar .NET Library*** -  A .NET code library for integrating Jewish calendar capabilities into any .NET application, app or site.
 1. ***jCal.js*** - A javascript stand-alone library to add full Jewish Date functionality to any Javascript code.
+1. ***LuachPython*** - A Python stand-alone library to add full Jewish Date functionality to any Python code.
 1. ***Luach Project***  - A Luach Windows applications
 1. ***Luach Project Mobile App***  - A Luach Mobile application
 
@@ -27,6 +28,21 @@ A repository of Jewish Calendar projects containing:
 * Written in pure javascript. No outside libraries needed.
 * Algorithms were optimized for the slower scripting engine and target platform. The functions work quickly and efficiently on any device.
 * Conversion back and forth from javascript Date objects
+* Zmanim calculations for any date and location - sunrise/sunset, chatzos, sha'a zmanis etc. for any date and location.
+* Jewish Holidays/Fasts etc, for any date and location
+* Parsha of the week for any date and location
+* Daf Yomi for any day since daf yomi was initiated
+* Molad of any month
+* Day of Sefirah - including function to get nusach of counting
+* Jewish date calculation functions such as calculation of interval between dates etc.
+
+
+### LuachPython ###
+
+* Python library for Jewish date calculations
+* Written in pure python. The only outside package used is tzlocal.
+* Algorithms were optimized for the slower scripting engine and target platform. The functions work quickly and efficiently on any device.
+* Conversion back and forth from Python date and datetime objects
 * Zmanim calculations for any date and location - sunrise/sunset, chatzos, sha'a zmanis etc. for any date and location.
 * Jewish Holidays/Fasts etc, for any date and location
 * Parsha of the week for any date and location
