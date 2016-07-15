@@ -1,5 +1,6 @@
+﻿import time
 from datetime import date
-import time
+
 from tzlocal import get_localzone
 
 jMonthsEng = ["", "Nissan", "Iyar", "Sivan", "Tamuz", "Av", "Ellul", "Tishrei", "Cheshvan", "Kislev", "Teves", "Shvat",
@@ -14,6 +15,7 @@ jtd = ['י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ']
 jhd = ['ק', 'ר', 'ש', 'ת']
 jsnum = ["", "אחד", "שנים", "שלשה", "ארבעה", "חמשה", "ששה", "שבעה", "שמונה", "תשעה"]
 jtnum = ["", "עשר", "עשרים", "שלושים", "ארבעים"]
+
 
 # Gets the Jewish representation of a number (365 = שס"ה)
 # Minimum number is 1 and maximum is 9999.
@@ -54,6 +56,7 @@ def toJNum(number):
 
     return retval
 
+
 # Add two character suffix to number. e.g. 21st, 102nd, 93rd, 500th
 def toSuffixed(num):
     t = str(num)
@@ -78,10 +81,12 @@ def properMonthName(jYear, jMonth, hebrew=False):
     else:
         return jMonthsEng[jMonth] if not hebrew else jMonthsHeb[jMonth]
 
-#  Get day of week using Pythons datetime.date.isoweekday function.
+
+# Get day of week using Pythons datetime.date.isoweekday function.
 # As opposed to Pythons function, this function returns Sunday as
 def getSdDOW(year, month, day):
     return date(year, month, day).isoweekday() % 7
+
 
 # Gets the UTC offset in whole hours for the users time zone
 # Note: this is not affected by DST - unlike javascripts getTimezoneOffset() function which gives you the current offset.
@@ -89,16 +94,19 @@ def currUtcOffset():
     is_dst = time.daylight and time.localtime().tm_isdst > 0
     return - int((time.altzone if is_dst else time.timezone) / 3600)
 
+
 # Determines if the given date is within DST on the users system
 def isDateDST(dt):
     tz = get_localzone()  # local timezone
     d = dt(tz)  # or some other local date
-    utc_offset = d.utcoffset().total_seconds() /3600
+    utc_offset = d.utcoffset().total_seconds() / 3600
     return d.utcoffset
+
 
 # Determines if the users system is currently set to DST
 def isDST():
     return time.localtime().tm_isdst
+
 
 # Determines if the given date and time are during DST according to the USA rules
 def isUSA_DST(dt, hour):
@@ -111,19 +119,20 @@ def isUSA_DST(dt, hour):
     elif (month > 3 and month < 11):
         return True
     # DST starts at 2 AM on the second Sunday in March
-    elif (month == 3): # March
+    elif (month == 3):  # March
         # Gets day of week on March 1st
         firstDOW = getSdDOW(year, 3, 1)
         # Gets date of second Sunday
         targetDate = 8 if firstDOW == 0 else ((7 - (firstDOW + 7) % 7)) + 8
         return (day > targetDate or (day == targetDate and hour >= 2))
         # DST ends at 2 AM on the first Sunday in November
-    else: # dt.Month == 11 / November
+    else:  # dt.Month == 11 / November
         # Gets day of week on November 1st
         firstDOW = getSdDOW(year, 11, 1)
         # Gets date of first Sunday
         targetDate = 1 if firstDOW == 0 else ((7 - (firstDOW + 7) % 7)) + 1
         return (day < targetDate or (day == targetDate and hour < 2))
+
 
 # Determines if the given date and time is during DST according to the current (5776) Israeli rules
 def isIsrael_DST(dt):
@@ -137,12 +146,12 @@ def isIsrael_DST(dt):
     elif (month > 3 and month < 10):
         return True
     # DST starts at 2 AM on the Friday before the last Sunday in March
-    elif (month == 3): # March
+    elif (month == 3):  # March
         # Gets date of the Friday before the last Sunday
         lastFriday = (31 - getSdDOW(year, 3, 31)) - 2
         return (day > lastFriday or (day == lastFriday and hour >= 2))
         # DST ends at 2 AM on the last Sunday in October
-    else: # dt.Month === 10 / October
+    else:  # dt.Month === 10 / October
         # Gets date of last Sunday in October
         lastSunday = 31 - getSdDOW(year, 10, 31)
         return (day < lastSunday or (day == lastSunday and hour < 2))

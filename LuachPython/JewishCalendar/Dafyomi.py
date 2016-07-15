@@ -1,5 +1,6 @@
 from collections import namedtuple
 from datetime import date
+
 import JewishCalendar.Utils as Utils
 from JewishCalendar.JewishDate import JewishDate
 
@@ -12,11 +13,11 @@ from JewishCalendar.JewishDate import JewishDate
   It is directly based on the C code in Danny Sadinoff's HebCal - Copyright (C) 1994.
   The HebCal code for dafyomi was adapted by Aaron Peromsik from Bob Newell's public domain daf.el.'''
 
-# Represents a single Masechta
-Masechta = namedtuple('Masechta', 'eng heb dappim')
-
 
 class Dafyomi:
+    # Represents a single Masechta
+    Masechta = namedtuple('Masechta', 'eng heb dappim')
+
     __masechtaList = [
         Masechta('Berachos', 'ברכות', 64),
         Masechta('Shabbos', 'שבת', 157),

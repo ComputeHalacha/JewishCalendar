@@ -1,5 +1,6 @@
-from collections import OrderedDict
+﻿from collections import OrderedDict
 from math import floor
+
 
 # Returns an OrderedDict of information about the given day.
 # Entries include: "Date", "Parshas Hashavua", any holidays or fasts,
@@ -15,14 +16,14 @@ def getDailyInfo(jd, location, hebrew):
 
     infos = OrderedDict()
     sedras = Sedra.getsedra(jd, location.israel)
-    holidays = jd.getHolidays(location.israel, hebrew)
+    holidays = jd.getHolidays(location.israel)
 
     if hebrew:
-        infos["תאריך"] = jd.toStringHeb()
+        infos['תאריך'] = jd.toStringHeb()
         infos['פרשת השבוע'] = ' - '.join([s[1] for s in sedras])
         for h in holidays:
-            hText = h
-            if 'מברכים' in h:
+            hText = h.heb
+            if 'מברכים' in hText:
                 nextMonth = jd.addDays(12)
                 hText += '- חודש ' + Utils.properMonthName(nextMonth.year, nextMonth.month)
                 hText += '\nהמולד: ' + Molad.getStringHeb(nextMonth.month, nextMonth.year)
@@ -45,8 +46,8 @@ def getDailyInfo(jd, location, hebrew):
         infos["Date"] = jd.toString()
         infos['Parshas Hashavua'] = ' - '.join([s[0] for s in sedras])
         for h in holidays:
-            hText = h
-            if 'Mevarchim' in h:
+            hText = h.eng
+            if 'Mevarchim' in hText:
                 nextMonth = jd.addDays(12)
                 hText += '- Chodesh ' + Utils.properMonthName(nextMonth.year, nextMonth.month)
                 hText += '\nThe Molad: ' + Molad.getStringHeb(nextMonth.month, nextMonth.year)

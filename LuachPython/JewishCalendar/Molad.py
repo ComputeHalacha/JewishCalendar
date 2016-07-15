@@ -1,6 +1,6 @@
-from JewishCalendar.JewishDate import JewishDate
-from JewishCalendar.HourMinute import HourMinute
 import JewishCalendar.Utils as Utils
+from JewishCalendar.HourMinute import HourMinute
+from JewishCalendar.JewishDate import JewishDate
 from JewishCalendar.Zmanim import Zmanim
 
 ''' Returns the molad for the given jewish month and year.
@@ -9,33 +9,34 @@ from JewishCalendar.Zmanim import Zmanim
   Example of use:
   moladString = Molad.getString(5776, 10)
  '''
-class Molad:
 
+
+class Molad:
     @staticmethod
-    def getMolad (month, year):
+    def getMolad(month, year):
         monthAdj = month - 7
 
         if (monthAdj < 0):
             monthAdj += JewishDate.monthsJYear(year)
 
-        totalMonths = int(monthAdj + 235 * int((year - 1) / 19) + 12 * ((year - 1) % 19) + ((((year - 1) % 19) * 7) + 1) / 19)
+        totalMonths = int(
+            monthAdj + 235 * int((year - 1) / 19) + 12 * ((year - 1) % 19) + ((((year - 1) % 19) * 7) + 1) / 19)
         partsElapsed = 204 + (793 * (totalMonths % 1080))
         hoursElapsed = 5 + (12 * totalMonths) + 793 * int(totalMonths / 1080) + int(partsElapsed / 1080) - 6
         parts = int((partsElapsed % 1080) + 1080 * (hoursElapsed % 24))
 
-        return dict(JewishDate=JewishDate.fromordinal((1 + (29 * int(totalMonths))) + int((hoursElapsed / 24))), time=HourMinute(int(hoursElapsed) % 24, int((parts % 1080) / 18) ), chalakim=parts % 18)
+        return dict(JewishDate=JewishDate.fromordinal((1 + (29 * int(totalMonths))) + int((hoursElapsed / 24))),
+                    time=HourMinute(int(hoursElapsed) % 24, int((parts % 1080) / 18)), chalakim=parts % 18)
 
-
-    
     #  Returns the time of the molad as a string in the format: Monday Night, 8:33 PM and 12 Chalakim
     #  The molad is always in Jerusalem so we use the Jerusalem sunset times
     #  to determine whether to display "Night" or "Motzai Shabbos" etc. (check this...)
     @staticmethod
     def getString(year, month):
         molad = Molad.getMolad(month, year)
-        zmanim  = Zmanim(date=molad['JewishDate'])
+        zmanim = Zmanim(date=molad['JewishDate'])
         _, nightfall = zmanim.getSunTimes()
-        isNight = molad['time'].totalMinutes() >=  nightfall.totalMinutes()
+        isNight = molad['time'].totalMinutes() >= nightfall.totalMinutes()
         dow = molad['JewishDate'].getDayOfWeek()
         text = ''
 
@@ -49,7 +50,6 @@ class Molad:
         text += " " + str(molad['time']) + " and " + str(molad['chalakim']) + " Chalakim"
 
         return text
-
 
     #  Returns the time of the molad as a string in the format: ליל שני 20:33 12 חלקים
     #  The molad is always in Jerusalem so we use the Jerusalem sunset times
@@ -66,10 +66,11 @@ class Molad:
         elif (dow == 5):
             text += ('ליל שב״ק' if isNight else 'ערב שב״ק')
         else:
-            text += ('ליל' if isNight else 'יום') +                Utils.dowHeb[dow].replace("יום", "")
-        str += " " + Utils.getTimeString(molad.time, True) + " " +            molad.chalakim.toString() + " חלקים"
+            text += ('ליל' if isNight else 'יום') + Utils.dowHeb[dow].replace("יום", "")
+        str += " " + Utils.getTimeString(molad.time, True) + " " + molad.chalakim.toString() + " חלקים"
 
         return str
-        
+
+
 if __name__ == '__main__':
     print(Molad.getString(5776, 4))

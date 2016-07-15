@@ -25,8 +25,8 @@ def getpirkeiavos(jd, israel):
     # Pirkei Avos is from after Pesach until Rosh Hashana
     # All Shabbosim through Iyar, Sivan, Tamuz, Av - besides for the day/s of Shavuos and Tisha B'Av
     if (jMonth == 1 and jDay > (21 if israel else 22)) or ((jMonth > 1 and jMonth < 6 and (
-    not ((jMonth == 3 and jDay == 6) or (not israel and jMonth == 3 and jDay == 7))) and (
-    not (jMonth == 5 and jDay == 9)))):
+            not ((jMonth == 3 and jDay == 6) or (not israel and jMonth == 3 and jDay == 7))) and (
+            not (jMonth == 5 and jDay == 9)))):
         return [get1stPerek(jd, israel)]
 
     # Ellul can have multiple prakim
