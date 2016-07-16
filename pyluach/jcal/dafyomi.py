@@ -60,8 +60,8 @@ class Dafyomi:
         Masechta('Midos', 'מדות', 4),
         Masechta('Niddah', 'נדה', 73)]
 
-    @staticmethod
-    def getdaf(jd):
+    @classmethod
+    def getdaf(cls, jd):
         ordinal = jd.ordinal
         dafcnt = 40
         osday = date(1923, 9, 11).toordinal()
@@ -83,15 +83,15 @@ class Dafyomi:
 
         #  Fix Shekalim for old cycles
         if cno <= 7:
-            Dafyomi._masechtaList[4] = Masechta('Shekalim', 'שקלים', 13)
+            cls._masechtaList[4] = cls.Masechta('Shekalim', 'שקלים', 13)
 
         # Find the daf
         j = 0
         while (j < dafcnt):
             count += 1
-            total = total + Dafyomi._masechtaList[j].dappim - 1
+            total = total + cls._masechtaList[j].dappim - 1
             if (dno < total):
-                blatt = (Dafyomi._masechtaList[j].dappim + 1) - (total - dno)
+                blatt = (cls._masechtaList[j].dappim + 1) - (total - dno)
                 #  fiddle with the weird ones near the end
                 if count == 36:
                     blatt += 21
@@ -103,18 +103,18 @@ class Dafyomi:
                 j = 1 + dafcnt
             j += 1
 
-        return Dafyomi._masechtaList[count], blatt
+        return cls._masechtaList[count], blatt
 
     # Returns the name of the Masechta and daf number in English, For example: Sukkah, Daf 3
-    @staticmethod
-    def tostring(jd):
-        d = Dafyomi.getdaf(jd)
+    @classmethod
+    def tostring(cls, jd):
+        d = cls.getdaf(jd)
         return d[0].eng + ", Daf " + str(d[1])
 
     # Returns the name of the Masechta and daf number in Hebrew. For example: 'סוכה דף כ.
-    @staticmethod
-    def tostring_heb(jd):
-        d = Dafyomi.getdaf(jd)
+    @classmethod
+    def tostring_heb(cls, jd):
+        d = cls.getdaf(jd)
         return d[0].heb + " דף " + Utils.to_jnum(d[1])
 
 

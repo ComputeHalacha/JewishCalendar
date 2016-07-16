@@ -1,5 +1,3 @@
-import json
-
 import jcal
 from jcal.hourminute import HourMinute
 from jcal.jdate import JDate
@@ -16,30 +14,27 @@ HEBREW = True
 ARMY_TIME = True
 
 
-def display_week(startjd, namesearch):
-    file = open('Files/LocationsList.json', 'r', encoding='utf-8')
-    b = json.load(file)
-    loc_raw = next(iter([m for m in b['locations']
-                         if namesearch.lower() in m['n'].lower()]), None)
-    if loc_raw:
-        location = Location.parse(loc_raw)
-        if HEBREW:
-            print('** זמני היום {} - {} {:*<15}'.format(startjd.tostring_heb(), location.hebrew.upper(), ''))
-        else:
-            print('** ZMANIM FOR WEEK STARTING {} IN {} {:*<15}'.format(startjd, location.name.upper(), ''))
-        jd = startjd
-        nextweek = jd + 7
-        while jd < nextweek:
-            print('\n--{:-<50}'.format(jd.todate().strftime('%A, %B %d, %Y')))
-            infos = jcal.getdailyinfo(jd, location, HEBREW)
-            dz = jcal.getdailyzmanim(jd, location, HEBREW)
-            for i, v in infos.items():
-                display(i, v)
-            for i, v in dz.items():
-                display(i, v)
-            jd += 1
+def display_week(startjd, search_pattern):
+    locations = Location.get_location(r'מוד')
+    if locations:
+        for location in locations:
+            if HEBREW:
+                print('** זמני היום {} - {} {:*<15}'.format(startjd.tostring_heb(), location.hebrew.upper(), ''))
+            else:
+                print('** ZMANIM FOR WEEK STARTING {} IN {} {:*<15}'.format(startjd, location.name.upper(), ''))
+            jd = startjd
+            nextweek = jd + 7
+            while jd < nextweek:
+                print('\n--{:-<50}'.format(jd.todate().strftime('%A, %B %d, %Y')))
+                infos = jcal.getdailyinfo(jd, location, HEBREW)
+                dz = jcal.getdailyzmanim(jd, location, HEBREW)
+                for i, v in infos.items():
+                    display(i, v)
+                for i, v in dz.items():
+                    display(i, v)
+                jd += 1
     else:
-        print('No location found that matches with "%s"' % (namesearch))
+        print('No location found that matches with "%s"' % search_pattern)
 
 
 def display(title, value):
