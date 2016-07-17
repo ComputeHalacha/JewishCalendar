@@ -1,5 +1,12 @@
 ﻿from collections import OrderedDict
-from math import floor
+
+__version__ = '0.0.3'
+__all__ = [
+    'dafyomi', 'hourminute', 'jdate', 'location',
+    'molad', 'pirkeiavos', 'sedra', 'utils', 'zmanim'
+]
+
+__author__ = 'CB Sommers <cb@compute.co.il>'
 
 
 # Returns an OrderedDict of information about the given day.
@@ -85,8 +92,8 @@ def getdailyzmanim(jd, location, hebrew):
 
     if hebrew:
         if jd.month == 1 and jd.day == 14:
-            infos["סו\"ז אכילת חמץ"] = (netz - 90) + int(floor(shaaZmanis90 * 4))
-            infos["סו\"ז שריפת חמץ"] = (netz - 90) + int(floor(shaaZmanis90 * 5))
+            infos["סו\"ז אכילת חמץ"] = (netz - 90) + int(shaaZmanis90 * 4)
+            infos["סו\"ז שריפת חמץ"] = (netz - 90) + int(shaaZmanis90 * 5)
         if netz == noValue:
             infos["הנץ החמה"] = "השמש אינו עולה"
         else:
@@ -99,10 +106,10 @@ def getdailyzmanim(jd, location, hebrew):
                 infos["הנץ החמה מגובה " + str(location.elevation) + " מטר"] = netz
                 infos["הנץ החמה מגובה פני הים"] = netzMishor
 
-            infos['סוזק\"ש - מג\"א'] = (netzMishor - 90) + int(floor(shaaZmanis90 * 3))
-            infos['סוזק\"ש - הגר\"א'] = netzMishor + int(floor(shaaZmanis * 3))
-            infos['סוז\"ת - מג\"א'] = (netzMishor - 90) + int(floor(shaaZmanis90 * 4))
-            infos['סוז\"ת - הגר\"א'] = netzMishor + int(floor(shaaZmanis * 4))
+            infos['סוזק\"ש - מג\"א'] = (netzMishor - 90) + int(shaaZmanis90 * 3)
+            infos['סוזק\"ש - הגר\"א'] = netzMishor + int(shaaZmanis * 3)
+            infos['סוז\"ת - מג\"א'] = (netzMishor - 90) + int(shaaZmanis90 * 4)
+            infos['סוז\"ת - הגר\"א'] = netzMishor + int(shaaZmanis * 4)
 
         if netz != noValue and shkia != noValue:
             infos['חצות היום והלילה'] = chatzos
@@ -125,8 +132,8 @@ def getdailyzmanim(jd, location, hebrew):
     else:
         feet = int(location.elevation * 3.28084)
         if jd.month == 1 and jd.day == 14:
-            infos["Stop eating Chometz by"] = (netz - 90) + int(floor(shaaZmanis90 * 4))
-            infos["Burn Chometz by"] = (netz - 90) + int(floor(shaaZmanis90 * 5))
+            infos["Stop eating Chometz by"] = (netz - 90) + int(shaaZmanis90 * 4)
+            infos["Burn Chometz by"] = (netz - 90) + int(shaaZmanis90 * 5)
         if netz == noValue:
             infos["Netz Hachama"] = "The sun does not rise"
         else:
@@ -138,10 +145,10 @@ def getdailyzmanim(jd, location, hebrew):
                 infos['Netz Hachama ({} feet)'.format(feet)] = netz
                 infos["Netz Hachama (Sea Level)"] = netzMishor
 
-            infos['Zman Krias Shma - MG"A'] = (netzMishor - 90) + int(floor(shaaZmanis90 * 3))
-            infos['Zman Krias Shma - GR"A'] = netzMishor + int(floor(shaaZmanis * 3))
-            infos['Zman Tefillah - MG"A'] = (netzMishor - 90) + int(floor(shaaZmanis90 * 4))
-            infos['Zman Tefillah - GR"A'] = netzMishor + int(floor(shaaZmanis * 4))
+            infos['Zman Krias Shma - MG"A'] = (netzMishor - 90) + int(shaaZmanis90 * 3)
+            infos['Zman Krias Shma - GR"A'] = netzMishor + int(shaaZmanis * 3)
+            infos['Zman Tefillah - MG"A'] = (netzMishor - 90) + int(shaaZmanis90 * 4)
+            infos['Zman Tefillah - GR"A'] = netzMishor + int(shaaZmanis * 4)
 
         if netz != noValue and shkia != noValue:
             infos['Chatzos (day and night)'] = chatzos
