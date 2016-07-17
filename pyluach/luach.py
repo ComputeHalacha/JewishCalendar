@@ -4,25 +4,34 @@ from jcal.jdate import JDate
 from jcal.location import Location
 
 __doc__ = '''This file was  meant to be en example of use for the pyluach package.
-It displays to console any full week of Zmanim for anywhere in the world.
-Use - to display the upcoming week for Lakewood NJ:
+It displays to console the full zmanim anywhere in the world for any number of days.
+Use:
    import luach
    from jcal.jdate import JDate
-   jd = JDate.today()
-   luach.display_week(jd, r'[L|l]akewood')'''
+   
+   # Use the following to display todays zmanim for Lakewood NJ in English:
+   luach.display_zmanim('lakewood')
+   
+   # Use the following to display the entire 8 days of Sukkos 5777 for Ashdod, in Hebrew:
+   sukkos_day_one = JDate.create(5777, 7, 15)
+   luach.display_zmanim( 
+        location_search_pattern="ashdod",
+        startjd=sukkos_day_one,
+        number_of_days=8,
+        hebrew=True)
+   '''
 
 
-def display_week(startjd, search_pattern, hebrew=False, army_time=False):
-    locations = Location.get_location(search_pattern)
+def display_zmanim(location_search_pattern, startjd=JDate.today(), number_of_days=1, hebrew=False, army_time=False):
+    locations = Location.get_location(location_search_pattern)
     if locations:
         for location in locations:
             if hebrew:
-                print('** זמני היום {} - {} {:*<15}'.format(startjd.tostring_heb(), location.hebrew.upper(), ''))
+                print('** זמני היום עבור {} {:*<15}'.format(location.hebrew.upper(), ''))
             else:
-                print('** ZMANIM FOR WEEK STARTING {} IN {} {:*<15}'.format(startjd, location.name.upper(), ''))
+                print('** ZMANIM FOR {} {:*<15}'.format(location.name.upper(), ''))
             jd = startjd
-            nextweek = jd + 7
-            while jd < nextweek:
+            for i in range(number_of_days):
                 print('\n--{:-<50}'.format(jd.todate().strftime('%A, %B %d, %Y')))
                 infos = jcal.getdailyinfo(jd, location, hebrew)
                 dz = jcal.getdailyzmanim(jd, location, hebrew)
@@ -32,7 +41,7 @@ def display_week(startjd, search_pattern, hebrew=False, army_time=False):
                     display(i, v, hebrew, army_time)
                 jd += 1
     else:
-        print('No location found that matches with "%s"' % search_pattern)
+        print('No location found that matches with "%s"' % location_search_pattern)
 
 
 def display(title, value, hebrew, army_time):
@@ -51,4 +60,4 @@ def display(title, value, hebrew, army_time):
 
 
 if __name__ == '__main__':
-    display_week(JDate.today(), 'lakewooD', True, True)
+    display_zmanim('brooklyn')

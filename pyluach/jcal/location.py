@@ -8,9 +8,9 @@ class Location:
     def __init__(self, latitude, longitude, utcoffset=0, elevation=0, name=None, israel=False):
         self.latitude = latitude
         self.longitude = longitude
-        self.israel = israel if israel is bool else \
+        self.israel = israel if isinstance(israel, bool) else \
             ((29.45 < latitude < 33) and (-34.23 > longitude > -35.9))
-        self.utcoffset = utcoffset if utcoffset is int else \
+        self.utcoffset = utcoffset if isinstance(utcoffset, int) else \
             (2 if israel else -(longitude // 15))
         self.elevation = elevation or 0
         self.name = name or 'Unknown Location'

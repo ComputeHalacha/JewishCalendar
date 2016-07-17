@@ -14,12 +14,12 @@ __author__ = 'CB Sommers <cb@compute.co.il>'
 # "Eruv Tavshilin", "Candle Lighting" and "Daf Yomi".
 def getdailyinfo(jd, location, hebrew):
     from jcal.jdate import JDate
-    import jcal.utils as Utils
+    import jcal.utils
     from jcal.molad import Molad
     from jcal.hourminute import HourMinute
     from jcal.sedra import Sedra
     from jcal.dafyomi import Dafyomi
-    import jcal.pirkeiavos as PirkeiAvos
+    import jcal.pirkeiavos
 
     infos = OrderedDict()
     sedras = Sedra.get_sedra(jd, location.israel)
@@ -29,50 +29,50 @@ def getdailyinfo(jd, location, hebrew):
         infos['תאריך'] = jd.tostring_heb()
         infos['פרשת השבוע'] = ' - '.join([s[1] for s in sedras])
         for h in holidays:
-            hText = h.heb
-            if 'מברכים' in hText:
+            htext = h.heb
+            if 'מברכים' in htext:
                 nextMonth = jd.add_days(12)
-                hText += '- חודש ' + Utils.proper_jmonth_name(nextMonth.year, nextMonth.month)
-                hText += '\nהמולד: ' + Molad.molad_string_heb(nextMonth.month, nextMonth.year)
+                htext += '- חודש ' + utils.proper_jmonth_name(nextMonth.year, nextMonth.month)
+                htext += '\nהמולד: ' + Molad.molad_string_heb(nextMonth.month, nextMonth.year)
                 dim = JDate.days_in_jmonth(jd.year, jd.month)
                 dow = dim - jd.getdow() - (1 if dim == 30 else 0)
-                hText += '\nראש חודש: ' + Utils.dowHeb[dow]
+                htext += '\nראש חודש: ' + utils.dowHeb[dow]
                 if dim == 30:
-                    hText += ", " + Utils.dowHeb[(dow + 1) % 7]
-            infos[hText] = ''
+                    htext += ", " + utils.dowHeb[(dow + 1) % 7]
+            infos[htext] = ''
         if jd.has_eiruv_tavshilin(location.israel):
             infos['עירוב תבשילין'] = ''
         if jd.has_candle_lighting():
             infos['הדלקת נרות'] = jd.get_candle_lighting(location)
         infos['דף יומי'] = Dafyomi.tostring_heb(jd)
         if jd.getdow() == 6:
-            prakim = PirkeiAvos.get_pirkeiavos(jd, location.israel)
+            prakim = pirkeiavos.get_pirkeiavos(jd, location.israel)
             if prakim:
-                infos['פרקי אבות'] = ' פרק' + ' ופרק '.join([Utils.jsd[p - 1] for p in prakim])
+                infos['פרקי אבות'] = ' פרק' + ' ופרק '.join([utils.jsd[p - 1] for p in prakim])
     else:
         infos["Date"] = jd.tostring()
         infos['Parshas Hashavua'] = ' - '.join([s[0] for s in sedras])
         for h in holidays:
-            hText = h.eng
-            if 'Mevarchim' in hText:
+            htext = h.eng
+            if 'Mevarchim' in htext:
                 nextMonth = jd.add_days(12)
-                hText += '- Chodesh ' + Utils.proper_jmonth_name(nextMonth.year, nextMonth.month)
-                hText += '\nThe Molad: ' + Molad.molad_string_heb(nextMonth.month, nextMonth.year)
+                htext += '- Chodesh ' + utils.proper_jmonth_name(nextMonth.year, nextMonth.month)
+                htext += '\nThe Molad: ' + Molad.molad_string_heb(nextMonth.month, nextMonth.year)
                 dim = JDate.days_in_jmonth(jd.year, jd.month)
                 dow = dim - jd.getdow() - (1 if dim == 30 else 0)
-                hText += '\nRosh Chodesh: ' + Utils.dowHeb[dow]
+                htext += '\nRosh Chodesh: ' + utils.dowHeb[dow]
                 if dim == 30:
-                    hText += ", " + Utils.dowEng[(dow + 1) % 7]
-            infos[hText] = ''
+                    htext += ", " + utils.dowEng[(dow + 1) % 7]
+            infos[htext] = ''
         if jd.has_eiruv_tavshilin(location.israel):
             infos['Eruv Tavshilin'] = ''
         if jd.has_candle_lighting():
             infos['Candle Lighting'] = jd.get_candle_lighting(location)
         infos['Daf Yomi'] = Dafyomi.tostring(jd)
         if jd.getdow() == 6:
-            prakim = PirkeiAvos.get_pirkeiavos(jd, location.israel)
+            prakim = pirkeiavos.get_pirkeiavos(jd, location.israel)
             if prakim:
-                infos['Pirkei Avos'] = ' and '.join([Utils.to_suffixed(p) + ' Perek' for p in prakim])
+                infos['Pirkei Avos'] = ' and '.join([utils.to_suffixed(p) + ' Perek' for p in prakim])
     return infos
 
 
@@ -82,13 +82,13 @@ def getdailyzmanim(jd, location, hebrew):
 
     infos = OrderedDict()
     z = Zmanim(location, jd)
-    netz, shkia = z.get_sun_times(True)
-    stMishor = z.get_sun_times(False)
+    netz, shkia = z.get_sun_times(considerElevation=True)
+    stMishor = z.get_sun_times(considerElevation=False)
     netzMishor, shkiaMishor = stMishor
     shaaZmanis = z.get_shaa_zmanis(netzshkia=stMishor)
-    shaaZmanis90 = z.get_shaa_zmanis(90, stMishor)
-    chatzos = z.get_chatzos(stMishor)
-    noValue = HourMinute(0, 0)
+    shaaZmanis90 = z.get_shaa_zmanis(offset=90,netzshkia=stMishor)
+    chatzos = z.get_chatzos(suntimes=stMishor)
+    noValue = HourMinute(hour=0, minute=0)
 
     if hebrew:
         if jd.month == 1 and jd.day == 14:
