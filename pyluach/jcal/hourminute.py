@@ -32,6 +32,12 @@ class HourMinute:
     def __eq__(self, other):
         return self.hour == other.hour and self.minute == other.minute
 
+    def __lt__(self, other):
+        return self.total_minutes() < other.total_minutes()
+
+    def __gt__(self, other):
+        return self.total_minutes() > other.total_minutes()
+
     def add(self, other):
         if isinstance(other, HourMinute):
             return HourMinute(self.hour + other.hour, self.minute + other.minute)

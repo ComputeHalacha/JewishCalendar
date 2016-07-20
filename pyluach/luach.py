@@ -8,13 +8,13 @@ It displays to console the full zmanim anywhere in the world for any number of d
 Use:
    import luach
    from jcal.jdate import JDate
-   
+
    # Use the following to display todays zmanim for Lakewood NJ in English:
    luach.display_zmanim('lakewood')
-   
+
    # Use the following to display the entire 8 days of Sukkos 5777 for Ashdod, in Hebrew:
    sukkos_day_one = JDate.create(5777, 7, 15)
-   luach.display_zmanim( 
+   luach.display_zmanim(
         location_search_pattern="ashdod",
         startjd=sukkos_day_one,
         number_of_days=8,
@@ -33,18 +33,21 @@ def display_zmanim(location_search_pattern, startjd=JDate.today(), number_of_day
             jd = startjd
             for i in range(number_of_days):
                 print('\n--{:-<50}'.format(jd.todate().strftime('%A, %B %d, %Y')))
-                infos = jcal.getdailyinfo(jd, location, hebrew)
-                dz = jcal.getdailyzmanim(jd, location, hebrew)
-                for i, v in infos.items():
-                    display(i, v, hebrew, army_time)
-                for i, v in dz.items():
-                    display(i, v, hebrew, army_time)
+
+                # daily information is an OrderedDict of {title:value}
+                for title, value in jcal.getdailyinfo(jd, location, hebrew).items():
+                    display_info(title, value, hebrew, army_time)
+
+                # daily zmanim is a list of namedtuple('OneZman', 'eng heb time')
+                for one_zman in jcal.getdailyzmanim(jd, location):
+                    display_zman(one_zman, hebrew, army_time)
+
                 jd += 1
     else:
         print('No location found that matches with "%s"' % location_search_pattern)
 
 
-def display(title, value, hebrew, army_time):
+def display_info(title, value, hebrew, army_time):
     if not value:
         print(title)
     else:
@@ -58,6 +61,15 @@ def display(title, value, hebrew, army_time):
         except TypeError:
             print('{}.........{}'.format(title, value))
 
+def display_zman(one_zman, hebrew, army_time):
+    try:
+        value = one_zman.time.tostring(army_time) if one_zman.time else ''
+        if hebrew:
+            print('{:.<25}{:.>25}'.format(one_zman.heb, str(value)))
+        else:
+            print('{:.<30} {}'.format(one_zman.eng, str(value)))
+    except TypeError:
+        print('{}/{}.........{}'.format(one_zman.eng, one_zman.heb, value))
 
 if __name__ == '__main__':
-    display_zmanim('brooklyn')
+    display_zmanim('מוד')
