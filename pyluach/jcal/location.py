@@ -21,6 +21,11 @@ class Location:
         return 'latitude={}, longitude={}, utcoffset={}, elevation={}, name={}, israel={}'.format(
             self.latitude, self.longitude, self.utcoffset, self.elevation, self.name, self.israel)
 
+    def __str__(self):
+        return 'Name: {1:<30}Latitude: {2:<8}Longitude: {3:<8}Elevation (Meters): {4:<5}Hebrew Name: {5:<20}'.format(
+            ' ', self.name, self.latitude, self.longitude, self.elevation,
+            self.hebrew if self.hebrew != self.name else '', self.utcoffset)
+
     @classmethod
     def get_location(cls, search_pattern, case_sensitive=False):
         if not cls._locations_list_raw:
@@ -46,7 +51,7 @@ class Location:
 
     '''Parses a location that was loaded to a dict from the jason file of Locations.
     Sample entry:
-        {'tz': '2', 'cl': '40', 'lt': '31.78', 'n': 'Jerusalem', 'el': '830', 'ln': '-35.22', 'h': 'ירושלים', 'i': 'y'} 
+        {'tz': '2', 'cl': '40', 'lt': '31.78', 'n': 'Jerusalem', 'el': '830', 'ln': '-35.22', 'h': 'ירושלים', 'i': 'y'}
     The 'i', 'el', 'cl' and 'h' keys are optional.'''
 
     @staticmethod

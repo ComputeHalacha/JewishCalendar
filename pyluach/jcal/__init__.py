@@ -1,4 +1,6 @@
-﻿__version__ = '0.0.3'
+﻿from collections import OrderedDict, namedtuple
+
+__version__ = '0.0.3'
 __all__ = [
     'dafyomi', 'hourminute', 'jdate', 'location',
     'molad', 'pirkeiavos', 'sedra', 'utils', 'zmanim'
@@ -11,7 +13,6 @@ __author__ = 'CB Sommers <cb@compute.co.il>'
 # Entries include: "Date", "Parshas Hashavua", any holidays or fasts,
 # "Eruv Tavshilin", "Candle Lighting" and "Daf Yomi".
 def getdailyinfo(jd, location, hebrew):
-    from collections import OrderedDict
     from jcal.jdate import JDate
     import jcal.utils
     from jcal.molad import Molad
@@ -76,7 +77,6 @@ def getdailyinfo(jd, location, hebrew):
 
 
 def getdailyzmanim(jd, location):
-    from collections import namedtuple
     from jcal.zmanim import Zmanim
     from jcal.hourminute import HourMinute
 

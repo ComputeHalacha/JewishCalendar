@@ -11,11 +11,22 @@ class JDate:
     # Format of each entry is a tuple of (year, elapsed)
     __yearCache = {}
 
-    def __init__(self, year, month, day, ordinal):
+    def __init__(self, year, month, day, ordinal=None):
+        if year < 0 or year > 5999:
+            raise ValueError('year cannot be less than 1 or more than 5999')
+        if month < 0 or month > 13:
+            raise ValueError('month can only be from 1 to 13')
+        if day < 0 or day > 30:
+            raise ValueError('day can only be from 1 to 30')
         self.year = year
+        # The months_in_jyear calculation is relatively light, so we do a check to make sure the month number makes sense
+        months_in_year = JDate.months_in_jyear(year)
+        if month > months_in_year:
+            raise ValueError('there are only {} months in the year {}'.format(months_in_year, year))
         self.month = month
+        # to allow quicker JDate initialization, we don't check the maximum number of days in month
         self.day = day
-        self.ordinal = ordinal
+        self.ordinal = ordinal or JDate.toordinal(year, month, day)
 
     def __str__(self):
         return self.tostring()

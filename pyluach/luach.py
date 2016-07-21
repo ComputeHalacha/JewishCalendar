@@ -1,3 +1,7 @@
+import argparse
+import re
+import sys
+
 import jcal
 from jcal.hourminute import HourMinute
 from jcal.jdate import JDate
@@ -61,6 +65,7 @@ def display_info(title, value, hebrew, army_time):
         except TypeError:
             print('{}.........{}'.format(title, value))
 
+
 def display_zman(one_zman, hebrew, army_time):
     try:
         value = one_zman.time.tostring(army_time) if one_zman.time else ''
@@ -71,5 +76,68 @@ def display_zman(one_zman, hebrew, army_time):
     except TypeError:
         print('{}/{}.........{}'.format(one_zman.eng, one_zman.heb, value))
 
+
+def parse_jewish_date(string):
+    match = re.match(pattern=r'^(?P<day>\d{1,2})[-\/,\.](?P<month>\d{1,2})[-\/,\.](?P<year>\d{4})$', string=string)
+    if not match:
+        raise argparse.ArgumentTypeError("%r is not a valid jewish date" % string)
+    else:
+        try:
+            return JDate(year=int(match.group('year')),
+                         month=int(match.group('month')),
+                         day=int(match.group('day')))
+        except ValueError as ve:
+            msg = '"{}" is not a valid jewish date as {}'.format(string, ve)
+            raise argparse.ArgumentTypeError(msg)
+
+
+def main():
+    if len(sys.argv) > 1:
+        parser = argparse.ArgumentParser(description='Display all the days Zmanim for anywhere in the world')
+        parser.add_argument('location',
+                            help='''The city or location name or a part of it.\r\n
+                                The search is not case sensitive.\r\n
+                                If the supplied value matches more than one location,
+                                the displayed Zmanim will be reapeated for each match.\r\n
+                                Regular expressions can also be used.\r\n
+                                For example: "new" will display the zmanim for New Bedfort, New Brunswick, New Delhi, New York, New Square etc. ''')
+        parser.add_argument('-jd', '--jewishdate', default=JDate.today(), type=parse_jewish_date,
+                            help='''The Jewish Date to start from in the format: day-month-year.\r\n
+                                For the month, keep in mind that Nissan is month number 1.\r\n
+                                For example: "13-4-5777" will get the 13th day of Tammuz 5777.\r\n
+                                You can also separate the date parts with a forward-slash (/), comma or period.\r\n
+                                If this argument is not supplied, the current date is used.''')
+        parser.add_argument('-d', '--days', type=int, default=1,
+                            help='''The number of days to display.\r\n
+                                If this is not supplied, a single day will be displayed.''')
+        parser.add_argument('-heb', '--hebrew', action="store_true", help='Display in Hebrew.')
+        parser.add_argument('-a', '--army', action="store_true", help='Display times as army time. Such as 22:10 instead of 10:10 PM')
+        parser.add_argument('-l', '--locations', action="store_true",
+                            help='''Instead of displaying the Zmanim, display the list of locations matching the "location" argument.\n\r
+                                To display all the locations in the list, use: luach.py . -l''')
+        args = parser.parse_args()
+
+        if not args.locations:
+            display_zmanim(location_search_pattern=args.location,
+                           startjd=args.jewishdate,
+                           number_of_days=args.days,
+                           hebrew=args.hebrew,
+                           army_time=args.army)
+        else:
+            locs = Location.get_location(args.location)
+            if locs:
+                locs.sort(key=lambda loc: loc.name)
+                for i in locs:
+                    try:
+                        print(i)
+                    except:
+                        pass
+            else:
+                print('No locations were found that matched ', args.location)
+    else:
+        # just showing off
+        display_zmanim('מודיעין עילית')
+
+
 if __name__ == '__main__':
-    display_zmanim('מוד')
+    main()
