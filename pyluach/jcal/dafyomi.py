@@ -109,13 +109,15 @@ class Dafyomi:
     @classmethod
     def tostring(cls, jd):
         d = cls.getdaf(jd)
-        return d[0].eng + ", Daf " + str(d[1])
+        if d:
+            return d[0].eng + ", Daf " + str(d[1])
 
     # Returns the name of the Masechta and daf number in Hebrew. For example: 'סוכה דף כ.
     @classmethod
     def tostring_heb(cls, jd):
         d = cls.getdaf(jd)
-        return d[0].heb + " דף " + Utils.to_jnum(d[1])
+        if d:
+            return d[0].heb + " דף " + Utils.to_jnum(d[1])
 
 
 if __name__ == '__main__':

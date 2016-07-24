@@ -21,6 +21,10 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="convertdate\gregorian.py" />
+    <Compile Include="convertdate\hebrew.py" />
+    <Compile Include="convertdate\utils.py" />
+    <Compile Include="convertdate\__init__.py" />
     <Compile Include="jcal\dafyomi.py" />
     <Compile Include="jcal\hourminute.py" />
     <Compile Include="jcal\jdate.py" />
@@ -38,6 +42,7 @@
     <Content Include="Files\LocationsList.json" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="convertdate\" />
     <Folder Include="Files" />
     <Folder Include="jcal\" />
   </ItemGroup>

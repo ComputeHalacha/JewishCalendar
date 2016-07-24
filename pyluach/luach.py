@@ -1,29 +1,63 @@
 import argparse
 import re
-import sys
+import datetime
 
 import jcal
 from jcal.hourminute import HourMinute
 from jcal.jdate import JDate
 from jcal.location import Location
+import jcal.utils as Utils
 
-__doc__ = '''This file was  meant to be en example of use for the pyluach package.
-It displays to console the full zmanim anywhere in the world for any number of days.
-Use:
-   import luach
-   from jcal.jdate import JDate
+__doc__ = """This module is meant to be the command line interface to the pyluach package.
 
-   # Use the following to display todays zmanim for Lakewood NJ in English:
-   luach.display_zmanim('lakewood')
+usage: luach.py [-h] [-jd JEWISHDATE] [-d DAYS] [-heb] [-a] [-l] location
 
-   # Use the following to display the entire 8 days of Sukkos 5777 for Ashdod, in Hebrew:
-   sukkos_day_one = JDate.create(5777, 7, 15)
-   luach.display_zmanim(
-        location_search_pattern="ashdod",
-        startjd=sukkos_day_one,
-        number_of_days=8,
-        hebrew=True)
-   '''
+Outputs a formatted list of Zmanim for anywhere in the world for any Jewish Date and for any number of days.
+
+positional arguments:
+  location              The city or location name. Doesn't need the full name,
+                        the beginning of the name or a regular expression
+                        search can be used. The search is not case sensitive.
+                        For locations in Israel, the Hebrew name can be used as well as the English name.
+                        If the supplied value matches more than one location,
+                        the displayed Zmanim will be repeated for each match.
+                        For example, if the supplied value is ".+wood", the
+                        Zmanim of both Lakewood NJ and Hollywood California
+                        will be displayed.
+
+optional arguments:
+  -h, --help            show the help message and exit
+
+  -jd JEWISHDATE, --jewishdate JEWISHDATE
+                        The Jewish Date to display the Zmanim for.
+                        If this argument is not supplied, the current system date is converted to a Jewish Date and used.
+                        The Jewish Date should be formatted: DAY-MONTH-YEAR.
+                        DAY is the day of the month.
+                        MONTH is the Jewish month number, Nissan is month number 1 and Adar Sheini is 13.
+                        YEAR is the full 4 digit Jewish year.
+                        For example, "1-7-5778" will get the first day of Rosh Hashana 5778.
+                        "13-4-5777" will get the 13th day of Tammuz 5777.
+                        Alternatively, the date parts can be separated with a forward-slash (/), comma or period.
+
+  -d DAYS, --days DAYS  The number of days forward to display.
+                        If this is not supplied, a single day will be displayed.
+
+  -heb, --hebrew        Display the Zmanim in Hebrew.
+
+  -a, --army            Display the Zmanim time in army-time/24 hour format.
+                        For example, for a Zman of 10:10 PM, 22:10 will be displayed.
+
+  -l, --locations       Instead of displaying the Zmanim, display the list of
+                        locations returned from the "location" argument search.
+                        Shows each locations name, latitude, longitude, elevation, utcoffset and hebrew name.
+                        To show the ful list of all the locations, use: luach.py .+ -l
+
+For example, to show all the Zmanim for all the days of Sukkos 5777 for both Lakewood NJ and Brooklyn NY,
+Use: luach.py "lakewood|brooklyn" -jd 15-7-5777 -d 9
+
+To show the Zmanim in Hebrew for Tisha B'av in Jerusalem in the year 3248 (the year the Beis Hamikdash was destroyed),
+ Use: luach.py "ירושלים" -jd 9-5-3248 -h
+"""
 
 
 def display_zmanim(location_search_pattern, startjd=JDate.today(), number_of_days=1, hebrew=False, army_time=False):
@@ -31,12 +65,25 @@ def display_zmanim(location_search_pattern, startjd=JDate.today(), number_of_day
     if locations:
         for location in locations:
             if hebrew:
-                print('** זמני היום עבור {} {:*<15}'.format(location.hebrew.upper(), ''))
+                print('זמני היום עבור {} {:*<45}\n'.format(location.hebrew.upper(), ''))
             else:
-                print('** ZMANIM FOR {} {:*<15}'.format(location.name.upper(), ''))
+                print('\nZMANIM FOR {} {:*<45}'.format(location.name.upper(), ''))
             jd = startjd
             for i in range(number_of_days):
-                print('\n--{:-<50}'.format(jd.todate().strftime('%A, %B %d, %Y')))
+                gd = jd.todate()
+                if isinstance(gd, datetime.date):
+                    print('\n--{:-<50}'.format(jd.todate().strftime('%A, %B %d, %Y')))
+                elif isinstance(gd, Utils.GregorianDate):
+                    if not hebrew:
+                        print('\n--{:-<50}, {} {}, {}'.format(Utils.dowEng[jd.getdow()],
+                                                                 Utils.sMonthsEng[gd.month],
+                                                                 Utils.to_suffixed(gd.day),
+                                                                 gd.year ))
+                    else:
+                        print('\n--{:-<50}, {} ל{} {}'.format(Utils.dowHeb[jd.getdow()],
+                                                                gd.day,
+                                                                Utils.sMonthsHeb[gd.month],
+                                                                gd.year))
 
                 # daily information is an OrderedDict of {title:value}
                 for title, value in jcal.getdailyinfo(jd, location, hebrew).items():
@@ -92,52 +139,63 @@ def parse_jewish_date(string):
 
 
 def main():
-    if len(sys.argv) > 1:
-        parser = argparse.ArgumentParser(description='Display all the days Zmanim for anywhere in the world')
-        parser.add_argument('location',
-                            help='''The city or location name or a part of it.\r\n
-                                The search is not case sensitive.\r\n
+    parser = argparse.ArgumentParser(description='Outputs a formatted list of Zmanim for anywhere in the world '
+                                                 'for any Jewish Date and for any number of days',
+                                     epilog='''For example, to show all the Zmanim for all the days of Sukkos 5777
+                                               for both Lakewood NJ and Brooklyn NY,
+                                               use: luach.py "lakewood|brooklyn" -jd 15-7-5777 -d 9''')
+    parser.add_argument('location',
+                        help='''The city or location name. Doesn't need the full name,
+                                the beginning of the name or a regular expression
+                                search can be used. The search is not case sensitive.
+                                For locations in Israel, the Hebrew name can be used as well as the English name.
                                 If the supplied value matches more than one location,
-                                the displayed Zmanim will be reapeated for each match.\r\n
-                                Regular expressions can also be used.\r\n
-                                For example: "new" will display the zmanim for New Bedfort, New Brunswick, New Delhi, New York, New Square etc. ''')
-        parser.add_argument('-jd', '--jewishdate', default=JDate.today(), type=parse_jewish_date,
-                            help='''The Jewish Date to start from in the format: day-month-year.\r\n
-                                For the month, keep in mind that Nissan is month number 1.\r\n
-                                For example: "13-4-5777" will get the 13th day of Tammuz 5777.\r\n
-                                You can also separate the date parts with a forward-slash (/), comma or period.\r\n
-                                If this argument is not supplied, the current date is used.''')
-        parser.add_argument('-d', '--days', type=int, default=1,
-                            help='''The number of days to display.\r\n
+                                the displayed Zmanim will be repeated for each match.
+                                For example, if the supplied value is ".+wood", the
+                                Zmanim of both Lakewood NJ and Hollywood California
+                                will be displayed.''')
+    parser.add_argument('-jd', '--jewishdate', default=JDate.today(), type=parse_jewish_date,
+                        help='''The Jewish Date to display the Zmanim for.
+                                If this argument is not supplied, the current system date is converted to a Jewish Date and used.
+                                The Jewish Date should be formatted: DAY-MONTH-YEAR.
+                                DAY is the day of the month.
+                                MONTH is the Jewish month number, Nissan is month number 1 and Adar Sheini is 13.
+                                YEAR is the full 4 digit Jewish year.
+                                For example, "1-7-5778" will get the first day of Rosh Hashana 5778.
+                                "13-4-5777" will get the 13th day of Tammuz 5777.
+                                Alternatively, the date parts can be separated with a forward-slash (/), comma or period.''')
+    parser.add_argument('-d', '--days', type=int, default=1,
+                        help='''The number of days forward to display.
                                 If this is not supplied, a single day will be displayed.''')
-        parser.add_argument('-heb', '--hebrew', action="store_true", help='Display in Hebrew.')
-        parser.add_argument('-a', '--army', action="store_true", help='Display times as army time. Such as 22:10 instead of 10:10 PM')
-        parser.add_argument('-l', '--locations', action="store_true",
-                            help='''Instead of displaying the Zmanim, display the list of locations matching the "location" argument.\n\r
-                                To display all the locations in the list, use: luach.py . -l''')
-        args = parser.parse_args()
+    parser.add_argument('-heb', '--hebrew', action="store_true", help='Display the Zmanim in Hebrew.')
+    parser.add_argument('-a', '--army', action="store_true",
+                        help='''Display the Zmanim time in army-time/24 hour format.
+                                For example, for a Zman of 10:10 PM, 22:10 will be displayed.''')
+    parser.add_argument('-l', '--locations', action="store_true",
+                        help='''Instead of displaying the Zmanim, display the list of
+                                locations returned from the "location" argument search.
+                                Shows each locations name, latitude, longitude, elevation, utcoffset and hebrew name.
+                                To show the ful list of all the locations, use: luach.py .+ -l''')
+    args = parser.parse_args()
 
-        if not args.locations:
-            display_zmanim(location_search_pattern=args.location,
-                           startjd=args.jewishdate,
-                           number_of_days=args.days,
-                           hebrew=args.hebrew,
-                           army_time=args.army)
+    if args.locations:
+        locs = Location.get_location(args.location)
+        if locs:
+            locs.sort(key=lambda loc: loc.name)
+            for i in locs:
+                try:
+                    print(i)
+                except:
+                    pass
         else:
-            locs = Location.get_location(args.location)
-            if locs:
-                locs.sort(key=lambda loc: loc.name)
-                for i in locs:
-                    try:
-                        print(i)
-                    except:
-                        pass
-            else:
-                print('No locations were found that matched ', args.location)
+            print('No locations were found that matched ', args.location)
     else:
-        # just showing off
-        display_zmanim('מודיעין עילית')
+        display_zmanim(location_search_pattern=args.location,
+                       startjd=args.jewishdate,
+                       number_of_days=args.days,
+                       hebrew=args.hebrew,
+                       army_time=args.army)
 
 
 if __name__ == '__main__':
-    main()
+    display_zmanim('Jerusa', JDate(3650, 5, 9), 1, True, True)

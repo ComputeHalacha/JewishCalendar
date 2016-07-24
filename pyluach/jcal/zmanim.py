@@ -1,5 +1,4 @@
 import datetime
-from calendar import isleap
 import math
 
 import jcal.utils as Utils
@@ -37,7 +36,7 @@ class Zmanim:
     def get_sun_times(self, considerElevation=True):
         sunrise = HourMinute(0, 0)
         sunset = HourMinute(0, 0)
-        day = Zmanim.day_of_syear(self.seculardate)
+        day = Utils.day_in_greg_year(self.seculardate)
         zen_deg = 90
         zen_min = 50
         zen_at_elv = Zmanim._degtodec(zen_deg, zen_min) + Zmanim._radtodeg(
@@ -126,14 +125,6 @@ class Zmanim:
                 return shkiah - 22
             else:
                 return shkiah - 30
-
-    @staticmethod
-    def day_of_syear(dt):
-        monCount = [0, 1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366]
-        if ((dt.month > 2) and (isleap(dt.year))):
-            return monCount[dt.month] + dt.day + 1
-        else:
-            return monCount[dt.month] + dt.day
 
     # convert degrees to decimal
     @staticmethod
