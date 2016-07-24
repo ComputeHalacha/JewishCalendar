@@ -1,7 +1,18 @@
-﻿import time
+﻿import datetime
+import time
 from collections import namedtuple
 
 from tzlocal import get_localzone
+
+# As months start at 1, -1 is a placeholder for indexing purposes.
+_DAYS_IN_GREG_MONTH = [-1, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+_DAYS_BEFORE_MONTH = [-1]
+dbm = 0
+for dim in _DAYS_IN_GREG_MONTH[1:]:
+    _DAYS_BEFORE_MONTH.append(dbm)
+    dbm += dim
+# clean up module
+del dbm, dim
 
 # Represents a single day in the Gregorian calendar.
 # Primarily used in the jcal library for representing dates
@@ -97,42 +108,71 @@ def ordinal_till_year(year):
     return ordinal
 
 
-def ordinal_from_greg(arg, month=None, day=None):
-    # arg can be a GregorianDate or an int representing the year
-    if isinstance(arg, int) and month and day:
-        arg = GregorianDate(arg, month, day)
+# Gets the number of days elapsed since the theoretical Gregorian date 12-31-0001 BCE
+# Note: as there is no Gregorian year zero, day number 1 is January 1st 0001 CE
+def ordinal_from_greg(date_or_year, month=None, day=None):
+    """
+    date_or_year can be:
+          - a datetime.date object
+          - a utils.GregorianDate namedtuple
+          - an int representing the year
+    """
+    if isinstance(date_or_year, int):
+        date_or_year = GregorianDate(date_or_year, month or 1, day or 1)
+    if date_or_year.year > 0:
+        # For dates that are representable by the built-in datetime.date class, we use the in-built compiled code.
+        if not isinstance(date_or_year, datetime.date):
+            date_or_year = datetime.date(date_or_year.year, date_or_year.month, date_or_year.day)
+            return date_or_year.toordinal()
+    return ordinal_till_year(date_or_year.year) + days_till_greg_date(date_or_year)
 
-    return ordinal_till_year(arg.year) + day_in_greg_year(arg)
 
-
-def day_in_greg_year(arg, month=None, day=None):
-    # arg can be a GregorianDate or an int representing the year
-    if isinstance(arg, int) and month and day:
-        arg = GregorianDate(arg, month, day)
-
-    year, month, day = arg.year, arg.month, arg.day
-    return _days_before_month(year, month) + day
-
-
+# Number of days in the given Gregorian Month
 def days_in_greg_month(year, month):
     if month == 2 and is_greg_leap(year):
         return 29
-    return days_in_greg_month[month]
+    return _DAYS_IN_GREG_MONTH[month]
 
 
-# Get day of week
+# Number of days in year preceding first day of the given Gregorian Month.
+def days_till_greg_month(year, month):
+    return _DAYS_BEFORE_MONTH[month] + (month > 2 and is_greg_leap(year))
+
+
+# Number of days in year preceding the given Gregorian Date.
+def days_till_greg_date(date_or_year, month=None, day=None):
+    """
+    date_or_year can be:
+          - a datetime.date object
+          - a utils.GregorianDate namedtuple
+          - an int representing the year
+    """
+    if isinstance(date_or_year, int):
+        date_or_year = GregorianDate(date_or_year, month or 1, day or 1)
+    year, month, day = date_or_year.year, date_or_year.month, date_or_year.day
+    return days_till_greg_month(year, month) + day
+
+
+# Get day of week for a gregorian date.
 # As opposed to Pythons function, this function returns Sunday as day 0
-def greg_dow(arg, month=None, day=None):
-    # arg can be a GregorianDate or an int representing the year
-    if isinstance(arg, int) and month and day:
-        arg = GregorianDate(arg, month, day)
-
-    return ordinal_from_greg(arg) % 7
+def greg_dow(date_or_year, month=None, day=None):
+    """
+    date_or_year can be:
+          - a datetime.date object
+          - a utils.GregorianDate namedtuple
+          - an int representing the year
+    """
+    if isinstance(date_or_year, datetime.date):
+        return date_or_year.isoweekday() % 7
+    elif isinstance(date_or_year, int):
+        date_or_year = GregorianDate(date_or_year, month or 1, day or 1)
+    return ordinal_from_greg(date_or_year) % 7
 
 
 def is_greg_leap(year):
-    # years start from 1. The year 0 is called -1.
     if year < 0:
+        # Gregorian years start from 1 and the year 0 is called -1.
+        # For the algorithm to work, we need to rename the BCE years as if there was a year 0.
         year += 1
     return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
 
@@ -163,24 +203,24 @@ def is_usa_dst(dt, hour):
     month = dt.month
     day = dt.day
 
-    if (month < 3 or month == 12):
+    if month < 3 or month == 12:
         return False
-    elif (month > 3 and month < 11):
+    elif 3 < month < 11:
         return True
     # DST starts at 2 AM on the second Sunday in March
-    elif (month == 3):  # March
+    elif month == 3:  # March
         # Gets day of week on March 1st
-        firstDOW = greg_dow(year, 3, 1)
+        first_dow = greg_dow(year, 3, 1)
         # Gets date of second Sunday
-        targetDate = 8 if firstDOW == 0 else ((7 - (firstDOW + 7) % 7)) + 8
-        return (day > targetDate or (day == targetDate and hour >= 2))
+        target_date = 8 if first_dow == 0 else (7 - (first_dow + 7) % 7) + 8
+        return day > target_date or (day == target_date and hour >= 2)
         # DST ends at 2 AM on the first Sunday in November
     else:  # dt.Month == 11 / November
         # Gets day of week on November 1st
-        firstDOW = greg_dow(year, 11, 1)
+        first_dow = greg_dow(year, 11, 1)
         # Gets date of first Sunday
-        targetDate = 1 if firstDOW == 0 else ((7 - (firstDOW + 7) % 7)) + 1
-        return (day < targetDate or (day == targetDate and hour < 2))
+        target_date = 1 if first_dow == 0 else (7 - (first_dow + 7) % 7) + 1
+        return day < target_date or (day == target_date and hour < 2)
 
 
 # Determines if the given date and time is during DST according to the current (5776) Israeli rules
@@ -190,34 +230,21 @@ def is_il_dst(dt):
     day = dt.day
     hour = dt.hour if 'hour' in dt else 0
 
-    if (month > 10 or month < 3):
+    if month > 10 or month < 3:
         return False
-    elif (month > 3 and month < 10):
+    elif month > 3 and month < 10:
         return True
     # DST starts at 2 AM on the Friday before the last Sunday in March
-    elif (month == 3):  # March
+    elif month == 3:  # March
         # Gets date of the Friday before the last Sunday
-        lastFriday = (31 - greg_dow(year, 3, 31)) - 2
-        return (day > lastFriday or (day == lastFriday and hour >= 2))
+        last_friday = (31 - greg_dow(year, 3, 31)) - 2
+        return day > last_friday or (day == last_friday and hour >= 2)
         # DST ends at 2 AM on the last Sunday in October
     else:  # dt.Month === 10 / October
         # Gets date of last Sunday in October
-        lastSunday = 31 - greg_dow(year, 10, 31)
-        return (day < lastSunday or (day == lastSunday and hour < 2))
+        last_sunday = 31 - greg_dow(year, 10, 31)
+        return day < last_sunday or (day == last_sunday and hour < 2)
 
 
-# -1 is a placeholder for indexing purposes.
-days_in_greg_month = [-1, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-
-_DAYS_BEFORE_MONTH = [-1]  # -1 is a placeholder for indexing purposes.
-dbm = 0
-for dim in days_in_greg_month[1:]:
-    _DAYS_BEFORE_MONTH.append(dbm)
-    dbm += dim
-del dbm, dim
-
-
-def _days_before_month(year, month):
-    "year, month -> number of days in year preceding first day of month."
-    assert 1 <= month <= 12, 'month must be in 1..12'
-    return _DAYS_BEFORE_MONTH[month] + (month > 2 and is_greg_leap(year))
+if __name__ == '__main__':
+    print(ordinal_from_greg(2016, 7, 24))

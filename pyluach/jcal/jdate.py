@@ -212,22 +212,19 @@ class JDate:
 
     # Converts a gregorian date to a Jewish date.
     @staticmethod
-    def fromdate(date):
+    def fromdate(date_or_year, month=None, day=None):
         """
-        Accepts either an instance of Pythons built-in datetime.date
-        or an instance of jcal.utils.GregorianDate.
+        date_or_year can be:
+          - a datetime.date object
+          - a utils.GregorianDate namedtuple
+          - an int representing the year
+
         Note, for early Gregorian dates, this function assumes that there was no year zero in the Gregorian calendar.
         The day after 12/31/0001 BCE is 1/1/0001 CE.
         So, GregorianDate(year=-1, month=12, day=31) is Teves 17, 3761,
         and GregorianDate(year=1, month=1, day=1) is Teves 18, 3761.
         """
-
-        if isinstance(date, datetime.date):
-            return JDate.fromordinal(date.toordinal())
-        elif isinstance(date, Utils.GregorianDate):
-            return JDate.fromordinal(Utils.ordinal_from_greg(date))
-        else:
-            raise ValueError('Expected datetime.date or jcal.utils.GregorianDate not %s' % type(date).__name__)
+        return JDate.fromordinal(Utils.ordinal_from_greg(date_or_year, month, day))
 
     # Returns a Utils.GregorianDate namedtuple of (year, month, day)
     # By not returning a Python datetime.date, we can also deal with dates before the common era.
@@ -260,24 +257,20 @@ class JDate:
     @staticmethod
     def toordinal(year, month, day):
         day_in_year = day  # Days so far this month.
-        if (month < 7):  # Before Tishrei, so add days in prior months this year before and after
-            # Nissan.
+        if month < 7:  # Before Tishrei, so add days in prior months this year before and after Nissan.
             m = 7
-            while (m <= (JDate.months_in_jyear(year))):
+            while m <= JDate.months_in_jyear(year):
                 day_in_year += JDate.days_in_jmonth(year, m)
                 m += 1
-
             m = 1
-            while (m < month):
+            while m < month:
                 day_in_year += JDate.days_in_jmonth(year, m)
                 m += 1
-
         else:  # Add days in prior months this year
             m = 7
-            while (m < month):
+            while m < month:
                 day_in_year += JDate.days_in_jmonth(year, m)
                 m += 1
-
         # Days elapsed before ordinal date 1.  - Days in prior years.
         return day_in_year + (JDate.tdays(year) + (-1373429))
 

@@ -36,7 +36,7 @@ class Zmanim:
     def get_sun_times(self, considerElevation=True):
         sunrise = HourMinute(0, 0)
         sunset = HourMinute(0, 0)
-        day = Utils.day_in_greg_year(self.seculardate)
+        day = Utils.days_till_greg_date(self.seculardate) + 1
         zen_deg = 90
         zen_min = 50
         zen_at_elv = Zmanim._degtodec(zen_deg, zen_min) + Zmanim._radtodeg(

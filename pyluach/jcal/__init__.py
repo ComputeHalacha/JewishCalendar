@@ -27,7 +27,6 @@ def getdailyinfo(jd, location, hebrew):
 
     if hebrew:
         infos['תאריך'] = jd.tostring_heb()
-        infos['פרשת השבוע'] = ' - '.join([s[1] for s in sedras])
         for h in holidays:
             htext = h.heb
             if 'מברכים' in htext:
@@ -44,6 +43,7 @@ def getdailyinfo(jd, location, hebrew):
             infos['עירוב תבשילין'] = ''
         if jd.has_candle_lighting():
             infos['הדלקת נרות'] = jd.get_candle_lighting(location)
+        infos['פרשת השבוע'] = ' - '.join([s[1] for s in sedras])
         dy =  Dafyomi.tostring_heb(jd)
         if dy:
             infos['דף יומי'] = Dafyomi.tostring_heb(jd)

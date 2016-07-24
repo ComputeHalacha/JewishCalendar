@@ -75,12 +75,12 @@ def display_zmanim(location_search_pattern, startjd=JDate.today(), number_of_day
                     print('\n--{:-<50}'.format(jd.todate().strftime('%A, %B %d, %Y')))
                 elif isinstance(gd, Utils.GregorianDate):
                     if not hebrew:
-                        print('\n--{:-<50}, {} {}, {}'.format(Utils.dowEng[jd.getdow()],
+                        print('\n--{:->50}, {} {}, {}'.format(Utils.dowEng[jd.getdow()],
                                                                  Utils.sMonthsEng[gd.month],
                                                                  Utils.to_suffixed(gd.day),
                                                                  gd.year ))
                     else:
-                        print('\n--{:-<50}, {} ל{} {}'.format(Utils.dowHeb[jd.getdow()],
+                        print('\n--{}, {} ל{} {:-<28}'.format(Utils.dowHeb[jd.getdow()],
                                                                 gd.day,
                                                                 Utils.sMonthsHeb[gd.month],
                                                                 gd.year))
@@ -100,7 +100,10 @@ def display_zmanim(location_search_pattern, startjd=JDate.today(), number_of_day
 
 def display_info(title, value, hebrew, army_time):
     if not value:
-        print(title)
+        if hebrew:
+            print('{:<50}'.format(title))
+        else:
+            print(title)
     else:
         try:
             if isinstance(value, HourMinute):
@@ -198,4 +201,4 @@ def main():
 
 
 if __name__ == '__main__':
-    display_zmanim('Jerusa', JDate(3650, 5, 9), 1, True, True)
+    display_zmanim('Modi', hebrew=True, army_time=True)
