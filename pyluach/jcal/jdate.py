@@ -226,6 +226,7 @@ class JDate:
         """
         return JDate.fromordinal(Utils.ordinal_from_greg(date_or_year, month, day))
 
+
     # Returns a Utils.GregorianDate namedtuple of (year, month, day)
     # By not returning a Python datetime.date, we can also deal with dates before the common era.
     def todate(self):
@@ -233,20 +234,8 @@ class JDate:
             sd = datetime.datetime.fromordinal(self._ordinal)
             return Utils.GregorianDate(year=sd.year, month=sd.month, day=sd.day)
         else:
-            # Pythons datetime classes don't deal with dates before ordinal day 1,
-            # so, we use a subset of the excellent convertdate package to do the conversion.
-            from convertdate import hebrew
-            gd = hebrew.to_gregorian(self._year, self._month, self._day)
-            """
-            The convertdate package goes with a Gregorian year zero.
-            In the code here, as in Pythons builtin datetime classes, we go with the
-            definition of the "proleptic Gregorian" calendar in
-            Dershowitz and Reingold's "Calendrical Calculations",
-            which has no zero year and calls January 1 of year 1 day number 1.
-            So, we simply subtract a year from the Gregorian date returned by convertdate's
-            hebrew.to_gregorian function.
-            """
-            return Utils.GregorianDate(year=gd[0] - 1, month=gd[1], day=gd[2])
+            return Utils.greg_from_ordinal(self._ordinal)
+
 
     @staticmethod
     def today():

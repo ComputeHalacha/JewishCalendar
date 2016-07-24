@@ -124,7 +124,22 @@ def ordinal_from_greg(date_or_year, month=None, day=None):
         if not isinstance(date_or_year, datetime.date):
             date_or_year = datetime.date(date_or_year.year, date_or_year.month, date_or_year.day)
             return date_or_year.toordinal()
+
     return ordinal_till_year(date_or_year.year) + days_till_greg_date(date_or_year)
+
+
+def greg_from_ordinal(ordinal):
+    if ordinal > 0:
+        return datetime.date.fromordinal(ordinal)
+    else:
+        year = ordinal // 366
+        while ordinal >= ordinal_from_greg(year + 1, 1, 1):
+            year += 1
+        month = 1
+        while ordinal > ordinal_from_greg(year, month, days_in_greg_month(year, month)):
+            month += 1
+        day = ordinal - ordinal_from_greg(year, month, 1) + 1
+        return GregorianDate(year - 1, month, day)
 
 
 # Number of days in the given Gregorian Month

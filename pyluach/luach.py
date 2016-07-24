@@ -201,4 +201,4 @@ def main():
 
 
 if __name__ == '__main__':
-    display_zmanim('Modi', hebrew=True, army_time=True)
+    display_zmanim('Modi', JDate(2000,7,25), hebrew=True, army_time=True)
