@@ -50,7 +50,7 @@ optional arguments:
   -l, --locations       Instead of displaying the Zmanim, display the list of
                         locations returned from the "location" argument search.
                         Shows each locations name, latitude, longitude, elevation, utcoffset and hebrew name.
-                        To show the ful list of all the locations, use: luach.py .+ -l
+                        To show the full list of all the locations, use: luach.py .+ -l
 
 For example, to show all the Zmanim for all the days of Sukkos 5777 for both Lakewood NJ and Brooklyn NY,
 Use: luach.py "lakewood|brooklyn" -jd 15-7-5777 -d 9

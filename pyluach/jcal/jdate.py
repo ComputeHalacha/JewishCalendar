@@ -1,17 +1,49 @@
 import datetime
 from collections import namedtuple
 
-import jcal.utils as Utils
+import jcal.utils as utils
 
 
 class JDate:
-    # To save on repeat calculations, a "cache" of years that have had their
-    # elapsed days previously calculated
-    # by the tdays function is kept in memory.  ("memoizing")
-    # Format of each entry is a tuple of (year, elapsed)
-    __yearCache = {}
+    '''
+    This class represents a single day in the Jewish Calendar and is the basic date unit for the pyluach library.
+
+    To create an instance from a civil/secular/gregorian date, use the JDate.fromdate function.
+    To get a civil/secular/gregorian date from a Jewish Date use the todate function.
+    To get he current Jewish Date, use the JDate.today function.
+
+    Addition and subtraction of days can be done on Jewish Dates using regular operators.
+    Comparison operators can also be used.
+
+    This implementation of Jewish Dates is based on the "ordinal" -
+    which is the number of days that have passed since the Gregorian Date 12/31/0001 BCE.
+    As there is no Gregorian year zero, the date 1/1/0001 CE is ordinal day number 1.
+    Conveniently, Pythons datetime.date also uses the ordinal for it's underlying property.
+    This facilitates quick conversions and an underlying similarity to Pythons built-in date classes.
+    The one caveat of this is that the built-in date classes do not allow years prior to Gregorian year number 1,
+    while the Jewish calendar begins some 3,760 years earlier.
+
+    Some of the calculations used here were translated from the C code
+    which in turn were translated from the Lisp code in "Calendrical Calculations"
+    by Nachum Dershowitz and Edward M. Reingold in Software---Practice & Experience,
+    vol. 20, no. 9 (September, 1990) pp. 899--928.
+    '''
+
+    # To save on repeat calculations, a "cache" of years that have had their elapsed days previously calculated
+    # by the tdays function is kept in memory.  ("memoizing").
+    _yearCache = {}
 
     def __init__(self, year, month, day, ordinal=None):
+        """
+        :param year: The 4 digit Jewish Year
+        :type year: int
+        :param month: The Jewish Month. Nissan is 1 and Adar Sheini is 13
+        :type month: int
+        :param day: The day of he Jewish Month
+        :type day: int
+        :param ordinal: The number of days elapsed since the beginning of the Gregorian Calendar
+        :type ordinal: int
+        """
         if not 0 < year < 6000:
             raise ValueError('year cannot be less than 1 or more than 5999')
         if not 0 < month <= 13:
@@ -94,17 +126,17 @@ class JDate:
 
     # Returns the current Jewish date in the format: Thursday Kislev 3 5776
     def tostring(self):
-        return "{} {} {} {}".format(Utils.dowEng[self.getdow()],
-                                    Utils.jMonthsEng[self._month],
+        return "{} {} {} {}".format(utils.dowEng[self.getdow()],
+                                    utils.jMonthsEng[self._month],
                                     str(self._day),
                                     str(self._year))
 
     # Returns the current Jewish date in the format: יום חמישי כ"א כסלו תשע"ו
     def tostring_heb(self):
-        return "{} {} {} {}".format(Utils.dowHeb[self.getdow()],
-                                    Utils.to_jnum(self._day),
-                                    Utils.jMonthsHeb[self._month],
-                                    Utils.to_jnum(self._year % 1000))
+        return "{} {} {} {}".format(utils.dowHeb[self.getdow()],
+                                    utils.to_jnum(self._day),
+                                    utils.jMonthsHeb[self._month],
+                                    utils.to_jnum(self._year % 1000))
 
     # Create a new JDate with the given Jewish Year, Month and Day
     @staticmethod
@@ -141,8 +173,8 @@ class JDate:
 
         # If this year was already calculated and cached,
         # then we return the cached value.
-        if year in JDate.__yearCache:
-            return JDate.__yearCache[year]
+        if year in JDate._yearCache:
+            return JDate._yearCache[year]
 
         months = int((235 * int((year - 1) / 19)) +  # Leap months this cycle
                      (12 * ((year - 1) % 19)) +  # Regular months in this cycle.
@@ -170,7 +202,7 @@ class JDate:
             altDay += 1
 
         # Add this year to the cache to save on calculations later on
-        JDate.__yearCache[year] = altDay
+        JDate._yearCache[year] = altDay
 
         return altDay
 
@@ -218,27 +250,36 @@ class JDate:
           - a datetime.date object
           - a utils.GregorianDate namedtuple
           - an int representing the year
+         """
+        return JDate.fromordinal(utils.ordinal_from_greg(date_or_year, month, day))
 
-        Note, for early Gregorian dates, this function assumes that there was no year zero in the Gregorian calendar.
-        The day after 12/31/0001 BCE is 1/1/0001 CE.
-        So, GregorianDate(year=-1, month=12, day=31) is Teves 17, 3761,
-        and GregorianDate(year=1, month=1, day=1) is Teves 18, 3761.
-        """
-        return JDate.fromordinal(Utils.ordinal_from_greg(date_or_year, month, day))
-
-
-    # Returns a Utils.GregorianDate namedtuple of (year, month, day)
-    # By not returning a Python datetime.date, we can also deal with dates before the common era.
+    # Returns the civil/secular/Gregorian date of this Jewish Date
     def todate(self):
+        """
+        :return: the civil/secular/Gregorian date of this Jewish Date
+        :rtype: utils.GregorianDate namedtuple of (year, month, day)
+
+        By not returning a Python datetime.date, we can allow return dates before the common era -
+        which the built-in datetime classes do not allow.
+        """
         if self._ordinal > 0:
             sd = datetime.datetime.fromordinal(self._ordinal)
-            return Utils.GregorianDate(year=sd.year, month=sd.month, day=sd.day)
+            return utils.GregorianDate(year=sd.year, month=sd.month, day=sd.day)
         else:
-            return Utils.greg_from_ordinal(self._ordinal)
+            return utils.greg_from_ordinal(self._ordinal)
 
-
+    # Return the current Jewish Date
     @staticmethod
     def today():
+        """
+        :return: The current Jewish Date. Based on the system clock.
+        :rtype: JDate
+
+        We use datetime.date.today to get current ordinal even though the built-in date class
+        is restricted to the common era.
+        I think that it's pretty safe to assume that the current system date is after 12/31/0001 BCE.
+        Anyone sophisticated enough to be doing time traveling, will probably have better tools than this code.
+        """
         return JDate.fromordinal(datetime.date.today().toordinal())
 
     # Return the proleptic ordinal of the JDate, where Teves 18, 3761 (1/1/0001 CE) is day 1.
@@ -304,11 +345,11 @@ class JDate:
                 list.append(Entry("מברכים החודש", "Shabbos Mevarchim"))
         if (j_day == 30):
             month_index = (1 if (j_month == 12 and not isleap_jyear) or j_month == 13 else j_month + 1)
-            list.append(Entry("ראש חודש " + Utils.jMonthsHeb[month_index],
-                              "Rosh Chodesh " + Utils.jMonthsEng[month_index]))
+            list.append(Entry("ראש חודש " + utils.jMonthsHeb[month_index],
+                              "Rosh Chodesh " + utils.jMonthsEng[month_index]))
         elif (j_day == 1 and j_month != 7):
-            list.append(Entry("ראש חודש " + Utils.jMonthsHeb[j_month],
-                              "Rosh Chodesh " + Utils.jMonthsEng[j_month]))
+            list.append(Entry("ראש חודש " + utils.jMonthsHeb[j_month],
+                              "Rosh Chodesh " + utils.jMonthsEng[j_month]))
 
         # V'sain Tal U'Matar in Chutz La'aretz is according to the secular date
         if (day_of_week != 6 and (not israel) and sec_date.month == 12):

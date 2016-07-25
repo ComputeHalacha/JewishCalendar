@@ -102,14 +102,12 @@ def proper_jmonth_name(jYear, jMonth, hebrew=False):
 
 # Gets one less than the ordinal for January 1st of the given year
 def ordinal_till_year(year):
-    # As there is no year zero, the year before 1 is -1. So we need to "add" a year for negative years.
-    y = year if year < 0 else year - 1
+    y = year - 1
     ordinal = y * 365 + y // 4 - y // 100 + y // 400
     return ordinal
 
 
-# Gets the number of days elapsed since the theoretical Gregorian date 12-31-0001 BCE
-# Note: as there is no Gregorian year zero, day number 1 is January 1st 0001 CE
+# Gets the number of days elapsed since the beginning of the Gregorian calendar
 def ordinal_from_greg(date_or_year, month=None, day=None):
     """
     date_or_year can be:
@@ -124,22 +122,22 @@ def ordinal_from_greg(date_or_year, month=None, day=None):
         if not isinstance(date_or_year, datetime.date):
             date_or_year = datetime.date(date_or_year.year, date_or_year.month, date_or_year.day)
             return date_or_year.toordinal()
-
-    return ordinal_till_year(date_or_year.year) + days_till_greg_date(date_or_year)
+    else:
+        return ordinal_till_year(date_or_year.year) + days_till_greg_date(date_or_year)
 
 
 def greg_from_ordinal(ordinal):
     if ordinal > 0:
         return datetime.date.fromordinal(ordinal)
     else:
-        year = ordinal // 366
+        year = int(ordinal // 365)
         while ordinal >= ordinal_from_greg(year + 1, 1, 1):
             year += 1
         month = 1
         while ordinal > ordinal_from_greg(year, month, days_in_greg_month(year, month)):
             month += 1
         day = ordinal - ordinal_from_greg(year, month, 1) + 1
-        return GregorianDate(year - 1, month, day)
+        return GregorianDate(year, month, day)
 
 
 # Number of days in the given Gregorian Month
@@ -185,11 +183,7 @@ def greg_dow(date_or_year, month=None, day=None):
 
 
 def is_greg_leap(year):
-    if year < 0:
-        # Gregorian years start from 1 and the year 0 is called -1.
-        # For the algorithm to work, we need to rename the BCE years as if there was a year 0.
-        year += 1
-    return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
+   return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
 
 
 # Gets the UTC offset in whole hours for the users time zone
@@ -262,4 +256,12 @@ def is_il_dst(dt):
 
 
 if __name__ == '__main__':
-    print(ordinal_from_greg(2016, 7, 24))
+    from jcal.jdate import JDate
+    orig = GregorianDate(-2, 1, 1)
+    jd = JDate.fromdate(orig)
+    print('orig', orig)
+    print('orig - jdate', jd)
+    back = jd.todate()
+    print('back', back)
+
+
