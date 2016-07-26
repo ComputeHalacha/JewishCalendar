@@ -2,6 +2,7 @@ import datetime
 from collections import namedtuple
 
 import jcal.utils as utils
+from jcal import convertdate
 
 
 class JDate:
@@ -126,17 +127,19 @@ class JDate:
 
     # Returns the current Jewish date in the format: Thursday Kislev 3 5776
     def tostring(self):
-        return "{} {} {} {}".format(utils.dowEng[self.getdow()],
+        return "{} {} {} {} {}".format(utils.dowEng[self.getdow()],
                                     utils.jMonthsEng[self._month],
                                     str(self._day),
                                     str(self._year))
 
     # Returns the current Jewish date in the format: יום חמישי כ"א כסלו תשע"ו
     def tostring_heb(self):
-        return "{} {} {} {}".format(utils.dowHeb[self.getdow()],
-                                    utils.to_jnum(self._day),
-                                    utils.jMonthsHeb[self._month],
-                                    utils.to_jnum(self._year % 1000))
+        hundreds = divmod(self._year, 1000)
+        return "{} {} {} {} אלפים {}".format(utils.dowHeb[self.getdow()],
+                                             utils.to_jnum(self._day),
+                                             utils.jMonthsHeb[self._month],
+                                             utils.to_jnum(hundreds[0]),
+                                             utils.to_jnum(hundreds[1] if hundreds[1] else ''))
 
     # Create a new JDate with the given Jewish Year, Month and Day
     @staticmethod
@@ -249,9 +252,10 @@ class JDate:
         date_or_year can be:
           - a datetime.date object
           - a utils.GregorianDate namedtuple
-          - an int representing the year
+          - an int representing the yearl
          """
-        return JDate.fromordinal(utils.ordinal_from_greg(date_or_year, month, day))
+
+        return convertdate.greg_to_jdate(date_or_year, month, day)
 
     # Returns the civil/secular/Gregorian date of this Jewish Date
     def todate(self):
@@ -262,11 +266,8 @@ class JDate:
         By not returning a Python datetime.date, we can allow return dates before the common era -
         which the built-in datetime classes do not allow.
         """
-        if self._ordinal > 0:
-            sd = datetime.datetime.fromordinal(self._ordinal)
-            return utils.GregorianDate(year=sd.year, month=sd.month, day=sd.day)
-        else:
-            return utils.greg_from_ordinal(self._ordinal)
+
+        return convertdate.jdate_to_greg(self)
 
     # Return the current Jewish Date
     @staticmethod

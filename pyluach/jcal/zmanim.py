@@ -1,7 +1,7 @@
 import datetime
 import math
 
-import jcal.utils as Utils
+import jcal.utils as utils
 from jcal.hourminute import HourMinute
 from jcal.jdate import JDate
 from jcal.location import Location
@@ -12,8 +12,8 @@ from jcal.location import Location
  To get the zmanim for today in Jerusalem use:
     from jcal.jdate import JDate
     from jcal.Zmanim import Zmanim
-    jd = JDate.today()
-    zm = Zmanim(date=jd)
+    convertdate = JDate.today()
+    zm = Zmanim(date=convertdate)
     print(zm.get_sun_times())
 '''
 
@@ -36,7 +36,7 @@ class Zmanim:
     def get_sun_times(self, considerElevation=True):
         sunrise = HourMinute(0, 0)
         sunset = HourMinute(0, 0)
-        day = Utils.days_till_greg_date(self.seculardate) + 1
+        day = utils.days_till_greg_date(self.seculardate) + 1
         zen_deg = 90
         zen_min = 50
         zen_at_elv = Zmanim._degtodec(zen_deg, zen_min) + Zmanim._radtodeg(
@@ -159,10 +159,10 @@ class Zmanim:
             hour += 1
             min -= 60
 
-        inCurrTZ = location.utcoffset == Utils.curr_utc_offset()
-        if (inCurrTZ and Utils.is_sd_dst(date)):
+        inCurrTZ = location.utcoffset == utils.curr_utc_offset()
+        if (inCurrTZ and utils.is_sd_dst(date)):
             hour += 1
-        elif ((not inCurrTZ) and ((location.israel and Utils.is_il_dst(date)) or Utils.is_usa_dst(date, hour))):
+        elif ((not inCurrTZ) and ((location.israel and utils.is_il_dst(date)) or utils.is_usa_dst(date, hour))):
             hour += 1
 
         hm.hour = hour

@@ -1,4 +1,5 @@
 ﻿import datetime
+from calendar import isleap as is_greg_leap
 import time
 from collections import namedtuple
 
@@ -39,7 +40,7 @@ jtnum = ["", "עשר", "עשרים", "שלושים", "ארבעים"]
 # Minimum number is 1 and maximum is 9999.
 def to_jnum(number):
     if (number < 1):
-        raise RuntimeError("Min value is 1")
+        return 'אפס'
     if (number > 9999):
         raise RuntimeError("Max value is 9999")
 
@@ -126,27 +127,6 @@ def ordinal_from_greg(date_or_year, month=None, day=None):
         return ordinal_till_year(date_or_year.year) + days_till_greg_date(date_or_year)
 
 
-def greg_from_ordinal(ordinal):
-    if ordinal > 0:
-        return datetime.date.fromordinal(ordinal)
-    else:
-        year = int(ordinal // 365)
-        while ordinal >= ordinal_from_greg(year + 1, 1, 1):
-            year += 1
-        month = 1
-        while ordinal > ordinal_from_greg(year, month, days_in_greg_month(year, month)):
-            month += 1
-        day = ordinal - ordinal_from_greg(year, month, 1) + 1
-        return GregorianDate(year, month, day)
-
-
-# Number of days in the given Gregorian Month
-def days_in_greg_month(year, month):
-    if month == 2 and is_greg_leap(year):
-        return 29
-    return _DAYS_IN_GREG_MONTH[month]
-
-
 # Number of days in year preceding first day of the given Gregorian Month.
 def days_till_greg_month(year, month):
     return _DAYS_BEFORE_MONTH[month] + (month > 2 and is_greg_leap(year))
@@ -180,11 +160,6 @@ def greg_dow(date_or_year, month=None, day=None):
     elif isinstance(date_or_year, int):
         date_or_year = GregorianDate(date_or_year, month or 1, day or 1)
     return ordinal_from_greg(date_or_year) % 7
-
-
-def is_greg_leap(year):
-   return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
-
 
 # Gets the UTC offset in whole hours for the users time zone
 # Note: this is not affected by DST - unlike javascripts getTimezoneOffset() function which gives you the current offset.

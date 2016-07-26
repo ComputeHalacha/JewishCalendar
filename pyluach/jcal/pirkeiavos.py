@@ -5,11 +5,11 @@ from jcal.jdate import JDate
  * Returns a list of prakim (integers) (either one or two) for the given Jewish Date
  * Sample of use to get the perek for Shabbos Chukas 5776 in Israel:
  *     from JDate import JDate
- *     from Utils import Utils
+ *     from utils import utils
  *     import PirkeiAvos
  *     chukas5776 = JDate.create(5776, 4, 3)
  *     prakim = PirkeiAvos.get_pirkeiavos(chukas5776, True)
- *     text = 'Pirkei Avos: ' + ' and '.join([Utils.to_suffixed(p) +
+ *     text = 'Pirkei Avos: ' + ' and '.join([utils.to_suffixed(p) +
  *     ' Perek' for p in prakim])
  *     print(text)
  ***************************************************************************************************************'''
@@ -56,7 +56,7 @@ def get1stPerek(jd, israel):
     # Pesach can never come out on Friday, so in E. Yisroel Shavuos is never on Shabbos.
     if (not israel) and pes1.getdow() == 4 and (jmonth > 3 or (jmonth == 3 and jday > 6)):
         prk = 6 if prk == 1 else prk - 1
-    # If Tisha B'Av was on Shabbos, we missed a week. 
+    # If Tisha B'Av was on Shabbos, we missed a week.
     # The first day of Pesach is always the same day of the week as Tisha b'av.
     if pes1.getdow() == 6 and (jmonth > 5 or (jmonth == 5 and jday > 9)):
         prk = 6 if prk == 1 else prk - 1

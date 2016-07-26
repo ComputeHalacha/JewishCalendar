@@ -1,16 +1,16 @@
 import argparse
-import re
 import datetime
+import re
 
 import jcal
+import jcal.utils as Utils
 from jcal.hourminute import HourMinute
 from jcal.jdate import JDate
 from jcal.location import Location
-import jcal.utils as Utils
 
 __doc__ = """This module is meant to be the command line interface to the pyluach package.
 
-usage: luach.py [-h] [-jd JEWISHDATE] [-d DAYS] [-heb] [-a] [-l] location
+usage: luach.py [-h] [-convertdate JEWISHDATE] [-d DAYS] [-heb] [-a] [-l] location
 
 Outputs a formatted list of Zmanim for anywhere in the world for any Jewish Date and for any number of days.
 
@@ -28,7 +28,7 @@ positional arguments:
 optional arguments:
   -h, --help            show the help message and exit
 
-  -jd JEWISHDATE, --jewishdate JEWISHDATE
+  -convertdate JEWISHDATE, --jewishdate JEWISHDATE
                         The Jewish Date to display the Zmanim for.
                         If this argument is not supplied, the current system date is converted to a Jewish Date and used.
                         The Jewish Date should be formatted: DAY-MONTH-YEAR.
@@ -53,10 +53,10 @@ optional arguments:
                         To show the full list of all the locations, use: luach.py .+ -l
 
 For example, to show all the Zmanim for all the days of Sukkos 5777 for both Lakewood NJ and Brooklyn NY,
-Use: luach.py "lakewood|brooklyn" -jd 15-7-5777 -d 9
+Use: luach.py "lakewood|brooklyn" -convertdate 15-7-5777 -d 9
 
 To show the Zmanim in Hebrew for Tisha B'av in Jerusalem in the year 3248 (the year the Beis Hamikdash was destroyed),
- Use: luach.py "ירושלים" -jd 9-5-3248 -h
+ Use: luach.py "ירושלים" -convertdate 9-5-3248 -h
 """
 
 
@@ -75,15 +75,17 @@ def display_zmanim(location_search_pattern, startjd=JDate.today(), number_of_day
                     print('\n--{:-<50}'.format(jd.todate().strftime('%A, %B %d, %Y')))
                 elif isinstance(gd, Utils.GregorianDate):
                     if not hebrew:
-                        print('\n--{:->50}, {} {}, {}'.format(Utils.dowEng[jd.getdow()],
-                                                                 Utils.sMonthsEng[gd.month],
-                                                                 Utils.to_suffixed(gd.day),
-                                                                 gd.year ))
+                        print('\n--{:->50}, {} {}, {}{}'.format(Utils.dowEng[jd.getdow()],
+                                                                Utils.sMonthsEng[gd.month],
+                                                                Utils.to_suffixed(gd.day),
+                                                                abs(gd.year),
+                                                                ' BCE' if gd.year < 1 else ''))
                     else:
-                        print('\n--{}, {} ל{} {:-<28}'.format(Utils.dowHeb[jd.getdow()],
-                                                                gd.day,
-                                                                Utils.sMonthsHeb[gd.month],
-                                                                gd.year))
+                        print('\n--{} {} {} {} {:-<28}'.format(Utils.dowHeb[jd.getdow()],
+                                                              gd.day,
+                                                              'ל' + Utils.sMonthsHeb[gd.month],
+                                                              abs(gd.year),
+                                                              'לפה"ס' if gd.year < 1 else ''))
 
                 # daily information is an OrderedDict of {title:value}
                 for title, value in jcal.getdailyinfo(jd, location, hebrew).items():
@@ -146,7 +148,7 @@ def main():
                                                  'for any Jewish Date and for any number of days',
                                      epilog='''For example, to show all the Zmanim for all the days of Sukkos 5777
                                                for both Lakewood NJ and Brooklyn NY,
-                                               use: luach.py "lakewood|brooklyn" -jd 15-7-5777 -d 9''')
+                                               use: luach.py "lakewood|brooklyn" -convertdate 15-7-5777 -d 9''')
     parser.add_argument('location',
                         help='''The city or location name. Doesn't need the full name,
                                 the beginning of the name or a regular expression
@@ -157,7 +159,7 @@ def main():
                                 For example, if the supplied value is ".+wood", the
                                 Zmanim of both Lakewood NJ and Hollywood California
                                 will be displayed.''')
-    parser.add_argument('-jd', '--jewishdate', default=JDate.today(), type=parse_jewish_date,
+    parser.add_argument('-convertdate', '--jewishdate', default=JDate.today(), type=parse_jewish_date,
                         help='''The Jewish Date to display the Zmanim for.
                                 If this argument is not supplied, the current system date is converted to a Jewish Date and used.
                                 The Jewish Date should be formatted: DAY-MONTH-YEAR.
@@ -201,4 +203,4 @@ def main():
 
 
 if __name__ == '__main__':
-    display_zmanim('Modi', JDate(2000,7,25), hebrew=True, army_time=True)
+    display_zmanim('Modi', JDate(2124, 7, 25), hebrew=True, army_time=True)
