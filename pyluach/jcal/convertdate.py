@@ -8,8 +8,6 @@
 import datetime
 from calendar import isleap as is_greg_leap
 from math import floor as mfloor, trunc as trunc
-from jcal.jdate import JDate
-
 import jcal.jdate
 import jcal.utils as utils
 
@@ -32,7 +30,7 @@ def floor(x):
 
 def months_in_jdate_year(year):
     '''How many months are there in a Hebrew year (12 = normal, 13 = leap)'''
-    if JDate.isleap_jyear(year):
+    if jcal.jdate.JDate.isleap_jyear(year):
         return 13
     else:
         return 12
@@ -53,7 +51,7 @@ def days_in_jdate_month(year, month):
         return 29
 
     # If it's not a leap year, Adar has 29 days
-    if month == 12 and not JDate.isleap_jyear(year):
+    if month == 12 and not jcal.jdate.JDate.isleap_jyear(year):
         return 29
 
     # If it's Heshvan, days depend on length of year
@@ -134,7 +132,7 @@ def julian_to_jdate(jd):
         month += 1
 
     day = int(jd - jdate_to_julian(year, month, 1)) + 1
-    return JDate(year, month, day)
+    return jcal.jdate.JDate(year, month, day)
 
 
 def greg_to_jdate(date_or_year, month=None, day=None):
@@ -146,7 +144,7 @@ def greg_to_jdate(date_or_year, month=None, day=None):
      """
     if legal_greg_date(date_or_year, month, day):
         if isinstance(date_or_year, datetime.date):
-            return JDate.fromordinal(date_or_year.toordinal())
+            return jcal.jdate.JDate.fromordinal(date_or_year.toordinal())
 
         if isinstance(date_or_year, int):
             y, m, d = date_or_year, month or 1, day or 1
@@ -154,7 +152,7 @@ def greg_to_jdate(date_or_year, month=None, day=None):
             y, m, d = date_or_year
 
         if y > 0:
-            return JDate.fromordinal(datetime.date(y, m, d).toordinal())
+            return jcal.jdate.JDate.fromordinal(datetime.date(y, m, d).toordinal())
         else:
             return julian_to_jdate(greg_to_julian(d, m, y))
 

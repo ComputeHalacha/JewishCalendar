@@ -1,6 +1,6 @@
 ﻿import datetime
-from calendar import isleap as is_greg_leap
 import time
+from calendar import isleap as is_greg_leap
 from collections import namedtuple
 
 from tzlocal import get_localzone
@@ -28,6 +28,7 @@ sMonthsEng = ["", "January", "February", "March", "April", "May", "June", "July"
 sMonthsHeb = ["", "ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אקטובר",
               "נובמבר", "דצמבר"]
 dowEng = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Erev Shabbos", "Shabbos Kodesh"]
+dowEngAbbr = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Shb"]
 dowHeb = ["יום ראשון", "יום שני", "יום שלישי", "יום רביעי", "יום חמישי", "ערב שבת קודש", "שבת קודש"]
 jsd = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט']
 jtd = ['י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ']
@@ -161,6 +162,17 @@ def greg_dow(date_or_year, month=None, day=None):
         date_or_year = GregorianDate(date_or_year, month or 1, day or 1)
     return ordinal_from_greg(date_or_year) % 7
 
+
+def monthcalendar(year, month):
+    start_weekday = JDate(year, month, 1).getdow()
+    month_length = JDate.days_in_jmonth(year, month)
+    end_weekday = start_weekday + (month_length - 1) % 7
+    lpad = start_weekday
+    rpad = 6 - end_weekday
+    days = [None] * lpad + list(range(1, 1 + month_length)) + rpad * [None]
+    return [days[i:i + 7] for i in range(0, len(days), 7)]
+
+
 # Gets the UTC offset in whole hours for the users time zone
 # Note: this is not affected by DST - unlike javascripts getTimezoneOffset() function which gives you the current offset.
 def curr_utc_offset():
@@ -232,11 +244,11 @@ def is_il_dst(dt):
 
 if __name__ == '__main__':
     from jcal.jdate import JDate
-    orig = GregorianDate(-2, 1, 1)
-    jd = JDate.fromdate(orig)
-    print('orig', orig)
-    print('orig - jdate', jd)
-    back = jd.todate()
-    print('back', back)
 
-
+    # orig = GregorianDate(-2, 1, 1)
+    # jd = JDate.fromdate(orig)
+    # print('orig', orig)
+    # print('orig - jdate', jd)
+    # back = jd.todate()
+    # print('back', back)
+    print(monthcalendar(JDate.today() + 60))
