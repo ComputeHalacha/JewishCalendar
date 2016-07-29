@@ -1,19 +1,31 @@
-"""Calendar printing functions
+"""
+Calendar printing functions for Jewish Dates.
+Most functions are pretty-close equivalents to the built-in calendar functions.
 
-By default, these calendars have Sunday as the first day of the week.
-Use setfirstweekday() to set the first day of the week (0=Monday, 6=Sunday)."""
+For this module the first day of the week is always Sunday.
 
-import locale as _locale
+Usage: jcalendar.py [options] [year [month]]
+
+Options:
+  -h, --help            show this help message and exit
+  -w WIDTH, --width=WIDTH
+                        width of date column (default 2, text only)
+  -l LINES, --lines=LINES
+                        number of lines for each week (default 1, text only)
+  -s SPACING, --spacing=SPACING
+                        spacing between months (default 6, text only)
+  -m MONTHS, --months=MONTHS
+                        months per row (default 3, text only)
+  -c CSS, --css=CSS     CSS to use for page (html only)
+  -e ENCODING, --encoding=ENCODING
+                        Encoding to use for output.
+  -t TYPE, --type=TYPE  output type (text or html)
+"""
+
 import sys
 
 from jcal import utils
 from jcal.jdate import JDate
-
-__all__ = ["IllegalMonthError", "IllegalWeekdayError", "setfirstweekday",
-           "firstweekday", "isleap", "leapyears", "weekday", "monthrange",
-           "monthcalendar", "prmonth", "month", "prcal", "calendar",
-           "timegm", "utils.jMonthsEng", "month_abbr", "utils.dowEng", "utils.dowEngAbbr"]
-
 
 # Exception raised for bad input (with string parameter for details)
 error = ValueError
@@ -35,6 +47,7 @@ class IllegalWeekdayError(ValueError):
     def __str__(self):
         return "bad weekday number %r; must be 0 (Sunday) to 6 (Shabbos)" % self.weekday
 
+
 # Constants for weekdays
 SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SHABBOS = range(7)
 
@@ -42,6 +55,7 @@ SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SHABBOS = range(7)
 def isleap(year):
     """Return True for leap years, False for non-leap years."""
     return JDate.isleap_jyear(year)
+
 
 def leapyears(y1, y2):
     """Return number of leap years in range [y1, y2).
@@ -71,23 +85,12 @@ class Calendar(object):
     provides data to subclasses.
     """
 
-    def __init__(self, firstweekday=0):
-        self.firstweekday = firstweekday  # 0 = Sunday, 6 = Shabbos
-
-    def getfirstweekday(self):
-        return self._firstweekday % 7
-
-    def setfirstweekday(self, firstweekday):
-        self._firstweekday = firstweekday
-
-    firstweekday = property(getfirstweekday, setfirstweekday)
-
     def iterweekdays(self):
         """
         Return an iterator for one week of weekday numbers starting with the
         configured first one.
         """
-        for i in range(self.firstweekday, self.firstweekday + 7):
+        for i in range(0, 7):
             yield i % 7
 
     def itermonthdates(self, year, month):
@@ -98,7 +101,7 @@ class Calendar(object):
         """
         date = JDate(year, month, 1)
         # Go back to the beginning of the week
-        days = (date.getdow() - self.firstweekday) % 7
+        days = date.getdow() % 7
         date -= days
         oneday = 1
         while True:
@@ -108,7 +111,7 @@ class Calendar(object):
             except OverflowError:
                 # Adding one day could fail after datetime.MAXYEAR
                 break
-            if date.month != month and date.getdow() == self.firstweekday:
+            if date.month != month and date.getdow() == 0:
                 break
 
     def itermonthdays2(self, year, month):
@@ -407,7 +410,7 @@ class HTMLCalendar(Calendar):
         for i in range(1, JDate.months_in_jyear(theyear) + 1, width):
             # months in this row
             months = range(i, min(i + width, 14))
-            months = _fix_order(months)
+            months = _fix_order(months, theyear)
             a('<tr>')
             for m in months:
                 a('<td>')
@@ -441,6 +444,7 @@ class HTMLCalendar(Calendar):
         a('</html>\n')
         return ''.join(v).encode(encoding, "xmlcharrefreplace")
 
+
 # Change months to Tishrei first
 def _fix_order(months, year):
     """
@@ -457,17 +461,9 @@ def _fix_order(months, year):
     monthprog = [i for i in range(7, ly + 1)] + [i for i in range(1, 7)]
     return [monthprog[i - 1] for i in months]
 
+
 # Support for old module level interface
 c = TextCalendar()
-
-firstweekday = c.getfirstweekday
-
-
-def setfirstweekday(firstweekday):
-    if not SUNDAY <= firstweekday <= SHABBOS:
-        raise IllegalWeekdayError(firstweekday)
-    c.firstweekday = firstweekday
-
 
 monthcalendar = c.monthdayscalendar
 prweek = c.prweek
@@ -492,6 +488,7 @@ def formatstring(cols, colwidth=_colwidth, spacing=_spacing):
     """Returns a string formatted from n strings, centered within n columns."""
     spacing *= ' '
     return spacing.join(c.center(colwidth) for c in cols)
+
 
 def main(args):
     import optparse
@@ -522,11 +519,6 @@ def main(args):
         help="CSS to use for page (html only)"
     )
     parser.add_option(
-        "-L", "--locale",
-        dest="locale", default=None,
-        help="locale to be used from month and weekday names"
-    )
-    parser.add_option(
         "-e", "--encoding",
         dest="encoding", default=None,
         help="Encoding to use for output."
@@ -539,12 +531,6 @@ def main(args):
     )
 
     (options, args) = parser.parse_args(args)
-
-    if options.locale and not options.encoding:
-        parser.error("if --locale is specified --encoding is required")
-        sys.exit(1)
-
-    locale = options.locale, options.encoding
 
     if options.type == "html":
         cal = HTMLCalendar()
