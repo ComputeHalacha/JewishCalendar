@@ -1,12 +1,12 @@
-# JewishCalendar - The Luach Project - jCal.js - pyluach #
+# Jewish Calendar #
 
 A repository of Jewish Calendar projects containing:
 
 1. ***Jewish Calendar .NET Library*** -  A .NET code library for integrating Jewish calendar capabilities into any .NET application, app or site.
-1. ***jCal.js*** - A javascript stand-alone library to add full Jewish Date functionality to any Javascript code.
+1. ***jCal.js*** - A javascript library to add full Jewish Date functionality to any Javascript code.
 1. ***pyluach*** - A Python stand-alone library to add full Jewish Date functionality to any Python code.
 1. ***Luach Project***  - A Luach Windows applications
-1. ***Luach Project Mobile App***  - A Luach Mobile application
+1. ***Luach Project Mobile App***  - A Luach Mobile app.
 
 ### Jewish Calendar .NET Library ###
 
@@ -19,14 +19,14 @@ A repository of Jewish Calendar projects containing:
 * Molad of any month
 * Day of Sefirah - including function to get nusach of counting
 * Jewish date calculation functions such as calculation of interval between dates etc.
-* Compatible with the .NET micro framework.
+* Compatible with other .NET frameworks - such as the .Net Micro Framework etc.
 * Code is written in C#
 
 ### jCal.js ###
 
 * Javascript library for Jewish date calculations
 * Written in pure javascript. No outside libraries needed.
-* Algorithms were optimized for the slower scripting engine and target platform. The functions work quickly and efficiently on any device.
+* Algorithms were optimized for the scripting engine and target platform. The functions work quickly and efficiently on any device.
 * Conversion back and forth from javascript Date objects
 * Zmanim calculations for any date and location - sunrise/sunset, chatzos, sha'a zmanis etc. for any date and location.
 * Jewish Holidays/Fasts etc, for any date and location
@@ -39,9 +39,8 @@ A repository of Jewish Calendar projects containing:
 
 ### pyluach ###
 
-* Python library for Jewish date calculations
-* Written in pure python. The only outside package used is tzlocal.
-* Algorithms were optimized for the slower scripting engine and target platform. The functions work quickly and efficiently on any device.
+* Python 3 library for Jewish date calculations
+* Written in pure python. The only outside package dependency is tzlocal.
 * Conversion back and forth from Python date and datetime objects
 * Zmanim calculations for any date and location - sunrise/sunset, chatzos, sha'a zmanis etc. for any date and location.
 * Jewish Holidays/Fasts etc, for any date and location
@@ -50,11 +49,12 @@ A repository of Jewish Calendar projects containing:
 * Molad of any month
 * Day of Sefirah - including function to get nusach of counting
 * Jewish date calculation functions such as calculation of interval between dates etc.
+* Calendar formatting for the Jewish Calendar - the Jewish Date equivalent to the built-in calendar module.
 
 ### The Luach Project ###
 
 * A .NET desktop full-featured Luach application
-* Code is mostly C# with some components in VB.NET.
+* Code is C#. One satellite component (*Sefiras Haomer Reminder*) is written in VB.NET.
 * Based on the JewishCalendar .net library and Jewish Date Picker controls library.
 * Calendar view by either Secular or Jewish Month.
 * Full Zmanim for any day in history or the future for anywhere in the world. (contains a large database of locations)
@@ -67,14 +67,14 @@ A repository of Jewish Calendar projects containing:
 * The HTML5 equivalent of The Luach Project
 * Code is pure HTML5/css/javascript
 * Cordova 3.5 application - can be installed on almost any device (IOS, Android, Blackberry etc.)
-* As the code is pure HTML5/css/javascript, it can also be displayed in a regular browser
+* As the code is pure HTML5/css/javascript, it can also be displayed in a regular browser. For example, see [online Luach](http://www.compute.co.il/Luach/).
 * jQuery Mobile as a GUI framework
 * Based on **jCal.js** the JewishCalendar javascript library
 * Full Zmanim for any day in history or the future for anywhere in the world. (contains a large database of locations)
 
 ### How do I get set up? ###
 
-In the repository, there are 8  projects.
+In the repository, there are 9 projects.
 
 1. ***\JewishCalendar\JewishCalendar.csproj***    
     The code for the JewishCalendar .NET library. Compiles to **JewishCalendar.dll**.  
@@ -102,6 +102,88 @@ In the repository, there are 8  projects.
 	* 	Cross platform development. The XDK has versions for Windows, Mac and Linux.
 	
   	On the other hand, code editing and debugging is somewhat smoother in VS and all the js/css minifying and bundling is taken care of for you automatically with the [Bundler & Minifier Extension](https://visualstudiogallery.msdn.microsoft.com/9ec27da7-e24b-4d56-8064-fd7e88ac1c40).
+
+1. ***\pyluach\***    
+	The code for the **pyluach** Python library.    	 
+    All the pure python source code is contained in this folder.
+
+    To use the package from the console, there are two callable modules:
+    
+    #### luach.py ####
+
+    To use a python console to display zmanim for anywhere/anytime use the /pyluach/luach.py file.
+
+    usage: luach.py [-h] [-convertdate JEWISHDATE] [-d DAYS] [-heb] [-a] [-l] location
+
+    Outputs a formatted list of Zmanim for anywhere in the world for any Jewish Date and for any number of days.
+
+    positional arguments:
+      location              The city or location name. Doesn't need the full name,
+                            the beginning of the name or a regular expression
+                            search can be used. The search is not case sensitive.
+                            For locations in Israel, the Hebrew name can be used as well as the English name.
+                            If the supplied value matches more than one location,
+                            the displayed Zmanim will be repeated for each match.
+                            For example, if the supplied value is ".+wood", the
+                            Zmanim of both Lakewood NJ and Hollywood California
+                            will be displayed.
+
+    optional arguments:
+      -h, --help            show the help message and exit
+
+      -convertdate JEWISHDATE, --jewishdate JEWISHDATE
+                            The Jewish Date to display the Zmanim for.
+                            If this argument is not supplied, the current system date is converted to a Jewish Date and used.
+                            The Jewish Date should be formatted: DAY-MONTH-YEAR.
+                            DAY is the day of the month.
+                            MONTH is the Jewish month number, Nissan is month number 1 and Adar Sheini is 13.
+                            YEAR is the full 4 digit Jewish year.
+                            For example, "1-7-5778" will get the first day of Rosh Hashana 5778.
+                            "13-4-5777" will get the 13th day of Tammuz 5777.
+                            Alternatively, the date parts can be separated with a forward-slash (/), comma or period.
+
+      -d DAYS, --days DAYS  The number of days forward to display.
+                            If this is not supplied, a single day will be displayed.
+
+      -heb, --hebrew        Display the Zmanim in Hebrew.
+
+      -a, --army            Display the Zmanim time in army-time/24 hour format.
+                            For example, for a Zman of 10:10 PM, 22:10 will be displayed.
+
+      -l, --locations       Instead of displaying the Zmanim, display the list of
+                            locations returned from the "location" argument search.
+                            Shows each locations name, latitude, longitude, elevation, utcoffset and hebrew name.
+                            To show the full list of all the locations, use: luach.py .+ -l
+
+    For example, to show all the Zmanim for all the days of Sukkos 5777 for both Lakewood NJ and Brooklyn NY,
+    Use: luach.py "lakewood|brooklyn" -convertdate 15-7-5777 -d 9
+
+    To show the Zmanim in Hebrew for Tisha B'av in Jerusalem in the year 3248 (the year the Beis Hamikdash was destroyed),
+     Use: luach.py "ירושלים" -convertdate 9-5-3248 -h
+
+    #### jcalendar.py ####
+
+    Calendar printing functions for Jewish Dates.
+    Most functions are pretty-close equivalents to the built-in calendar functions.
+
+    For this module the first day of the week is always Sunday.
+
+    Usage: jcalendar.py [options] [year [month]]
+
+    Options:
+      -h, --help            show this help message and exit
+      -w WIDTH, --width=WIDTH
+                            width of date column (default 2, text only)
+      -l LINES, --lines=LINES
+                            number of lines for each week (default 1, text only)
+      -s SPACING, --spacing=SPACING
+                            spacing between months (default 6, text only)
+      -m MONTHS, --months=MONTHS
+                            months per row (default 3, text only)
+      -c CSS, --css=CSS     CSS to use for page (html only)
+      -e ENCODING, --encoding=ENCODING
+                            Encoding to use for output.
+      -t TYPE, --type=TYPE  output type (text or html)
 	
 1. ***\JewishDatePicker\JewishDatePicker.cs***    
 	 The code for the **JewishDatePicker.dll**.    
