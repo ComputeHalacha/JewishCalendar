@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6d74355f-4f00-490f-be59-78ff967981c5" name="Default" comment="More refactoring">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/pyluach.iml" afterPath="$PROJECT_DIR$/.idea/pyluach.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/jcal/jcalendar.py" afterPath="$PROJECT_DIR$/jcalendar.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jcal/jdate.py" afterPath="$PROJECT_DIR$/jcal/jdate.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jcal/utils.py" afterPath="$PROJECT_DIR$/jcal/utils.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jcal/zmanim.py" afterPath="$PROJECT_DIR$/jcal/zmanim.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/luach.py" afterPath="$PROJECT_DIR$/luach.py" />
     </list>
     <ignored path="LuachPython.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -24,72 +26,7 @@
     <favorites_list name="LuachPython" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="jcalendar.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/jcalendar.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#890#1" expanded="true" />
-                <element signature="e#892#902#0" expanded="true" />
-                <element signature="e#1157#1175#0" expanded="true" />
-                <element signature="e#1208#1263#0" expanded="true" />
-                <element signature="e#1346#1368#0" expanded="true" />
-                <element signature="e#1401#1481#0" expanded="true" />
-                <element signature="e#1606#1701#0" expanded="true" />
-                <element signature="e#1731#1866#0" expanded="true" />
-                <element signature="e#1904#2035#0" expanded="true" />
-                <element signature="e#2071#2334#0" expanded="true" />
-                <element signature="e#2365#2482#1" expanded="true" />
-                <element signature="e#2520#2696#0" expanded="true" />
-                <element signature="e#2749#3419#0" expanded="true" />
-                <element signature="e#3472#3833#0" expanded="true" />
-                <element signature="e#3885#4188#0" expanded="true" />
-                <element signature="e#4245#4528#0" expanded="true" />
-                <element signature="e#4585#4921#0" expanded="true" />
-                <element signature="e#4977#5235#0" expanded="true" />
-                <element signature="e#5293#5914#0" expanded="true" />
-                <element signature="e#5972#6549#0" expanded="true" />
-                <element signature="e#6606#7149#0" expanded="true" />
-                <element signature="e#7186#7306#1" expanded="true" />
-                <element signature="e#7354#7467#0" expanded="true" />
-                <element signature="e#7523#7717#0" expanded="true" />
-                <element signature="e#7769#7917#0" expanded="true" />
-                <element signature="e#7968#8181#0" expanded="true" />
-                <element signature="e#8230#8364#0" expanded="true" />
-                <element signature="e#8446#8630#0" expanded="true" />
-                <element signature="e#8692#8807#0" expanded="true" />
-                <element signature="e#8873#9328#0" expanded="true" />
-                <element signature="e#9393#10740#0" expanded="true" />
-                <element signature="e#10801#10883#0" expanded="true" />
-                <element signature="e#10920#10978#1" expanded="true" />
-                <element signature="e#11131#11369#0" expanded="true" />
-                <element signature="e#11414#11575#0" expanded="true" />
-                <element signature="e#11619#11771#0" expanded="true" />
-                <element signature="e#11813#11984#0" expanded="true" />
-                <element signature="e#12059#12335#0" expanded="true" />
-                <element signature="e#12406#12918#0" expanded="true" />
-                <element signature="e#12972#13720#0" expanded="true" />
-                <element signature="e#13813#14694#0" expanded="true" />
-                <element signature="e#14764#15483#0" expanded="true" />
-                <element signature="e#16306#18872#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -125,13 +62,14 @@
         <option value="$PROJECT_DIR$/jcal/jd/greg_jd.py" />
         <option value="$PROJECT_DIR$/jcal/convertdate/greg_jd.py" />
         <option value="$PROJECT_DIR$/jcal/convertdate/heb_jd.py" />
-        <option value="$PROJECT_DIR$/jcal/zmanim.py" />
-        <option value="$PROJECT_DIR$/luach.py" />
         <option value="$PROJECT_DIR$/jcal/convertdate.py" />
-        <option value="$PROJECT_DIR$/jcal/utils.py" />
-        <option value="$PROJECT_DIR$/jcal/jdate.py" />
         <option value="$PROJECT_DIR$/jcal/jcalendar.py" />
         <option value="$PROJECT_DIR$/jcalendar.py" />
+        <option value="$USER_HOME$/Desktop/pycalcal.py" />
+        <option value="$PROJECT_DIR$/jcal/zmanim.py" />
+        <option value="$PROJECT_DIR$/jcal/jdate.py" />
+        <option value="$PROJECT_DIR$/jcal/utils.py" />
+        <option value="$PROJECT_DIR$/luach.py" />
       </list>
     </option>
   </component>
@@ -182,27 +120,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pyluach" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pyluach" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pyluach" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scratches" />
       <pane id="Scope">
         <subPane subId="Problems" />
         <subPane subId="Changed Files">
@@ -232,10 +149,67 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pyluach" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 3.5.2 (C:\Users\ChaimB\AppData\Local\Programs\Python\Python35\python.exe) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pyluach" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pyluach" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pyluach" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pyluach" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jcal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pyluach" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pyluach" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Files" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/pycalcal.py" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="FileHistory.org.zmlx.hg4idea.provider.HgHistoryProvider_flatWidth0" value="224" />
@@ -266,7 +240,7 @@
       <recent name="C:\Users\ChaimB\Repositories\JewishCalendar\pyluach\jcal\convertdate" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.jcalendar">
+  <component name="RunManager" selected="Python.luach">
     <configuration default="false" name="jdate" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -301,23 +275,6 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="calendar" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="pyluach" />
-      <option name="SCRIPT_NAME" value="$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/calendar.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
     <configuration default="false" name="jcalendar" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -331,6 +288,40 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="pyluach" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/jcalendar.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="pycalcal" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$USER_HOME$/Desktop" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="pyluach" />
+      <option name="SCRIPT_NAME" value="$USER_HOME$/Desktop/pycalcal.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="zmanim" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/jcal" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="pyluach" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/jcal/zmanim.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -511,20 +502,22 @@
       <option name="USE_PARAM" value="false" />
       <method />
     </configuration>
-    <list size="6">
+    <list size="7">
       <item index="0" class="java.lang.String" itemvalue="Python.luach" />
       <item index="1" class="java.lang.String" itemvalue="Python tests.Unittests in pyluach" />
       <item index="2" class="java.lang.String" itemvalue="Python.jdate" />
       <item index="3" class="java.lang.String" itemvalue="Python.utils" />
-      <item index="4" class="java.lang.String" itemvalue="Python.calendar" />
-      <item index="5" class="java.lang.String" itemvalue="Python.jcalendar" />
+      <item index="4" class="java.lang.String" itemvalue="Python.jcalendar" />
+      <item index="5" class="java.lang.String" itemvalue="Python.pycalcal" />
+      <item index="6" class="java.lang.String" itemvalue="Python.zmanim" />
     </list>
     <recent_temporary>
-      <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="Python.jcalendar" />
-        <item index="1" class="java.lang.String" itemvalue="Python.jdate" />
-        <item index="2" class="java.lang.String" itemvalue="Python.utils" />
-        <item index="3" class="java.lang.String" itemvalue="Python.calendar" />
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Python.zmanim" />
+        <item index="1" class="java.lang.String" itemvalue="Python.utils" />
+        <item index="2" class="java.lang.String" itemvalue="Python.pycalcal" />
+        <item index="3" class="java.lang.String" itemvalue="Python.jcalendar" />
+        <item index="4" class="java.lang.String" itemvalue="Python.jdate" />
       </list>
     </recent_temporary>
   </component>
@@ -575,11 +568,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21575886" sideWeight="0.49654576" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13061872" sideWeight="0.49654576" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3207331" sideWeight="0.49791667" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32887402" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3272933" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919955" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3601359" sideWeight="0.49603385" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28992072" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -592,7 +586,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1122449" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3272933" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -617,13 +610,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/luach.py</url>
-          <line>205</line>
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -631,22 +617,11 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="48" />
+      <option name="time" value="55" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/luach.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharm2016.1/system/python_stubs/336634954/builtins.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/7zOCB12313C/setup.py" />
-    <entry file="file://$PROJECT_DIR$/get_windows_info.py" />
-    <entry file="file://$PROJECT_DIR$/tzlocal/tests.py" />
     <entry file="file://$PROJECT_DIR$/tzlocal/win32.py" />
     <entry file="file://$PROJECT_DIR$/tzlocal/__init__.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35-32/Lib/site-packages/tzlocal/unix.py" />
@@ -673,13 +648,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1065">
           <caret line="189" column="72" selection-start-line="189" selection-start-column="72" selection-end-line="189" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Files/LocationsList.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-16640">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -743,31 +711,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jcal/convertdate/greg_jd.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/codecs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="949">
-          <caret line="310" column="0" selection-start-line="310" selection-start-column="0" selection-end-line="310" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jcal/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="386">
-          <caret line="54" column="35" selection-start-line="54" selection-start-column="27" selection-end-line="54" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/calendar.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="407">
           <caret line="70" column="8" selection-start-line="70" selection-start-column="8" selection-end-line="70" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jcal/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="253" column="42" selection-start-line="253" selection-start-column="42" selection-end-line="253" selection-end-column="42" />
         </state>
       </provider>
     </entry>
@@ -785,35 +732,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jcal/zmanim.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="38" column="39" selection-start-line="38" selection-start-column="20" selection-end-line="38" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/.PyCharm2016.2/system/python_stubs/-12785272/_ast.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4590">
           <caret line="157" column="6" selection-start-line="157" selection-start-column="6" selection-end-line="157" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/luach.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#15#0" expanded="false" />
-            <element signature="e#3265#5376#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jcal/jdate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
         </state>
       </provider>
     </entry>
@@ -839,6 +761,58 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/jcalendar.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#890#1" expanded="false" />
+            <element signature="e#892#902#0" expanded="false" />
+            <element signature="e#1157#1175#0" expanded="false" />
+            <element signature="e#1208#1263#0" expanded="false" />
+            <element signature="e#1346#1368#0" expanded="false" />
+            <element signature="e#1401#1481#0" expanded="false" />
+            <element signature="e#1606#1701#0" expanded="false" />
+            <element signature="e#1731#1866#0" expanded="false" />
+            <element signature="e#1904#2035#0" expanded="false" />
+            <element signature="e#2071#2334#0" expanded="false" />
+            <element signature="e#2365#2482#1" expanded="false" />
+            <element signature="e#2520#2696#0" expanded="false" />
+            <element signature="e#2749#3419#0" expanded="false" />
+            <element signature="e#3472#3833#0" expanded="false" />
+            <element signature="e#3885#4188#0" expanded="false" />
+            <element signature="e#4245#4528#0" expanded="false" />
+            <element signature="e#4585#4921#0" expanded="false" />
+            <element signature="e#4977#5235#0" expanded="false" />
+            <element signature="e#5293#5914#0" expanded="false" />
+            <element signature="e#5972#6549#0" expanded="false" />
+            <element signature="e#6606#7149#0" expanded="false" />
+            <element signature="e#7186#7306#1" expanded="false" />
+            <element signature="e#7354#7467#0" expanded="false" />
+            <element signature="e#7523#7717#0" expanded="false" />
+            <element signature="e#7769#7917#0" expanded="false" />
+            <element signature="e#7968#8181#0" expanded="false" />
+            <element signature="e#8230#8364#0" expanded="false" />
+            <element signature="e#8446#8630#0" expanded="false" />
+            <element signature="e#8692#8807#0" expanded="false" />
+            <element signature="e#8873#9328#0" expanded="false" />
+            <element signature="e#9393#10740#0" expanded="false" />
+            <element signature="e#10801#10883#0" expanded="false" />
+            <element signature="e#10920#10978#1" expanded="false" />
+            <element signature="e#11131#11369#0" expanded="false" />
+            <element signature="e#11414#11575#0" expanded="false" />
+            <element signature="e#11619#11771#0" expanded="false" />
+            <element signature="e#11813#11984#0" expanded="false" />
+            <element signature="e#12059#12335#0" expanded="false" />
+            <element signature="e#12406#12918#0" expanded="false" />
+            <element signature="e#12972#13720#0" expanded="false" />
+            <element signature="e#13813#14694#0" expanded="false" />
+            <element signature="e#14764#15483#0" expanded="false" />
+            <element signature="e#16306#18872#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -847,55 +821,132 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jcalendar.py">
+    <entry file="file://$USER_HOME$/Desktop/pycalcal.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+        <state relative-caret-position="540">
+          <caret line="5212" column="14" selection-start-line="5212" selection-start-column="14" selection-end-line="5212" selection-end-column="14" />
           <folding>
-            <element signature="e#0#890#1" expanded="true" />
-            <element signature="e#892#902#0" expanded="true" />
-            <element signature="e#1157#1175#0" expanded="true" />
-            <element signature="e#1208#1263#0" expanded="true" />
-            <element signature="e#1346#1368#0" expanded="true" />
-            <element signature="e#1401#1481#0" expanded="true" />
-            <element signature="e#1606#1701#0" expanded="true" />
-            <element signature="e#1731#1866#0" expanded="true" />
-            <element signature="e#1904#2035#0" expanded="true" />
-            <element signature="e#2071#2334#0" expanded="true" />
-            <element signature="e#2365#2482#1" expanded="true" />
-            <element signature="e#2520#2696#0" expanded="true" />
-            <element signature="e#2749#3419#0" expanded="true" />
-            <element signature="e#3472#3833#0" expanded="true" />
-            <element signature="e#3885#4188#0" expanded="true" />
-            <element signature="e#4245#4528#0" expanded="true" />
-            <element signature="e#4585#4921#0" expanded="true" />
-            <element signature="e#4977#5235#0" expanded="true" />
-            <element signature="e#5293#5914#0" expanded="true" />
-            <element signature="e#5972#6549#0" expanded="true" />
-            <element signature="e#6606#7149#0" expanded="true" />
-            <element signature="e#7186#7306#1" expanded="true" />
-            <element signature="e#7354#7467#0" expanded="true" />
-            <element signature="e#7523#7717#0" expanded="true" />
-            <element signature="e#7769#7917#0" expanded="true" />
-            <element signature="e#7968#8181#0" expanded="true" />
-            <element signature="e#8230#8364#0" expanded="true" />
-            <element signature="e#8446#8630#0" expanded="true" />
-            <element signature="e#8692#8807#0" expanded="true" />
-            <element signature="e#8873#9328#0" expanded="true" />
-            <element signature="e#9393#10740#0" expanded="true" />
-            <element signature="e#10801#10883#0" expanded="true" />
-            <element signature="e#10920#10978#1" expanded="true" />
-            <element signature="e#11131#11369#0" expanded="true" />
-            <element signature="e#11414#11575#0" expanded="true" />
-            <element signature="e#11619#11771#0" expanded="true" />
-            <element signature="e#11813#11984#0" expanded="true" />
-            <element signature="e#12059#12335#0" expanded="true" />
-            <element signature="e#12406#12918#0" expanded="true" />
-            <element signature="e#12972#13720#0" expanded="true" />
-            <element signature="e#13813#14694#0" expanded="true" />
-            <element signature="e#14764#15483#0" expanded="true" />
-            <element signature="e#16306#18872#0" expanded="true" />
+            <element signature="e#1680#1711#0" expanded="true" />
+            <element signature="e#30165#31345#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2016.2/system/python_stubs/-12785272/time.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3186">
+          <caret line="83" column="0" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
+          <folding>
+            <element signature="e#71#1890#1" expanded="false" />
+            <element signature="e#2682#2958#0" expanded="false" />
+            <element signature="e#7620#7819#0" expanded="false" />
+            <element signature="e#7862#8322#1" expanded="false" />
+            <element signature="e#8397#8401#0" expanded="false" />
+            <element signature="e#8512#8604#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/site-packages/tzlocal/unix.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="744">
+          <caret line="117" column="4" selection-start-line="117" selection-start-column="4" selection-end-line="117" selection-end-column="4" />
+          <folding>
+            <element signature="e#722#4194#0" expanded="true" />
+            <element signature="e#4221#4384#0" expanded="true" />
+            <element signature="e#4414#4574#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/site-packages/pytz/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="210" column="8" selection-start-line="210" selection-start-column="8" selection-end-line="210" selection-end-column="8" />
+          <folding>
+            <element signature="e#6140#6151#0" expanded="false" />
+            <element signature="e#6232#6243#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/site-packages/pytz/tzinfo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-684">
+          <caret line="381" column="41" selection-start-line="381" selection-start-column="41" selection-end-line="381" selection-end-column="41" />
+          <folding>
+            <element signature="e#14328#15362#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Files/LocationsList.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="0" column="10407" selection-start-line="0" selection-start-column="10401" selection-end-line="0" selection-end-column="10407" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jcal/zmanim.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="161" column="10" selection-start-line="161" selection-start-column="10" selection-end-line="161" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#1235#3713#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jcal/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jcal/jdate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="129" column="27" selection-start-line="129" selection-start-column="27" selection-end-line="129" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/codecs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="310" column="0" selection-start-line="310" selection-start-column="0" selection-end-line="310" selection-end-column="0" />
+          <folding>
+            <element signature="e#6853#6917#2" expanded="false" />
+            <element signature="e#7073#7187#2" expanded="false" />
+            <element signature="e#8694#8972#0" expanded="true" />
+            <element signature="e#9159#9222#2" expanded="false" />
+            <element signature="e#9848#10036#2" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jcal/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="83" column="19" selection-start-line="83" selection-start-column="19" selection-end-line="83" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#6312#6452#0" expanded="true" />
+            <element signature="e#6532#6575#0" expanded="true" />
+            <element signature="e#6666#6890#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/luach.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

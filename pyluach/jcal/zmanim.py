@@ -159,10 +159,37 @@ class Zmanim:
             hour += 1
             min -= 60
 
-        inCurrTZ = location.utcoffset == utils.curr_utc_offset()
-        if (inCurrTZ and utils.is_sd_dst(date)):
+        # Because we allow anyone anywhere to calculate the zmanim for any time,
+        # working out the correct DST is a big problem.
+        # We can easily know (on most systems) if we are currently in DST or if the date
+        # we are currently calculating is in DST on the current system.
+        # But if the user is calculating a location somewhere else in the world,
+        # we don't have a perfect way to know which set of rules to use for DST.
+        # The only perfect solution would be to store the timezone info for each location.
+        # As we currently don't have that information, we try to make an educated guess.
+        # First we try to guess if the location we are currently calculating is in the same time zone
+        # as the current system. We do this by comparing the utcoffset of both.
+        is_in_curr_tz = location.utcoffset == utils.curr_utc_offset()
+        if is_in_curr_tz:
+            # As we are probably in the current time zone, we can use the
+            # local timezones dst property for the date we are calculating
+            if utils.is_sd_dst(date):
+                hour += 1
+        # As the utcoffset is different from the location utcoffset,
+        # we definitely not currently in the same time zone we are calculating the zmanim for.
+        # As we do store if the location is in Israel, for locations in Israel
+        # we can use the current (2016) Israeli rules for DST
+        elif location.israel and utils.is_il_dst(date):
             hour += 1
-        elif ((not inCurrTZ) and ((location.israel and utils.is_il_dst(date)) or utils.is_usa_dst(date, hour))):
+        # The location is not in Israel and we are not in the same
+        # time zone as the location we are calculating.
+        # We are really getting desperate now, so we boldly try
+        # to guess if the location is in the US or Canada.
+        # If they are, we use the US rules.
+        elif location.utcoffset in [-l for l in range(5, 11)] \
+                and location.latitude >= 25 \
+                and 'mexico' not in location.name.lower()  \
+                and utils.is_usa_dst(date, hour):
             hour += 1
 
         hm.hour = hour

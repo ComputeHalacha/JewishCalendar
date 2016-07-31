@@ -75,7 +75,7 @@ def display_zmanim(location_search_pattern, startjd=JDate.today(), number_of_day
                     print('\n--{:-<50}'.format(jd.todate().strftime('%A, %B %d, %Y')))
                 elif isinstance(gd, Utils.GregorianDate):
                     if not hebrew:
-                        print('\n--{:->50}, {} {}, {}{}'.format(Utils.dowEng[jd.getdow()],
+                        print('\n--{}, {} {}, {}{:->40}'.format(Utils.dowEng[jd.getdow()],
                                                                 Utils.sMonthsEng[gd.month],
                                                                 Utils.to_suffixed(gd.day),
                                                                 abs(gd.year),
@@ -203,4 +203,4 @@ def main():
 
 
 if __name__ == '__main__':
-    display_zmanim('Modi', JDate(2124, 7, 25), hebrew=True, army_time=True)
+    display_zmanim('Modi')

@@ -127,7 +127,7 @@ class JDate:
 
     # Returns the current Jewish date in the format: Thursday Kislev 3 5776
     def tostring(self):
-        return "{} {} {} {} {}".format(utils.dowEng[self.getdow()],
+        return "{} {} {} {}".format(utils.dowEng[self.getdow()],
                                     utils.jMonthsEng[self._month],
                                     str(self._day),
                                     str(self._year))

@@ -1,5 +1,4 @@
 ﻿import datetime
-import time
 from calendar import isleap as is_greg_leap
 from collections import namedtuple
 
@@ -81,8 +80,8 @@ def to_jnum(number):
 def to_suffixed(num):
     t = str(num)
     suffix = "th"
-    if len(t) == 1 or t[:-2] != '1':
-        last = t[:-1]
+    if len(t) == 1 or t[-2] != '1':
+        last = t[-1]
         if last == '1':
             suffix = "st"
         elif last == '2':
@@ -173,24 +172,27 @@ def monthcalendar(year, month):
     return [days[i:i + 7] for i in range(0, len(days), 7)]
 
 
-# Gets the UTC offset in whole hours for the users time zone
-# Note: this is not affected by DST - unlike javascripts getTimezoneOffset() function which gives you the current offset.
+# Gets the UTC offset in whole hours for the users current time zone
+# Note: this is not affected by DST
 def curr_utc_offset():
-    is_dst = time.daylight and time.localtime().tm_isdst > 0
-    return - int((time.altzone if is_dst else time.timezone) / 3600)
-
-
-# Determines if the given date is within DST on the users system
-def is_sd_dst(dt):
+    td = datetime.datetime.today()
     tz = get_localzone()  # local timezone
-    d = dt(tz)  # or some other local date
-    utc_offset = d.utcoffset().total_seconds() / 3600
-    return d.utcoffset
+    return (tz.utcoffset(td) - tz.dst(td)).total_seconds() // 3600
 
 
 # Determines if the users system is currently set to DST
 def curr_dst():
-    return time.localtime().tm_curr_dst
+    return is_sd_dst(datetime.datetime.today())
+
+
+# Determines if the given date is within DST on the users system
+def is_sd_dst(dt):
+    if dt.year < 1:
+        return None
+    if not isinstance(dt, datetime.datetime):
+        dt = datetime.datetime(dt.year, dt.month, dt.day)
+    tz = get_localzone()  # local timezone
+    return tz.dst(dt).total_seconds() > 0
 
 
 # Determines if the given date and time are during DST according to the USA rules
@@ -251,4 +253,9 @@ if __name__ == '__main__':
     # print('orig - jdate', jd)
     # back = jd.todate()
     # print('back', back)
-    print(monthcalendar(JDate.today() + 60))
+    td = JDate.today()
+    from jcal.zmanim import Zmanim
+
+    zm = Zmanim(dt=td)
+    print(monthcalendar(td.year, td.month))
+    print(zm.get_sun_times())
