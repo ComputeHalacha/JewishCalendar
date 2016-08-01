@@ -28,8 +28,7 @@ positional arguments:
 optional arguments:
   -h, --help            show the help message and exit
 
-  -convertdate JEWISHDATE, --jewishdate JEWISHDATE
-                        The Jewish Date to display the Zmanim for.
+  -jd, --jewishdate     The Jewish Date to display the Zmanim for.
                         If this argument is not supplied, the current system date is converted to a Jewish Date and used.
                         The Jewish Date should be formatted: DAY-MONTH-YEAR.
                         DAY is the day of the month.
@@ -39,7 +38,7 @@ optional arguments:
                         "13-4-5777" will get the 13th day of Tammuz 5777.
                         Alternatively, the date parts can be separated with a forward-slash (/), comma or period.
 
-  -d DAYS, --days DAYS  The number of days forward to display.
+  -d, --days            The number of days forward to display.
                         If this is not supplied, a single day will be displayed.
 
   -heb, --hebrew        Display the Zmanim in Hebrew.
@@ -53,10 +52,10 @@ optional arguments:
                         To show the full list of all the locations, use: luach.py .+ -l
 
 For example, to show all the Zmanim for all the days of Sukkos 5777 for both Lakewood NJ and Brooklyn NY,
-Use: luach.py "lakewood|brooklyn" -convertdate 15-7-5777 -d 9
+Use: luach.py "lakewood|brooklyn" -jd 15-7-5777 -d 9
 
 To show the Zmanim in Hebrew for Tisha B'av in Jerusalem in the year 3248 (the year the Beis Hamikdash was destroyed),
- Use: luach.py "ירושלים" -convertdate 9-5-3248 -h
+ Use: luach.py "ירושלים" -jd 9-5-3248 -h
 """
 
 
@@ -159,7 +158,7 @@ def main():
                                 For example, if the supplied value is ".+wood", the
                                 Zmanim of both Lakewood NJ and Hollywood California
                                 will be displayed.''')
-    parser.add_argument('-convertdate', '--jewishdate', default=JDate.today(), type=parse_jewish_date,
+    parser.add_argument('-jd', '--jewishdate', default=JDate.today(), type=parse_jewish_date,
                         help='''The Jewish Date to display the Zmanim for.
                                 If this argument is not supplied, the current system date is converted to a Jewish Date and used.
                                 The Jewish Date should be formatted: DAY-MONTH-YEAR.

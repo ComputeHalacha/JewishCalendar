@@ -6,7 +6,7 @@ import jcal.utils as utils
 
 if "jcal.conversions" not in sys.modules.keys():
     # prevent circular referencing
-    from jcal import conversions
+    import jcal.conversions
 
 
 class JDate:
@@ -15,7 +15,7 @@ class JDate:
 
     To create an instance from a civil/secular/gregorian date, use the JDate.fromdate function.
     To get a civil/secular/gregorian date from a Jewish Date use the todate function.
-    To get he current Jewish Date, use the JDate.today function.
+    To get the current Jewish Date, use the JDate.today function.
 
     Addition and subtraction of days can be done on Jewish Dates using regular operators.
     Comparison operators can also be used.
@@ -23,13 +23,13 @@ class JDate:
     This implementation of Jewish Dates is based on the "ordinal" -
     which is the number of days that have passed since the Gregorian Date 12/31/0001 BCE.
     As there is no Gregorian year zero, the date 1/1/0001 CE is ordinal day number 1.
-    Conveniently, Pythons datetime.date also uses the ordinal for it's underlying property.
+    Conveniently, Pythons datetime.date also uses the ordinal for its underlying property.
     This facilitates quick conversions and an underlying similarity to Pythons built-in date classes.
     The one caveat of this is that the built-in date classes do not allow years prior to Gregorian year number 1,
-    while the Jewish calendar begins some 3,760 years earlier.
+    while the Jewish calendar begins some 3,760 years earlier. 
+    See conversions.py for an explanation of how we worked around this issue.
 
-    Some of the calculations used are based on the algorithms in "Calendrical Calculations"
-    by Nachum Dershowitz and Edward M. Reingold
+    Some of the calculations used are based on the algorithms in "Calendrical Calculations" by Nachum Dershowitz and Edward M. Reingold.
     '''
 
     # To save on repeat calculations, a "cache" of years that have had their elapsed days previously calculated
@@ -177,8 +177,7 @@ class JDate:
 
         return JDate(year, month, day, ordinal)
 
-    # Elapsed days since creation of the world until Rosh Hashana of the given
-    # year
+    # Elapsed days since creation of the world until Rosh Hashana of the given year
     @staticmethod
     def tdays(year):
         '''As this function is called many times, often on the same year for all types of calculations,
