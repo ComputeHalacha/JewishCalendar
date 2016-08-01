@@ -1,4 +1,5 @@
 ﻿import datetime
+import time
 from calendar import isleap as is_greg_leap
 from collections import namedtuple
 
@@ -14,26 +15,26 @@ for dim in _DAYS_IN_GREG_MONTH[1:]:
 # clean up module
 del dbm, dim
 
-# Represents a single day in the Gregorian calendar.
-# Primarily used in the jcal library for representing dates
-# before the common era - which the built-in datetime.date can't represent.
+# A tuple of ints representing a single day in the Gregorian calendar. (year, month, day)
+# Primarily used in the jcal library for representing dates before the common era -
+# which the built-in datetime.date can't represent.
 GregorianDate = namedtuple('GregorianDate', 'year month day')
 
-jMonthsEng = ["", "Nissan", "Iyar", "Sivan", "Tamuz", "Av", "Ellul", "Tishrei", "Cheshvan", "Kislev", "Teves", "Shvat",
+jmonths_eng = [None, "Nissan", "Iyar", "Sivan", "Tamuz", "Av", "Ellul", "Tishrei", "Cheshvan", "Kislev", "Teves", "Shvat",
               "Adar", "Adar Sheini"]
-jMonthsHeb = ["", "ניסן", "אייר", "סיון", "תמוז", "אב", "אלול", "תשרי", "חשון", "כסלו", "טבת", "שבט", "אדר", "אדר שני"]
-sMonthsEng = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+jmonths_heb = [None, "ניסן", "אייר", "סיון", "תמוז", "אב", "אלול", "תשרי", "חשון", "כסלו", "טבת", "שבט", "אדר", "אדר שני"]
+greg_months_eng = [None, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
               "November", "December"]
-sMonthsHeb = ["", "ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אקטובר",
+greg_months_heb = [None, "ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אקטובר",
               "נובמבר", "דצמבר"]
-dowEng = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Erev Shabbos", "Shabbos Kodesh"]
-dowEngAbbr = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Shb"]
+dow_eng = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Erev Shabbos", "Shabbos Kodesh"]
+dow_eng_abbr = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Shb"]
 dowHeb = ["יום ראשון", "יום שני", "יום שלישי", "יום רביעי", "יום חמישי", "ערב שבת קודש", "שבת קודש"]
 jsd = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט']
 jtd = ['י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ']
 jhd = ['ק', 'ר', 'ש', 'ת']
-jsnum = ["", "אחד", "שנים", "שלשה", "ארבעה", "חמשה", "ששה", "שבעה", "שמונה", "תשעה"]
-jtnum = ["", "עשר", "עשרים", "שלושים", "ארבעים"]
+jnums_singles = [None, "אחד", "שנים", "שלשה", "ארבעה", "חמשה", "ששה", "שבעה", "שמונה", "תשעה"]
+jnums_tens = [None, "עשר", "עשרים", "שלושים", "ארבעים"]
 
 
 # Gets the Jewish representation of a number (365 = שס"ה)
@@ -98,7 +99,7 @@ def proper_jmonth_name(jYear, jMonth, hebrew=False):
     if jMonth == 12 and JDate.isleap_jyear(jYear):
         return "Adar Rishon" if not hebrew else "אדר ראשון"
     else:
-        return jMonthsEng[jMonth] if not hebrew else jMonthsHeb[jMonth]
+        return jmonths_eng[jMonth] if not hebrew else jmonths_heb[jMonth]
 
 
 # Gets one less than the ordinal for January 1st of the given year
@@ -162,37 +163,76 @@ def greg_dow(date_or_year, month=None, day=None):
     return ordinal_from_greg(date_or_year) % 7
 
 
-def monthcalendar(year, month):
-    start_weekday = JDate(year, month, 1).getdow()
-    month_length = JDate.days_in_jmonth(year, month)
-    end_weekday = start_weekday + (month_length - 1) % 7
-    lpad = start_weekday
-    rpad = 6 - end_weekday
-    days = [None] * lpad + list(range(1, 1 + month_length)) + rpad * [None]
-    return [days[i:i + 7] for i in range(0, len(days), 7)]
-
-
 # Gets the UTC offset in whole hours for the users current time zone
 # Note: this is not affected by DST
 def curr_utc_offset():
-    td = datetime.datetime.today()
-    tz = get_localzone()  # local timezone
-    return (tz.utcoffset(td) - tz.dst(td)).total_seconds() // 3600
+    return -(time.timezone // 3600)
 
 
 # Determines if the users system is currently set to DST
 def curr_dst():
-    return is_sd_dst(datetime.datetime.today())
+    return time.daylight == 1
 
 
 # Determines if the given date is within DST on the users system
-def is_sd_dst(dt):
+def try_sd_dst(dt):
     if dt.year < 1:
         return None
-    if not isinstance(dt, datetime.datetime):
-        dt = datetime.datetime(dt.year, dt.month, dt.day)
-    tz = get_localzone()  # local timezone
-    return tz.dst(dt).total_seconds() > 0
+    try:
+        tz = get_localzone()  # local timezone
+        if not isinstance(dt, datetime.datetime):
+            dt = datetime.datetime(dt.year, dt.month, dt.day)
+
+        return tz.dst(dt).total_seconds() > 0
+    except:
+        return None
+
+
+def is_sd_dst(date, hour, location):
+    """
+    Because we allow zmanim calculations for anyone/anywhere/anytime,
+    in order to give the correct local time for zmanim, we need to be able to determine DST
+    anywhere in the world for any date.
+    Because our locations database does not contain full time zone info (only the UTC offset),
+    working out the correct DST for other places and times can be quite difficult.
+    We can easily determine (on most systems) if we are currently in DST or if the date
+    we are currently calculating is during DST dates for the current system.
+    But if the user is calculating a location somewhere else in the world,
+    we don't have any perfect way to know which set of rules to use for DST.
+    The only true solution would be to store the timezone info for each location.
+    As we currently don't have that information, we try to make an educated guess.
+    """
+
+    # First we try to guess if the location we are currently calculating is in the same time zone
+    # as the current system. We do this by comparing the utcoffset values of both.
+    is_in_curr_tz = location.utcoffset == curr_utc_offset()
+    today = datetime.date.today()
+    is_today = date.year == today.year and date.month == today.month and date.day == today.day
+    is_dst = None
+    if is_in_curr_tz:
+        # As we are probably in the current time zone, we can use the
+        # local timezone dst property for the date we are calculating
+        is_dst = curr_dst() if is_today else try_sd_dst(date)
+        if is_dst == True:
+            return True
+    # If DST could not be determined either by failure or because we not currently
+    # in the same time zone we are calculating the zmanim for, we will try some other tricks
+    if is_dst == None:
+        # As we do store if the location is in Israel or not,
+        # we can determine the DST for any location we know is in Israel
+        # using the current (2016) Israeli rules for DST
+        if location.israel and is_il_dst(date, hour):
+            return True
+        # We are really getting desperate now, so we boldly try
+        # to guess if the location is in the US or Canada.
+        # If they are, we use the US rules.
+        elif location.utcoffset in [-l for l in range(5, 11)] \
+                and location.latitude >= 25 \
+                and 'mexico' not in location.name.lower() \
+                and is_usa_dst(date, hour):
+            return True
+
+    return False
 
 
 # Determines if the given date and time are during DST according to the USA rules
@@ -222,11 +262,10 @@ def is_usa_dst(dt, hour):
 
 
 # Determines if the given date and time is during DST according to the current (5776) Israeli rules
-def is_il_dst(dt):
+def is_il_dst(dt, hour):
     year = dt.year
     month = dt.month
     day = dt.day
-    hour = dt.hour if 'hour' in dt else 0
 
     if month > 10 or month < 3:
         return False
@@ -257,5 +296,4 @@ if __name__ == '__main__':
     from jcal.zmanim import Zmanim
 
     zm = Zmanim(dt=td)
-    print(monthcalendar(td.year, td.month))
     print(zm.get_sun_times())

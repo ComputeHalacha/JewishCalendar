@@ -64,7 +64,7 @@ def getdailyinfo(jd, location, hebrew):
                 dow = dim - jd.getdow() - (1 if dim == 30 else 0)
                 htext += '\nRosh Chodesh: ' + utils.dowHeb[dow]
                 if dim == 30:
-                    htext += ", " + utils.dowEng[(dow + 1) % 7]
+                    htext += ", " + utils.dow_eng[(dow + 1) % 7]
             infos[htext] = ''
         if jd.has_eiruv_tavshilin(location.israel):
             infos['Eruv Tavshilin'] = ''

@@ -246,9 +246,9 @@ class TextCalendar(Calendar):
         Returns a formatted week day name.
         """
         if width >= 9:
-            names = utils.dowEng
+            names = utils.dow_eng
         else:
-            names = utils.dowEngAbbr
+            names = utils.dow_eng_abbr
         return names[day][:width].center(width)
 
     def formatweekheader(self, width):
@@ -261,7 +261,7 @@ class TextCalendar(Calendar):
         """
         Return a formatted month name.
         """
-        s = utils.jMonthsEng[themonth]
+        s = utils.jmonths_eng[themonth]
         if withyear:
             s = "%s %r" % (s, theyear)
         return s.center(width)
@@ -359,7 +359,7 @@ class HTMLCalendar(Calendar):
         """
         Return a weekday name as a table header.
         """
-        return '<th class="%s">%s</th>' % (self.cssclasses[day], utils.dowEngAbbr[day])
+        return '<th class="%s">%s</th>' % (self.cssclasses[day], utils.dow_eng_abbr[day])
 
     def formatweekheader(self):
         """
@@ -373,9 +373,9 @@ class HTMLCalendar(Calendar):
         Return a month name as a table row.
         """
         if withyear:
-            s = '%s %s' % (utils.jMonthsEng[themonth], theyear)
+            s = '%s %s' % (utils.jmonths_eng[themonth], theyear)
         else:
-            s = '%s' % utils.jMonthsEng[themonth]
+            s = '%s' % utils.jmonths_eng[themonth]
         return '<tr><th colspan="7" class="month">%s</th></tr>' % s
 
     def formatmonth(self, theyear, themonth, withyear=True):

@@ -1,8 +1,12 @@
 import datetime
+import sys
 from collections import namedtuple
 
 import jcal.utils as utils
-from jcal import convertdate
+
+if "jcal.conversions" not in sys.modules.keys():
+    # prevent circular referencing
+    from jcal import conversions
 
 
 class JDate:
@@ -24,10 +28,8 @@ class JDate:
     The one caveat of this is that the built-in date classes do not allow years prior to Gregorian year number 1,
     while the Jewish calendar begins some 3,760 years earlier.
 
-    Some of the calculations used here were translated from the C code
-    which in turn were translated from the Lisp code in "Calendrical Calculations"
-    by Nachum Dershowitz and Edward M. Reingold in Software---Practice & Experience,
-    vol. 20, no. 9 (September, 1990) pp. 899--928.
+    Some of the calculations used are based on the algorithms in "Calendrical Calculations"
+    by Nachum Dershowitz and Edward M. Reingold
     '''
 
     # To save on repeat calculations, a "cache" of years that have had their elapsed days previously calculated
@@ -127,8 +129,8 @@ class JDate:
 
     # Returns the current Jewish date in the format: Thursday Kislev 3 5776
     def tostring(self):
-        return "{} {} {} {}".format(utils.dowEng[self.getdow()],
-                                    utils.jMonthsEng[self._month],
+        return "{} {} {} {}".format(utils.dow_eng[self.getdow()],
+                                    utils.jmonths_eng[self._month],
                                     str(self._day),
                                     str(self._year))
 
@@ -137,7 +139,7 @@ class JDate:
         hundreds = divmod(self._year, 1000)
         return "{} {} {} {} אלפים {}".format(utils.dowHeb[self.getdow()],
                                              utils.to_jnum(self._day),
-                                             utils.jMonthsHeb[self._month],
+                                             utils.jmonths_heb[self._month],
                                              utils.to_jnum(hundreds[0]),
                                              utils.to_jnum(hundreds[1] if hundreds[1] else ''))
 
@@ -153,6 +155,14 @@ class JDate:
     # This is also returned by pythons datetime.date.toordinal().
     @staticmethod
     def fromordinal(ordinal):
+        """
+        Creates a JDate from the given ordinal.
+        :param ordinal: The number of days since the day before the beginning of the Gregorian calendar.
+        Which is December 31, 1 BCE. Note, there is no year 0 so, ordinal number 1 is January 1st 0001 CE
+        :type ordinal: int
+        :return: The jewish date on the day of with the given ordinal
+        :rtype: JDate
+        """
         # To save on calculations, start with a few years before date
         year = 3761 + int(ordinal / (366 if ordinal > 0 else 300))
         # Search forward for year from the approximation year.
@@ -255,7 +265,7 @@ class JDate:
           - an int representing the yearl
          """
 
-        return convertdate.greg_to_jdate(date_or_year, month, day)
+        return conversions.greg_to_jdate(date_or_year, month, day)
 
     # Returns the civil/secular/Gregorian date of this Jewish Date
     def todate(self):
@@ -267,7 +277,7 @@ class JDate:
         which the built-in datetime classes do not allow.
         """
 
-        return convertdate.jdate_to_greg(self)
+        return conversions.jdate_to_greg(self)
 
     # Return the current Jewish Date
     @staticmethod
@@ -346,11 +356,11 @@ class JDate:
                 list.append(Entry("מברכים החודש", "Shabbos Mevarchim"))
         if (j_day == 30):
             month_index = (1 if (j_month == 12 and not isleap_jyear) or j_month == 13 else j_month + 1)
-            list.append(Entry("ראש חודש " + utils.jMonthsHeb[month_index],
-                              "Rosh Chodesh " + utils.jMonthsEng[month_index]))
+            list.append(Entry("ראש חודש " + utils.jmonths_heb[month_index],
+                              "Rosh Chodesh " + utils.jmonths_eng[month_index]))
         elif (j_day == 1 and j_month != 7):
-            list.append(Entry("ראש חודש " + utils.jMonthsHeb[j_month],
-                              "Rosh Chodesh " + utils.jMonthsEng[j_month]))
+            list.append(Entry("ראש חודש " + utils.jmonths_heb[j_month],
+                              "Rosh Chodesh " + utils.jmonths_eng[j_month]))
 
         # V'sain Tal U'Matar in Chutz La'aretz is according to the secular date
         if (day_of_week != 6 and (not israel) and sec_date.month == 12):

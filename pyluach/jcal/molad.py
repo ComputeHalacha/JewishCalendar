@@ -5,7 +5,7 @@ from jcal.zmanim import Zmanim
 
 ''' Returns the molad for the given jewish month and year.
  Algorithm was adapted from Hebcal by Danny Sadinoff.
- 
+
   Example of use:
   moladString = Molad.molad_string(5776, 10)
  '''
@@ -45,7 +45,7 @@ class Molad:
         elif (dow == 5 and isNight):
             text += "Shabbos Night,"
         else:
-            text += Utils.dowEng[dow] + (" Night" if isNight else "")
+            text += Utils.dow_eng[dow] + (" Night" if isNight else "")
 
         text += " " + str(molad['time']) + " and " + str(molad['chalakim']) + " Chalakim"
 

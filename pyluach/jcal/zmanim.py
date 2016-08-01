@@ -34,8 +34,6 @@ class Zmanim:
     Returns a tuple of HourMinute objects (sunrise, sunset)'''
 
     def get_sun_times(self, considerElevation=True):
-        sunrise = HourMinute(0, 0)
-        sunset = HourMinute(0, 0)
         day = utils.days_till_greg_date(self.seculardate) + 1
         zen_deg = 90
         zen_min = 50
@@ -76,16 +74,22 @@ class Zmanim:
         if abs(h_rise) <= 1:
             h_rise = 57.29578 * math.acos(h_rise)
             ut_rise = ((360 - h_rise) / 15) + ahr_rise + Zmanim._adjust(t_rise) + lon_h
-            Zmanim._set_time(sunrise, ut_rise + self.location.utcoffset, self.seculardate, self.location)
+            sunrise = Zmanim._set_time(ut_rise + self.location.utcoffset, self.seculardate, self.location)
             while (sunrise.hour > 12):
-                sunrise.hour -= 12
+                #sunrise can never be after mid-day
+                sunrise -= 720  # reduce by 12 hours
+        else:
+            sunrise = HourMinute(0, 0)
 
         if abs(h_set) <= 1:
             h_set = 57.29578 * math.acos(h_set)
             ut_set = (h_rise / 15) + ahrSet + Zmanim._adjust(t_set) + lon_h
-            Zmanim._set_time(sunset, ut_set + self.location.utcoffset, self.seculardate, self.location)
+            sunset = Zmanim._set_time(ut_set + self.location.utcoffset, self.seculardate, self.location)
+            # sunset can never be before mid-day
             while (sunset.hour < 12):
-                sunset.hour += 12
+                sunset += 720 # add 12 hours
+        else:
+            sunset = HourMinute(0, 0)
 
         return (sunrise, sunset)
 
@@ -96,7 +100,7 @@ class Zmanim:
         if netz == no_value or shkia == no_value:
             return None
         else:
-            chatzi = int((shkia.total_minutes() - netz.total_minutes()) / 2)
+            chatzi = int((shkia.total_minutes - netz.total_minutes) / 2)
             return netz + chatzi
 
     def get_shaa_zmanis(self, offset=0, netzshkia=None):
@@ -109,7 +113,7 @@ class Zmanim:
         if netz == no_value or shkia == no_value:
             return None
         else:
-            return (shkia.total_minutes() - netz.total_minutes()) / 12
+            return (shkia.total_minutes - netz.total_minutes) / 12
 
     def get_candle_lighting(self):
         shkiah = self.get_sun_times()[1]
@@ -149,9 +153,11 @@ class Zmanim:
         return 57.29578 * rad
 
     @staticmethod
-    def _set_time(hm, time, date, location):
-        if (time < 0):
+    def _set_time(time, date, location):
+
+        while time < 0:
             time += 24
+
         hour = int(time)
         min = int(int((time - hour) * 60 + 0.5))
 
@@ -159,41 +165,10 @@ class Zmanim:
             hour += 1
             min -= 60
 
-        # Because we allow anyone anywhere to calculate the zmanim for any time,
-        # working out the correct DST is a big problem.
-        # We can easily know (on most systems) if we are currently in DST or if the date
-        # we are currently calculating is in DST on the current system.
-        # But if the user is calculating a location somewhere else in the world,
-        # we don't have a perfect way to know which set of rules to use for DST.
-        # The only perfect solution would be to store the timezone info for each location.
-        # As we currently don't have that information, we try to make an educated guess.
-        # First we try to guess if the location we are currently calculating is in the same time zone
-        # as the current system. We do this by comparing the utcoffset of both.
-        is_in_curr_tz = location.utcoffset == utils.curr_utc_offset()
-        if is_in_curr_tz:
-            # As we are probably in the current time zone, we can use the
-            # local timezones dst property for the date we are calculating
-            if utils.is_sd_dst(date):
-                hour += 1
-        # As the utcoffset is different from the location utcoffset,
-        # we definitely not currently in the same time zone we are calculating the zmanim for.
-        # As we do store if the location is in Israel, for locations in Israel
-        # we can use the current (2016) Israeli rules for DST
-        elif location.israel and utils.is_il_dst(date):
-            hour += 1
-        # The location is not in Israel and we are not in the same
-        # time zone as the location we are calculating.
-        # We are really getting desperate now, so we boldly try
-        # to guess if the location is in the US or Canada.
-        # If they are, we use the US rules.
-        elif location.utcoffset in [-l for l in range(5, 11)] \
-                and location.latitude >= 25 \
-                and 'mexico' not in location.name.lower()  \
-                and utils.is_usa_dst(date, hour):
+        if utils.is_sd_dst(date, hour, location):
             hour += 1
 
-        hm.hour = hour
-        hm.minute = min
+        return HourMinute(hour, min)
 
 
 if __name__ == '__main__'"":

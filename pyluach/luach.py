@@ -75,16 +75,16 @@ def display_zmanim(location_search_pattern, startjd=JDate.today(), number_of_day
                     print('\n--{:-<50}'.format(jd.todate().strftime('%A, %B %d, %Y')))
                 elif isinstance(gd, Utils.GregorianDate):
                     if not hebrew:
-                        print('\n--{}, {} {}, {}{:->40}'.format(Utils.dowEng[jd.getdow()],
-                                                                Utils.sMonthsEng[gd.month],
+                        print('\n--{}, {} {}, {}{:->40}'.format(Utils.dow_eng[jd.getdow()],
+                                                                Utils.greg_months_eng[gd.month],
                                                                 Utils.to_suffixed(gd.day),
                                                                 abs(gd.year),
                                                                 ' BCE' if gd.year < 1 else ''))
                     else:
                         print('\n--{} {} {} {} {:-<28}'.format(Utils.dowHeb[jd.getdow()],
-                                                              gd.day,
-                                                              'ל' + Utils.sMonthsHeb[gd.month],
-                                                              abs(gd.year),
+                                                               gd.day,
+                                                              'ל' + Utils.greg_months_heb[gd.month],
+                                                               abs(gd.year),
                                                               'לפה"ס' if gd.year < 1 else ''))
 
                 # daily information is an OrderedDict of {title:value}
