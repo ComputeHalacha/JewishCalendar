@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6d74355f-4f00-490f-be59-78ff967981c5" name="Default" comment="More refactoring">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pyluach.sln" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pyluach.pyproj" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pyluach.pyproj.user" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/setup.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/GUI/__init__.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/pyluach.iml" afterPath="$PROJECT_DIR$/.idea/pyluach.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jcal/utils.py" afterPath="$PROJECT_DIR$/jcal/utils.py" />
-    </list>
-    <ignored path="LuachPython.iws" />
+    <list default="true" id="8b26c170-4ce8-44a8-a03f-c071a0082f1f" name="Default" comment="" />
+    <ignored path="pyluach.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,75 +11,36 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ChangesViewManager" flattened_view="false" show_ignored="true" />
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
-    <favorites_list name="LuachPython" />
+    <favorites_list name="pyluach" />
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="utils.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/jcal/utils.py">
+      <file leaf-file-name="luach.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/luach.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
-              <caret line="219" column="22" selection-start-line="219" selection-start-column="22" selection-end-line="219" selection-end-column="22" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="132">
+              <caret line="6" column="38" selection-start-line="6" selection-start-column="38" selection-end-line="6" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="conversions.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/jcal/conversions.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="264">
+              <caret line="26" column="32" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Setup Script" />
-        <option value="Python Script" />
-      </list>
-    </option>
-  </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/JewishCalendar/Location.py" />
-        <option value="$PROJECT_DIR$/Luach.py" />
-        <option value="$PROJECT_DIR$/JewishCalendar/Dafyomi.py" />
-        <option value="$PROJECT_DIR$/JewishCalendar/Sedra.py" />
-        <option value="$PROJECT_DIR$/JewishCalendar/Molad.py" />
-        <option value="$PROJECT_DIR$/JewishCalendar/Utils.py" />
-        <option value="$PROJECT_DIR$/JewishCalendar/Zmanim.py" />
-        <option value="$PROJECT_DIR$/JewishCalendar/JewishDate.py" />
-        <option value="$PROJECT_DIR$/jcal/molad.py" />
-        <option value="$PROJECT_DIR$/jcal/sedra.py" />
-        <option value="$PROJECT_DIR$/jcal/location.py" />
-        <option value="$PROJECT_DIR$/jcal/dafyomi.py" />
-        <option value="$PROJECT_DIR$/convertdate/__init__.py" />
-        <option value="$PROJECT_DIR$/convertdate/hebrew.py" />
-        <option value="$PROJECT_DIR$/convertdate/Dates.py" />
-        <option value="$PROJECT_DIR$/convertdate/gregorian.py" />
-        <option value="$PROJECT_DIR$/jcal/__init__.py" />
-        <option value="$PROJECT_DIR$/setup.py" />
-        <option value="$PROJECT_DIR$/jcal/jd/heb_jd.py" />
-        <option value="$PROJECT_DIR$/jcal/jd/greg_jd.py" />
-        <option value="$PROJECT_DIR$/jcal/convertdate/greg_jd.py" />
-        <option value="$PROJECT_DIR$/jcal/convertdate/heb_jd.py" />
-        <option value="$PROJECT_DIR$/jcal/jcalendar.py" />
-        <option value="$PROJECT_DIR$/jcalendar.py" />
-        <option value="$USER_HOME$/Desktop/pycalcal.py" />
-        <option value="$PROJECT_DIR$/luach.py" />
-        <option value="$PROJECT_DIR$/jcal/hourminute.py" />
-        <option value="$PROJECT_DIR$/jcal/zmanim.py" />
-        <option value="$PROJECT_DIR$/jcal/convertdate.py" />
-        <option value="$PROJECT_DIR$/jcal/conversions.py" />
-        <option value="$PROJECT_DIR$/jcal/jdate.py" />
-        <option value="$PROJECT_DIR$/jcal/utils.py" />
-      </list>
-    </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="1912" />
@@ -96,23 +48,7 @@
     <option name="width" value="1936" />
     <option name="height" value="1096" />
   </component>
-  <component name="ProjectInspectionProfilesVisibleTreeState">
-    <entry key="Project Default">
-      <profile-state>
-        <expanded-state>
-          <State>
-            <id />
-          </State>
-        </expanded-state>
-        <selected-state>
-          <State>
-            <id>Buildout</id>
-          </State>
-        </selected-state>
-      </profile-state>
-    </entry>
-  </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -137,7 +73,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -172,156 +107,31 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope">
-        <subPane subId="Problems" />
-        <subPane subId="Changed Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="pyluach">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="pyluach">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT=".idea">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/pycalcal.py" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="FileHistory.org.zmlx.hg4idea.provider.HgHistoryProvider_flatWidth0" value="224" />
-    <property name="FileHistory.org.zmlx.hg4idea.provider.HgHistoryProvider_flatOrder0" value="0" />
-    <property name="FileHistory.org.zmlx.hg4idea.provider.HgHistoryProvider_flatWidth1" value="241" />
-    <property name="FileHistory.org.zmlx.hg4idea.provider.HgHistoryProvider_flatOrder1" value="1" />
-    <property name="FileHistory.org.zmlx.hg4idea.provider.HgHistoryProvider_flatWidth2" value="242" />
-    <property name="FileHistory.org.zmlx.hg4idea.provider.HgHistoryProvider_flatOrder2" value="2" />
-    <property name="FileHistory.org.zmlx.hg4idea.provider.HgHistoryProvider_flatWidth3" value="1149" />
-    <property name="FileHistory.org.zmlx.hg4idea.provider.HgHistoryProvider_flatOrder3" value="3" />
-    <property name="FileHistory.org.zmlx.hg4idea.provider.HgHistoryProvider_treeWidth0" value="224" />
-    <property name="FileHistory.org.zmlx.hg4idea.provider.HgHistoryProvider_treeOrder0" value="0" />
-    <property name="FileHistory.org.zmlx.hg4idea.provider.HgHistoryProvider_treeWidth1" value="241" />
-    <property name="FileHistory.org.zmlx.hg4idea.provider.HgHistoryProvider_treeOrder1" value="1" />
-    <property name="FileHistory.org.zmlx.hg4idea.provider.HgHistoryProvider_treeWidth2" value="242" />
-    <property name="FileHistory.org.zmlx.hg4idea.provider.HgHistoryProvider_treeOrder2" value="2" />
-    <property name="FileHistory.org.zmlx.hg4idea.provider.HgHistoryProvider_treeWidth3" value="1149" />
-    <property name="FileHistory.org.zmlx.hg4idea.provider.HgHistoryProvider_treeOrder3" value="3" />
-    <property name="SearchEverywhereHistoryKey" value="assert&#9;null&#9;null" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Repositories\JewishCalendar\LuachPython" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\ChaimB\Repositories\JewishCalendar\pyluach" />
-      <recent name="C:\Users\ChaimB\Repositories\JewishCalendar\pyluach\jcal" />
-      <recent name="C:\Users\ChaimB\Repositories\JewishCalendar\pyluach\jcal\convertdate" />
-    </key>
   </component>
   <component name="RunManager" selected="Python.luach">
-    <configuration default="false" name="utils" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="luach" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/jcal" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="pyluach" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/jcal/utils.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/luach.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="zmanim" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/jcal" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="pyluach" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/jcal/zmanim.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="hourminute" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/jcal" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="pyluach" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/jcal/hourminute.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="convertdate" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/jcal" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="pyluach" />
-      <option name="SCRIPT_NAME" value="C:\Users\ChaimB\Repositories\JewishCalendar\pyluach\jcal\conversions.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="jdate" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/jcal" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="pyluach" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/jcal/jdate.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="CompoundRunConfigurationType" factoryName="Compound Run Configuration">
       <method />
     </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
@@ -335,7 +145,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="LuachPython" />
+      <module name="pyluach" />
       <option name="SCRIPT_NAME" value="" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -350,7 +160,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="LuachPython" />
+      <module name="pyluach" />
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Attests">
@@ -362,7 +172,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="LuachPython" />
+      <module name="pyluach" />
       <option name="SCRIPT_NAME" value="" />
       <option name="CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
@@ -381,7 +191,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="LuachPython" />
+      <module name="pyluach" />
       <option name="SCRIPT_NAME" value="" />
       <option name="CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
@@ -400,7 +210,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="LuachPython" />
+      <module name="pyluach" />
       <option name="SCRIPT_NAME" value="" />
       <option name="CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
@@ -421,7 +231,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="LuachPython" />
+      <module name="pyluach" />
       <option name="SCRIPT_NAME" value="" />
       <option name="CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
@@ -443,7 +253,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="LuachPython" />
+      <module name="pyluach" />
       <option name="SCRIPT_NAME" value="" />
       <option name="CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
@@ -458,61 +268,12 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="luach" type="PythonConfigurationType" factoryName="Python">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\ChaimB\AppData\Local\Programs\Python\Python35\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="pyluach" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/luach.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="Unittests in pyluach" type="tests" factoryName="Unittests" nameIsGenerated="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="pyluach" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="$PROJECT_DIR$" />
-      <option name="TEST_TYPE" value="TEST_FOLDER" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <method />
-    </configuration>
-    <list size="7">
+    <list size="1">
       <item index="0" class="java.lang.String" itemvalue="Python.luach" />
-      <item index="1" class="java.lang.String" itemvalue="Python tests.Unittests in pyluach" />
-      <item index="2" class="java.lang.String" itemvalue="Python.utils" />
-      <item index="3" class="java.lang.String" itemvalue="Python.zmanim" />
-      <item index="4" class="java.lang.String" itemvalue="Python.hourminute" />
-      <item index="5" class="java.lang.String" itemvalue="Python.convertdate" />
-      <item index="6" class="java.lang.String" itemvalue="Python.jdate" />
     </list>
     <recent_temporary>
-      <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.jdate" />
-        <item index="1" class="java.lang.String" itemvalue="Python.convertdate" />
-        <item index="2" class="java.lang.String" itemvalue="Python.zmanim" />
-        <item index="3" class="java.lang.String" itemvalue="Python.hourminute" />
-        <item index="4" class="java.lang.String" itemvalue="Python.utils" />
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Python.luach" />
       </list>
     </recent_temporary>
   </component>
@@ -524,64 +285,35 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="6d74355f-4f00-490f-be59-78ff967981c5" name="Default" comment="" />
-      <created>1467537976540</created>
+      <changelist id="8b26c170-4ce8-44a8-a03f-c071a0082f1f" name="Default" comment="" />
+      <created>1470248017045</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1467537976540</updated>
+      <updated>1470248017045</updated>
     </task>
-    <task id="LOCAL-00001" summary="More refactoring">
-      <created>1468594564206</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1468594564206</updated>
-    </task>
-    <task id="LOCAL-00002" summary="More refactoring">
-      <created>1468594704328</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1468594704329</updated>
-    </task>
-    <option name="localTasksCounter" value="3" />
     <servers />
-  </component>
-  <component name="TestHistory">
-    <history-entry file="Unittests_in_pyluach - 2016.07.25 at 11h 32m 51s.xml">
-      <configuration name="Unittests in pyluach" configurationId="tests" />
-    </history-entry>
-  </component>
-  <component name="TodoView">
-    <todo-panel id="selected-file">
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13013698" sideWeight="0.49654576" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3207331" sideWeight="0.49791667" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32887402" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919955" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35929388" sideWeight="0.49603385" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24960339" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.50363445" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3612684" sideWeight="0.50396615" order="11" side_tool="false" content_ui="tabs" x="136" y="679" width="476" height="564" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24973656" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32917964" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28992072" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1122449" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3272933" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3975085" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -595,257 +327,26 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
-  <component name="VcsManagerConfiguration">
-    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="SHOW_FILE_HISTORY_DETAILS" value="false" />
-    <MESSAGE value="More refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="More refactoring" />
-    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
-  </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <default-breakpoints>
-        <breakpoint type="python-exception">
-          <properties notifyOnTerminate="true" exception="BaseException">
-            <option name="notifyOnTerminate" value="true" />
-          </properties>
-        </breakpoint>
-      </default-breakpoints>
-      <option name="time" value="55" />
-    </breakpoint-manager>
+    <breakpoint-manager />
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tzlocal/__init__.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35-32/Lib/site-packages/tzlocal/unix.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35-32/Lib/tokenize.py" />
-    <entry file="file://$PROJECT_DIR$/JewishCalendar/Location.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35-32/Lib/site-packages/tzlocal/win32.py" />
-    <entry file="file://$PROJECT_DIR$/JewishCalendar/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/JewishCalendar/Dafyomi.py" />
-    <entry file="file://$PROJECT_DIR$/JewishCalendar/HourMinute.py" />
-    <entry file="file://$PROJECT_DIR$/JewishCalendar/Molad.py" />
-    <entry file="file://$PROJECT_DIR$/JewishCalendar/PirkeiAvos.py" />
-    <entry file="file://$PROJECT_DIR$/JewishCalendar/JewishDate.py" />
-    <entry file="file://$PROJECT_DIR$/JewishCalendar/Utils.py" />
-    <entry file="file://$PROJECT_DIR$/JewishCalendar/Sedra.py" />
-    <entry file="file://$PROJECT_DIR$/JewishCalendar/Zmanim.py" />
-    <entry file="file://$PROJECT_DIR$/jcal/molad.py">
+    <entry file="file://$PROJECT_DIR$/luach.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-513">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jcal/sedra.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1065">
-          <caret line="189" column="72" selection-start-line="189" selection-start-column="72" selection-end-line="189" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/sre_parse.py" />
-    <entry file="file://$PROJECT_DIR$/jcal/pirkeiavos.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jcal/location.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="599">
-          <caret line="24" column="87" selection-start-line="24" selection-start-column="87" selection-end-line="24" selection-end-column="87" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/convertdate/Dates.py" />
-    <entry file="file://$USER_HOME$/.PyCharm2016.2/system/python_stubs/-12785272/builtins.py" />
-    <entry file="file://$PROJECT_DIR$/convertdate/utils.py" />
-    <entry file="file://$PROJECT_DIR$/convertdate/hebrew.py" />
-    <entry file="file://$PROJECT_DIR$/convertdate/gregorian.py" />
-    <entry file="file://$PROJECT_DIR$/convertdate/__init__.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/distutils/core.py" />
-    <entry file="file://$PROJECT_DIR$/jcal/convertdate/greg_jd.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/calendar.py" />
-    <entry file="file://$USER_HOME$/.PyCharm2016.2/system/python_stubs/-12785272/itertools.py" />
-    <entry file="file://$USER_HOME$/.PyCharm2016.2/system/python_stubs/-12785272/_ast.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/datetime.py" />
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-20736">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="11" column="1" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jcalendar.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#890#1" expanded="false" />
-            <element signature="e#892#902#0" expanded="false" />
-            <element signature="e#1157#1175#0" expanded="false" />
-            <element signature="e#1208#1263#0" expanded="false" />
-            <element signature="e#1346#1368#0" expanded="false" />
-            <element signature="e#1401#1481#0" expanded="false" />
-            <element signature="e#1606#1701#0" expanded="false" />
-            <element signature="e#1731#1866#0" expanded="false" />
-            <element signature="e#1904#2035#0" expanded="false" />
-            <element signature="e#2071#2334#0" expanded="false" />
-            <element signature="e#2365#2482#1" expanded="false" />
-            <element signature="e#2520#2696#0" expanded="false" />
-            <element signature="e#2749#3419#0" expanded="false" />
-            <element signature="e#3472#3833#0" expanded="false" />
-            <element signature="e#3885#4188#0" expanded="false" />
-            <element signature="e#4245#4528#0" expanded="false" />
-            <element signature="e#4585#4921#0" expanded="false" />
-            <element signature="e#4977#5235#0" expanded="false" />
-            <element signature="e#5293#5914#0" expanded="false" />
-            <element signature="e#5972#6549#0" expanded="false" />
-            <element signature="e#6606#7149#0" expanded="false" />
-            <element signature="e#7186#7306#1" expanded="false" />
-            <element signature="e#7354#7467#0" expanded="false" />
-            <element signature="e#7523#7717#0" expanded="false" />
-            <element signature="e#7769#7917#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Desktop/pycalcal.py" />
-    <entry file="file://$USER_HOME$/.PyCharm2016.2/system/python_stubs/-12785272/time.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/site-packages/tzlocal/unix.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/site-packages/pytz/__init__.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/site-packages/pytz/tzinfo.py" />
-    <entry file="file://$PROJECT_DIR$/files/LocationsList.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="0" column="10407" selection-start-line="0" selection-start-column="10401" selection-end-line="0" selection-end-column="10407" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/codecs.py" />
-    <entry file="file://$PROJECT_DIR$/jcal/zmanim.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="52">
-          <caret line="150" column="17" selection-start-line="150" selection-start-column="17" selection-end-line="150" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <element signature="e#1235#3881#0" expanded="true" />
-            <element signature="e#3933#4215#0" expanded="true" />
-            <element signature="e#4282#4619#0" expanded="true" />
-            <element signature="e#5748#6042#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jcal/dafyomi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jcal/hourminute.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="65" column="38" selection-start-line="65" selection-start-column="38" selection-end-line="65" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jcal/jdate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+        <state relative-caret-position="132">
+          <caret line="6" column="38" selection-start-line="6" selection-start-column="38" selection-end-line="6" selection-end-column="38" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jcal/conversions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="24" column="4" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="14" />
-          <folding>
-            <element signature="e#917#932#0" expanded="true" />
-            <element signature="e#2679#3406#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/__main__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="264">
+          <caret line="26" column="32" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jcal/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/luach.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2043">
-          <caret line="93" column="59" selection-start-line="93" selection-start-column="59" selection-end-line="93" selection-end-column="59" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jcal/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="219" column="22" selection-start-line="219" selection-start-column="22" selection-end-line="219" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-  </component>
-  <component name="hg4idea.settings">
-    <option name="CHECK_INCOMING_OUTGOING" value="true" />
-    <option name="RECENT_HG_ROOT_PATH" value="$PROJECT_DIR$/.." />
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ScopeChooserConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
   </component>
 </project>

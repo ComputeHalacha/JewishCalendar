@@ -29,7 +29,7 @@ class Location:
     @classmethod
     def get_location(cls, search_pattern, case_sensitive=False):
         if not cls._locations_list_raw:
-            file = open('./Files/LocationsList.json', 'r', encoding='utf-8')
+            file = open('./files/LocationsList.json', 'r', encoding='utf-8')
             cls._locations_list_raw = json.load(file)
 
         if cls._locations_list_raw:

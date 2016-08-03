@@ -6,7 +6,7 @@ import jcal.utils as utils
 
 if "jcal.conversions" not in sys.modules.keys():
     # prevent circular referencing
-    import jcal.conversions
+    import jcal.conversions as conversions
 
 
 class JDate:
