@@ -226,7 +226,7 @@ def is_sd_dst(date, hour, location):
         # We are really getting desperate now, so we boldly try
         # to guess if the location is in the US or Canada.
         # If they are, we use the US rules.
-        elif location.utcoffset in [-l for l in range(5, 11)] \
+        elif location.utcoffset < -3 \
                 and location.latitude >= 25 \
                 and 'mexico' not in location.name.lower() \
                 and is_usa_dst(date, hour):
