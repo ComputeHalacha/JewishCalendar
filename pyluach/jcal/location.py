@@ -29,8 +29,9 @@ class Location:
     @classmethod
     def get_location(cls, search_pattern, case_sensitive=False):
         if not cls._locations_list_raw:
-            file = open('./files/LocationsList.json', 'r', encoding='utf-8')
-            cls._locations_list_raw = json.load(file)
+            with open('./files/LocationsList.json', 'r', encoding='utf-8') as file:
+                cls._locations_list_raw = json.load(file)
+
 
         if cls._locations_list_raw:
             r = re.compile(search_pattern, re.IGNORECASE if not case_sensitive else re.UNICODE)
