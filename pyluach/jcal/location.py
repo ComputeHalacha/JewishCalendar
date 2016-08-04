@@ -29,7 +29,8 @@ class Location:
     @classmethod
     def get_location(cls, search_pattern, case_sensitive=False):
         if not cls._locations_list_raw:
-            with open('./files/LocationsList.json', 'r', encoding='utf-8') as file:
+            import gzip
+            with gzip.open('./files/LocationsList.json.gz', 'rt', encoding="utf-8") as file:
                 cls._locations_list_raw = json.load(file)
 
 
