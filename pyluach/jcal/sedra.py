@@ -17,19 +17,19 @@ from jcal.jdate import JDate
 class Sedra:
     _lastcalculatedyear = None
     _sedralist = [("Bereshis", "בראשית"), ("Noach", "נח"), ("Lech-Lecha", "לך לך"), ("Vayera", "וירא"),
-                   ("Chayei Sara", "חיי שרה"), ("Toldos", "תולדות"), ("Vayetzei", "ויצא"), ("Vayishlach", "וישלח"),
-                   ("Vayeishev", "וישב"), ("Mikeitz", "מקץ"), ("Vayigash", "ויגש"), ("Vayechi", "ויחי"),
-                   ("Shemos", "שמות"), ("Va'era", "וארא"), ("Bo", "בא"), ("Beshalach", "בשלח"), ("Yisro", "יתרו"),
-                   ("Mishpatim", "משפטים"), ("Terumah", "תרומה"), ("Tetzaveh", "תצוה"), ("Ki Sisa", "כי תשא"),
-                   ("Vayakhel", "ויקהל"), ("Pekudei", "פקודי"), ("Vayikra", "ויקרא"), ("Tzav", "צו"),
-                   ("Shmini", "שמיני"), ("Tazria", "תזריע"), ("Metzora", "מצורע"), ("Achrei Mos", "אחרי מות"),
-                   ("Kedoshim", "קדושים"), ("Emor", "אמור"), ("Behar", "בהר"), ("Bechukosai", "בחקותי"),
-                   ("Bamidbar", "במדבר"), ("Nasso", "נשא"), ("Beha'aloscha", "בהעלתך"), ("Sh'lach", "שלח"),
-                   ("Korach", "קרח"), ("Chukas", "חקת"), ("Balak", "בלק"), ("Pinchas", "פינחס"), ("Matos", "מטות"),
-                   ("Masei", "מסעי"), ("Devarim", "דברים"), ("Va'eschanan", "ואתחנן"), ("Eikev", "עקב"),
-                   ("Re'eh", "ראה"), ("Shoftim", "שופטים"), ("Ki Seitzei", "כי תצא"), ("Ki Savo", "כי תבא"),
-                   ("Nitzavim", "נצבים"), ("Vayeilech", "וילך"), ("Ha'Azinu", "האזינו"),
-                   ("Vezos Habracha", "וזאת הברכה")]
+                  ("Chayei Sara", "חיי שרה"), ("Toldos", "תולדות"), ("Vayetzei", "ויצא"), ("Vayishlach", "וישלח"),
+                  ("Vayeishev", "וישב"), ("Mikeitz", "מקץ"), ("Vayigash", "ויגש"), ("Vayechi", "ויחי"),
+                  ("Shemos", "שמות"), ("Va'era", "וארא"), ("Bo", "בא"), ("Beshalach", "בשלח"), ("Yisro", "יתרו"),
+                  ("Mishpatim", "משפטים"), ("Terumah", "תרומה"), ("Tetzaveh", "תצוה"), ("Ki Sisa", "כי תשא"),
+                  ("Vayakhel", "ויקהל"), ("Pekudei", "פקודי"), ("Vayikra", "ויקרא"), ("Tzav", "צו"),
+                  ("Shmini", "שמיני"), ("Tazria", "תזריע"), ("Metzora", "מצורע"), ("Achrei Mos", "אחרי מות"),
+                  ("Kedoshim", "קדושים"), ("Emor", "אמור"), ("Behar", "בהר"), ("Bechukosai", "בחקותי"),
+                  ("Bamidbar", "במדבר"), ("Nasso", "נשא"), ("Beha'aloscha", "בהעלתך"), ("Sh'lach", "שלח"),
+                  ("Korach", "קרח"), ("Chukas", "חקת"), ("Balak", "בלק"), ("Pinchas", "פינחס"), ("Matos", "מטות"),
+                  ("Masei", "מסעי"), ("Devarim", "דברים"), ("Va'eschanan", "ואתחנן"), ("Eikev", "עקב"),
+                  ("Re'eh", "ראה"), ("Shoftim", "שופטים"), ("Ki Seitzei", "כי תצא"), ("Ki Savo", "כי תבא"),
+                  ("Nitzavim", "נצבים"), ("Vayeilech", "וילך"), ("Ha'Azinu", "האזינו"),
+                  ("Vezos Habracha", "וזאת הברכה")]
     _shabbos_short = (
         52, 52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, -21, 23, 24, 25, 25,
         -26,

@@ -76,7 +76,7 @@ class Zmanim:
             ut_rise = ((360 - h_rise) / 15) + ahr_rise + Zmanim._adjust(t_rise) + lon_h
             sunrise = Zmanim._set_time(ut_rise + self.location.utcoffset, self.seculardate, self.location)
             while (sunrise.hour > 12):
-                #sunrise can never be after mid-day
+                # sunrise can never be after mid-day
                 sunrise -= 720  # reduce by 12 hours
         else:
             sunrise = HourMinute(0, 0)
@@ -87,7 +87,7 @@ class Zmanim:
             sunset = Zmanim._set_time(ut_set + self.location.utcoffset, self.seculardate, self.location)
             # sunset can never be before mid-day
             while (sunset.hour < 12):
-                sunset += 720 # add 12 hours
+                sunset += 720  # add 12 hours
         else:
             sunset = HourMinute(0, 0)
 

@@ -94,7 +94,7 @@ def greg_to_jdate(date_or_year, month=None, day=None):
         if isinstance(date_or_year, int):
             y, m, d = date_or_year, month or 1, day or 1
         else:
-            y, m, d = date_or_year # unpack the utils.GregorianDate namedtuple
+            y, m, d = date_or_year  # unpack the utils.GregorianDate namedtuple
 
         if y > 0:
             return JDate.fromordinal(datetime.date(y, m, d).toordinal())

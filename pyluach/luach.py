@@ -60,7 +60,10 @@ To show the Zmanim in Hebrew for Tisha B'av in Jerusalem in the year 3248 (the y
 
 
 def display_zmanim(location_search_pattern, startjd=JDate.today(), number_of_days=1, hebrew=False, army_time=False):
-    locations = Location.get_location(location_search_pattern)
+    if isinstance(location_search_pattern, Location):
+        locations = (location_search_pattern,)
+    else:
+        locations = Location.get_location(location_search_pattern)
     if locations:
         for location in locations:
             if hebrew:
@@ -82,9 +85,9 @@ def display_zmanim(location_search_pattern, startjd=JDate.today(), number_of_day
                     else:
                         print('\n--{} {} {} {} {:-<28}'.format(Utils.dowHeb[jd.getdow()],
                                                                gd.day,
-                                                              'ל' + Utils.greg_months_heb[gd.month],
+                                                               'ל' + Utils.greg_months_heb[gd.month],
                                                                abs(gd.year),
-                                                              'לפה"ס' if gd.year < 1 else ''))
+                                                               'לפה"ס' if gd.year < 1 else ''))
 
                 # daily information is an OrderedDict of {title:value}
                 for title, value in jcal.getdailyinfo(jd, location, hebrew).items():
@@ -202,4 +205,12 @@ def main():
 
 
 if __name__ == '__main__':
-    display_zmanim('Modi')
+    # Sample #1: Random location in middle of the Atlantic Ocean at 36,000 feet above sea level
+    on_plane_location = Location(latitude=61.85, longitude=-14.30, elevation=10973)
+    display_zmanim(on_plane_location)
+
+    # Sample #2: Modiin Illit, Israel (Kiryat Sefer) - in Hebrew and Army Time
+    display_zmanim('מודיעין עילית', hebrew=True, army_time=True)
+
+    # Sample #3: Lakewood New Jersey - for the week of Sukkos 5777
+    display_zmanim('Lakewood', startjd=JDate(5777, 7, 15), number_of_days=9)

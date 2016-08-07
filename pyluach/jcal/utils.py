@@ -20,13 +20,16 @@ del dbm, dim
 # which the built-in datetime.date can't represent.
 GregorianDate = namedtuple('GregorianDate', 'year month day')
 
-jmonths_eng = [None, "Nissan", "Iyar", "Sivan", "Tamuz", "Av", "Ellul", "Tishrei", "Cheshvan", "Kislev", "Teves", "Shvat",
-              "Adar", "Adar Sheini"]
-jmonths_heb = [None, "ניסן", "אייר", "סיון", "תמוז", "אב", "אלול", "תשרי", "חשון", "כסלו", "טבת", "שבט", "אדר", "אדר שני"]
-greg_months_eng = [None, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-              "November", "December"]
+jmonths_eng = [None, "Nissan", "Iyar", "Sivan", "Tamuz", "Av", "Ellul", "Tishrei", "Cheshvan", "Kislev", "Teves",
+               "Shvat",
+               "Adar", "Adar Sheini"]
+jmonths_heb = [None, "ניסן", "אייר", "סיון", "תמוז", "אב", "אלול", "תשרי", "חשון", "כסלו", "טבת", "שבט", "אדר",
+               "אדר שני"]
+greg_months_eng = [None, "January", "February", "March", "April", "May", "June", "July", "August", "September",
+                   "October",
+                   "November", "December"]
 greg_months_heb = [None, "ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אקטובר",
-              "נובמבר", "דצמבר"]
+                   "נובמבר", "דצמבר"]
 dow_eng = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Erev Shabbos", "Shabbos Kodesh"]
 dow_eng_abbr = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Shb"]
 dowHeb = ["יום ראשון", "יום שני", "יום שלישי", "יום רביעי", "יום חמישי", "ערב שבת קודש", "שבת קודש"]
