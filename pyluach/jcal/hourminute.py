@@ -21,16 +21,16 @@ class HourMinute:
             it is corrected).
         :type minute: int
         """
-        while (minute < 0):
+        while minute < 0:
             minute += 60
             hour -= 1
         while minute >= 60:
             minute -= 60
             hour += 1
-        if (hour < 0):
+        if hour < 0:
             hour = 24 + (hour % 24)
-        if (hour > 23):
-            hour = hour % 24
+        if hour > 23:
+            hour %= 24
 
         self._hour = hour
         self._minute = minute

@@ -94,32 +94,32 @@ class Sedra:
     @classmethod
     def get_sedra(cls, jd, israel):
         # If we are between the first day of Sukkos and Simchas Torah, the sedra will always be Vezos Habracha.
-        if (jd.month == 7 and jd.day >= 15 and jd.day < (23 if israel else 24)):
+        if jd.month == 7 and 15 <= jd.day < (23 if israel else 24):
             return cls._sedralist[53],
 
-        sedraOrder = cls.get_sedra_order(jd.year, israel)
+        sedra_order = cls.get_sedra_order(jd.year, israel)
         # find the first saturday on or after today's date
-        absDate = cls.get_day_on_or_before(6, jd.ordinal + 6)
-        weekNum = int((absDate - sedraOrder['firstSatInYear']) / 7)
+        abs_date = cls.get_day_on_or_before(6, jd.ordinal + 6)
+        week_num = int((abs_date - sedra_order['first_sat_in_year']) / 7)
         index = 0
 
-        if weekNum >= len(sedraOrder['sedraArray']):
-            indexLast = sedraOrder['sedraArray'][len(sedraOrder['sedraArray'].length) - 1]
-            if (indexLast < 0):
+        if week_num >= len(sedra_order['sedra_array']):
+            index_last = sedra_order['sedra_array'][len(sedra_order['sedra_array'].length) - 1]
+            if index_last < 0:
                 # advance 2 parashiyot ahead after a doubled week
-                index = (-indexLast) + 2
+                index = (-index_last) + 2
             else:
-                index = indexLast + 1
+                index = index_last + 1
         else:
-            index = sedraOrder['sedraArray'][weekNum]
+            index = sedra_order['sedra_array'][week_num]
 
         if index >= 0:
-            sedraArray = cls._sedralist[index],
+            sedra_array = cls._sedralist[index],
         else:
             i = -index  # undouble the sedra
-            sedraArray = cls._sedralist[i], cls._sedralist[i + 1]
+            sedra_array = cls._sedralist[i], cls._sedralist[i + 1]
 
-        return sedraArray
+        return sedra_array
 
     @staticmethod
     def get_day_on_or_before(day_of_week, date):
@@ -133,63 +133,64 @@ class Sedra:
                         cls._lastcalculatedyear['israel'] == israel:
             return cls._lastcalculatedyear
 
-        longCheshvon = JDate.has_long_cheshvan(year)
-        shortKislev = JDate.has_short_kislev(year)
-        roshHashana = JDate.toordinal(year, 7, 1)
-        roshHashanaDOW = abs(roshHashana % 7)
-        firstSatInYear = cls.get_day_on_or_before(6, roshHashana + 6)
-        yearType = 'regular'
+        long_cheshvon = JDate.has_long_cheshvan(year)
+        short_kislev = JDate.has_short_kislev(year)
+        rosh_hashana = JDate.toordinal(year, 7, 1)
+        rosh_hashana_dow = abs(rosh_hashana % 7)
+        first_sat_in_year = cls.get_day_on_or_before(6, rosh_hashana + 6)
+        year_type = 'regular'
+        s_array = None
 
-        if (longCheshvon and not shortKislev):
-            yearType = 'complete'
-        elif (not longCheshvon and shortKislev):
-            yearType = 'incomplete'
+        if long_cheshvon and not short_kislev:
+            year_type = 'complete'
+        elif not long_cheshvon and short_kislev:
+            year_type = 'incomplete'
 
-        if (not JDate.isleap_jyear(year)):
-            if roshHashanaDOW == 6:
-                if (yearType == "incomplete"):
-                    sArray = cls._shabbos_short
-                elif (yearType == 'complete'):
-                    sArray = cls._shabbos_long
-            elif roshHashanaDOW == 1:
-                if (yearType == 'incomplete'):
-                    sArray = cls._mon_short
-                elif (yearType == 'complete'):
-                    sArray = cls._mon_short if israel else cls._mon_long
-            elif roshHashanaDOW == 2:
-                if (yearType == 'regular'):
-                    sArray = cls._mon_short if israel else cls._mon_long
-            elif roshHashanaDOW == 4:
-                if (yearType == 'regular'):
-                    sArray = cls._thu_normal_Israel if israel else  cls._thu_normal
-                elif (yearType == 'complete'):
-                    sArray = cls._thu_long
+        if not JDate.isleap_jyear(year):
+            if rosh_hashana_dow == 6:
+                if year_type == "incomplete":
+                    s_array = cls._shabbos_short
+                elif year_type == 'complete':
+                    s_array = cls._shabbos_long
+            elif rosh_hashana_dow == 1:
+                if year_type == 'incomplete':
+                    s_array = cls._mon_short
+                elif year_type == 'complete':
+                    s_array = cls._mon_short if israel else cls._mon_long
+            elif rosh_hashana_dow == 2:
+                if year_type == 'regular':
+                    s_array = cls._mon_short if israel else cls._mon_long
+            elif rosh_hashana_dow == 4:
+                if year_type == 'regular':
+                    s_array = cls._thu_normal_Israel if israel else cls._thu_normal
+                elif year_type == 'complete':
+                    s_array = cls._thu_long
             else:
                 raise ValueError("improper sedra year type calculated.")
         # leap year
         else:
-            if roshHashanaDOW == 6:
-                if (yearType == 'incomplete'):
-                    sArray = cls._shabbos_short_leap
-                elif (yearType == 'complete'):
-                    sArray = cls._shabbos_short_leap if israel else cls._shabbos_long_leap
-            elif roshHashanaDOW == 1:
-                if (yearType == 'incomplete'):
-                    sArray = cls._mon_short_leap_Israel if israel else cls._mon_short_leap
-                elif (yearType == 'complete'):
-                    sArray = cls._mon_long_leap_Israel if israel else cls._mon_long_leap
-            elif roshHashanaDOW == 2:
-                if (yearType == 'regular'):
-                    sArray = cls._mon_long_leap_Israel if israel else cls._mon_long_leap
-            elif roshHashanaDOW == 4:
-                if (yearType == 'incomplete'):
-                    sArray = cls._thu_short_leap
-                elif (yearType == 'complete'):
-                    sArray = cls._thu_long_leap
+            if rosh_hashana_dow == 6:
+                if year_type == 'incomplete':
+                    s_array = cls._shabbos_short_leap
+                elif year_type == 'complete':
+                    s_array = cls._shabbos_short_leap if israel else cls._shabbos_long_leap
+            elif rosh_hashana_dow == 1:
+                if year_type == 'incomplete':
+                    s_array = cls._mon_short_leap_Israel if israel else cls._mon_short_leap
+                elif year_type == 'complete':
+                    s_array = cls._mon_long_leap_Israel if israel else cls._mon_long_leap
+            elif rosh_hashana_dow == 2:
+                if year_type == 'regular':
+                    s_array = cls._mon_long_leap_Israel if israel else cls._mon_long_leap
+            elif rosh_hashana_dow == 4:
+                if year_type == 'incomplete':
+                    s_array = cls._thu_short_leap
+                elif year_type == 'complete':
+                    s_array = cls._thu_long_leap
             else:
                 raise ValueError("improper sedra year type calculated.")
 
-        retobj = dict(firstSatInYear=firstSatInYear, sedraArray=sArray, year=year, israel=israel)
+        retobj = dict(first_sat_in_year=first_sat_in_year, sedra_array=s_array, year=year, israel=israel)
 
         # Save the data in case the next call is for the same year
         cls._lastcalculatedyear = retobj

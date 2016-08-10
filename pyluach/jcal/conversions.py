@@ -16,15 +16,11 @@ The conversions to and from the Julian dates were adapted from the convertdate p
 """
 
 import datetime
-import sys
 from calendar import isleap as is_greg_leap
 from math import floor as mfloor, trunc as trunc
 
 import jcal.utils as utils
-
-if "jcal.jdate" not in sys.modules.keys():
-    # prevent circular referencing
-    from jcal.jdate import JDate
+from jcal.jdate import JDate
 
 EPOCH_GREG = 1721425.5
 INTERCALATION_CYCLE_YEARS = 400
@@ -62,21 +58,21 @@ def julian_to_jdate(julian_date):
     count = trunc(((julian_date - EPOCH_JDATE) * 98496.0) / 35975351.0)
     year = count - 1
     i = count
-    while julian_date >= jdate_to_julian(i, 7, 1):
+    while julian_date >= jdate_to_julian(JDate(i, 7, 1)):
         i += 1
         year += 1
 
-    if julian_date < jdate_to_julian(year, 1, 1):
+    if julian_date < jdate_to_julian(JDate(year, 1, 1)):
         first = 7
     else:
         first = 1
 
     month = i = first
-    while julian_date > jdate_to_julian(year, i, JDate.days_in_jmonth(year, i)):
+    while julian_date > jdate_to_julian(JDate(year, i, JDate.days_in_jmonth(year, i))):
         i += 1
         month += 1
 
-    day = int(julian_date - jdate_to_julian(year, month, 1)) + 1
+    day = int(julian_date - jdate_to_julian(JDate(year, month, 1))) + 1
     return JDate(year, month, day)
 
 
@@ -86,7 +82,8 @@ def greg_to_jdate(date_or_year, month=None, day=None):
       - an instance of the built-in datetime.date/datetime.datetime class
       - a utils.GregorianDate namedtuple
       - an int representing the Gregorian year
-     """
+    """
+
     if _is_legal_greg_date(date_or_year, month, day):
         if isinstance(date_or_year, datetime.date):
             return JDate.fromordinal(date_or_year.toordinal())
@@ -138,7 +135,7 @@ def greg_to_julian(date_or_year, month=None, day=None):
 
 
 def julian_to_greg(julian_date):
-    '''Return Gregorian date in a utils.GregorianDate(Y, M, D) namedtuple'''
+    """Return Gregorian date in a utils.GregorianDate(Y, M, D) namedtuple"""
     wjd = _floor(julian_date - 0.5) + 0.5
     depoch = wjd - EPOCH_GREG
 
@@ -183,7 +180,7 @@ def _floor(x):
 
 
 def _jdate_delay_1(jyear):
-    '''Test for delay of start of new jyear and to avoid'''
+    """Test for delay of start of new jyear and to avoid"""
     # //  Sunday, Wednesday, and Friday as start of the new jyear.
     months = trunc(((235 * jyear) - 234) / 19)
     parts = 12084 + (13753 * months)
@@ -196,7 +193,7 @@ def _jdate_delay_1(jyear):
 
 
 def _jdate_delay_2(jyear):
-    '''Check for delay in start of new jyear due to length of adjacent years'''
+    """Check for delay in start of new jyear due to length of adjacent years"""
 
     last = _jdate_delay_1(jyear - 1)
     present = _jdate_delay_1(jyear)

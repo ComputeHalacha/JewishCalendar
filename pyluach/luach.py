@@ -3,7 +3,7 @@ import datetime
 import re
 
 import jcal
-import jcal.utils as Utils
+import jcal.utils as utils
 from jcal.hourminute import HourMinute
 from jcal.jdate import JDate
 from jcal.location import Location
@@ -75,17 +75,17 @@ def display_zmanim(location_search_pattern, startjd=JDate.today(), number_of_day
                 gd = jd.todate()
                 if isinstance(gd, datetime.date):
                     print('\n--{:-<50}'.format(jd.todate().strftime('%A, %B %d, %Y')))
-                elif isinstance(gd, Utils.GregorianDate):
+                elif isinstance(gd, utils.GregorianDate):
                     if not hebrew:
-                        print('\n--{}, {} {}, {}{:->40}'.format(Utils.dow_eng[jd.getdow()],
-                                                                Utils.greg_months_eng[gd.month],
-                                                                Utils.to_suffixed(gd.day),
+                        print('\n--{}, {} {}, {}{:->40}'.format(utils.dow_eng[jd.getdow()],
+                                                                utils.greg_months_eng[gd.month],
+                                                                utils.to_suffixed(gd.day),
                                                                 abs(gd.year),
                                                                 ' BCE' if gd.year < 1 else ''))
                     else:
-                        print('\n--{} {} {} {} {:-<28}'.format(Utils.dowHeb[jd.getdow()],
+                        print('\n--{} {} {} {} {:-<28}'.format(utils.dowHeb[jd.getdow()],
                                                                gd.day,
-                                                               'ל' + Utils.greg_months_heb[gd.month],
+                                                               'ל' + utils.greg_months_heb[gd.month],
                                                                abs(gd.year),
                                                                'לפה"ס' if gd.year < 1 else ''))
 
@@ -121,6 +121,7 @@ def display_info(title, value, hebrew, army_time):
 
 
 def display_zman(one_zman, hebrew, army_time):
+    value = None
     try:
         value = one_zman.time.tostring(army_time) if one_zman.time else ''
         if hebrew:

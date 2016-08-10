@@ -33,16 +33,16 @@ error = ValueError
 
 # Exceptions raised for bad input
 class IllegalMonthError(ValueError):
-    def __init__(self, month):
-        self.month = month
+    def __init__(self, mnth):
+        self.month = mnth
 
     def __str__(self):
         return "bad month number %r; must be 1-13" % self.month
 
 
 class IllegalWeekdayError(ValueError):
-    def __init__(self, weekday):
-        self.weekday = weekday
+    def __init__(self, wkday):
+        self.weekday = wkday
 
     def __str__(self):
         return "bad weekday number %r; must be 0 (Sunday) to 6 (Shabbos)" % self.weekday
@@ -64,18 +64,18 @@ def leapyears(y1, y2):
     return sum(1 for y in range(y1, y2 + 1) if isleap(y))
 
 
-def weekday(year, month, day):
+def weekday(year, mnth, day):
     """Return weekday (0-6 ~ Sun-Shabbos) for year (5776-...), month (1-12), day (1-30)."""
-    return JDate(year, month, day).getdow()
+    return JDate(year, mnth, day).getdow()
 
 
-def monthrange(year, month):
+def monthrange(year, mnth):
     """Return weekday (0-6 ~ Sun-Shabbos) and number of days (29-30) for
-       year, month."""
-    if not 1 <= month <= 13:
-        raise IllegalMonthError(month)
-    day1 = weekday(year, month, 1)
-    ndays = JDate.days_in_jmonth(year, month)
+       year, mnth."""
+    if not 1 <= mnth <= 13:
+        raise IllegalMonthError(mnth)
+    day1 = weekday(year, mnth, 1)
+    ndays = JDate.days_in_jmonth(year, mnth)
     return day1, ndays
 
 
@@ -85,7 +85,8 @@ class Calendar(object):
     provides data to subclasses.
     """
 
-    def iterweekdays(self):
+    @staticmethod
+    def iterweekdays():
         """
         Return an iterator for one week of weekday numbers starting with the
         configured first one.
@@ -93,7 +94,8 @@ class Calendar(object):
         for i in range(0, 7):
             yield i % 7
 
-    def itermonthdates(self, year, month):
+    @staticmethod
+    def itermonthdates(year, month):
         """
         Return an iterator for one month. The iterator will yield datetime.date
         values and will always iterate through complete weeks, so it will yield
@@ -114,52 +116,52 @@ class Calendar(object):
             if date.month != month and date.getdow() == 0:
                 break
 
-    def itermonthdays2(self, year, month):
+    def itermonthdays2(self, year, mnth):
         """
         Like itermonthdates(), but will yield (day number, weekday number)
-        tuples. For days outside the specified month the day number is 0.
+        tuples. For days outside the specified mnth the day number is 0.
         """
-        for date in self.itermonthdates(year, month):
-            if date.month != month:
+        for date in self.itermonthdates(year, mnth):
+            if date.month != mnth:
                 yield (0, date.getdow())
             else:
                 yield (date.day, date.getdow())
 
-    def itermonthdays(self, year, month):
+    def itermonthdays(self, year, mnth):
         """
         Like itermonthdates(), but will yield day numbers. For days outside
-        the specified month the day number is 0.
+        the specified mnth the day number is 0.
         """
-        for date in self.itermonthdates(year, month):
-            if date.month != month:
+        for date in self.itermonthdates(year, mnth):
+            if date.month != mnth:
                 yield 0
             else:
                 yield date.day
 
-    def monthdatescalendar(self, year, month):
+    def monthdatescalendar(self, year, mnth):
         """
-        Return a matrix (list of lists) representing a month's calendar.
+        Return a matrix (list of lists) representing a mnth's calendar.
         Each row represents a week; week entries are datetime.date values.
         """
-        dates = list(self.itermonthdates(year, month))
+        dates = list(self.itermonthdates(year, mnth))
         return [dates[i:i + 7] for i in range(0, len(dates), 7)]
 
-    def monthdays2calendar(self, year, month):
+    def monthdays2calendar(self, year, mnth):
         """
-        Return a matrix representing a month's calendar.
+        Return a matrix representing a mnth's calendar.
         Each row represents a week; week entries are
         (day number, weekday number) tuples. Day numbers outside this month
         are zero.
         """
-        days = list(self.itermonthdays2(year, month))
+        days = list(self.itermonthdays2(year, mnth))
         return [days[i:i + 7] for i in range(0, len(days), 7)]
 
-    def monthdayscalendar(self, year, month):
+    def monthdayscalendar(self, year, mnth):
         """
-        Return a matrix representing a month's calendar.
-        Each row represents a week; days outside this month are zero.
+        Return a matrix representing a mnth's calendar.
+        Each row represents a week; days outside this mnth are zero.
         """
-        days = list(self.itermonthdays(year, month))
+        days = list(self.itermonthdays(year, mnth))
         return [days[i:i + 7] for i in range(0, len(days), 7)]
 
     def yeardatescalendar(self, year, width=3):
@@ -225,7 +227,8 @@ class TextCalendar(Calendar):
         """
         print(self.formatweek(theweek, width), end=' ')
 
-    def formatday(self, day, weekday, width):
+    @staticmethod
+    def formatday(day, width):
         """
         Returns a formatted day.
         """
@@ -239,9 +242,10 @@ class TextCalendar(Calendar):
         """
         Returns a single week in a string (no newline).
         """
-        return ' '.join(self.formatday(d, wd, width) for (d, wd) in theweek)
+        return ' '.join(self.formatday(d, width) for (d, _) in theweek)
 
-    def formatweekday(self, day, width):
+    @staticmethod
+    def formatweekday(day, width):
         """
         Returns a formatted week day name.
         """
@@ -257,7 +261,8 @@ class TextCalendar(Calendar):
         """
         return ' '.join(self.formatweekday(i, width) for i in self.iterweekdays())
 
-    def formatmonthname(self, theyear, themonth, width, withyear=True):
+    @staticmethod
+    def formatmonthname(theyear, themonth, width, withyear=True):
         """
         Return a formatted month name.
         """
@@ -283,22 +288,22 @@ class TextCalendar(Calendar):
         s += '\n' * l
         s += self.formatweekheader(w).rstrip()
         s += '\n' * l
-        for week in self.monthdays2calendar(theyear, themonth):
-            s += self.formatweek(week, w).rstrip()
+        for wk in self.monthdays2calendar(theyear, themonth):
+            s += self.formatweek(wk, w).rstrip()
             s += '\n' * l
         return s
 
-    def formatyear(self, theyear, w=2, l=1, c=6, m=3):
+    def formatyear(self, theyear, w=2, l=1, cl=6, m=3):
         """
         Returns a year's calendar as a multi-line string.
         """
         w = max(2, w)
         l = max(1, l)
-        c = max(2, c)
+        cl = max(2, cl)
         colwidth = (w + 1) * 7 - 1
         v = []
         a = v.append
-        a(repr(theyear).center(colwidth * m + c * (m - 1)).rstrip())
+        a(repr(theyear).center(colwidth * m + cl * (m - 1)).rstrip())
         a('\n' * l)
         header = self.formatweekheader(w)
 
@@ -308,10 +313,10 @@ class TextCalendar(Calendar):
             a('\n' * l)
             names = (self.formatmonthname(theyear, k, colwidth, False)
                      for k in months)
-            a(formatstring(names, colwidth, c).rstrip())
+            a(formatstring(names, colwidth, cl).rstrip())
             a('\n' * l)
             headers = (header for k in months)
-            a(formatstring(headers, colwidth, c).rstrip())
+            a(formatstring(headers, colwidth, cl).rstrip())
             a('\n' * l)
             # max number of weeks for this row
             height = max(len(cal) for cal in row)
@@ -322,13 +327,13 @@ class TextCalendar(Calendar):
                         weeks.append('')
                     else:
                         weeks.append(self.formatweek(cal[j], w))
-                a(formatstring(weeks, colwidth, c).rstrip())
+                a(formatstring(weeks, colwidth, cl).rstrip())
                 a('\n' * l)
         return ''.join(v)
 
-    def pryear(self, theyear, w=0, l=0, c=6, m=3):
+    def pryear(self, theyear, w=0, l=0, cl=6, m=3):
         """Print a year's calendar."""
-        print(self.formatyear(theyear, w, l, c, m))
+        print(self.formatyear(theyear, w, l, cl, m))
 
 
 class HTMLCalendar(Calendar):
@@ -339,14 +344,14 @@ class HTMLCalendar(Calendar):
     # CSS classes for the day <td>s
     cssclasses = ["sun", "mon", "tue", "wed", "thu", "fri", "shb"]
 
-    def formatday(self, day, weekday):
+    def formatday(self, day, wkday):
         """
         Return a day as a table cell.
         """
         if day == 0:
             return '<td class="noday">&nbsp;</td>'  # day outside month
         else:
-            return '<td class="%s">%d</td>' % (self.cssclasses[weekday], day)
+            return '<td class="%s">%d</td>' % (self.cssclasses[wkday], day)
 
     def formatweek(self, theweek):
         """
@@ -368,7 +373,8 @@ class HTMLCalendar(Calendar):
         s = ''.join(self.formatweekday(i) for i in self.iterweekdays())
         return '<tr>%s</tr>' % s
 
-    def formatmonthname(self, theyear, themonth, withyear=True):
+    @staticmethod
+    def formatmonthname(theyear, themonth, withyear=True):
         """
         Return a month name as a table row.
         """
@@ -390,8 +396,8 @@ class HTMLCalendar(Calendar):
         a('\n')
         a(self.formatweekheader())
         a('\n')
-        for week in self.monthdays2calendar(theyear, themonth):
-            a(self.formatweek(week))
+        for wk in self.monthdays2calendar(theyear, themonth):
+            a(self.formatweek(wk))
             a('\n')
         a('</table>')
         a('\n')
@@ -479,15 +485,10 @@ _colwidth = 7 * 3 - 1  # Amount printed by prweek()
 _spacing = 6  # Number of spaces between columns
 
 
-def format(cols, colwidth=_colwidth, spacing=_spacing):
-    """Prints multi-column formatting for year calendars"""
-    print(formatstring(cols, colwidth, spacing))
-
-
 def formatstring(cols, colwidth=_colwidth, spacing=_spacing):
     """Returns a string formatted from n strings, centered within n columns."""
     spacing *= ' '
-    return spacing.join(c.center(colwidth) for c in cols)
+    return spacing.join(cl.center(colwidth) for cl in cols)
 
 
 def main(args):
@@ -550,7 +551,7 @@ def main(args):
         cal = TextCalendar()
         optdict = dict(w=options.width, l=options.lines)
         if len(args) != 3:
-            optdict["c"] = options.spacing
+            optdict["cl"] = options.spacing
             optdict["m"] = options.months
         if len(args) == 1:
             result = cal.formatyear(JDate.today().year, **optdict)

@@ -13,7 +13,7 @@ for dim in _DAYS_IN_GREG_MONTH[1:]:
     _DAYS_BEFORE_MONTH.append(dbm)
     dbm += dim
 # clean up module
-del dbm, dim
+del dbm
 
 # A tuple of ints representing a single day in the Gregorian calendar. (year, month, day)
 # Primarily used in the jcal library for representing dates before the common era -
@@ -43,9 +43,9 @@ jnums_tens = [None, "עשר", "עשרים", "שלושים", "ארבעים"]
 # Gets the Jewish representation of a number (365 = שס"ה)
 # Minimum number is 1 and maximum is 9999.
 def to_jnum(number):
-    if (number < 1):
+    if number < 1:
         return 'אפס'
-    if (number > 9999):
+    if number > 9999:
         raise RuntimeError("Max value is 9999")
 
     n = number
@@ -53,7 +53,7 @@ def to_jnum(number):
 
     if n >= 1000:
         retval += jsd[int((n - (n % 1000)) / 1000) - 1] + "'"
-        n = n % 1000
+        n %= 1000
 
     while n >= 400:
         retval += 'ת'
@@ -61,7 +61,7 @@ def to_jnum(number):
 
     if n >= 100:
         retval += jhd[int((n - (n % 100)) / 100) - 1]
-        n = n % 100
+        n %= 100
 
     if n == 15:
         retval += "טו"
@@ -97,12 +97,12 @@ def to_suffixed(num):
 
 # Gets the "proper" name for the given Jewish Month.
 # This means for a leap year, labeling each of the the 2 Adars.
-def proper_jmonth_name(jYear, jMonth, hebrew=False):
+def proper_jmonth_name(jyear, jmonth, hebrew=False):
     from jcal.jdate import JDate
-    if jMonth == 12 and JDate.isleap_jyear(jYear):
+    if jmonth == 12 and JDate.isleap_jyear(jyear):
         return "Adar Rishon" if not hebrew else "אדר ראשון"
     else:
-        return jmonths_eng[jMonth] if not hebrew else jmonths_heb[jMonth]
+        return jmonths_eng[jmonth] if not hebrew else jmonths_heb[jmonth]
 
 
 # Gets one less than the ordinal for January 1st of the given year
@@ -220,7 +220,7 @@ def is_sd_dst(date, hour, location):
             return True
     # If DST could not be determined either by failure or because we not currently
     # in the same time zone we are calculating the zmanim for, we will try some other tricks
-    if is_dst == None:
+    if is_dst is None:
         # As we do store if the location is in Israel or not,
         # we can determine the DST for any location we know is in Israel
         # using the current (2016) Israeli rules for DST
@@ -272,7 +272,7 @@ def is_il_dst(dt, hour):
 
     if month > 10 or month < 3:
         return False
-    elif month > 3 and month < 10:
+    elif 3 < month < 10:
         return True
     # DST starts at 2 AM on the Friday before the last Sunday in March
     elif month == 3:  # March

@@ -27,7 +27,7 @@ def get_pirkeiavos(jd, israel):
     if (jmonth == 1 and jday > (21 if israel else 22)) or ((1 < jmonth < 6 and (
             not ((jmonth == 3 and jday == 6) or (not israel and jmonth == 3 and jday == 7))) and (
             not (jmonth == 5 and jday == 9)))):
-        return [get1stPerek(jd, israel)]
+        return [get_first_perek(jd, israel)]
 
     # Ellul can have multiple prakim
     elif jmonth == 6:
@@ -37,7 +37,7 @@ def get_pirkeiavos(jd, israel):
         return []
 
 
-def get1stPerek(jd, israel):
+def get_first_perek(jd, israel):
     jyear = jd.year
     jmonth = jd.month
     jday = jd.day
@@ -76,7 +76,7 @@ def ellul(jd, israel):
     # Which shabbos in Ellul are we working out now?
     cshb = 1 if jday == shabbos1day else int((jday - shabbos1day) / 7) + 1
 
-    perek1 = get1stPerek(shabbos1date, israel)
+    perek1 = get_first_perek(shabbos1date, israel)
     if perek1 == 1:
         if cshb == 1:
             praklist = 1,
@@ -136,9 +136,9 @@ def ellul(jd, israel):
 
 
 if __name__ == '__main__':
-    import jcal.utils as Utils
+    import jcal.utils as utils
 
     chukas5776 = JDate.create(5776, 4, 10)
     prakim = get_pirkeiavos(chukas5776, True)
-    text = 'Pirkei Avos: ' + ' and '.join([Utils.to_suffixed(p) + ' Perek' for p in prakim])
+    text = 'Pirkei Avos: ' + ' and '.join([utils.to_suffixed(p) + ' Perek' for p in prakim])
     print(text)

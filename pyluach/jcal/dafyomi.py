@@ -1,7 +1,7 @@
 from collections import namedtuple
 from datetime import date
 
-import jcal.utils as Utils
+import jcal.utils as utils
 from jcal.jdate import JDate
 
 '''
@@ -87,10 +87,10 @@ class Dafyomi:
 
         # Find the daf
         j = 0
-        while (j < dafcnt):
+        while j < dafcnt:
             count += 1
             total = total + cls._masechtaList[j].dappim - 1
-            if (dno < total):
+            if dno < total:
                 blatt = (cls._masechtaList[j].dappim + 1) - (total - dno)
                 #  fiddle with the weird ones near the end
                 if count == 36:
@@ -117,12 +117,12 @@ class Dafyomi:
     def tostring_heb(cls, jd):
         d = cls.getdaf(jd)
         if d:
-            return d[0].heb + " דף " + Utils.to_jnum(d[1])
+            return d[0].heb + " דף " + utils.to_jnum(d[1])
 
 
 if __name__ == '__main__':
-    jd = JDate.today()
-    dafEng = Dafyomi.tostring(jd)
-    dafHeb = Dafyomi.tostring_heb(jd)
+    jdat = JDate.today()
+    dafEng = Dafyomi.tostring(jdat)
+    dafHeb = Dafyomi.tostring_heb(jdat)
     print(dafEng)
     print(dafHeb)
