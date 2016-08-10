@@ -1,6 +1,6 @@
 import datetime
-import sys
 from collections import namedtuple
+from functools import lru_cache
 
 import jcal.utils as utils
 
@@ -27,10 +27,6 @@ class JDate:
 
     Some of the calculations used are based on the algorithms in "Calendrical Calculations" by Nachum Dershowitz and Edward M. Reingold.
     """
-
-    # To save on repeat calculations, a "cache" of years that have had their elapsed days previously calculated
-    # by the tdays function is kept in memory.  ("memoizing").
-    _yearCache = {}
 
     def __init__(self, year, month, day, ordinal=None):
         """
@@ -173,17 +169,16 @@ class JDate:
 
         return JDate(year, month, day, ordinal)
 
-    # Elapsed days since creation of the world until Rosh Hashana of the given year
     @staticmethod
+    @lru_cache()
     def tdays(year):
-        """As this function is called many times, often on the same year for all types of calculations,
-        we cache a list of years with their elapsed values."""
+        """
+        Elapsed days since creation of the world until Rosh Hashana of the given year.
 
-        # If this year was already calculated and cached,
-        # then we return the cached value.
-        if year in JDate._yearCache:
-            return JDate._yearCache[year]
-
+        As this function is not too lightweight and is called repeatedly -
+        often on the same year, with deterministic results,
+        it is a beautiful candidate for caching ("memoizing") the results.
+        """
         months = int((235 * int((year - 1) / 19)) +  # Leap months this cycle
                      (12 * ((year - 1) % 19)) +  # Regular months in this cycle.
                      (7 * ((year - 1) % 19) + 1) / 19)  # Months in complete cycles so far.
@@ -208,9 +203,6 @@ class JDate:
         # Wednesday,
         if (alt_day % 7) in [0, 3, 5]:
             alt_day += 1
-
-        # Add this year to the cache to save on calculations later on
-        JDate._yearCache[year] = alt_day
 
         return alt_day
 
