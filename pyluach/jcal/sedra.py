@@ -104,7 +104,7 @@ class Sedra:
         index = 0
 
         if week_num >= len(sedra_order['sedra_array']):
-            index_last = sedra_order['sedra_array'][len(sedra_order['sedra_array'].length) - 1]
+            index_last = sedra_order['sedra_array'][len(sedra_order['sedra_array']) - 1]
             if index_last < 0:
                 # advance 2 parashiyot ahead after a doubled week
                 index = (-index_last) + 2
