@@ -21,16 +21,16 @@ class HourMinute:
             it is corrected).
         :type minute: int
         """
-        while (minute < 0):
+        while minute < 0:
             minute += 60
             hour -= 1
         while minute >= 60:
             minute -= 60
             hour += 1
-        if (hour < 0):
+        if hour < 0:
             hour = 24 + (hour % 24)
-        if (hour > 23):
-            hour = hour % 24
+        if hour > 23:
+            hour %= 24
 
         self._hour = hour
         self._minute = minute
@@ -48,7 +48,7 @@ class HourMinute:
         return self.add(other)
 
     def __sub__(self, other):
-        return self.add(-other)
+        return self.sub(other)
 
     def __eq__(self, other):
         return self._hour == other.hour and self._minute == other.minute
@@ -71,6 +71,19 @@ class HourMinute:
             return HourMinute(self._hour + other.hour, self._minute + other.minute)
         elif isinstance(other, int):
             return HourMinute.from_minutes(self.total_minutes + other)
+
+    def sub(self, other):
+        """
+        Subtract either another HourMinute or a set number of minutes from the current one.
+        :param other: Either an HourMinute to subtract from the current one or the number of minutes to subtract.
+        :type other: HourMinute or int
+        :return: The new HourMinute created by subtracting the two HourMinutes.
+        :rtype: HourMinute
+        """
+        if isinstance(other, HourMinute):
+            return HourMinute(self._hour - other.hour, self._minute - other.minute)
+        elif isinstance(other, int):
+            return HourMinute.from_minutes(self.total_minutes - other)
 
     def add_time(self, hours=0, minutes=0):
         """

@@ -19,7 +19,7 @@ def getdailyinfo(jd, location, hebrew):
     from jcal.hourminute import HourMinute
     from jcal.sedra import Sedra
     from jcal.dafyomi import Dafyomi
-    import jcal.pirkeiavos
+    from jcal.pirkeiavos import get_pirkeiavos
 
     infos = OrderedDict()
     sedras = Sedra.get_sedra(jd, location.israel)
@@ -30,9 +30,9 @@ def getdailyinfo(jd, location, hebrew):
         for h in holidays:
             htext = h.heb
             if 'מברכים' in htext:
-                nextMonth = jd.add_days(12)
-                htext += '- חודש ' + utils.proper_jmonth_name(nextMonth.year, nextMonth.month)
-                htext += '\nהמולד: ' + Molad.molad_string_heb(nextMonth.month, nextMonth.year)
+                next_month = jd.add_days(12)
+                htext += '- חודש ' + utils.proper_jmonth_name(next_month.year, next_month.month)
+                htext += '\nהמולד: ' + Molad.molad_string_heb(next_month.month, next_month.year)
                 dim = JDate.days_in_jmonth(jd.year, jd.month)
                 dow = dim - jd.getdow() - (1 if dim == 30 else 0)
                 htext += '\nראש חודש: ' + utils.dowHeb[dow]
@@ -48,7 +48,7 @@ def getdailyinfo(jd, location, hebrew):
         if dy:
             infos['דף יומי'] = Dafyomi.tostring_heb(jd)
         if jd.getdow() == 6:
-            prakim = pirkeiavos.get_pirkeiavos(jd, location.israel)
+            prakim = get_pirkeiavos(jd, location.israel)
             if prakim:
                 infos['פרקי אבות'] = ' פרק' + ' ופרק '.join([utils.jsd[p - 1] for p in prakim])
     else:
@@ -57,9 +57,9 @@ def getdailyinfo(jd, location, hebrew):
         for h in holidays:
             htext = h.eng
             if 'Mevarchim' in htext:
-                nextMonth = jd.add_days(12)
-                htext += '- Chodesh ' + utils.proper_jmonth_name(nextMonth.year, nextMonth.month)
-                htext += '\nThe Molad: ' + Molad.molad_string_heb(nextMonth.month, nextMonth.year)
+                next_month = jd.add_days(12)
+                htext += '- Chodesh ' + utils.proper_jmonth_name(next_month.year, next_month.month)
+                htext += '\nThe Molad: ' + Molad.molad_string_heb(next_month.month, next_month.year)
                 dim = JDate.days_in_jmonth(jd.year, jd.month)
                 dow = dim - jd.getdow() - (1 if dim == 30 else 0)
                 htext += '\nRosh Chodesh: ' + utils.dowHeb[dow]
@@ -72,7 +72,7 @@ def getdailyinfo(jd, location, hebrew):
             infos['Candle Lighting'] = jd.get_candle_lighting(location)
         infos['Daf Yomi'] = Dafyomi.tostring(jd)
         if jd.getdow() == 6:
-            prakim = pirkeiavos.get_pirkeiavos(jd, location.israel)
+            prakim = get_pirkeiavos(jd, location.israel)
             if prakim:
                 infos['Pirkei Avos'] = ' and '.join([utils.to_suffixed(p) + ' Perek' for p in prakim])
     return infos
@@ -85,8 +85,8 @@ def getdailyzmanim(jd, location):
     infos = []
     z = Zmanim(location, jd)
     feet = int(location.elevation * 3.28084)
-    netz, shkia = z.get_sun_times(considerElevation=True)
-    st_mishor = z.get_sun_times(considerElevation=False)
+    netz, shkia = z.get_sun_times(consider_elevation=True)
+    st_mishor = z.get_sun_times(consider_elevation=False)
     netz_mishor, shkia_mishor = st_mishor
     shaa_zmanis = z.get_shaa_zmanis(netzshkia=st_mishor)
     shaa_zmanis_90 = z.get_shaa_zmanis(offset=90, netzshkia=st_mishor)
@@ -118,9 +118,9 @@ def getdailyzmanim(jd, location):
         # Doesn't make sense to show alos if it is before chatzos.
         # If chatzos is before midnight, then chatzos.hour will be > 12 -
         # so we then check if alos is after midnight - in other words has an hour less than 12
-        if alos90 > chatzos_night or (chatzos_night.hour > 12 and alos90.hour < 12):
+        if alos90 > chatzos_night or (chatzos_night.hour > 12 > alos90.hour):
             infos.append(OneZman(eng='Alos Hashachar (90)', heb='עלות השחר 90', time=alos90))
-        if alos72 > chatzos_night or (chatzos_night.hour > 12 and alos72.hour < 12):
+        if alos72 > chatzos_night or (chatzos_night.hour > 12 > alos72.hour):
             infos.append(OneZman(eng='Alos Hashachar (72)', heb='עלות השחר 72', time=alos72))
         if netz == netz_mishor:
             infos.append(OneZman(eng='Netz Hachama', heb='הנץ החמה', time=netz))
@@ -150,13 +150,13 @@ def getdailyzmanim(jd, location):
             infos.append(OneZman(eng='Shkia (Sea Level)', heb='שקיעת החמה מגובה פני הים', time=shkia_mishor))
             infos.append(OneZman(eng='Shkia (from ({} feet)'.format(feet),
                                  heb="שקיעת החמה מגובה " + str(location.elevation) + " מטר", time=shkia))
-            if tzais_45 < chatzos_night or (chatzos_night.hour < 12 and tzais_45.hour > 12):
+            if tzais_45 < chatzos_night or (chatzos_night.hour < 12 < tzais_45.hour):
                 infos.append(OneZman(eng='Tzais (45)', heb='צאת הכוכבים 45', time=tzais_45))
-            if tzais_72 < chatzos_night or (chatzos_night.hour < 12 and tzais_72.hour > 12):
+            if tzais_72 < chatzos_night or (chatzos_night.hour < 12 < tzais_72.hour):
                 infos.append(OneZman(eng='Rabbeinu Tam (72)', heb='רבינו תם (72 שוות)', time=tzais_72))
-            if tzais_72_zmanios < chatzos_night or (chatzos_night.hour < 12 and tzais_72_zmanios.hour > 12):
+            if tzais_72_zmanios < chatzos_night or (chatzos_night.hour < 12 < tzais_72_zmanios.hour):
                 infos.append(OneZman(eng='Rabbeinu Tam (Zmanios)', heb='72 דקות זמניות', time=tzais_72_zmanios))
-            if tzais_72_zmanios_chmr < chatzos_night or (chatzos_night.hour < 12 and tzais_72_zmanios_chmr.hour > 12):
+            if tzais_72_zmanios_chmr < chatzos_night or (chatzos_night.hour < 12 < tzais_72_zmanios_chmr.hour):
                 infos.append(OneZman(eng='Rabbeinu Tam (Zmanios Lechumra)', heb='72 דקות זמניות לחומרה',
                                      time=tzais_72_zmanios_chmr))
     return infos

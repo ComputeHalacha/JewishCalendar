@@ -1,16 +1,12 @@
 import datetime
-import sys
 from collections import namedtuple
+from functools import lru_cache
 
 import jcal.utils as utils
 
-if "jcal.conversions" not in sys.modules.keys():
-    # prevent circular referencing
-    import jcal.conversions as conversions
-
 
 class JDate:
-    '''
+    """
     This class represents a single day in the Jewish Calendar and is the basic date unit for the pyluach library.
 
     To create an instance from a civil/secular/gregorian date, use the JDate.fromdate function.
@@ -26,15 +22,11 @@ class JDate:
     Conveniently, Pythons datetime.date also uses the ordinal for its underlying property.
     This facilitates quick conversions and an underlying similarity to Pythons built-in date classes.
     The one caveat of this is that the built-in date classes do not allow years prior to Gregorian year number 1,
-    while the Jewish calendar begins some 3,760 years earlier. 
+    while the Jewish calendar begins some 3,760 years earlier.
     See conversions.py for an explanation of how we worked around this issue.
 
     Some of the calculations used are based on the algorithms in "Calendrical Calculations" by Nachum Dershowitz and Edward M. Reingold.
-    '''
-
-    # To save on repeat calculations, a "cache" of years that have had their elapsed days previously calculated
-    # by the tdays function is kept in memory.  ("memoizing").
-    _yearCache = {}
+    """
 
     def __init__(self, year, month, day, ordinal=None):
         """
@@ -74,16 +66,16 @@ class JDate:
         return self._ordinal
 
     def __gt__(self, other):
-        return self._ordinal > other._ordinal
+        return self._ordinal > other.ordinal
 
     def __lt__(self, other):
-        return self._ordinal < other._ordinal
+        return self._ordinal < other.ordinal
 
     def __eq__(self, other):
-        return self._ordinal == other._ordinal
+        return self._ordinal == other.ordinal
 
     def __ne__(self, other):
-        return self._ordinal != other._ordinal
+        return self._ordinal != other.ordinal
 
     def __add__(self, other):
         return self.add_days(other)
@@ -117,15 +109,15 @@ class JDate:
     # Gets the number of days separating this Jewish Date and the given one.
     # If the given date is before this one, the number will be negative.
     def diff_days(self, jd):
-        return jd._ordinal - self._ordinal
+        return jd.ordinal - self._ordinal
 
     # Gets the day of the omer for the current Jewish date.
     # If the date is not during sefira, 0 is returned.
     def get_omer(self):
-        dayOfOmer = 0
-        if ((self._month == 1 and self._day > 15) or self._month == 2 or (self._month == 3 and self._day < 6)):
-            dayOfOmer = JDate(self._year, 1, 15).diff_days(self)
-        return dayOfOmer
+        day_of_omer = 0
+        if (self._month == 1 and self._day > 15) or self._month == 2 or (self._month == 3 and self._day < 6):
+            day_of_omer = JDate(self._year, 1, 15).diff_days(self)
+        return day_of_omer
 
     # Returns the current Jewish date in the format: Thursday Kislev 3 5776
     def tostring(self):
@@ -166,61 +158,58 @@ class JDate:
         # To save on calculations, start with a few years before date
         year = 3761 + int(ordinal / (366 if ordinal > 0 else 300))
         # Search forward for year from the approximation year.
-        while (ordinal >= JDate.toordinal(year + 1, 7, 1)):
+        while ordinal >= JDate.toordinal(year + 1, 7, 1):
             year += 1
         # Search forward for month from either Tishrei or Nissan.
         month = (7 if ordinal < JDate.toordinal(year, 1, 1) else 1)
-        while (ordinal > JDate.toordinal(year, month, JDate.days_in_jmonth(year, month))):
+        while ordinal > JDate.toordinal(year, month, JDate.days_in_jmonth(year, month)):
             month += 1
             # Calculate the day by subtraction.
         day = (ordinal - JDate.toordinal(year, month, 1) + 1)
 
         return JDate(year, month, day, ordinal)
 
-    # Elapsed days since creation of the world until Rosh Hashana of the given year
     @staticmethod
+    @lru_cache()
     def tdays(year):
-        '''As this function is called many times, often on the same year for all types of calculations,
-        we cache a list of years with their elapsed values.'''
+        """
+        Elapsed days since creation of the world until Rosh Hashana of the given year.
 
-        # If this year was already calculated and cached,
-        # then we return the cached value.
-        if year in JDate._yearCache:
-            return JDate._yearCache[year]
-
+        As this function is not too lightweight and is called repeatedly -
+        often on the same year, with deterministic results,
+        it is a beautiful candidate for caching ("memoizing") the results.
+        """
         months = int((235 * int((year - 1) / 19)) +  # Leap months this cycle
                      (12 * ((year - 1) % 19)) +  # Regular months in this cycle.
                      (7 * ((year - 1) % 19) + 1) / 19)  # Months in complete cycles so far.
         parts = 204 + 793 * (months % 1080)
         hours = 5 + 12 * months + 793 * int(months / 1080) + int(parts / 1080)
-        conjDay = int(1 + 29 * months + hours / 24)
-        conjParts = 1080 * (hours % 24) + parts % 1080
+        conj_day = int(1 + 29 * months + hours / 24)
+        conj_parts = 1080 * (hours % 24) + parts % 1080
 
         ''' at the end of a leap year -  15 hours, 589 parts or later... -
         ... or is on a Monday at... -  ...of a common year, -
         at 9 hours, 204 parts or later... - ...or is on a Tuesday... -
         If new moon is at or after midday,'''
-        if ((conjParts >= 19440) or (
-                        ((conjDay % 7) == 2) and (conjParts >= 9924) and (not JDate.isleap_jyear(year))) or (
-                        ((conjDay % 7) == 1) and (conjParts >= 16789) and (JDate.isleap_jyear(year - 1)))):
+        if ((conj_parts >= 19440) or (
+                        ((conj_day % 7) == 2) and (conj_parts >= 9924) and (not JDate.isleap_jyear(year))) or (
+                        ((conj_day % 7) == 1) and (conj_parts >= 16789) and (JDate.isleap_jyear(year - 1)))):
             # Then postpone Rosh HaShanah one day
-            altDay = (conjDay + 1)
+            alt_day = (conj_day + 1)
         else:
-            altDay = conjDay
+            alt_day = conj_day
 
         # A day is added if Rosh HaShanah would occur on Sunday, Friday or
         # Wednesday,
-        if (altDay % 7) in [0, 3, 5]:
-            altDay += 1
+        if (alt_day % 7) in [0, 3, 5]:
+            alt_day += 1
 
-        # Add this year to the cache to save on calculations later on
-        JDate._yearCache[year] = altDay
-
-        return altDay
+        return alt_day
 
     # Number of days in the given Jewish Year
+    @staticmethod
     def days_in_jyear(year):
-        return ((JDate.tdays(year + 1)) - (JDate.tdays(year)))
+        return (JDate.tdays(year + 1)) - (JDate.tdays(year))
 
     # Number of days in the given Jewish Month.
     # Nissan is 1 and Adar Sheini is 13.
@@ -263,8 +252,10 @@ class JDate:
           - a utils.GregorianDate namedtuple
           - an int representing the yearl
          """
+        # import inline to prevent circular referencing
+        from jcal.conversions import greg_to_jdate
 
-        return conversions.greg_to_jdate(date_or_year, month, day)
+        return greg_to_jdate(date_or_year, month, day)
 
     # Returns the civil/secular/Gregorian date of this Jewish Date
     def todate(self):
@@ -275,8 +266,10 @@ class JDate:
         By not returning a Python datetime.date, we can allow return dates before the common era -
         which the built-in datetime classes do not allow.
         """
+        # import inline to prevent circular referencing
+        from jcal.conversions import  jdate_to_greg
 
-        return conversions.jdate_to_greg(self)
+        return jdate_to_greg(self)
 
     # Return the current Jewish Date
     @staticmethod
@@ -319,7 +312,7 @@ class JDate:
     # Each item is a namedtuple instance of type Entry(heb, eng)
     def get_holidays(self, israel):
         Entry = namedtuple('Entry', 'heb eng')
-        list = []
+        lst = []
         j_year = self._year
         j_month = self._month
         j_day = self._day
@@ -328,200 +321,200 @@ class JDate:
         sec_date = self.todate()
 
         if day_of_week == 5:
-            list.append(Entry("ערב שבת", "Erev Shabbos"))
-        elif (day_of_week == 6):
-            list.append(Entry("שבת קודש", "Shabbos Kodesh"))
+            lst.append(Entry("ערב שבת", "Erev Shabbos"))
+        elif day_of_week == 6:
+            lst.append(Entry("שבת קודש", "Shabbos Kodesh"))
 
-            if (j_month == 1 and j_day > 7 and j_day < 15):
-                list.append(Entry("שבת הגדול", "Shabbos HaGadol"))
-            elif (j_month == 7 and j_day > 2 and j_day < 10):
-                list.append(Entry("שבת שובה", "Shabbos Shuva"))
-            elif (j_month == 5 and j_day > 2 and j_day < 10):
-                list.append(Entry("שבת חזון", "Shabbos Chazon"))
-            elif ((j_month == (isleap_jyear and 12 or 11) and j_day > 23 and j_day < 30) or (
+            if j_month == 1 and 7 < j_day < 15:
+                lst.append(Entry("שבת הגדול", "Shabbos HaGadol"))
+            elif j_month == 7 and 2 < j_day < 10:
+                lst.append(Entry("שבת שובה", "Shabbos Shuva"))
+            elif j_month == 5 and 2 < j_day < 10:
+                lst.append(Entry("שבת חזון", "Shabbos Chazon"))
+            elif ((j_month == (isleap_jyear and 12 or 11) and 23 < j_day < 30) or (
                             j_month == (isleap_jyear and 13 or 12) and j_day == 1)):
-                list.append(Entry("פרשת שקלים", "Parshas Shkalim"))
-            elif (j_month == (isleap_jyear and 13 or 12) and j_day > 7 and j_day < 14):
-                list.append(Entry("פרשת זכור", "Parshas Zachor"))
-            elif (j_month == (isleap_jyear and 13 or 12) and j_day > 16 and j_day < 24):
-                list.append(Entry("פרשת פרה", "Parshas Parah"))
-            elif ((j_month == (isleap_jyear and 13 or 12) and j_day > 23 and j_day < 30) or
+                lst.append(Entry("פרשת שקלים", "Parshas Shkalim"))
+            elif j_month == (isleap_jyear and 13 or 12) and 7 < j_day < 14:
+                lst.append(Entry("פרשת זכור", "Parshas Zachor"))
+            elif j_month == (isleap_jyear and 13 or 12) and 16 < j_day < 24:
+                lst.append(Entry("פרשת פרה", "Parshas Parah"))
+            elif ((j_month == (isleap_jyear and 13 or 12) and 23 < j_day < 30) or
                       (j_month == 1 and j_day == 1)):
-                list.append(Entry("פרשת החודש", "Parshas Hachodesh"))
+                lst.append(Entry("פרשת החודש", "Parshas Hachodesh"))
 
             # All months but Tishrei have Shabbos Mevarchim on the Shabbos
             # before Rosh Chodesh
-            if (j_month != 6 and j_day > 22 and j_day < 30):
-                list.append(Entry("מברכים החודש", "Shabbos Mevarchim"))
-        if (j_day == 30):
+            if j_month != 6 and 22 < j_day < 30:
+                lst.append(Entry("מברכים החודש", "Shabbos Mevarchim"))
+        if j_day == 30:
             month_index = (1 if (j_month == 12 and not isleap_jyear) or j_month == 13 else j_month + 1)
-            list.append(Entry("ראש חודש " + utils.jmonths_heb[month_index],
+            lst.append(Entry("ראש חודש " + utils.jmonths_heb[month_index],
                               "Rosh Chodesh " + utils.jmonths_eng[month_index]))
-        elif (j_day == 1 and j_month != 7):
-            list.append(Entry("ראש חודש " + utils.jmonths_heb[j_month],
+        elif j_day == 1 and j_month != 7:
+            lst.append(Entry("ראש חודש " + utils.jmonths_heb[j_month],
                               "Rosh Chodesh " + utils.jmonths_eng[j_month]))
 
         # V'sain Tal U'Matar in Chutz La'aretz is according to the secular date
-        if (day_of_week != 6 and (not israel) and sec_date.month == 12):
+        if day_of_week != 6 and (not israel) and sec_date.month == 12:
             sday = sec_date.day
             # The three possible dates for starting vt"u are the 5th, 6th and
             # 7th of December
-            if (sday in [5, 6, 7]):
-                nextYearIsLeap = JDate.isleap_jyear(j_year + 1)
+            if sday in [5, 6, 7]:
+                next_year_is_leap = JDate.isleap_jyear(j_year + 1)
                 # If next year is not a leap year, then vst"u starts on the
                 # 5th.
                 # If next year is a leap year than vst"u starts on the 6th.
                 # If the 5th or 6th were shabbos than vst"u starts on Sunday.
-                if ((((sday == 5 or (sday == 6 and day_of_week == 0)) and (not nextYearIsLeap))) or (
-                            (sday == 6 or (sday == 7 and day_of_week == 0)) and nextYearIsLeap)):
-                    list.append(Entry("ותן טל ומטר", "V'sain Tal U'Matar"))
+                if ((sday == 5 or (sday == 6 and day_of_week == 0) and not next_year_is_leap) or (
+                            (sday == 6 or (sday == 7 and day_of_week == 0)) and next_year_is_leap)):
+                    lst.append(Entry("ותן טל ומטר", "V'sain Tal U'Matar"))
         if j_month == 1:  # Nissan
-            if (j_day == 12 and day_of_week == 4):
-                list.append(Entry("בדיקת חמץ", "Bedikas Chametz"))
-            elif (j_day == 13 and day_of_week != 5):
-                list.append(Entry("בדיקת חמץ", "Bedikas Chametz"))
-            elif (j_day == 14):
-                list.append(Entry("ערב פסח", "Erev Pesach"))
-            elif (j_day == 15):
-                list.append(Entry("פסח - יום ראשון", "First Day of Pesach"))
-            elif (j_day == 16):
-                list.append(Entry("פסח - חול המועד", 'Pesach  - Chol HaMoed') if israel else
+            if j_day == 12 and day_of_week == 4:
+                lst.append(Entry("בדיקת חמץ", "Bedikas Chametz"))
+            elif j_day == 13 and day_of_week != 5:
+                lst.append(Entry("בדיקת חמץ", "Bedikas Chametz"))
+            elif j_day == 14:
+                lst.append(Entry("ערב פסח", "Erev Pesach"))
+            elif j_day == 15:
+                lst.append(Entry("פסח - יום ראשון", "First Day of Pesach"))
+            elif j_day == 16:
+                lst.append(Entry("פסח - חול המועד", 'Pesach  - Chol HaMoed') if israel else
                             Entry("פסח - יום שני", "Pesach - Second Day"))
-            elif (j_day in [17, 18, 19]):
-                list.append(Entry("פסח - חול המועד", "Pesach - Chol Ha'moed"))
-            elif (j_day == 20):
-                list.append(Entry("פסח - חול המועד - ערב יו\"ט", "Pesach - Chol Ha'moed - Erev Yomtov"))
-            elif (j_day == 21):
-                list.append(Entry("שביעי של פסח", "7th Day of Pesach"))
-            elif (j_day == 22 and not israel):
-                list.append(Entry("אחרון של פסח", "Last Day of Pesach"))
+            elif j_day in [17, 18, 19]:
+                lst.append(Entry("פסח - חול המועד", "Pesach - Chol Ha'moed"))
+            elif j_day == 20:
+                lst.append(Entry("פסח - חול המועד - ערב יו\"ט", "Pesach - Chol Ha'moed - Erev Yomtov"))
+            elif j_day == 21:
+                lst.append(Entry("שביעי של פסח", "7th Day of Pesach"))
+            elif j_day == 22 and not israel:
+                lst.append(Entry("אחרון של פסח", "Last Day of Pesach"))
         elif j_month == 2:  # Iyar
-            if (day_of_week == 1 and j_day > 2 and j_day < 12):
-                list.append(Entry("תענית שני קמא", "Baha\"b"))
-            elif (day_of_week == 4 and j_day > 5 and j_day < 13):
-                list.append(Entry('תענית חמישי', 'Baha\"b'))
-            elif (day_of_week == 1 and j_day > 9 and j_day < 17):
-                list.append(Entry('תענית שני בתרא', 'Baha"b'))
-            if (j_day == 14):
-                list.append(Entry("פסח שני", "Pesach Sheini"))
-            elif (j_day == 18):
-                list.append(Entry('ל"ג בעומר', "Lag BaOmer"))
+            if day_of_week == 1 and 2 < j_day < 12:
+                lst.append(Entry("תענית שני קמא", "Baha\"b"))
+            elif day_of_week == 4 and 5 < j_day < 13:
+                lst.append(Entry('תענית חמישי', 'Baha\"b'))
+            elif day_of_week == 1 and 9 < j_day < 17:
+                lst.append(Entry('תענית שני בתרא', 'Baha"b'))
+            if j_day == 14:
+                lst.append(Entry("פסח שני", "Pesach Sheini"))
+            elif j_day == 18:
+                lst.append(Entry('ל"ג בעומר', "Lag BaOmer"))
         elif j_month == 3:  # Sivan
-            if (j_day == 5):
-                list.append(Entry("ערב שבועות", "Erev Shavuos"))
-            elif (j_day == 6):
-                list.append(Entry('חג השבועות', 'Shavuos') if israel else
+            if j_day == 5:
+                lst.append(Entry("ערב שבועות", "Erev Shavuos"))
+            elif j_day == 6:
+                lst.append(Entry('חג השבועות', 'Shavuos') if israel else
                             Entry('שבועות - יום ראשון', 'Shavuos - First Day'))
-            elif (j_day == 7 and not israel):
-                list.append(Entry("שבועות - יום שני", "Shavuos - Second Day"))
+            elif j_day == 7 and not israel:
+                lst.append(Entry("שבועות - יום שני", "Shavuos - Second Day"))
         elif j_month == 4:  # Tamuz
-            if (j_day == 17 and day_of_week != 6):
-                list.append(Entry('צום י"ז בתמוז', "Fast - 17th of Tammuz"))
-            elif (j_day == 18 and day_of_week == 0):
-                list.append(Entry('צום י"ז בתמוז', "Fast - 17th of Tammuz"))
+            if j_day == 17 and day_of_week != 6:
+                lst.append(Entry('צום י"ז בתמוז', "Fast - 17th of Tammuz"))
+            elif j_day == 18 and day_of_week == 0:
+                lst.append(Entry('צום י"ז בתמוז', "Fast - 17th of Tammuz"))
         elif j_month == 5:  # Av
-            if (j_day == 9 and day_of_week != 6):
-                list.append(Entry("תשעה באב", "Tisha B'Av"))
-            elif (j_day == 10 and day_of_week == 0):
-                list.append(Entry("תשעה באב", "Tisha B'Av"))
-            elif (j_day == 15):
-                list.append(Entry('ט"ו באב', "Tu B'Av"))
+            if j_day == 9 and day_of_week != 6:
+                lst.append(Entry("תשעה באב", "Tisha B'Av"))
+            elif j_day == 10 and day_of_week == 0:
+                lst.append(Entry("תשעה באב", "Tisha B'Av"))
+            elif j_day == 15:
+                lst.append(Entry('ט"ו באב', "Tu B'Av"))
         elif j_month == 6:  # Ellul
-            if (j_day == 29):
-                list.append(Entry("ערב ראש השנה", "Erev Rosh Hashana"))
+            if j_day == 29:
+                lst.append(Entry("ערב ראש השנה", "Erev Rosh Hashana"))
         elif j_month == 7:  # Tishrei
-            if (j_day == 1):
-                list.append(Entry("ראש השנה", "Rosh Hashana - First Day"))
-            elif (j_day == 2):
-                list.append(Entry("ראש השנה", "Rosh Hashana - Second Day"))
-            elif (j_day == 3 and day_of_week != 6):
-                list.append(Entry("צום גדליה", "Tzom Gedalia"))
-            elif (j_day == 4 and day_of_week == 0):
-                list.append(Entry("צום גדליה", "Tzom Gedalia"))
-            elif (j_day == 9):
-                list.append(Entry("ערב יום הכיפורים", "Erev Yom Kippur"))
-            elif (j_day == 10):
-                list.append(Entry("יום הכיפורים", "Yom Kippur"))
-            elif (j_day == 14):
-                list.append(Entry("ערב חג הסוכות", "Erev Sukkos"))
-            elif (j_day == 15):
-                list.append(Entry("חג הסוכות", "First Day of Sukkos"))
-            elif (j_day == 16):
-                list.append(Entry('סוכות - חול המועד', 'Sukkos - Chol HaMoed') if israel else
+            if j_day == 1:
+                lst.append(Entry("ראש השנה", "Rosh Hashana - First Day"))
+            elif j_day == 2:
+                lst.append(Entry("ראש השנה", "Rosh Hashana - Second Day"))
+            elif j_day == 3 and day_of_week != 6:
+                lst.append(Entry("צום גדליה", "Tzom Gedalia"))
+            elif j_day == 4 and day_of_week == 0:
+                lst.append(Entry("צום גדליה", "Tzom Gedalia"))
+            elif j_day == 9:
+                lst.append(Entry("ערב יום הכיפורים", "Erev Yom Kippur"))
+            elif j_day == 10:
+                lst.append(Entry("יום הכיפורים", "Yom Kippur"))
+            elif j_day == 14:
+                lst.append(Entry("ערב חג הסוכות", "Erev Sukkos"))
+            elif j_day == 15:
+                lst.append(Entry("חג הסוכות", "First Day of Sukkos"))
+            elif j_day == 16:
+                lst.append(Entry('סוכות - חול המועד', 'Sukkos - Chol HaMoed') if israel else
                             Entry('חג הסוכות - יום שני', 'Sukkos - Second Day'))
-            elif (j_day in [17, 18, 19, 20]):
-                list.append(Entry("סוכות - חול המועד", "Sukkos - Chol HaMoed"))
-            elif (j_day == 21):
-                list.append(Entry('הושענא רבה - ערב יו"ט', "Hoshana Rabba - Erev Yomtov"))
-            elif (j_day == 22):
-                list.append(Entry("שמיני עצרת", "Shmini Atzeres"))
-                if (israel):
-                    list.append(Entry("שמחת תורה", "Simchas Torah"))
-            elif (j_day == 23 and not israel):
-                list.append(Entry("שמחת תורה", "Simchas Torah"))
+            elif j_day in [17, 18, 19, 20]:
+                lst.append(Entry("סוכות - חול המועד", "Sukkos - Chol HaMoed"))
+            elif j_day == 21:
+                lst.append(Entry('הושענא רבה - ערב יו"ט', "Hoshana Rabba - Erev Yomtov"))
+            elif j_day == 22:
+                lst.append(Entry("שמיני עצרת", "Shmini Atzeres"))
+                if israel:
+                    lst.append(Entry("שמחת תורה", "Simchas Torah"))
+            elif j_day == 23 and not israel:
+                lst.append(Entry("שמחת תורה", "Simchas Torah"))
         elif j_month == 8:  # Cheshvan
-            if (day_of_week == 1 and j_day > 2 and j_day < 12):
-                list.append(Entry("תענית שני קמא", 'Baha"b'))
-            elif (day_of_week == 4 and j_day > 5 and j_day < 13):
-                list.append(Entry("תענית חמישי", 'Baha"b'))
-            elif (day_of_week == 1 and j_day > 9 and j_day < 17):
-                list.append(Entry("תענית שני בתרא", 'Baha"b'))
-            if (j_day == 7 and israel):
-                list.append(Entry("ותן טל ומטר", "V'sain Tal U'Matar"))
+            if day_of_week == 1 and 2 < j_day < 12:
+                lst.append(Entry("תענית שני קמא", 'Baha"b'))
+            elif day_of_week == 4 and 5 < j_day < 13:
+                lst.append(Entry("תענית חמישי", 'Baha"b'))
+            elif day_of_week == 1 and 9 < j_day < 17:
+                lst.append(Entry("תענית שני בתרא", 'Baha"b'))
+            if j_day == 7 and israel:
+                lst.append(Entry("ותן טל ומטר", "V'sain Tal U'Matar"))
         elif j_month == 9:  # Kislev
-            if (j_day == 25):
-                list.append(Entry("'חנוכה - נר א", "Chanuka - One Candle"))
-            elif (j_day == 26):
-                list.append(Entry("'חנוכה - נר ב", "Chanuka - Two Candles"))
-            elif (j_day == 27):
-                list.append(Entry("'חנוכה - נר ג", "Chanuka - Three Candles"))
-            elif (j_day == 28):
-                list.append(Entry("'חנוכה - נר ד", "Chanuka - Four Candles"))
-            elif (j_day == 29):
-                list.append(Entry("'חנוכה - נר ה", "Chanuka - Five Candles"))
-            elif (j_day == 30):
-                list.append(Entry("'חנוכה - נר ו", "Chanuka - Six Candles"))
+            if j_day == 25:
+                lst.append(Entry("'חנוכה - נר א", "Chanuka - One Candle"))
+            elif j_day == 26:
+                lst.append(Entry("'חנוכה - נר ב", "Chanuka - Two Candles"))
+            elif j_day == 27:
+                lst.append(Entry("'חנוכה - נר ג", "Chanuka - Three Candles"))
+            elif j_day == 28:
+                lst.append(Entry("'חנוכה - נר ד", "Chanuka - Four Candles"))
+            elif j_day == 29:
+                lst.append(Entry("'חנוכה - נר ה", "Chanuka - Five Candles"))
+            elif j_day == 30:
+                lst.append(Entry("'חנוכה - נר ו", "Chanuka - Six Candles"))
         elif j_month == 10:  # Teves
-            if (JDate.has_short_kislev(j_year)):
-                if (j_day == 1):
-                    list.append(Entry("'חנוכה - נר ו", "Chanuka - Six Candles"))
-                elif (j_day == 2):
-                    list.append(Entry("'חנוכה - נר ז", "Chanuka - Seven Candles"))
-                elif (j_day == 3):
-                    list.append(Entry("'חנוכה - נר ח", "Chanuka - Eight Candles"))
+            if JDate.has_short_kislev(j_year):
+                if j_day == 1:
+                    lst.append(Entry("'חנוכה - נר ו", "Chanuka - Six Candles"))
+                elif j_day == 2:
+                    lst.append(Entry("'חנוכה - נר ז", "Chanuka - Seven Candles"))
+                elif j_day == 3:
+                    lst.append(Entry("'חנוכה - נר ח", "Chanuka - Eight Candles"))
             else:
-                if (j_day == 1):
-                    list.append(Entry("'חנוכה - נר ז", "Chanuka - Seven Candles"))
-                elif (j_day == 2):
-                    list.append(Entry("'חנוכה - נר ח", "Chanuka - Eight Candles"))
-            if (j_day == 10):
-                list.append(Entry("צום עשרה בטבת", "Fast - 10th of Teves"))
+                if j_day == 1:
+                    lst.append(Entry("'חנוכה - נר ז", "Chanuka - Seven Candles"))
+                elif j_day == 2:
+                    lst.append(Entry("'חנוכה - נר ח", "Chanuka - Eight Candles"))
+            if j_day == 10:
+                lst.append(Entry("צום עשרה בטבת", "Fast - 10th of Teves"))
         elif j_month == 11:  # Shvat
-            if (j_day == 15):
-                list.append(Entry("ט\"ו בשבט", "Tu B'Shvat"))
+            if j_day == 15:
+                lst.append(Entry("ט\"ו בשבט", "Tu B'Shvat"))
             elif j_month in [12, 13]:  # Both Adars
-                if (j_month == 12 and isleap_jyear):  # Adar Rishon in a leap year
-                    if (j_day == 14):
-                        list.append(Entry("פורים קטן", "Purim Katan"))
-                    elif (j_day == 15):
-                        list.append(Entry("שושן פורים קטן", "Shushan Purim Katan"))
+                if j_month == 12 and isleap_jyear:  # Adar Rishon in a leap year
+                    if j_day == 14:
+                        lst.append(Entry("פורים קטן", "Purim Katan"))
+                    elif j_day == 15:
+                        lst.append(Entry("שושן פורים קטן", "Shushan Purim Katan"))
                 else:  # The "real" Adar: the only one in a non-leap-year or Adar Sheini
-                    if (j_day == 11 and day_of_week == 4):
-                        list.append(Entry("תענית אסתר", "Fast - Taanis Esther"))
-                    elif (j_day == 13 and day_of_week != 6):
-                        list.append(Entry("תענית אסתר", "Fast - Taanis Esther"))
-                    elif (j_day == 14):
-                        list.append(Entry("פורים", "Purim"))
-                    elif (j_day == 15):
-                        list.append(Entry("שושן פורים", "Shushan Purim"))
+                    if j_day == 11 and day_of_week == 4:
+                        lst.append(Entry("תענית אסתר", "Fast - Taanis Esther"))
+                    elif j_day == 13 and day_of_week != 6:
+                        lst.append(Entry("תענית אסתר", "Fast - Taanis Esther"))
+                    elif j_day == 14:
+                        lst.append(Entry("פורים", "Purim"))
+                    elif j_day == 15:
+                        lst.append(Entry("שושן פורים", "Shushan Purim"))
         # If it is during Sefiras Ha'omer
-        if ((j_month == 1 and j_day > 15) or j_month == 2 or (j_month == 3 and j_day < 6)):
-            dayOfSefirah = self.get_omer()
-            if (dayOfSefirah > 0):
-                list.append(Entry("ספירת העומר - יום " + dayOfSefirah.tostring(),
-                                  "Sefiras Ha'omer - Day " + dayOfSefirah.tostring()))
+        if (j_month == 1 and j_day > 15) or j_month == 2 or (j_month == 3 and j_day < 6):
+            day_of_sefirah = self.get_omer()
+            if day_of_sefirah > 0:
+                lst.append(Entry("ספירת העומר - יום " + str(day_of_sefirah),
+                                  "Sefiras Ha'omer - Day " + str(day_of_sefirah)))
 
-        return list
+        return lst
 
     # Is the current Jewish Date the day before a yomtov that contains a
     # Friday?
@@ -540,9 +533,9 @@ class JDate:
     # Does the current Jewish date have candle lighting before sunset?
     def has_candle_lighting(self):
         dow = self.getdow()
-        if (dow == 5):
+        if dow == 5:
             return True
-        elif (dow == 6):
+        elif dow == 6:
             # there is no "candle lighting time" - even if yom tov is on Motzai
             # Shabbos
             return False
@@ -564,5 +557,5 @@ class JDate:
 
 if __name__ == '__main__':
     # to print todays Jewish Date and any Holidays for today in Hebrew
-    jd = JDate.today()
-    print(jd.tostring_heb(), jd.get_holidays(True))
+    jdate = JDate.today()
+    print(jdate.tostring_heb(), jdate.get_holidays(True))

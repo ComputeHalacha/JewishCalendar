@@ -33,12 +33,12 @@ class Zmanim:
     '''Gets sunrise and sunset time for the current date.
     Returns a tuple of HourMinute objects (sunrise, sunset)'''
 
-    def get_sun_times(self, considerElevation=True):
+    def get_sun_times(self, consider_elevation=True):
         day = utils.days_till_greg_date(self.seculardate) + 1
         zen_deg = 90
         zen_min = 50
         zen_at_elv = Zmanim._degtodec(zen_deg, zen_min) + Zmanim._radtodeg(
-            math.acos(EARTH_RADIUS / (EARTH_RADIUS + ((self.location.elevation or 0) if considerElevation else 0))))
+            math.acos(EARTH_RADIUS / (EARTH_RADIUS + ((self.location.elevation or 0) if consider_elevation else 0))))
         zen_deg = math.floor(zen_at_elv)
         zen_min = (zen_at_elv - math.floor(zen_at_elv)) * 60
         cos_zen = math.cos(0.01745 * Zmanim._degtodec(zen_deg, zen_min))
@@ -46,7 +46,7 @@ class Zmanim:
         lon_h = longitude / 15
         latitude = self.location.latitude
         cos_lat = math.cos(0.01745 * latitude)
-        sinLat = math.sin(0.01745 * latitude)
+        sin_lat = math.sin(0.01745 * latitude)
         t_rise = day + (6 + lon_h) / 24
         t_set = day + (18 + lon_h) / 24
         xm_rise = Zmanim._m(t_rise)
@@ -57,41 +57,40 @@ class Zmanim:
         a_set = 57.29578 * math.atan(0.91746 * math.tan(0.01745 * xl_set))
         if abs(a_rise + 360 - xl_rise) > 90:
             a_rise += 180
-        if (a_rise > 360):
+        if a_rise > 360:
             a_rise -= 360
-        if (abs(a_set + 360 - xl_set) > 90):
+        if abs(a_set + 360 - xl_set) > 90:
             a_set += 180
-        if (a_set > 360):
+        if a_set > 360:
             a_set -= 360
         ahr_rise = a_rise / 15
         sin_dec = 0.39782 * math.sin(0.01745 * xl_rise)
         cos_dec = math.sqrt(1 - sin_dec * sin_dec)
-        h_rise = (cos_zen - sin_dec * sinLat) / (cos_dec * cos_lat)
-        ahrSet = a_set / 15
+        h_rise = (cos_zen - sin_dec * sin_lat) / (cos_dec * cos_lat)
+        ahr_set = a_set / 15
         sin_dec = 0.39782 * math.sin(0.01745 * xl_set)
         cos_dec = math.sqrt(1 - sin_dec * sin_dec)
-        h_set = (cos_zen - sin_dec * sinLat) / (cos_dec * cos_lat)
+        h_set = (cos_zen - sin_dec * sin_lat) / (cos_dec * cos_lat)
         if abs(h_rise) <= 1:
             h_rise = 57.29578 * math.acos(h_rise)
             ut_rise = ((360 - h_rise) / 15) + ahr_rise + Zmanim._adjust(t_rise) + lon_h
             sunrise = Zmanim._set_time(ut_rise + self.location.utcoffset, self.seculardate, self.location)
-            while (sunrise.hour > 12):
+            while sunrise.hour > 12:
                 # sunrise can never be after mid-day
                 sunrise -= 720  # reduce by 12 hours
         else:
             sunrise = HourMinute(0, 0)
 
         if abs(h_set) <= 1:
-            h_set = 57.29578 * math.acos(h_set)
-            ut_set = (h_rise / 15) + ahrSet + Zmanim._adjust(t_set) + lon_h
+            ut_set = (h_rise / 15) + ahr_set + Zmanim._adjust(t_set) + lon_h
             sunset = Zmanim._set_time(ut_set + self.location.utcoffset, self.seculardate, self.location)
             # sunset can never be before mid-day
-            while (sunset.hour < 12):
+            while sunset.hour < 12:
                 sunset += 720  # add 12 hours
         else:
             sunset = HourMinute(0, 0)
 
-        return (sunrise, sunset)
+        return sunrise, sunset
 
     def get_chatzos(self, suntimes=None):
         netz, shkia = suntimes or self.get_sun_times(False)
@@ -132,8 +131,8 @@ class Zmanim:
 
     # convert degrees to decimal
     @staticmethod
-    def _degtodec(deg, min):
-        return (deg + min / 60.0)
+    def _degtodec(deg, minutes):
+        return deg + minutes / 60.0
 
     @staticmethod
     def _m(x):
@@ -159,20 +158,19 @@ class Zmanim:
             time += 24
 
         hour = int(time)
-        min = int(int((time - hour) * 60 + 0.5))
+        minutes = int(int((time - hour) * 60 + 0.5))
 
-        while min >= 60:
+        while minutes >= 60:
             hour += 1
-            min -= 60
+            minutes -= 60
 
         if utils.is_sd_dst(date, hour, location):
             hour += 1
 
-        return HourMinute(hour, min)
+        return HourMinute(hour, minutes)
 
 
 if __name__ == '__main__'"":
-    jd = JDate.today()
-    zm = Zmanim(dt=jd)
+    zm = Zmanim(dt=datetime.datetime)
     print(zm.get_sun_times())
     print(zm.get_chatzos())

@@ -1,7 +1,8 @@
-import jcal.utils as Utils
+import jcal.utils as utils
 from jcal.hourminute import HourMinute
 from jcal.jdate import JDate
 from jcal.zmanim import Zmanim
+from jcal.location import Location
 
 ''' Returns the molad for the given jewish month and year.
  Algorithm was adapted from Hebcal by Danny Sadinoff.
@@ -14,19 +15,19 @@ from jcal.zmanim import Zmanim
 class Molad:
     @staticmethod
     def get_molad(month, year):
-        monthAdj = month - 7
+        month_adj = month - 7
 
-        if (monthAdj < 0):
-            monthAdj += JDate.months_in_jyear(year)
+        if month_adj < 0:
+            month_adj += JDate.months_in_jyear(year)
 
-        totalMonths = int(
-            monthAdj + 235 * int((year - 1) / 19) + 12 * ((year - 1) % 19) + ((((year - 1) % 19) * 7) + 1) / 19)
-        partsElapsed = 204 + (793 * (totalMonths % 1080))
-        hoursElapsed = 5 + (12 * totalMonths) + 793 * int(totalMonths / 1080) + int(partsElapsed / 1080) - 6
-        parts = int((partsElapsed % 1080) + 1080 * (hoursElapsed % 24))
+        total_months = int(
+            month_adj + 235 * int((year - 1) / 19) + 12 * ((year - 1) % 19) + ((((year - 1) % 19) * 7) + 1) / 19)
+        parts_elapsed = 204 + (793 * (total_months % 1080))
+        hours_elapsed = 5 + (12 * total_months) + 793 * int(total_months / 1080) + int(parts_elapsed / 1080) - 6
+        parts = int((parts_elapsed % 1080) + 1080 * (hours_elapsed % 24))
 
-        return dict(JDate=JDate.fromordinal((1 + (29 * int(totalMonths))) + int((hoursElapsed / 24))),
-                    time=HourMinute(int(hoursElapsed) % 24, int((parts % 1080) / 18)), chalakim=parts % 18)
+        return dict(JDate=JDate.fromordinal((1 + (29 * int(total_months))) + int((hours_elapsed / 24))),
+                    time=HourMinute(int(hours_elapsed) % 24, int((parts % 1080) / 18)), chalakim=parts % 18)
 
     #  Returns the time of the molad as a string in the format: Monday Night, 8:33 PM and 12 Chalakim
     #  The molad is always in Jerusalem so we use the Jerusalem sunset times
@@ -34,18 +35,18 @@ class Molad:
     @staticmethod
     def molad_string(year, month):
         molad = Molad.get_molad(month, year)
-        zmanim = Zmanim(date=molad['JDate'])
+        zmanim = Zmanim(dt=molad['JDate'])
         _, nightfall = zmanim.get_sun_times()
-        isNight = molad['time'].total_minutes() >= nightfall.total_minutes()
+        is_night = molad['time'].total_minutes() >= nightfall.total_minutes()
         dow = molad['JDate'].getdow()
         text = ''
 
-        if (dow == 6 and isNight):
+        if dow == 6 and is_night:
             text += "Motzai Shabbos,"
-        elif (dow == 5 and isNight):
+        elif dow == 5 and is_night:
             text += "Shabbos Night,"
         else:
-            text += Utils.dow_eng[dow] + (" Night" if isNight else "")
+            text += utils.dow_eng[dow] + (" Night" if is_night else "")
 
         text += " " + str(molad['time']) + " and " + str(molad['chalakim']) + " Chalakim"
 
@@ -54,22 +55,23 @@ class Molad:
     #  Returns the time of the molad as a string in the format: ליל שני 20:33 12 חלקים
     #  The molad is always in Jerusalem so we use the Jerusalem sunset times
     #  to determine whether to display "ליל/יום" or "מוצאי שב"ק" etc.
+    @staticmethod
     def molad_string_heb(year, month):
         molad = Molad.get_molad(month, year)
-        nightfall = molad.JDate.getSunriseSunset(Location.get_jerusalem()).sunset
-        isNight = Utils.total_minutes(Utils.timeDiff(molad.time, nightfall)) >= 0
-        dow = molad.JDate.getdow()
+        nightfall = molad['JDate'].getSunriseSunset(Location.get_jerusalem()).sunset
+        is_night = molad['time'] > nightfall
+        dow = molad['JDate'].getdow()
         text = ''
 
-        if (dow == 6):
-            text += ('מוצאי שב״ק' if isNight else 'יום שב״ק')
-        elif (dow == 5):
-            text += ('ליל שב״ק' if isNight else 'ערב שב״ק')
+        if dow == 6:
+            text += ('מוצאי שב״ק' if is_night else 'יום שב״ק')
+        elif dow == 5:
+            text += ('ליל שב״ק' if is_night else 'ערב שב״ק')
         else:
-            text += ('ליל' if isNight else 'יום') + Utils.dowHeb[dow].replace("יום", "")
-        str += " " + Utils.getTimeString(molad.time, True) + " " + molad.chalakim.tostring() + " חלקים"
+            text += ('ליל' if is_night else 'יום') + utils.dowHeb[dow].replace("יום", "")
+        text += " " + molad['time'].tostring(army=True) + " " + str(molad['chalakim']) + " חלקים"
 
-        return str
+        return text
 
 
 if __name__ == '__main__':
