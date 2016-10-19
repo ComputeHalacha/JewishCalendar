@@ -350,7 +350,7 @@ namespace LuachProject
                 Dock = DockStyle.Fill,
                 LinkBehavior = LinkBehavior.HoverUnderline
             };
-            string dateDiff = occ.GetAnniversaryString(this.JewishDate, false);
+            string dateDiff = occ.GetAnniversaryString(this.JewishDate, true);
             var lbl = new Label
             {
                 Dock = DockStyle.Fill,
