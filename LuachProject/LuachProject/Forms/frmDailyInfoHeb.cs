@@ -244,7 +244,7 @@ namespace LuachProject
 
             if (netz == HourMinute.NoValue)
             {
-                this.AddLine(html, "הנץ החמה", "השמש אינו עולה", bold: true);
+                this.AddLine(html, "הנץ החמה", "השמש אינו עולה", bold: true, emphasizeValue: true);
             }
             else
             {
@@ -262,12 +262,12 @@ namespace LuachProject
 
                 if (netz == netzMishor)
                 {
-                    this.AddLine(html, "הנץ החמה", netz.ToString24H(), bold: true);
+                    this.AddLine(html, "הנץ החמה", netz.ToString24H(), bold: true, emphasizeValue: true);
                 }
                 else
                 {
                     this.AddLine(html, "הנה\"ח <span class=\"reg lightSteelBlue\">...מ " + this._zmanim.Location.Elevation.ToString() + " מטר</span>",
-                        netz.ToString24H(), bold: true);
+                        netz.ToString24H(), bold: true, emphasizeValue: true);
                     this.AddLine(html, "הנה\"ח <span class=\"reg lightSteelBlue\">...גובה פני הים</span>",
                         netzMishor.ToString24H());
                 }
@@ -285,19 +285,19 @@ namespace LuachProject
             }
             if (shkia == HourMinute.NoValue)
             {
-                this.AddLine(html, "שקיעת החמה", "השמש אינו שוקע", bold: true);
+                this.AddLine(html, "שקיעת החמה", "השמש אינו שוקע", bold: true,emphasizeValue: true);
             }
             else
             {
                 if (shkia == shkiaMishor)
                 {
-                    this.AddLine(html, "שקיעת החמה", shkia.ToString24H(), bold: true);
+                    this.AddLine(html, "שקיעת החמה", shkia.ToString24H(), bold: true,emphasizeValue: true);
                 }
                 else
                 {
                     this.AddLine(html, "שקה\"ח <span class=\"reg lightSteelBlue\">...גובה פני הים</span>", shkiaMishor.ToString24H());
                     this.AddLine(html, "שקה\"ח <span class=\"reg lightSteelBlue\">...מ " + this._zmanim.Location.Elevation.ToString() + " מטר</span>",
-                        shkia.ToString24H(), bold: true);
+                        shkia.ToString24H(), bold: true, emphasizeValue: true);
                 }
 
                 this.AddLine(html, "צאת הכוכבים 45", (shkia + 45).ToString24H());
@@ -326,14 +326,15 @@ namespace LuachProject
         #endregion
 
         #region private functions
-        private void AddLine(StringBuilder sb, string header, string value, bool wideDescription = true, bool bold = false)
+        private void AddLine(StringBuilder sb, string header, string value, bool wideDescription = true, bool bold = false, bool emphasizeValue = false)
         {
             sb.Append("<tr>");
             sb.AppendFormat("<td class=\"{0}{1}\"><span>{2}</span></td><td>&nbsp;</td>",
                 (wideDescription ? "wide" : "medium"),
                 (bold ? " bold" : ""), header);
-            sb.AppendFormat("<td class=\"{0} cornFlowerBlue bold nobg\">{1}</td>",
+            sb.AppendFormat("<td class=\"{0} {1} bold nobg\">{2}</td>",
                 (wideDescription ? "narrow" : "medium"),
+                (emphasizeValue ? "crimson" : "cornFlowerBlue"),
                 value);
             sb.Append("</tr>");
         }
