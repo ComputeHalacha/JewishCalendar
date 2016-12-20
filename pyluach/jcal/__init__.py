@@ -31,13 +31,13 @@ def getdailyinfo(jd, location, hebrew):
             htext = h.heb
             if 'מברכים' in htext:
                 next_month = jd.add_days(12)
-                htext += '- חודש ' + utils.proper_jmonth_name(next_month.year, next_month.month)
+                htext += '- חודש ' + utils.proper_jmonth_name(next_month.year, next_month.month, hebrew=True)
                 htext += '\nהמולד: ' + Molad.molad_string_heb(next_month.month, next_month.year)
                 dim = JDate.days_in_jmonth(jd.year, jd.month)
-                dow = dim - jd.getdow() - (1 if dim == 30 else 0)
-                htext += '\nראש חודש: ' + utils.dowHeb[dow]
+                dow = dim - jd.day - (1 if dim == 30 else 0)
+                htext += '\nראש חודש: ' + utils.dow_heb[dow]
                 if dim == 30:
-                    htext += ", " + utils.dowHeb[(dow + 1) % 7]
+                    htext += ", " + utils.dow_heb[(dow + 1) % 7]
             infos[htext] = ''
         if jd.has_eiruv_tavshilin(location.israel):
             infos['עירוב תבשילין'] = ''
@@ -62,7 +62,7 @@ def getdailyinfo(jd, location, hebrew):
                 htext += '\nThe Molad: ' + Molad.molad_string_heb(next_month.month, next_month.year)
                 dim = JDate.days_in_jmonth(jd.year, jd.month)
                 dow = dim - jd.getdow() - (1 if dim == 30 else 0)
-                htext += '\nRosh Chodesh: ' + utils.dowHeb[dow]
+                htext += '\nRosh Chodesh: ' + utils.dow_heb[dow]
                 if dim == 30:
                     htext += ", " + utils.dow_eng[(dow + 1) % 7]
             infos[htext] = ''

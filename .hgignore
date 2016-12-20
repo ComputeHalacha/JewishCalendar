@@ -16,3 +16,4 @@ LuachMobile/LuachMobile/www/scripts/JCal/jcal*
 *.log
 __pycache__/
 .idea/workspace.xml
+.vscode/

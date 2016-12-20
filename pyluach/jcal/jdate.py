@@ -129,7 +129,7 @@ class JDate:
     # Returns the current Jewish date in the format: יום חמישי כ"א כסלו תשע"ו
     def tostring_heb(self):
         hundreds = divmod(self._year, 1000)
-        return "{} {} {} {} אלפים {}".format(utils.dowHeb[self.getdow()],
+        return "{} {} {} {} אלפים {}".format(utils.dow_heb[self.getdow()],
                                              utils.to_jnum(self._day),
                                              utils.jmonths_heb[self._month],
                                              utils.to_jnum(hundreds[0]),

@@ -83,7 +83,7 @@ def display_zmanim(location_search_pattern, startjd=JDate.today(), number_of_day
                                                                 abs(gd.year),
                                                                 ' BCE' if gd.year < 1 else ''))
                     else:
-                        print('\n--{} {} {} {} {:-<28}'.format(utils.dowHeb[jd.getdow()],
+                        print('\n--{} {} {} {} {:-<28}'.format(utils.dow_heb[jd.getdow()],
                                                                gd.day,
                                                                'ל' + utils.greg_months_heb[gd.month],
                                                                abs(gd.year),
@@ -214,4 +214,4 @@ if __name__ == '__main__':
     display_zmanim('מודיעין עילית', hebrew=True, army_time=True)
 
     # Sample #3: Lakewood New Jersey - for the week of Sukkos 5777
-    display_zmanim('Lakewood', startjd=JDate(5777, 7, 15), number_of_days=9)
+    display_zmanim('Arad', hebrew=True, army_time=True, number_of_days=9)
