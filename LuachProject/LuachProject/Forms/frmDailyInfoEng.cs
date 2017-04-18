@@ -338,7 +338,7 @@ namespace LuachProject
                     if (h.NameEnglish.Contains("Sefiras Ha'omer"))
                     {
                         html.AppendFormat("<div class=\"tahoma nine steelBlue\">{0}</div>",
-                          Utils.GetOmerNusach(this._displayingJewishDate.GetDayOfOmer(), true, false));
+                          Utils.GetOmerNusach(this._displayingJewishDate.GetDayOfOmer(),Properties.Settings.Default.Nusach));
                     }
 
                     if (h.DayType.IsSpecialDayType(SpecialDayTypes.EruvTavshilin))

@@ -26,7 +26,9 @@ Public Class frmCreateRemindersEng
         Me._todayJD = New JewishDate(loc)
         Me.rbIsrael.Checked = loc.IsInIsrael
         Me.rbHebrew.Checked = Not Me.rbEnglish.Checked
-        Me.rbBaOmer.Checked = (Not Me.rbLaOmer.Checked) AndAlso (Not rbSfardi.Checked)
+        Me.rbSfardi.Checked = My.Settings.Nusach = Nusach.Sefardi
+        Me.rbLaOmer.Checked = My.Settings.Nusach = Nusach.Sefard
+        Me.rbBaOmer.Checked = My.Settings.Nusach = Nusach.Ashkenaz
         Me.ShowLinkToReminder()
         Me.btnCreateOutlookReminders.Enabled = Me.btnDeleteOutlookReminders.Enabled = Program.IsOutlookInstalled()
 
@@ -34,6 +36,13 @@ Public Class frmCreateRemindersEng
     End Sub
 
     Private Sub Form1_FormClosing(sender As System.Object, e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
+        If Me.rbSfardi.Checked Then
+            My.Settings.Nusach = Nusach.Sefardi
+        ElseIf Me.rbLaOmer.Checked Then
+            My.Settings.Nusach = Nusach.Sefard
+        Else
+            My.Settings.Nusach = Nusach.Ashkenaz
+        End If
         My.Settings.LocationName = DirectCast(Me.cbLocations.SelectedItem, Location).Name
         My.Settings.Save()
     End Sub
@@ -68,7 +77,9 @@ Public Class frmCreateRemindersEng
 
                 If jd >= Me._todayJD Then
                     Dim dayOfOmer As Integer = jd.GetDayOfOmer()
-                    Dim nusach As String = Utils.GetOmerNusach(dayOfOmer, Me.rbLaOmer.Checked, Me.rbSfardi.Checked)
+                    Dim nusach As Nusach = If(Me.rbLaOmer.Checked, Nusach.Sefard,
+                        If(Me.rbSfardi.Checked, Nusach.Sefardi, Nusach.Ashkenaz))
+                    Dim txt As String = Utils.GetOmerNusach(dayOfOmer, nusach)
                     Dim yesterday As JewishDate = jd - 1
                     Dim alarmTime As TimeSpan = Me.dtpTime.Value.TimeOfDay
                     Dim subs As String
@@ -100,8 +111,8 @@ Public Class frmCreateRemindersEng
                     objApt.Start = Me.GetAlarmDateTime(yesterday.GregorianDate, jd.GregorianDate, alarmTime)
                     objApt.ReminderMinutesBeforeStart = 0
                     objApt.Subject = If(rbEnglish.Checked, "Count ", "לספור ") & subs &
-                        " - " & nusach
-                    objApt.Body = nusach
+                        " - " & txt
+                    objApt.Body = txt
                     objApt.Save()
 
                     objApt = Nothing

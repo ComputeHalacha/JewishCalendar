@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Omer Reminder")>
 <Assembly: AssemblyCompany("Compute Software Solutions")>
 <Assembly: AssemblyProduct("Omer Reminder")>
-<Assembly: AssemblyCopyright("Copyright © Compute Software Solutions 2016")>
+<Assembly: AssemblyCopyright("Copyright © Compute Software Solutions 2017")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("2.2.1.0")>
-<Assembly: AssemblyFileVersion("2.2.1.0")>
+<Assembly: AssemblyVersion("2.2.2.0")>
+<Assembly: AssemblyFileVersion("2.2.2.0")>

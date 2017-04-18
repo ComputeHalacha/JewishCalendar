@@ -20,5 +20,8 @@
     <Setting Name="LastLanguage" Type="System.String" Scope="User">
       <Value Profile="(Default)">Hebrew</Value>
     </Setting>
+    <Setting Name="Nusach" Type="JewishCalendar.Nusach" Scope="User">
+      <Value Profile="(Default)">Sefard</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

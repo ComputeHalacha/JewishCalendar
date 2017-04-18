@@ -80,30 +80,6 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
-        Public Property LaOmer() As Boolean
-            Get
-                Return CType(Me("LaOmer"),Boolean)
-            End Get
-            Set
-                Me("LaOmer") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property Sfardi() As Boolean
-            Get
-                Return CType(Me("Sfardi"),Boolean)
-            End Get
-            Set
-                Me("Sfardi") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
         Public Property LocationName() As String
             Get
@@ -123,6 +99,18 @@ Namespace My
             End Get
             Set
                 Me("English") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Ashkenaz")>  _
+        Public Property Nusach() As Global.JewishCalendar.Nusach
+            Get
+                Return CType(Me("Nusach"),Global.JewishCalendar.Nusach)
+            End Get
+            Set
+                Me("Nusach") = value
             End Set
         End Property
     End Class

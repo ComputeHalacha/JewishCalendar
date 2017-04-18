@@ -209,7 +209,7 @@ namespace LuachProject
                     if (h.NameEnglish.Contains("Sefiras Ha'omer"))
                     {
                         html.AppendFormat("<div class=\"nine bluoid\">{0}</div>",
-                            Utils.GetOmerNusach(this._displayingJewishDate.GetDayOfOmer(), true, false));
+                            Utils.GetOmerNusach(this._displayingJewishDate.GetDayOfOmer(), Properties.Settings.Default.Nusach));
                     }
 
                     if (h.DayType.IsSpecialDayType(SpecialDayTypes.EruvTavshilin))
@@ -285,13 +285,13 @@ namespace LuachProject
             }
             if (shkia == HourMinute.NoValue)
             {
-                this.AddLine(html, "שקיעת החמה", "השמש אינו שוקע", bold: true,emphasizeValue: true);
+                this.AddLine(html, "שקיעת החמה", "השמש אינו שוקע", bold: true, emphasizeValue: true);
             }
             else
             {
                 if (shkia == shkiaMishor)
                 {
-                    this.AddLine(html, "שקיעת החמה", shkia.ToString24H(), bold: true,emphasizeValue: true);
+                    this.AddLine(html, "שקיעת החמה", shkia.ToString24H(), bold: true, emphasizeValue: true);
                 }
                 else
                 {

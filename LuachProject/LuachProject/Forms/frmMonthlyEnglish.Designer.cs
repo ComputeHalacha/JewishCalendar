@@ -112,12 +112,12 @@
             this.llSefira.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llSefira.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llSefira.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.llSefira.Location = new System.Drawing.Point(706, 4);
+            this.llSefira.Location = new System.Drawing.Point(745, 4);
             this.llSefira.Name = "llSefira";
-            this.llSefira.Size = new System.Drawing.Size(165, 17);
+            this.llSefira.Size = new System.Drawing.Size(126, 17);
             this.llSefira.TabIndex = 20;
             this.llSefira.TabStop = true;
-            this.llSefira.Text = "Add Sefira Reminders";
+            this.llSefira.Text = "Sefira Reminders";
             this.llSefira.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.llSefira.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llSefira_LinkClicked);
             // 
@@ -256,10 +256,13 @@
             this.jewishDatePicker1.Language = JewishDatePicker.JewishDatePicker.Languages.English;
             this.jewishDatePicker1.Location = new System.Drawing.Point(122, 2);
             this.jewishDatePicker1.Margin = new System.Windows.Forms.Padding(0);
+            this.jewishDatePicker1.MaxDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MaxDate")));
+            this.jewishDatePicker1.MinDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MinDate")));
             this.jewishDatePicker1.Name = "jewishDatePicker1";
             this.jewishDatePicker1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.jewishDatePicker1.Size = new System.Drawing.Size(343, 29);
-            this.jewishDatePicker1.TabIndex = 17;            
+            this.jewishDatePicker1.TabIndex = 17;
+            this.jewishDatePicker1.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.Value")));
             // 
             // label1
             // 
