@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Luach</RootNamespace>
     <AssemblyName>Luach</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -117,20 +117,20 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\JewishDatePicker\JewishDatePicker.csproj">
-      <Project>{8076dabe-3604-4d94-a883-2df9105fe54c}</Project>
-      <Name>JewishDatePicker</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\JewishCalendar\JewishCalendar.csproj">
-      <Project>{43e5c945-9d11-4097-9990-1d2afc9e16d3}</Project>
-      <Name>JewishCalendar</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\LocationsList.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\DataSources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JewishCalendar\JewishCalendar.csproj">
+      <Project>{43e5c945-9d11-4097-9990-1d2afc9e16d3}</Project>
+      <Name>JewishCalendar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JewishDatePicker\JewishDatePicker.csproj">
+      <Project>{8076dabe-3604-4d94-a883-2df9105fe54c}</Project>
+      <Name>JewishDatePicker</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

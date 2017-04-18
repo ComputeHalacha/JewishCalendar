@@ -209,8 +209,6 @@ Partial Class frmCreateRemindersEng
         'rbSfardi
         '
         Me.rbSfardi.AutoSize = True
-        Me.rbSfardi.Checked = Global.OmerReminder.My.MySettings.Default.Sfardi
-        Me.rbSfardi.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.OmerReminder.My.MySettings.Default, "Sfardi", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
         Me.rbSfardi.Location = New System.Drawing.Point(9, 50)
         Me.rbSfardi.Name = "rbSfardi"
         Me.rbSfardi.Size = New System.Drawing.Size(89, 20)
@@ -231,8 +229,6 @@ Partial Class frmCreateRemindersEng
         'rbLaOmer
         '
         Me.rbLaOmer.AutoSize = True
-        Me.rbLaOmer.Checked = Global.OmerReminder.My.MySettings.Default.LaOmer
-        Me.rbLaOmer.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.OmerReminder.My.MySettings.Default, "LaOmer", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
         Me.rbLaOmer.Location = New System.Drawing.Point(9, 6)
         Me.rbLaOmer.Name = "rbLaOmer"
         Me.rbLaOmer.Size = New System.Drawing.Size(98, 20)

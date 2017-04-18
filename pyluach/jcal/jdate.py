@@ -129,7 +129,7 @@ class JDate:
     # Returns the current Jewish date in the format: יום חמישי כ"א כסלו תשע"ו
     def tostring_heb(self):
         hundreds = divmod(self._year, 1000)
-        return "{} {} {} {} אלפים {}".format(utils.dowHeb[self.getdow()],
+        return "{} {} {} {} אלפים {}".format(utils.dow_heb[self.getdow()],
                                              utils.to_jnum(self._day),
                                              utils.jmonths_heb[self._month],
                                              utils.to_jnum(hundreds[0]),
@@ -420,6 +420,8 @@ class JDate:
             elif j_day == 15:
                 lst.append(Entry('ט"ו באב', "Tu B'Av"))
         elif j_month == 6:  # Ellul
+            if day_of_week == 0 and j_day in [21, 22, 24, 26]:
+                lst.append(Entry("מתחילים סליחות", "Selichos"))
             if j_day == 29:
                 lst.append(Entry("ערב ראש השנה", "Erev Rosh Hashana"))
         elif j_month == 7:  # Tishrei

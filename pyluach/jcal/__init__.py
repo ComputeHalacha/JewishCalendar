@@ -31,13 +31,13 @@ def getdailyinfo(jd, location, hebrew):
             htext = h.heb
             if 'מברכים' in htext:
                 next_month = jd.add_days(12)
-                htext += '- חודש ' + utils.proper_jmonth_name(next_month.year, next_month.month)
+                htext += '- חודש ' + utils.proper_jmonth_name(next_month.year, next_month.month, hebrew=True)
                 htext += '\nהמולד: ' + Molad.molad_string_heb(next_month.month, next_month.year)
                 dim = JDate.days_in_jmonth(jd.year, jd.month)
-                dow = dim - jd.getdow() - (1 if dim == 30 else 0)
-                htext += '\nראש חודש: ' + utils.dowHeb[dow]
+                dow = dim - jd.day - (1 if dim == 30 else 0)
+                htext += '\nראש חודש: ' + utils.dow_heb[dow]
                 if dim == 30:
-                    htext += ", " + utils.dowHeb[(dow + 1) % 7]
+                    htext += ", " + utils.dow_heb[(dow + 1) % 7]
             infos[htext] = ''
         if jd.has_eiruv_tavshilin(location.israel):
             infos['עירוב תבשילין'] = ''
@@ -62,7 +62,7 @@ def getdailyinfo(jd, location, hebrew):
                 htext += '\nThe Molad: ' + Molad.molad_string_heb(next_month.month, next_month.year)
                 dim = JDate.days_in_jmonth(jd.year, jd.month)
                 dow = dim - jd.getdow() - (1 if dim == 30 else 0)
-                htext += '\nRosh Chodesh: ' + utils.dowHeb[dow]
+                htext += '\nRosh Chodesh: ' + utils.dow_heb[dow]
                 if dim == 30:
                     htext += ", " + utils.dow_eng[(dow + 1) % 7]
             infos[htext] = ''
@@ -150,13 +150,13 @@ def getdailyzmanim(jd, location):
             infos.append(OneZman(eng='Shkia (Sea Level)', heb='שקיעת החמה מגובה פני הים', time=shkia_mishor))
             infos.append(OneZman(eng='Shkia (from ({} feet)'.format(feet),
                                  heb="שקיעת החמה מגובה " + str(location.elevation) + " מטר", time=shkia))
-            if tzais_45 < chatzos_night or (chatzos_night.hour < 12 < tzais_45.hour):
-                infos.append(OneZman(eng='Tzais (45)', heb='צאת הכוכבים 45', time=tzais_45))
-            if tzais_72 < chatzos_night or (chatzos_night.hour < 12 < tzais_72.hour):
-                infos.append(OneZman(eng='Rabbeinu Tam (72)', heb='רבינו תם (72 שוות)', time=tzais_72))
-            if tzais_72_zmanios < chatzos_night or (chatzos_night.hour < 12 < tzais_72_zmanios.hour):
-                infos.append(OneZman(eng='Rabbeinu Tam (Zmanios)', heb='72 דקות זמניות', time=tzais_72_zmanios))
-            if tzais_72_zmanios_chmr < chatzos_night or (chatzos_night.hour < 12 < tzais_72_zmanios_chmr.hour):
-                infos.append(OneZman(eng='Rabbeinu Tam (Zmanios Lechumra)', heb='72 דקות זמניות לחומרה',
-                                     time=tzais_72_zmanios_chmr))
+        if tzais_45 < chatzos_night or (chatzos_night.hour < 12 < tzais_45.hour):
+            infos.append(OneZman(eng='Tzais (45)', heb='צאת הכוכבים 45', time=tzais_45))
+        if tzais_72 < chatzos_night or (chatzos_night.hour < 12 < tzais_72.hour):
+            infos.append(OneZman(eng='Rabbeinu Tam (72)', heb='רבינו תם (72 שוות)', time=tzais_72))
+        if tzais_72_zmanios < chatzos_night or (chatzos_night.hour < 12 < tzais_72_zmanios.hour):
+            infos.append(OneZman(eng='Rabbeinu Tam (Zmanios)', heb='72 דקות זמניות', time=tzais_72_zmanios))
+        if tzais_72_zmanios_chmr < chatzos_night or (chatzos_night.hour < 12 < tzais_72_zmanios_chmr.hour):
+            infos.append(OneZman(eng='Rabbeinu Tam (Zmanios Lechumra)', heb='72 דקות זמניות לחומרה',
+                                 time=tzais_72_zmanios_chmr))
     return infos

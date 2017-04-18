@@ -247,7 +247,7 @@ namespace JewishCalendar
 
             return list;
         }
-        
+
         /// <summary>
         /// Gets a dash delimited list of holidays for the given Jewish Day
         /// </summary>
@@ -484,7 +484,7 @@ namespace JewishCalendar
                 }
                 else
                 {
-                    list.Add(new SpecialDay("Erev Shavuos", "ערב שבועות", 
+                    list.Add(new SpecialDay("Erev Shavuos", "ערב שבועות",
                         SpecialDayTypes.Information | SpecialDayTypes.HasCandleLighting));
                 }
             }
@@ -517,7 +517,12 @@ namespace JewishCalendar
         }
         private static void AddEllulSpecialDays(ArrayList list, int jDay, DayOfWeek dayOfWeek)
         {
-            if (jDay == 29)
+            if (dayOfWeek == DayOfWeek.Sunday && jDay.In(21, 22, 24, 26))
+            {
+                list.Add(new SpecialDay("First Day of Selichos", "מתחילים סליחות",
+                    SpecialDayTypes.Information));
+            }
+            else if (jDay == 29)
             {
                 if (dayOfWeek == DayOfWeek.Wednesday)
                 {
@@ -562,11 +567,11 @@ namespace JewishCalendar
                 list.Add(new SpecialDay("First Day of Sukkos", "חג הסוכות", SpecialDayTypes.MajorYomTov));
             else if (jDay == 16)
                 list.Add(inIsrael ? (
-                   new SpecialDay("Sukkos - Chol HaMoed", "סוכות - חול המועד", 
+                   new SpecialDay("Sukkos - Chol HaMoed", "סוכות - חול המועד",
                    SpecialDayTypes.MinorYomtov | SpecialDayTypes.CholHamoed)) : (
                    new SpecialDay("Sukkos - Second Day", "יום שני - חג הסוכות", SpecialDayTypes.MajorYomTov)));
             else if (jDay.In(17, 18, 19, 20))
-                list.Add(new SpecialDay("Sukkos - Chol HaMoed", "סוכות - חול המועד", 
+                list.Add(new SpecialDay("Sukkos - Chol HaMoed", "סוכות - חול המועד",
                     SpecialDayTypes.MinorYomtov | SpecialDayTypes.CholHamoed));
             else if (jDay == 21)
             {

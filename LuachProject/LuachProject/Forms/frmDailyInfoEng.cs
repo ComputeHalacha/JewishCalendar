@@ -198,14 +198,15 @@ namespace LuachProject
         #endregion
 
         #region private functions       
-        private void AddLine(StringBuilder sb, string header, string value, bool wideDescription = true, bool bold = false)
+        private void AddLine(StringBuilder sb, string header, string value, bool wideDescription = true, bool bold = false, bool emphasizeValue=false)
         {
             sb.Append("<tr>");
             sb.AppendFormat("<td class=\"{0}{1}\"><span>{2}</span></td><td>&nbsp;</td>",
                 (wideDescription ? "wide" : "medium"),
                 (bold ? " bold" : ""), header);
-            sb.AppendFormat("<td class=\"{0} cornFlowerBlue bold nobg\">{1}</td>",
+            sb.AppendFormat("<td class=\"{0} {1} bold nobg\">{2}</td>",
                 (wideDescription ? "narrow" : "medium"),
+                (emphasizeValue ? "crimson" : "cornFlowerBlue"),
                 value);
             sb.Append("</tr>");
         }
@@ -337,7 +338,7 @@ namespace LuachProject
                     if (h.NameEnglish.Contains("Sefiras Ha'omer"))
                     {
                         html.AppendFormat("<div class=\"tahoma nine steelBlue\">{0}</div>",
-                          Utils.GetOmerNusach(this._displayingJewishDate.GetDayOfOmer(), true, false));
+                          Utils.GetOmerNusach(this._displayingJewishDate.GetDayOfOmer(),Properties.Settings.Default.Nusach));
                     }
 
                     if (h.DayType.IsSpecialDayType(SpecialDayTypes.EruvTavshilin))
@@ -395,7 +396,7 @@ namespace LuachProject
 
             if (netz == HourMinute.NoValue)
             {
-                this.AddLine(html, "Netz Hachama", "The does not rise", bold: true);
+                this.AddLine(html, "Netz Hachama", "The does not rise", bold: true, emphasizeValue: true);
             }
             else
             {
@@ -410,7 +411,7 @@ namespace LuachProject
 
                 this.AddLine(html, "Alos Hashachar - 90", (netzMishor - 90).ToString());
                 this.AddLine(html, "Alos Hashachar - 72", (netzMishor - 72).ToString());
-                this.AddLine(html, "Netz Hachama", netz.ToString(), bold: true);
+                this.AddLine(html, "Netz Hachama", netz.ToString(), bold: true, emphasizeValue: true);
                 if (netz != netzMishor)
                 {
                     this.AddLine(html, "Sunrise <em class=\"reg lightSteelBlue\">...at sea level</em>", netzMishor.ToString());
@@ -431,13 +432,13 @@ namespace LuachProject
 
             if (shkia == HourMinute.NoValue)
             {
-                this.AddLine(html, "Shkias Hachama", "The sun does not set", bold: true);
+                this.AddLine(html, "Shkias Hachama", "The sun does not set", bold: true, emphasizeValue: true);
             }
             else
             {
                 if (shkia == shkiaMishor)
                 {
-                    this.AddLine(html, "Shkias Hachama", shkia.ToString(), bold: true);
+                    this.AddLine(html, "Shkias Hachama", shkia.ToString(), bold: true, emphasizeValue: true);
                 }
                 else
                 {

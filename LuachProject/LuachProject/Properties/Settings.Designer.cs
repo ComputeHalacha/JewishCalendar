@@ -93,5 +93,17 @@ namespace LuachProject.Properties {
                 this["LastLanguage"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Sefard")]
+        public global::JewishCalendar.Nusach Nusach {
+            get {
+                return ((global::JewishCalendar.Nusach)(this["Nusach"]));
+            }
+            set {
+                this["Nusach"] = value;
+            }
+        }
     }
 }

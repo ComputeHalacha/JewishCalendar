@@ -81,7 +81,7 @@ namespace LuachProject
         #region Public Functions
 
         /// <summary>
-        /// Returns a sring representation of the initial setting date of the UserOccasion
+        /// Returns a string representation of the initial setting date of the UserOccasion
         /// </summary>
         /// <param name="heb"></param>
         /// <returns></returns>

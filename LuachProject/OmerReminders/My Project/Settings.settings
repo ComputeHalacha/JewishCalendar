@@ -8,17 +8,14 @@
     <Setting Name="AddAllDayEvent" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="LaOmer" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="Sfardi" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="LocationName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="English" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Nusach" Type="JewishCalendar.Nusach" Scope="User">
+      <Value Profile="(Default)">Ashkenaz</Value>
     </Setting>
   </Settings>
 </SettingsFile>

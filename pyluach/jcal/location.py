@@ -67,7 +67,8 @@ class Location:
             r = re.compile(search_pattern, re.IGNORECASE if not case_sensitive else re.UNICODE)
             return [Location.parse(m) for m in cls._locations_list_raw['locations']
                     if r.match(m['n']) or (('h' in m) and r.match(m['h']))]
-
+   
+                    
     @staticmethod
     def get_jerusalem():
         """

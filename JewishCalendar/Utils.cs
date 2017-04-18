@@ -5,10 +5,30 @@ using System.Text;
 namespace JewishCalendar
 {
     /// <summary>
+    /// Nusach of siddur. Used for generating correct text of Sefira counting.
+    /// </summary>
+    public enum Nusach
+    {
+        /// <summary>
+        /// Nusach Ashkenaz.
+        /// </summary>
+        Ashkenaz,
+        /// <summary>
+        /// Nusach Sefard and Ari
+        /// </summary>
+        Sefard,
+        /// <summary>
+        /// Nusach of Eidot Hamizrach and Aram Tzova.
+        /// </summary>
+        Sefardi
+    }
+
+    /// <summary>
     /// Contains general static arrays, some useful utility functions and other such pitchifkes.
     /// </summary>
     public static class Utils
     {
+       
         #region Public Constructors
 
         /// <summary>
@@ -73,83 +93,88 @@ namespace JewishCalendar
         /// Returns the nusach for Sefiras Ha'omer for the given day and minhag
         /// </summary>
         /// <param name="dayOfOmer">The day of the Omer for which to get the nusach for</param>
-        /// <param name="laOmer">Should it be La'Omer (Nusach Sefard) or Ba'Omer (Nusach Ashkenaz)?</param>
-        /// <param name="sfardi">Should the Nusach be the Sfardi Nusach (Eidot Hamizrach) or the Ashkenazi one (Nusach Sefard and Ashkenaz)?</param>
+        /// <param name="nusach">Should it be La'Omer (Nusach Sefard) or Ba'Omer (Nusach Ashkenaz) or Sfardi Nusach (Eidot Hamizrach)?</param>        
         /// <returns></returns>
-        public static string GetOmerNusach(int dayOfOmer, bool laOmer, bool sfardi)
+        public static string GetOmerNusach(int dayOfOmer, Nusach nusach)
         {
             int weeks = Convert.ToInt32(dayOfOmer / 7),
                 days = dayOfOmer % 7;
-            string nusach = "היום ";
+            string txt = "היום ";
 
             if (dayOfOmer == 1)
             {
-                nusach += "יום אחד ";
+                txt += "יום אחד ";
             }
             else
             {
                 if (dayOfOmer == 2)
                 {
-                    nusach += "שני ";
+                    txt += "שני ";
                 }
                 else
                 {
                     if (dayOfOmer == 10)
                     {
-                        nusach += "עשרה ";
+                        txt += "עשרה ";
                     }
                     else
                     {
-                        nusach += _hebsingles[(dayOfOmer % 10)] + " ";
+                        txt += _hebsingles[(dayOfOmer % 10)] + " ";
                         if (dayOfOmer > 10)
                         {
                             if (dayOfOmer > 20 && ((dayOfOmer % 10) > 0))
                             {
-                                nusach += "ו";
+                                txt += "ו";
                             }
-                            nusach += _hebTens[dayOfOmer / 10] + " ";
+                            txt += _hebTens[dayOfOmer / 10] + " ";
                         }
                     }
                 }
-                nusach += (dayOfOmer >= 11 ? "יום" : "ימים") + " ";
+                txt += (dayOfOmer >= 11 ? "יום" : "ימים") + " ";
 
-                if (sfardi)
-                    nusach += "לעומר" + " ";
+                if (nusach == Nusach.Sefardi)
+                {
+                    txt += "לעומר" + " ";
+                }
 
                 if (dayOfOmer >= 7)
                 {
-                    nusach += "שהם ";
+                    txt += "שהם ";
                     if (weeks == 1)
                     {
-                        nusach += "שבוע אחד ";
+                        txt += "שבוע אחד ";
                     }
                     else if (weeks == 2)
                     {
-                        nusach += "שני שבועות ";
+                        txt += "שני שבועות ";
                     }
                     else if (weeks > 0)
                     {
-                        nusach += _hebsingles[weeks] + " שבועות ";
+                        txt += _hebsingles[weeks] + " שבועות ";
                     }
                     if (days == 1)
                     {
-                        nusach += "ויום אחד ";
+                        txt += "ויום אחד ";
                     }
                     else if (days == 2)
                     {
-                        nusach += "ושני ימים ";
+                        txt += "ושני ימים ";
                     }
                     else if (days > 0)
                     {
-                        nusach += "ו" + _hebsingles[days] + " ימים ";
+                        txt += "ו" + _hebsingles[days] + " ימים ";
                     }
                 }
             }
-            if (!sfardi)
+            if (nusach == Nusach.Sefard)
             {
-                nusach += (laOmer ? "ל" : "ב") + "עומר";
+                txt += "לעומר";
             }
-            return nusach;
+            else if(nusach == Nusach.Ashkenaz)
+            {
+                txt += "בעומר";
+            }
+            return txt;
         }
 
         /// <summary>
@@ -158,10 +183,8 @@ namespace JewishCalendar
         /// <param name="obj">The object to test</param>
         /// <param name="list">Any number of parameters which together make up the list of objects to look through</param>
         /// <returns>True; if the item is in the parameter list. Otherwise, False</returns>
-        public static bool In(this object obj, params Object[] list)
-        {
-            return Array.IndexOf(list, obj) > -1;
-        }
+        public static bool In(this object obj, params Object[] list) => 
+            Array.IndexOf(list, obj) > -1;
 
         /// <summary>
         /// Determine if the given SpecialDayType contains the given type. Equivalent to Enum.HasFlag.
@@ -169,11 +192,9 @@ namespace JewishCalendar
         /// <param name="specialDayType"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static bool IsSpecialDayType(this SpecialDayTypes specialDayType, SpecialDayTypes value)
-        {
-            return (specialDayType & value) == value;
-        }
-
+        public static bool IsSpecialDayType(this SpecialDayTypes specialDayType, SpecialDayTypes value) => 
+            (specialDayType & value) == value;
+        
         /// <summary>
         /// Determines if the given Gregorian date and time is within the rules for DST.
         /// If no time zone info is available; if the location is in Israel, the current Israeli rules are used.
@@ -211,12 +232,12 @@ namespace JewishCalendar
         {
             if (number < 1)
             {
-                throw new ArgumentOutOfRangeException("number", "Min value is 1");
+                throw new ArgumentOutOfRangeException(nameof(number), "Min value is 1");
             }
 
             if (number > 9999)
             {
-                throw new ArgumentOutOfRangeException("number", "Max value is 9999");
+                throw new ArgumentOutOfRangeException(nameof(number), "Max value is 9999");
             }
 
             int n = number;

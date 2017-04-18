@@ -673,7 +673,9 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
                 list.push(!hebrew ? "Tu B'Av" : "ט\"ו באב");
             break;
         case 6: //Ellul
-            if (jDay === 29)
+            if (dayOfWeek === 0 && [21, 22, 24, 26].has(jDay))
+                list.push(!hebrew ? "Selichos" : "מתחילים סליחות");
+            else if (jDay === 29)
                 list.push(!hebrew ? "Erev Rosh Hashana" : "ערב ראש השנה");
             break;
         case 7: //Tishrei

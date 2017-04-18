@@ -27,11 +27,10 @@ Public Class frmRemindEng
         End If
 
         Try
-            Dim laOmer As Boolean = My.Settings.LaOmer
-            Dim sfardi As Boolean = My.Settings.Sfardi
+            Dim nusach As Nusach = My.Settings.Nusach
             Dim bracha As String = "ברוך אתה יי אלוהינו מלך העולם, אשר קדשנו במצותיו וציונו על ספירת העומר:"
-            Dim nusach As String = Utils.GetOmerNusach(dayOfOmer, laOmer, sfardi) & ":"
-            Dim harachaman As String = If(sfardi, "הרחמן הוא יחזיר עבודת בית המקדש למקומה במהרה בימינו. אמן:",
+            Dim txt As String = Utils.GetOmerNusach(dayOfOmer, nusach) & ":"
+            Dim harachaman As String = If(nusach = Nusach.Sefardi, "הרחמן הוא יחזיר עבודת בית המקדש למקומה במהרה בימינו. אמן:",
                                            "הרחמן הוא יחזיר לנו עבודת בית המקדש למקומה במהרה בימינו, אמן סלה:")
 
             lblCaption.Text = "Count Sefiras Ha'omer - Day " & dayOfOmer
@@ -46,7 +45,7 @@ Public Class frmRemindEng
                 .SelectedText = bracha & Environment.NewLine & Environment.NewLine
                 .SelectionFont = New Font(.Font.FontFamily, .Font.Size + 15, FontStyle.Bold)
                 .SelectionColor = Color.Maroon
-                .SelectedText = nusach & Environment.NewLine & Environment.NewLine
+                .SelectedText = txt & Environment.NewLine & Environment.NewLine
                 .SelectionColor = .ForeColor
                 .SelectionFont = .Font
                 .SelectedText = harachaman

@@ -37,7 +37,7 @@ class Molad:
         molad = Molad.get_molad(month, year)
         zmanim = Zmanim(dt=molad['JDate'])
         _, nightfall = zmanim.get_sun_times()
-        is_night = molad['time'].total_minutes() >= nightfall.total_minutes()
+        is_night = molad['time'].total_minutes >= nightfall.total_minutes
         dow = molad['JDate'].getdow()
         text = ''
 
@@ -58,8 +58,9 @@ class Molad:
     @staticmethod
     def molad_string_heb(year, month):
         molad = Molad.get_molad(month, year)
-        nightfall = molad['JDate'].getSunriseSunset(Location.get_jerusalem()).sunset
-        is_night = molad['time'] > nightfall
+        zmanim = Zmanim(dt=molad['JDate'])
+        _, nightfall = zmanim.get_sun_times()
+        is_night = molad['time'].total_minutes >= nightfall.total_minutes
         dow = molad['JDate'].getdow()
         text = ''
 
@@ -68,7 +69,7 @@ class Molad:
         elif dow == 5:
             text += ('ליל שב״ק' if is_night else 'ערב שב״ק')
         else:
-            text += ('ליל' if is_night else 'יום') + utils.dowHeb[dow].replace("יום", "")
+            text += ('ליל' if is_night else 'יום') + utils.dow_heb[dow].replace("יום", "")
         text += " " + molad['time'].tostring(army=True) + " " + str(molad['chalakim']) + " חלקים"
 
         return text
