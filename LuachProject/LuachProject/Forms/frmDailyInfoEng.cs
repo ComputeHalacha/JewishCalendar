@@ -198,7 +198,7 @@ namespace LuachProject
         #endregion
 
         #region private functions       
-        private void AddLine(StringBuilder sb, string header, string value, bool wideDescription = true, bool bold = false, bool emphasizeValue=false)
+        private void AddLine(StringBuilder sb, string header, string value, bool wideDescription = true, bool bold = false, bool emphasizeValue = false)
         {
             sb.Append("<tr>");
             sb.AppendFormat("<td class=\"{0}{1}\"><span>{2}</span></td><td>&nbsp;</td>",
@@ -338,7 +338,7 @@ namespace LuachProject
                     if (h.NameEnglish.Contains("Sefiras Ha'omer"))
                     {
                         html.AppendFormat("<div class=\"tahoma nine steelBlue\">{0}</div>",
-                          Utils.GetOmerNusach(this._displayingJewishDate.GetDayOfOmer(),Properties.Settings.Default.Nusach));
+                          Utils.GetOmerNusach(this._displayingJewishDate.GetDayOfOmer(), Properties.Settings.Default.Nusach));
                     }
 
                     if (h.DayType.IsSpecialDayType(SpecialDayTypes.EruvTavshilin))
@@ -380,6 +380,8 @@ namespace LuachProject
             var chatzos = this._zmanim.GetChatzos();
             var shaaZmanis = this._zmanim.GetShaaZmanis();
             var shaaZmanis90 = this._zmanim.GetShaaZmanis(90);
+            var feet = "...at " + (this._zmanim.Location.Elevation * 3.28084).ToString("N0") +
+                " ft.";
 
             this.AddLine(html, "Weekly Sedra",
                 string.Join(" ", Sedra.GetSedra(this._displayingJewishDate, this._zmanim.Location.IsInIsrael).Select(i => i.nameEng)),
@@ -411,11 +413,12 @@ namespace LuachProject
 
                 this.AddLine(html, "Alos Hashachar - 90", (netzMishor - 90).ToString());
                 this.AddLine(html, "Alos Hashachar - 72", (netzMishor - 72).ToString());
-                this.AddLine(html, "Netz Hachama", netz.ToString(), bold: true, emphasizeValue: true);
                 if (netz != netzMishor)
                 {
-                    this.AddLine(html, "Sunrise <em class=\"reg lightSteelBlue\">...at sea level</em>", netzMishor.ToString());
+                    this.AddLine(html, "Sunrise <em class=\"reg lightSteelBlue\">" + feet + "</em>", netz.ToString());
                 }
+                this.AddLine(html, "Netz Hachama", netzMishor.ToString(), bold: true, emphasizeValue: true);
+
                 this.AddLine(html, "Krias Shma - MG\"A", ((netzMishor - 90) + (int)Math.Floor(shaaZmanis90 * 3D)).ToString());
                 this.AddLine(html, "Krias Shma - GR\"A", (netzMishor + (int)Math.Floor(shaaZmanis * 3D)).ToString());
                 this.AddLine(html, "Zeman Tefillah - MG\"A", ((netzMishor - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString());
@@ -443,8 +446,8 @@ namespace LuachProject
                 else
                 {
                     this.AddLine(html, "Sunset <em class=\"reg lightSteelBlue\">...at Sea Level</em>", shkiaMishor.ToString());
-                    this.AddLine(html, "Shkiah <em class=\"reg lightSteelBlue\"> ...at " + (this._zmanim.Location.Elevation * 3.28084).ToString("N0") + " ft.</em>",
-                        shkia.ToString(), bold: true);
+                    this.AddLine(html, "Shkiah <em class=\"reg lightSteelBlue\"> " + feet + "</em>",
+                        shkia.ToString(), bold: true, emphasizeValue: true);
                 }
                 this.AddLine(html, "Nightfall 45", (shkia + 45).ToString());
                 this.AddLine(html, "Rabbeinu Tam", (shkia + 72).ToString());

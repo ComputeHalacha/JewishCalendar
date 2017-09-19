@@ -267,9 +267,9 @@ namespace LuachProject
                 else
                 {
                     this.AddLine(html, "הנה\"ח <span class=\"reg lightSteelBlue\">...מ " + this._zmanim.Location.Elevation.ToString() + " מטר</span>",
-                        netz.ToString24H(), bold: true, emphasizeValue: true);
+                        netz.ToString24H());
                     this.AddLine(html, "הנה\"ח <span class=\"reg lightSteelBlue\">...גובה פני הים</span>",
-                        netzMishor.ToString24H());
+                        netzMishor.ToString24H(), bold: true, emphasizeValue: true);
                 }
                 this.AddLine(html, "סוזק\"ש - מג\"א", ((netzMishor - 90) + (int)Math.Floor(shaaZmanis90 * 3D)).ToString24H());
                 this.AddLine(html, "סוזק\"ש - הגר\"א", (netzMishor + (int)Math.Floor(shaaZmanis * 3D)).ToString24H());
