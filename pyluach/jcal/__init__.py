@@ -128,7 +128,9 @@ def getdailyzmanim(jd, location):
             infos.append(OneZman(eng='Netz Hachama ({} feet)'.format(feet),
                                  heb="הנץ החמה מגובה " + str(location.elevation) + " מטר",
                                  time=netz))
-            infos.append(OneZman(eng='Netz Hachama (Sea Level)', heb='הנץ החמה מגובה פני הים', time=netz_mishor))
+            infos.append(OneZman(eng='Netz Hachama (Sea Level)',
+                                 heb='הנץ החמה מגובה פני הים',
+                                 time=netz_mishor))
 
         infos.append(OneZman(eng='Zman Krias Shma - MG"A', heb='סוזק\"ש - מג\"א', time=ks_mga))
         infos.append(OneZman(eng='Zman Krias Shma - GR"A', heb='סוזק\"ש - הגר\"א', time=ks_gra))
