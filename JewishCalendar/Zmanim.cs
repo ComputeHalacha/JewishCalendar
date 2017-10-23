@@ -456,15 +456,15 @@ namespace JewishCalendar
         }
         private static void AddIyarSpecialDays(ArrayList list, int jDay, DayOfWeek dayOfWeek)
         {
-            if (dayOfWeek == DayOfWeek.Monday && jDay > 2 && jDay < 12)
+            if (dayOfWeek == DayOfWeek.Monday && jDay > 3 && jDay < 13)
             {
                 list.Add(new SpecialDay("Baha\"b", "תענית שני קמא", SpecialDayTypes.FastDay));
             }
-            else if (dayOfWeek == DayOfWeek.Thursday && jDay > 5 && jDay < 13)
+            else if (dayOfWeek == DayOfWeek.Thursday && jDay > 6 && jDay < 14)
             {
                 list.Add(new SpecialDay("Baha\"b", "תענית חמישי", SpecialDayTypes.FastDay));
             }
-            else if (dayOfWeek == DayOfWeek.Monday && jDay > 9 && jDay < 17)
+            else if (dayOfWeek == DayOfWeek.Monday && jDay > 10 && jDay < 18)
             {
                 list.Add(new SpecialDay("Baha\"b", "תענית שני בתרא", SpecialDayTypes.FastDay));
             }
@@ -597,15 +597,15 @@ namespace JewishCalendar
         }
         private static void AddCheshvanSpecialDays(bool inIsrael, ArrayList list, int jDay, DayOfWeek dayOfWeek)
         {
-            if (dayOfWeek == DayOfWeek.Monday && jDay > 2 && jDay < 12)
+            if (dayOfWeek == DayOfWeek.Monday && jDay > 3 && jDay < 32)
             {
                 list.Add(new SpecialDay("Baha\"b", "תענית שני קמא", SpecialDayTypes.FastDay));
             }
-            else if (dayOfWeek == DayOfWeek.Thursday && jDay > 5 && jDay < 13)
+            else if (dayOfWeek == DayOfWeek.Thursday && jDay > 6 && jDay < 14)
             {
                 list.Add(new SpecialDay("Baha\"b", "תענית חמישי", SpecialDayTypes.FastDay));
             }
-            else if (dayOfWeek == DayOfWeek.Monday && jDay > 9 && jDay < 17)
+            else if (dayOfWeek == DayOfWeek.Monday && jDay > 10 && jDay < 18)
             {
                 list.Add(new SpecialDay("Baha\"b", "תענית שני בתרא", SpecialDayTypes.FastDay));
             }

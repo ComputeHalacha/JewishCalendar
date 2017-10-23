@@ -389,11 +389,11 @@ class JDate:
             elif j_day == 22 and not israel:
                 lst.append(Entry("אחרון של פסח", "Last Day of Pesach"))
         elif j_month == 2:  # Iyar
-            if day_of_week == 1 and 2 < j_day < 12:
+            if day_of_week == 1 and 3 < j_day < 13:
                 lst.append(Entry("תענית שני קמא", "Baha\"b"))
-            elif day_of_week == 4 and 5 < j_day < 13:
+            elif day_of_week == 4 and 6 < j_day < 14:
                 lst.append(Entry('תענית חמישי', 'Baha\"b'))
-            elif day_of_week == 1 and 9 < j_day < 17:
+            elif day_of_week == 1 and 10 < j_day < 18:
                 lst.append(Entry('תענית שני בתרא', 'Baha"b'))
             if j_day == 14:
                 lst.append(Entry("פסח שני", "Pesach Sheini"))
@@ -455,11 +455,11 @@ class JDate:
             elif j_day == 23 and not israel:
                 lst.append(Entry("שמחת תורה", "Simchas Torah"))
         elif j_month == 8:  # Cheshvan
-            if day_of_week == 1 and 2 < j_day < 12:
+            if day_of_week == 1 and 3 < j_day < 13:
                 lst.append(Entry("תענית שני קמא", 'Baha"b'))
-            elif day_of_week == 4 and 5 < j_day < 13:
+            elif day_of_week == 4 and 6 < j_day < 14:
                 lst.append(Entry("תענית חמישי", 'Baha"b'))
-            elif day_of_week == 1 and 9 < j_day < 17:
+            elif day_of_week == 1 and 10 < j_day < 18:
                 lst.append(Entry("תענית שני בתרא", 'Baha"b'))
             if j_day == 7 and israel:
                 lst.append(Entry("ותן טל ומטר", "V'sain Tal U'Matar"))
