@@ -597,7 +597,7 @@ namespace JewishCalendar
         }
         private static void AddCheshvanSpecialDays(bool inIsrael, ArrayList list, int jDay, DayOfWeek dayOfWeek)
         {
-            if (dayOfWeek == DayOfWeek.Monday && jDay > 3 && jDay < 32)
+            if (dayOfWeek == DayOfWeek.Monday && jDay > 3 && jDay < 13)
             {
                 list.Add(new SpecialDay("Baha\"b", "תענית שני קמא", SpecialDayTypes.FastDay));
             }
