@@ -6,5 +6,5 @@
     cause the file to be unrecognizable by the program.
 -->
 <GenericObjectDataSource DisplayName="UserOccasionColection" Version="1.0" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
-   <TypeInfo>LuachProject.UserOccasionColection, LuachProject, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
+   <TypeInfo>LuachProject.UserOccasionColection, LuachProject, Version=2.2.1.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
 </GenericObjectDataSource>
