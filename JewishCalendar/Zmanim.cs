@@ -492,7 +492,7 @@ namespace JewishCalendar
                 list.Add((inIsrael ?
                     new SpecialDay("Shavuos", "חג השבועות", SpecialDayTypes.MajorYomTov) :
                     new SpecialDay("Shavuos - First Day", "שבועות - יום ראשון", SpecialDayTypes.MajorYomTov)));
-            if (jDay == 7 && !inIsrael)
+            else if (jDay == 7 && !inIsrael)
                 list.Add(new SpecialDay("Shavuos - Second Day", "שבועות - יום שני", SpecialDayTypes.MajorYomTov));
         }
         private static void AddTamuzSpecialDays(ArrayList list, int jDay, DayOfWeek dayOfWeek)
