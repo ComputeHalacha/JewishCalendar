@@ -1,6 +1,7 @@
 ﻿using JewishCalendar;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -15,20 +16,13 @@ namespace ZmanimChart
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.cmbLocations.DisplayMember = "NameHebrew";
+            this.cmbLocations.DisplayMember =  "NameHebrew";
             this.cmbMonth.ValueMember = "Key";
             this.cmbMonth.DisplayMember = "Value";
             this.cmbYear.ValueMember = "Key";
             this.cmbYear.DisplayMember = "Value";
 
-            foreach (Location location in Program.LocationsList)
-            {
-                this.cmbLocations.Items.Add(location);
-                if(location.Name == Properties.Settings.Default.LocationName)
-                {
-                    this.cmbLocations.SelectedItem = location;
-                }
-            }
+            this.FillLocations();
             var nextMonth = new JewishDate().AddMonths(1);
             KeyValuePair<int, string> month = new KeyValuePair<int, string>();
             KeyValuePair<int, string> year = new KeyValuePair<int, string>();
@@ -54,6 +48,21 @@ namespace ZmanimChart
             }
             this.cmbMonth.SelectedItem= month;
             this.cmbYear.SelectedItem = year;
+        }
+
+        private void FillLocations()
+        {
+            this.cmbLocations.Items.Clear();
+            bool israel = this.chooserControl1.RightSelected;
+            var list = Program.LocationsList.Where(l => l.IsInIsrael == israel);
+            foreach (Location location in list)
+            {
+                this.cmbLocations.Items.Add(location);
+                if (location.Name == Properties.Settings.Default.LocationName)
+                {
+                    this.cmbLocations.SelectedItem = location;
+                }
+            }            
         }
 
         private int GetSelectedMonth()
@@ -114,6 +123,11 @@ namespace ZmanimChart
         {
             Properties.Settings.Default.LocationName = ((Location)cmbLocations.SelectedItem).Name;
             Properties.Settings.Default.Save();
+        }       
+
+        private void chooserControl1_ChoiceChanged(object sender, ChoiceChangedEventArgs e)
+        {
+            this.FillLocations();
         }
     }
 }
