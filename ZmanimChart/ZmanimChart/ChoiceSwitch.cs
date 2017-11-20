@@ -11,7 +11,7 @@ public enum ChoiceSwitcherChoices
 }
 
 [DefaultEvent("ChoiceSwitched")]
-public class ChoiceSwitcher : UserControl
+public class ChoiceSwitcher : Control
 {
     private string _choiceOneText = "First Choice";
     private string _choiceTwoText = "Second Choice";
@@ -28,11 +28,17 @@ public class ChoiceSwitcher : UserControl
         this.Width = 250;
         this.Height = 25;
         this.ForeColor = Color.DimGray;
-        this.PerformAutoScale();
+        this.SelectedFont = this.Font;
+        this.SelectedForeColor = this.ForeColor;
     }
-    
+
     public object ChoiceOneValue { get; set; }
     public object ChoiceTwoValue { get; set; }
+    public bool StrikeNotSelected { get; set; } = true;
+    public bool HighlightSelected { get; set; } = true;
+    public Color SelectedHighlightColor { get; set; } = Color.White;
+    public Font SelectedFont { get; set; }
+    public Color SelectedForeColor { get; set; }
     public object SelectedValue
     {
         get
@@ -134,13 +140,12 @@ public class ChoiceSwitcher : UserControl
         }
     }
 
-    protected override void OnClick(EventArgs e)
+    protected override void OnMouseClick(MouseEventArgs e)
     {
-        base.OnClick(e);
-        this._choiceChosen =
+        base.OnMouseClick(e);
+        this.ChoiceChosen =
             this._choiceChosen == ChoiceSwitcherChoices.ChoiceOne ?
             ChoiceSwitcherChoices.ChoiceTwo : ChoiceSwitcherChoices.ChoiceOne;
-        this.Invalidate();
     }
 
     protected override void OnPaint(PaintEventArgs e)
@@ -149,24 +154,39 @@ public class ChoiceSwitcher : UserControl
         base.OnPaint(e);
         using (var g = e.Graphics)
         {
-            SizeF textOneSize = g.MeasureString(this._choiceOneText, this.Font),
-                textTwoSize = g.MeasureString(this._choiceTwoText, this.Font);
-            float textWidth = textOneSize.Width + textTwoSize.Width,
-                slotWidth = (this.Width - textWidth) * 0.8f,
+            Font notSelectedFont = this.StrikeNotSelected ?
+                new Font(this.Font, FontStyle.Strikeout | FontStyle.Regular) : this.Font;
+
+            SizeF textOneSize = TextRenderer.MeasureText(this._choiceOneText,
+                this._choiceChosen == ChoiceSwitcherChoices.ChoiceOne ?
+                    this.SelectedFont : notSelectedFont),
+                textTwoSize = TextRenderer.MeasureText(this._choiceTwoText,
+                this._choiceChosen == ChoiceSwitcherChoices.ChoiceTwo ?
+                    this.SelectedFont : notSelectedFont);
+            float textWidth = textOneSize.Width + textTwoSize.Width + 2,
+                slotWidth = ((this.Width - textWidth) * 0.8f) - 2,
                 slotHeight = this.Height * 0.7f,
                 slotTop = (this.Height - slotHeight) / 2f,
-                slotLeft = (this.Width / 2) - (slotWidth / 2);
-            Font notSelectedFont = new Font(this.Font, FontStyle.Strikeout);
-            Brush textBrush = new SolidBrush(this.ForeColor);
-            Brush slotBrush = new SolidBrush(this._slotBackColor);
-            g.DrawString(
+                slotLeft = textOneSize.Width + 5f;
+            Brush slotBrush = new SolidBrush(this._slotBackColor),
+                highlightBrush = new SolidBrush(this.SelectedHighlightColor);
+
+            if (this.HighlightSelected && this._choiceChosen == ChoiceSwitcherChoices.ChoiceOne)
+            {
+                g.FillRectangle(
+                    highlightBrush,
+                    0,
+                    0,
+                    textOneSize.Width,
+                    this.Height);
+            }
+            TextRenderer.DrawText(g,
                 this._choiceOneText,
                 this._choiceChosen == ChoiceSwitcherChoices.ChoiceOne ?
-                    this.Font : notSelectedFont,
-                textBrush,
-                0,
-                (this.Height / 2) - (textOneSize.Height / 2));
-
+                    this.SelectedFont : notSelectedFont,
+                new Point(0, (int)((this.Height / 2) - (textOneSize.Height / 2))),
+                 this._choiceChosen == ChoiceSwitcherChoices.ChoiceOne ?
+                    this.SelectedForeColor : this.ForeColor);
             GraphicsPath graphPath = new GraphicsPath();
             graphPath.FillMode = FillMode.Winding;
             graphPath.AddEllipse(slotLeft, slotTop, slotHeight, slotHeight);
@@ -186,17 +206,31 @@ public class ChoiceSwitcher : UserControl
                 ZmanimChart.Properties.Resources.SwitchHead,
                 new RectangleF(
                     (this._choiceChosen == ChoiceSwitcherChoices.ChoiceOne ?
-                        textOneSize.Width : slotLeft + (slotWidth - slotHeight)),
+                        slotLeft - 2 : slotLeft + (slotWidth - slotHeight)) - 2,
                     0,
                     this.Height,
                     this.Height));
-            g.DrawString(
-                this._choiceTwoText,
-                this._choiceChosen == ChoiceSwitcherChoices.ChoiceTwo ?
-                    this.Font : notSelectedFont,
-                textBrush,
-                this.Width - textTwoSize.Width,
-                (this.Height / 2) - (textOneSize.Height / 2));
+            if (this.HighlightSelected && this._choiceChosen == ChoiceSwitcherChoices.ChoiceTwo)
+            {
+                g.FillRectangle(
+                    highlightBrush,
+                    (slotLeft + slotWidth) + 5,
+                    0,
+                    textTwoSize.Width,
+                    this.Height);
+            }
+            TextRenderer.DrawText(g,
+            this._choiceTwoText,
+             this._choiceChosen == ChoiceSwitcherChoices.ChoiceTwo ?
+                 this.SelectedFont : notSelectedFont,
+             new Point((int)((slotLeft + slotWidth) + 5),
+                (int)((this.Height / 2) - (textOneSize.Height / 2))),
+              this._choiceChosen == ChoiceSwitcherChoices.ChoiceTwo ?
+                 this.SelectedForeColor : this.ForeColor);
+
+            notSelectedFont.Dispose();
+            slotBrush.Dispose();
+            highlightBrush.Dispose();
         }
         this.ResumeLayout();
     }

@@ -53,7 +53,7 @@ namespace ZmanimChart
         private void FillLocations()
         {
             this.cmbLocations.Items.Clear();
-            bool israel = this.chooserControl1.RightSelected;
+            bool israel = this.choiceSwitcher1.ChoiceTwoSelected;
             var list = Program.LocationsList.Where(l => l.IsInIsrael == israel);
             foreach (Location location in list)
             {
@@ -123,9 +123,9 @@ namespace ZmanimChart
         {
             Properties.Settings.Default.LocationName = ((Location)cmbLocations.SelectedItem).Name;
             Properties.Settings.Default.Save();
-        }       
-
-        private void chooserControl1_ChoiceChanged(object sender, ChoiceChangedEventArgs e)
+        }               
+        
+        private void choiceSwitcher1_ChoiceSwitched_1(object sender, EventArgs e)
         {
             this.FillLocations();
         }
