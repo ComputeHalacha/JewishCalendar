@@ -70,6 +70,16 @@ namespace ZmanimChart.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SwitchHead {
+            get {
+                object obj = ResourceManager.GetObject("SwitchHead", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
         ///
         ///&lt;html&gt;
@@ -77,16 +87,14 @@ namespace ZmanimChart.Properties {
         ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
         ///    &lt;title&gt;&lt;/title&gt;
         ///    &lt;style type=&quot;text/css&quot;&gt;
-        ///        table { width: 100%; border-collapse: collapse; font-size: 7pt; font-family: Tahoma; }
+        ///        table { width:100%;border:solid 1px #000;border-collapse: collapse; font-size: 8pt; font-family: Tahoma; }
         ///        tr:nth-child(2n+1) { background-color: #f1f1f1; }
         ///        tr.special { background-color: #ddf; }
-        ///        td { border: solid 1px #777; }
+        ///        td, th { border: solid 1px #777;padding:2px;text-align:center;vertical-align:middle; }        
+        ///        th{background-color:#ccc;}
         ///    &lt;/style&gt;
         ///&lt;/head&gt;
-        ///&lt;body&gt;
-        ///    &lt;div style=&quot;width:90%;margin:10px auto;border:solid 1px #000&quot;&gt;&lt;/div&gt;
-        ///    &lt;table&gt;
-        ///        &lt;tr style=&quot;background-color: [rest of string was truncated]&quot;;.
+        ///&lt;body&gt;      [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string template {
             get {
