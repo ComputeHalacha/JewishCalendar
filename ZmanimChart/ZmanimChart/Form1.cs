@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 
@@ -16,6 +17,17 @@ namespace ZmanimChart
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            if (SystemInformation.TerminalServerSession)
+                return;
+
+            PropertyInfo aProp =
+                  typeof(Control).GetProperty(
+                        "DoubleBuffered",
+                        BindingFlags.NonPublic |
+                        BindingFlags.Instance);
+
+            aProp.SetValue(this, true, null);
+
             this.cmbLocations.DisplayMember =  "NameHebrew";
             this.cmbMonth.ValueMember = "Key";
             this.cmbMonth.DisplayMember = "Value";

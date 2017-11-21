@@ -17,6 +17,12 @@ public class ChoiceSwitcher : Control
     private string _choiceTwoText = "Second Choice";
     private ChoiceSwitcherChoices _choiceChosen = ChoiceSwitcherChoices.ChoiceOne;
     private Color _slotBackColor = Color.Gray;
+    private Color _slotChoiceTwoBackColor = Color.Teal;
+    private bool _strikeNotSelected = false;
+    private bool _highlightSelected = false;
+    private Color _selectedHighlightColor = Color.White;
+    private Font _selectedFont;
+    private Color _selectedForeColor = Color.Blue;
 
     [Category("Action")]
     [Description("Fires when the choice is toggled")]
@@ -31,14 +37,68 @@ public class ChoiceSwitcher : Control
         this.SelectedFont = this.Font;
         this.SelectedForeColor = this.ForeColor;
     }
-
     public object ChoiceOneValue { get; set; }
     public object ChoiceTwoValue { get; set; }
-    public bool StrikeNotSelected { get; set; } = true;
-    public bool HighlightSelected { get; set; } = true;
-    public Color SelectedHighlightColor { get; set; } = Color.White;
-    public Font SelectedFont { get; set; }
-    public Color SelectedForeColor { get; set; }
+    public bool StrikeNotSelected
+    {
+        get { return this._strikeNotSelected; }
+        set
+        {
+            if (this._strikeNotSelected != value)
+            {
+                this._strikeNotSelected = value;
+                this.Invalidate();
+            }
+        }
+    }
+    public bool HighlightSelected
+    {
+        get { return this._highlightSelected; }
+        set
+        {
+            if (this._highlightSelected != value)
+            {
+                this._highlightSelected = value;
+                this.Invalidate();
+            }
+        }
+    }
+    public Color SelectedHighlightColor
+    {
+        get { return this._selectedHighlightColor; }
+        set
+        {
+            if (this._selectedHighlightColor != value)
+            {
+                this._selectedHighlightColor = value;
+                this.Invalidate();
+            }
+        }
+    }
+    public Font SelectedFont
+    {
+        get { return this._selectedFont; }
+        set
+        {
+            if (this._selectedFont != value)
+            {
+                this._selectedFont = value;
+                this.Invalidate();
+            }
+        }
+    }
+    public Color SelectedForeColor
+    {
+        get { return this._selectedForeColor; }
+        set
+        {
+            if (this._selectedForeColor != value)
+            {
+                this._selectedForeColor = value;
+                this.Invalidate();
+            }
+        }
+    }
     public object SelectedValue
     {
         get
@@ -135,8 +195,26 @@ public class ChoiceSwitcher : Control
         }
         set
         {
-            this._slotBackColor = value;
-            this.Invalidate();
+            if (this._slotBackColor != value)
+            {
+                this._slotBackColor = value;
+                this.Invalidate();
+            }
+        }
+    }
+    public Color SlotChoiceTwoBackColor
+    {
+        get
+        {
+            return this._slotChoiceTwoBackColor;
+        }
+        set
+        {
+            if (this._slotChoiceTwoBackColor != value)
+            {
+                this._slotChoiceTwoBackColor = value;
+                this.Invalidate();
+            }
         }
     }
 
@@ -154,24 +232,25 @@ public class ChoiceSwitcher : Control
         base.OnPaint(e);
         using (var g = e.Graphics)
         {
-            Font notSelectedFont = this.StrikeNotSelected ?
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            Font notSelectedFont = this._strikeNotSelected ?
                 new Font(this.Font, FontStyle.Strikeout | FontStyle.Regular) : this.Font;
 
             SizeF textOneSize = TextRenderer.MeasureText(this._choiceOneText,
-                this._choiceChosen == ChoiceSwitcherChoices.ChoiceOne ?
-                    this.SelectedFont : notSelectedFont),
+                    this._selectedFont),
                 textTwoSize = TextRenderer.MeasureText(this._choiceTwoText,
-                this._choiceChosen == ChoiceSwitcherChoices.ChoiceTwo ?
-                    this.SelectedFont : notSelectedFont);
+                    this._selectedFont);
             float textWidth = textOneSize.Width + textTwoSize.Width + 2,
                 slotWidth = ((this.Width - textWidth) * 0.8f) - 2,
                 slotHeight = this.Height * 0.7f,
                 slotTop = (this.Height - slotHeight) / 2f,
                 slotLeft = textOneSize.Width + 5f;
-            Brush slotBrush = new SolidBrush(this._slotBackColor),
-                highlightBrush = new SolidBrush(this.SelectedHighlightColor);
+            Brush slotBrush = new SolidBrush(
+                this._choiceChosen == ChoiceSwitcherChoices.ChoiceOne ?
+                    this._slotBackColor : this._slotChoiceTwoBackColor),
+                highlightBrush = new SolidBrush(this._selectedHighlightColor);
 
-            if (this.HighlightSelected && this._choiceChosen == ChoiceSwitcherChoices.ChoiceOne)
+            if (this._highlightSelected && this._choiceChosen == ChoiceSwitcherChoices.ChoiceOne)
             {
                 g.FillRectangle(
                     highlightBrush,
@@ -183,7 +262,7 @@ public class ChoiceSwitcher : Control
             TextRenderer.DrawText(g,
                 this._choiceOneText,
                 this._choiceChosen == ChoiceSwitcherChoices.ChoiceOne ?
-                    this.SelectedFont : notSelectedFont,
+                    this._selectedFont : notSelectedFont,
                 new Point(0, (int)((this.Height / 2) - (textOneSize.Height / 2))),
                  this._choiceChosen == ChoiceSwitcherChoices.ChoiceOne ?
                     this.SelectedForeColor : this.ForeColor);
@@ -210,7 +289,7 @@ public class ChoiceSwitcher : Control
                     0,
                     this.Height,
                     this.Height));
-            if (this.HighlightSelected && this._choiceChosen == ChoiceSwitcherChoices.ChoiceTwo)
+            if (this._highlightSelected && this._choiceChosen == ChoiceSwitcherChoices.ChoiceTwo)
             {
                 g.FillRectangle(
                     highlightBrush,
@@ -222,7 +301,7 @@ public class ChoiceSwitcher : Control
             TextRenderer.DrawText(g,
             this._choiceTwoText,
              this._choiceChosen == ChoiceSwitcherChoices.ChoiceTwo ?
-                 this.SelectedFont : notSelectedFont,
+                 this._selectedFont : notSelectedFont,
              new Point((int)((slotLeft + slotWidth) + 5),
                 (int)((this.Height / 2) - (textOneSize.Height / 2))),
               this._choiceChosen == ChoiceSwitcherChoices.ChoiceTwo ?
