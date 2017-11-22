@@ -38,22 +38,22 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.choiceNetz = new ChoiceSwitcher();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
+            this.choiceSwitcher2 = new ChoiceSwitcher();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
+            this.choiceSwitcher3 = new ChoiceSwitcher();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
+            this.choiceSwitcher4 = new ChoiceSwitcher();
             this.panel5 = new System.Windows.Forms.Panel();
             this.label9 = new System.Windows.Forms.Label();
+            this.choiceSwitcher5 = new ChoiceSwitcher();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.choiceSwitcher6 = new ChoiceSwitcher();
-            this.choiceSwitcher5 = new ChoiceSwitcher();
-            this.choiceSwitcher4 = new ChoiceSwitcher();
-            this.choiceSwitcher3 = new ChoiceSwitcher();
-            this.choiceSwitcher2 = new ChoiceSwitcher();
-            this.choiceNetz = new ChoiceSwitcher();
             this.choiceSwitcher1 = new ChoiceSwitcher();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -66,13 +66,13 @@
             // button1
             // 
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.button1.Location = new System.Drawing.Point(78, 457);
+            this.button1.Location = new System.Drawing.Point(78, 525);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(148, 41);
             this.button1.TabIndex = 0;
             this.button1.Text = "Generate / יצר";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // cmbLocations
             // 
@@ -83,17 +83,17 @@
             this.cmbLocations.Location = new System.Drawing.Point(14, 36);
             this.cmbLocations.Name = "cmbLocations";
             this.cmbLocations.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.cmbLocations.Size = new System.Drawing.Size(276, 24);
+            this.cmbLocations.Size = new System.Drawing.Size(276, 22);
             this.cmbLocations.Sorted = true;
             this.cmbLocations.TabIndex = 1;
-            this.cmbLocations.SelectedIndexChanged += new System.EventHandler(this.cmbLocations_SelectedIndexChanged);
+            this.cmbLocations.SelectedIndexChanged += new System.EventHandler(this.CmbLocations_SelectedIndexChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(109, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(108, 16);
+            this.label1.Size = new System.Drawing.Size(86, 14);
             this.label1.TabIndex = 2;
             this.label1.Text = " Location / מיקום";
             // 
@@ -102,7 +102,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(45, 104);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(91, 16);
+            this.label2.Size = new System.Drawing.Size(73, 14);
             this.label2.TabIndex = 4;
             this.label2.Text = " Month / חודש";
             // 
@@ -115,7 +115,7 @@
             this.cmbMonth.Location = new System.Drawing.Point(15, 125);
             this.cmbMonth.Name = "cmbMonth";
             this.cmbMonth.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.cmbMonth.Size = new System.Drawing.Size(133, 24);
+            this.cmbMonth.Size = new System.Drawing.Size(133, 22);
             this.cmbMonth.TabIndex = 3;
             // 
             // label3
@@ -123,7 +123,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(183, 104);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(76, 16);
+            this.label3.Size = new System.Drawing.Size(63, 14);
             this.label3.TabIndex = 6;
             this.label3.Text = " Year / שנה";
             // 
@@ -136,7 +136,7 @@
             this.cmbYear.Location = new System.Drawing.Point(154, 125);
             this.cmbYear.Name = "cmbYear";
             this.cmbYear.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.cmbYear.Size = new System.Drawing.Size(136, 24);
+            this.cmbYear.Size = new System.Drawing.Size(136, 22);
             this.cmbYear.TabIndex = 5;
             // 
             // label4
@@ -144,7 +144,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(1, 11);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(95, 16);
+            this.label4.Size = new System.Drawing.Size(77, 14);
             this.label4.TabIndex = 4;
             this.label4.Text = " Sunrise / הנץ:";
             // 
@@ -154,7 +154,7 @@
             this.label5.Font = new System.Drawing.Font("Verdana", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.label5.Location = new System.Drawing.Point(107, 175);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(84, 16);
+            this.label5.Size = new System.Drawing.Size(69, 14);
             this.label5.TabIndex = 9;
             this.label5.Text = " Show / הצג";
             // 
@@ -167,6 +167,33 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(306, 40);
             this.panel1.TabIndex = 10;
+            // 
+            // choiceNetz
+            // 
+            this.choiceNetz.BackColorNotSelected = System.Drawing.SystemColors.Control;
+            this.choiceNetz.BackColorSelected = System.Drawing.SystemColors.Control;
+            this.choiceNetz.BackColorSlot = System.Drawing.Color.Gray;
+            this.choiceNetz.BackColorSlotChoiceTwo = System.Drawing.Color.Teal;
+            this.choiceNetz.ChoiceChosen = ChoiceSwitcherChoices.ChoiceTwo;
+            this.choiceNetz.ChoiceOneSelected = false;
+            this.choiceNetz.ChoiceTwoSelected = true;
+            this.choiceNetz.DisplayAsYesNo = false;
+            this.choiceNetz.Font = new System.Drawing.Font("Verdana", 7F);
+            this.choiceNetz.FontNotSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceNetz.FontSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceNetz.FontSize = 7F;
+            this.choiceNetz.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceNetz.ForeColorSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceNetz.Location = new System.Drawing.Point(156, 7);
+            this.choiceNetz.Name = "choiceNetz";
+            this.choiceNetz.SelectedValue = null;
+            this.choiceNetz.Size = new System.Drawing.Size(140, 25);
+            this.choiceNetz.TabIndex = 8;
+            this.choiceNetz.Text = "choiceSwitcher2";
+            this.choiceNetz.TextChoiceOne = "No / לא";
+            this.choiceNetz.TextChoiceTwo = "Yes / כן";
+            this.choiceNetz.ValueChoiceOne = null;
+            this.choiceNetz.ValueChoiceTwo = null;
             // 
             // panel2
             // 
@@ -183,9 +210,36 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(1, 11);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(95, 16);
+            this.label6.Size = new System.Drawing.Size(77, 14);
             this.label6.TabIndex = 4;
             this.label6.Text = " Sunrise / הנץ:";
+            // 
+            // choiceSwitcher2
+            // 
+            this.choiceSwitcher2.BackColorNotSelected = System.Drawing.SystemColors.Control;
+            this.choiceSwitcher2.BackColorSelected = System.Drawing.SystemColors.Control;
+            this.choiceSwitcher2.BackColorSlot = System.Drawing.Color.Gray;
+            this.choiceSwitcher2.BackColorSlotChoiceTwo = System.Drawing.Color.Teal;
+            this.choiceSwitcher2.ChoiceChosen = ChoiceSwitcherChoices.ChoiceTwo;
+            this.choiceSwitcher2.ChoiceOneSelected = false;
+            this.choiceSwitcher2.ChoiceTwoSelected = true;
+            this.choiceSwitcher2.DisplayAsYesNo = false;
+            this.choiceSwitcher2.Font = new System.Drawing.Font("Verdana", 7F);
+            this.choiceSwitcher2.FontNotSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceSwitcher2.FontSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceSwitcher2.FontSize = 7F;
+            this.choiceSwitcher2.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceSwitcher2.ForeColorSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceSwitcher2.Location = new System.Drawing.Point(156, 7);
+            this.choiceSwitcher2.Name = "choiceSwitcher2";
+            this.choiceSwitcher2.SelectedValue = null;
+            this.choiceSwitcher2.Size = new System.Drawing.Size(140, 25);
+            this.choiceSwitcher2.TabIndex = 8;
+            this.choiceSwitcher2.Text = "choiceSwitcher2";
+            this.choiceSwitcher2.TextChoiceOne = "No / לא";
+            this.choiceSwitcher2.TextChoiceTwo = "Yes / כן";
+            this.choiceSwitcher2.ValueChoiceOne = null;
+            this.choiceSwitcher2.ValueChoiceTwo = null;
             // 
             // panel3
             // 
@@ -202,9 +256,36 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(1, 11);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(95, 16);
+            this.label7.Size = new System.Drawing.Size(77, 14);
             this.label7.TabIndex = 4;
             this.label7.Text = " Sunrise / הנץ:";
+            // 
+            // choiceSwitcher3
+            // 
+            this.choiceSwitcher3.BackColorNotSelected = System.Drawing.SystemColors.Control;
+            this.choiceSwitcher3.BackColorSelected = System.Drawing.SystemColors.Control;
+            this.choiceSwitcher3.BackColorSlot = System.Drawing.Color.Gray;
+            this.choiceSwitcher3.BackColorSlotChoiceTwo = System.Drawing.Color.Teal;
+            this.choiceSwitcher3.ChoiceChosen = ChoiceSwitcherChoices.ChoiceTwo;
+            this.choiceSwitcher3.ChoiceOneSelected = false;
+            this.choiceSwitcher3.ChoiceTwoSelected = true;
+            this.choiceSwitcher3.DisplayAsYesNo = false;
+            this.choiceSwitcher3.Font = new System.Drawing.Font("Verdana", 7F);
+            this.choiceSwitcher3.FontNotSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceSwitcher3.FontSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceSwitcher3.FontSize = 7F;
+            this.choiceSwitcher3.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceSwitcher3.ForeColorSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceSwitcher3.Location = new System.Drawing.Point(156, 7);
+            this.choiceSwitcher3.Name = "choiceSwitcher3";
+            this.choiceSwitcher3.SelectedValue = null;
+            this.choiceSwitcher3.Size = new System.Drawing.Size(140, 25);
+            this.choiceSwitcher3.TabIndex = 8;
+            this.choiceSwitcher3.Text = "choiceSwitcher2";
+            this.choiceSwitcher3.TextChoiceOne = "No / לא";
+            this.choiceSwitcher3.TextChoiceTwo = "Yes / כן";
+            this.choiceSwitcher3.ValueChoiceOne = null;
+            this.choiceSwitcher3.ValueChoiceTwo = null;
             // 
             // panel4
             // 
@@ -221,9 +302,36 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(1, 11);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(95, 16);
+            this.label8.Size = new System.Drawing.Size(77, 14);
             this.label8.TabIndex = 4;
             this.label8.Text = " Sunrise / הנץ:";
+            // 
+            // choiceSwitcher4
+            // 
+            this.choiceSwitcher4.BackColorNotSelected = System.Drawing.SystemColors.Control;
+            this.choiceSwitcher4.BackColorSelected = System.Drawing.SystemColors.Control;
+            this.choiceSwitcher4.BackColorSlot = System.Drawing.Color.Gray;
+            this.choiceSwitcher4.BackColorSlotChoiceTwo = System.Drawing.Color.Teal;
+            this.choiceSwitcher4.ChoiceChosen = ChoiceSwitcherChoices.ChoiceTwo;
+            this.choiceSwitcher4.ChoiceOneSelected = false;
+            this.choiceSwitcher4.ChoiceTwoSelected = true;
+            this.choiceSwitcher4.DisplayAsYesNo = false;
+            this.choiceSwitcher4.Font = new System.Drawing.Font("Verdana", 7F);
+            this.choiceSwitcher4.FontNotSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceSwitcher4.FontSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceSwitcher4.FontSize = 7F;
+            this.choiceSwitcher4.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceSwitcher4.ForeColorSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceSwitcher4.Location = new System.Drawing.Point(156, 7);
+            this.choiceSwitcher4.Name = "choiceSwitcher4";
+            this.choiceSwitcher4.SelectedValue = null;
+            this.choiceSwitcher4.Size = new System.Drawing.Size(140, 25);
+            this.choiceSwitcher4.TabIndex = 8;
+            this.choiceSwitcher4.Text = "choiceSwitcher2";
+            this.choiceSwitcher4.TextChoiceOne = "No / לא";
+            this.choiceSwitcher4.TextChoiceTwo = "Yes / כן";
+            this.choiceSwitcher4.ValueChoiceOne = null;
+            this.choiceSwitcher4.ValueChoiceTwo = null;
             // 
             // panel5
             // 
@@ -240,9 +348,36 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(1, 11);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(95, 16);
+            this.label9.Size = new System.Drawing.Size(77, 14);
             this.label9.TabIndex = 4;
             this.label9.Text = " Sunrise / הנץ:";
+            // 
+            // choiceSwitcher5
+            // 
+            this.choiceSwitcher5.BackColorNotSelected = System.Drawing.SystemColors.Control;
+            this.choiceSwitcher5.BackColorSelected = System.Drawing.SystemColors.Control;
+            this.choiceSwitcher5.BackColorSlot = System.Drawing.Color.Gray;
+            this.choiceSwitcher5.BackColorSlotChoiceTwo = System.Drawing.Color.Teal;
+            this.choiceSwitcher5.ChoiceChosen = ChoiceSwitcherChoices.ChoiceTwo;
+            this.choiceSwitcher5.ChoiceOneSelected = false;
+            this.choiceSwitcher5.ChoiceTwoSelected = true;
+            this.choiceSwitcher5.DisplayAsYesNo = false;
+            this.choiceSwitcher5.Font = new System.Drawing.Font("Verdana", 7F);
+            this.choiceSwitcher5.FontNotSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceSwitcher5.FontSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceSwitcher5.FontSize = 7F;
+            this.choiceSwitcher5.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceSwitcher5.ForeColorSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceSwitcher5.Location = new System.Drawing.Point(156, 7);
+            this.choiceSwitcher5.Name = "choiceSwitcher5";
+            this.choiceSwitcher5.SelectedValue = null;
+            this.choiceSwitcher5.Size = new System.Drawing.Size(140, 25);
+            this.choiceSwitcher5.TabIndex = 8;
+            this.choiceSwitcher5.Text = "choiceSwitcher2";
+            this.choiceSwitcher5.TextChoiceOne = "No / לא";
+            this.choiceSwitcher5.TextChoiceTwo = "Yes / כן";
+            this.choiceSwitcher5.ValueChoiceOne = null;
+            this.choiceSwitcher5.ValueChoiceTwo = null;
             // 
             // panel6
             // 
@@ -259,184 +394,70 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(1, 11);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(95, 16);
+            this.label10.Size = new System.Drawing.Size(77, 14);
             this.label10.TabIndex = 4;
             this.label10.Text = " Sunrise / הנץ:";
             // 
             // choiceSwitcher6
             // 
+            this.choiceSwitcher6.BackColorNotSelected = System.Drawing.SystemColors.Control;
+            this.choiceSwitcher6.BackColorSelected = System.Drawing.SystemColors.Control;
+            this.choiceSwitcher6.BackColorSlot = System.Drawing.Color.Gray;
+            this.choiceSwitcher6.BackColorSlotChoiceTwo = System.Drawing.Color.Teal;
             this.choiceSwitcher6.ChoiceChosen = ChoiceSwitcherChoices.ChoiceTwo;
             this.choiceSwitcher6.ChoiceOneSelected = false;
-            this.choiceSwitcher6.ChoiceOneText = "No / לא";
-            this.choiceSwitcher6.ChoiceOneValue = null;
             this.choiceSwitcher6.ChoiceTwoSelected = true;
-            this.choiceSwitcher6.ChoiceTwoText = "Yes / כן";
-            this.choiceSwitcher6.ChoiceTwoValue = null;
-            this.choiceSwitcher6.ForeColor = System.Drawing.Color.Black;
-            this.choiceSwitcher6.HighlightSelected = false;
+            this.choiceSwitcher6.DisplayAsYesNo = false;
+            this.choiceSwitcher6.Font = new System.Drawing.Font("Verdana", 7F);
+            this.choiceSwitcher6.FontNotSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceSwitcher6.FontSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceSwitcher6.FontSize = 7F;
+            this.choiceSwitcher6.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceSwitcher6.ForeColorSelected = System.Drawing.SystemColors.ControlText;
             this.choiceSwitcher6.Location = new System.Drawing.Point(156, 7);
             this.choiceSwitcher6.Name = "choiceSwitcher6";
-            this.choiceSwitcher6.SelectedFont = new System.Drawing.Font("Verdana", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.choiceSwitcher6.SelectedForeColor = System.Drawing.Color.Black;
-            this.choiceSwitcher6.SelectedHighlightColor = System.Drawing.Color.White;
             this.choiceSwitcher6.SelectedValue = null;
             this.choiceSwitcher6.Size = new System.Drawing.Size(140, 25);
-            this.choiceSwitcher6.SlotBackColor = System.Drawing.Color.Gray;
-            this.choiceSwitcher6.SlotChoiceTwoBackColor = System.Drawing.Color.Teal;
-            this.choiceSwitcher6.StrikeNotSelected = false;
             this.choiceSwitcher6.TabIndex = 8;
             this.choiceSwitcher6.Text = "choiceSwitcher2";
-            // 
-            // choiceSwitcher5
-            // 
-            this.choiceSwitcher5.ChoiceChosen = ChoiceSwitcherChoices.ChoiceTwo;
-            this.choiceSwitcher5.ChoiceOneSelected = false;
-            this.choiceSwitcher5.ChoiceOneText = "No / לא";
-            this.choiceSwitcher5.ChoiceOneValue = null;
-            this.choiceSwitcher5.ChoiceTwoSelected = true;
-            this.choiceSwitcher5.ChoiceTwoText = "Yes / כן";
-            this.choiceSwitcher5.ChoiceTwoValue = null;
-            this.choiceSwitcher5.ForeColor = System.Drawing.Color.Black;
-            this.choiceSwitcher5.HighlightSelected = false;
-            this.choiceSwitcher5.Location = new System.Drawing.Point(156, 7);
-            this.choiceSwitcher5.Name = "choiceSwitcher5";
-            this.choiceSwitcher5.SelectedFont = new System.Drawing.Font("Verdana", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.choiceSwitcher5.SelectedForeColor = System.Drawing.Color.Black;
-            this.choiceSwitcher5.SelectedHighlightColor = System.Drawing.Color.White;
-            this.choiceSwitcher5.SelectedValue = null;
-            this.choiceSwitcher5.Size = new System.Drawing.Size(140, 25);
-            this.choiceSwitcher5.SlotBackColor = System.Drawing.Color.Gray;
-            this.choiceSwitcher5.SlotChoiceTwoBackColor = System.Drawing.Color.Teal;
-            this.choiceSwitcher5.StrikeNotSelected = false;
-            this.choiceSwitcher5.TabIndex = 8;
-            this.choiceSwitcher5.Text = "choiceSwitcher2";
-            // 
-            // choiceSwitcher4
-            // 
-            this.choiceSwitcher4.ChoiceChosen = ChoiceSwitcherChoices.ChoiceTwo;
-            this.choiceSwitcher4.ChoiceOneSelected = false;
-            this.choiceSwitcher4.ChoiceOneText = "No / לא";
-            this.choiceSwitcher4.ChoiceOneValue = null;
-            this.choiceSwitcher4.ChoiceTwoSelected = true;
-            this.choiceSwitcher4.ChoiceTwoText = "Yes / כן";
-            this.choiceSwitcher4.ChoiceTwoValue = null;
-            this.choiceSwitcher4.ForeColor = System.Drawing.Color.Black;
-            this.choiceSwitcher4.HighlightSelected = false;
-            this.choiceSwitcher4.Location = new System.Drawing.Point(156, 7);
-            this.choiceSwitcher4.Name = "choiceSwitcher4";
-            this.choiceSwitcher4.SelectedFont = new System.Drawing.Font("Verdana", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.choiceSwitcher4.SelectedForeColor = System.Drawing.Color.Black;
-            this.choiceSwitcher4.SelectedHighlightColor = System.Drawing.Color.White;
-            this.choiceSwitcher4.SelectedValue = null;
-            this.choiceSwitcher4.Size = new System.Drawing.Size(140, 25);
-            this.choiceSwitcher4.SlotBackColor = System.Drawing.Color.Gray;
-            this.choiceSwitcher4.SlotChoiceTwoBackColor = System.Drawing.Color.Teal;
-            this.choiceSwitcher4.StrikeNotSelected = false;
-            this.choiceSwitcher4.TabIndex = 8;
-            this.choiceSwitcher4.Text = "choiceSwitcher2";
-            // 
-            // choiceSwitcher3
-            // 
-            this.choiceSwitcher3.ChoiceChosen = ChoiceSwitcherChoices.ChoiceTwo;
-            this.choiceSwitcher3.ChoiceOneSelected = false;
-            this.choiceSwitcher3.ChoiceOneText = "No / לא";
-            this.choiceSwitcher3.ChoiceOneValue = null;
-            this.choiceSwitcher3.ChoiceTwoSelected = true;
-            this.choiceSwitcher3.ChoiceTwoText = "Yes / כן";
-            this.choiceSwitcher3.ChoiceTwoValue = null;
-            this.choiceSwitcher3.ForeColor = System.Drawing.Color.Black;
-            this.choiceSwitcher3.HighlightSelected = false;
-            this.choiceSwitcher3.Location = new System.Drawing.Point(156, 7);
-            this.choiceSwitcher3.Name = "choiceSwitcher3";
-            this.choiceSwitcher3.SelectedFont = new System.Drawing.Font("Verdana", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.choiceSwitcher3.SelectedForeColor = System.Drawing.Color.Black;
-            this.choiceSwitcher3.SelectedHighlightColor = System.Drawing.Color.White;
-            this.choiceSwitcher3.SelectedValue = null;
-            this.choiceSwitcher3.Size = new System.Drawing.Size(140, 25);
-            this.choiceSwitcher3.SlotBackColor = System.Drawing.Color.Gray;
-            this.choiceSwitcher3.SlotChoiceTwoBackColor = System.Drawing.Color.Teal;
-            this.choiceSwitcher3.StrikeNotSelected = false;
-            this.choiceSwitcher3.TabIndex = 8;
-            this.choiceSwitcher3.Text = "choiceSwitcher2";
-            // 
-            // choiceSwitcher2
-            // 
-            this.choiceSwitcher2.ChoiceChosen = ChoiceSwitcherChoices.ChoiceTwo;
-            this.choiceSwitcher2.ChoiceOneSelected = false;
-            this.choiceSwitcher2.ChoiceOneText = "No / לא";
-            this.choiceSwitcher2.ChoiceOneValue = null;
-            this.choiceSwitcher2.ChoiceTwoSelected = true;
-            this.choiceSwitcher2.ChoiceTwoText = "Yes / כן";
-            this.choiceSwitcher2.ChoiceTwoValue = null;
-            this.choiceSwitcher2.ForeColor = System.Drawing.Color.Black;
-            this.choiceSwitcher2.HighlightSelected = false;
-            this.choiceSwitcher2.Location = new System.Drawing.Point(156, 7);
-            this.choiceSwitcher2.Name = "choiceSwitcher2";
-            this.choiceSwitcher2.SelectedFont = new System.Drawing.Font("Verdana", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.choiceSwitcher2.SelectedForeColor = System.Drawing.Color.Black;
-            this.choiceSwitcher2.SelectedHighlightColor = System.Drawing.Color.White;
-            this.choiceSwitcher2.SelectedValue = null;
-            this.choiceSwitcher2.Size = new System.Drawing.Size(140, 25);
-            this.choiceSwitcher2.SlotBackColor = System.Drawing.Color.Gray;
-            this.choiceSwitcher2.SlotChoiceTwoBackColor = System.Drawing.Color.Teal;
-            this.choiceSwitcher2.StrikeNotSelected = false;
-            this.choiceSwitcher2.TabIndex = 8;
-            this.choiceSwitcher2.Text = "choiceSwitcher2";
-            // 
-            // choiceNetz
-            // 
-            this.choiceNetz.ChoiceChosen = ChoiceSwitcherChoices.ChoiceTwo;
-            this.choiceNetz.ChoiceOneSelected = false;
-            this.choiceNetz.ChoiceOneText = "No / לא";
-            this.choiceNetz.ChoiceOneValue = null;
-            this.choiceNetz.ChoiceTwoSelected = true;
-            this.choiceNetz.ChoiceTwoText = "Yes / כן";
-            this.choiceNetz.ChoiceTwoValue = null;
-            this.choiceNetz.ForeColor = System.Drawing.Color.Black;
-            this.choiceNetz.HighlightSelected = false;
-            this.choiceNetz.Location = new System.Drawing.Point(156, 7);
-            this.choiceNetz.Name = "choiceNetz";
-            this.choiceNetz.SelectedFont = new System.Drawing.Font("Verdana", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.choiceNetz.SelectedForeColor = System.Drawing.Color.Black;
-            this.choiceNetz.SelectedHighlightColor = System.Drawing.Color.White;
-            this.choiceNetz.SelectedValue = null;
-            this.choiceNetz.Size = new System.Drawing.Size(140, 25);
-            this.choiceNetz.SlotBackColor = System.Drawing.Color.Gray;
-            this.choiceNetz.SlotChoiceTwoBackColor = System.Drawing.Color.Teal;
-            this.choiceNetz.StrikeNotSelected = false;
-            this.choiceNetz.TabIndex = 8;
-            this.choiceNetz.Text = "choiceSwitcher2";
+            this.choiceSwitcher6.TextChoiceOne = "No / לא";
+            this.choiceSwitcher6.TextChoiceTwo = "Yes / כן";
+            this.choiceSwitcher6.ValueChoiceOne = null;
+            this.choiceSwitcher6.ValueChoiceTwo = null;
             // 
             // choiceSwitcher1
             // 
+            this.choiceSwitcher1.BackColorNotSelected = System.Drawing.SystemColors.Control;
+            this.choiceSwitcher1.BackColorSelected = System.Drawing.SystemColors.Control;
+            this.choiceSwitcher1.BackColorSlot = System.Drawing.Color.RoyalBlue;
+            this.choiceSwitcher1.BackColorSlotChoiceTwo = System.Drawing.Color.RoyalBlue;
             this.choiceSwitcher1.ChoiceChosen = ChoiceSwitcherChoices.ChoiceTwo;
             this.choiceSwitcher1.ChoiceOneSelected = false;
-            this.choiceSwitcher1.ChoiceOneText = "World";
-            this.choiceSwitcher1.ChoiceOneValue = null;
             this.choiceSwitcher1.ChoiceTwoSelected = true;
-            this.choiceSwitcher1.ChoiceTwoText = "ישראל";
-            this.choiceSwitcher1.ChoiceTwoValue = null;
-            this.choiceSwitcher1.ForeColor = System.Drawing.Color.Black;
-            this.choiceSwitcher1.HighlightSelected = false;
+            this.choiceSwitcher1.DisplayAsYesNo = false;
+            this.choiceSwitcher1.Font = new System.Drawing.Font("Verdana", 7F);
+            this.choiceSwitcher1.FontNotSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceSwitcher1.FontSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceSwitcher1.FontSize = 7F;
+            this.choiceSwitcher1.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceSwitcher1.ForeColorSelected = System.Drawing.Color.RoyalBlue;
             this.choiceSwitcher1.Location = new System.Drawing.Point(87, 64);
             this.choiceSwitcher1.Name = "choiceSwitcher1";
-            this.choiceSwitcher1.SelectedFont = new System.Drawing.Font("Verdana", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.choiceSwitcher1.SelectedForeColor = System.Drawing.Color.RoyalBlue;
-            this.choiceSwitcher1.SelectedHighlightColor = System.Drawing.Color.White;
             this.choiceSwitcher1.SelectedValue = null;
             this.choiceSwitcher1.Size = new System.Drawing.Size(140, 25);
-            this.choiceSwitcher1.SlotBackColor = System.Drawing.Color.RoyalBlue;
-            this.choiceSwitcher1.SlotChoiceTwoBackColor = System.Drawing.Color.RoyalBlue;
-            this.choiceSwitcher1.StrikeNotSelected = false;
             this.choiceSwitcher1.TabIndex = 7;
             this.choiceSwitcher1.Text = "choiceSwitcher1";
-            this.choiceSwitcher1.ChoiceSwitched += new System.EventHandler(this.choiceSwitcher1_ChoiceSwitched_1);
+            this.choiceSwitcher1.TextChoiceOne = "World";
+            this.choiceSwitcher1.TextChoiceTwo = "ישראל";
+            this.choiceSwitcher1.ValueChoiceOne = null;
+            this.choiceSwitcher1.ValueChoiceTwo = null;
+            this.choiceSwitcher1.ChoiceSwitched += new System.EventHandler(this.ChoiceSwitcher1_ChoiceSwitched_1);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(304, 505);
+            this.ClientSize = new System.Drawing.Size(304, 573);
             this.Controls.Add(this.panel6);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);

@@ -87,7 +87,7 @@ namespace ZmanimChart
             return ((KeyValuePair<int, string>)this.cmbYear.SelectedItem).Key;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             var location = this.cmbLocations.SelectedItem;
             if (location == null)
@@ -131,13 +131,13 @@ namespace ZmanimChart
                 .Replace("#--PLACE_HOLDER--#", sb.ToString());
         }
 
-        private void cmbLocations_SelectedIndexChanged(object sender, EventArgs e)
+        private void CmbLocations_SelectedIndexChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default.LocationName = ((Location)cmbLocations.SelectedItem).Name;
             Properties.Settings.Default.Save();
         }               
         
-        private void choiceSwitcher1_ChoiceSwitched_1(object sender, EventArgs e)
+        private void ChoiceSwitcher1_ChoiceSwitched_1(object sender, EventArgs e)
         {
             this.FillLocations();
         }
