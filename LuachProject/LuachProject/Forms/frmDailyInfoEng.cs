@@ -24,7 +24,7 @@ namespace LuachProject
         private IEnumerable<SpecialDay> _holidays;
         private Font _lblOccasionFont;
         private IEnumerable<UserOccasion> _occasions;
-        private Zmanim _zmanim;
+        private DailyZmanim _dailyZmanim;
         #endregion private fields
 
         #region constructor
@@ -32,7 +32,7 @@ namespace LuachProject
         public frmDailyInfoEng(JewishDate jd, Location location)
         {
             this._displayingJewishDate = jd;
-            this._zmanim = new Zmanim(jd, location);
+            this._dailyZmanim = new DailyZmanim(jd.GregorianDate, location);
             this._holidays = Zmanim.GetHolidays(jd, location.IsInIsrael).Cast<SpecialDay>();
             this._occasions = UserOccasionColection.FromSettings(jd);
 
@@ -56,8 +56,8 @@ namespace LuachProject
                 {
                     this._displayingJewishDate = value;
                     this.SetSecularDate();
-                    this._zmanim.SecularDate = this._secularDateAtMidnight;
-                    this._holidays = Zmanim.GetHolidays(value, this._zmanim.Location.IsInIsrael).Cast<SpecialDay>();
+                    this._dailyZmanim.SecularDate = this._secularDateAtMidnight;
+                    this._holidays = Zmanim.GetHolidays(value, this._dailyZmanim.Location.IsInIsrael).Cast<SpecialDay>();
                     this._occasions = UserOccasionColection.FromSettings(this._displayingJewishDate);
                     this.tableLayoutPanel1.Controls.Clear();
                     this.ShowDateData();
@@ -69,12 +69,14 @@ namespace LuachProject
         {
             get
             {
-                return this._zmanim.Location;
+                return this._dailyZmanim.Location;
             }
             set
             {
-                this._zmanim = new Zmanim(this._secularDateAtMidnight, value);
-                this._holidays = Zmanim.GetHolidays(this._displayingJewishDate, this._zmanim.Location.IsInIsrael).Cast<SpecialDay>();
+                this._dailyZmanim.SecularDate = this._secularDateAtMidnight;
+                this._dailyZmanim.Location= value;
+                this._holidays = Zmanim.GetHolidays(this._displayingJewishDate, 
+                    this._dailyZmanim.Location.IsInIsrael).Cast<SpecialDay>();
                 this.ShowDateData();
             }
         }
@@ -158,19 +160,13 @@ namespace LuachProject
         internal void ShowDateData()
         {
             this.Cursor = Cursors.WaitCursor;
-            var netzshkia = this._zmanim.GetNetzShkia(true);
-            var netzshkiaMishor = this._zmanim.GetNetzShkia(false);
-            var netz = netzshkia[0];
-            var shkia = netzshkia[1];
-            var netzMishor = netzshkiaMishor[0];
-            var shkiaMishor = netzshkiaMishor[1];
             var html = new StringBuilder();
 
             this.DisplayToday(html);
             this.DisplayDateDiff(html);
             html.Append("<br />");
-            this.DisplayHolidays(html, shkia);
-            this.DisplayZmanim(html, netz, shkia, netzMishor, shkiaMishor);
+            this.DisplayHolidays(html);
+            this.DisplayZmanim(html);
 
             this.webBrowser1.DocumentText = Properties.Resources.InfoHTMLEng
                 .Replace("{{BODY}}", html.ToString());
@@ -241,7 +237,7 @@ namespace LuachProject
 
         private void DisplayDateDiff(StringBuilder html)
         {
-            JewishDate now = new JewishDate(this._zmanim.Location);
+            JewishDate now = new JewishDate(this._dailyZmanim.Location);
             int diffDays = this._displayingJewishDate.AbsoluteDate - now.AbsoluteDate;
 
             html.Append("<div class=\"padWidth\">");
@@ -304,8 +300,9 @@ namespace LuachProject
             html.Append("</div>");
         }
 
-        private void DisplayHolidays(StringBuilder html, HourMinute shkia)
+        private void DisplayHolidays(StringBuilder html)
         {
+            var shkia = this._dailyZmanim.Shkia;
             if (this._holidays.Count() > 0)
             {
                 foreach (var h in this._holidays)
@@ -323,7 +320,7 @@ namespace LuachProject
                         {
                             dow--;
                         }
-                        html.AppendFormat("<div>Molad: {0}</div>", molad.ToString(this._zmanim.GetShkia()));
+                        html.AppendFormat("<div>Molad: {0}</div>", molad.ToString(this._dailyZmanim.Shkia));
                         html.AppendFormat("<div>Rosh Chodesh: {0}{1}</div>",
                              Utils.DaysOfWeek[dow], (dim == 30 ? ", " + Utils.DaysOfWeek[(dow + 1) % 7] : ""));
                     }
@@ -345,7 +342,7 @@ namespace LuachProject
             if (shkia != HourMinute.NoValue &&
                    this._holidays.Any(h => h.DayType.IsSpecialDayType(SpecialDayTypes.HasCandleLighting)))
             {
-                this.AddLine(html, "Candle Lighting", (shkia - this._zmanim.Location.CandleLighting).ToString(), wideDescription: false);
+                this.AddLine(html, "Candle Lighting", (shkia - this._dailyZmanim.Location.CandleLighting).ToString(), wideDescription: false);
                 html.Append("<tr><td class=\"nobg\" colspan=\"3\">&nbsp;</td></tr>");
             }
         }
@@ -368,17 +365,21 @@ namespace LuachProject
             }
         }
 
-        private void DisplayZmanim(StringBuilder html, HourMinute netz, HourMinute shkia, HourMinute netzMishor, HourMinute shkiaMishor)
+        private void DisplayZmanim(StringBuilder html)
         {
             var dy = DafYomi.GetDafYomi(this._displayingJewishDate);
-            var chatzos = this._zmanim.GetChatzos();
-            var shaaZmanis = this._zmanim.GetShaaZmanis();
-            var shaaZmanis90 = this._zmanim.GetShaaZmanis(90);
-            var feet = "...at " + (this._zmanim.Location.Elevation * 3.28084).ToString("N0") +
+            var netz = this._dailyZmanim.Netz;
+            var shkia = this._dailyZmanim.Shkia;
+            var netzMishor = this._dailyZmanim.NetzMishor;
+            var shkiaMishor = this._dailyZmanim.ShkiaMishor;
+            var chatzos = this._dailyZmanim.Chatzos;
+            var shaaZmanis = this._dailyZmanim.ShaaZmanis;
+            var shaaZmanis90 = this._dailyZmanim.ShaaZmanis90;
+            var feet = "...at " + (this._dailyZmanim.Location.Elevation * 3.28084).ToString("N0") +
                 " ft.";
 
             this.AddLine(html, "Weekly Sedra",
-                string.Join(" ", Sedra.GetSedra(this._displayingJewishDate, this._zmanim.Location.IsInIsrael).Select(i => i.nameEng)),
+                string.Join(" ", Sedra.GetSedra(this._displayingJewishDate, this._dailyZmanim.Location.IsInIsrael).Select(i => i.nameEng)),
                 wideDescription: false);
             if (dy != null)
             {
@@ -387,7 +388,7 @@ namespace LuachProject
 
             html.Append("</table><br />");
             html.AppendFormat("<div class=\"padBoth lightSteelBlueBG ghostWhite nine bold clear\">Zmanim for {0}</div>",
-                this._zmanim.Location.Name);
+                this._dailyZmanim.Location.Name);
             html.Append("<table>");
 
             if (netz == HourMinute.NoValue)
@@ -413,18 +414,18 @@ namespace LuachProject
                 }
                 this.AddLine(html, "Netz Hachama", netzMishor.ToString(), bold: true, emphasizeValue: true);
 
-                this.AddLine(html, "Krias Shma - MG\"A", ((netzMishor - 90) + (int)Math.Floor(shaaZmanis90 * 3D)).ToString());
-                this.AddLine(html, "Krias Shma - GR\"A", (netzMishor + (int)Math.Floor(shaaZmanis * 3D)).ToString());
-                this.AddLine(html, "Zeman Tefillah - MG\"A", ((netzMishor - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString());
-                this.AddLine(html, "Zeman Tefillah - GR\"A", (netzMishor + (int)Math.Floor(shaaZmanis * 4D)).ToString());
+                this.AddLine(html, "Krias Shma - MG\"A", this._dailyZmanim.GetZman(ZmanType.KShmMga).ToString());
+                this.AddLine(html, "Krias Shma - GR\"A", this._dailyZmanim.GetZman(ZmanType.KshmGra).ToString());
+                this.AddLine(html, "Zeman Tefillah - MG\"A", this._dailyZmanim.GetZman(ZmanType.TflMga).ToString());
+                this.AddLine(html, "Zeman Tefillah - GR\"A", this._dailyZmanim.GetZman(ZmanType.TflGra).ToString());
             }
 
             if (netz != HourMinute.NoValue && shkia != HourMinute.NoValue)
             {
                 this.AddLine(html, "Chatzos - Day & Night", chatzos.ToString());
-                this.AddLine(html, "Mincha Gedolah", (chatzos + (int)(shaaZmanis * 0.5)).ToString());
-                this.AddLine(html, "Mincha Ktanah", (netzMishor + (int)(shaaZmanis * 9.5)).ToString());
-                this.AddLine(html, "Plag Hamincha", (netzMishor + (int)(shaaZmanis * 10.75)).ToString());
+                this.AddLine(html, "Mincha Gedolah", this._dailyZmanim.GetZman(ZmanType.MinchaG).ToString());
+                this.AddLine(html, "Mincha Ktanah", this._dailyZmanim.GetZman(ZmanType.MinchaK).ToString());
+                this.AddLine(html, "Plag Hamincha", this._dailyZmanim.GetZman(ZmanType.MinchaPlg).ToString());
             }
 
             if (shkia == HourMinute.NoValue)

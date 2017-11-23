@@ -219,32 +219,32 @@ namespace JewishCalendar
         /// <summary>
         /// The Day in the month for this Jewish Date.
         /// </summary>
-        public int Day { get { return this._day; } }
+        public int Day => this._day;
 
         /// <summary>
         /// The index of the day of the week for this Jewish Date. Sunday is 0.
         /// </summary>
-        public int DayInWeek { get { return Math.Abs(this.AbsoluteDate % 7); } }
+        public int DayInWeek => Math.Abs(this.AbsoluteDate % 7);
 
         /// <summary>
         /// The day of the week for this Jewish Date
         /// </summary>
-        public DayOfWeek DayOfWeek { get { return (DayOfWeek)this.DayInWeek; } }
+        public DayOfWeek DayOfWeek => (DayOfWeek)this.DayInWeek;
 
         /// <summary>
         /// The Jewish Month. As in the Torah, Nissan is month 1
         /// </summary>
-        public int Month { get { return this._month; } }
+        public int Month => this._month;
 
         /// <summary>
         /// The name of the current Jewish Month (in English)
         /// </summary>
-        public string MonthName { get { return Utils.GetProperMonthName(this._year, this._month); } }
+        public string MonthName => Utils.GetProperMonthName(this._year, this._month);
 
         /// <summary>
         /// The number of years since creation
         /// </summary>
-        public int Year { get { return this._year; } }
+        public int Year => this._year;
 
         /// <summary>
         /// Represents the time of day for this JewishDate
@@ -275,22 +275,22 @@ namespace JewishCalendar
         /// <summary>
         /// The Hour component of the time of day represented by this Jewish Date
         /// </summary>
-        public int Hour { get { return this.TimeOfDay.Hours; } }
+        public int Hour => this.TimeOfDay.Hours;
 
         /// <summary>
         /// The Minute component of the time of day represented by this Jewish Date
         /// </summary>
-        public int Minute { get { return this.TimeOfDay.Minutes; } }
+        public int Minute => this.TimeOfDay.Minutes;
 
         /// <summary>
         /// The Second component of the time of day represented by this Jewish Date
         /// </summary>
-        public int Second { get { return this.TimeOfDay.Seconds; } }
+        public int Second => this.TimeOfDay.Seconds;
 
         /// <summary>
         /// The Millisecond component of the time of day represented by this Jewish Date
         /// </summary>
-        public int Millisecond { get { return this.TimeOfDay.Milliseconds; } }
+        public int Millisecond => this.TimeOfDay.Milliseconds;
 
         /// <summary>
         /// Minimum valid date that can be represented by this class
@@ -464,10 +464,7 @@ namespace JewishCalendar
         /// Returns the HashCode for this instance
         /// </summary>
         /// <returns></returns>
-        public override int GetHashCode()
-        {
-            return this._year.GetHashCode() ^ this._month.GetHashCode() ^ this._day.GetHashCode();
-        }
+        public override int GetHashCode() => this._year.GetHashCode() ^ this._month.GetHashCode() ^ this._day.GetHashCode();
 
         /// <summary>
         /// Returns the Jewish date in the format: The 14th day of Adar, 5775
@@ -530,10 +527,7 @@ namespace JewishCalendar
         /// Returns the Jewish date in the format: Adar 14, 5775
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return this.ToShortDateString();
-        }
+        public override string ToString() => this.ToShortDateString();
 
         #endregion Public Functions
 
@@ -545,10 +539,7 @@ namespace JewishCalendar
         /// <param name="hd"></param>
         /// <param name="days"></param>
         /// <returns></returns>
-        public static JewishDate operator -(JewishDate hd, int days)
-        {
-            return new JewishDate(hd.AbsoluteDate - days);
-        }
+        public static JewishDate operator -(JewishDate hd, int days) => new JewishDate(hd.AbsoluteDate - days);
 
         /// <summary>
         /// Gets the difference in days between two Jewish dates.
@@ -556,10 +547,7 @@ namespace JewishCalendar
         /// <param name="hd"></param>
         /// <param name="hd2"></param>
         /// <returns></returns>
-        public static int operator -(JewishDate hd, JewishDate hd2)
-        {
-            return hd.AbsoluteDate - hd2.AbsoluteDate;
-        }
+        public static int operator -(JewishDate hd, JewishDate hd2) => hd.AbsoluteDate - hd2.AbsoluteDate;
 
         /// <summary>
         /// Returns true if both objects do not have the same day, month and year
@@ -567,10 +555,7 @@ namespace JewishCalendar
         /// <param name="jd1"></param>
         /// <param name="jd2"></param>
         /// <returns></returns>
-        public static bool operator !=(JewishDate jd1, JewishDate jd2)
-        {
-            return !(jd1 == jd2);
-        }
+        public static bool operator !=(JewishDate jd1, JewishDate jd2) => !(jd1 == jd2);
 
         /// <summary>
         /// Add days to a Jewish date.
@@ -578,10 +563,7 @@ namespace JewishCalendar
         /// <param name="hd"></param>
         /// <param name="days"></param>
         /// <returns></returns>
-        public static JewishDate operator +(JewishDate hd, int days)
-        {
-            return new JewishDate(hd.AbsoluteDate + days);
-        }
+        public static JewishDate operator +(JewishDate hd, int days) => new JewishDate(hd.AbsoluteDate + days);
 
         /// <summary>
         /// Returns true if the current JewishDateMicro object is chronologically before the second JewishDate object

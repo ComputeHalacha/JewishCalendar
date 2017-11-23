@@ -28,14 +28,8 @@ namespace LuachProject
             set { this.Color = ColorTranslator.FromHtml(value); }
         }
 
-        public static implicit operator Color(ColorXML colorXML)
-        {
-            return colorXML.Color;
-        }
+        public static implicit operator Color(ColorXML colorXML) => colorXML.Color;
 
-        public static implicit operator ColorXML(Color color)
-        {
-            return new ColorXML(color);
-        }
+        public static implicit operator ColorXML(Color color) => new ColorXML(color);
     }
 }

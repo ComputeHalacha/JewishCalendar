@@ -100,10 +100,7 @@ namespace JewishCalendar
         /// Returns the name of this special day in English.
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return this.NameEnglish;
-        }
+        public override string ToString() => this.NameEnglish;
 
         #endregion Public Methods
     }

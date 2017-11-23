@@ -88,10 +88,7 @@ namespace JewishCalendar
             new Parsha("Vezos Habracha", "וזאת הברכה")
         };
 
-        private static int GetDayOnOrBefore(int day_of_week, int date)
-        {
-            return date - ((date - day_of_week) % 7);
-        }
+        private static int GetDayOnOrBefore(int day_of_week, int date) => date - ((date - day_of_week) % 7);
 
         private static int[] shabbos_short = {
             52, 52, 53, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
@@ -181,7 +178,7 @@ namespace JewishCalendar
         private int _year;
         private bool _inIsrael;
         private int[] _sedraArray;
-        private int _sedraNumWeeks { get { return this._sedraArray.Length; } }
+        private int _sedraNumWeeks => this._sedraArray.Length;
         private int _firstSatInYear;
 
         private Sedra(int year, bool inIsrael)

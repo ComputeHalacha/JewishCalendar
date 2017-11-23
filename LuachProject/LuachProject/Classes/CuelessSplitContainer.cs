@@ -6,26 +6,11 @@ namespace LuachProject
     {
         private bool _painting;
 
-        protected override bool ShowFocusCues
-        {
-            get
-            {
-                return false;
-            }
-        }
+        protected override bool ShowFocusCues => false;
 
-        protected override bool ShowKeyboardCues
-        {
-            get
-            {
-                return false;
-            }
-        }
+        protected override bool ShowKeyboardCues => false;
 
-        public override bool Focused
-        {
-            get { return _painting ? false : base.Focused; }
-        }
+        public override bool Focused => _painting ? false : base.Focused;
 
         protected override void OnPaint(PaintEventArgs e)
         {

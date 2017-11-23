@@ -20,26 +20,18 @@ namespace JewishCalendar
         /// Returns a TimeSpan representation of this HourMinute
         /// </summary>
         /// <returns></returns>
-        public System.TimeSpan ToTimeSpan()
-        {
-            return new System.TimeSpan(this.Hour, this.Minute, 0);
-        }
+        public System.TimeSpan ToTimeSpan() =>
+            new System.TimeSpan(this.Hour, this.Minute, 0);
 
         /// <summary>
         /// An HourMinute that does not represent a real time.
         /// Use in the place of null or empty etc.
         /// Note: very different from TimeSpan.Zero which represents "zero hour" or midnight.
         /// </summary>
-        public static HourMinute NoValue
-        {
-            get
-            {
-                //-1 minutes is pretty meaningless.
-                //(negative hours is pretty meaningless too,
-                //but using negative hours can sometimes be useful for calculations)
-                return new HourMinute { Minute = -1 };
-            }
-        }
+        public static HourMinute NoValue =>
+            //-1 minutes is a beautiful meaningless value.
+            //(negative hours is pretty meaningless too, but using negative hours can sometimes be useful for calculations)
+            new HourMinute { Minute = -1 };
 
         /// <summary>
         /// Add minutes
@@ -64,11 +56,9 @@ namespace JewishCalendar
         /// <param name="t1"></param>
         /// <param name="t2"></param>
         /// <returns></returns>
-        public static HourMinute operator +(HourMinute t1, HourMinute t2)
-        {
-            //Let's cheat and use a real TimeSpan for this.
-            return (HourMinute)(t1.ToTimeSpan().Add(t2.ToTimeSpan()));
-        }
+        //Let's cheat and use a real TimeSpan for this.
+        public static HourMinute operator +(HourMinute t1, HourMinute t2) =>
+            (HourMinute)(t1.ToTimeSpan().Add(t2.ToTimeSpan()));
 
         /// <summary>
         /// Add a TimeSpan to this HourMinute
@@ -76,10 +66,8 @@ namespace JewishCalendar
         /// <param name="t"></param>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public static HourMinute operator +(HourMinute t, System.TimeSpan ts)
-        {
-            return (HourMinute)(t.ToTimeSpan().Add(ts));
-        }
+        public static HourMinute operator +(HourMinute t, System.TimeSpan ts) =>
+            (HourMinute)(t.ToTimeSpan().Add(ts));
 
         /// <summary>
         /// Subtract minutes.
@@ -104,10 +92,8 @@ namespace JewishCalendar
         /// <param name="t1"></param>
         /// <param name="t2"></param>
         /// <returns></returns>
-        public static HourMinute operator -(HourMinute t1, HourMinute t2)
-        {
-            return (HourMinute)(t1.ToTimeSpan().Subtract(t2.ToTimeSpan()));
-        }
+        public static HourMinute operator -(HourMinute t1, HourMinute t2) =>
+            (HourMinute)(t1.ToTimeSpan().Subtract(t2.ToTimeSpan()));
 
         /// <summary>
         /// Subtract a TimeSpan from this HourMinute
@@ -115,10 +101,8 @@ namespace JewishCalendar
         /// <param name="t"></param>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public static HourMinute operator -(HourMinute t, System.TimeSpan ts)
-        {
-            return (HourMinute)(t.ToTimeSpan().Subtract(ts));
-        }
+        public static HourMinute operator -(HourMinute t, System.TimeSpan ts) =>
+            (HourMinute)(t.ToTimeSpan().Subtract(ts));
 
         /// <summary>
         /// Compares 2 HourMinute objects
@@ -126,10 +110,8 @@ namespace JewishCalendar
         /// <param name="t1"></param>
         /// <param name="t2"></param>
         /// <returns></returns>
-        public static bool operator ==(HourMinute t1, HourMinute t2)
-        {
-            return (t1.Hour == t2.Hour && t1.Minute == t2.Minute);
-        }
+        public static bool operator ==(HourMinute t1, HourMinute t2) =>
+            (t1.Hour == t2.Hour && t1.Minute == t2.Minute);
 
         /// <summary>
         /// Compares 2 HourMinute objects for inequality
@@ -137,10 +119,7 @@ namespace JewishCalendar
         /// <param name="t1"></param>
         /// <param name="t2"></param>
         /// <returns></returns>
-        public static bool operator !=(HourMinute t1, HourMinute t2)
-        {
-            return !(t1 == t2);
-        }
+        public static bool operator !=(HourMinute t1, HourMinute t2) => !(t1 == t2);
 
         /// <summary>
         /// Compare the current HourMinute to a System.TimeSpan
@@ -148,10 +127,8 @@ namespace JewishCalendar
         /// <param name="t1"></param>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public static bool operator ==(HourMinute t1, System.TimeSpan ts)
-        {
-            return (t1.Hour * 60 + t1.Minute) == System.Convert.ToInt32(System.Math.Floor(ts.TotalMinutes));
-        }
+        public static bool operator ==(HourMinute t1, System.TimeSpan ts) =>
+            (t1.Hour * 60 + t1.Minute) == System.Convert.ToInt32(System.Math.Floor(ts.TotalMinutes));
 
         /// <summary>
         /// Compare the current HourMinute to a System.TimeSpan for inequality
@@ -159,10 +136,7 @@ namespace JewishCalendar
         /// <param name="t1"></param>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public static bool operator !=(HourMinute t1, System.TimeSpan ts)
-        {
-            return !(t1 == ts);
-        }
+        public static bool operator !=(HourMinute t1, System.TimeSpan ts) => !(t1 == ts);
 
         /// <summary>
         /// Returns true if the current HourMinute is after the second one.
@@ -170,10 +144,8 @@ namespace JewishCalendar
         /// <param name="t1"></param>
         /// <param name="t2"></param>
         /// <returns></returns>
-        public static bool operator >(HourMinute t1, HourMinute t2)
-        {
-            return ((t1.Hour * 60 + t1.Minute) > (t2.Hour * 60 + t2.Minute));
-        }
+        public static bool operator >(HourMinute t1, HourMinute t2) =>
+            ((t1.Hour * 60 + t1.Minute) > (t2.Hour * 60 + t2.Minute));
 
         /// <summary>
         /// Returns true if the current HourMinute is before the second one.
@@ -181,10 +153,8 @@ namespace JewishCalendar
         /// <param name="t1"></param>
         /// <param name="t2"></param>
         /// <returns></returns>
-        public static bool operator <(HourMinute t1, HourMinute t2)
-        {
-            return ((t1.Hour * 60 + t1.Minute) < (t2.Hour * 60 + t2.Minute));
-        }
+        public static bool operator <(HourMinute t1, HourMinute t2) =>
+            ((t1.Hour * 60 + t1.Minute) < (t2.Hour * 60 + t2.Minute));
 
         /// <summary>
         /// Returns true if the current HourMinute is after the TimeSpan.
@@ -192,10 +162,8 @@ namespace JewishCalendar
         /// <param name="t1"></param>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public static bool operator >(HourMinute t1, System.TimeSpan ts)
-        {
-            return ((t1.Hour * 60 + t1.Minute) > ts.TotalMinutes);
-        }
+        public static bool operator >(HourMinute t1, System.TimeSpan ts) =>
+            ((t1.Hour * 60 + t1.Minute) > ts.TotalMinutes);
 
         /// <summary>
         /// Returns true if the current HourMinute is not before the second one.
@@ -203,10 +171,8 @@ namespace JewishCalendar
         /// <param name="t1"></param>
         /// <param name="t2"></param>
         /// <returns></returns>
-        public static bool operator >=(HourMinute t1, HourMinute t2)
-        {
-            return ((t1.Hour * 60 + t1.Minute) >= (t2.Hour * 60 + t2.Minute));
-        }
+        public static bool operator >=(HourMinute t1, HourMinute t2) =>
+            ((t1.Hour * 60 + t1.Minute) >= (t2.Hour * 60 + t2.Minute));
 
         /// <summary>
         /// Returns true if the current HourMinute is not after the second one.
@@ -214,10 +180,8 @@ namespace JewishCalendar
         /// <param name="t1"></param>
         /// <param name="t2"></param>
         /// <returns></returns>
-        public static bool operator <=(HourMinute t1, HourMinute t2)
-        {
-            return ((t1.Hour * 60 + t1.Minute) <= (t2.Hour * 60 + t2.Minute));
-        }
+        public static bool operator <=(HourMinute t1, HourMinute t2) =>
+            ((t1.Hour * 60 + t1.Minute) <= (t2.Hour * 60 + t2.Minute));
 
         /// <summary>
         /// Returns true if the current HourMinute is not before the TimeSpan.
@@ -225,10 +189,8 @@ namespace JewishCalendar
         /// <param name="t1"></param>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public static bool operator >=(HourMinute t1, System.TimeSpan ts)
-        {
-            return ((t1.Hour * 60 + t1.Minute) >= ts.TotalMinutes);
-        }
+        public static bool operator >=(HourMinute t1, System.TimeSpan ts) =>
+            ((t1.Hour * 60 + t1.Minute) >= ts.TotalMinutes);
 
         /// <summary>
         /// Returns true if the current HourMinute is not after the TimeSpan.
@@ -236,10 +198,8 @@ namespace JewishCalendar
         /// <param name="t1"></param>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public static bool operator <=(HourMinute t1, System.TimeSpan ts)
-        {
-            return ((t1.Hour * 60 + t1.Minute) <= ts.TotalMinutes);
-        }
+        public static bool operator <=(HourMinute t1, System.TimeSpan ts) =>
+            ((t1.Hour * 60 + t1.Minute) <= ts.TotalMinutes);
 
         /// <summary>
         /// Returns true if the current HourMinute is before the TimeSpan.
@@ -247,64 +207,47 @@ namespace JewishCalendar
         /// <param name="t1"></param>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public static bool operator <(HourMinute t1, System.TimeSpan ts)
-        {
-            return ((t1.Hour * 60 + t1.Minute) < ts.TotalMinutes);
-        }
+        public static bool operator <(HourMinute t1, System.TimeSpan ts) =>
+            ((t1.Hour * 60 + t1.Minute) < ts.TotalMinutes);
 
         /// <summary>
         /// Explicitly convert (cast) an HourMinute into a TimeSpan.
         /// </summary>
         /// <param name="hm"></param>
         /// <returns></returns>
-        public static explicit operator System.TimeSpan(HourMinute hm)
-        {
-            return hm.ToTimeSpan();
-        }
+        public static explicit operator System.TimeSpan(HourMinute hm) => hm.ToTimeSpan();
 
         /// <summary>
         /// Explicitly convert (cast) a TimeSpan into an HourMinute
         /// </summary>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public static explicit operator HourMinute(System.TimeSpan ts)
-        {
-            return new HourMinute { Hour = ts.Hours, Minute = ts.Minutes };
-        }
+        public static explicit operator HourMinute(System.TimeSpan ts) =>
+            new HourMinute { Hour = ts.Hours, Minute = ts.Minutes };
 
         /// <summary>
         /// The total number of minutes represented by this HourMinute (includes the hours)
         /// </summary>
-        public int TotalMinutes
-        {
-            get
-            {
-                return this.Hour * 60 + this.Minute;
-            }
-        }
+        public int TotalMinutes => this.Hour * 60 + this.Minute;
 
         /// <summary>
         /// The hour and minute displayed in the format: h:MM tt
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return (Hour <= 12 ? (Hour == 0 ? 12 : Hour) : Hour - 12).ToString() +
-                    ":" +
-                   (Minute < 10 ? "0" + Minute.ToString() : Minute.ToString()) +
-                   (Hour < 12 ? " AM" : " PM");
-        }
+        public override string ToString() =>
+            (Hour <= 12 ? (Hour == 0 ? 12 : Hour) : Hour - 12).ToString() +
+            ":" +
+            (Minute < 10 ? "0" + Minute.ToString() : Minute.ToString()) +
+            (Hour < 12 ? " AM" : " PM");
 
         /// <summary>
         /// Returns the current time in the format HH:mm
         /// </summary>
         /// <returns></returns>
-        public string ToString24H()
-        {
-            return (Hour.ToString() +
-                    ":" +
-                   (Minute < 10 ? "0" + Minute.ToString() : Minute.ToString()));
-        }
+        public string ToString24H() =>
+            (Hour.ToString() +
+            ":" +
+            (Minute < 10 ? "0" + Minute.ToString() : Minute.ToString()));
 
         /// <summary>
         /// Tests 2 HourMinute objects for equality.
@@ -327,9 +270,7 @@ namespace JewishCalendar
         /// Returns the hashcode for this instance
         /// </summary>
         /// <returns>The HashCode for this instance</returns>
-        public override int GetHashCode()
-        {
-            return this.Hour.GetHashCode() ^ this.Minute.GetHashCode();
-        }
+        public override int GetHashCode() =>
+            this.Hour.GetHashCode() ^ this.Minute.GetHashCode();
     }
 }

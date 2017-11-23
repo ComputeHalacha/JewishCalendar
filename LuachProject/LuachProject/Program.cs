@@ -177,10 +177,7 @@ namespace LuachProject
             }
         }
 
-        public static bool WeAreHere(Location location)
-        {
-            return location.TimeZoneInfo != null && TimeZoneInfo.Local.Id == location.TimeZoneInfo.Id;
-        }
+        public static bool WeAreHere(Location location) => location.TimeZoneInfo != null && TimeZoneInfo.Local.Id == location.TimeZoneInfo.Id;
 
         public static void SetDoubleBuffered(Control c)
         {

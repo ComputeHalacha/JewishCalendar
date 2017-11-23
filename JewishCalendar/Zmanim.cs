@@ -61,10 +61,7 @@ namespace JewishCalendar
         /// Configured from netz to shkia at sea level
         /// </summary>
         /// <returns></returns>
-        public HourMinute GetChatzos()
-        {
-            return GetChatzos(this.SecularDate, this.Location);
-        }
+        public HourMinute GetChatzos() => GetChatzos(this.SecularDate, this.Location);
 
         /// <summary>
         /// Gets sunrise for current location  (at the locations altitude)
@@ -82,10 +79,7 @@ namespace JewishCalendar
         /// </summary>
         /// <param name="considerElevation"></param>
         /// <returns></returns>
-        public HourMinute[] GetNetzShkia(bool considerElevation = true)
-        {
-            return GetNetzShkia(this.SecularDate, this.Location, considerElevation);
-        }
+        public HourMinute[] GetNetzShkia(bool considerElevation = true) => GetNetzShkia(this.SecularDate, this.Location, considerElevation);
 
         /// <summary>
         /// Gets length of Shaa zmanis in minutes for current location.
@@ -93,10 +87,7 @@ namespace JewishCalendar
         /// </summary>
         /// <param name="offset">Number of minutes before/after shkia/netz to cheshbon</param>
         /// <returns></returns>
-        public double GetShaaZmanis(int offset = 0)
-        {
-            return GetShaaZmanis(this.SecularDate, this.Location, offset);
-        }
+        public double GetShaaZmanis(int offset = 0) => GetShaaZmanis(this.SecularDate, this.Location, offset);
 
         /// <summary>
         /// Gets sunset for current location  (at the locations altitude)
@@ -112,6 +103,24 @@ namespace JewishCalendar
         #endregion public instance functions
 
         #region public static functions
+        /// <summary>
+        /// Gets chatzos of both day and night for given netz and shkia.
+        /// </summary>
+        /// <param name="netzShkia"></param>
+        /// <returns></returns>
+        public static HourMinute GetChatzos(HourMinute[] netzShkia)
+        {
+            HourMinute netz = netzShkia[0],
+                       shkia = netzShkia[1];
+
+            if (netz == HourMinute.NoValue || shkia == HourMinute.NoValue)
+            {
+                return HourMinute.NoValue;
+            }
+
+            var chatz = (int)((shkia.TotalMinutes - netz.TotalMinutes) / 2);
+            return netz + chatz;
+        }
 
         /// <summary>
         /// Gets chatzos of both day and night for given date and location.
@@ -123,16 +132,7 @@ namespace JewishCalendar
         public static HourMinute GetChatzos(DateTime date, Location location)
         {
             HourMinute[] netzShkia = GetNetzShkia(date, location, false);
-            HourMinute netz = netzShkia[0],
-                       shkia = netzShkia[1];
-
-            if (netz == HourMinute.NoValue || shkia == HourMinute.NoValue)
-            {
-                return HourMinute.NoValue;
-            }
-
-            var chatz = (int)((shkia.TotalMinutes - netz.TotalMinutes) / 2);
-            return netz + chatz;
+            return GetChatzos(netzShkia);
         }
 
         /// <summary>
@@ -276,10 +276,7 @@ namespace JewishCalendar
         /// <param name="inIsrael"></param>
         /// <param name="hebrew"></param>
         /// <returns></returns>
-        public static string GetHolidaysText(JewishDate jdate, bool inIsrael, bool hebrew)
-        {
-            return GetHolidaysText(GetHolidays(jdate, inIsrael), " - ", hebrew);
-        }
+        public static string GetHolidaysText(JewishDate jdate, bool inIsrael, bool hebrew) => GetHolidaysText(GetHolidays(jdate, inIsrael), " - ", hebrew);
 
         /// <summary>
         /// Gets a dash delimited list of holidays for the given Jewish Day
@@ -311,6 +308,20 @@ namespace JewishCalendar
             if (netzShkia == null) { return new HourMinute(); }
             return netzShkia[0];
         }
+        /// <summary>
+        /// Gets length of Shaa zmanis in minutes for given netz and shkia.
+        /// </summary>
+        /// <param name="netzShkia"></param>
+        /// <param name="offset">Number of minutes before/after shkia/netz to cheshbon</param>
+        /// <returns></returns>
+        public static double GetShaaZmanis(HourMinute[] netzShkia, int offset = 0)
+        {
+            if (netzShkia[0] == HourMinute.NoValue || netzShkia[1] == HourMinute.NoValue) { return 0; }
+            HourMinute netz = netzShkia[0] - offset,
+                shkia = netzShkia[1] + offset;
+
+            return (shkia.TotalMinutes - netz.TotalMinutes) / 12d;
+        }
 
         /// <summary>
         /// Gets length of Shaa zmanis in minutes for given date and location.
@@ -323,12 +334,8 @@ namespace JewishCalendar
         public static double GetShaaZmanis(DateTime date, Location location, int offset = 0)
         {
             HourMinute[] netzShkia = GetNetzShkia(date, location, false);
-            if (netzShkia[0] == HourMinute.NoValue || netzShkia[1] == HourMinute.NoValue) { return 0; }
-            HourMinute netz = netzShkia[0] - offset,
-                shkia = netzShkia[1] + offset;
-
-            return (shkia.TotalMinutes - netz.TotalMinutes) / 12d;
-        }
+            return GetShaaZmanis(netzShkia, offset);
+        }        
 
         /// <summary>
         /// Get time of sunset for the given location and date
@@ -777,15 +784,9 @@ namespace JewishCalendar
             return new HourMinute[] { sunrise, sunset };
         }
 
-        private static double Adj(double x)
-        {
-            return (-0.06571 * x - 6.62);
-        }
+        private static double Adj(double x) => (-0.06571 * x - 6.62);
 
-        private static double DegToDec(double deg, double min)
-        {
-            return (deg + min / 60);
-        }
+        private static double DegToDec(double deg, double min) => (deg + min / 60);
 
         private static int GetDayOfYear(DateTime date)
         {
@@ -816,20 +817,11 @@ namespace JewishCalendar
             return false;
         }
 
-        private static double L(double x)
-        {
-            return (x + 1.916 * Math.Sin(0.01745 * x) + 0.02 * Math.Sin(2 * 0.01745 * x) + 282.565);
-        }
+        private static double L(double x) => (x + 1.916 * Math.Sin(0.01745 * x) + 0.02 * Math.Sin(2 * 0.01745 * x) + 282.565);
 
-        private static double M(double x)
-        {
-            return (0.9856 * x - 3.251);
-        }
+        private static double M(double x) => (0.9856 * x - 3.251);
 
-        private static double RadToDeg(double rad)
-        {
-            return 57.29578 * rad;
-        }
+        private static double RadToDeg(double rad) => 57.29578 * rad;
 
         private static HourMinute TimeAdj(double time, DateTime date, Location location)
         {

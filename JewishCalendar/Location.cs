@@ -160,9 +160,6 @@ namespace JewishCalendar
         /// Returns the name of this Location in English.
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return this.Name;
-        }
+        public override string ToString() => this.Name;
     }
 }

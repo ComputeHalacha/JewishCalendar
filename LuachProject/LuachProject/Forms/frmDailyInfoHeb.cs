@@ -24,7 +24,7 @@ namespace LuachProject
         private IEnumerable<SpecialDay> _holidays;
         private Font _lblOccasionFont;
         private IEnumerable<UserOccasion> _occasions;
-        private JewishCalendar.Zmanim _zmanim;
+        private DailyZmanim _dailyZmanim;
         #endregion private fields
 
         #region constructor
@@ -32,7 +32,7 @@ namespace LuachProject
         {
             this._displayingJewishDate = jd;
             this.SetSecularDate();
-            this._zmanim = new Zmanim(this._secularDateAtMidnight, location);
+            this._dailyZmanim = new DailyZmanim(this._secularDateAtMidnight, location);
             this._holidays = Zmanim.GetHolidays(jd, location.IsInIsrael).Cast<SpecialDay>();
             this._occasions = UserOccasionColection.FromSettings(jd);
 
@@ -56,8 +56,8 @@ namespace LuachProject
                 {
                     this._displayingJewishDate = value;
                     this.SetSecularDate();
-                    this._zmanim.SecularDate = this._secularDateAtMidnight;
-                    this._holidays = Zmanim.GetHolidays(value, this._zmanim.Location.IsInIsrael).Cast<SpecialDay>();
+                    this._dailyZmanim.SecularDate = this._secularDateAtMidnight;
+                    this._holidays = Zmanim.GetHolidays(value, this._dailyZmanim.Location.IsInIsrael).Cast<SpecialDay>();
                     this._occasions = UserOccasionColection.FromSettings(this._displayingJewishDate);
                     this.tableLayoutPanel1.Controls.Clear();
                     this.ShowDateData();
@@ -69,12 +69,13 @@ namespace LuachProject
         {
             get
             {
-                return this._zmanim.Location;
+                return this._dailyZmanim.Location;
             }
             set
             {
-                this._zmanim = new Zmanim(this._displayingSecularDate, value);
-                this._holidays = Zmanim.GetHolidays(this._displayingJewishDate, this._zmanim.Location.IsInIsrael).Cast<SpecialDay>();
+                this._dailyZmanim.SecularDate = this._displayingSecularDate;
+                this._dailyZmanim.Location= value;
+                this._holidays = Zmanim.GetHolidays(this._displayingJewishDate, this._dailyZmanim.Location.IsInIsrael).Cast<SpecialDay>();
                 this.ShowDateData();
             }
         }
@@ -157,15 +158,15 @@ namespace LuachProject
         {
             this.Cursor = Cursors.WaitCursor;
             var dy = DafYomi.GetDafYomi(this._displayingJewishDate);
-            var netzshkia = this._zmanim.GetNetzShkia(true);
-            var netzshkiaMishor = this._zmanim.GetNetzShkia(false);
-            var netz = netzshkia[0];
-            var shkia = netzshkia[1];
-            var netzMishor = netzshkiaMishor[0];
-            var shkiaMishor = netzshkiaMishor[1];
-            var chatzos = this._zmanim.GetChatzos();
-            var shaaZmanis = this._zmanim.GetShaaZmanis();
-            var shaaZmanis90 = this._zmanim.GetShaaZmanis(90);
+            var netzshkia = this._dailyZmanim.NetzShkia;
+            var netzshkiaMishor = this._dailyZmanim.NetzShkiaMishor;
+            var netz = this._dailyZmanim.Netz;
+            var shkia = this._dailyZmanim.Shkia;
+            var netzMishor = this._dailyZmanim.NetzMishor;
+            var shkiaMishor = this._dailyZmanim.ShkiaMishor;
+            var chatzos = this._dailyZmanim.Chatzos;
+            var shaaZmanis = this._dailyZmanim.ShaaZmanis;
+            var shaaZmanis90 = this._dailyZmanim.ShaaZmanis90;
             var html = new StringBuilder();
 
             html.AppendFormat("<div class=\"padWidth royalBlue bold\">{0}</div>",
@@ -201,7 +202,7 @@ namespace LuachProject
                         {
                             dow--;
                         }
-                        html.AppendFormat("<div>המולד: {0}</div>", molad.ToStringHeb(this._zmanim.GetShkia()));
+                        html.AppendFormat("<div>המולד: {0}</div>", molad.ToStringHeb(this._dailyZmanim.Shkia));
                         html.AppendFormat("<div>ראש חודש: {0}{1}</div>",
                             Utils.JewishDOWNames[dow], (dim == 30 ? ", " + Utils.JewishDOWNames[(dow + 1) % 7] : ""));
                     }
@@ -224,13 +225,13 @@ namespace LuachProject
             if (shkia != HourMinute.NoValue &&
                     this._holidays.Any(h => h.DayType.IsSpecialDayType(SpecialDayTypes.HasCandleLighting)))
             {
-                this.AddLine(html, "הדלקת נרות", (shkia - this._zmanim.Location.CandleLighting).ToString24H(),
+                this.AddLine(html, "הדלקת נרות", (shkia - this._dailyZmanim.Location.CandleLighting).ToString24H(),
                     wideDescription: false);
                 html.Append("<tr><td class=\"nobg\" colspan=\"3\">&nbsp;</td></tr>");
             }
 
             this.AddLine(html, "פרשת השבוע",
-                string.Join(" ", Sedra.GetSedra(this._displayingJewishDate, this._zmanim.Location.IsInIsrael).Select(i => i.nameHebrew)),
+                string.Join(" ", Sedra.GetSedra(this._displayingJewishDate, this._dailyZmanim.Location.IsInIsrael).Select(i => i.nameHebrew)),
                 wideDescription: false);
             if (dy != null)
             {
@@ -239,7 +240,7 @@ namespace LuachProject
 
             html.Append("</table><br />");
             html.AppendFormat("<div class=\"padBoth lightSteelBlueBG ghostWhite nine bold clear\">זמני היום ב{0}</div>",
-                this._zmanim.Location.NameHebrew);
+                this._dailyZmanim.Location.NameHebrew);
             html.Append("<table>");
 
             if (netz == HourMinute.NoValue)
@@ -266,22 +267,22 @@ namespace LuachProject
                 }
                 else
                 {
-                    this.AddLine(html, "הנה\"ח <span class=\"reg lightSteelBlue\">...מ " + this._zmanim.Location.Elevation.ToString() + " מטר</span>",
+                    this.AddLine(html, "הנה\"ח <span class=\"reg lightSteelBlue\">...מ " + this._dailyZmanim.Location.Elevation.ToString() + " מטר</span>",
                         netz.ToString24H());
                     this.AddLine(html, "הנה\"ח <span class=\"reg lightSteelBlue\">...גובה פני הים</span>",
                         netzMishor.ToString24H(), bold: true, emphasizeValue: true);
                 }
-                this.AddLine(html, "סוזק\"ש - מג\"א", ((netzMishor - 90) + (int)Math.Floor(shaaZmanis90 * 3D)).ToString24H());
-                this.AddLine(html, "סוזק\"ש - הגר\"א", (netzMishor + (int)Math.Floor(shaaZmanis * 3D)).ToString24H());
-                this.AddLine(html, "סוז\"ת - מג\"א", ((netzMishor - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString24H());
-                this.AddLine(html, "סוז\"ת - הגר\"א", (netzMishor + (int)Math.Floor(shaaZmanis * 4D)).ToString24H());
+                this.AddLine(html, "סוזק\"ש - מג\"א", this._dailyZmanim.GetZman(ZmanType.KShmMga).ToString24H());
+                this.AddLine(html, "סוזק\"ש - הגר\"א", this._dailyZmanim.GetZman(ZmanType.KshmGra).ToString24H());
+                this.AddLine(html, "סוז\"ת - מג\"א", this._dailyZmanim.GetZman(ZmanType.TflMga).ToString24H());
+                this.AddLine(html, "סוז\"ת - הגר\"א", this._dailyZmanim.GetZman(ZmanType.TflGra).ToString24H());
             }
             if (netz != HourMinute.NoValue && shkia != HourMinute.NoValue)
             {
                 this.AddLine(html, "חצות היום והלילה", chatzos.ToString24H());
-                this.AddLine(html, "מנחה גדולה", (chatzos + (int)(shaaZmanis * 0.5)).ToString24H());
-                this.AddLine(html, "מנחה קטנה", (netzMishor + (int)(shaaZmanis * 9.5)).ToString24H());
-                this.AddLine(html, "פלג המנחה", (netzMishor + (int)(shaaZmanis * 10.75)).ToString24H());
+                this.AddLine(html, "מנחה גדולה", this._dailyZmanim.GetZman(ZmanType.MinchaG).ToString24H());
+                this.AddLine(html, "מנחה קטנה", this._dailyZmanim.GetZman(ZmanType.MinchaK).ToString24H());
+                this.AddLine(html, "פלג המנחה", this._dailyZmanim.GetZman(ZmanType.MinchaPlg).ToString24H());
             }
             if (shkia == HourMinute.NoValue)
             {
@@ -296,7 +297,7 @@ namespace LuachProject
                 else
                 {
                     this.AddLine(html, "שקה\"ח <span class=\"reg lightSteelBlue\">...גובה פני הים</span>", shkiaMishor.ToString24H());
-                    this.AddLine(html, "שקה\"ח <span class=\"reg lightSteelBlue\">...מ " + this._zmanim.Location.Elevation.ToString() + " מטר</span>",
+                    this.AddLine(html, "שקה\"ח <span class=\"reg lightSteelBlue\">...מ " + this._dailyZmanim.Location.Elevation.ToString() + " מטר</span>",
                         shkia.ToString24H(), bold: true, emphasizeValue: true);
                 }
 
@@ -455,7 +456,7 @@ namespace LuachProject
 
         private void DisplayDateDiff(StringBuilder html)
         {
-            JewishDate now = new JewishDate(this._zmanim.Location);
+            JewishDate now = new JewishDate(this._dailyZmanim.Location);
             int diffDays = this._displayingJewishDate.AbsoluteDate - now.AbsoluteDate;
 
             html.Append("<div class=\"padWidth\">");

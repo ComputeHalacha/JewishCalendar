@@ -132,13 +132,7 @@ namespace LuachProject
             }
         }
 
-        public bool DailyPanelIsShowing
-        {
-            get
-            {
-                return this.splitContainer1.Panel2.Controls.OfType<frmDailyInfoEng>().Count() > 0;
-            }
-        }
+        public bool DailyPanelIsShowing => this.splitContainer1.Panel2.Controls.OfType<frmDailyInfoEng>().Count() > 0;
 
         #endregion Properties
 
@@ -672,23 +666,17 @@ namespace LuachProject
             this.splitContainer2.Focus();
         }
 
-        private SingleDateInfo GetSingleDateInfoFromLocation(Point location)
-        {
-            return this._singleDateInfoList.FirstOrDefault(t =>
-                t.RectangleF.Left < location.X &&
-                t.RectangleF.Right > location.X &&
-                t.RectangleF.Top < location.Y &&
-                t.RectangleF.Bottom > location.Y);
-        }
+        private SingleDateInfo GetSingleDateInfoFromLocation(Point location) => this._singleDateInfoList.FirstOrDefault(t =>
+                                                                                              t.RectangleF.Left < location.X &&
+                                                                                              t.RectangleF.Right > location.X &&
+                                                                                              t.RectangleF.Top < location.Y &&
+                                                                                              t.RectangleF.Bottom > location.Y);
 
-        private UserOccasion GetUserOccasionFromLocation(Point location, SingleDateInfo sdi)
-        {
-            return sdi.UserOccasions.FirstOrDefault(t =>
-                t.Rectangle.Left < location.X &&
-                t.Rectangle.Right > location.X &&
-                t.Rectangle.Top < location.Y &&
-                t.Rectangle.Bottom > location.Y);
-        }
+        private UserOccasion GetUserOccasionFromLocation(Point location, SingleDateInfo sdi) => sdi.UserOccasions.FirstOrDefault(t =>
+                                                                                                              t.Rectangle.Left < location.X &&
+                                                                                                              t.Rectangle.Right > location.X &&
+                                                                                                              t.Rectangle.Top < location.Y &&
+                                                                                                              t.Rectangle.Bottom > location.Y);
 
         private void NavigateToDay(JewishDate jd)
         {

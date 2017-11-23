@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DafYomi.cs" />
+    <Compile Include="DailyZmanim.cs" />
     <Compile Include="HourMinute.cs" />
     <Compile Include="JewishDateCalculations.cs" />
     <Compile Include="JewishDate.cs" />

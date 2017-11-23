@@ -19,10 +19,7 @@
         /// </summary>
         /// <param name="jewishDate">The Jewish date for which to get the Daf Yomi information</param>
         /// <returns>A Daf object containing the DafYomi information for the given day</returns>
-        public static Daf GetDafYomi(JewishDate jewishDate)
-        {
-            return GetSingleDaf(jewishDate.AbsoluteDate);
-        }
+        public static Daf GetDafYomi(JewishDate jewishDate) => GetSingleDaf(jewishDate.AbsoluteDate);
 
         private static Masechta[] masechtaList = new Masechta[]
         {
@@ -201,18 +198,12 @@
         /// Returns the name of the Masechta and daf number in English, For example: Sukkah, Daf 3
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return this.Masechta.NameEnglish + ", Daf " + this.DafNumber.ToString();
-        }
+        public override string ToString() => this.Masechta.NameEnglish + ", Daf " + this.DafNumber.ToString();
 
         /// <summary>
         /// Returns the name of the Masechta and daf number in Hebrew. For example: 'סוכה דף כ.
         /// </summary>
         /// <returns></returns>
-        public string ToStringHeb()
-        {
-            return this.Masechta.NameHebrew + " דף " + this.DafNumber.ToNumberHeb();
-        }
+        public string ToStringHeb() => this.Masechta.NameHebrew + " דף " + this.DafNumber.ToNumberHeb();
     }
 }
