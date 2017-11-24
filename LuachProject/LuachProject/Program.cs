@@ -11,23 +11,20 @@ namespace LuachProject
     {
         internal static Pen DayCellBorderPen = Pens.SteelBlue;
         internal static Brush DayHeadersBGBrush = Brushes.Lavender;
-        internal static Brush DayHeadersTextBrush = Brushes.SteelBlue;
-        internal static Brush DayTextBrush = Brushes.DarkBlue;
+        internal static Color DayHeadersTextColor = Color.SteelBlue;
+        internal static Color DayTextColor = Color.DarkBlue;
         internal static System.Globalization.CultureInfo HebrewCultureInfo = new System.Globalization.CultureInfo("he-il");
         internal static List<Location> LocationsList;
-        internal static Brush SecularDayBrush = Brushes.DarkBlue;
+        internal static Color SecularDayColor = Color.DarkBlue;
         internal static Brush SelectedDayBackgroundBrush = new SolidBrush(Color.FromArgb(100, 100, 200, 255));
         internal static Brush ShabbosBrush = Brushes.LightSteelBlue;
         internal static Brush MinorYomtovBrush = Brushes.GhostWhite;
         internal static Brush MajorYomtovBrush = new SolidBrush(Color.FromArgb(75, Color.RoyalBlue));
-        internal static Brush ZmanimBrush = Brushes.RoyalBlue;
-        internal static StringFormat StringFormat = new StringFormat
-        {
-            Trimming = StringTrimming.EllipsisCharacter,
-            Alignment = StringAlignment.Center,
-            LineAlignment = StringAlignment.Center,
-            FormatFlags = StringFormatFlags.LineLimit | StringFormatFlags.FitBlackBox | StringFormatFlags.DirectionRightToLeft
-        };
+        internal static Color ZmanimColor = Color.RoyalBlue;
+        internal static TextFormatFlags TextFormatFlags =
+            TextFormatFlags.HorizontalCenter |
+            TextFormatFlags.VerticalCenter |
+            TextFormatFlags.NoPrefix;
 
         static Program()
         {

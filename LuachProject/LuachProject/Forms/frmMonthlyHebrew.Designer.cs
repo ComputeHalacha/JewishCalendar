@@ -208,8 +208,9 @@
             this.splitContainer2.Panel2.Controls.Add(this.button3);
             this.splitContainer2.Panel2.Controls.Add(this.button5);
             this.splitContainer2.Panel2.Controls.Add(this.button1);
-            this.splitContainer2.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.splitContainer2.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.splitContainer2.Panel2MinSize = 134;
+            this.splitContainer2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.splitContainer2.Size = new System.Drawing.Size(934, 701);
             this.splitContainer2.SplitterDistance = 540;
             this.splitContainer2.TabIndex = 0;
@@ -223,6 +224,7 @@
             this.pnlMain.Location = new System.Drawing.Point(7, 0);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlMain.Name = "pnlMain";
+            this.pnlMain.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.pnlMain.Size = new System.Drawing.Size(917, 540);
             this.pnlMain.TabIndex = 0;
             this.pnlMain.TabStop = true;

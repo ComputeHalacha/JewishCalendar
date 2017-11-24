@@ -88,15 +88,30 @@ namespace JewishCalendar
         public DateTime SecularDate
         {
             get { return this._zmanim.SecularDate; }
-            set { this._zmanim.SecularDate = value; }
+            set
+            {
+                if (value.Date != this.SecularDate.Date)
+                {
+                    this._zmanim.SecularDate = value;
+                    this.Reset();
+                }
+            }
         }
+
         /// <summary>
         /// The Location
         /// </summary>
         public Location Location
         {
             get { return this._zmanim.Location; }
-            set { this._zmanim.Location = value; }
+            set
+            {
+                if (!this.Location.IsSameLocation(value))
+                {
+                    this._zmanim.Location = value;
+                    this.Reset();
+                }
+            }
         }
         /// <summary>
         /// Gets an array of two HourMinute structures for the current Date and Location. 
@@ -256,6 +271,19 @@ namespace JewishCalendar
                 hm += offset;
             }
             return hm;
+        }
+
+        /// <summary>
+        /// Used to invalidate previously calculated Zmanim.
+        /// Use when changing the Date or Location
+        /// </summary>
+        private void Reset()
+        {
+            this._netzshkia = null;
+            this._netzshkiaMishor = null;
+            this._chatzos = HourMinute.NoValue;
+            this._shaaZmanis = 0;
+            this._shaaZmanis90 = 0;
         }
     }
 }

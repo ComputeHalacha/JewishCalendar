@@ -502,7 +502,7 @@ namespace LuachProject
 
             g.FillRectangle(Program.DayHeadersBGBrush, rect);
             g.DrawRectangle(Program.DayCellBorderPen, rect.X, rect.Y, rect.Width, rect.Height);
-            g.DrawString(text, this._dayHeadersFont, Program.DayHeadersTextBrush, rect, Program.StringFormat);
+            TextRenderer.DrawText(g, text, this._dayHeadersFont, Rectangle.Truncate(rect), Program.DayHeadersTextColor, Program.TextFormatFlags);
         }
 
         private SingleDateInfo DrawSingleDay(Graphics g, DateTime currDate, float width, float height, float currX, float currY)
@@ -637,16 +637,22 @@ namespace LuachProject
 
             //Secular day will be on the left, so we cut the rectangle in half.
             rect.Width /= 2;
-            rect.Height = g.MeasureString(text, this._dayFont, (int)rect.Width, Program.StringFormat).Height;
+            rect.Height = TextRenderer.MeasureText(g, text, this._dayFont, rect.Size.ToSize(), Program.TextFormatFlags).Height;
             offsetTop += rect.Height;
 
-            g.DrawString(text, this._dayFont, Program.DayTextBrush, rect, Program.StringFormat);
+            TextRenderer.DrawText(g, text, this._dayFont, Rectangle.Truncate(rect), Program.DayTextColor, Program.TextFormatFlags);            
 
             //Jewish day will be on the right, so we move the rectangle over to the right of the box.
             //No need to resize the width.
             rect.X += rect.Width;
-            g.DrawString(jDate.Day.ToNumberHeb().Replace("'", ""),
-                this._jewishDayFont, Program.SecularDayBrush, rect, Program.StringFormat);
+
+            TextRenderer.DrawText(
+                g, 
+                jDate.Day.ToNumberHeb().Replace("'", ""), 
+                this._jewishDayFont, 
+                Rectangle.Truncate(rect), 
+                Program.SecularDayColor, 
+                Program.TextFormatFlags);
             //Move rectangle back over to the left of the box
             rect.X = currX;
             //resize rectangle to fix whole box
@@ -657,7 +663,7 @@ namespace LuachProject
             foreach (var o in sdi.UserOccasions)
             {
                 //Get the text size for this occasions label.
-                var textSize = g.MeasureString(o.Name, this._userOccasionFont, (int)rect.Width, Program.StringFormat);
+                var textSize = TextRenderer.MeasureText(g, o.Name, this._userOccasionFont, rect.Size.ToSize(), Program.TextFormatFlags);
 
                 //Move the Y position down to empty space.
                 rect.Y = currY + offsetTop;
@@ -665,7 +671,13 @@ namespace LuachProject
                 //Save the exact position of the occasion label so when the user clicks on it afterwards, we can open the occasion for editing.
                 //Note: the occasion labels are centered in the days box, so we can't use the X position of rect (which is always 0).
                 o.Rectangle = new RectangleF((rect.Width / 2) - (textSize.Width / 2), rect.Y, textSize.Width, textSize.Height);
-                g.DrawString(o.Name, this._userOccasionFont, new SolidBrush(o.Color), rect, Program.StringFormat);
+                TextRenderer.DrawText(
+                    g,
+                    o.Name, 
+                    this._userOccasionFont, 
+                    Rectangle.Truncate(rect), 
+                    o.Color, 
+                    Program.TextFormatFlags);                
                 offsetTop += rect.Height;
             }
 
@@ -674,7 +686,13 @@ namespace LuachProject
                 rect.Y = currY + offsetTop;
 
                 rect.Height = height - offsetTop;
-                g.DrawString(textZmanim, this._zmanimFont, Program.ZmanimBrush, rect, Program.StringFormat);
+                TextRenderer.DrawText(
+                    g,
+                    textZmanim,
+                    this._zmanimFont,
+                    Rectangle.Truncate(rect),
+                    Program.ZmanimColor,
+                    Program.TextFormatFlags);
             }
 
             return sdi;

@@ -157,6 +157,24 @@ namespace JewishCalendar
         public int CandleLighting { get; set; }
 
         /// <summary>
+        /// Compares another Location to this one to see if they are geographically identical.
+        /// Does not take Location Name or Candle Lighting Time into account.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool IsSameLocation(Location other) =>
+            other.IsInIsrael == this.IsInIsrael &&
+            other.TimeZone == this.TimeZone &&
+            other.Elevation == this.Elevation &&
+            other.LatitudeType == this.LatitudeType &&            
+            other.LatitudeDegrees == this.LatitudeDegrees &&
+            other.LatitudeMinutes == this.LatitudeMinutes &&
+            other.LongitudeType == this.LongitudeType &&
+            other.LongitudeDegrees == this.LongitudeDegrees &&
+            other.LongitudeMinutes == this.LongitudeMinutes;
+
+
+        /// <summary>
         /// Returns the name of this Location in English.
         /// </summary>
         /// <returns></returns>

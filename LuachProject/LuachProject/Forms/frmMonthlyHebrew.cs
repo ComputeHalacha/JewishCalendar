@@ -83,7 +83,7 @@ namespace LuachProject
                     if (!this._loading)
                     {
                         //Location was changed, so we need to re-do the zmanim
-                        this.pnlMain.Invalidate();                     
+                        this.pnlMain.Invalidate();
                         if (this.DailyPanelIsShowing)
                         {
                             ((frmDailyInfoHeb)this.splitContainer1.Panel1.Controls[0]).LocationForZmanim = value;
@@ -371,6 +371,7 @@ namespace LuachProject
             {
                 return;
             }
+            
             this.pnlMain.SuspendLayout();
             var currDate = this._displayedJewishMonth;
             float dayWidth = (this.pnlMain.Width / 7f) + 1f;
@@ -498,7 +499,7 @@ namespace LuachProject
 
             g.FillRectangle(Program.DayHeadersBGBrush, rect);
             g.DrawRectangle(Program.DayCellBorderPen, rect.X, rect.Y, rect.Width, rect.Height);
-            g.DrawString(text, this._dayHeadersFont, Program.DayHeadersTextBrush, rect, Program.StringFormat);
+            TextRenderer.DrawText(g, text, this._dayHeadersFont, Rectangle.Truncate(rect), Program.DayHeadersTextColor, Program.TextFormatFlags);            
         }
 
         private SingleDateInfo DrawSingleDay(Graphics g, JewishDate currDate, float width, float height, float currX, float currY)
@@ -619,12 +620,15 @@ namespace LuachProject
             rect.Y = currY + (rect.Height / (occasions.Count + holidays.Count > 1 ? 20 : 10));
             rect.X = currX + (width / 2);
             rect.Width = (width / 2);
-            rect.Height = g.MeasureString(text, this._dayFont, (int)rect.Width, Program.StringFormat).Height;
+            rect.Height = TextRenderer.MeasureText(g, text, this._dayFont, rect.Size.ToSize(), Program.TextFormatFlags).Height;
             offsetTop += rect.Height;
 
-            g.DrawString(text, this._dayFont, Program.DayTextBrush, rect, Program.StringFormat);
+            TextRenderer.DrawText(g, text, this._dayFont, Rectangle.Truncate(rect), Program.DayTextColor, Program.TextFormatFlags);
+            
             rect.X = currX;
-            g.DrawString(currDate.GregorianDate.Day.ToString(), this._secularDayFont, Program.SecularDayBrush, rect, Program.StringFormat);
+
+            TextRenderer.DrawText(g, currDate.GregorianDate.Day.ToString(), this._secularDayFont, Rectangle.Truncate(rect), Program.SecularDayColor, Program.TextFormatFlags);
+            
             rect.Width = width;
 
             offsetTop += rect.Height / (holidays.Count > 1 ? 5 : 3);
@@ -632,7 +636,7 @@ namespace LuachProject
             foreach (var o in occasions)
             {
                 //Get the text size for this occasions label.
-                var textSize = g.MeasureString(o.Name, this._userOccasionFont, (int)rect.Width, Program.StringFormat);
+                var textSize = TextRenderer.MeasureText(g, o.Name, this._userOccasionFont, rect.Size.ToSize(), Program.TextFormatFlags);               
 
                 //Move the Y position down to empty space.
                 rect.Y = currY + offsetTop;
@@ -640,7 +644,7 @@ namespace LuachProject
                 //Save the exact position of the occasion label so when the user clicks on it afterwards, we can open the occasion for editing.
                 //Note: the occasion labels are centered in the days box, so we need to find the beginning of the centered text.
                 o.Rectangle = new RectangleF(rect.X + ((rect.Width / 2) - (textSize.Width / 2)), rect.Y, textSize.Width, textSize.Height);
-                g.DrawString(o.Name, this._userOccasionFont, new SolidBrush(o.Color), rect, Program.StringFormat);
+                TextRenderer.DrawText(g, o.Name, this._userOccasionFont, Rectangle.Truncate(rect), o.Color, Program.TextFormatFlags);                
                 offsetTop += rect.Height;
             }
 
@@ -649,7 +653,13 @@ namespace LuachProject
                 rect.Y = currY + offsetTop;
 
                 rect.Height = height - offsetTop;
-                g.DrawString(textZmanim, this._zmanimFont, Program.ZmanimBrush, rect, Program.StringFormat);
+                TextRenderer.DrawText(
+                    g, 
+                    textZmanim, 
+                    this._zmanimFont, 
+                    Rectangle.Truncate(rect), 
+                    Program.ZmanimColor, 
+                    Program.TextFormatFlags);                
             }
             return sdi;
         }
