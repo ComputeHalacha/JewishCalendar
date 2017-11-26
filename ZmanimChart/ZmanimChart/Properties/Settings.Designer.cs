@@ -34,5 +34,28 @@ namespace ZmanimChart.Properties {
                 this["LocationName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::ZmanimChart.SelectedZmanRows SelectedZmanRows {
+            get {
+                return ((global::ZmanimChart.SelectedZmanRows)(this["SelectedZmanRows"]));
+            }
+            set {
+                this["SelectedZmanRows"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Full")]
+        public global::ZmanimChart.DayOfWeekFormat DOWFormat {
+            get {
+                return ((global::ZmanimChart.DayOfWeekFormat)(this["DOWFormat"]));
+            }
+            set {
+                this["DOWFormat"] = value;
+            }
+        }
     }
 }

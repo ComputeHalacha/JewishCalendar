@@ -302,7 +302,7 @@ namespace LuachProject
 
         private void DisplayHolidays(StringBuilder html)
         {
-            var shkia = this._dailyZmanim.Shkia;
+            var shkia = this._dailyZmanim.ShkiaAtElevation;
             if (this._holidays.Count() > 0)
             {
                 foreach (var h in this._holidays)
@@ -320,7 +320,7 @@ namespace LuachProject
                         {
                             dow--;
                         }
-                        html.AppendFormat("<div>Molad: {0}</div>", molad.ToString(this._dailyZmanim.Shkia));
+                        html.AppendFormat("<div>Molad: {0}</div>", molad.ToString(this._dailyZmanim.ShkiaAtElevation));
                         html.AppendFormat("<div>Rosh Chodesh: {0}{1}</div>",
                              Utils.DaysOfWeek[dow], (dim == 30 ? ", " + Utils.DaysOfWeek[(dow + 1) % 7] : ""));
                     }
@@ -368,8 +368,8 @@ namespace LuachProject
         private void DisplayZmanim(StringBuilder html)
         {
             var dy = DafYomi.GetDafYomi(this._displayingJewishDate);
-            var netz = this._dailyZmanim.Netz;
-            var shkia = this._dailyZmanim.Shkia;
+            var netz = this._dailyZmanim.NetzAtElevation;
+            var shkia = this._dailyZmanim.ShkiaAtElevation;
             var netzMishor = this._dailyZmanim.NetzMishor;
             var shkiaMishor = this._dailyZmanim.ShkiaMishor;
             var chatzos = this._dailyZmanim.Chatzos;

@@ -66,6 +66,11 @@ namespace JewishCalendar
         public static string[] JewishDOWNames = { "יום ראשון", "יום שני", "יום שלישי", "יום רביעי", "יום חמישי", "ערב שבת קודש", "שבת קודש" };
 
         /// <summary>
+        /// Names of days of week in Hebrew. ראשון is JewishDOWNames[0].
+        /// </summary>
+        public static string[] JewishDOWNamesShort = { "ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת" };
+
+        /// <summary>
         /// Array of name of the Jewish Months. Month numbers correspond to the array index, so  Nissan is JewishMonthNamesEnglish[1] etc.
         /// </summary>
         public static string[] JewishMonthNamesEnglish = { "", "Nissan", "Iyar", "Sivan", "Tamuz", "Av", "Ellul", "Tishrei", "Cheshvan", "Kislev", "Teves", "Shvat", "Adar", "Adar Sheini" };

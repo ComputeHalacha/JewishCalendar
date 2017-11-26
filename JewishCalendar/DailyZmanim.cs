@@ -14,7 +14,7 @@ namespace JewishCalendar
         /// <summary>
         /// Sunrise at current Locations elevation
         /// </summary>
-        Netz,
+        NetzAtElevation,
         /// <summary>
         /// Say Shma by... according to the Magen Avraham
         /// </summary>
@@ -50,7 +50,7 @@ namespace JewishCalendar
         /// <summary>
         /// Sunset at current Locations elevation
         /// </summary>
-        Shkia,
+        ShkiaAtElevation,
         /// <summary>
         /// Sunset at sea level
         /// </summary>
@@ -62,7 +62,7 @@ namespace JewishCalendar
     public class DailyZmanim
     {
         private Zmanim _zmanim;
-        private HourMinute[] _netzshkia = null;
+        private HourMinute[] _netzshkiaAtElevation = null;
         private HourMinute[] _netzshkiaMishor = null;
         private HourMinute _chatzos = HourMinute.NoValue;
         private double _shaaZmanis;
@@ -118,15 +118,15 @@ namespace JewishCalendar
         /// The first is the time of Netz for the current date at the elevation 
         /// and coordinates of the current Location and the second is the time of shkia.        
         /// </summary>
-        public HourMinute[] NetzShkia
+        public HourMinute[] NetzShkiaAtElevation
         {
             get
             {
-                if (this._netzshkia == null)
+                if (this._netzshkiaAtElevation == null)
                 {
-                    this._netzshkia = this._zmanim.GetNetzShkia(true);
+                    this._netzshkiaAtElevation = this._zmanim.GetNetzShkia(true);
                 }
-                return this._netzshkia;
+                return this._netzshkiaAtElevation;
             }
         }
         /// <summary>
@@ -148,11 +148,11 @@ namespace JewishCalendar
         /// <summary>
         /// Sunrise for the current Date at the elevation and coordinates of the current Location. 
         /// </summary>
-        public HourMinute Netz => this.NetzShkia[0];
+        public HourMinute NetzAtElevation => this.NetzShkiaAtElevation[0];
         /// <summary>
         /// Sunset for the current Date at the elevation and coordinates of the current Location.
         /// </summary>
-        public HourMinute Shkia => this.NetzShkia[1];
+        public HourMinute ShkiaAtElevation => this.NetzShkiaAtElevation[1];
         /// <summary>
         /// Sunrise at sea level for the current Date at the coordinates of the current Location.
         /// </summary>
@@ -221,8 +221,8 @@ namespace JewishCalendar
                     hm = this.NetzMishor;
                     break;
 
-                case ZmanType.Netz:
-                    hm = this.Netz;
+                case ZmanType.NetzAtElevation:
+                    hm = this.NetzAtElevation;
                     break;
 
                 case ZmanType.KShmMga:
@@ -257,8 +257,8 @@ namespace JewishCalendar
                     hm = this.NetzMishor + (int)(this.ShaaZmanis * 10.75);
                     break;
 
-                case ZmanType.Shkia:
-                    hm = this.Shkia;
+                case ZmanType.ShkiaAtElevation:
+                    hm = this.ShkiaAtElevation;
                     break;
 
                 case ZmanType.ShkiaMishor:
@@ -279,7 +279,7 @@ namespace JewishCalendar
         /// </summary>
         private void Reset()
         {
-            this._netzshkia = null;
+            this._netzshkiaAtElevation = null;
             this._netzshkiaMishor = null;
             this._chatzos = HourMinute.NoValue;
             this._shaaZmanis = 0;

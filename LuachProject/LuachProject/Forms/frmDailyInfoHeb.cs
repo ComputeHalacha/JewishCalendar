@@ -158,10 +158,10 @@ namespace LuachProject
         {
             this.Cursor = Cursors.WaitCursor;
             var dy = DafYomi.GetDafYomi(this._displayingJewishDate);
-            var netzshkia = this._dailyZmanim.NetzShkia;
+            var netzshkia = this._dailyZmanim.NetzShkiaAtElevation;
             var netzshkiaMishor = this._dailyZmanim.NetzShkiaMishor;
-            var netz = this._dailyZmanim.Netz;
-            var shkia = this._dailyZmanim.Shkia;
+            var netz = this._dailyZmanim.NetzAtElevation;
+            var shkia = this._dailyZmanim.ShkiaAtElevation;
             var netzMishor = this._dailyZmanim.NetzMishor;
             var shkiaMishor = this._dailyZmanim.ShkiaMishor;
             var chatzos = this._dailyZmanim.Chatzos;
@@ -202,7 +202,7 @@ namespace LuachProject
                         {
                             dow--;
                         }
-                        html.AppendFormat("<div>המולד: {0}</div>", molad.ToStringHeb(this._dailyZmanim.Shkia));
+                        html.AppendFormat("<div>המולד: {0}</div>", molad.ToStringHeb(this._dailyZmanim.ShkiaAtElevation));
                         html.AppendFormat("<div>ראש חודש: {0}{1}</div>",
                             Utils.JewishDOWNames[dow], (dim == 30 ? ", " + Utils.JewishDOWNames[(dow + 1) % 7] : ""));
                     }

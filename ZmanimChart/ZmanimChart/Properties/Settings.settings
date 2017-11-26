@@ -5,5 +5,11 @@
     <Setting Name="LocationName" Type="System.String" Scope="User">
       <Value Profile="(Default)">Jerusalem</Value>
     </Setting>
+    <Setting Name="SelectedZmanRows" Type="ZmanimChart.SelectedZmanRows" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DOWFormat" Type="ZmanimChart.DayOfWeekFormat" Scope="User">
+      <Value Profile="(Default)">Full</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

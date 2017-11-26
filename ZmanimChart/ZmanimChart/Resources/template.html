@@ -3,45 +3,31 @@
 <html>
 <head>
     <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <title></title>
     <style type="text/css">
-        table { width:100%;border:solid 1px #000;border-collapse: collapse; font-size: 8pt; font-family: Tahoma; }
-        tr:nth-child(2n+1) { background-color: #f1f1f1; }
+        table { width: 100%; border: solid 1px #000; border-collapse: collapse; font-size: 8pt; font-family: Tahoma; direction: rtl; }
+        tr:nth-child(2n+1) { background-color: #fafafa; }
         tr.special { background-color: #ddf; }
-        td, th { border: solid 1px #777;padding:2px;text-align:center;vertical-align:middle; }        
-        th{background-color:#ccc;}
+        th { direction: ltr; }
+        td, th { border: solid 1px #aaa; padding: 2px; text-align: center; vertical-align: middle; }
+        th { background-color: #ccc; }
     </style>
 </head>
-<body>        
-        <table>
-            <tr>
-                <td colspan="9" style="font-size:7pt;">#--MONTH--#</td>
-            </tr>
-            <tr>
-                <td colspan="3" style="background-color:#333;color:#fff;font-size:7pt;">
-                    #--LOCATION--#
-                </td>
-                <th>
-                    -50
-                </th>
-                <th>
-                    -25
-                </th>
-                <th>
-                    -10
-                </th>
-                <th>
-                    נ"ה
-                </th>
-                <th>
-                    ש"ה
-                </th>
-                <th>
-                    72
-                </th>
-            </tr>
-            #--PLACE_HOLDER--#
-        </table>
-    
+<body>
+    <table>
+        <tr>
+            <td colspan="#--TOTAL_CELLS--#" style="font-size:7pt;">#--MONTH--#</td>
+        </tr>
+        <tr>
+            <td colspan="3" style="background-color:#333;color:#fff;font-size:7pt;">
+                #--LOCATION--#
+            </td>
+            #--HEADER_CELLS--#
+        </tr>
+        #--VALUE_ROWS--#
+    </table>
+
 </body>
 </html>

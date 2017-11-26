@@ -5,6 +5,13 @@ using System.Windows.Forms;
 
 namespace ZmanimChart
 {
+    public enum DayOfWeekFormat
+    {
+        Full,
+        JewishNum,
+        Number
+    } 
+
     static class Program
     {
         internal static List<Location> LocationsList;
@@ -94,5 +101,25 @@ namespace ZmanimChart
                 ms.Close();
             }
         }
+
+        public static string[] ZmanTypesList = {
+            "Alos Hashachar - 90 / עלות השחר - 90",
+            "Alos Hashachar - 72 / עלות השחר - 72",            
+            "Sunrise / הנץ החמה",
+            "Sunrise - sea level / הנץ החמה - מישור",
+            "Shma - MG\"A / סוזק\"ש מג\"א",
+            "Shma - GR\"A / סוזק\"ש גר\"א",
+            "Tefilla - MG\"A / סוז\"ת מג\"א",
+            "Tefilla - GR\"A / סוז\"ת גר\"א",
+            "Midday and Midnight / חצות היום והלילה",
+            "Mincha Gedolah / מנחה גדולה",
+            "Mincha Ketana / מנחה קטנה",
+            "Plag HaMincha / פלג המנחה",
+            "Sunset / שקיעת החמה",
+            "Sunset - sea level / שקיעת החמה - מישור",
+            "Night - 45 / צה\"כ - 45",
+            "Night - Rabbeinu Tam / צה\"כ - ר\"ת",
+            "Night - 72 Zmaniyos / צה\"כ - 72 זמניות"
+        };
     }
 }

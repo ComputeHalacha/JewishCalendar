@@ -47,6 +47,12 @@ namespace JewishCalendar
                 result.Minute -= 60;
                 result.Hour++;
             }
+            //If we are adding a negative number
+            while (result.Minute < 0)
+            {
+                result.Minute += 60;
+                result.Hour--;
+            }
             return result;
         }
 
@@ -82,6 +88,12 @@ namespace JewishCalendar
             {
                 result.Minute += 60;
                 result.Hour--;
+            }
+            //If we are subtracting a negative number
+            while (result.Minute >= 60)
+            {
+                result.Minute -= 60;
+                result.Hour++;
             }
             return result;
         }
