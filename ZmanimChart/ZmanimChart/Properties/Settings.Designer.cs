@@ -57,5 +57,53 @@ namespace ZmanimChart.Properties {
                 this["DOWFormat"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ArmyTime {
+            get {
+                return ((bool)(this["ArmyTime"]));
+            }
+            set {
+                this["ArmyTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AmPm {
+            get {
+                return ((bool)(this["AmPm"]));
+            }
+            set {
+                this["AmPm"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Width100 {
+            get {
+                return ((bool)(this["Width100"]));
+            }
+            set {
+                this["Width100"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DirectionRight {
+            get {
+                return ((bool)(this["DirectionRight"]));
+            }
+            set {
+                this["DirectionRight"] = value;
+            }
+        }
     }
 }

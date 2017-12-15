@@ -33,6 +33,10 @@ namespace ZmanimChart
             this.clmZman.DataSource = Program.ZmanTypesList;
             this.SetDOWFormat();
             this.FillZmanTypeRows();
+            this.choiceArmy.ChoiceOneSelected = Properties.Settings.Default.ArmyTime;
+            this.choiceAmPm.ChoiceOneSelected = Properties.Settings.Default.AmPm;
+            this.choiceWidth100.SelectedValue = Properties.Settings.Default.Width100;
+            this.choiceDirection.SelectedValue = Properties.Settings.Default.DirectionRight;
         }
 
         private void FillDateCombos()
@@ -91,13 +95,16 @@ namespace ZmanimChart
             switch (Properties.Settings.Default.DOWFormat)
             {
                 case DayOfWeekFormat.JewishNum:
-                    this.rbDOWJewishNum.Checked = true;
+                    this.rbDOWJewishNum.Checked = true;                           
                     break;
                 case DayOfWeekFormat.Number:
                     this.rbDowNum.Checked = true;
                     break;
-                default:
+                case DayOfWeekFormat.Full:
                     rbDayOfWeekFull.Checked = true;
+                    break;
+                case DayOfWeekFormat.English:
+                    rbDOWEnglish.Checked = true;
                     break;
             }
         }
@@ -161,6 +168,11 @@ namespace ZmanimChart
 
             //Once "Generate" is clicked, we save the columns selected.
             Properties.Settings.Default.SelectedZmanRows = columns;
+            Properties.Settings.Default.ArmyTime = this.choiceArmy.ChoiceOneSelected;
+            Properties.Settings.Default.AmPm = this.choiceAmPm.ChoiceOneSelected;
+            Properties.Settings.Default.Width100 = (bool)this.choiceWidth100.SelectedValue;
+            Properties.Settings.Default.DirectionRight = (bool)this.choiceDirection.SelectedValue;
+            
 
             foreach (var r in columns.OrderBy(sr => sr.ZmanIndex))
             {
@@ -169,7 +181,7 @@ namespace ZmanimChart
             while (true)
             {
                 sbRows.AppendFormat(
-                    "<tr{0}><td>{1}</td><td>{2}</td><td>{3}</td>",
+                    "<tr{0}><td>{1}</td><td style=\"direction:rtl;\">{2}</td><td>{3}</td>",
                     (jd.DayOfWeek == DayOfWeek.Saturday ? " class='special'" : ""),
                     this.GetDayOfWeekString(jd, location),
                     Utils.ToNumberHeb(jd.Day),
@@ -177,7 +189,9 @@ namespace ZmanimChart
 
                 foreach (var s in columns.OrderBy(sr => sr.ZmanIndex))
                 {
-                    var zmanTime = s.GetZman(dz).ToString24H();
+                    var zmanTime = s.GetZman(dz).ToString(
+                        Properties.Settings.Default.ArmyTime,
+                        Properties.Settings.Default.AmPm);
                     if (s.Bold)
                     {
                         zmanTime = "<strong>" + zmanTime + "</strong>";
@@ -199,8 +213,10 @@ namespace ZmanimChart
             string endSMonth = dz.SecularDate.ToString("MM yyyy");
 
             return Properties.Resources.template
+                .Replace("#--DIRECTION--#", (Properties.Settings.Default.DirectionRight ? "direction:rtl;" : ""))
                 .Replace("#--TOTAL_CELLS--#", (columns.Count + 3).ToString())
                 .Replace("#--LOCATION--#", location.NameHebrew)
+                .Replace("#--TABLE_WIDTH--#", Properties.Settings.Default.Width100 ? "width: 100%;" : "")
                 .Replace("#--MONTH--#", "<strong>" +
                     Utils.JewishMonthNamesHebrew[month] + " " +
                     Utils.ToNumberHeb(year % 1000) +
@@ -213,7 +229,7 @@ namespace ZmanimChart
 
         private string GetDayOfWeekString(JewishDate jd, Location location)
         {
-            string dow;
+            string dow = null;
             if (this.rbDOWJewishNum.Checked)
             {
                 dow = (jd.DayInWeek + 1).ToNumberHeb();
@@ -224,15 +240,31 @@ namespace ZmanimChart
                 dow = (jd.DayInWeek + 1).ToString();
                 Properties.Settings.Default.DOWFormat = DayOfWeekFormat.Number;
             }
-            else
-            {                
-                dow = Utils.JewishDOWNamesShort[jd.DayInWeek];
-                if(jd.DayOfWeek == DayOfWeek.Saturday)
+            else if(this.rbDayOfWeekFull.Checked)
+            {
+                if (jd.DayOfWeek == DayOfWeek.Saturday)
                 {
-                    var sedras = Sedra.GetSedra(jd, location.IsInIsrael);                    
-                    dow += " " + string.Join(" - ", sedras.Select(i => i.nameHebrew));
+                    var sedras = Sedra.GetSedra(jd, location.IsInIsrael);
+                    dow = "ש\"ק " + string.Join(" - ", sedras.Select(i => i.nameHebrew));
+                }
+                else
+                {
+                    dow = Utils.JewishDOWNamesShort[jd.DayInWeek];
                 }
                 Properties.Settings.Default.DOWFormat = DayOfWeekFormat.Full;
+            }
+            else if (this.rbDOWEnglish.Checked)
+            {
+                if (jd.DayOfWeek == DayOfWeek.Saturday)
+                {
+                    var sedras = Sedra.GetSedra(jd, location.IsInIsrael);
+                    dow = string.Join(" - ", sedras.Select(i => i.nameEng));
+                }
+                else
+                {
+                    dow = jd.DayOfWeek.ToString().Substring(0, 3);
+                }
+                Properties.Settings.Default.DOWFormat = DayOfWeekFormat.English;
             }
 
             return dow;
@@ -270,6 +302,14 @@ namespace ZmanimChart
         private void ChoiceSwitcher1_ChoiceSwitched_1(object sender, EventArgs e)
         {
             this.FillLocations();
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == clmDelete.Index)
+            {
+                this.dataGridView1.Rows.RemoveAt(e.RowIndex);
+            }
         }
     }
     public class SelectedZmanRows : List<SingleZmanRow> { }

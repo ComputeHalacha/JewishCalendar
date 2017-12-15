@@ -11,5 +11,17 @@
     <Setting Name="DOWFormat" Type="ZmanimChart.DayOfWeekFormat" Scope="User">
       <Value Profile="(Default)">Full</Value>
     </Setting>
+    <Setting Name="ArmyTime" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="AmPm" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Width100" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DirectionRight" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -212,7 +212,11 @@ public class ChoiceSwitcher : Control
         }
         set
         {
-            this.ChoiceChosen = ChoiceSwitcherChoices.ChoiceOne;
+            if (this.ChoiceOneSelected != value)
+            {
+                this.ChoiceChosen = value ?
+                    ChoiceSwitcherChoices.ChoiceOne : ChoiceSwitcherChoices.ChoiceTwo;
+            }
         }
     }
     public bool ChoiceTwoSelected
@@ -223,7 +227,11 @@ public class ChoiceSwitcher : Control
         }
         set
         {
-            this.ChoiceChosen = ChoiceSwitcherChoices.ChoiceTwo;
+            if (this.ChoiceTwoSelected != value)
+            {
+                this.ChoiceChosen = value ?
+                    ChoiceSwitcherChoices.ChoiceTwo : ChoiceSwitcherChoices.ChoiceOne;
+            }
         }
     }
     public Color BackColorSlot

@@ -252,6 +252,14 @@ namespace JewishCalendar
             (Minute < 10 ? "0" + Minute.ToString() : Minute.ToString()) +
             (Hour < 12 ? " AM" : " PM");
 
+        public string ToString(bool army, bool amPm = true)
+        {
+            return army ? this.ToString24H() : (amPm ? this.ToString() :
+                (Hour <= 12 ? (Hour == 0 ? 12 : Hour) : Hour - 12).ToString() +
+                ":" +
+                (Minute < 10 ? "0" + Minute.ToString() : Minute.ToString()));
+        }
+
         /// <summary>
         /// Returns the current time in the format HH:mm
         /// </summary>
