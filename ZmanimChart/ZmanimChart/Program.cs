@@ -10,7 +10,8 @@ namespace ZmanimChart
         Full,
         JewishNum,
         Number,
-        English
+        English,
+        None
     } 
 
     static class Program

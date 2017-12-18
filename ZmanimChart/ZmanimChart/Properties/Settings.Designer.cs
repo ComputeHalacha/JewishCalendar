@@ -105,5 +105,17 @@ namespace ZmanimChart.Properties {
                 this["DirectionRight"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DateChooseMonth {
+            get {
+                return ((bool)(this["DateChooseMonth"]));
+            }
+            set {
+                this["DateChooseMonth"] = value;
+            }
+        }
     }
 }

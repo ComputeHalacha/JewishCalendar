@@ -37,6 +37,7 @@ namespace ZmanimChart
             this.choiceAmPm.ChoiceOneSelected = Properties.Settings.Default.AmPm;
             this.choiceWidth100.SelectedValue = Properties.Settings.Default.Width100;
             this.choiceDirection.SelectedValue = Properties.Settings.Default.DirectionRight;
+            this.choiceSwitcherDateType.ChoiceOneSelected = Properties.Settings.Default.DateChooseMonth;
         }
 
         private void FillDateCombos()
@@ -46,7 +47,8 @@ namespace ZmanimChart
             this.cmbYear.ValueMember = "Key";
             this.cmbYear.DisplayMember = "Value";
 
-            var nextMonth = new JewishDate().AddMonths(1);
+            var now = new JewishDate();
+            var nextMonth = now.AddMonths(1);
             KeyValuePair<int, string> month = new KeyValuePair<int, string>();
             KeyValuePair<int, string> year = new KeyValuePair<int, string>();
             for (int i = nextMonth.Year - 2; i <= nextMonth.Year + 2; i++)
@@ -71,6 +73,8 @@ namespace ZmanimChart
             }
             this.cmbMonth.SelectedItem = month;
             this.cmbYear.SelectedItem = year;
+            this.jdpFrom.Value = now;
+            this.jdpTo.Value = nextMonth;
         }
 
         private void FillZmanTypeRows()
@@ -95,7 +99,7 @@ namespace ZmanimChart
             switch (Properties.Settings.Default.DOWFormat)
             {
                 case DayOfWeekFormat.JewishNum:
-                    this.rbDOWJewishNum.Checked = true;                           
+                    this.rbDOWJewishNum.Checked = true;
                     break;
                 case DayOfWeekFormat.Number:
                     this.rbDowNum.Checked = true;
@@ -105,6 +109,9 @@ namespace ZmanimChart
                     break;
                 case DayOfWeekFormat.English:
                     rbDOWEnglish.Checked = true;
+                    break;
+                case DayOfWeekFormat.None:
+                    rbDOWNone.Checked = true;
                     break;
             }
         }
@@ -161,7 +168,8 @@ namespace ZmanimChart
             int year = this.GetSelectedYear();
             StringBuilder sbHeaderCells = new StringBuilder();
             StringBuilder sbRows = new StringBuilder();
-            JewishDate jd = new JewishDate(year, month, 1);
+            bool showMonth = this.choiceSwitcherDateType.ChoiceOneSelected;
+            JewishDate jd = showMonth ? new JewishDate(year, month, 1) : this.jdpFrom.Value;
             DailyZmanim dz = new DailyZmanim(jd.GregorianDate, location);
             string startSMonth = dz.SecularDate.ToString("MM yyyy");
             SelectedZmanRows columns = this.GetSelectedColumns();
@@ -172,7 +180,8 @@ namespace ZmanimChart
             Properties.Settings.Default.AmPm = this.choiceAmPm.ChoiceOneSelected;
             Properties.Settings.Default.Width100 = (bool)this.choiceWidth100.SelectedValue;
             Properties.Settings.Default.DirectionRight = (bool)this.choiceDirection.SelectedValue;
-            
+            Properties.Settings.Default.DateChooseMonth = this.choiceSwitcherDateType.ChoiceOneSelected;
+
 
             foreach (var r in columns.OrderBy(sr => sr.ZmanIndex))
             {
@@ -182,7 +191,9 @@ namespace ZmanimChart
             {
                 sbRows.AppendFormat(
                     "<tr{0}><td>{1}</td><td style=\"direction:rtl;\">{2}</td><td>{3}</td>",
-                    (jd.DayOfWeek == DayOfWeek.Saturday ? " class='special'" : ""),
+                    (jd.DayOfWeek == DayOfWeek.Saturday ||
+                    SpecialDay.IsMajorYomTov(jd, location) ? " class='special'" :
+                    SpecialDay.IsMinorYomTovOrFast(jd, location) ? " class='special2'" : ""),
                     this.GetDayOfWeekString(jd, location),
                     Utils.ToNumberHeb(jd.Day),
                     dz.SecularDate.Day);
@@ -200,7 +211,7 @@ namespace ZmanimChart
                 }
 
                 jd = jd + 1;
-                if (jd.Month == month)
+                if (showMonth ? jd.Month == month : jd <= this.jdpTo.Value)
                 {
                     dz.SecularDate = jd.GregorianDate;
                 }
@@ -211,25 +222,43 @@ namespace ZmanimChart
                 }
             }
             string endSMonth = dz.SecularDate.ToString("MM yyyy");
+            string monthHeader = showMonth ?
+                Utils.JewishMonthNamesHebrew[month] + " " + Utils.ToNumberHeb(year % 1000) :
+                this.getFromToHeaderText();
 
             return Properties.Resources.template
                 .Replace("#--DIRECTION--#", (Properties.Settings.Default.DirectionRight ? "direction:rtl;" : ""))
                 .Replace("#--TOTAL_CELLS--#", (columns.Count + 3).ToString())
                 .Replace("#--LOCATION--#", location.NameHebrew)
                 .Replace("#--TABLE_WIDTH--#", Properties.Settings.Default.Width100 ? "width: 100%;" : "")
-                .Replace("#--MONTH--#", "<strong>" +
-                    Utils.JewishMonthNamesHebrew[month] + " " +
-                    Utils.ToNumberHeb(year % 1000) +
-                    "</strong> (" +
+                .Replace("#--MONTH--#", "<strong>" + monthHeader + "</strong> (" +
                     startSMonth +
                     (startSMonth != endSMonth ? " - " + endSMonth : "") + ")")
                 .Replace("#--HEADER_CELLS--#", sbHeaderCells.ToString())
                 .Replace("#--VALUE_ROWS--#", sbRows.ToString());
         }
 
+        private string getFromToHeaderText()
+        {
+            string text = "";
+            JewishDate from = this.jdpFrom.Value,
+                to = this.jdpTo.Value;
+            text =
+            Utils.ToNumberHeb(from.Day) + " " +
+            Utils.JewishMonthNamesHebrew[from.Month] + " " +
+            Utils.ToNumberHeb(from.Year % 1000) +
+            " - " +
+            Utils.ToNumberHeb(to.Day) + " " +
+            Utils.JewishMonthNamesHebrew[to.Month] + " " +
+            Utils.ToNumberHeb(to.Year % 1000);
+
+            return text;
+        }
+
         private string GetDayOfWeekString(JewishDate jd, Location location)
         {
             string dow = null;
+
             if (this.rbDOWJewishNum.Checked)
             {
                 dow = (jd.DayInWeek + 1).ToNumberHeb();
@@ -240,7 +269,7 @@ namespace ZmanimChart
                 dow = (jd.DayInWeek + 1).ToString();
                 Properties.Settings.Default.DOWFormat = DayOfWeekFormat.Number;
             }
-            else if(this.rbDayOfWeekFull.Checked)
+            else if (this.rbDayOfWeekFull.Checked)
             {
                 if (jd.DayOfWeek == DayOfWeek.Saturday)
                 {
@@ -265,6 +294,11 @@ namespace ZmanimChart
                     dow = jd.DayOfWeek.ToString().Substring(0, 3);
                 }
                 Properties.Settings.Default.DOWFormat = DayOfWeekFormat.English;
+            }
+            else if (this.rbDOWNone.Checked)
+            {
+                Properties.Settings.Default.DOWFormat = DayOfWeekFormat.None;
+                dow = "";
             }
 
             return dow;
@@ -309,6 +343,20 @@ namespace ZmanimChart
             if (e.ColumnIndex == clmDelete.Index)
             {
                 this.dataGridView1.Rows.RemoveAt(e.RowIndex);
+            }
+        }
+
+        private void choiceSwitcherDateType_ChoiceSwitched(object sender, EventArgs e)
+        {
+            if (choiceSwitcherDateType.ChoiceOneSelected)
+            {
+                this.pnlDateTypeFromTo.Visible = false;
+                this.pnlDateTypeMonth.Visible = true;
+            }
+            else
+            {
+                this.pnlDateTypeFromTo.Visible = true;
+                this.pnlDateTypeMonth.Visible = false;
             }
         }
     }

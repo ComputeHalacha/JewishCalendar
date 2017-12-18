@@ -100,6 +100,10 @@
       <Project>{43e5c945-9d11-4097-9990-1d2afc9e16d3}</Project>
       <Name>JewishCalendar</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\JewishDatePicker\JewishDatePicker.csproj">
+      <Project>{8076dabe-3604-4d94-a883-2df9105fe54c}</Project>
+      <Name>JewishDatePicker</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SwitchHead.png" />
