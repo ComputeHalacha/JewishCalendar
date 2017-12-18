@@ -173,6 +173,7 @@ namespace ZmanimChart
             DailyZmanim dz = new DailyZmanim(jd.GregorianDate, location);
             string startSMonth = dz.SecularDate.ToString("MM yyyy");
             SelectedZmanRows columns = this.GetSelectedColumns();
+            string dowString = this.GetDayOfWeekString(jd, location);
 
             //Once "Generate" is clicked, we save the columns selected.
             Properties.Settings.Default.SelectedZmanRows = columns;
@@ -189,14 +190,21 @@ namespace ZmanimChart
             }
             while (true)
             {
-                sbRows.AppendFormat(
-                    "<tr{0}><td>{1}</td><td style=\"direction:rtl;\">{2}</td><td>{3}</td>",
+                sbRows.AppendFormat("<tr{0}>",
                     (jd.DayOfWeek == DayOfWeek.Saturday ||
                     SpecialDay.IsMajorYomTov(jd, location) ? " class='special'" :
-                    SpecialDay.IsMinorYomTovOrFast(jd, location) ? " class='special2'" : ""),
-                    this.GetDayOfWeekString(jd, location),
+                    SpecialDay.IsMinorYomTovOrFast(jd, location) ? " class='special2'" : ""));
+
+                if (Properties.Settings.Default.DOWFormat != DayOfWeekFormat.None)
+                {
+                    sbRows.AppendFormat("<td>{0}</td>", dowString);                        
+                }
+
+                sbRows.AppendFormat(
+                    "<td style=\"direction:rtl;\">{0}</td><td>{1}</td>",
                     Utils.ToNumberHeb(jd.Day),
                     dz.SecularDate.Day);
+
 
                 foreach (var s in columns.OrderBy(sr => sr.ZmanIndex))
                 {
@@ -225,16 +233,18 @@ namespace ZmanimChart
             string monthHeader = showMonth ?
                 Utils.JewishMonthNamesHebrew[month] + " " + Utils.ToNumberHeb(year % 1000) :
                 this.getFromToHeaderText();
+            int inBuiltColsCount = Properties.Settings.Default.DOWFormat == DayOfWeekFormat.None ? 2 : 3;
 
             return Properties.Resources.template
                 .Replace("#--DIRECTION--#", (Properties.Settings.Default.DirectionRight ? "direction:rtl;" : ""))
-                .Replace("#--TOTAL_CELLS--#", (columns.Count + 3).ToString())
+                .Replace("#--TOTAL_CELLS--#", (columns.Count + inBuiltColsCount).ToString())
                 .Replace("#--LOCATION--#", location.NameHebrew)
                 .Replace("#--TABLE_WIDTH--#", Properties.Settings.Default.Width100 ? "width: 100%;" : "")
                 .Replace("#--MONTH--#", "<strong>" + monthHeader + "</strong> (" +
                     startSMonth +
                     (startSMonth != endSMonth ? " - " + endSMonth : "") + ")")
                 .Replace("#--HEADER_CELLS--#", sbHeaderCells.ToString())
+                .Replace("#--LOCATION_COL_SPAN--#", inBuiltColsCount.ToString())
                 .Replace("#--VALUE_ROWS--#", sbRows.ToString());
         }
 
