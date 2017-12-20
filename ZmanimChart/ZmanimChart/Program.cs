@@ -121,7 +121,8 @@ namespace ZmanimChart
             "Sunset - sea level / שקיעת החמה - מישור",
             "Night - 45 / צה\"כ - 45",
             "Night - Rabbeinu Tam / צה\"כ - ר\"ת",
-            "Night - 72 Zmaniyos / צה\"כ - 72 זמניות"
+            "Night - 72 Zmaniyos / צה\"כ - 72 זמניות",
+            "Daf Yomi / דף היומי"
         };
     }
 }

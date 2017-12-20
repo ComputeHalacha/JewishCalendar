@@ -173,7 +173,6 @@ namespace ZmanimChart
             DailyZmanim dz = new DailyZmanim(jd.GregorianDate, location);
             string startSMonth = dz.SecularDate.ToString("MM yyyy");
             SelectedZmanRows columns = this.GetSelectedColumns();
-            string dowString = this.GetDayOfWeekString(jd, location);
 
             //Once "Generate" is clicked, we save the columns selected.
             Properties.Settings.Default.SelectedZmanRows = columns;
@@ -182,7 +181,7 @@ namespace ZmanimChart
             Properties.Settings.Default.Width100 = (bool)this.choiceWidth100.SelectedValue;
             Properties.Settings.Default.DirectionRight = (bool)this.choiceDirection.SelectedValue;
             Properties.Settings.Default.DateChooseMonth = this.choiceSwitcherDateType.ChoiceOneSelected;
-
+            this.SaveDayOfWeek();
 
             foreach (var r in columns.OrderBy(sr => sr.ZmanIndex))
             {
@@ -197,7 +196,7 @@ namespace ZmanimChart
 
                 if (Properties.Settings.Default.DOWFormat != DayOfWeekFormat.None)
                 {
-                    sbRows.AppendFormat("<td>{0}</td>", dowString);                        
+                    sbRows.AppendFormat("<td>{0}</td>", this.GetDayOfWeekString(jd, location));
                 }
 
                 sbRows.AppendFormat(
@@ -208,9 +207,17 @@ namespace ZmanimChart
 
                 foreach (var s in columns.OrderBy(sr => sr.ZmanIndex))
                 {
-                    var zmanTime = s.GetZman(dz).ToString(
-                        Properties.Settings.Default.ArmyTime,
-                        Properties.Settings.Default.AmPm);
+                    string zmanTime = null;
+                    if (s.ZmanIndex == 17)
+                    {
+                        zmanTime = DafYomi.GetDafYomi(jd).ToStringHeb();
+                    }
+                    else
+                    {
+                        zmanTime = s.GetZman(dz).ToString(
+                            Properties.Settings.Default.ArmyTime,
+                            Properties.Settings.Default.AmPm);
+                    }
                     if (s.Bold)
                     {
                         zmanTime = "<strong>" + zmanTime + "</strong>";
@@ -248,6 +255,30 @@ namespace ZmanimChart
                 .Replace("#--VALUE_ROWS--#", sbRows.ToString());
         }
 
+        private void SaveDayOfWeek()
+        {
+            if (this.rbDOWJewishNum.Checked)
+            {
+                Properties.Settings.Default.DOWFormat = DayOfWeekFormat.JewishNum;
+            }
+            else if (this.rbDowNum.Checked)
+            {
+                Properties.Settings.Default.DOWFormat = DayOfWeekFormat.Number;
+            }
+            else if (this.rbDayOfWeekFull.Checked)
+            {
+                Properties.Settings.Default.DOWFormat = DayOfWeekFormat.Full;
+            }
+            else if (this.rbDOWEnglish.Checked)
+            {
+                Properties.Settings.Default.DOWFormat = DayOfWeekFormat.English;
+            }
+            else
+            {
+                Properties.Settings.Default.DOWFormat = DayOfWeekFormat.None;
+            }
+        }
+
         private string getFromToHeaderText()
         {
             string text = "";
@@ -267,17 +298,15 @@ namespace ZmanimChart
 
         private string GetDayOfWeekString(JewishDate jd, Location location)
         {
-            string dow = null;
+            string dow = "";
 
             if (this.rbDOWJewishNum.Checked)
             {
                 dow = (jd.DayInWeek + 1).ToNumberHeb();
-                Properties.Settings.Default.DOWFormat = DayOfWeekFormat.JewishNum;
             }
             else if (this.rbDowNum.Checked)
             {
                 dow = (jd.DayInWeek + 1).ToString();
-                Properties.Settings.Default.DOWFormat = DayOfWeekFormat.Number;
             }
             else if (this.rbDayOfWeekFull.Checked)
             {
@@ -290,7 +319,6 @@ namespace ZmanimChart
                 {
                     dow = Utils.JewishDOWNamesShort[jd.DayInWeek];
                 }
-                Properties.Settings.Default.DOWFormat = DayOfWeekFormat.Full;
             }
             else if (this.rbDOWEnglish.Checked)
             {
@@ -303,12 +331,6 @@ namespace ZmanimChart
                 {
                     dow = jd.DayOfWeek.ToString().Substring(0, 3);
                 }
-                Properties.Settings.Default.DOWFormat = DayOfWeekFormat.English;
-            }
-            else if (this.rbDOWNone.Checked)
-            {
-                Properties.Settings.Default.DOWFormat = DayOfWeekFormat.None;
-                dow = "";
             }
 
             return dow;
@@ -397,9 +419,9 @@ namespace ZmanimChart
                 case 11: hm = dz.GetZman(ZmanType.MinchaPlg); break; //Plag HaMincha
                 case 12: hm = dz.ShkiaAtElevation; break; //Sunset
                 case 13: hm = dz.ShkiaMishor; break; //Sunset - sea level
-                case 15: hm = dz.ShkiaAtElevation + 45; break; //Night - 45
-                case 16: hm = dz.ShkiaAtElevation + 72; break; //Night - Rabbeinu Tam
-                case 17: hm = dz.ShkiaAtElevation + (int)(dz.ShaaZmanis90 * 1.2); break; //Night - 72 Zmaniyos
+                case 14: hm = dz.ShkiaAtElevation + 45; break; //Night - 45
+                case 15: hm = dz.ShkiaAtElevation + 72; break; //Night - Rabbeinu Tam
+                case 16: hm = dz.ShkiaAtElevation + (int)(dz.ShaaZmanis90 * 1.2); break; //Night - 72 Zmaniyos                    
             }
             if (this.Offset != 0)
             {
