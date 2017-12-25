@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZmanimAnywhere", "ZmanimAnywhere\ZmanimAnywhere.csproj", "{52FC75E9-FCE8-42B9-ADBE-4DF20C95B666}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JewishCalendar", "..\JewishCalendar\JewishCalendar.csproj", "{43E5C945-9D11-4097-9990-1D2AFC9E16D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JewishDatePicker", "..\JewishDatePicker\JewishDatePicker.csproj", "{8076DABE-3604-4D94-A883-2DF9105FE54C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{52FC75E9-FCE8-42B9-ADBE-4DF20C95B666}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52FC75E9-FCE8-42B9-ADBE-4DF20C95B666}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52FC75E9-FCE8-42B9-ADBE-4DF20C95B666}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52FC75E9-FCE8-42B9-ADBE-4DF20C95B666}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43E5C945-9D11-4097-9990-1D2AFC9E16D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43E5C945-9D11-4097-9990-1D2AFC9E16D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43E5C945-9D11-4097-9990-1D2AFC9E16D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43E5C945-9D11-4097-9990-1D2AFC9E16D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8076DABE-3604-4D94-A883-2DF9105FE54C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8076DABE-3604-4D94-A883-2DF9105FE54C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8076DABE-3604-4D94-A883-2DF9105FE54C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8076DABE-3604-4D94-A883-2DF9105FE54C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
