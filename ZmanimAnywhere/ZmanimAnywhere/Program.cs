@@ -127,6 +127,44 @@ namespace ZmanimAnywhere
         public int LongitudeDegrees { get { return this.GetDegrees(this.Longitude); } }
         public int LongitudeMinutes { get { return this.GetMinutes(this.Longitude); } }
         public float LongitudeSeconds { get { return this.GetSeconds(this.Longitude); } }
+        public string LatitudeString
+        {
+            get
+            {
+                string t = this.Latitude >= 0 ? "North" : "South";
+                return t + " " + Math.Abs(this.Latitude).ToString("N4");
+            }
+        }
+        public string LongitudeString
+        {
+            get
+            {
+                string t = this.Longitude >= 0 ? "East" : "West";
+                return t + " " + Math.Abs(this.Longitude).ToString("N4");
+            }
+        }
+        public string LatitudeLongString
+        {
+            get
+            {
+                string t = this.Latitude >= 0 ? "North" : "South";
+                return t + " " +
+                    Math.Abs(this.LatitudeDegrees).ToString() + "° " +
+                    this.LatitudeMinutes.ToString() + "\' " +
+                    this.LatitudeSeconds.ToString("N2") + "\"";
+            }
+        }
+        public string LongitudeLongString
+        {
+            get
+            {
+                string t = this.Longitude >= 0 ? "North" : "South";
+                return t + " " +
+                    Math.Abs(this.LongitudeDegrees).ToString() + "° " +
+                    this.LongitudeMinutes.ToString() + "\' " +
+                    this.LongitudeSeconds.ToString("N2") + "\"";
+            }
+        }
         private int GetDegrees(double deg)
         {
             return (int)Math.Floor(deg);

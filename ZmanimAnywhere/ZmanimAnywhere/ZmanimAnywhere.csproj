@@ -103,6 +103,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\x.png" />
     <None Include="Resources\Earth.png" />
     <Content Include="Resources\template.html" />
   </ItemGroup>

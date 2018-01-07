@@ -117,13 +117,13 @@ namespace ZmanimAnywhere
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var m = new frmWorldMap();
+            var m = new frmWorldMap(this._coordinates);
             m.Show();
             m.OnCoordinatesChange += delegate (Coordinates coords)
             {
                 this._loading = true;
                 this._coordinates = coords;
-                this.cmbLocations.SelectedIndex = 0;
+                this.cmbLocations.SelectedIndex = -1;
                 this.SetCoords();
             };
         }
@@ -178,9 +178,9 @@ namespace ZmanimAnywhere
             var dz = new DailyZmanim(this.jdpFrom.Value.GregorianDate, location);
             html.AppendFormat("<h2>Zmanim at {0} feet</h2>", location.Elevation);
             html.Append("<ul>");
-            if(dz.NetzMishor == HourMinute.NoValue)
+            if (dz.NetzMishor == HourMinute.NoValue)
             {
-                html.Append("<li><strong>The sun does not rise at sea level at this location</strong></li>");
+                html.Append("<li><strong>The sun does not rise at this location</strong></li>");
             }
             else
             {
@@ -190,7 +190,7 @@ namespace ZmanimAnywhere
                     dz.GetZman(ZmanType.NetzMishor, -72));
                 html.AppendFormat("<li>Mishyakir - 36........<strong>{0}</strong></li>",
                     dz.GetZman(ZmanType.NetzMishor, -36));
-                html.AppendFormat("<li>Netz Mishor........<strong>{0}</strong></li>",
+                html.AppendFormat("<li>Netz at sea level........<strong>{0}</strong></li>",
                     dz.NetzMishor);
             }
             if (dz.NetzAtElevation == HourMinute.NoValue)
@@ -202,7 +202,11 @@ namespace ZmanimAnywhere
                 html.AppendFormat("<li>Netz at elevation........<strong>{0}</strong></li>",
                     dz.NetzAtElevation);
             }
-            if (dz.NetzMishor != HourMinute.NoValue)
+            if (dz.NetzMishor == HourMinute.NoValue)
+            {
+                html.Append("<li><strong>The sun does not rise at this location</strong></li>");                
+            }
+            else
             {
                 html.AppendFormat("<li>Krias Shma MG\"A........<strong>{0}</strong></li>",
                     dz.GetZman(ZmanType.KShmMga));
@@ -216,6 +220,37 @@ namespace ZmanimAnywhere
 
             html.AppendFormat("<li>Chatzos........<strong>{0}</strong></li>",
                 dz.GetZman(ZmanType.Chatzos));
+            html.AppendFormat("<li>Mincha Gedola........<strong>{0}</strong></li>",
+                dz.GetZman(ZmanType.MinchaG));
+            html.AppendFormat("<li>MIncha Ketana........<strong>{0}</strong></li>",
+                dz.GetZman(ZmanType.MinchaK));
+            html.AppendFormat("<li>Plag........<strong>{0}</strong></li>",
+                dz.GetZman(ZmanType.MinchaPlg));
+            if (dz.ShkiaMishor == HourMinute.NoValue)
+            {
+                html.Append("<li>Sunset at sea level........<strong>The sun does not set at this location</strong></li>");
+            }
+            else
+            {
+                html.AppendFormat("<li>Sunset at sea level........<strong>{0}</strong></li>",
+                dz.ShkiaMishor);
+            }
+            if (dz.ShkiaAtElevation == HourMinute.NoValue)
+            {
+                html.AppendFormat("<li>Sunset at {0} feet........<strong>The sun does not set at {0} feet at this location</strong></li>", 
+                    location.Elevation);
+            }
+            else
+            {
+                html.AppendFormat("<li>Sunset at elevation........<strong>{0}</strong></li>",
+                    dz.ShkiaAtElevation);
+                html.AppendFormat("<li>Night (45 minutes)........<strong>{0}</strong></li>",
+                    dz.GetZman(ZmanType.ShkiaAtElevation, 45));
+                html.AppendFormat("<li>Night (72 minutes)........<strong>{0}</strong></li>",
+                    dz.GetZman(ZmanType.ShkiaAtElevation, 72));
+            }
+
+
             html.Append("</ul>");
             return Properties.Resources.template.Replace("#--CONTENT--#",
                 html.ToString());

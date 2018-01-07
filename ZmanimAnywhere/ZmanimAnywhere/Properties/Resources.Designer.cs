@@ -101,13 +101,23 @@ namespace ZmanimAnywhere.Properties {
         ///    &lt;/style&gt;
         ///&lt;/head&gt;
         ///&lt;body&gt;
-        ///    #--DIRECTION--#
+        ///    #--CONTENT--#
         ///&lt;/body&gt;
         ///&lt;/html&gt;.
         /// </summary>
         internal static string template {
             get {
                 return ResourceManager.GetString("template", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap x {
+            get {
+                object obj = ResourceManager.GetObject("x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }
