@@ -81,7 +81,10 @@ namespace ZmanimChart
         {
             if (Properties.Settings.Default.SelectedZmanRows != null)
             {
-                foreach (SingleZmanRow r in Properties.Settings.Default.SelectedZmanRows.OrderBy(sr => sr.ZmanIndex))
+                foreach (SingleZmanRow r in (
+                    from c in Properties.Settings.Default.SelectedZmanRows
+                    orderby c.ZmanIndex, c.Offset
+                    select c))
                 {
                     this.dataGridView1.Rows.Add(new object[]
                     {
@@ -183,7 +186,8 @@ namespace ZmanimChart
             Properties.Settings.Default.DateChooseMonth = this.choiceSwitcherDateType.ChoiceOneSelected;
             this.SaveDayOfWeek();
 
-            foreach (var r in columns.OrderBy(sr => sr.ZmanIndex))
+            var columnsSorted = from c in columns orderby c.ZmanIndex, c.Offset select c;
+            foreach (var r in columnsSorted)
             {
                 sbHeaderCells.AppendFormat("<th>{0}</th>", r.Header);
             }
@@ -205,7 +209,7 @@ namespace ZmanimChart
                     dz.SecularDate.Day);
 
 
-                foreach (var s in columns.OrderBy(sr => sr.ZmanIndex))
+                foreach (var s in columnsSorted)
                 {
                     string zmanTime = null;
                     if (s.ZmanIndex == 17)
