@@ -55,6 +55,10 @@
             this.button5 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.llOpenOccasionList = new System.Windows.Forms.LinkLabel();
+            this.llShowSeconds = new System.Windows.Forms.LinkLabel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -74,7 +78,7 @@
             this.lblMonthName.ForeColor = System.Drawing.Color.SteelBlue;
             this.lblMonthName.Location = new System.Drawing.Point(0, 0);
             this.lblMonthName.Name = "lblMonthName";
-            this.lblMonthName.Size = new System.Drawing.Size(1152, 45);
+            this.lblMonthName.Size = new System.Drawing.Size(1408, 45);
             this.lblMonthName.TabIndex = 1;
             this.lblMonthName.Text = "label1";
             this.lblMonthName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -97,7 +101,7 @@
             this.llSecularCalendar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.llSecularCalendar.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llSecularCalendar.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.llSecularCalendar.Location = new System.Drawing.Point(1005, 4);
+            this.llSecularCalendar.Location = new System.Drawing.Point(1270, 5);
             this.llSecularCalendar.Name = "llSecularCalendar";
             this.llSecularCalendar.Size = new System.Drawing.Size(134, 19);
             this.llSecularCalendar.TabIndex = 1;
@@ -111,8 +115,8 @@
             this.llSefira.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.llSefira.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llSefira.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.llSefira.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.llSefira.Location = new System.Drawing.Point(745, 4);
+            this.llSefira.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.llSefira.Location = new System.Drawing.Point(875, 6);
             this.llSefira.Name = "llSefira";
             this.llSefira.Size = new System.Drawing.Size(126, 17);
             this.llSefira.TabIndex = 20;
@@ -136,7 +140,7 @@
             this.llShowDaily.Font = new System.Drawing.Font("Century Gothic", 6.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llShowDaily.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llShowDaily.LinkColor = System.Drawing.Color.SlateGray;
-            this.llShowDaily.Location = new System.Drawing.Point(1073, 30);
+            this.llShowDaily.Location = new System.Drawing.Point(1329, 30);
             this.llShowDaily.Name = "llShowDaily";
             this.llShowDaily.Size = new System.Drawing.Size(95, 14);
             this.llShowDaily.TabIndex = 21;
@@ -158,8 +162,8 @@
             this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
             this.splitContainer1.Panel1.ClientSizeChanged += new System.EventHandler(this.splitContainer1_Panel1_ClientSizeChanged);
             this.splitContainer1.Panel1MinSize = 500;
-            this.splitContainer1.Size = new System.Drawing.Size(1152, 690);
-            this.splitContainer1.SplitterDistance = 885;
+            this.splitContainer1.Size = new System.Drawing.Size(1408, 690);
+            this.splitContainer1.SplitterDistance = 1081;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 0;
             this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
@@ -183,7 +187,7 @@
             this.splitContainer2.Panel2.Controls.Add(this.panel3);
             this.splitContainer2.Panel2.Controls.Add(this.label2);
             this.splitContainer2.Panel2MinSize = 155;
-            this.splitContainer2.Size = new System.Drawing.Size(885, 690);
+            this.splitContainer2.Size = new System.Drawing.Size(1081, 690);
             this.splitContainer2.SplitterDistance = 534;
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 19;
@@ -196,7 +200,7 @@
             this.pnlMain.Location = new System.Drawing.Point(9, 0);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(876, 534);
+            this.pnlMain.Size = new System.Drawing.Size(1072, 534);
             this.pnlMain.TabIndex = 0;
             this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
             this.pnlMain.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseClick);
@@ -217,7 +221,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel3.Location = new System.Drawing.Point(0, 35);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(885, 120);
+            this.panel3.Size = new System.Drawing.Size(1081, 120);
             this.panel3.TabIndex = 19;
             // 
             // cmbLocation
@@ -427,7 +431,7 @@
             this.label2.ForeColor = System.Drawing.Color.DimGray;
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(885, 18);
+            this.label2.Size = new System.Drawing.Size(1081, 18);
             this.label2.TabIndex = 16;
             this.label2.Text = "Click any day to see Zmanim, Occasions and Events   |   Double-click to add an Ev" +
     "ent   |   Use the arrow keys to navigate through the days.";
@@ -439,21 +443,70 @@
             this.llOpenOccasionList.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llOpenOccasionList.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llOpenOccasionList.LinkColor = System.Drawing.Color.Green;
-            this.llOpenOccasionList.Location = new System.Drawing.Point(874, 4);
+            this.llOpenOccasionList.Location = new System.Drawing.Point(1134, 5);
             this.llOpenOccasionList.Name = "llOpenOccasionList";
-            this.llOpenOccasionList.Size = new System.Drawing.Size(128, 19);
+            this.llOpenOccasionList.Size = new System.Drawing.Size(125, 19);
             this.llOpenOccasionList.TabIndex = 22;
             this.llOpenOccasionList.TabStop = true;
             this.llOpenOccasionList.Text = "List of Occasions";
             this.llOpenOccasionList.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.llOpenOccasionList.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llOpenOccasionList_LinkClicked);
             // 
+            // llShowSeconds
+            // 
+            this.llShowSeconds.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.llShowSeconds.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.llShowSeconds.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.llShowSeconds.LinkColor = System.Drawing.Color.Maroon;
+            this.llShowSeconds.Location = new System.Drawing.Point(1012, 5);
+            this.llShowSeconds.Name = "llShowSeconds";
+            this.llShowSeconds.Size = new System.Drawing.Size(111, 19);
+            this.llShowSeconds.TabIndex = 23;
+            this.llShowSeconds.TabStop = true;
+            this.llShowSeconds.Text = "Show Seconds";
+            this.llShowSeconds.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.llShowSeconds.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llShowSeconds_LinkClicked);
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(1001, 6);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(11, 16);
+            this.label3.TabIndex = 24;
+            this.label3.Text = "|";
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(1123, 6);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(11, 16);
+            this.label4.TabIndex = 25;
+            this.label4.Text = "|";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(1259, 6);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(11, 16);
+            this.label5.TabIndex = 26;
+            this.label5.Text = "|";
+            // 
             // frmMonthlyEnglish
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.GhostWhite;
-            this.ClientSize = new System.Drawing.Size(1152, 735);
+            this.ClientSize = new System.Drawing.Size(1408, 735);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.llShowSeconds);
             this.Controls.Add(this.llOpenOccasionList);
             this.Controls.Add(this.llShowDaily);
             this.Controls.Add(this.llSefira);
@@ -513,5 +566,9 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.LinkLabel llShowDaily;
         private System.Windows.Forms.LinkLabel llOpenOccasionList;
+        private System.Windows.Forms.LinkLabel llShowSeconds;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
     }
 }

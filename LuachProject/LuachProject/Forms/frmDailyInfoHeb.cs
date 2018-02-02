@@ -157,6 +157,7 @@ namespace LuachProject
         internal void ShowDateData()
         {
             this.Cursor = Cursors.WaitCursor;
+            var showSeconds = Properties.Settings.Default.ShowSeconds;
             var dy = DafYomi.GetDafYomi(this._displayingJewishDate);
             var netzshkia = this._dailyZmanim.NetzShkiaAtElevation;
             var netzshkiaMishor = this._dailyZmanim.NetzShkiaMishor;
@@ -222,10 +223,10 @@ namespace LuachProject
 
             html.Append("<table>");
 
-            if (shkia != HourMinute.NoValue &&
+            if (shkia != TimeOfDay.NoValue &&
                     this._holidays.Any(h => h.DayType.IsSpecialDayType(SpecialDayTypes.HasCandleLighting)))
             {
-                this.AddLine(html, "הדלקת נרות", (shkia - this._dailyZmanim.Location.CandleLighting).ToString24H(),
+                this.AddLine(html, "הדלקת נרות", (shkia - this._dailyZmanim.Location.CandleLighting).ToString24H(showSeconds),
                     wideDescription: false);
                 html.Append("<tr><td class=\"nobg\" colspan=\"3\">&nbsp;</td></tr>");
             }
@@ -243,7 +244,7 @@ namespace LuachProject
                 this._dailyZmanim.Location.NameHebrew);
             html.Append("<table>");
 
-            if (netz == HourMinute.NoValue)
+            if (netz == TimeOfDay.NoValue)
             {
                 this.AddLine(html, "הנץ החמה", "השמש אינו עולה", bold: true, emphasizeValue: true);
             }
@@ -251,40 +252,40 @@ namespace LuachProject
             {
                 if (this._displayingJewishDate.Month == 1 && this._displayingJewishDate.Day == 14)
                 {
-                    this.AddLine(html, "סו\"ז אכילת חמץ", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString24H(),
+                    this.AddLine(html, "סו\"ז אכילת חמץ", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString24H(showSeconds),
                         bold: true);
-                    this.AddLine(html, "סו\"ז שריפת חמץ", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 5D)).ToString24H(),
+                    this.AddLine(html, "סו\"ז שריפת חמץ", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 5D)).ToString24H(showSeconds),
                         bold: true);
                     html.Append("<br />");
                 }
 
-                this.AddLine(html, "עלות השחר - 90", (netzMishor - 90).ToString24H());
-                this.AddLine(html, "עלות השחר - 72", (netzMishor - 72).ToString24H());
+                this.AddLine(html, "עלות השחר - 90", (netzMishor - 90).ToString24H(showSeconds));
+                this.AddLine(html, "עלות השחר - 72", (netzMishor - 72).ToString24H(showSeconds));
 
                 if (netz == netzMishor)
                 {
-                    this.AddLine(html, "הנץ החמה", netz.ToString24H(), bold: true, emphasizeValue: true);
+                    this.AddLine(html, "הנץ החמה", netz.ToString24H(showSeconds), bold: true, emphasizeValue: true);
                 }
                 else
                 {
                     this.AddLine(html, "הנה\"ח <span class=\"reg lightSteelBlue\">...מ " + this._dailyZmanim.Location.Elevation.ToString() + " מטר</span>",
-                        netz.ToString24H());
+                        netz.ToString24H(showSeconds));
                     this.AddLine(html, "הנה\"ח <span class=\"reg lightSteelBlue\">...גובה פני הים</span>",
-                        netzMishor.ToString24H(), bold: true, emphasizeValue: true);
+                        netzMishor.ToString24H(showSeconds), bold: true, emphasizeValue: true);
                 }
-                this.AddLine(html, "סוזק\"ש - מג\"א", this._dailyZmanim.GetZman(ZmanType.KShmMga).ToString24H());
-                this.AddLine(html, "סוזק\"ש - הגר\"א", this._dailyZmanim.GetZman(ZmanType.KshmGra).ToString24H());
-                this.AddLine(html, "סוז\"ת - מג\"א", this._dailyZmanim.GetZman(ZmanType.TflMga).ToString24H());
-                this.AddLine(html, "סוז\"ת - הגר\"א", this._dailyZmanim.GetZman(ZmanType.TflGra).ToString24H());
+                this.AddLine(html, "סוזק\"ש - מג\"א", this._dailyZmanim.GetZman(ZmanType.KShmMga).ToString24H(showSeconds));
+                this.AddLine(html, "סוזק\"ש - הגר\"א", this._dailyZmanim.GetZman(ZmanType.KshmGra).ToString24H(showSeconds));
+                this.AddLine(html, "סוז\"ת - מג\"א", this._dailyZmanim.GetZman(ZmanType.TflMga).ToString24H(showSeconds));
+                this.AddLine(html, "סוז\"ת - הגר\"א", this._dailyZmanim.GetZman(ZmanType.TflGra).ToString24H(showSeconds));
             }
-            if (netz != HourMinute.NoValue && shkia != HourMinute.NoValue)
+            if (netz != TimeOfDay.NoValue && shkia != TimeOfDay.NoValue)
             {
-                this.AddLine(html, "חצות היום והלילה", chatzos.ToString24H());
-                this.AddLine(html, "מנחה גדולה", this._dailyZmanim.GetZman(ZmanType.MinchaG).ToString24H());
-                this.AddLine(html, "מנחה קטנה", this._dailyZmanim.GetZman(ZmanType.MinchaK).ToString24H());
-                this.AddLine(html, "פלג המנחה", this._dailyZmanim.GetZman(ZmanType.MinchaPlg).ToString24H());
+                this.AddLine(html, "חצות היום והלילה", chatzos.ToString24H(showSeconds));
+                this.AddLine(html, "מנחה גדולה", this._dailyZmanim.GetZman(ZmanType.MinchaG).ToString24H(showSeconds));
+                this.AddLine(html, "מנחה קטנה", this._dailyZmanim.GetZman(ZmanType.MinchaK).ToString24H(showSeconds));
+                this.AddLine(html, "פלג המנחה", this._dailyZmanim.GetZman(ZmanType.MinchaPlg).ToString24H(showSeconds));
             }
-            if (shkia == HourMinute.NoValue)
+            if (shkia == TimeOfDay.NoValue)
             {
                 this.AddLine(html, "שקיעת החמה", "השמש אינו שוקע", bold: true, emphasizeValue: true);
             }
@@ -292,19 +293,19 @@ namespace LuachProject
             {
                 if (shkia == shkiaMishor)
                 {
-                    this.AddLine(html, "שקיעת החמה", shkia.ToString24H(), bold: true, emphasizeValue: true);
+                    this.AddLine(html, "שקיעת החמה", shkia.ToString24H(showSeconds), bold: true, emphasizeValue: true);
                 }
                 else
                 {
-                    this.AddLine(html, "שקה\"ח <span class=\"reg lightSteelBlue\">...גובה פני הים</span>", shkiaMishor.ToString24H());
+                    this.AddLine(html, "שקה\"ח <span class=\"reg lightSteelBlue\">...גובה פני הים</span>", shkiaMishor.ToString24H(showSeconds));
                     this.AddLine(html, "שקה\"ח <span class=\"reg lightSteelBlue\">...מ " + this._dailyZmanim.Location.Elevation.ToString() + " מטר</span>",
-                        shkia.ToString24H(), bold: true, emphasizeValue: true);
+                        shkia.ToString24H(showSeconds), bold: true, emphasizeValue: true);
                 }
 
-                this.AddLine(html, "צאת הכוכבים 45", (shkia + 45).ToString24H());
-                this.AddLine(html, "רבינו תם", (shkia + 72).ToString24H());
-                this.AddLine(html, "72 דקות זמניות", (shkia + (int)(shaaZmanis * 1.2)).ToString24H());
-                this.AddLine(html, "72 דקות זמניות לחומרה", (shkia + (int)(shaaZmanis90 * 1.2)).ToString24H());
+                this.AddLine(html, "צאת הכוכבים 45", (shkia + 45).ToString24H(showSeconds));
+                this.AddLine(html, "רבינו תם", (shkia + 72).ToString24H(showSeconds));
+                this.AddLine(html, "72 דקות זמניות", (shkia + (int)(shaaZmanis * 1.2)).ToString24H(showSeconds));
+                this.AddLine(html, "72 דקות זמניות לחומרה", (shkia + (int)(shaaZmanis90 * 1.2)).ToString24H(showSeconds));
             }
             html.Append("</table>");
             this.webBrowser1.DocumentText = Properties.Resources.InfoHTMLHeb

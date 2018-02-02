@@ -37,12 +37,12 @@ namespace ZmanimChart.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::ZmanimChart.SelectedZmanRows SelectedZmanRows {
+        public global::ZmanimChart.SelectedZmanColumns SelectedZmanColumns {
             get {
-                return ((global::ZmanimChart.SelectedZmanRows)(this["SelectedZmanRows"]));
+                return ((global::ZmanimChart.SelectedZmanColumns)(this["SelectedZmanColumns"]));
             }
             set {
-                this["SelectedZmanRows"] = value;
+                this["SelectedZmanColumns"] = value;
             }
         }
         
@@ -115,6 +115,30 @@ namespace ZmanimChart.Properties {
             }
             set {
                 this["DateChooseMonth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowSeconds {
+            get {
+                return ((bool)(this["ShowSeconds"]));
+            }
+            set {
+                this["ShowSeconds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool NeedsUpdate {
+            get {
+                return ((bool)(this["NeedsUpdate"]));
+            }
+            set {
+                this["NeedsUpdate"] = value;
             }
         }
     }

@@ -37,6 +37,7 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.llShowDaily = new System.Windows.Forms.LinkLabel();
             this.llSearchOccasion = new System.Windows.Forms.LinkLabel();
+            this.llShowSeconds = new System.Windows.Forms.LinkLabel();
             this.splitContainer1 = new LuachProject.CuelessSplitContainer();
             this.splitContainer2 = new LuachProject.CuelessSplitContainer();
             this.pnlMain = new System.Windows.Forms.Panel();
@@ -53,6 +54,9 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -94,7 +98,7 @@
             this.llSecularCalendar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.llSecularCalendar.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llSecularCalendar.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.llSecularCalendar.Location = new System.Drawing.Point(1109, 2);
+            this.llSecularCalendar.Location = new System.Drawing.Point(1112, 2);
             this.llSecularCalendar.Name = "llSecularCalendar";
             this.llSecularCalendar.Size = new System.Drawing.Size(68, 16);
             this.llSecularCalendar.TabIndex = 0;
@@ -108,8 +112,8 @@
             this.llSefirah.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.llSefirah.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llSefirah.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.llSefirah.LinkColor = System.Drawing.Color.Maroon;
-            this.llSefirah.Location = new System.Drawing.Point(849, 2);
+            this.llSefirah.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.llSefirah.Location = new System.Drawing.Point(751, 2);
             this.llSefirah.Name = "llSefirah";
             this.llSefirah.Size = new System.Drawing.Size(141, 17);
             this.llSefirah.TabIndex = 4;
@@ -150,7 +154,7 @@
             this.llSearchOccasion.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llSearchOccasion.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llSearchOccasion.LinkColor = System.Drawing.Color.ForestGreen;
-            this.llSearchOccasion.Location = new System.Drawing.Point(996, 2);
+            this.llSearchOccasion.Location = new System.Drawing.Point(992, 2);
             this.llSearchOccasion.Name = "llSearchOccasion";
             this.llSearchOccasion.Size = new System.Drawing.Size(107, 16);
             this.llSearchOccasion.TabIndex = 6;
@@ -158,6 +162,22 @@
             this.llSearchOccasion.Text = "רשימת אירועים";
             this.llSearchOccasion.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.llSearchOccasion.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llSearchOccasion_LinkClicked);
+            // 
+            // llShowSeconds
+            // 
+            this.llShowSeconds.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.llShowSeconds.BackColor = System.Drawing.Color.Transparent;
+            this.llShowSeconds.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.llShowSeconds.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.llShowSeconds.LinkColor = System.Drawing.Color.Maroon;
+            this.llShowSeconds.Location = new System.Drawing.Point(905, 2);
+            this.llShowSeconds.Name = "llShowSeconds";
+            this.llShowSeconds.Size = new System.Drawing.Size(74, 16);
+            this.llShowSeconds.TabIndex = 1;
+            this.llShowSeconds.TabStop = true;
+            this.llShowSeconds.Text = "הצג שניות";
+            this.llShowSeconds.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.llShowSeconds.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llShowSeconds_LinkClicked);
             // 
             // splitContainer1
             // 
@@ -194,7 +214,7 @@
             // 
             this.splitContainer2.Panel1.Controls.Add(this.pnlMain);
             this.splitContainer2.Panel1.Padding = new System.Windows.Forms.Padding(7, 0, 10, 0);
-            this.splitContainer2.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.splitContainer2.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             // 
             // splitContainer2.Panel2
             // 
@@ -432,17 +452,51 @@
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(1099, 2);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(13, 17);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "|";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(979, 2);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(13, 17);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "|";
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(892, 2);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(13, 17);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "|";
+            // 
             // frmMonthlyHebrew
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.ClientSize = new System.Drawing.Size(1183, 736);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.llShowSeconds);
+            this.Controls.Add(this.llSefirah);
             this.Controls.Add(this.llSearchOccasion);
             this.Controls.Add(this.llShowDaily);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.llSecularCalendar);
-            this.Controls.Add(this.llSefirah);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.lblMonthName);
             this.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
@@ -496,5 +550,9 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.LinkLabel llShowDaily;
         private System.Windows.Forms.LinkLabel llSearchOccasion;
+        private System.Windows.Forms.LinkLabel llShowSeconds;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }

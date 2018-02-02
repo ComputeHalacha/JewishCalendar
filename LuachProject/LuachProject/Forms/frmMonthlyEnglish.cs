@@ -60,6 +60,7 @@ namespace LuachProject
                     this._currentMonthLength = JewishDateCalculations.DaysInJewishMonth(this._displayedJewishMonth.Year, this._displayedJewishMonth.Month);
                     this._currentMonthWeeks = (int)this._displayedJewishMonth.DayOfWeek >= 5 && _currentMonthLength > 29 ? 6 : 5;
                     this.SetCaptionText();
+                    this.SetShowSecondsLabel();
                     this.llSefira.Visible = this._displayedJewishMonth.Month.In(1, 2);
                     this.pnlMain.Invalidate();
                 }
@@ -466,6 +467,14 @@ namespace LuachProject
                     break;
             }
         }
+        private void llShowSeconds_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var showing = Properties.Settings.Default.ShowSeconds;
+            Properties.Settings.Default.ShowSeconds = !showing;
+            Properties.Settings.Default.Save();
+            this.SetShowSecondsLabel();
+            this.Reload();
+        }
 
         #endregion Event Handlers
 
@@ -618,15 +627,15 @@ namespace LuachProject
 
             //Hebrew day will be on the left, so we cut the rectangle in half.
             rect.Width /= 2;
-            rect.Height = TextRenderer.MeasureText(g, text, this._dayFont, rect.Size.ToSize(), Program.TextFormatFlags).Height;            
+            rect.Height = TextRenderer.MeasureText(g, text, this._dayFont, rect.Size.ToSize(), Program.TextFormatFlags).Height;
             offsetTop += rect.Height;
 
             TextRenderer.DrawText(
-                g, 
-                text, 
-                this._dayFont, 
-                Rectangle.Truncate(rect), 
-                Program.DayTextColor, 
+                g,
+                text,
+                this._dayFont,
+                Rectangle.Truncate(rect),
+                Program.DayTextColor,
                 Program.TextFormatFlags);
 
             //Secular day will be on the right, so we move the rectangle over to the right of the box.
@@ -652,7 +661,7 @@ namespace LuachProject
             {
                 //Get the text size for this occasions label.
                 var textSize = TextRenderer.MeasureText(g, o.Name, this._userOccasionFont, rect.Size.ToSize(), Program.TextFormatFlags);
-                    
+
                 //Move the Y position down to empty space.
                 rect.Y = currY + offsetTop;
                 rect.Height = textSize.Height;
@@ -919,7 +928,15 @@ namespace LuachProject
             }
         }
 
+        private void SetShowSecondsLabel()
+        {
+            this.llShowSeconds.Text = (Properties.Settings.Default.ShowSeconds ?
+                "Hide" : "Show") +
+                " Seconds";
+        }
+
         #endregion Private Functions
+
         #region Public Functions
         public void EditOccasion(UserOccasion uo)
         {
@@ -941,6 +958,6 @@ namespace LuachProject
                 f.ShowDateData();
             }
         }
-        #endregion
+        #endregion       
     }
 }

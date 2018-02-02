@@ -62,9 +62,9 @@ namespace JewishCalendar
     public class DailyZmanim
     {
         private Zmanim _zmanim;
-        private HourMinute[] _netzshkiaAtElevation = null;
-        private HourMinute[] _netzshkiaMishor = null;
-        private HourMinute _chatzos = HourMinute.NoValue;
+        private TimeOfDay[] _netzshkiaAtElevation = null;
+        private TimeOfDay[] _netzshkiaMishor = null;
+        private TimeOfDay _chatzos = TimeOfDay.NoValue;
         private double _shaaZmanis;
         private double _shaaZmanis90;
 
@@ -114,11 +114,11 @@ namespace JewishCalendar
             }
         }
         /// <summary>
-        /// Gets an array of two HourMinute structures for the current Date and Location. 
+        /// Gets an array of two TimeOfDay structures for the current Date and Location. 
         /// The first is the time of Netz for the current date at the elevation 
         /// and coordinates of the current Location and the second is the time of shkia.        
         /// </summary>
-        public HourMinute[] NetzShkiaAtElevation
+        public TimeOfDay[] NetzShkiaAtElevation
         {
             get
             {
@@ -130,11 +130,11 @@ namespace JewishCalendar
             }
         }
         /// <summary>
-        /// Gets an array of two HourMinute structures at sea level for the current Date and Location. 
+        /// Gets an array of two TimeOfDay structures at sea level for the current Date and Location. 
         /// The first is the time of Netz for the current date and location and the second is the time of shkia.
         /// The elevation is NOT kept into account.
         /// </summary>
-        public HourMinute[] NetzShkiaMishor
+        public TimeOfDay[] NetzShkiaMishor
         {
             get
             {
@@ -148,27 +148,27 @@ namespace JewishCalendar
         /// <summary>
         /// Sunrise for the current Date at the elevation and coordinates of the current Location. 
         /// </summary>
-        public HourMinute NetzAtElevation => this.NetzShkiaAtElevation[0];
+        public TimeOfDay NetzAtElevation => this.NetzShkiaAtElevation[0];
         /// <summary>
         /// Sunset for the current Date at the elevation and coordinates of the current Location.
         /// </summary>
-        public HourMinute ShkiaAtElevation => this.NetzShkiaAtElevation[1];
+        public TimeOfDay ShkiaAtElevation => this.NetzShkiaAtElevation[1];
         /// <summary>
         /// Sunrise at sea level for the current Date at the coordinates of the current Location.
         /// </summary>
-        public HourMinute NetzMishor => this.NetzShkiaMishor[0];
+        public TimeOfDay NetzMishor => this.NetzShkiaMishor[0];
         /// <summary>
         /// Sunset at sea level for the current Date at the coordinates of the current Location.
         /// </summary>
-        public HourMinute ShkiaMishor => this.NetzShkiaMishor[1];
+        public TimeOfDay ShkiaMishor => this.NetzShkiaMishor[1];
         /// <summary>
         /// Chatzos of the day and the night
         /// </summary>
-        public HourMinute Chatzos
+        public TimeOfDay Chatzos
         {
             get
             {
-                if (this._chatzos == HourMinute.NoValue)
+                if (this._chatzos == TimeOfDay.NoValue)
                 {
                     this._chatzos = Zmanim.GetChatzos(this.NetzShkiaMishor);
                 }
@@ -212,9 +212,9 @@ namespace JewishCalendar
         /// <param name="type">The type of Zman to return</param>
         /// <param name="offset">Optional. The number of minutes to offset the zman by.</param>
         /// <returns></returns>
-        public HourMinute GetZman(ZmanType type, int offset = 0)
+        public TimeOfDay GetZman(ZmanType type, int offset = 0)
         {
-            HourMinute hm = HourMinute.NoValue;
+            TimeOfDay hm = TimeOfDay.NoValue;
             switch (type)
             {
                 case ZmanType.NetzMishor:
@@ -226,19 +226,19 @@ namespace JewishCalendar
                     break;
 
                 case ZmanType.KShmMga:
-                    hm = (this.NetzMishor - 90) + (int)Math.Floor(this.ShaaZmanis90 * 3D);
+                    hm = (this.NetzMishor - 90d) + (this.ShaaZmanis90 * 3d);
                     break;
 
                 case ZmanType.KshmGra:
-                    hm = this.NetzMishor + (int)Math.Floor(this.ShaaZmanis * 3D);
+                    hm = this.NetzMishor + (this.ShaaZmanis * 3d);
                     break;
 
                 case ZmanType.TflMga:
-                    hm = (this.NetzMishor - 90) + (int)Math.Floor(this.ShaaZmanis90 * 4D);
+                    hm = (this.NetzMishor - 90d) + (this.ShaaZmanis90 * 4d);
                     break;
 
                 case ZmanType.TflGra:
-                    hm = this.NetzMishor + (int)Math.Floor(this.ShaaZmanis * 4D);
+                    hm = this.NetzMishor + (this.ShaaZmanis * 4d);
                     break;
 
                 case ZmanType.Chatzos:
@@ -246,15 +246,15 @@ namespace JewishCalendar
                     break;
 
                 case ZmanType.MinchaG:
-                    hm = this.Chatzos + (int)(this.ShaaZmanis * 0.5);
+                    hm = this.Chatzos + (this.ShaaZmanis * 0.5);
                     break;
 
                 case ZmanType.MinchaK:
-                    hm = this.NetzMishor + (int)(this.ShaaZmanis * 9.5);
+                    hm = this.NetzMishor + (this.ShaaZmanis * 9.5);
                     break;
 
                 case ZmanType.MinchaPlg:
-                    hm = this.NetzMishor + (int)(this.ShaaZmanis * 10.75);
+                    hm = this.NetzMishor + (this.ShaaZmanis * 10.75);
                     break;
 
                 case ZmanType.ShkiaAtElevation:
@@ -281,7 +281,7 @@ namespace JewishCalendar
         {
             this._netzshkiaAtElevation = null;
             this._netzshkiaMishor = null;
-            this._chatzos = HourMinute.NoValue;
+            this._chatzos = TimeOfDay.NoValue;
             this._shaaZmanis = 0;
             this._shaaZmanis90 = 0;
         }

@@ -61,25 +61,25 @@ namespace JewishCalendar
         /// Configured from netz to shkia at sea level
         /// </summary>
         /// <returns></returns>
-        public HourMinute GetChatzos() => GetChatzos(this.SecularDate, this.Location);
+        public TimeOfDay GetChatzos() => GetChatzos(this.SecularDate, this.Location);
 
         /// <summary>
         /// Gets sunrise for current location  (at the locations altitude)
         /// </summary>
         /// <returns></returns>
-        public HourMinute GetNetz()
+        public TimeOfDay GetNetz()
         {
             var netzShkia = this.GetNetzShkia();
-            if (netzShkia == null) { return new HourMinute(); }
+            if (netzShkia == null) { return new TimeOfDay(); }
             return netzShkia[0];
         }
 
         /// <summary>
-        /// Gets an array of two HourMinute structures. The first is the time of Netz for the current date and location and the second is the time of shkia.
+        /// Gets an array of two TimeOfDay structures. The first is the time of Netz for the current date and location and the second is the time of shkia.
         /// </summary>
         /// <param name="considerElevation"></param>
         /// <returns></returns>
-        public HourMinute[] GetNetzShkia(bool considerElevation = true) => GetNetzShkia(this.SecularDate, this.Location, considerElevation);
+        public TimeOfDay[] GetNetzShkia(bool considerElevation = true) => GetNetzShkia(this.SecularDate, this.Location, considerElevation);
 
         /// <summary>
         /// Gets length of Shaa zmanis in minutes for current location.
@@ -87,16 +87,16 @@ namespace JewishCalendar
         /// </summary>
         /// <param name="offset">Number of minutes before/after shkia/netz to cheshbon</param>
         /// <returns></returns>
-        public double GetShaaZmanis(int offset = 0) => GetShaaZmanis(this.SecularDate, this.Location, offset);
+        public double GetShaaZmanis(double offset = 0) => GetShaaZmanis(this.SecularDate, this.Location, offset);
 
         /// <summary>
         /// Gets sunset for current location  (at the locations altitude)
         /// </summary>
         /// <returns></returns>
-        public HourMinute GetShkia()
+        public TimeOfDay GetShkia()
         {
             var netzShkia = this.GetNetzShkia();
-            if (netzShkia == null) { return new HourMinute(); }
+            if (netzShkia == null) { return new TimeOfDay(); }
             return netzShkia[1];
         }
 
@@ -108,14 +108,14 @@ namespace JewishCalendar
         /// </summary>
         /// <param name="netzShkia"></param>
         /// <returns></returns>
-        public static HourMinute GetChatzos(HourMinute[] netzShkia)
+        public static TimeOfDay GetChatzos(TimeOfDay[] netzShkia)
         {
-            HourMinute netz = netzShkia[0],
+            TimeOfDay netz = netzShkia[0],
                        shkia = netzShkia[1];
 
-            if (netz == HourMinute.NoValue || shkia == HourMinute.NoValue)
+            if (netz == TimeOfDay.NoValue || shkia == TimeOfDay.NoValue)
             {
-                return HourMinute.NoValue;
+                return TimeOfDay.NoValue;
             }
 
             var chatz = (int)((shkia.TotalMinutes - netz.TotalMinutes) / 2);
@@ -129,9 +129,9 @@ namespace JewishCalendar
         /// <param name="date"></param>
         /// <param name="location"></param>
         /// <returns></returns>
-        public static HourMinute GetChatzos(DateTime date, Location location)
+        public static TimeOfDay GetChatzos(DateTime date, Location location)
         {
-            HourMinute[] netzShkia = GetNetzShkia(date, location, false);
+            TimeOfDay[] netzShkia = GetNetzShkia(date, location, false);
             return GetChatzos(netzShkia);
         }
 
@@ -302,10 +302,10 @@ namespace JewishCalendar
         /// <param name="location"></param>
         /// <param name="considerElevation"></param>
         /// <returns></returns>
-        public static HourMinute GetNetz(DateTime date, Location location, bool considerElevation = true)
+        public static TimeOfDay GetNetz(DateTime date, Location location, bool considerElevation = true)
         {
             var netzShkia = GetNetzShkia(date, location, considerElevation);
-            if (netzShkia == null) { return new HourMinute(); }
+            if (netzShkia == null) { return new TimeOfDay(); }
             return netzShkia[0];
         }
         /// <summary>
@@ -314,13 +314,13 @@ namespace JewishCalendar
         /// <param name="netzShkia"></param>
         /// <param name="offset">Number of minutes before/after shkia/netz to cheshbon</param>
         /// <returns></returns>
-        public static double GetShaaZmanis(HourMinute[] netzShkia, int offset = 0)
+        public static double GetShaaZmanis(TimeOfDay[] netzShkia, double offset = 0)
         {
-            if (netzShkia[0] == HourMinute.NoValue || netzShkia[1] == HourMinute.NoValue) { return 0; }
-            HourMinute netz = netzShkia[0] - offset,
+            if (netzShkia[0] == TimeOfDay.NoValue || netzShkia[1] == TimeOfDay.NoValue) { return 0; }
+            TimeOfDay netz = netzShkia[0] - offset,
                 shkia = netzShkia[1] + offset;
 
-            return (shkia.TotalMinutes - netz.TotalMinutes) / 12d;
+            return (shkia.TotalSeconds - netz.TotalSeconds) / 720d;
         }
 
         /// <summary>
@@ -331,9 +331,9 @@ namespace JewishCalendar
         /// <param name="location"></param>
         /// <param name="offset">Number of minutes before/after shkia/netz to cheshbon</param>
         /// <returns></returns>
-        public static double GetShaaZmanis(DateTime date, Location location, int offset = 0)
+        public static double GetShaaZmanis(DateTime date, Location location, double offset = 0)
         {
-            HourMinute[] netzShkia = GetNetzShkia(date, location, false);
+            TimeOfDay[] netzShkia = GetNetzShkia(date, location, false);
             return GetShaaZmanis(netzShkia, offset);
         }        
 
@@ -344,10 +344,10 @@ namespace JewishCalendar
         /// <param name="location"></param>
         /// <param name="considerElevation"></param>
         /// <returns></returns>
-        public static HourMinute GetShkia(DateTime date, Location location, bool considerElevation = true)
+        public static TimeOfDay GetShkia(DateTime date, Location location, bool considerElevation = true)
         {
             var netzShkia = GetNetzShkia(date, location, considerElevation);
-            if (netzShkia == null) { return new HourMinute(); }
+            if (netzShkia == null) { return new TimeOfDay(); }
             return netzShkia[1];
         }
         #endregion public static functions
@@ -700,16 +700,16 @@ namespace JewishCalendar
         #region Astronomical Calculations
 
         /// <summary>
-        /// Gets an array of two HourMinute structures.
+        /// Gets an array of two TimeOfDay structures.
         /// The first is the time of sunrise for the given date and location and the second is the time of sunset.
         /// </summary>
         /// <param name="date"></param>
         /// <param name="location"></param>
         /// <param name="considerElevation"></param>
         /// <returns></returns>
-        public static HourMinute[] GetNetzShkia(DateTime date, Location location, bool considerElevation = true)
+        public static TimeOfDay[] GetNetzShkia(DateTime date, Location location, bool considerElevation = true)
         {
-            HourMinute sunrise = HourMinute.NoValue, sunset = HourMinute.NoValue;
+            TimeOfDay sunrise = TimeOfDay.NoValue, sunset = TimeOfDay.NoValue;
             int day = GetDayOfYear(date);
             double zeninthDeg = 90, zenithMin = 50, lonHour = 0, longitude = 0, latitude = 0, cosLat = 0, sinLat = 0, cosZen = 0, sinDec = 0, cosDec = 0,
                 xmRise = 0, xmSet = 0, xlRise = 0, xlSet = 0, aRise = 0, aSet = 0, ahrRise = 0, ahrSet = 0,
@@ -781,7 +781,7 @@ namespace JewishCalendar
                 }
             }
 
-            return new HourMinute[] { sunrise, sunset };
+            return new TimeOfDay[] { sunrise, sunset };
         }
 
         private static double Adj(double x) => (-0.06571 * x - 6.62);
@@ -823,17 +823,25 @@ namespace JewishCalendar
 
         private static double RadToDeg(double rad) => 57.29578 * rad;
 
-        private static HourMinute TimeAdj(double time, DateTime date, Location location)
+        private static TimeOfDay TimeAdj(double time, DateTime date, Location location)
         {
-            int hour, min;
+            int hour, min, sec;
 
             if (time < 0)
             {
                 time += 24;
             }
 
-            hour = (int)(Math.Truncate(Math.Floor(time)));
-            min = (int)(Math.Truncate(Math.Floor((time - hour) * 60d + 0.5)));
+            hour = (int)Math.Truncate(Math.Floor(time));
+            double minutes = (time - hour) * 60d + 0.5;
+            min = (int)Math.Truncate(Math.Floor(minutes));
+            sec = (int)Math.Truncate(Math.Floor(60d * (minutes - min)));
+
+            if (sec >= 60)
+            {
+                min += 1;
+                sec -= 60;
+            }
 
             if (min >= 60)
             {
@@ -846,7 +854,7 @@ namespace JewishCalendar
                 hour -= 24;
             }
 
-            HourMinute hm = new HourMinute { Hour = hour, Minute = min };
+            TimeOfDay hm = new TimeOfDay { Hour = hour, Minute = min, Seconds = sec };
 
             if (Utils.IsDateTimeDST(date.Date.AddHours(hour), location))
             {

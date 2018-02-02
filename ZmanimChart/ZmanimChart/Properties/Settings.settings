@@ -5,7 +5,7 @@
     <Setting Name="LocationName" Type="System.String" Scope="User">
       <Value Profile="(Default)">Jerusalem</Value>
     </Setting>
-    <Setting Name="SelectedZmanRows" Type="ZmanimChart.SelectedZmanRows" Scope="User">
+    <Setting Name="SelectedZmanColumns" Type="ZmanimChart.SelectedZmanColumns" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DOWFormat" Type="ZmanimChart.DayOfWeekFormat" Scope="User">
@@ -24,6 +24,12 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="DateChooseMonth" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ShowSeconds" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="NeedsUpdate" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>

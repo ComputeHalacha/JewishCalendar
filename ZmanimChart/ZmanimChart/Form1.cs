@@ -79,19 +79,19 @@ namespace ZmanimChart
 
         private void FillZmanTypeRows()
         {
-            if (Properties.Settings.Default.SelectedZmanRows != null)
+            if (Properties.Settings.Default.SelectedZmanColumns != null)
             {
-                foreach (SingleZmanRow r in (
-                    from c in Properties.Settings.Default.SelectedZmanRows
-                    orderby c.ZmanIndex, c.Offset
-                    select c))
+                foreach (SingleZmanColumn zmanRow in (
+                    from r in Properties.Settings.Default.SelectedZmanColumns
+                    orderby r.ZmanIndex, r.Offset
+                    select r))
                 {
                     this.dataGridView1.Rows.Add(new object[]
                     {
-                        Program.ZmanTypesList[r.ZmanIndex],
-                        r.Offset,
-                        r.Header,
-                        r.Bold
+                        Program.ZmanTypesList[zmanRow.ZmanIndex],
+                        zmanRow.Offset,
+                        zmanRow.Header,
+                        zmanRow.Bold
                     });
                 }
             }
@@ -175,21 +175,23 @@ namespace ZmanimChart
             JewishDate jd = showMonth ? new JewishDate(year, month, 1) : this.jdpFrom.Value;
             DailyZmanim dz = new DailyZmanim(jd.GregorianDate, location);
             string startSMonth = dz.SecularDate.ToString("MM yyyy");
-            SelectedZmanRows columns = this.GetSelectedColumns();
+            SelectedZmanColumns columns = this.GetSelectedColumns();
+            bool showSeconds = this.choiceSeconds.ChoiceOneSelected;
 
             //Once "Generate" is clicked, we save the columns selected.
-            Properties.Settings.Default.SelectedZmanRows = columns;
+            Properties.Settings.Default.SelectedZmanColumns = columns;
             Properties.Settings.Default.ArmyTime = this.choiceArmy.ChoiceOneSelected;
             Properties.Settings.Default.AmPm = this.choiceAmPm.ChoiceOneSelected;
             Properties.Settings.Default.Width100 = (bool)this.choiceWidth100.SelectedValue;
             Properties.Settings.Default.DirectionRight = (bool)this.choiceDirection.SelectedValue;
             Properties.Settings.Default.DateChooseMonth = this.choiceSwitcherDateType.ChoiceOneSelected;
+            Properties.Settings.Default.ShowSeconds = this.choiceSeconds.ChoiceOneSelected;
             this.SaveDayOfWeek();
 
             var columnsSorted = from c in columns orderby c.ZmanIndex, c.Offset select c;
-            foreach (var r in columnsSorted)
+            foreach (var zmanColumn in columnsSorted)
             {
-                sbHeaderCells.AppendFormat("<th>{0}</th>", r.Header);
+                sbHeaderCells.AppendFormat("<th>{0}</th>", zmanColumn.Header);
             }
             while (true)
             {
@@ -209,22 +211,30 @@ namespace ZmanimChart
                     dz.SecularDate.Day);
 
 
-                foreach (var s in columnsSorted)
+                foreach (var zmanColumn in columnsSorted)
                 {
                     string zmanTime = null;
-                    if (s.ZmanIndex == 17)
+                    TimeOfDay zman = TimeOfDay.NoValue;
+                    if (zmanColumn.ZmanIndex == 17)
                     {
                         zmanTime = DafYomi.GetDafYomi(jd).ToStringHeb();
                     }
                     else
                     {
-                        zmanTime = s.GetZman(dz).ToString(
+                        zman = zmanColumn.GetZman(dz);
+                        zmanTime = zman.ToString(
                             Properties.Settings.Default.ArmyTime,
                             Properties.Settings.Default.AmPm);
                     }
-                    if (s.Bold)
+                    if (zmanColumn.Bold)
                     {
                         zmanTime = "<strong>" + zmanTime + "</strong>";
+                    }
+                    if (zman != TimeOfDay.NoValue && Properties.Settings.Default.ShowSeconds)
+                    {
+                        zmanTime += "<sub>:" + 
+                            (zman.Seconds < 10 ? "0": "") + 
+                            zman.Seconds.ToString() + "</sub>";
                     }
                     sbRows.AppendFormat("<td>{0}</td>", zmanTime);
                 }
@@ -340,16 +350,16 @@ namespace ZmanimChart
             return dow;
         }
 
-        private SelectedZmanRows GetSelectedColumns()
+        private SelectedZmanColumns GetSelectedColumns()
         {
-            SelectedZmanRows columns = new SelectedZmanRows();
+            SelectedZmanColumns columns = new SelectedZmanColumns();
             foreach (DataGridViewRow dgvr in this.dataGridView1.Rows)
             {
                 if (!dgvr.IsNewRow)
                 {
                     int offset;
                     int.TryParse(Convert.ToString(dgvr.Cells[1].Value), out offset);
-                    var sr = new SingleZmanRow
+                    var sr = new SingleZmanColumn
                     {
                         ZmanIndex = Array.IndexOf(Program.ZmanTypesList, Convert.ToString(dgvr.Cells[0].Value)),
                         Offset = offset,
@@ -396,17 +406,17 @@ namespace ZmanimChart
             }
         }
     }
-    public class SelectedZmanRows : List<SingleZmanRow> { }
-    public class SingleZmanRow
+    public class SelectedZmanColumns : List<SingleZmanColumn> { }
+    public class SingleZmanColumn
     {
         public int ZmanIndex { get; set; }
         public int Offset { get; set; }
         public string Header { get; set; }
         public bool Bold { get; set; }
 
-        public HourMinute GetZman(DailyZmanim dz)
+        public TimeOfDay GetZman(DailyZmanim dz)
         {
-            var hm = HourMinute.NoValue;
+            var hm = TimeOfDay.NoValue;
             switch (this.ZmanIndex)
             {
                 case 0: hm = (dz.NetzMishor - 90); break; //Alos Hashachar - 90

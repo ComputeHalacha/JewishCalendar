@@ -23,5 +23,8 @@
     <Setting Name="Nusach" Type="JewishCalendar.Nusach" Scope="User">
       <Value Profile="(Default)">Sefard</Value>
     </Setting>
+    <Setting Name="ShowSeconds" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

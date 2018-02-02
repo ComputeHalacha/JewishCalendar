@@ -13,7 +13,7 @@
         /// <summary>
         /// Represents the time of the molad - not including the chalakim
         /// </summary>
-        public HourMinute Time { get; set; }
+        public TimeOfDay Time { get; set; }
 
         /// <summary>
         /// Represents the Chalakim (1/1080 of an hour) part of the molad
@@ -23,21 +23,21 @@
         /// <summary>
         /// Returns the time of the molad as a string in the format: Monday Night, 8:33 PM and 12 Chalakim
         /// NOTE: the cutoff time to be considered "night" is 8 PM.
-        /// To specify another nightfall time (such as the real sunset time), use the function: ToString(HourMinute nightfall)
+        /// To specify another nightfall time (such as the real sunset time), use the function: ToString(TimeOfDay nightfall)
         /// </summary>
         /// <returns></returns>
-        public override string ToString() => this.ToString(new HourMinute { Hour = 20, Minute = 0 });
+        public override string ToString() => this.ToString(new TimeOfDay { Hour = 20, Minute = 0 });
 
         /// <summary>
         /// Returns the time of the molad as a string in the format: Monday Night, 8:33 PM and 12 Chalakim
         /// </summary>
         /// <param name="nightfall">Used to determine when to display "Night" or "Motzai Shabbos" etc.</param>
         /// <returns></returns>
-        public string ToString(HourMinute nightfall)
+        public string ToString(TimeOfDay nightfall)
         {
             var sb = new System.Text.StringBuilder();
 
-            if (nightfall == HourMinute.NoValue)
+            if (nightfall == TimeOfDay.NoValue)
             {
                 sb.Append(Utils.DaysOfWeek[this.JewishDate.DayInWeek]);
             }
@@ -67,7 +67,7 @@
         /// </summary>
         /// <param name="nightfall">Used to determine when to display "ליל/יום" or "מוצאי שב"ק" etc.</param>
         /// <returns></returns>
-        public string ToStringHeb(HourMinute nightfall)
+        public string ToStringHeb(TimeOfDay nightfall)
         {
             var sb = new System.Text.StringBuilder();
             if (this.JewishDate.DayOfWeek == System.DayOfWeek.Saturday)
@@ -116,7 +116,7 @@
             return new Molad
             {
                 JewishDate = new JewishDate((1 + (29 * totalMonths)) + (hoursElapsed / 24)),
-                Time = new HourMinute { Hour = hoursElapsed % 24, Minute = (parts % 1080) / 18 },
+                Time = new TimeOfDay { Hour = hoursElapsed % 24, Minute = (parts % 1080) / 18 },
                 Chalakim = parts % 18
             };
         }

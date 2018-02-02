@@ -105,5 +105,17 @@ namespace LuachProject.Properties {
                 this["Nusach"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowSeconds {
+            get {
+                return ((bool)(this["ShowSeconds"]));
+            }
+            set {
+                this["ShowSeconds"] = value;
+            }
+        }
     }
 }

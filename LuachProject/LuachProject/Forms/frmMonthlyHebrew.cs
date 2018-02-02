@@ -31,6 +31,7 @@ namespace LuachProject
         private JewishDate _todayJewishDate;
         private Font _userOccasionFont;
         private Font _zmanimFont;
+        private readonly string _dailyInfoName = "frmDailyInfo";
 
         #endregion Private Fields
 
@@ -60,6 +61,7 @@ namespace LuachProject
                     this._currentMonthLength = JewishDateCalculations.DaysInJewishMonth(this._displayedJewishMonth.Year, this._displayedJewishMonth.Month);
                     this._currentMonthWeeks = (int)this._displayedJewishMonth.DayOfWeek >= 5 && _currentMonthLength > 29 ? 6 : 5;
                     this.SetCaptionText();
+                    this.SetShowSecondsLabel();
                     this.llSefirah.Visible = this._displayedJewishMonth.Month.In(1, 2);
                     this.pnlMain.Invalidate();
                 }
@@ -86,7 +88,7 @@ namespace LuachProject
                         this.pnlMain.Invalidate();
                         if (this.DailyPanelIsShowing)
                         {
-                            ((frmDailyInfoHeb)this.splitContainer1.Panel1.Controls[0]).LocationForZmanim = value;
+                            this.DailyInfoForm.LocationForZmanim = value;
                         }
                     }
                 }
@@ -315,7 +317,7 @@ namespace LuachProject
 
                 if (occ != null && this.DailyPanelIsShowing)
                 {
-                    var f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
+                    var f = this.DailyInfoForm;
                     f.EditOccasion(occ, new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
                 }
             }
@@ -331,7 +333,7 @@ namespace LuachProject
             {
                 if (this.DailyPanelIsShowing)
                 {
-                    var f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
+                    var f = this.DailyInfoForm;
                     f.AddNewOccasion(new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
                 }
             }
@@ -371,7 +373,7 @@ namespace LuachProject
             {
                 return;
             }
-            
+
             this.pnlMain.SuspendLayout();
             var currDate = this._displayedJewishMonth;
             float dayWidth = (this.pnlMain.Width / 7f) + 1f;
@@ -465,11 +467,19 @@ namespace LuachProject
                 case Keys.Enter:
                     if (this.DailyPanelIsShowing)
                     {
-                        var f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
+                        var f = this.DailyInfoForm;
                         f.AddNewOccasion(null);
                     }
                     break;
             }
+        }
+        private void llShowSeconds_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var showing = Properties.Settings.Default.ShowSeconds;
+            Properties.Settings.Default.ShowSeconds = !showing;
+            Properties.Settings.Default.Save();
+            this.SetShowSecondsLabel();
+            this.Reload();
         }
         #endregion Event Handlers
 
@@ -499,7 +509,7 @@ namespace LuachProject
 
             g.FillRectangle(Program.DayHeadersBGBrush, rect);
             g.DrawRectangle(Program.DayCellBorderPen, rect.X, rect.Y, rect.Width, rect.Height);
-            TextRenderer.DrawText(g, text, this._dayHeadersFont, Rectangle.Truncate(rect), Program.DayHeadersTextColor, Program.TextFormatFlags);            
+            TextRenderer.DrawText(g, text, this._dayHeadersFont, Rectangle.Truncate(rect), Program.DayHeadersTextColor, Program.TextFormatFlags);
         }
 
         private SingleDateInfo DrawSingleDay(Graphics g, JewishDate currDate, float width, float height, float currX, float currY)
@@ -624,11 +634,11 @@ namespace LuachProject
             offsetTop += rect.Height;
 
             TextRenderer.DrawText(g, text, this._dayFont, Rectangle.Truncate(rect), Program.DayTextColor, Program.TextFormatFlags);
-            
+
             rect.X = currX;
 
             TextRenderer.DrawText(g, currDate.GregorianDate.Day.ToString(), this._secularDayFont, Rectangle.Truncate(rect), Program.SecularDayColor, Program.TextFormatFlags);
-            
+
             rect.Width = width;
 
             offsetTop += rect.Height / (holidays.Count > 1 ? 5 : 3);
@@ -636,7 +646,7 @@ namespace LuachProject
             foreach (var o in occasions)
             {
                 //Get the text size for this occasions label.
-                var textSize = TextRenderer.MeasureText(g, o.Name, this._userOccasionFont, rect.Size.ToSize(), Program.TextFormatFlags);               
+                var textSize = TextRenderer.MeasureText(g, o.Name, this._userOccasionFont, rect.Size.ToSize(), Program.TextFormatFlags);
 
                 //Move the Y position down to empty space.
                 rect.Y = currY + offsetTop;
@@ -644,7 +654,7 @@ namespace LuachProject
                 //Save the exact position of the occasion label so when the user clicks on it afterwards, we can open the occasion for editing.
                 //Note: the occasion labels are centered in the days box, so we need to find the beginning of the centered text.
                 o.Rectangle = new RectangleF(rect.X + ((rect.Width / 2) - (textSize.Width / 2)), rect.Y, textSize.Width, textSize.Height);
-                TextRenderer.DrawText(g, o.Name, this._userOccasionFont, Rectangle.Truncate(rect), o.Color, Program.TextFormatFlags);                
+                TextRenderer.DrawText(g, o.Name, this._userOccasionFont, Rectangle.Truncate(rect), o.Color, Program.TextFormatFlags);
                 offsetTop += rect.Height;
             }
 
@@ -654,12 +664,12 @@ namespace LuachProject
 
                 rect.Height = height - offsetTop;
                 TextRenderer.DrawText(
-                    g, 
-                    textZmanim, 
-                    this._zmanimFont, 
-                    Rectangle.Truncate(rect), 
-                    Program.ZmanimColor, 
-                    Program.TextFormatFlags);                
+                    g,
+                    textZmanim,
+                    this._zmanimFont,
+                    Rectangle.Truncate(rect),
+                    Program.ZmanimColor,
+                    Program.TextFormatFlags);
             }
             return sdi;
         }
@@ -860,6 +870,7 @@ namespace LuachProject
                     this._currentLocation);
                 f.TopLevel = false;
                 f.Parent = this;
+                f.Name = this._dailyInfoName;
                 f.OccasionWasChanged += delegate (object sender, JewishDate jd)
                 {
                     var sd = this._singleDateInfoList.FirstOrDefault(d => d.JewishDate == jd);
@@ -882,7 +893,7 @@ namespace LuachProject
             }
             else
             {
-                f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
+                f = this.DailyInfoForm;
                 f.JewishDate = (sdi.JewishDate == this._todayJewishDate ? this._todayJewishDate : sdi.JewishDate);
             }
             if (this.splitContainer1.Panel1Collapsed)
@@ -890,6 +901,10 @@ namespace LuachProject
                 this.splitContainer1.Panel1Collapsed = false;
             }
         }
+
+        private frmDailyInfoHeb DailyInfoForm =>
+            this.splitContainer1.Panel1.Controls.Find(this._dailyInfoName, false).First() as frmDailyInfoHeb;
+
 
         private void SetToday()
         {
@@ -902,6 +917,13 @@ namespace LuachProject
                 this._todayJewishDate = new JewishDate();
             }
         }
+
+        private void SetShowSecondsLabel()
+        {
+            this.llShowSeconds.Text = (Properties.Settings.Default.ShowSeconds ?
+                "הסתר" : "הצג") +
+                " שניות";
+        }
         #endregion Private Functions               
 
         #region Public Functions
@@ -911,7 +933,7 @@ namespace LuachProject
             var sdi = this._singleDateInfoList.FirstOrDefault(t => t.JewishDate == this._selectedDay);
             if (uo != null && this.DailyPanelIsShowing)
             {
-                var f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
+                var f = this.DailyInfoForm;
                 f.EditOccasion(uo, new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
             }
         }
@@ -921,7 +943,7 @@ namespace LuachProject
             this.pnlMain.Invalidate();
             if (this.DailyPanelIsShowing)
             {
-                var f = this.splitContainer1.Panel1.Controls[0] as frmDailyInfoHeb;
+                var f = this.DailyInfoForm;
                 f.ShowDateData();
             }
         }

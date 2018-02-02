@@ -339,7 +339,7 @@ namespace LuachProject
                 }
             }
             html.Append("<table>");
-            if (shkia != HourMinute.NoValue &&
+            if (shkia != TimeOfDay.NoValue &&
                    this._holidays.Any(h => h.DayType.IsSpecialDayType(SpecialDayTypes.HasCandleLighting)))
             {
                 this.AddLine(html, "Candle Lighting", (shkia - this._dailyZmanim.Location.CandleLighting).ToString(), wideDescription: false);
@@ -367,6 +367,7 @@ namespace LuachProject
 
         private void DisplayZmanim(StringBuilder html)
         {
+            var showSeconds = Properties.Settings.Default.ShowSeconds;
             var dy = DafYomi.GetDafYomi(this._displayingJewishDate);
             var netz = this._dailyZmanim.NetzAtElevation;
             var shkia = this._dailyZmanim.ShkiaAtElevation;
@@ -391,7 +392,7 @@ namespace LuachProject
                 this._dailyZmanim.Location.Name);
             html.Append("<table>");
 
-            if (netz == HourMinute.NoValue)
+            if (netz == TimeOfDay.NoValue)
             {
                 this.AddLine(html, "Netz Hachama", "The does not rise", bold: true, emphasizeValue: true);
             }
@@ -399,36 +400,36 @@ namespace LuachProject
             {
                 if (this._displayingJewishDate.Month == 1 && this._displayingJewishDate.Day == 14)
                 {
-                    this.AddLine(html, "Stop eating Chometz", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 4D)).ToString24H(),
+                    this.AddLine(html, "Stop eating Chometz", ((netz - 90d) + (shaaZmanis90 * 4d)).ToString24H(showSeconds),
                         bold: true);
-                    this.AddLine(html, "Burn Chometz before", ((netz - 90) + (int)Math.Floor(shaaZmanis90 * 5D)).ToString24H(),
+                    this.AddLine(html, "Burn Chometz before", ((netz - 90d) + (shaaZmanis90 * 5d)).ToString24H(showSeconds),
                         bold: true);
                     html.Append("<br />");
                 }
 
-                this.AddLine(html, "Alos Hashachar - 90", (netzMishor - 90).ToString());
-                this.AddLine(html, "Alos Hashachar - 72", (netzMishor - 72).ToString());
+                this.AddLine(html, "Alos Hashachar - 90", (netzMishor - 90d).ToString(showSeconds));
+                this.AddLine(html, "Alos Hashachar - 72", (netzMishor - 72d).ToString(showSeconds));
                 if (netz != netzMishor)
                 {
-                    this.AddLine(html, "Sunrise <em class=\"reg lightSteelBlue\">" + feet + "</em>", netz.ToString());
+                    this.AddLine(html, "Sunrise <em class=\"reg lightSteelBlue\">" + feet + "</em>", netz.ToString(showSeconds));
                 }
-                this.AddLine(html, "Netz Hachama", netzMishor.ToString(), bold: true, emphasizeValue: true);
+                this.AddLine(html, "Netz Hachama", netzMishor.ToString(showSeconds), bold: true, emphasizeValue: true);
 
-                this.AddLine(html, "Krias Shma - MG\"A", this._dailyZmanim.GetZman(ZmanType.KShmMga).ToString());
-                this.AddLine(html, "Krias Shma - GR\"A", this._dailyZmanim.GetZman(ZmanType.KshmGra).ToString());
-                this.AddLine(html, "Zeman Tefillah - MG\"A", this._dailyZmanim.GetZman(ZmanType.TflMga).ToString());
-                this.AddLine(html, "Zeman Tefillah - GR\"A", this._dailyZmanim.GetZman(ZmanType.TflGra).ToString());
+                this.AddLine(html, "Krias Shma - MG\"A", this._dailyZmanim.GetZman(ZmanType.KShmMga).ToString(showSeconds));
+                this.AddLine(html, "Krias Shma - GR\"A", this._dailyZmanim.GetZman(ZmanType.KshmGra).ToString(showSeconds));
+                this.AddLine(html, "Zeman Tefillah - MG\"A", this._dailyZmanim.GetZman(ZmanType.TflMga).ToString(showSeconds));
+                this.AddLine(html, "Zeman Tefillah - GR\"A", this._dailyZmanim.GetZman(ZmanType.TflGra).ToString(showSeconds));
             }
 
-            if (netz != HourMinute.NoValue && shkia != HourMinute.NoValue)
+            if (netz != TimeOfDay.NoValue && shkia != TimeOfDay.NoValue)
             {
-                this.AddLine(html, "Chatzos - Day & Night", chatzos.ToString());
-                this.AddLine(html, "Mincha Gedolah", this._dailyZmanim.GetZman(ZmanType.MinchaG).ToString());
-                this.AddLine(html, "Mincha Ktanah", this._dailyZmanim.GetZman(ZmanType.MinchaK).ToString());
-                this.AddLine(html, "Plag Hamincha", this._dailyZmanim.GetZman(ZmanType.MinchaPlg).ToString());
+                this.AddLine(html, "Chatzos - Day & Night", chatzos.ToString(showSeconds));
+                this.AddLine(html, "Mincha Gedolah", this._dailyZmanim.GetZman(ZmanType.MinchaG).ToString(showSeconds));
+                this.AddLine(html, "Mincha Ktanah", this._dailyZmanim.GetZman(ZmanType.MinchaK).ToString(showSeconds));
+                this.AddLine(html, "Plag Hamincha", this._dailyZmanim.GetZman(ZmanType.MinchaPlg).ToString(showSeconds));
             }
 
-            if (shkia == HourMinute.NoValue)
+            if (shkia == TimeOfDay.NoValue)
             {
                 this.AddLine(html, "Shkias Hachama", "The sun does not set", bold: true, emphasizeValue: true);
             }
@@ -436,18 +437,18 @@ namespace LuachProject
             {
                 if (shkia == shkiaMishor)
                 {
-                    this.AddLine(html, "Shkias Hachama", shkia.ToString(), bold: true, emphasizeValue: true);
+                    this.AddLine(html, "Shkias Hachama", shkia.ToString(showSeconds), bold: true, emphasizeValue: true);
                 }
                 else
                 {
-                    this.AddLine(html, "Sunset <em class=\"reg lightSteelBlue\">...at Sea Level</em>", shkiaMishor.ToString());
+                    this.AddLine(html, "Sunset <em class=\"reg lightSteelBlue\">...at Sea Level</em>", shkiaMishor.ToString(showSeconds));
                     this.AddLine(html, "Shkiah <em class=\"reg lightSteelBlue\"> " + feet + "</em>",
-                        shkia.ToString(), bold: true, emphasizeValue: true);
+                        shkia.ToString(showSeconds), bold: true, emphasizeValue: true);
                 }
-                this.AddLine(html, "Nightfall 45", (shkia + 45).ToString());
-                this.AddLine(html, "Rabbeinu Tam", (shkia + 72).ToString());
-                this.AddLine(html, "72 \"Zmaniot\"", (shkia + (int)(shaaZmanis * 1.2)).ToString());
-                this.AddLine(html, "72 \"Zmaniot MA\"", (shkia + (int)(shaaZmanis90 * 1.2)).ToString());
+                this.AddLine(html, "Nightfall 45", (shkia + 45d).ToString(showSeconds));
+                this.AddLine(html, "Rabbeinu Tam", (shkia + 72d).ToString(showSeconds));
+                this.AddLine(html, "72 \"Zmaniot\"", (shkia + (shaaZmanis * 1.2)).ToString(showSeconds));
+                this.AddLine(html, "72 \"Zmaniot MA\"", (shkia + (shaaZmanis90 * 1.2)).ToString(showSeconds));
             }
             html.Append("</table>");
         }

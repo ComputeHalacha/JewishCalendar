@@ -68,6 +68,8 @@
             this.label12 = new System.Windows.Forms.Label();
             this.pnlDateTypeMonth = new System.Windows.Forms.Panel();
             this.pnlDateTypeFromTo = new System.Windows.Forms.Panel();
+            this.label13 = new System.Windows.Forms.Label();
+            this.choiceSeconds = new ChoiceSwitcher();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.pnlDateTypeMonth.SuspendLayout();
@@ -313,7 +315,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(610, 66);
+            this.label7.Location = new System.Drawing.Point(610, 62);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(49, 15);
             this.label7.TabIndex = 21;
@@ -344,7 +346,7 @@
             this.choiceAmPm.FontSize = 7F;
             this.choiceAmPm.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
             this.choiceAmPm.ForeColorSelected = System.Drawing.SystemColors.ControlText;
-            this.choiceAmPm.Location = new System.Drawing.Point(564, 81);
+            this.choiceAmPm.Location = new System.Drawing.Point(564, 77);
             this.choiceAmPm.Name = "choiceAmPm";
             this.choiceAmPm.SelectedValue = false;
             this.choiceAmPm.Size = new System.Drawing.Size(153, 23);
@@ -583,11 +585,49 @@
             this.pnlDateTypeFromTo.TabIndex = 33;
             this.pnlDateTypeFromTo.Visible = false;
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(594, 115);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(91, 15);
+            this.label13.TabIndex = 35;
+            this.label13.Text = "Seconds / שניות";
+            // 
+            // choiceSeconds
+            // 
+            this.choiceSeconds.BackColorNotSelected = System.Drawing.SystemColors.Control;
+            this.choiceSeconds.BackColorSelected = System.Drawing.SystemColors.Control;
+            this.choiceSeconds.BackColorSlot = System.Drawing.Color.Teal;
+            this.choiceSeconds.BackColorSlotChoiceTwo = System.Drawing.Color.Gray;
+            this.choiceSeconds.ChoiceChosen = ChoiceSwitcherChoices.ChoiceOne;
+            this.choiceSeconds.ChoiceOneSelected = true;
+            this.choiceSeconds.ChoiceTwoSelected = false;
+            this.choiceSeconds.DisplayAsYesNo = false;
+            this.choiceSeconds.Font = new System.Drawing.Font("Verdana", 7F);
+            this.choiceSeconds.FontNotSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceSeconds.FontSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceSeconds.FontSize = 7F;
+            this.choiceSeconds.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceSeconds.ForeColorSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceSeconds.Location = new System.Drawing.Point(564, 130);
+            this.choiceSeconds.Name = "choiceSeconds";
+            this.choiceSeconds.SelectedValue = false;
+            this.choiceSeconds.Size = new System.Drawing.Size(153, 23);
+            this.choiceSeconds.TabIndex = 34;
+            this.choiceSeconds.Text = "choiceSwitcher2";
+            this.choiceSeconds.TextChoiceOne = "Yes / כן";
+            this.choiceSeconds.TextChoiceTwo = "No / לא";
+            this.choiceSeconds.ValueChoiceOne = false;
+            this.choiceSeconds.ValueChoiceTwo = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1043, 611);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.choiceSeconds);
             this.Controls.Add(this.pnlDateTypeMonth);
             this.Controls.Add(this.choiceSwitcherDateType);
             this.Controls.Add(this.label10);
@@ -666,6 +706,8 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Panel pnlDateTypeMonth;
         private System.Windows.Forms.Panel pnlDateTypeFromTo;
+        private System.Windows.Forms.Label label13;
+        private ChoiceSwitcher choiceSeconds;
     }
 }
 

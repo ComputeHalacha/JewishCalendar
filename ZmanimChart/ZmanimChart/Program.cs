@@ -24,6 +24,12 @@ namespace ZmanimChart
         [STAThread]
         static void Main()
         {
+            if(Properties.Settings.Default.NeedsUpdate)
+            {
+                Properties.Settings.Default.Upgrade();
+                Properties.Settings.Default.NeedsUpdate = false;
+                Properties.Settings.Default.Save();
+            }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             LoadLocations();

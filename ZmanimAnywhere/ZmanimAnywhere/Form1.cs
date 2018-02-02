@@ -178,7 +178,7 @@ namespace ZmanimAnywhere
             var dz = new DailyZmanim(this.jdpFrom.Value.GregorianDate, location);
             html.AppendFormat("<h2>Zmanim at {0} feet</h2>", location.Elevation);
             html.Append("<ul>");
-            if (dz.NetzMishor == HourMinute.NoValue)
+            if (dz.NetzMishor == TimeOfDay.NoValue)
             {
                 html.Append("<li><strong>The sun does not rise at this location</strong></li>");
             }
@@ -193,7 +193,7 @@ namespace ZmanimAnywhere
                 html.AppendFormat("<li>Netz at sea level........<strong>{0}</strong></li>",
                     dz.NetzMishor);
             }
-            if (dz.NetzAtElevation == HourMinute.NoValue)
+            if (dz.NetzAtElevation == TimeOfDay.NoValue)
             {
                 html.AppendFormat("<li><strong>The sun does not rise at {0} feet at this location</strong></li>", location.Elevation);
             }
@@ -202,7 +202,7 @@ namespace ZmanimAnywhere
                 html.AppendFormat("<li>Netz at elevation........<strong>{0}</strong></li>",
                     dz.NetzAtElevation);
             }
-            if (dz.NetzMishor == HourMinute.NoValue)
+            if (dz.NetzMishor == TimeOfDay.NoValue)
             {
                 html.Append("<li><strong>The sun does not rise at this location</strong></li>");                
             }
@@ -226,7 +226,7 @@ namespace ZmanimAnywhere
                 dz.GetZman(ZmanType.MinchaK));
             html.AppendFormat("<li>Plag........<strong>{0}</strong></li>",
                 dz.GetZman(ZmanType.MinchaPlg));
-            if (dz.ShkiaMishor == HourMinute.NoValue)
+            if (dz.ShkiaMishor == TimeOfDay.NoValue)
             {
                 html.Append("<li>Sunset at sea level........<strong>The sun does not set at this location</strong></li>");
             }
@@ -235,7 +235,7 @@ namespace ZmanimAnywhere
                 html.AppendFormat("<li>Sunset at sea level........<strong>{0}</strong></li>",
                 dz.ShkiaMishor);
             }
-            if (dz.ShkiaAtElevation == HourMinute.NoValue)
+            if (dz.ShkiaAtElevation == TimeOfDay.NoValue)
             {
                 html.AppendFormat("<li>Sunset at {0} feet........<strong>The sun does not set at {0} feet at this location</strong></li>", 
                     location.Elevation);
@@ -262,9 +262,9 @@ namespace ZmanimAnywhere
             public int Offset { get; set; }
             public string Header { get; set; }
             public bool Bold { get; set; }
-            public HourMinute GetZman(DailyZmanim dz)
+            public TimeOfDay GetZman(DailyZmanim dz)
             {
-                var hm = HourMinute.NoValue;
+                var hm = TimeOfDay.NoValue;
                 switch (this.ZmanIndex)
                 {
                     case 0: hm = (dz.NetzMishor - 90); break; //Alos Hashachar - 90

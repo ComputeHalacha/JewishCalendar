@@ -261,7 +261,7 @@ namespace JewishCalendar
         /// The GregorianDate property therefore only represents the correct Secular Date for the original location and time.
         /// This function returns the correct GregorianDate for a JewishDate at the given time and place.
         /// </remarks>
-        public static DateTime GetGregorianDateFromJewishDate(JewishDate jd, HourMinute timeOfDay, Location location)
+        public static DateTime GetGregorianDateFromJewishDate(JewishDate jd, TimeOfDay timeOfDay, Location location)
         {
             //The Gregorian date that starts at midnight of the given Jewish Date
             DateTime gregDateAtMidnight = GetGregorianDateFromJewishDate(jd);
