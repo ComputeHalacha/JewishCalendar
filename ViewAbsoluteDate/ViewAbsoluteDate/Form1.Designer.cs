@@ -33,7 +33,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // jdpFrom
@@ -43,7 +43,7 @@
             this.jdpFrom.BackColor = System.Drawing.Color.White;
             this.jdpFrom.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.jdpFrom.ForeColor = System.Drawing.Color.Black;
-            this.jdpFrom.Location = new System.Drawing.Point(18, 32);
+            this.jdpFrom.Location = new System.Drawing.Point(23, 36);
             this.jdpFrom.Margin = new System.Windows.Forms.Padding(0);
             this.jdpFrom.MaxDate = ((JewishCalendar.JewishDate)(resources.GetObject("jdpFrom.MaxDate")));
             this.jdpFrom.MinDate = ((JewishCalendar.JewishDate)(resources.GetObject("jdpFrom.MinDate")));
@@ -56,7 +56,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(18, 16);
+            this.label11.Location = new System.Drawing.Point(23, 20);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(67, 14);
             this.label11.TabIndex = 30;
@@ -65,7 +65,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(18, 74);
+            this.label2.Location = new System.Drawing.Point(23, 78);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(69, 14);
             this.label2.TabIndex = 31;
@@ -73,31 +73,29 @@
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(18, 94);
+            this.dateTimePicker1.Location = new System.Drawing.Point(23, 98);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(242, 20);
             this.dateTimePicker1.TabIndex = 32;
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
-            // tableLayoutPanel1
+            // textBox1
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(18, 134);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(242, 279);
-            this.tableLayoutPanel1.TabIndex = 33;
+            this.textBox1.Font = new System.Drawing.Font("Verdana", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.textBox1.Location = new System.Drawing.Point(23, 149);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(242, 72);
+            this.textBox1.TabIndex = 33;
+            this.textBox1.Text = "0000000";
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox1.Leave += new System.EventHandler(this.textBox1_Leave);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(290, 440);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.ClientSize = new System.Drawing.Size(290, 240);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label11);
@@ -120,7 +118,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

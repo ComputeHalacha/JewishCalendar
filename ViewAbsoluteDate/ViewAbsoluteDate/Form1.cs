@@ -17,16 +17,6 @@ namespace ZmanimAnywhere
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (SystemInformation.TerminalServerSession)
-                return;
-
-            PropertyInfo aProp =
-                  typeof(Control).GetProperty(
-                        "DoubleBuffered",
-                        BindingFlags.NonPublic |
-                        BindingFlags.Instance);
-
-            aProp.SetValue(this, true, null);
             this.jdpFrom.Value = new JewishDate();            
         }
 
@@ -41,12 +31,17 @@ namespace ZmanimAnywhere
             var jd = this.jdpFrom.Value;
             this.dateTimePicker1.Value = jd.GregorianDate;
 
-            this.tableLayoutPanel1.Controls.Add(new Label { Text = jd.AbsoluteDate.ToString() });
+            this.textBox1.Text = jd.AbsoluteDate.ToString();
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {            
             this.jdpFrom.Value = new JewishDate(this.dateTimePicker1.Value);
+        }
+
+        private void textBox1_Leave(object sender, EventArgs e)
+        {
+            this.jdpFrom.Value = new JewishDate(Convert.ToInt32(this.textBox1.Text));
         }
     }
 }
