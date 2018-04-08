@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Reflection;
+using System.IO;
+using System.Configuration;
+using System.Diagnostics;
 
 namespace LuachProject
 {

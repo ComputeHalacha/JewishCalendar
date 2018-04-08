@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -296,10 +297,44 @@ namespace LuachProject
         private void llSefira_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process a = new Process();
-            a.StartInfo.FileName = System.IO.Path.Combine(Application.StartupPath, @"OmerReminder.exe");
+            string omerAppName = "OmerReminder.exe";
+            a.StartInfo.FileName = System.IO.Path.Combine(Application.StartupPath, omerAppName);
             a.StartInfo.Arguments = "-location \"" + this._currentLocation.Name + "\"" + " -lang heb";
+            a.EnableRaisingEvents = true;
+            a.Exited += delegate
+            {
+                try
+                {
+                    string nusachString = File.ReadAllText("OmerNusach");
+                    Nusach nusach = (Nusach)Enum.Parse(typeof(Nusach), nusachString);
+
+                    if (nusach != Properties.Settings.Default.Nusach)
+                    {
+                        Properties.Settings.Default.Nusach = nusach;
+                        Properties.Settings.Default.Save();
+
+                        int jMonth = this._selectedDay.Month,
+                        jDay = this._selectedDay.Day;
+                        if ((jMonth == 1 && jDay > 15) || jMonth == 2 || (jMonth == 3 && jDay < 6))
+                        {
+                            if (this.DailyPanelIsShowing)
+                            {
+                                var f = this.DailyInfoForm;
+                                f.Invoke(new Action(() =>
+                                {
+                                    f.ShowDateData();
+                                    f.Invalidate();
+                                }));
+                            }
+                        }
+                    }
+                }
+                catch {/*Nu Nu**/ }
+
+            };
             a.Start();
         }
+
 
         private void llSearchOccasion_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

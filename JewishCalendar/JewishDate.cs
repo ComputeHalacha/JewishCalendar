@@ -164,7 +164,7 @@ namespace JewishCalendar
             //To save on calculations, start with an estimation of a few years before date
             this._year = 3761 + (absoluteDate / (absoluteDate > 0 ? 366 : 300));
 
-            //The following in from the original code; it starts the calculations way back when and takes almost as long to calculate all of them...
+            //The following is from the original code; it starts the calculations way back when and takes almost as long to calculate all of them...
             //this._year = ((absoluteDate + JewishDateCalculations.HEBREW_EPOCH) / 366); // Approximation from below.
 
             // Search forward for year from the approximation.

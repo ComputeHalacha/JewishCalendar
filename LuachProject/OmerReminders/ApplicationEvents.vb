@@ -38,6 +38,10 @@ Namespace My
             End If
         End Sub
 
+        Private Sub MyApplication_Shutdown(sender As Object, e As EventArgs) Handles Me.Shutdown
+            FileIO.FileSystem.WriteAllText("OmerNusach", Settings.Nusach.ToString(), False)
+        End Sub
+
         Private Sub MyApplication_UnhandledException(sender As Object, e As UnhandledExceptionEventArgs) Handles Me.UnhandledException
             MessageBox.Show(e.Exception.Message)
         End Sub
