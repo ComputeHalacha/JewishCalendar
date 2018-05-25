@@ -375,7 +375,7 @@ namespace LuachProject
             var shkiaMishor = this._dailyZmanim.ShkiaMishor;
             var chatzos = this._dailyZmanim.Chatzos;
             var shaaZmanis = this._dailyZmanim.ShaaZmanis;
-            var shaaZmanis90 = this._dailyZmanim.ShaaZmanis90;
+            var shaaZmanis90 = this._dailyZmanim.ShaaZmanisMga;
             var feet = "...at " + (this._dailyZmanim.Location.Elevation * 3.28084).ToString("N0") +
                 " ft.";
 

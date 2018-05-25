@@ -66,7 +66,7 @@ namespace JewishCalendar
         private TimeOfDay[] _netzshkiaMishor = null;
         private TimeOfDay _chatzos = TimeOfDay.NoValue;
         private double _shaaZmanis;
-        private double _shaaZmanis90;
+        private double _shaaZmanisMga;
 
         /// <summary>
         /// Create a new DailyZmanim object for the given date and location
@@ -192,17 +192,17 @@ namespace JewishCalendar
         }
         /// <summary>
         /// The length of Shaa zmanis in minutes for current date and location.
-        /// Configured from 90 minutes before netz to 90 minutes after shkia at sea level.
+        /// Configured from alos hashachar to tzais hakochavim at sea level.
         /// </summary>
-        public Double ShaaZmanis90
+        public Double ShaaZmanisMga
         {
             get
             {
-                if (this._shaaZmanis90 == 0)
+                if (this._shaaZmanisMga == 0)
                 {
-                    this._shaaZmanis90 = Zmanim.GetShaaZmanis(this.NetzShkiaMishor, 90);
+                    this._shaaZmanisMga = Zmanim.GetShaaZmanisMga(this.NetzShkiaMishor, this.Location.IsInIsrael);
                 }
-                return this._shaaZmanis90;
+                return this._shaaZmanisMga;
             }
         }
 
@@ -226,7 +226,7 @@ namespace JewishCalendar
                     break;
 
                 case ZmanType.KShmMga:
-                    hm = (this.NetzMishor - 90d) + (this.ShaaZmanis90 * 3d);
+                    hm = (this.NetzMishor - 90d) + (this.ShaaZmanisMga * 3d);
                     break;
 
                 case ZmanType.KshmGra:
@@ -234,7 +234,7 @@ namespace JewishCalendar
                     break;
 
                 case ZmanType.TflMga:
-                    hm = (this.NetzMishor - 90d) + (this.ShaaZmanis90 * 4d);
+                    hm = (this.NetzMishor - 90d) + (this.ShaaZmanisMga * 4d);
                     break;
 
                 case ZmanType.TflGra:
@@ -283,7 +283,7 @@ namespace JewishCalendar
             this._netzshkiaMishor = null;
             this._chatzos = TimeOfDay.NoValue;
             this._shaaZmanis = 0;
-            this._shaaZmanis90 = 0;
+            this._shaaZmanisMga = 0;
         }
     }
 }

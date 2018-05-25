@@ -324,6 +324,21 @@ namespace JewishCalendar
         }
 
         /// <summary>
+        /// Gets length of Shaa zmanis of the Magen Avraham in minutes for given netz and shkia.
+        /// </summary>
+        /// <param name="netzShkia"></param>
+        /// <param name="israel"></param>
+        /// <returns></returns>
+        public static double GetShaaZmanisMga(TimeOfDay[] netzShkia, bool israel)
+        {
+            if (netzShkia[0] == TimeOfDay.NoValue || netzShkia[1] == TimeOfDay.NoValue) { return 0; }
+            TimeOfDay netz = netzShkia[0] - (israel ? 90 : 72),
+                shkia = netzShkia[1] + (israel ? 50 : 72);
+
+            return (shkia.TotalSeconds - netz.TotalSeconds) / 720d;
+        }
+
+        /// <summary>
         /// Gets length of Shaa zmanis in minutes for given date and location.
         /// Configured from netz to shkia at sea level.
         /// </summary>
@@ -335,7 +350,7 @@ namespace JewishCalendar
         {
             TimeOfDay[] netzShkia = GetNetzShkia(date, location, false);
             return GetShaaZmanis(netzShkia, offset);
-        }        
+        }
 
         /// <summary>
         /// Get time of sunset for the given location and date
@@ -835,18 +850,28 @@ namespace JewishCalendar
             hour = (int)Math.Truncate(Math.Floor(time));
             double minutes = (time - hour) * 60d + 0.5;
             min = (int)Math.Truncate(Math.Floor(minutes));
-            sec = (int)Math.Truncate(Math.Floor(60d * (minutes - min)));
+            sec = (int)Math.Round(60d * (minutes - min));
 
             if (sec >= 60)
             {
                 min += 1;
                 sec -= 60;
             }
+            else if (sec < 0)
+            {
+                min -= 1;
+                sec += 60;
+            }
 
             if (min >= 60)
             {
                 hour += 1;
                 min -= 60;
+            }
+            else if (min < 0)
+            {
+                hour -= 1;
+                min += 60;
             }
 
             if (hour > 24)

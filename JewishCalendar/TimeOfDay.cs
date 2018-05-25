@@ -4,7 +4,7 @@ namespace JewishCalendar
 {
     /// <summary>
     /// A simpler Time Span.
-    /// Explicitly cast-able to and from System.TimeSpan.
+    /// Explicitly cast-able to and from TimeSpan.
     /// </summary>
     public struct TimeOfDay
     {
@@ -33,8 +33,8 @@ namespace JewishCalendar
         /// Returns a TimeSpan representation of this TimeOfDay
         /// </summary>
         /// <returns></returns>
-        public System.TimeSpan ToTimeSpan() =>
-            new System.TimeSpan(this.Hour, this.Minute, this.Seconds);
+        public TimeSpan ToTimeSpan() =>
+            new TimeSpan(this.Hour, this.Minute, this.Seconds);
 
         /// <summary>
         /// An TimeOfDay that does not represent a real time.
@@ -128,7 +128,7 @@ namespace JewishCalendar
         /// <param name="t"></param>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public static TimeOfDay operator +(TimeOfDay t, System.TimeSpan ts) =>
+        public static TimeOfDay operator +(TimeOfDay t, TimeSpan ts) =>
             (TimeOfDay)(t.ToTimeSpan().Add(ts));
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace JewishCalendar
         /// <param name="t"></param>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public static TimeOfDay operator -(TimeOfDay t, System.TimeSpan ts) =>
+        public static TimeOfDay operator -(TimeOfDay t, TimeSpan ts) =>
             (TimeOfDay)(t.ToTimeSpan().Subtract(ts));
 
         /// <summary>
@@ -233,21 +233,21 @@ namespace JewishCalendar
         public static bool operator !=(TimeOfDay t1, TimeOfDay t2) => !(t1 == t2);
 
         /// <summary>
-        /// Compare the current TimeOfDay to a System.TimeSpan
+        /// Compare the current TimeOfDay to a TimeSpan
         /// </summary>
         /// <param name="t1"></param>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public static bool operator ==(TimeOfDay t1, System.TimeSpan ts) =>
-            t1.TotalSeconds == System.Convert.ToInt32(System.Math.Floor(ts.TotalSeconds));
+        public static bool operator ==(TimeOfDay t1, TimeSpan ts) =>
+            t1.TotalSeconds == Convert.ToInt32(Math.Floor(ts.TotalSeconds));
 
         /// <summary>
-        /// Compare the current TimeOfDay to a System.TimeSpan for inequality
+        /// Compare the current TimeOfDay to a TimeSpan for inequality
         /// </summary>
         /// <param name="t1"></param>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public static bool operator !=(TimeOfDay t1, System.TimeSpan ts) => !(t1 == ts);
+        public static bool operator !=(TimeOfDay t1, TimeSpan ts) => !(t1 == ts);
 
         /// <summary>
         /// Returns true if the current TimeOfDay is after the second one.
@@ -273,7 +273,7 @@ namespace JewishCalendar
         /// <param name="t1"></param>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public static bool operator >(TimeOfDay t1, System.TimeSpan ts) =>
+        public static bool operator >(TimeOfDay t1, TimeSpan ts) =>
             t1.TotalSeconds > ts.TotalSeconds;
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace JewishCalendar
         /// <param name="t1"></param>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public static bool operator >=(TimeOfDay t1, System.TimeSpan ts) =>
+        public static bool operator >=(TimeOfDay t1, TimeSpan ts) =>
             ((t1.Hour * 60 + t1.Minute) >= ts.TotalMinutes);
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace JewishCalendar
         /// <param name="t1"></param>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public static bool operator <=(TimeOfDay t1, System.TimeSpan ts) =>
+        public static bool operator <=(TimeOfDay t1, TimeSpan ts) =>
             ((t1.Hour * 60 + t1.Minute) <= ts.TotalMinutes);
 
         /// <summary>
@@ -318,7 +318,7 @@ namespace JewishCalendar
         /// <param name="t1"></param>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public static bool operator <(TimeOfDay t1, System.TimeSpan ts) =>
+        public static bool operator <(TimeOfDay t1, TimeSpan ts) =>
             ((t1.Hour * 60 + t1.Minute) < ts.TotalMinutes);
 
         /// <summary>
@@ -326,14 +326,14 @@ namespace JewishCalendar
         /// </summary>
         /// <param name="hm"></param>
         /// <returns></returns>
-        public static explicit operator System.TimeSpan(TimeOfDay hm) => hm.ToTimeSpan();
+        public static explicit operator TimeSpan(TimeOfDay hm) => hm.ToTimeSpan();
 
         /// <summary>
         /// Explicitly convert (cast) a TimeSpan into an TimeOfDay
         /// </summary>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public static explicit operator TimeOfDay(System.TimeSpan ts) =>
+        public static explicit operator TimeOfDay(TimeSpan ts) =>
             new TimeOfDay { Hour = ts.Hours, Minute = ts.Minutes };
 
         /// <summary>

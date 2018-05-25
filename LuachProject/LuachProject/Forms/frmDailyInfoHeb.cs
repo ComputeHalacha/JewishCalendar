@@ -167,7 +167,7 @@ namespace LuachProject
             var shkiaMishor = this._dailyZmanim.ShkiaMishor;
             var chatzos = this._dailyZmanim.Chatzos;
             var shaaZmanis = this._dailyZmanim.ShaaZmanis;
-            var shaaZmanis90 = this._dailyZmanim.ShaaZmanis90;
+            var shaaZmanis90 = this._dailyZmanim.ShaaZmanisMga;
             var html = new StringBuilder();
 
             html.AppendFormat("<div class=\"padWidth royalBlue bold\">{0}</div>",

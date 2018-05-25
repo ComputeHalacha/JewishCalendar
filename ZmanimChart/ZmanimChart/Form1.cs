@@ -28,6 +28,8 @@ namespace ZmanimChart
 
             aProp.SetValue(this, true, null);
 
+            this.Text = "Zmanim Chart - Version " + "1.2";
+
             this.FillLocations();
             this.FillDateCombos();
             this.clmZman.DataSource = Program.ZmanTypesList;
