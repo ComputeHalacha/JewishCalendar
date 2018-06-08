@@ -778,22 +778,14 @@ namespace JewishCalendar
             {
                 hRise = 57.29578 * Math.Acos(hRise);
                 utRise = ((360 - hRise) / 15) + ahrRise + Adj(tRise) + lonHour;
-                sunrise = TimeAdj(utRise + location.TimeZone, date, location);
-                while (sunrise.Hour > 12)
-                {
-                    sunrise.Hour -= 12;
-                }
+                sunrise = TimeAdj(utRise + location.TimeZone, date, location);               
             }
 
             if (Math.Abs(hSet) <= 1)
             {
                 hSet = 57.29578 * Math.Acos(hSet);
                 utSet = (hRise / 15) + ahrSet + Adj(tSet) + lonHour;
-                sunset = TimeAdj(utSet + location.TimeZone, date, location);
-                while (sunset.Hour < 12)
-                {
-                    sunset.Hour += 12;
-                }
+                sunset = TimeAdj(utSet + location.TimeZone, date, location);                
             }
 
             return new TimeOfDay[] { sunrise, sunset };
@@ -874,7 +866,7 @@ namespace JewishCalendar
                 min += 60;
             }
 
-            if (hour > 24)
+            if (hour >= 24)
             {
                 hour -= 24;
             }

@@ -71,6 +71,10 @@ namespace JewishCalendar
                 result.Minute += 60;
                 result.Hour--;
             }
+            while (result.Hour >= 24)
+            {
+                result.Hour -= 24;
+            }
             return result;
         }
 
@@ -108,6 +112,15 @@ namespace JewishCalendar
             {
                 result.Minute += 60;
                 result.Hour--;
+            }
+
+            while (result.Hour >= 24)
+            {
+                result.Hour -= 24;
+            }
+            while (result.Hour < 0)
+            {
+                result.Hour += 24;
             }
             return result;
         }
@@ -155,6 +168,16 @@ namespace JewishCalendar
             {
                 result.Minute -= 60;
                 result.Hour++;
+            }
+
+            while (result.Hour >= 24)
+            {
+                result.Hour -= 24;
+            }
+
+            while (result.Hour < 0)
+            {
+                result.Hour += 24;
             }
             return result;
         }
