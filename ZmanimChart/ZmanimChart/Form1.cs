@@ -88,13 +88,19 @@ namespace ZmanimChart
                     orderby r.ZmanIndex, r.Offset
                     select r))
                 {
-                    this.dataGridView1.Rows.Add(new object[]
+                    int index = this.dataGridView1.Rows.Add(new object[]
                     {
                         Program.ZmanTypesList[zmanRow.ZmanIndex],
+                        zmanRow.DaysOfWeek == null || zmanRow.DaysOfWeek.Length == 7
+                            ? "כולם"
+                            : String.Join(", ", zmanRow.DaysOfWeek.Select(dow =>
+                                Utils.ToNumberHeb(dow+1)).ToArray()),
                         zmanRow.Offset,
+                        zmanRow.AlternateOffset,
                         zmanRow.Header,
                         zmanRow.Bold
                     });
+                    this.dataGridView1.Rows[index].Cells[1].Tag = zmanRow.DaysOfWeek;
                 }
             }
         }
@@ -221,22 +227,27 @@ namespace ZmanimChart
                     {
                         zmanTime = DafYomi.GetDafYomi(jd).ToStringHeb();
                     }
-                    else
+                    else if (zmanColumn.DaysOfWeek == null || 
+                        zmanColumn.DaysOfWeek.Contains(jd.DayInWeek) || 
+                        zmanColumn.AlternateOffset != 0)
                     {
                         zman = zmanColumn.GetZman(dz);
                         zmanTime = zman.ToString(
                             Properties.Settings.Default.ArmyTime,
                             Properties.Settings.Default.AmPm);
                     }
-                    if (zmanColumn.Bold)
+                    if (!string.IsNullOrEmpty(zmanTime))
                     {
-                        zmanTime = "<strong>" + zmanTime + "</strong>";
-                    }
-                    if (zman != TimeOfDay.NoValue && Properties.Settings.Default.ShowSeconds)
-                    {
-                        zmanTime += "<sub>:" + 
-                            (zman.Seconds < 10 ? "0": "") + 
-                            zman.Seconds.ToString() + "</sub>";
+                        if (zmanColumn.Bold)
+                        {
+                            zmanTime = "<strong>" + zmanTime + "</strong>";
+                        }
+                        if (zman != TimeOfDay.NoValue && Properties.Settings.Default.ShowSeconds)
+                        {
+                            zmanTime += "<sub>:" +
+                                (zman.Seconds < 10 ? "0" : "") +
+                                zman.Seconds.ToString() + "</sub>";
+                        }
                     }
                     sbRows.AppendFormat("<td>{0}</td>", zmanTime);
                 }
@@ -359,14 +370,19 @@ namespace ZmanimChart
             {
                 if (!dgvr.IsNewRow)
                 {
-                    int offset;
-                    int.TryParse(Convert.ToString(dgvr.Cells[1].Value), out offset);
+                    int offset, alternateOffset;
+                    int.TryParse(Convert.ToString(dgvr.Cells[2].Value), out offset);
+                    int.TryParse(Convert.ToString(dgvr.Cells[3].Value), out alternateOffset);
                     var sr = new SingleZmanColumn
                     {
                         ZmanIndex = Array.IndexOf(Program.ZmanTypesList, Convert.ToString(dgvr.Cells[0].Value)),
+                        DaysOfWeek = dgvr.Cells[1].Tag == null
+                            ? new int[] { 0, 1, 2, 3, 4, 5, 6 }
+                            : (int[])dgvr.Cells[1].Tag,
                         Offset = offset,
-                        Header = Convert.ToString(dgvr.Cells[2].Value),
-                        Bold = Convert.ToBoolean(dgvr.Cells[3].Value)
+                        AlternateOffset= alternateOffset,
+                        Header = Convert.ToString(dgvr.Cells[4].Value),
+                        Bold = Convert.ToBoolean(dgvr.Cells[5].Value)
                     };
                     columns.Add(sr);
                 }
@@ -384,6 +400,31 @@ namespace ZmanimChart
         private void ChoiceSwitcher1_ChoiceSwitched_1(object sender, EventArgs e)
         {
             this.FillLocations();
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == clmDaysOfWeek.Index)
+            {
+                var cell = this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                var cellVal = cell.Value.ToString();
+                var rect = this.dataGridView1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+                var dow = cell.Tag == null
+                    ? new int[] { 0, 1, 2, 3, 4, 5, 6 }
+                    : (int[])cell.Tag;
+                using (var fdow = new frmDaysOfWeek(dow) { Top = rect.Top, Left = rect.Left })
+                {
+                    if (fdow.ShowDialog(this.dataGridView1) == DialogResult.OK)
+                    {
+                        var sdow = fdow.DaysOfWeekArray;
+                        cell.Tag = sdow;
+                        cell.Value = sdow.Length == 7
+                            ? "כולם"
+                            : String.Join(", ", sdow.Select(d =>
+                                Utils.ToNumberHeb(d + 1)).ToArray());
+                    }
+                }
+            }
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -411,11 +452,12 @@ namespace ZmanimChart
     public class SelectedZmanColumns : List<SingleZmanColumn> { }
     public class SingleZmanColumn
     {
+        public int[] DaysOfWeek { get; set; }
         public int ZmanIndex { get; set; }
         public int Offset { get; set; }
+        public int AlternateOffset { get; set; }
         public string Header { get; set; }
         public bool Bold { get; set; }
-
         public TimeOfDay GetZman(DailyZmanim dz)
         {
             var hm = TimeOfDay.NoValue;
@@ -437,11 +479,18 @@ namespace ZmanimChart
                 case 13: hm = dz.ShkiaMishor; break; //Sunset - sea level
                 case 14: hm = dz.ShkiaAtElevation + 45; break; //Night - 45
                 case 15: hm = dz.ShkiaAtElevation + 72; break; //Night - Rabbeinu Tam
-                case 16: hm = dz.ShkiaAtElevation + (int)(dz.ShaaZmanis90 * 1.2); break; //Night - 72 Zmaniyos                    
+                case 16: hm = dz.ShkiaAtElevation + (int)(dz.ShaaZmanisMga * 1.2); break; //Night - 72 Zmaniyos                    
             }
-            if (this.Offset != 0)
+            if (this.Offset != 0 && 
+                (this.DaysOfWeek == null || this.DaysOfWeek.Contains((int)dz.SecularDate.DayOfWeek)))
             {
                 hm += this.Offset;
+            }
+            else if (this.AlternateOffset != 0 && 
+                this.DaysOfWeek != null && 
+                !this.DaysOfWeek.Contains((int)dz.SecularDate.DayOfWeek))
+            {
+                hm += this.AlternateOffset;
             }
             return hm;
         }

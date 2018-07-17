@@ -39,7 +39,9 @@
             this.cmbYear = new System.Windows.Forms.ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.clmZman = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.clmDaysOfWeek = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmOffset = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmAlternateOffset = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmHeader = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmBold = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.clmDelete = new System.Windows.Forms.DataGridViewLinkColumn();
@@ -54,22 +56,22 @@
             this.rbDayOfWeekFull = new System.Windows.Forms.RadioButton();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.choiceAmPm = new ChoiceSwitcher();
-            this.choiceArmy = new ChoiceSwitcher();
-            this.choiceSwitcher1 = new ChoiceSwitcher();
             this.label9 = new System.Windows.Forms.Label();
-            this.choiceWidth100 = new ChoiceSwitcher();
             this.label10 = new System.Windows.Forms.Label();
-            this.choiceDirection = new ChoiceSwitcher();
             this.jdpFrom = new JewishDatePicker.JewishDatePicker();
             this.jdpTo = new JewishDatePicker.JewishDatePicker();
-            this.choiceSwitcherDateType = new ChoiceSwitcher();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.pnlDateTypeMonth = new System.Windows.Forms.Panel();
             this.pnlDateTypeFromTo = new System.Windows.Forms.Panel();
             this.label13 = new System.Windows.Forms.Label();
             this.choiceSeconds = new ChoiceSwitcher();
+            this.choiceSwitcherDateType = new ChoiceSwitcher();
+            this.choiceDirection = new ChoiceSwitcher();
+            this.choiceWidth100 = new ChoiceSwitcher();
+            this.choiceAmPm = new ChoiceSwitcher();
+            this.choiceArmy = new ChoiceSwitcher();
+            this.choiceSwitcher1 = new ChoiceSwitcher();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.pnlDateTypeMonth.SuspendLayout();
@@ -79,7 +81,7 @@
             // button1
             // 
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.button1.Location = new System.Drawing.Point(447, 553);
+            this.button1.Location = new System.Drawing.Point(490, 553);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(148, 38);
             this.button1.TabIndex = 0;
@@ -160,15 +162,18 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.clmZman,
+            this.clmDaysOfWeek,
             this.clmOffset,
+            this.clmAlternateOffset,
             this.clmHeader,
             this.clmBold,
             this.clmDelete});
             this.dataGridView1.Location = new System.Drawing.Point(17, 210);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1008, 320);
+            this.dataGridView1.Size = new System.Drawing.Size(1093, 320);
             this.dataGridView1.TabIndex = 16;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // clmZman
@@ -181,11 +186,22 @@
             this.clmZman.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.clmZman.Width = 450;
             // 
+            // clmDaysOfWeek
+            // 
+            this.clmDaysOfWeek.HeaderText = "Days/ימים";
+            this.clmDaysOfWeek.Name = "clmDaysOfWeek";
+            this.clmDaysOfWeek.ReadOnly = true;
+            // 
             // clmOffset
             // 
-            this.clmOffset.HeaderText = "Offset / הוסיף דקות";
+            this.clmOffset.HeaderText = "Offset / הוסף דקות";
             this.clmOffset.Name = "clmOffset";
             this.clmOffset.Width = 150;
+            // 
+            // clmAlternateOffset
+            // 
+            this.clmAlternateOffset.HeaderText = "Alt. Offset";
+            this.clmAlternateOffset.Name = "clmAlternateOffset";
             // 
             // clmHeader
             // 
@@ -219,7 +235,7 @@
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Verdana", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label4.Location = new System.Drawing.Point(460, 192);
+            this.label4.Location = new System.Drawing.Point(503, 192);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(123, 16);
             this.label4.TabIndex = 17;
@@ -330,6 +346,215 @@
             this.label8.TabIndex = 22;
             this.label8.Text = "Time / שעה";
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(769, 9);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(105, 15);
+            this.label9.TabIndex = 24;
+            this.label9.Text = "100% Width / רוחב";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(783, 67);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(83, 15);
+            this.label10.TabIndex = 26;
+            this.label10.Text = "Direction / כיוון";
+            // 
+            // jdpFrom
+            // 
+            this.jdpFrom.AutoSize = true;
+            this.jdpFrom.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.jdpFrom.BackColor = System.Drawing.Color.White;
+            this.jdpFrom.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.jdpFrom.ForeColor = System.Drawing.Color.Black;
+            this.jdpFrom.Location = new System.Drawing.Point(67, 0);
+            this.jdpFrom.Margin = new System.Windows.Forms.Padding(0);
+            this.jdpFrom.MaxDate = ((JewishCalendar.JewishDate)(resources.GetObject("jdpFrom.MaxDate")));
+            this.jdpFrom.MinDate = ((JewishCalendar.JewishDate)(resources.GetObject("jdpFrom.MinDate")));
+            this.jdpFrom.Name = "jdpFrom";
+            this.jdpFrom.Size = new System.Drawing.Size(245, 28);
+            this.jdpFrom.TabIndex = 27;
+            this.jdpFrom.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jdpFrom.Value")));
+            // 
+            // jdpTo
+            // 
+            this.jdpTo.AutoSize = true;
+            this.jdpTo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.jdpTo.BackColor = System.Drawing.Color.White;
+            this.jdpTo.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.jdpTo.ForeColor = System.Drawing.Color.Black;
+            this.jdpTo.Location = new System.Drawing.Point(67, 36);
+            this.jdpTo.Margin = new System.Windows.Forms.Padding(0);
+            this.jdpTo.MaxDate = ((JewishCalendar.JewishDate)(resources.GetObject("jdpTo.MaxDate")));
+            this.jdpTo.MinDate = ((JewishCalendar.JewishDate)(resources.GetObject("jdpTo.MinDate")));
+            this.jdpTo.Name = "jdpTo";
+            this.jdpTo.Size = new System.Drawing.Size(245, 28);
+            this.jdpTo.TabIndex = 28;
+            this.jdpTo.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jdpTo.Value")));
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(2, 5);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(55, 15);
+            this.label11.TabIndex = 30;
+            this.label11.Text = " From / מ";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(2, 42);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(56, 15);
+            this.label12.TabIndex = 31;
+            this.label12.Text = " Until / עד";
+            // 
+            // pnlDateTypeMonth
+            // 
+            this.pnlDateTypeMonth.Controls.Add(this.cmbYear);
+            this.pnlDateTypeMonth.Controls.Add(this.cmbMonth);
+            this.pnlDateTypeMonth.Controls.Add(this.label2);
+            this.pnlDateTypeMonth.Controls.Add(this.label3);
+            this.pnlDateTypeMonth.Location = new System.Drawing.Point(18, 94);
+            this.pnlDateTypeMonth.Name = "pnlDateTypeMonth";
+            this.pnlDateTypeMonth.Size = new System.Drawing.Size(270, 46);
+            this.pnlDateTypeMonth.TabIndex = 32;
+            // 
+            // pnlDateTypeFromTo
+            // 
+            this.pnlDateTypeFromTo.Controls.Add(this.label11);
+            this.pnlDateTypeFromTo.Controls.Add(this.jdpFrom);
+            this.pnlDateTypeFromTo.Controls.Add(this.label12);
+            this.pnlDateTypeFromTo.Controls.Add(this.jdpTo);
+            this.pnlDateTypeFromTo.Location = new System.Drawing.Point(17, 94);
+            this.pnlDateTypeFromTo.Name = "pnlDateTypeFromTo";
+            this.pnlDateTypeFromTo.Size = new System.Drawing.Size(313, 67);
+            this.pnlDateTypeFromTo.TabIndex = 33;
+            this.pnlDateTypeFromTo.Visible = false;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(594, 115);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(91, 15);
+            this.label13.TabIndex = 35;
+            this.label13.Text = "Seconds / שניות";
+            // 
+            // choiceSeconds
+            // 
+            this.choiceSeconds.BackColorNotSelected = System.Drawing.SystemColors.Control;
+            this.choiceSeconds.BackColorSelected = System.Drawing.SystemColors.Control;
+            this.choiceSeconds.BackColorSlot = System.Drawing.Color.Teal;
+            this.choiceSeconds.BackColorSlotChoiceTwo = System.Drawing.Color.Gray;
+            this.choiceSeconds.ChoiceChosen = ChoiceSwitcherChoices.ChoiceOne;
+            this.choiceSeconds.ChoiceOneSelected = true;
+            this.choiceSeconds.ChoiceTwoSelected = false;
+            this.choiceSeconds.DisplayAsYesNo = false;
+            this.choiceSeconds.Font = new System.Drawing.Font("Verdana", 7F);
+            this.choiceSeconds.FontNotSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceSeconds.FontSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceSeconds.FontSize = 7F;
+            this.choiceSeconds.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceSeconds.ForeColorSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceSeconds.Location = new System.Drawing.Point(564, 130);
+            this.choiceSeconds.Name = "choiceSeconds";
+            this.choiceSeconds.SelectedValue = false;
+            this.choiceSeconds.Size = new System.Drawing.Size(153, 23);
+            this.choiceSeconds.TabIndex = 34;
+            this.choiceSeconds.Text = "choiceSwitcher2";
+            this.choiceSeconds.TextChoiceOne = "Yes / כן";
+            this.choiceSeconds.TextChoiceTwo = "No / לא";
+            this.choiceSeconds.ValueChoiceOne = false;
+            this.choiceSeconds.ValueChoiceTwo = true;
+            // 
+            // choiceSwitcherDateType
+            // 
+            this.choiceSwitcherDateType.BackColorNotSelected = System.Drawing.SystemColors.Control;
+            this.choiceSwitcherDateType.BackColorSelected = System.Drawing.SystemColors.Control;
+            this.choiceSwitcherDateType.BackColorSlot = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.choiceSwitcherDateType.BackColorSlotChoiceTwo = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.choiceSwitcherDateType.ChoiceChosen = ChoiceSwitcherChoices.ChoiceOne;
+            this.choiceSwitcherDateType.ChoiceOneSelected = true;
+            this.choiceSwitcherDateType.ChoiceTwoSelected = false;
+            this.choiceSwitcherDateType.DisplayAsYesNo = false;
+            this.choiceSwitcherDateType.Font = new System.Drawing.Font("Verdana", 7F);
+            this.choiceSwitcherDateType.FontNotSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceSwitcherDateType.FontSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceSwitcherDateType.FontSize = 7F;
+            this.choiceSwitcherDateType.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceSwitcherDateType.ForeColorSelected = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.choiceSwitcherDateType.Location = new System.Drawing.Point(24, 65);
+            this.choiceSwitcherDateType.Name = "choiceSwitcherDateType";
+            this.choiceSwitcherDateType.SelectedValue = null;
+            this.choiceSwitcherDateType.Size = new System.Drawing.Size(284, 23);
+            this.choiceSwitcherDateType.TabIndex = 29;
+            this.choiceSwitcherDateType.Text = "choiceSwitcher2";
+            this.choiceSwitcherDateType.TextChoiceOne = "Month / חודש";
+            this.choiceSwitcherDateType.TextChoiceTwo = "Choose Dates / לבחור תאריכים";
+            this.choiceSwitcherDateType.ValueChoiceOne = null;
+            this.choiceSwitcherDateType.ValueChoiceTwo = null;
+            this.choiceSwitcherDateType.ChoiceSwitched += new System.EventHandler(this.choiceSwitcherDateType_ChoiceSwitched);
+            // 
+            // choiceDirection
+            // 
+            this.choiceDirection.BackColorNotSelected = System.Drawing.SystemColors.Control;
+            this.choiceDirection.BackColorSelected = System.Drawing.SystemColors.Control;
+            this.choiceDirection.BackColorSlot = System.Drawing.Color.RoyalBlue;
+            this.choiceDirection.BackColorSlotChoiceTwo = System.Drawing.Color.RoyalBlue;
+            this.choiceDirection.ChoiceChosen = ChoiceSwitcherChoices.ChoiceOne;
+            this.choiceDirection.ChoiceOneSelected = true;
+            this.choiceDirection.ChoiceTwoSelected = false;
+            this.choiceDirection.DisplayAsYesNo = false;
+            this.choiceDirection.Font = new System.Drawing.Font("Verdana", 7F);
+            this.choiceDirection.FontNotSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceDirection.FontSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceDirection.FontSize = 7F;
+            this.choiceDirection.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceDirection.ForeColorSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceDirection.Location = new System.Drawing.Point(740, 83);
+            this.choiceDirection.Name = "choiceDirection";
+            this.choiceDirection.SelectedValue = false;
+            this.choiceDirection.Size = new System.Drawing.Size(181, 23);
+            this.choiceDirection.TabIndex = 25;
+            this.choiceDirection.Text = "choiceSwitcher2";
+            this.choiceDirection.TextChoiceOne = "Left / שמאל";
+            this.choiceDirection.TextChoiceTwo = "Right / ימין";
+            this.choiceDirection.ValueChoiceOne = false;
+            this.choiceDirection.ValueChoiceTwo = true;
+            // 
+            // choiceWidth100
+            // 
+            this.choiceWidth100.BackColorNotSelected = System.Drawing.SystemColors.Control;
+            this.choiceWidth100.BackColorSelected = System.Drawing.SystemColors.Control;
+            this.choiceWidth100.BackColorSlot = System.Drawing.Color.Gray;
+            this.choiceWidth100.BackColorSlotChoiceTwo = System.Drawing.Color.Teal;
+            this.choiceWidth100.ChoiceChosen = ChoiceSwitcherChoices.ChoiceTwo;
+            this.choiceWidth100.ChoiceOneSelected = false;
+            this.choiceWidth100.ChoiceTwoSelected = true;
+            this.choiceWidth100.DisplayAsYesNo = false;
+            this.choiceWidth100.Font = new System.Drawing.Font("Verdana", 7F);
+            this.choiceWidth100.FontNotSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceWidth100.FontSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceWidth100.FontSize = 7F;
+            this.choiceWidth100.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceWidth100.ForeColorSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceWidth100.Location = new System.Drawing.Point(756, 23);
+            this.choiceWidth100.Name = "choiceWidth100";
+            this.choiceWidth100.SelectedValue = true;
+            this.choiceWidth100.Size = new System.Drawing.Size(149, 23);
+            this.choiceWidth100.TabIndex = 23;
+            this.choiceWidth100.Text = "choiceSwitcher2";
+            this.choiceWidth100.TextChoiceOne = "No / לא";
+            this.choiceWidth100.TextChoiceTwo = "Yes / כן";
+            this.choiceWidth100.ValueChoiceOne = false;
+            this.choiceWidth100.ValueChoiceTwo = true;
+            // 
             // choiceAmPm
             // 
             this.choiceAmPm.BackColorNotSelected = System.Drawing.SystemColors.Control;
@@ -412,220 +637,11 @@
             this.choiceSwitcher1.ValueChoiceTwo = null;
             this.choiceSwitcher1.ChoiceSwitched += new System.EventHandler(this.ChoiceSwitcher1_ChoiceSwitched_1);
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(769, 9);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(105, 15);
-            this.label9.TabIndex = 24;
-            this.label9.Text = "100% Width / רוחב";
-            // 
-            // choiceWidth100
-            // 
-            this.choiceWidth100.BackColorNotSelected = System.Drawing.SystemColors.Control;
-            this.choiceWidth100.BackColorSelected = System.Drawing.SystemColors.Control;
-            this.choiceWidth100.BackColorSlot = System.Drawing.Color.Gray;
-            this.choiceWidth100.BackColorSlotChoiceTwo = System.Drawing.Color.Teal;
-            this.choiceWidth100.ChoiceChosen = ChoiceSwitcherChoices.ChoiceTwo;
-            this.choiceWidth100.ChoiceOneSelected = false;
-            this.choiceWidth100.ChoiceTwoSelected = true;
-            this.choiceWidth100.DisplayAsYesNo = false;
-            this.choiceWidth100.Font = new System.Drawing.Font("Verdana", 7F);
-            this.choiceWidth100.FontNotSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
-            this.choiceWidth100.FontSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
-            this.choiceWidth100.FontSize = 7F;
-            this.choiceWidth100.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
-            this.choiceWidth100.ForeColorSelected = System.Drawing.SystemColors.ControlText;
-            this.choiceWidth100.Location = new System.Drawing.Point(756, 23);
-            this.choiceWidth100.Name = "choiceWidth100";
-            this.choiceWidth100.SelectedValue = true;
-            this.choiceWidth100.Size = new System.Drawing.Size(149, 23);
-            this.choiceWidth100.TabIndex = 23;
-            this.choiceWidth100.Text = "choiceSwitcher2";
-            this.choiceWidth100.TextChoiceOne = "No / לא";
-            this.choiceWidth100.TextChoiceTwo = "Yes / כן";
-            this.choiceWidth100.ValueChoiceOne = false;
-            this.choiceWidth100.ValueChoiceTwo = true;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(783, 67);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(83, 15);
-            this.label10.TabIndex = 26;
-            this.label10.Text = "Direction / כיוון";
-            // 
-            // choiceDirection
-            // 
-            this.choiceDirection.BackColorNotSelected = System.Drawing.SystemColors.Control;
-            this.choiceDirection.BackColorSelected = System.Drawing.SystemColors.Control;
-            this.choiceDirection.BackColorSlot = System.Drawing.Color.RoyalBlue;
-            this.choiceDirection.BackColorSlotChoiceTwo = System.Drawing.Color.RoyalBlue;
-            this.choiceDirection.ChoiceChosen = ChoiceSwitcherChoices.ChoiceOne;
-            this.choiceDirection.ChoiceOneSelected = true;
-            this.choiceDirection.ChoiceTwoSelected = false;
-            this.choiceDirection.DisplayAsYesNo = false;
-            this.choiceDirection.Font = new System.Drawing.Font("Verdana", 7F);
-            this.choiceDirection.FontNotSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
-            this.choiceDirection.FontSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
-            this.choiceDirection.FontSize = 7F;
-            this.choiceDirection.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
-            this.choiceDirection.ForeColorSelected = System.Drawing.SystemColors.ControlText;
-            this.choiceDirection.Location = new System.Drawing.Point(740, 83);
-            this.choiceDirection.Name = "choiceDirection";
-            this.choiceDirection.SelectedValue = false;
-            this.choiceDirection.Size = new System.Drawing.Size(181, 23);
-            this.choiceDirection.TabIndex = 25;
-            this.choiceDirection.Text = "choiceSwitcher2";
-            this.choiceDirection.TextChoiceOne = "Left / שמאל";
-            this.choiceDirection.TextChoiceTwo = "Right / ימין";
-            this.choiceDirection.ValueChoiceOne = false;
-            this.choiceDirection.ValueChoiceTwo = true;
-            // 
-            // jdpFrom
-            // 
-            this.jdpFrom.AutoSize = true;
-            this.jdpFrom.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.jdpFrom.BackColor = System.Drawing.Color.White;
-            this.jdpFrom.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.jdpFrom.ForeColor = System.Drawing.Color.Black;
-            this.jdpFrom.Location = new System.Drawing.Point(67, 0);
-            this.jdpFrom.Margin = new System.Windows.Forms.Padding(0);
-            this.jdpFrom.MaxDate = ((JewishCalendar.JewishDate)(resources.GetObject("jdpFrom.MaxDate")));
-            this.jdpFrom.MinDate = ((JewishCalendar.JewishDate)(resources.GetObject("jdpFrom.MinDate")));
-            this.jdpFrom.Name = "jdpFrom";
-            this.jdpFrom.Size = new System.Drawing.Size(245, 28);
-            this.jdpFrom.TabIndex = 27;
-            this.jdpFrom.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jdpFrom.Value")));
-            // 
-            // jdpTo
-            // 
-            this.jdpTo.AutoSize = true;
-            this.jdpTo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.jdpTo.BackColor = System.Drawing.Color.White;
-            this.jdpTo.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.jdpTo.ForeColor = System.Drawing.Color.Black;
-            this.jdpTo.Location = new System.Drawing.Point(67, 36);
-            this.jdpTo.Margin = new System.Windows.Forms.Padding(0);
-            this.jdpTo.MaxDate = ((JewishCalendar.JewishDate)(resources.GetObject("jdpTo.MaxDate")));
-            this.jdpTo.MinDate = ((JewishCalendar.JewishDate)(resources.GetObject("jdpTo.MinDate")));
-            this.jdpTo.Name = "jdpTo";
-            this.jdpTo.Size = new System.Drawing.Size(245, 28);
-            this.jdpTo.TabIndex = 28;
-            this.jdpTo.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jdpTo.Value")));
-            // 
-            // choiceSwitcherDateType
-            // 
-            this.choiceSwitcherDateType.BackColorNotSelected = System.Drawing.SystemColors.Control;
-            this.choiceSwitcherDateType.BackColorSelected = System.Drawing.SystemColors.Control;
-            this.choiceSwitcherDateType.BackColorSlot = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.choiceSwitcherDateType.BackColorSlotChoiceTwo = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.choiceSwitcherDateType.ChoiceChosen = ChoiceSwitcherChoices.ChoiceOne;
-            this.choiceSwitcherDateType.ChoiceOneSelected = true;
-            this.choiceSwitcherDateType.ChoiceTwoSelected = false;
-            this.choiceSwitcherDateType.DisplayAsYesNo = false;
-            this.choiceSwitcherDateType.Font = new System.Drawing.Font("Verdana", 7F);
-            this.choiceSwitcherDateType.FontNotSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
-            this.choiceSwitcherDateType.FontSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
-            this.choiceSwitcherDateType.FontSize = 7F;
-            this.choiceSwitcherDateType.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
-            this.choiceSwitcherDateType.ForeColorSelected = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.choiceSwitcherDateType.Location = new System.Drawing.Point(24, 65);
-            this.choiceSwitcherDateType.Name = "choiceSwitcherDateType";
-            this.choiceSwitcherDateType.SelectedValue = null;
-            this.choiceSwitcherDateType.Size = new System.Drawing.Size(284, 23);
-            this.choiceSwitcherDateType.TabIndex = 29;
-            this.choiceSwitcherDateType.Text = "choiceSwitcher2";
-            this.choiceSwitcherDateType.TextChoiceOne = "Month / חודש";
-            this.choiceSwitcherDateType.TextChoiceTwo = "Choose Dates / לבחור תאריכים";
-            this.choiceSwitcherDateType.ValueChoiceOne = null;
-            this.choiceSwitcherDateType.ValueChoiceTwo = null;
-            this.choiceSwitcherDateType.ChoiceSwitched += new System.EventHandler(this.choiceSwitcherDateType_ChoiceSwitched);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(2, 5);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(55, 15);
-            this.label11.TabIndex = 30;
-            this.label11.Text = " From / מ";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(2, 42);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(56, 15);
-            this.label12.TabIndex = 31;
-            this.label12.Text = " Until / עד";
-            // 
-            // pnlDateTypeMonth
-            // 
-            this.pnlDateTypeMonth.Controls.Add(this.cmbYear);
-            this.pnlDateTypeMonth.Controls.Add(this.cmbMonth);
-            this.pnlDateTypeMonth.Controls.Add(this.label2);
-            this.pnlDateTypeMonth.Controls.Add(this.label3);
-            this.pnlDateTypeMonth.Location = new System.Drawing.Point(18, 94);
-            this.pnlDateTypeMonth.Name = "pnlDateTypeMonth";
-            this.pnlDateTypeMonth.Size = new System.Drawing.Size(270, 46);
-            this.pnlDateTypeMonth.TabIndex = 32;
-            // 
-            // pnlDateTypeFromTo
-            // 
-            this.pnlDateTypeFromTo.Controls.Add(this.label11);
-            this.pnlDateTypeFromTo.Controls.Add(this.jdpFrom);
-            this.pnlDateTypeFromTo.Controls.Add(this.label12);
-            this.pnlDateTypeFromTo.Controls.Add(this.jdpTo);
-            this.pnlDateTypeFromTo.Location = new System.Drawing.Point(17, 94);
-            this.pnlDateTypeFromTo.Name = "pnlDateTypeFromTo";
-            this.pnlDateTypeFromTo.Size = new System.Drawing.Size(313, 67);
-            this.pnlDateTypeFromTo.TabIndex = 33;
-            this.pnlDateTypeFromTo.Visible = false;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(594, 115);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(91, 15);
-            this.label13.TabIndex = 35;
-            this.label13.Text = "Seconds / שניות";
-            // 
-            // choiceSeconds
-            // 
-            this.choiceSeconds.BackColorNotSelected = System.Drawing.SystemColors.Control;
-            this.choiceSeconds.BackColorSelected = System.Drawing.SystemColors.Control;
-            this.choiceSeconds.BackColorSlot = System.Drawing.Color.Teal;
-            this.choiceSeconds.BackColorSlotChoiceTwo = System.Drawing.Color.Gray;
-            this.choiceSeconds.ChoiceChosen = ChoiceSwitcherChoices.ChoiceOne;
-            this.choiceSeconds.ChoiceOneSelected = true;
-            this.choiceSeconds.ChoiceTwoSelected = false;
-            this.choiceSeconds.DisplayAsYesNo = false;
-            this.choiceSeconds.Font = new System.Drawing.Font("Verdana", 7F);
-            this.choiceSeconds.FontNotSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
-            this.choiceSeconds.FontSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
-            this.choiceSeconds.FontSize = 7F;
-            this.choiceSeconds.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
-            this.choiceSeconds.ForeColorSelected = System.Drawing.SystemColors.ControlText;
-            this.choiceSeconds.Location = new System.Drawing.Point(564, 130);
-            this.choiceSeconds.Name = "choiceSeconds";
-            this.choiceSeconds.SelectedValue = false;
-            this.choiceSeconds.Size = new System.Drawing.Size(153, 23);
-            this.choiceSeconds.TabIndex = 34;
-            this.choiceSeconds.Text = "choiceSwitcher2";
-            this.choiceSeconds.TextChoiceOne = "Yes / כן";
-            this.choiceSeconds.TextChoiceTwo = "No / לא";
-            this.choiceSeconds.ValueChoiceOne = false;
-            this.choiceSeconds.ValueChoiceTwo = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1043, 611);
+            this.ClientSize = new System.Drawing.Size(1128, 611);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.choiceSeconds);
             this.Controls.Add(this.pnlDateTypeMonth);
@@ -690,11 +706,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private ChoiceSwitcher choiceWidth100;
-        private System.Windows.Forms.DataGridViewComboBoxColumn clmZman;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clmOffset;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clmHeader;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn clmBold;
-        private System.Windows.Forms.DataGridViewLinkColumn clmDelete;
         private System.Windows.Forms.Label label10;
         private ChoiceSwitcher choiceDirection;
         private System.Windows.Forms.RadioButton rbDOWEnglish;
@@ -708,6 +719,13 @@
         private System.Windows.Forms.Panel pnlDateTypeFromTo;
         private System.Windows.Forms.Label label13;
         private ChoiceSwitcher choiceSeconds;
+        private System.Windows.Forms.DataGridViewComboBoxColumn clmZman;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmDaysOfWeek;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmOffset;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmAlternateOffset;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmHeader;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn clmBold;
+        private System.Windows.Forms.DataGridViewLinkColumn clmDelete;
     }
 }
 

@@ -283,7 +283,7 @@ namespace ZmanimAnywhere
                     case 13: hm = dz.ShkiaMishor; break; //Sunset - sea level
                     case 14: hm = dz.ShkiaAtElevation + 45; break; //Night - 45
                     case 15: hm = dz.ShkiaAtElevation + 72; break; //Night - Rabbeinu Tam
-                    case 16: hm = dz.ShkiaAtElevation + (int)(dz.ShaaZmanis90 * 1.2); break; //Night - 72 Zmaniyos                    
+                    case 16: hm = dz.ShkiaAtElevation + (int)(dz.ShaaZmanisMga * 1.2); break; //Night - 72 Zmaniyos                    
                 }
                 if (this.Offset != 0)
                 {

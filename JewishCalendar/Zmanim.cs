@@ -733,17 +733,17 @@ namespace JewishCalendar
                     (considerElevation ? location.Elevation : 0))));
 
             zeninthDeg = Math.Floor(zenithAtElevation);
-            zenithMin = (zenithAtElevation - Math.Floor(zenithAtElevation)) * 60;
+            zenithMin = (zenithAtElevation - Math.Floor(zenithAtElevation)) * 60d;
             cosZen = Math.Cos(0.01745 * DegToDec(zeninthDeg, zenithMin));
             longitude = DegToDec(location.LongitudeDegrees, location.LongitudeMinutes) *
                 (location.LongitudeType == Location.LongitudeTypes.West ? 1 : -1);
-            lonHour = longitude / 15;
+            lonHour = longitude / 15d;
             latitude = DegToDec(location.LatitudeDegrees, location.LatitudeMinutes) *
                 (location.LatitudeType == Location.LatitudeTypes.North ? 1 : -1);
             cosLat = Math.Cos(0.01745 * latitude);
             sinLat = Math.Sin(0.01745 * latitude);
-            tRise = day + (6 + lonHour) / 24;
-            tSet = day + (18 + lonHour) / 24;
+            tRise = day + (6 + lonHour) / 24d;
+            tSet = day + (18 + lonHour) / 24d;
             xmRise = M(tRise);
             xlRise = L(xmRise);
             xmSet = M(tSet);
@@ -752,48 +752,58 @@ namespace JewishCalendar
             aSet = 57.29578 * Math.Atan(0.91746 * Math.Tan(0.01745 * xlSet));
             if (Math.Abs(aRise + 360 - xlRise) > 90)
             {
-                aRise += 180;
+                aRise += 180d;
             }
-            if (aRise > 360)
+            if (aRise > 360d)
             {
-                aRise -= 360;
+                aRise -= 360d;
             }
-            if (Math.Abs(aSet + 360 - xlSet) > 90)
+            if (Math.Abs(aSet + 360d - xlSet) > 90d)
             {
-                aSet += 180;
+                aSet += 180d;
             }
-            if (aSet > 360)
+            if (aSet > 360d)
             {
-                aSet -= 360;
+                aSet -= 360d;
             }
-            ahrRise = aRise / 15;
+            ahrRise = aRise / 15d;
             sinDec = 0.39782 * Math.Sin(0.01745 * xlRise);
             cosDec = Math.Sqrt(1 - sinDec * sinDec);
             hRise = (cosZen - sinDec * sinLat) / (cosDec * cosLat);
-            ahrSet = aSet / 15;
+            ahrSet = aSet / 15d;
             sinDec = 0.39782 * Math.Sin(0.01745 * xlSet);
             cosDec = Math.Sqrt(1 - sinDec * sinDec);
             hSet = (cosZen - sinDec * sinLat) / (cosDec * cosLat);
             if (Math.Abs(hRise) <= 1)
             {
                 hRise = 57.29578 * Math.Acos(hRise);
-                utRise = ((360 - hRise) / 15) + ahrRise + Adj(tRise) + lonHour;
-                sunrise = TimeAdj(utRise + location.TimeZone, date, location);               
+                utRise = ((360d - hRise) / 15d) + ahrRise + Adj(tRise) + lonHour;
+                sunrise = TimeAdj(utRise + location.TimeZone, date, location);
+                if (sunrise.Hour > 13)
+                {
+                    sunrise.Hour -= 12;
+                }
             }
 
             if (Math.Abs(hSet) <= 1)
             {
                 hSet = 57.29578 * Math.Acos(hSet);
-                utSet = (hRise / 15) + ahrSet + Adj(tSet) + lonHour;
-                sunset = TimeAdj(utSet + location.TimeZone, date, location);                
+                utSet = (hRise / 15d) + ahrSet + Adj(tSet) + lonHour;
+                sunset = TimeAdj(utSet + location.TimeZone, date, location);
+                if (sunset.Hour < 11)
+                {
+                    sunset.Hour += 12;
+                }
             }
 
             return new TimeOfDay[] { sunrise, sunset };
         }
 
-        private static double Adj(double x) => (-0.06571 * x - 6.62);
+        private static double Adj(double x) =>
+            (-0.06571 * x - 6.62);
 
-        private static double DegToDec(double deg, double min) => (deg + min / 60);
+        private static double DegToDec(double deg, double min) =>
+            (deg + min / 60);
 
         private static int GetDayOfYear(DateTime date)
         {
@@ -824,11 +834,14 @@ namespace JewishCalendar
             return false;
         }
 
-        private static double L(double x) => (x + 1.916 * Math.Sin(0.01745 * x) + 0.02 * Math.Sin(2 * 0.01745 * x) + 282.565);
+        private static double L(double x) =>
+            (x + 1.916 * Math.Sin(0.01745 * x) + 0.02 * Math.Sin(2 * 0.01745 * x) + 282.565);
 
-        private static double M(double x) => (0.9856 * x - 3.251);
+        private static double M(double x) =>
+            (0.9856 * x - 3.251);
 
-        private static double RadToDeg(double rad) => 57.29578 * rad;
+        private static double RadToDeg(double rad) =>
+            57.29578 * rad;
 
         private static TimeOfDay TimeAdj(double time, DateTime date, Location location)
         {
