@@ -779,7 +779,7 @@ namespace JewishCalendar
                 hRise = 57.29578 * Math.Acos(hRise);
                 utRise = ((360d - hRise) / 15d) + ahrRise + Adj(tRise) + lonHour;
                 sunrise = TimeAdj(utRise + location.TimeZone, date, location);
-                if (sunrise.Hour > 13)
+                if (sunrise.Hour > 12)
                 {
                     sunrise.Hour -= 12;
                 }
@@ -790,7 +790,7 @@ namespace JewishCalendar
                 hSet = 57.29578 * Math.Acos(hSet);
                 utSet = (hRise / 15d) + ahrSet + Adj(tSet) + lonHour;
                 sunset = TimeAdj(utSet + location.TimeZone, date, location);
-                if (sunset.Hour < 11)
+                if (sunset.Hour > 0 && sunset.Hour < 12)
                 {
                     sunset.Hour += 12;
                 }
