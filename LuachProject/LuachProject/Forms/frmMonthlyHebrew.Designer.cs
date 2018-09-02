@@ -57,6 +57,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.goToDateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.goToUpcomingOccurenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editThisOccasionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.deleteThisOccasionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -66,6 +72,7 @@
             this.splitContainer2.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblMonthName
@@ -239,6 +246,7 @@
             // pnlMain
             // 
             this.pnlMain.BackColor = System.Drawing.Color.White;
+            this.pnlMain.ContextMenuStrip = this.contextMenuStrip1;
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMain.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.pnlMain.Location = new System.Drawing.Point(7, 0);
@@ -482,6 +490,61 @@
             this.label4.TabIndex = 9;
             this.label4.Text = "|";
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.goToDateToolStripMenuItem,
+            this.goToUpcomingOccurenceToolStripMenuItem,
+            this.editThisOccasionToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.deleteThisOccasionToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.contextMenuStrip1.Size = new System.Drawing.Size(256, 106);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            // 
+            // goToDateToolStripMenuItem
+            // 
+            this.goToDateToolStripMenuItem.Name = "goToDateToolStripMenuItem";
+            this.goToDateToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+            this.goToDateToolStripMenuItem.Size = new System.Drawing.Size(255, 24);
+            this.goToDateToolStripMenuItem.Text = "פתח תאריך האירוע";
+            this.goToDateToolStripMenuItem.Click += new System.EventHandler(this.goToDateToolStripMenuItem_Click);
+
+            // 
+            // goToUpcomingOccurenceToolStripMenuItem
+            // 
+            this.goToUpcomingOccurenceToolStripMenuItem.Name = "goToUpcomingOccurenceToolStripMenuItem";
+            this.goToUpcomingOccurenceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
+            this.goToUpcomingOccurenceToolStripMenuItem.Size = new System.Drawing.Size(255, 24);
+            this.goToUpcomingOccurenceToolStripMenuItem.Text = "פתח תאריך הבא";
+            this.goToUpcomingOccurenceToolStripMenuItem.Click += new System.EventHandler(this.goToUpcomingOccurenceToolStripMenuItem_Click);
+
+            // 
+            // editThisOccasionToolStripMenuItem
+            // 
+            this.editThisOccasionToolStripMenuItem.Name = "editThisOccasionToolStripMenuItem";
+            this.editThisOccasionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.editThisOccasionToolStripMenuItem.Size = new System.Drawing.Size(255, 24);
+            this.editThisOccasionToolStripMenuItem.Text = "ערוך פרטי האירוע";
+            this.editThisOccasionToolStripMenuItem.Click += new System.EventHandler(this.editThisOccasionToolStripMenuItem_Click);
+
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(252, 6);
+            // 
+            // deleteThisOccasionToolStripMenuItem
+            // 
+            this.deleteThisOccasionToolStripMenuItem.Name = "deleteThisOccasionToolStripMenuItem";
+            this.deleteThisOccasionToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.deleteThisOccasionToolStripMenuItem.Size = new System.Drawing.Size(255, 24);
+            this.deleteThisOccasionToolStripMenuItem.Text = "מחק האירוע";
+            this.deleteThisOccasionToolStripMenuItem.Click += new System.EventHandler(this.deleteThisOccasionToolStripMenuItem_Click);
+
+            // 
             // frmMonthlyHebrew
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -520,6 +583,7 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -554,5 +618,11 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem goToDateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem goToUpcomingOccurenceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editThisOccasionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem deleteThisOccasionToolStripMenuItem;
     }
 }

@@ -343,6 +343,44 @@ namespace LuachProject
 
         private void pnlMain_MouseClick(object sender, MouseEventArgs e)
         {
+            if (e.Button == MouseButtons.Left)
+            {
+                var sdi = this.GetSingleDateInfoFromLocation(this._pnlMouseLocation);
+
+                if (sdi != null)
+                {
+                    this.EditSelectedOccasion();
+                }
+            }
+        }       
+
+        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var sdi = this.GetSingleDateInfoFromLocation(this._pnlMouseLocation);
+
+            if (sdi == null)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void goToDateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.GoToSelectedOccasionDate();
+        }
+
+        private void goToUpcomingOccurenceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.GoToSelectedOccasionUpcoming();
+        }
+
+        private void editThisOccasionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.EditSelectedOccasion();
+        }
+
+        private void deleteThisOccasionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             var sdi = this.GetSingleDateInfoFromLocation(this._pnlMouseLocation);
 
             if (sdi != null)
@@ -350,14 +388,20 @@ namespace LuachProject
                 this.SelectSingleDay(sdi);
                 var occ = this.GetUserOccasionFromLocation(this._pnlMouseLocation, sdi);
 
-                if (occ != null && this.DailyPanelIsShowing)
+                if (occ != null)
                 {
-                    var f = this.DailyInfoForm;
-                    f.EditOccasion(occ, new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
+                    if (MessageBox.Show("האם אתם בטוחים שברצונכם למחוק האירוע \"" + occ.Name + "\"?",
+                            "לוח - מחק אירוע",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question,
+                            MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                    {
+                        Properties.Settings.Default.UserOccasions.Remove(occ);
+                        Properties.Settings.Default.Save();
+                        this.Reload();
+                    }
                 }
             }
-
-            this.EnableArrows();
         }
 
         private void pnlMain_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -958,6 +1002,58 @@ namespace LuachProject
             this.llShowSeconds.Text = (Properties.Settings.Default.ShowSeconds ?
                 "הסתר" : "הצג") +
                 " שניות";
+        }
+
+        private void EditSelectedOccasion()
+        {
+            var sdi = this.GetSingleDateInfoFromLocation(this._pnlMouseLocation);
+
+            if (sdi != null)
+            {
+                this.SelectSingleDay(sdi);
+                var occ = this.GetUserOccasionFromLocation(this._pnlMouseLocation, sdi);
+
+                if (occ != null && this.DailyPanelIsShowing)
+                {
+                    var f = this.DailyInfoForm;
+                    f.EditOccasion(occ, new Point((int)(sdi.RectangleF.X - f.Width), (int)(sdi.RectangleF.Y + sdi.RectangleF.Height)));
+                }
+            }
+
+            this.EnableArrows();
+        }
+
+        private void GoToSelectedOccasionDate()
+        {
+            var sdi = this.GetSingleDateInfoFromLocation(this._pnlMouseLocation);
+
+            if (sdi != null)
+            {
+                this.SelectSingleDay(sdi);
+                var occ = this.GetUserOccasionFromLocation(this._pnlMouseLocation, sdi);
+
+                if (occ != null)
+                {
+                    this.SelectedDate =
+                    (occ.JewishDate != null ? occ.JewishDate.GregorianDate : occ.SecularDate);
+                }
+            }
+        }
+
+        private void GoToSelectedOccasionUpcoming()
+        {
+            var sdi = this.GetSingleDateInfoFromLocation(this._pnlMouseLocation);
+
+            if (sdi != null)
+            {
+                this.SelectSingleDay(sdi);
+                var occ = this.GetUserOccasionFromLocation(this._pnlMouseLocation, sdi);
+
+                if (occ != null)
+                {
+                    this.SelectedDate = occ.GetUpcomingOccurence();
+                }
+            }
         }
         #endregion Private Functions               
 
