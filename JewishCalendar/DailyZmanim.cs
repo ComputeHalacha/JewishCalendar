@@ -61,7 +61,7 @@ namespace JewishCalendar
     /// </summary>
     public class DailyZmanim
     {
-        private Zmanim _zmanim;
+        private readonly Zmanim _zmanim;
         private TimeOfDay[] _netzshkiaAtElevation = null;
         private TimeOfDay[] _netzshkiaMishor = null;
         private TimeOfDay _chatzos = TimeOfDay.NoValue;
@@ -87,7 +87,7 @@ namespace JewishCalendar
         /// </summary>
         public DateTime SecularDate
         {
-            get { return this._zmanim.SecularDate; }
+            get => this._zmanim.SecularDate;
             set
             {
                 if (value.Date != this.SecularDate.Date)
@@ -97,13 +97,17 @@ namespace JewishCalendar
                 }
             }
         }
+        /// <summary>
+        /// The Jewish Date
+        /// </summary>
+        public JewishDate JewishDate => new JewishDate(this._zmanim.SecularDate);
 
         /// <summary>
         /// The Location
         /// </summary>
         public Location Location
         {
-            get { return this._zmanim.Location; }
+            get => this._zmanim.Location;
             set
             {
                 if (!this.Location.IsSameLocation(value))

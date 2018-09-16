@@ -48,12 +48,13 @@
             "Wednesday / רביעי",
             "Thursday / חמישי",
             "Friday / שישי",
-            "Shabbos / שבת"});
+            "Shabbos / שבת",
+            "Yom Tov/יום טוב"});
             this.checkedListBox1.Location = new System.Drawing.Point(0, 0);
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(280, 204);
             this.checkedListBox1.TabIndex = 1;
-            this.checkedListBox1.ThreeDCheckBoxes = true;            
+            this.checkedListBox1.ThreeDCheckBoxes = true;
             // 
             // panel1
             // 
@@ -90,7 +91,7 @@
             // frmDaysOfWeek
             // 
             this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(280, 204);

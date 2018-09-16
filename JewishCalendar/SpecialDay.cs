@@ -125,6 +125,29 @@ namespace JewishCalendar
         }
 
         /// <summary>
+        /// Returns true if the given day is a day of Yom Tov or Shabbos in the given location.
+        /// </summary>
+        /// <param name="jd"></param>
+        /// <param name="location"></param>
+        /// <returns></returns>
+        public static bool IsShabbosOrYomTov(JewishDate jd, Location location)
+        {
+            if (jd.DayOfWeek == DayOfWeek.Saturday) return true;
+            switch (jd.Month)
+            {
+                case 1:
+                    return jd.Day == 15 || (!location.IsInIsrael && jd.Day == 16) || jd.Day == 21 || (!location.IsInIsrael && jd.Day == 22);
+                case 3:
+                    return jd.Day == 6 || ((!location.IsInIsrael) && jd.Day == 7);
+                case 7:
+                    return jd.Day.In(1, 2, 10) ||
+                        (jd.Day == 15 || (!location.IsInIsrael && jd.Day == 16) || jd.Day == 22 || (!location.IsInIsrael && jd.Day == 23));
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
         /// Returns true if the given day is a special day or a fast day,
         /// but not Shabbos or a major Yom Tov in the given location.
         /// </summary>

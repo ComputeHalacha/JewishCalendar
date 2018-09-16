@@ -18,7 +18,9 @@ namespace ZmanimChart
         private void Form1_Load(object sender, EventArgs e)
         {
             if (SystemInformation.TerminalServerSession)
+            {
                 return;
+            }
 
             PropertyInfo aProp =
                   typeof(Control).GetProperty(
@@ -227,8 +229,8 @@ namespace ZmanimChart
                     {
                         zmanTime = DafYomi.GetDafYomi(jd).ToStringHeb();
                     }
-                    else if (zmanColumn.DaysOfWeek == null || 
-                        zmanColumn.DaysOfWeek.Contains(jd.DayInWeek) || 
+                    else if (zmanColumn.DaysOfWeek == null ||
+                        zmanColumn.DaysOfWeek.Contains(jd.DayInWeek) ||
                         zmanColumn.AlternateOffset != 0)
                     {
                         zman = zmanColumn.GetZman(dz);
@@ -377,10 +379,10 @@ namespace ZmanimChart
                     {
                         ZmanIndex = Array.IndexOf(Program.ZmanTypesList, Convert.ToString(dgvr.Cells[0].Value)),
                         DaysOfWeek = dgvr.Cells[1].Tag == null
-                            ? new int[] { 0, 1, 2, 3, 4, 5, 6 }
+                            ? new int[] { 0, 1, 2, 3, 4, 5, 6, 7 }
                             : (int[])dgvr.Cells[1].Tag,
                         Offset = offset,
-                        AlternateOffset= alternateOffset,
+                        AlternateOffset = alternateOffset,
                         Header = Convert.ToString(dgvr.Cells[4].Value),
                         Bold = Convert.ToBoolean(dgvr.Cells[5].Value)
                     };
@@ -407,10 +409,9 @@ namespace ZmanimChart
             if (e.ColumnIndex == clmDaysOfWeek.Index)
             {
                 var cell = this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                var cellVal = cell.Value.ToString();
                 var rect = this.dataGridView1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
                 var dow = cell.Tag == null
-                    ? new int[] { 0, 1, 2, 3, 4, 5, 6 }
+                    ? new int[] { 0, 1, 2, 3, 4, 5, 6, 7 }
                     : (int[])cell.Tag;
                 using (var fdow = new frmDaysOfWeek(dow) { Top = rect.Top, Left = rect.Left })
                 {
@@ -418,10 +419,11 @@ namespace ZmanimChart
                     {
                         var sdow = fdow.DaysOfWeekArray;
                         cell.Tag = sdow;
-                        cell.Value = sdow.Length == 7
+                        cell.Value = sdow.Length == 8
                             ? "כולם"
-                            : String.Join(", ", sdow.Select(d =>
-                                Utils.ToNumberHeb(d + 1)).ToArray());
+                            : String.Join(", ", sdow.Select(d => d == 7
+                                ? "יו\"ט"
+                                : Utils.ToNumberHeb(d + 1)).ToArray());
                     }
                 }
             }
@@ -481,14 +483,19 @@ namespace ZmanimChart
                 case 15: hm = dz.ShkiaAtElevation + 72; break; //Night - Rabbeinu Tam
                 case 16: hm = dz.ShkiaAtElevation + (int)(dz.ShaaZmanisMga * 1.2); break; //Night - 72 Zmaniyos                    
             }
-            if (this.Offset != 0 && 
-                (this.DaysOfWeek == null || this.DaysOfWeek.Contains((int)dz.SecularDate.DayOfWeek)))
+            var isYomTov = SpecialDay.IsShabbosOrYomTov(dz.JewishDate, dz.Location);
+            var hasYomTovOffset = !this.DaysOfWeek.Contains(7);
+            var showYomTov = isYomTov && hasYomTovOffset;
+            if (this.Offset != 0 &&
+                (this.DaysOfWeek == null ||
+                this.DaysOfWeek.Contains((int)dz.SecularDate.DayOfWeek)) && (!showYomTov))
             {
                 hm += this.Offset;
             }
-            else if (this.AlternateOffset != 0 && 
-                this.DaysOfWeek != null && 
-                !this.DaysOfWeek.Contains((int)dz.SecularDate.DayOfWeek))
+            else if (this.AlternateOffset != 0 &&
+                this.DaysOfWeek != null &&
+                ((!this.DaysOfWeek.Contains((int)dz.SecularDate.DayOfWeek)) ||
+                showYomTov))
             {
                 hm += this.AlternateOffset;
             }
