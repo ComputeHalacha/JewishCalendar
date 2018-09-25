@@ -331,9 +331,10 @@ namespace JewishCalendar
         /// <returns></returns>
         public static double GetShaaZmanisMga(TimeOfDay[] netzShkia, bool israel)
         {
+            int minutes = (israel ? 90 : 72);
             if (netzShkia[0] == TimeOfDay.NoValue || netzShkia[1] == TimeOfDay.NoValue) { return 0; }
-            TimeOfDay netz = netzShkia[0] - (israel ? 90 : 72),
-                shkia = netzShkia[1] + (israel ? 50 : 72);
+            TimeOfDay netz = netzShkia[0] - minutes,
+                shkia = netzShkia[1] + minutes;
 
             return (shkia.TotalSeconds - netz.TotalSeconds) / 720d;
         }
@@ -803,7 +804,7 @@ namespace JewishCalendar
             (-0.06571 * x - 6.62);
 
         private static double DegToDec(double deg, double min) =>
-            (deg + min / 60);
+            (deg + min / 60d);
 
         private static int GetDayOfYear(DateTime date)
         {
