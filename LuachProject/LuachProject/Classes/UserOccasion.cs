@@ -91,12 +91,12 @@ namespace LuachProject
             {
                 switch (this.UserOccasionType)
                 {
-                    case UserOccasionTypes.OneTime:                        
-                    case UserOccasionTypes.HebrewDateRecurringYearly:                        
+                    case UserOccasionTypes.OneTime:
+                    case UserOccasionTypes.HebrewDateRecurringYearly:
                     case UserOccasionTypes.HebrewDateRecurringMonthly:
                         return this.JewishDate.ToLongDateStringHeb() + "  (" +
                            this.JewishDate.GregorianDate.ToString("d", Program.HebrewCultureInfo) + ")";
-                    case UserOccasionTypes.SecularDateRecurringYearly:                        
+                    case UserOccasionTypes.SecularDateRecurringYearly:
                     case UserOccasionTypes.SecularDateRecurringMonthly:
                         return this.SecularDate.ToString("d", Program.HebrewCultureInfo);
                 }
@@ -105,12 +105,12 @@ namespace LuachProject
             {
                 switch (this.UserOccasionType)
                 {
-                    case UserOccasionTypes.OneTime:                        
-                    case UserOccasionTypes.HebrewDateRecurringYearly:                        
+                    case UserOccasionTypes.OneTime:
+                    case UserOccasionTypes.HebrewDateRecurringYearly:
                     case UserOccasionTypes.HebrewDateRecurringMonthly:
                         return this.JewishDate.ToLongDateString() + "  (" +
                             this.JewishDate.GregorianDate.ToShortDateString() + ")";
-                    case UserOccasionTypes.SecularDateRecurringYearly:                        
+                    case UserOccasionTypes.SecularDateRecurringYearly:
                     case UserOccasionTypes.SecularDateRecurringMonthly:
                         return this.SecularDate.ToLongDateString();
                 }
@@ -188,7 +188,7 @@ namespace LuachProject
         public DateTime GetUpcomingOccurence()
         {
             DateTime now = DateTime.Now;
-            DateTime retVal = now;             
+            DateTime retVal = now;
             JewishDate todayJd = new JewishDate(now);
 
             switch (this.UserOccasionType)
@@ -201,7 +201,7 @@ namespace LuachProject
                     var jdYearly = new JewishDate(todayJd.Year, this.JewishDate.Month, this.JewishDate.Day);
                     while (jdYearly.GregorianDate < now)
                     {
-                        jdYearly = (JewishDate)jdYearly.AddYears(1);
+                        jdYearly = jdYearly.AddYears(1);
                     }
                     retVal = jdYearly.GregorianDate;
                     break;
@@ -209,7 +209,7 @@ namespace LuachProject
                     var jdMonthly = new JewishDate(todayJd.Year, todayJd.Month, this.JewishDate.Day);
                     while (jdMonthly.GregorianDate < now)
                     {
-                        jdMonthly = (JewishDate)jdMonthly.AddMonths(1);
+                        jdMonthly = jdMonthly.AddMonths(1);
                     }
                     retVal = jdMonthly.GregorianDate;
                     break;
@@ -276,12 +276,13 @@ namespace LuachProject
             int occMonth = occDate.Month,
                 currMonth = currDate.Month;
 
-            if (((isOccLeap && !isCurrLeap) &&
-                   ((occMonth == 13 && currMonth == 12) || (occMonth == 12 && currMonth == 11))) ||
-               (((!isOccLeap) && isCurrLeap) &&
-                   ((occMonth == 12 && currMonth == 13) || (occMonth == 11 && currMonth == 12))))
+            if (isOccLeap != isCurrLeap)
             {
-                return true;
+                if (isOccLeap && (occMonth == 13 && currMonth == 12) ||
+                   (isCurrLeap && (occMonth == 12 && currMonth == 13)))
+                {
+                    return true;
+                }
             }
 
             return occDate.Month == currDate.Month;

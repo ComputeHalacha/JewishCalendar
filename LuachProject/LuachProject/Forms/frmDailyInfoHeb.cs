@@ -145,7 +145,7 @@ namespace LuachProject
                 {
                     lnkLbl.Text = this._frmAddOccasionHeb.UserOccasion.Name;
                     lnkLbl.LinkColor = this._frmAddOccasionHeb.UserOccasion.Color;
-                    var dateDiff = this._frmAddOccasionHeb.UserOccasion.GetAnniversaryString(this.JewishDate, false);
+                    var dateDiff = this._frmAddOccasionHeb.UserOccasion.GetAnniversaryString(this.JewishDate, true);
                     lbl.Text = ((!string.IsNullOrWhiteSpace(dateDiff)) ? "(" + dateDiff + ") " : "") +
                         (this._frmAddOccasionHeb.UserOccasion.Notes ?? "");
                     this.tableLayoutPanel1.BackColor = (uo.BackColor != Color.Empty ? uo.BackColor.Color : Color.GhostWhite);

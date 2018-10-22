@@ -39,10 +39,7 @@ namespace LuachProject
         #region Properties
         public JewishDate DisplayedJewishMonth
         {
-            get
-            {
-                return this._displayedJewishMonth;
-            }
+            get => this._displayedJewishMonth;
             set
             {
                 if (this._displayedJewishMonth == null ||
@@ -71,10 +68,7 @@ namespace LuachProject
 
         public Location LocationForZmanim
         {
-            get
-            {
-                return this._currentLocation;
-            }
+            get => this._currentLocation;
             set
             {
                 if (this._currentLocation == null || this._currentLocation.Name != value.Name)
@@ -98,10 +92,7 @@ namespace LuachProject
 
         public JewishDate SelectedJewishDate
         {
-            get
-            {
-                return this._selectedDay;
-            }
+            get => this._selectedDay;
             set
             {
                 if (value != null)
@@ -117,10 +108,7 @@ namespace LuachProject
 
         public DateTime SelectedDate
         {
-            get
-            {
-                return this._selectedDay.GregorianDate;
-            }
+            get => this._selectedDay.GregorianDate;
             set
             {
                 if (value != null)
@@ -232,20 +220,40 @@ namespace LuachProject
             this.EnableArrows();
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void btnPreviousYear_Click(object sender, EventArgs e)
         {
-            this.NavigateToMonth(new JewishDate(
-                this._displayedJewishMonth.Year - 1,
-                (this._displayedJewishMonth.Month == 13 ? 12 : this._displayedJewishMonth.Month),
-                this._displayedJewishMonth.Day));
+            int prevYear = this._displayedJewishMonth.Year - 1;
+            int month = this._displayedJewishMonth.Month;
+            if (month == 13)
+            {
+                //Last year will not be a leap year
+                month = 12;
+            }
+            else if (month == 12 && JewishDateCalculations.IsJewishLeapYear(prevYear))
+            {
+                month = 13;
+            }
+
+            this.NavigateToMonth(
+                new JewishDate(prevYear, month, this._displayedJewishMonth.Day));
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void btnNextYear_Click(object sender, EventArgs e)
         {
-            this.NavigateToMonth(new JewishDate(
-                this._displayedJewishMonth.Year + 1,
-                (this._displayedJewishMonth.Month == 13 ? 12 : this._displayedJewishMonth.Month),
-                this._displayedJewishMonth.Day));
+            int nextYear = this._displayedJewishMonth.Year + 1;
+            int month = this._displayedJewishMonth.Month;
+            if (month == 13)
+            {
+                //Next year will not be a leap year
+                month = 12;
+            }
+            else if (month == 12 && JewishDateCalculations.IsJewishLeapYear(nextYear))
+            {
+                month = 13;
+            }
+
+            this.NavigateToMonth(
+                new JewishDate(nextYear, month, this._displayedJewishMonth.Day));
         }
 
         private void cmbLocation_SelectedIndexChanged(object sender, EventArgs e)
@@ -352,7 +360,7 @@ namespace LuachProject
                     this.EditSelectedOccasion();
                 }
             }
-        }       
+        }
 
         private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -524,7 +532,10 @@ namespace LuachProject
         private void splitContainer2_KeyDown(object sender, KeyEventArgs e)
         {
             if (this._selectedDay == null || this.cmbLocation.ContainsFocus)
+            {
                 return;
+            }
+
             switch (e.KeyData)
             {
                 case Keys.Right:
@@ -764,17 +775,23 @@ namespace LuachProject
             this.splitContainer2.Focus();
         }
 
-        private SingleDateInfo GetSingleDateInfoFromLocation(Point location) => this._singleDateInfoList.FirstOrDefault(t =>
-                                                                                              t.RectangleF.Left < location.X &&
-                                                                                              t.RectangleF.Right > location.X &&
-                                                                                              t.RectangleF.Top < location.Y &&
-                                                                                              t.RectangleF.Bottom > location.Y);
+        private SingleDateInfo GetSingleDateInfoFromLocation(Point location)
+        {
+            return this._singleDateInfoList.FirstOrDefault(t =>
+                             t.RectangleF.Left < location.X &&
+                             t.RectangleF.Right > location.X &&
+                             t.RectangleF.Top < location.Y &&
+                             t.RectangleF.Bottom > location.Y);
+        }
 
-        private UserOccasion GetUserOccasionFromLocation(Point location, SingleDateInfo sdi) => sdi.UserOccasions.FirstOrDefault(t =>
-                                                                                                              t.Rectangle.Left < location.X &&
-                                                                                                              t.Rectangle.Right > location.X &&
-                                                                                                              t.Rectangle.Top < location.Y &&
-                                                                                                              t.Rectangle.Bottom > location.Y);
+        private UserOccasion GetUserOccasionFromLocation(Point location, SingleDateInfo sdi)
+        {
+            return sdi.UserOccasions.FirstOrDefault(t =>
+                             t.Rectangle.Left < location.X &&
+                             t.Rectangle.Right > location.X &&
+                             t.Rectangle.Top < location.Y &&
+                             t.Rectangle.Bottom > location.Y);
+        }
 
         private void NavigateToDay(JewishDate jd)
         {
@@ -939,7 +956,9 @@ namespace LuachProject
         private void ShowSingleDayInfo(SingleDateInfo sdi)
         {
             if (sdi == null)
+            {
                 return;
+            }
 
             var zmanim = new Zmanim(sdi.JewishDate, this._currentLocation);
             frmDailyInfoHeb f;
