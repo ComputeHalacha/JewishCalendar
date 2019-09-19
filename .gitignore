@@ -1,0 +1,19 @@
+syntax: glob
+*.suo
+obj/
+bin/
+Thumbs.db
+Release/
+Debug/
+.vs/
+Help/LastBuild.log
+LuachMobile/LuachMobile/platforms/android/build/
+LuachMobile/LuachMobile/platforms/android/CordovaLib/build/
+LuachMobile/LuachMobile/platforms/android/assets/
+LuachMobile/LuachMobile/www/scripts/bundle*
+LuachMobile/LuachMobile/www/css/bundle*
+LuachMobile/LuachMobile/www/scripts/JCal/jcal*
+*.log
+__pycache__/
+.idea/workspace.xml
+.vscode/
