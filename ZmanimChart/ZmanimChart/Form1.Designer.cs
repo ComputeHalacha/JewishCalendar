@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
             this.cmbLocations = new System.Windows.Forms.ComboBox();
@@ -72,10 +72,12 @@
             this.choiceAmPm = new ChoiceSwitcher();
             this.choiceArmy = new ChoiceSwitcher();
             this.choiceSwitcher1 = new ChoiceSwitcher();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.pnlDateTypeMonth.SuspendLayout();
             this.pnlDateTypeFromTo.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -95,7 +97,7 @@
             this.cmbLocations.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbLocations.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbLocations.FormattingEnabled = true;
-            this.cmbLocations.Location = new System.Drawing.Point(18, 33);
+            this.cmbLocations.Location = new System.Drawing.Point(14, 27);
             this.cmbLocations.Name = "cmbLocations";
             this.cmbLocations.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.cmbLocations.Size = new System.Drawing.Size(260, 23);
@@ -106,7 +108,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 15);
+            this.label1.Location = new System.Drawing.Point(14, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(93, 15);
             this.label1.TabIndex = 2;
@@ -217,9 +219,9 @@
             // 
             // clmDelete
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Gainsboro;
-            this.clmDelete.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Gainsboro;
+            this.clmDelete.DefaultCellStyle = dataGridViewCellStyle2;
             this.clmDelete.HeaderText = "";
             this.clmDelete.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.clmDelete.LinkColor = System.Drawing.Color.Maroon;
@@ -250,7 +252,7 @@
             this.groupBox1.Controls.Add(this.rbDowNum);
             this.groupBox1.Controls.Add(this.rbDOWJewishNum);
             this.groupBox1.Controls.Add(this.rbDayOfWeekFull);
-            this.groupBox1.Location = new System.Drawing.Point(355, 15);
+            this.groupBox1.Location = new System.Drawing.Point(351, 9);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(170, 141);
             this.groupBox1.TabIndex = 18;
@@ -331,7 +333,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(610, 62);
+            this.label7.Location = new System.Drawing.Point(606, 56);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(49, 15);
             this.label7.TabIndex = 21;
@@ -340,7 +342,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(603, 9);
+            this.label8.Location = new System.Drawing.Point(599, 3);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(65, 15);
             this.label8.TabIndex = 22;
@@ -349,7 +351,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(769, 9);
+            this.label9.Location = new System.Drawing.Point(765, 3);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(105, 15);
             this.label9.TabIndex = 24;
@@ -358,7 +360,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(783, 67);
+            this.label10.Location = new System.Drawing.Point(779, 61);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(83, 15);
             this.label10.TabIndex = 26;
@@ -420,7 +422,7 @@
             this.pnlDateTypeMonth.Controls.Add(this.cmbMonth);
             this.pnlDateTypeMonth.Controls.Add(this.label2);
             this.pnlDateTypeMonth.Controls.Add(this.label3);
-            this.pnlDateTypeMonth.Location = new System.Drawing.Point(18, 94);
+            this.pnlDateTypeMonth.Location = new System.Drawing.Point(14, 88);
             this.pnlDateTypeMonth.Name = "pnlDateTypeMonth";
             this.pnlDateTypeMonth.Size = new System.Drawing.Size(270, 46);
             this.pnlDateTypeMonth.TabIndex = 32;
@@ -431,7 +433,7 @@
             this.pnlDateTypeFromTo.Controls.Add(this.jdpFrom);
             this.pnlDateTypeFromTo.Controls.Add(this.label12);
             this.pnlDateTypeFromTo.Controls.Add(this.jdpTo);
-            this.pnlDateTypeFromTo.Location = new System.Drawing.Point(17, 94);
+            this.pnlDateTypeFromTo.Location = new System.Drawing.Point(13, 88);
             this.pnlDateTypeFromTo.Name = "pnlDateTypeFromTo";
             this.pnlDateTypeFromTo.Size = new System.Drawing.Size(313, 67);
             this.pnlDateTypeFromTo.TabIndex = 33;
@@ -440,7 +442,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(594, 115);
+            this.label13.Location = new System.Drawing.Point(590, 109);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(91, 15);
             this.label13.TabIndex = 35;
@@ -448,8 +450,8 @@
             // 
             // choiceSeconds
             // 
-            this.choiceSeconds.BackColorNotSelected = System.Drawing.SystemColors.Control;
-            this.choiceSeconds.BackColorSelected = System.Drawing.SystemColors.Control;
+            this.choiceSeconds.BackColorNotSelected = System.Drawing.Color.Transparent;
+            this.choiceSeconds.BackColorSelected = System.Drawing.Color.Transparent;
             this.choiceSeconds.BackColorSlot = System.Drawing.Color.Teal;
             this.choiceSeconds.BackColorSlotChoiceTwo = System.Drawing.Color.Gray;
             this.choiceSeconds.ChoiceChosen = ChoiceSwitcherChoices.ChoiceOne;
@@ -462,7 +464,7 @@
             this.choiceSeconds.FontSize = 7F;
             this.choiceSeconds.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
             this.choiceSeconds.ForeColorSelected = System.Drawing.SystemColors.ControlText;
-            this.choiceSeconds.Location = new System.Drawing.Point(564, 130);
+            this.choiceSeconds.Location = new System.Drawing.Point(560, 124);
             this.choiceSeconds.Name = "choiceSeconds";
             this.choiceSeconds.SelectedValue = false;
             this.choiceSeconds.Size = new System.Drawing.Size(153, 23);
@@ -475,8 +477,8 @@
             // 
             // choiceSwitcherDateType
             // 
-            this.choiceSwitcherDateType.BackColorNotSelected = System.Drawing.SystemColors.Control;
-            this.choiceSwitcherDateType.BackColorSelected = System.Drawing.SystemColors.Control;
+            this.choiceSwitcherDateType.BackColorNotSelected = System.Drawing.Color.Transparent;
+            this.choiceSwitcherDateType.BackColorSelected = System.Drawing.Color.Transparent;
             this.choiceSwitcherDateType.BackColorSlot = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.choiceSwitcherDateType.BackColorSlotChoiceTwo = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.choiceSwitcherDateType.ChoiceChosen = ChoiceSwitcherChoices.ChoiceOne;
@@ -489,7 +491,7 @@
             this.choiceSwitcherDateType.FontSize = 7F;
             this.choiceSwitcherDateType.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
             this.choiceSwitcherDateType.ForeColorSelected = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.choiceSwitcherDateType.Location = new System.Drawing.Point(24, 65);
+            this.choiceSwitcherDateType.Location = new System.Drawing.Point(20, 59);
             this.choiceSwitcherDateType.Name = "choiceSwitcherDateType";
             this.choiceSwitcherDateType.SelectedValue = null;
             this.choiceSwitcherDateType.Size = new System.Drawing.Size(284, 23);
@@ -503,8 +505,8 @@
             // 
             // choiceDirection
             // 
-            this.choiceDirection.BackColorNotSelected = System.Drawing.SystemColors.Control;
-            this.choiceDirection.BackColorSelected = System.Drawing.SystemColors.Control;
+            this.choiceDirection.BackColorNotSelected = System.Drawing.Color.Transparent;
+            this.choiceDirection.BackColorSelected = System.Drawing.Color.Transparent;
             this.choiceDirection.BackColorSlot = System.Drawing.Color.RoyalBlue;
             this.choiceDirection.BackColorSlotChoiceTwo = System.Drawing.Color.RoyalBlue;
             this.choiceDirection.ChoiceChosen = ChoiceSwitcherChoices.ChoiceOne;
@@ -517,7 +519,7 @@
             this.choiceDirection.FontSize = 7F;
             this.choiceDirection.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
             this.choiceDirection.ForeColorSelected = System.Drawing.SystemColors.ControlText;
-            this.choiceDirection.Location = new System.Drawing.Point(740, 83);
+            this.choiceDirection.Location = new System.Drawing.Point(736, 77);
             this.choiceDirection.Name = "choiceDirection";
             this.choiceDirection.SelectedValue = false;
             this.choiceDirection.Size = new System.Drawing.Size(181, 23);
@@ -530,8 +532,8 @@
             // 
             // choiceWidth100
             // 
-            this.choiceWidth100.BackColorNotSelected = System.Drawing.SystemColors.Control;
-            this.choiceWidth100.BackColorSelected = System.Drawing.SystemColors.Control;
+            this.choiceWidth100.BackColorNotSelected = System.Drawing.Color.Transparent;
+            this.choiceWidth100.BackColorSelected = System.Drawing.Color.Transparent;
             this.choiceWidth100.BackColorSlot = System.Drawing.Color.Gray;
             this.choiceWidth100.BackColorSlotChoiceTwo = System.Drawing.Color.Teal;
             this.choiceWidth100.ChoiceChosen = ChoiceSwitcherChoices.ChoiceTwo;
@@ -544,7 +546,7 @@
             this.choiceWidth100.FontSize = 7F;
             this.choiceWidth100.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
             this.choiceWidth100.ForeColorSelected = System.Drawing.SystemColors.ControlText;
-            this.choiceWidth100.Location = new System.Drawing.Point(756, 23);
+            this.choiceWidth100.Location = new System.Drawing.Point(752, 17);
             this.choiceWidth100.Name = "choiceWidth100";
             this.choiceWidth100.SelectedValue = true;
             this.choiceWidth100.Size = new System.Drawing.Size(149, 23);
@@ -557,8 +559,8 @@
             // 
             // choiceAmPm
             // 
-            this.choiceAmPm.BackColorNotSelected = System.Drawing.SystemColors.Control;
-            this.choiceAmPm.BackColorSelected = System.Drawing.SystemColors.Control;
+            this.choiceAmPm.BackColorNotSelected = System.Drawing.Color.Transparent;
+            this.choiceAmPm.BackColorSelected = System.Drawing.Color.Transparent;
             this.choiceAmPm.BackColorSlot = System.Drawing.Color.Teal;
             this.choiceAmPm.BackColorSlotChoiceTwo = System.Drawing.Color.Gray;
             this.choiceAmPm.ChoiceChosen = ChoiceSwitcherChoices.ChoiceOne;
@@ -571,7 +573,7 @@
             this.choiceAmPm.FontSize = 7F;
             this.choiceAmPm.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
             this.choiceAmPm.ForeColorSelected = System.Drawing.SystemColors.ControlText;
-            this.choiceAmPm.Location = new System.Drawing.Point(564, 77);
+            this.choiceAmPm.Location = new System.Drawing.Point(560, 71);
             this.choiceAmPm.Name = "choiceAmPm";
             this.choiceAmPm.SelectedValue = false;
             this.choiceAmPm.Size = new System.Drawing.Size(153, 23);
@@ -584,8 +586,8 @@
             // 
             // choiceArmy
             // 
-            this.choiceArmy.BackColorNotSelected = System.Drawing.SystemColors.Control;
-            this.choiceArmy.BackColorSelected = System.Drawing.SystemColors.Control;
+            this.choiceArmy.BackColorNotSelected = System.Drawing.Color.Transparent;
+            this.choiceArmy.BackColorSelected = System.Drawing.Color.Transparent;
             this.choiceArmy.BackColorSlot = System.Drawing.Color.Teal;
             this.choiceArmy.BackColorSlotChoiceTwo = System.Drawing.Color.Teal;
             this.choiceArmy.ChoiceChosen = ChoiceSwitcherChoices.ChoiceOne;
@@ -598,7 +600,7 @@
             this.choiceArmy.FontSize = 7F;
             this.choiceArmy.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
             this.choiceArmy.ForeColorSelected = System.Drawing.SystemColors.ControlText;
-            this.choiceArmy.Location = new System.Drawing.Point(540, 23);
+            this.choiceArmy.Location = new System.Drawing.Point(536, 17);
             this.choiceArmy.Name = "choiceArmy";
             this.choiceArmy.SelectedValue = false;
             this.choiceArmy.Size = new System.Drawing.Size(200, 23);
@@ -611,8 +613,8 @@
             // 
             // choiceSwitcher1
             // 
-            this.choiceSwitcher1.BackColorNotSelected = System.Drawing.SystemColors.Control;
-            this.choiceSwitcher1.BackColorSelected = System.Drawing.SystemColors.Control;
+            this.choiceSwitcher1.BackColorNotSelected = System.Drawing.Color.Transparent;
+            this.choiceSwitcher1.BackColorSelected = System.Drawing.Color.Transparent;
             this.choiceSwitcher1.BackColorSlot = System.Drawing.Color.RoyalBlue;
             this.choiceSwitcher1.BackColorSlotChoiceTwo = System.Drawing.Color.RoyalBlue;
             this.choiceSwitcher1.ChoiceChosen = ChoiceSwitcherChoices.ChoiceTwo;
@@ -625,7 +627,7 @@
             this.choiceSwitcher1.FontSize = 7F;
             this.choiceSwitcher1.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
             this.choiceSwitcher1.ForeColorSelected = System.Drawing.Color.RoyalBlue;
-            this.choiceSwitcher1.Location = new System.Drawing.Point(141, 7);
+            this.choiceSwitcher1.Location = new System.Drawing.Point(137, 1);
             this.choiceSwitcher1.Name = "choiceSwitcher1";
             this.choiceSwitcher1.SelectedValue = null;
             this.choiceSwitcher1.Size = new System.Drawing.Size(140, 23);
@@ -637,36 +639,42 @@
             this.choiceSwitcher1.ValueChoiceTwo = null;
             this.choiceSwitcher1.ChoiceSwitched += new System.EventHandler(this.ChoiceSwitcher1_ChoiceSwitched_1);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.label13);
+            this.panel1.Controls.Add(this.cmbLocations);
+            this.panel1.Controls.Add(this.choiceSeconds);
+            this.panel1.Controls.Add(this.choiceSwitcher1);
+            this.panel1.Controls.Add(this.pnlDateTypeMonth);
+            this.panel1.Controls.Add(this.groupBox1);
+            this.panel1.Controls.Add(this.choiceSwitcherDateType);
+            this.panel1.Controls.Add(this.choiceArmy);
+            this.panel1.Controls.Add(this.label10);
+            this.panel1.Controls.Add(this.choiceAmPm);
+            this.panel1.Controls.Add(this.choiceDirection);
+            this.panel1.Controls.Add(this.label7);
+            this.panel1.Controls.Add(this.pnlDateTypeFromTo);
+            this.panel1.Controls.Add(this.label8);
+            this.panel1.Controls.Add(this.label9);
+            this.panel1.Controls.Add(this.choiceWidth100);
+            this.panel1.Location = new System.Drawing.Point(12, 12);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1098, 166);
+            this.panel1.TabIndex = 36;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Lavender;
             this.ClientSize = new System.Drawing.Size(1128, 611);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.choiceSeconds);
-            this.Controls.Add(this.pnlDateTypeMonth);
-            this.Controls.Add(this.choiceSwitcherDateType);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.choiceDirection);
-            this.Controls.Add(this.pnlDateTypeFromTo);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.choiceWidth100);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.choiceAmPm);
-            this.Controls.Add(this.choiceArmy);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.choiceSwitcher1);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.cmbLocations);
             this.Controls.Add(this.button1);
             this.Font = new System.Drawing.Font("Verdana", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.MaximizeBox = false;
             this.Name = "Form1";
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Create Calendar / יצר רשימה";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -677,6 +685,8 @@
             this.pnlDateTypeMonth.PerformLayout();
             this.pnlDateTypeFromTo.ResumeLayout(false);
             this.pnlDateTypeFromTo.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -726,6 +736,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn clmHeader;
         private System.Windows.Forms.DataGridViewCheckBoxColumn clmBold;
         private System.Windows.Forms.DataGridViewLinkColumn clmDelete;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

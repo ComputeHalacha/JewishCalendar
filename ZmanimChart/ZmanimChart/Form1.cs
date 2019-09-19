@@ -52,15 +52,15 @@ namespace ZmanimChart
             this.cmbYear.DisplayMember = "Value";
 
             var now = new JewishDate();
-            var nextMonth = now.AddMonths(1);
+            var monthToDisplay = now.Day > 12 ? now.AddMonths(1) : now;
             KeyValuePair<int, string> month = new KeyValuePair<int, string>();
             KeyValuePair<int, string> year = new KeyValuePair<int, string>();
-            for (int i = nextMonth.Year - 2; i <= nextMonth.Year + 2; i++)
+            for (int i = monthToDisplay.Year - 2; i <= monthToDisplay.Year + 2; i++)
             {
                 var kvp = new KeyValuePair<int, string>(i,
                                     Utils.ToNumberHeb(i % 1000));
                 this.cmbYear.Items.Add(kvp);
-                if (i == nextMonth.Year)
+                if (i == monthToDisplay.Year)
                 {
                     year = kvp;
                 }
@@ -70,7 +70,7 @@ namespace ZmanimChart
                 var kvp = new KeyValuePair<int, string>(i,
                     Utils.JewishMonthNamesHebrew[i]);
                 this.cmbMonth.Items.Add(kvp);
-                if (i == nextMonth.Month)
+                if (i == monthToDisplay.Month)
                 {
                     month = kvp;
                 }
@@ -78,7 +78,7 @@ namespace ZmanimChart
             this.cmbMonth.SelectedItem = month;
             this.cmbYear.SelectedItem = year;
             this.jdpFrom.Value = now;
-            this.jdpTo.Value = nextMonth;
+            this.jdpTo.Value = monthToDisplay;
         }
 
         private void FillZmanTypeRows()
@@ -93,7 +93,7 @@ namespace ZmanimChart
                     int index = this.dataGridView1.Rows.Add(new object[]
                     {
                         Program.ZmanTypesList[zmanRow.ZmanIndex],
-                        zmanRow.DaysOfWeek == null || zmanRow.DaysOfWeek.Length == 7
+                        zmanRow.DaysOfWeek == null || zmanRow.DaysOfWeek.Length == 8
                             ? "כולם"
                             : String.Join(", ", zmanRow.DaysOfWeek.Select(dow =>
                                 Utils.ToNumberHeb(dow+1)).ToArray()),

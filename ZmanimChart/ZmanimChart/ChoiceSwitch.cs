@@ -435,7 +435,7 @@ public class ChoiceSwitcher : Control
         this._fontSize = this.Font.Size;
         this._fontSelected = this.Font;
         this._fontNotSelected = this._fontSelected;
-        this._backColorSelected = this.BackColor;
+        this._backColorSelected = Color.Transparent;
         this._backColorNotSelected = this._backColorSelected;
         this._foreColorSelected = this.ForeColor;
         this._foreColorNotSelected = this._foreColorSelected;
