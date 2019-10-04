@@ -42,6 +42,7 @@ namespace ZmanimChart
             this.choiceWidth100.SelectedValue = Properties.Settings.Default.Width100;
             this.choiceDirection.SelectedValue = Properties.Settings.Default.DirectionRight;
             this.choiceSwitcherDateType.ChoiceOneSelected = Properties.Settings.Default.DateChooseMonth;
+            this.choiceDayDetails.ChoiceOneSelected = Properties.Settings.Default.ShowDayDetails;
         }
 
         private void FillDateCombos()
@@ -196,6 +197,7 @@ namespace ZmanimChart
             Properties.Settings.Default.DirectionRight = (bool)this.choiceDirection.SelectedValue;
             Properties.Settings.Default.DateChooseMonth = this.choiceSwitcherDateType.ChoiceOneSelected;
             Properties.Settings.Default.ShowSeconds = this.choiceSeconds.ChoiceOneSelected;
+            Properties.Settings.Default.ShowDayDetails = this.choiceDayDetails.ChoiceOneSelected;
             this.SaveDayOfWeek();
 
             var columnsSorted = from c in columns orderby c.ZmanIndex, c.Offset select c;
@@ -212,7 +214,9 @@ namespace ZmanimChart
 
                 if (Properties.Settings.Default.DOWFormat != DayOfWeekFormat.None)
                 {
-                    sbRows.AppendFormat("<td>{0}</td>", this.GetDayOfWeekString(jd, location));
+                    sbRows.AppendFormat("<td class=\"dow {0}\">{1}</td>",
+                        this.rbDOWEnglish.Checked ? "left" : "right",
+                        this.GetDayOfWeekString(jd, location));
                 }
 
                 sbRows.AppendFormat(
@@ -229,11 +233,16 @@ namespace ZmanimChart
                     {
                         zmanTime = DafYomi.GetDafYomi(jd).ToStringHeb();
                     }
-                    else if (zmanColumn.DaysOfWeek == null ||
+                    else if (zmanColumn.DaysOfWeek == null /* All days */||
                         zmanColumn.DaysOfWeek.Contains(jd.DayInWeek) ||
                         zmanColumn.AlternateOffset != 0)
                     {
                         zman = zmanColumn.GetZman(dz);
+                        //For netz, if we are not showing seconds, we show the end of the minute
+                        if (!showSeconds && zmanColumn.ZmanIndex.In(2, 3) && zman.Seconds > 0)
+                        {
+                            zman += 1;
+                        }
                         zmanTime = zman.ToString(
                             Properties.Settings.Default.ArmyTime,
                             Properties.Settings.Default.AmPm);
@@ -341,8 +350,13 @@ namespace ZmanimChart
             {
                 if (jd.DayOfWeek == DayOfWeek.Saturday)
                 {
-                    var sedras = Sedra.GetSedra(jd, location.IsInIsrael);
-                    dow = "ש\"ק " + string.Join(" - ", sedras.Select(i => i.nameHebrew));
+                    dow = "ש\"ק";
+                    if (!SpecialDay.IsMajorYomTov(jd, location))
+                    {
+                        dow += " " + string.Join(" - ",
+                        Sedra.GetSedra(jd, location.IsInIsrael)
+                            .Select(i => i.nameHebrew));
+                    }
                 }
                 else
                 {
@@ -353,15 +367,30 @@ namespace ZmanimChart
             {
                 if (jd.DayOfWeek == DayOfWeek.Saturday)
                 {
-                    var sedras = Sedra.GetSedra(jd, location.IsInIsrael);
-                    dow = string.Join(" - ", sedras.Select(i => i.nameEng));
+                    dow = "Shabbos";
+                    if (!SpecialDay.IsMajorYomTov(jd, location))
+                    {
+                        dow += " " + string.Join(" - ",
+                        Sedra.GetSedra(jd, location.IsInIsrael)
+                            .Select(i => i.nameEng));
+                    }
                 }
                 else
                 {
                     dow = jd.DayOfWeek.ToString().Substring(0, 3);
                 }
             }
+            if (this.choiceDayDetails.ChoiceOneSelected)
+            {
+                string holidayText = Zmanim.GetHolidaysText(
+                    Zmanim.GetHolidays(jd, location.IsInIsrael), " - ",
+                    !this.rbDOWEnglish.Checked);
 
+                if (!string.IsNullOrWhiteSpace(holidayText))
+                {
+                    dow += " - " + holidayText;
+                }
+            }
             return dow;
         }
 

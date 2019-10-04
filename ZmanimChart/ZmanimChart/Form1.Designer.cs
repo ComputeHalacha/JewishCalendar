@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
             this.cmbLocations = new System.Windows.Forms.ComboBox();
@@ -73,6 +73,8 @@
             this.choiceArmy = new ChoiceSwitcher();
             this.choiceSwitcher1 = new ChoiceSwitcher();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label14 = new System.Windows.Forms.Label();
+            this.choiceDayDetails = new ChoiceSwitcher();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.pnlDateTypeMonth.SuspendLayout();
@@ -219,9 +221,9 @@
             // 
             // clmDelete
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Gainsboro;
-            this.clmDelete.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Gainsboro;
+            this.clmDelete.DefaultCellStyle = dataGridViewCellStyle1;
             this.clmDelete.HeaderText = "";
             this.clmDelete.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.clmDelete.LinkColor = System.Drawing.Color.Maroon;
@@ -351,7 +353,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(765, 3);
+            this.label9.Location = new System.Drawing.Point(775, 3);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(105, 15);
             this.label9.TabIndex = 24;
@@ -360,7 +362,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(779, 61);
+            this.label10.Location = new System.Drawing.Point(786, 56);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(83, 15);
             this.label10.TabIndex = 26;
@@ -519,7 +521,7 @@
             this.choiceDirection.FontSize = 7F;
             this.choiceDirection.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
             this.choiceDirection.ForeColorSelected = System.Drawing.SystemColors.ControlText;
-            this.choiceDirection.Location = new System.Drawing.Point(736, 77);
+            this.choiceDirection.Location = new System.Drawing.Point(737, 71);
             this.choiceDirection.Name = "choiceDirection";
             this.choiceDirection.SelectedValue = false;
             this.choiceDirection.Size = new System.Drawing.Size(181, 23);
@@ -546,7 +548,7 @@
             this.choiceWidth100.FontSize = 7F;
             this.choiceWidth100.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
             this.choiceWidth100.ForeColorSelected = System.Drawing.SystemColors.ControlText;
-            this.choiceWidth100.Location = new System.Drawing.Point(752, 17);
+            this.choiceWidth100.Location = new System.Drawing.Point(753, 17);
             this.choiceWidth100.Name = "choiceWidth100";
             this.choiceWidth100.SelectedValue = true;
             this.choiceWidth100.Size = new System.Drawing.Size(149, 23);
@@ -641,6 +643,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label14);
+            this.panel1.Controls.Add(this.choiceDayDetails);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.label13);
             this.panel1.Controls.Add(this.cmbLocations);
@@ -662,6 +666,42 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1098, 166);
             this.panel1.TabIndex = 36;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(765, 109);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(125, 15);
+            this.label14.TabIndex = 37;
+            this.label14.Text = "Day Details / פרטי היום";
+            // 
+            // choiceDayDetails
+            // 
+            this.choiceDayDetails.BackColorNotSelected = System.Drawing.Color.Transparent;
+            this.choiceDayDetails.BackColorSelected = System.Drawing.Color.Transparent;
+            this.choiceDayDetails.BackColorSlot = System.Drawing.Color.Teal;
+            this.choiceDayDetails.BackColorSlotChoiceTwo = System.Drawing.Color.Gray;
+            this.choiceDayDetails.ChoiceChosen = ChoiceSwitcherChoices.ChoiceOne;
+            this.choiceDayDetails.ChoiceOneSelected = true;
+            this.choiceDayDetails.ChoiceTwoSelected = false;
+            this.choiceDayDetails.DisplayAsYesNo = false;
+            this.choiceDayDetails.Font = new System.Drawing.Font("Verdana", 7F);
+            this.choiceDayDetails.FontNotSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceDayDetails.FontSelected = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+            this.choiceDayDetails.FontSize = 7F;
+            this.choiceDayDetails.ForeColorNotSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceDayDetails.ForeColorSelected = System.Drawing.SystemColors.ControlText;
+            this.choiceDayDetails.Location = new System.Drawing.Point(751, 124);
+            this.choiceDayDetails.Name = "choiceDayDetails";
+            this.choiceDayDetails.SelectedValue = false;
+            this.choiceDayDetails.Size = new System.Drawing.Size(153, 23);
+            this.choiceDayDetails.TabIndex = 36;
+            this.choiceDayDetails.Text = "choiceSwitcher2";
+            this.choiceDayDetails.TextChoiceOne = "Yes / כן";
+            this.choiceDayDetails.TextChoiceTwo = "No / לא";
+            this.choiceDayDetails.ValueChoiceOne = false;
+            this.choiceDayDetails.ValueChoiceTwo = true;
             // 
             // Form1
             // 
@@ -737,6 +777,8 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn clmBold;
         private System.Windows.Forms.DataGridViewLinkColumn clmDelete;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label14;
+        private ChoiceSwitcher choiceDayDetails;
     }
 }
 

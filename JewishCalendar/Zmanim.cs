@@ -396,9 +396,7 @@ namespace JewishCalendar
         {
             int jYear = jDate.Year,
                 jMonth = jDate.Month,
-                jDay = jDate.Day;
-
-            list.Add(new SpecialDay("Shabbos Kodesh", "שבת קודש", SpecialDayTypes.Shabbos));
+                jDay = jDate.Day;            
 
             if (jMonth == 1 && jDay > 7 && jDay < 15)
             {
