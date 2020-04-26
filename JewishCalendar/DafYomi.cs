@@ -21,7 +21,7 @@
         /// <returns>A Daf object containing the DafYomi information for the given day</returns>
         public static Daf GetDafYomi(JewishDate jewishDate) => GetSingleDaf(jewishDate.AbsoluteDate);
 
-        private static Masechta[] masechtaList = new Masechta[]
+        private static readonly Masechta[] masechtaList = new Masechta[]
         {
             new Masechta ("Berachos", "ברכות", 64),
             new Masechta ("Shabbos", "שבת", 157),

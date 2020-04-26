@@ -84,11 +84,11 @@ namespace JewishCalendar
 
         #region Private Fields
 
-        private static string[] _hebsingles = { "", "אחד", "שנים", "שלשה", "ארבעה", "חמשה", "ששה", "שבעה", "שמונה", "תשעה" };
-        private static string[] _hebTens = { "", "עשר", "עשרים", "שלושים", "ארבעים" };
-        private static char[] _hundreds = new char[] { 'ק', 'ר', 'ש', 'ת' };
-        private static char[] _sings = new char[] { 'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט' };
-        private static char[] _tens = new char[] { 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ' };
+        private static readonly string[] _hebsingles = { "", "אחד", "שנים", "שלשה", "ארבעה", "חמשה", "ששה", "שבעה", "שמונה", "תשעה" };
+        private static readonly string[] _hebTens = { "", "עשר", "עשרים", "שלושים", "ארבעים" };
+        private static readonly char[] _hundreds = new char[] { 'ק', 'ר', 'ש', 'ת' };
+        private static readonly char[] _sings = new char[] { 'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט' };
+        private static readonly char[] _tens = new char[] { 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ' };
 
         #endregion Private Fields
 

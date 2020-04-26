@@ -316,7 +316,7 @@ namespace JewishCalendar
             {
                 return false;
             }
-            if (object.ReferenceEquals(this, jd2))
+            if (ReferenceEquals(this, jd2))
             {
                 return true;
             }
@@ -607,9 +607,9 @@ namespace JewishCalendar
         /// <returns></returns>
         public static bool operator ==(JewishDate jd1, JewishDate jd2)
         {
-            if (object.ReferenceEquals(jd1, null))
+            if (ReferenceEquals(jd1, null))
             {
-                return object.ReferenceEquals(jd2, null);
+                return ReferenceEquals(jd2, null);
             }
             return jd1.Equals(jd2);
         }

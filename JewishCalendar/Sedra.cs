@@ -198,7 +198,7 @@ namespace JewishCalendar
             bool longCheshvon = JewishDateCalculations.IsLongCheshvan(year);
             bool shortKislev = JewishDateCalculations.IsShortKislev(year);
             int roshHashana = JewishDateCalculations.GetAbsoluteFromJewishDate(year, 7, 1);
-            DayOfWeek roshHashanaDOW = (DayOfWeek)System.Math.Abs(roshHashana % 7);
+            DayOfWeek roshHashanaDOW = (DayOfWeek)Math.Abs(roshHashana % 7);
             YearType yearType;
 
             if (longCheshvon && !shortKislev)
