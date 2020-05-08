@@ -343,7 +343,7 @@ namespace JewishCalendar
         /// <param name="netzShkia"></param>
         /// <param name="israel"></param>
         /// <returns></returns>
-        public static double GetShaaZmanisMga(TimeOfDay[] netzShkia, bool israel) => 
+        public static double GetShaaZmanisMga(TimeOfDay[] netzShkia, bool israel) =>
             GetShaaZmanis(netzShkia, israel ? 90 : 72);
 
         /// <summary>
@@ -396,7 +396,7 @@ namespace JewishCalendar
         {
             int jYear = jDate.Year,
                 jMonth = jDate.Month,
-                jDay = jDate.Day;            
+                jDay = jDate.Day;
 
             if (jMonth == 1 && jDay > 7 && jDay < 15)
             {
@@ -506,7 +506,7 @@ namespace JewishCalendar
             {
                 list.Add(new SpecialDay("Baha\"b", "תענית חמישי", SpecialDayTypes.FastDay));
             }
-            else if (dayOfWeek == DayOfWeek.Monday && jDay > 10 && jDay < 18)
+            else if (dayOfWeek == DayOfWeek.Monday && jDay > 10 && jDay < 18 && jDay != 14)
             {
                 list.Add(new SpecialDay("Baha\"b", "תענית שני בתרא", SpecialDayTypes.FastDay));
             }

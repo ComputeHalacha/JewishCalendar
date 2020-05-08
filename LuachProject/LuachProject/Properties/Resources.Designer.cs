@@ -19,7 +19,7 @@ namespace LuachProject.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -68,13 +68,13 @@ namespace LuachProject.Properties {
         ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
         ///    &lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
         ///    &lt;style type=&quot;text/css&quot;&gt;
-        ///        html, body { font-family: Century Gothic; font-size: 9pt; color: #696969; margin: 0; padding: 0; }
+        ///        html, body { font-family: Century Gothic; font-size: 8.5pt; color: #696969; margin: 0; padding: 0; }
         ///        .seven { font-size: 7.3pt; }
         ///        .eight { font-size: 8pt; }
         ///        .nine { font-size: 9pt; }
-        ///        .ten { font-size: 10pt; }
         ///        .bold { font-weight: bold; }
-        ///        .i [rest of string was truncated]&quot;;.
+        ///        .reg { font-weight: normal; }
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string InfoHTMLEng {
             get {
@@ -90,12 +90,12 @@ namespace LuachProject.Properties {
         ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
         ///    &lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
         ///    &lt;style type=&quot;text/css&quot;&gt;
-        ///        html, body { font-family: Tahoma; font-size: 10pt; color: #696969; margin: 0; padding: 0; direction: rtl; }
+        ///        html, body { font-family: Tahoma; font-size: 8pt; color: #696969; margin: 0; padding: 0; direction: rtl; }
         ///        .seven { font-size: 7.3pt; }
         ///        .nine { font-size: 9pt; }
-        ///        .ten { font-size: 10pt; }
         ///        .bold { font-weight: bold; }
-        ///        .italic { font-style: italic; [rest of string was truncated]&quot;;.
+        ///        .reg { font-weight: normal; }
+        ///        .italic { font-style: ital [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string InfoHTMLHeb {
             get {
