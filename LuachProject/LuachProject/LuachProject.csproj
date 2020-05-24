@@ -91,6 +91,7 @@
     <Compile Include="Classes\CuelessSplitContainer.Designer.cs">
       <DependentUpon>CuelessSplitContainer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\ScriptingObject.cs" />
     <Compile Include="Classes\SingleDateInfo.cs" />
     <Compile Include="Forms\frmImportOccasionsHeb.cs">
       <SubType>Form</SubType>

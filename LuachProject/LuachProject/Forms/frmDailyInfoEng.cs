@@ -39,6 +39,7 @@ namespace LuachProject
             InitializeComponent();
 
             this._lblOccasionFont = new Font(this.Font, FontStyle.Bold);
+            this.webBrowser1.ObjectForScripting = new ScriptingObject();
         }
 
         #endregion constructor
@@ -74,8 +75,8 @@ namespace LuachProject
             set
             {
                 this._dailyZmanim.SecularDate = this._secularDateAtMidnight;
-                this._dailyZmanim.Location= value;
-                this._holidays = Zmanim.GetHolidays(this._displayingJewishDate, 
+                this._dailyZmanim.Location = value;
+                this._holidays = Zmanim.GetHolidays(this._displayingJewishDate,
                     this._dailyZmanim.Location.IsInIsrael).Cast<SpecialDay>();
                 this.ShowDateData();
             }
@@ -167,7 +168,6 @@ namespace LuachProject
             html.Append("<br />");
             this.DisplayHolidays(html);
             this.DisplayZmanim(html);
-
             this.webBrowser1.DocumentText = Properties.Resources.InfoHTMLEng
                 .Replace("{{BODY}}", html.ToString());
 
@@ -328,8 +328,9 @@ namespace LuachProject
 
                     if (h.NameEnglish.Contains("Sefiras Ha'omer"))
                     {
-                        html.AppendFormat("<div class=\"tahoma nine steelBlue\">{0}</div>",
-                          Utils.GetOmerNusach(this._displayingJewishDate.GetDayOfOmer(), Properties.Settings.Default.Nusach));
+                        var dayOfOmer = this._displayingJewishDate.GetDayOfOmer();
+                        html.AppendFormat("<div><a onclick=\"javacript:window.external.showSefirah({0}, false);return false;\" class=\"tahoma nine steelBlue pointer\">{1}</a></div>",
+                          dayOfOmer, Utils.GetOmerNusach(dayOfOmer, Properties.Settings.Default.Nusach));
                     }
 
                     if (h.DayType.IsSpecialDayType(SpecialDayTypes.EruvTavshilin))

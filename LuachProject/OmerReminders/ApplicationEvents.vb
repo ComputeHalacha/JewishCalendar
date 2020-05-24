@@ -19,9 +19,23 @@ Namespace My
             If args.Contains("-remind") OrElse args.Contains("/remind") Then
                 Me._isReminderRun = True
                 If args.Contains("-lang") AndAlso args(args.IndexOf("-lang") + 1) = "heb" Then
-                    My.Application.MainForm = New frmRemindHeb()
+                    Dim frmReminder As New frmRemindHeb()
+                    If args.Contains("-omerDay") Then
+                        frmReminder.DayOfOmer = Convert.ToInt32(args(args.IndexOf("-omerDay") + 1))
+                    End If
+                    If args.Contains("-nusach") Then
+                        frmReminder.Nusach = DirectCast([Enum].Parse(GetType(JewishCalendar.Nusach), args(args.IndexOf("-nusach") + 1)), JewishCalendar.Nusach)
+                    End If
+                    My.Application.MainForm = frmReminder
                 Else
-                    My.Application.MainForm = New frmRemindEng()
+                    Dim frmReminder As New frmRemindEng()
+                    If args.Contains("-omerDay") Then
+                        frmReminder.DayOfOmer = Convert.ToInt32(args(args.IndexOf("-omerDay") + 1))
+                    End If
+                    If args.Contains("-nusach") Then
+                        frmReminder.Nusach = DirectCast([Enum].Parse(GetType(JewishCalendar.Nusach), args(args.IndexOf("-nusach") + 1)), JewishCalendar.Nusach)
+                    End If
+                    My.Application.MainForm = frmReminder
                 End If
                 'If the -taskname flag is supplied, the task is a one time reminder and should be deleted.
                 If args.Contains("-taskname") Then

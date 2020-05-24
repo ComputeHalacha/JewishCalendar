@@ -3,7 +3,8 @@ Imports JewishCalendar
 Imports Microsoft.Win32.TaskScheduler
 
 Public Class frmRemindEng
-    Private _todayJD As JewishDate
+    Public Property DayOfOmer As Integer
+    Public Property Nusach As Nusach = My.Settings.Nusach
     Public Sub New()
 
         ' This call is required by the designer.
@@ -14,10 +15,12 @@ Public Class frmRemindEng
         Me.Hide()
         Me.SuspendLayout()
         Me.dtpRemindLater.Value = DateTime.Now.AddHours(1)
-        Me._todayJD = New JewishDate(Program.LocationsList.FirstOrDefault(Function(l) l.Name = My.Settings.LocationName))
-        Dim dayOfOmer As Integer = Me._todayJD.GetDayOfOmer()
+        If DayOfOmer = 0 Then
+            Dim todayJD = New JewishDate(Program.LocationsList.FirstOrDefault(Function(l) l.Name = My.Settings.LocationName))
+            DayOfOmer = todayJD.GetDayOfOmer()
+        End If
 
-        If dayOfOmer = 0 Then
+        If DayOfOmer = 0 Then
             MessageBox.Show("Today is not a day during Sefira!",
                             "Sefira Reminder",
                             MessageBoxButtons.OK,
@@ -27,13 +30,12 @@ Public Class frmRemindEng
         End If
 
         Try
-            Dim nusach As Nusach = My.Settings.Nusach
             Dim bracha As String = "ברוך אתה יי אלוהינו מלך העולם, אשר קדשנו במצותיו וציונו על ספירת העומר:"
-            Dim txt As String = Utils.GetOmerNusach(dayOfOmer, nusach) & ":"
-            Dim harachaman As String = If(nusach = Nusach.Sefardi, "הרחמן הוא יחזיר עבודת בית המקדש למקומה במהרה בימינו. אמן:",
+            Dim txt As String = Utils.GetOmerNusach(DayOfOmer, Me.Nusach) & ":"
+            Dim harachaman As String = If(Me.Nusach = Nusach.Sefardi, "הרחמן הוא יחזיר עבודת בית המקדש למקומה במהרה בימינו. אמן:",
                                            "הרחמן הוא יחזיר לנו עבודת בית המקדש למקומה במהרה בימינו, אמן סלה:")
 
-            lblCaption.Text = "Count Sefiras Ha'omer - Day " & dayOfOmer
+            lblCaption.Text = "Count Sefiras Ha'omer - Day " & DayOfOmer
             Me.Text = Me.lblCaption.Text
 
             With Me.RichTextBox1
@@ -65,7 +67,7 @@ Public Class frmRemindEng
         Me.Show()
 
         'If today is the last day of the Omer, try to remove tasks.
-        If dayOfOmer = 49 AndAlso My.Application.IsReminderRun Then
+        If DayOfOmer = 49 AndAlso My.Application.IsReminderRun Then
             Try
                 Program.DeleteDailyReminders()
             Catch
