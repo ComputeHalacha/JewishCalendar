@@ -60,6 +60,12 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>JewishCalendar.pfx.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Itenso.TimePeriod">
       <HintPath>External DLL\Itenso.TimePeriod.dll</HintPath>
@@ -205,6 +211,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.manifest" />
+    <None Include="JewishCalendar.pfx.snk" />
     <None Include="Properties\DataSources\frmMonthlyEnglish.datasource" />
     <None Include="Properties\DataSources\UserOccasionColection.datasource" />
     <None Include="Properties\Settings.settings">

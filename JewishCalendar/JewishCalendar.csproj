@@ -38,7 +38,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>JewishCalendar.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>JewishCalendar.pfx.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="JewishCalendar.pfx" />
+    <None Include="JewishCalendar.pfx.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
