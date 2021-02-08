@@ -88,7 +88,7 @@ function jDate(arg, month, day, abs) {
 }
 
 jDate.prototype = {
-    //Returns a valid javascript Date object that represents the Gregorian date 
+    //Returns a valid javascript Date object that represents the Gregorian date
     //that starts at midnight of the current Jewish date
     getDate: function () {
         var dt = new Date(2000, 0, 1); // 1/1/2000 is absolute date 730120
@@ -158,7 +158,7 @@ jDate.prototype = {
         return new jDate(year, month, day);
     },
 
-    //Gets the number of days separating this Jewish Date and the given one. 
+    //Gets the number of days separating this Jewish Date and the given one.
     //If the given date is before this one, the number will be negative.
     diffDays: function (jd) {
         return jd.Abs - this.Abs;
@@ -329,25 +329,25 @@ jDate.prototype = {
 };
 
 /***************************************************************************************************************
-*  Converts its argument/s to a Jewish Date. 
-*  Samples of use: 
-*    To get the current Jewish Date: jDate.toJDate(new Date()). 
-*    To print out the current date in English: jDate.toJDate(new Date()).toString() 
+*  Converts its argument/s to a Jewish Date.
+*  Samples of use:
+*    To get the current Jewish Date: jDate.toJDate(new Date()).
+*    To print out the current date in English: jDate.toJDate(new Date()).toString()
 *    To print out the current date in Hebrew: jDate.toJDate(new Date()).toStringHeb()
-*  
+*
 *  Arguments to the jDate.toJDate function can be one of the following:
 *  jDate.toJDate() - Sets the Jewish Date for the current system date
 *  jDate.toJDate(Date) - Sets to the Jewish date on the given Javascript Date object
 *  jDate.toJDate("January 1 2045") - Accepts any valid Javascript Date string (uses string constructor of Date object)
 *  jDate.toJDate(jewishYear, jewishMonth, jewishDay) - Months start at 1. Nissan is month 1 Adara Sheini is 13.
 *  jDate.toJDate(jewishYear, jewishMonth) - Same as above, with Day defaulting to 1
-*  jDate.toJDate(jewishYear) - sets to the first day of Rosh Hashana on the given year 
+*  jDate.toJDate(jewishYear) - sets to the first day of Rosh Hashana on the given year
 *  jDate.toJDate( { year: 5776, month: 4, day: 5 } ) - Months start at 1. Nissan is month 1 Adara Sheini is 13.
 *  jDate.toJDate( { year: 5776, month: 4 } ) - Same as above, with Day defaulting to 1
 *  jDate.toJDate( { year: 5776 } ) - sets to the first day of Rosh Hashana on the given year
 *  jDate.toJDate(jewishYear, jewishMonth, jewishDay, absoluteDate) - Most efficient. Needs no calculations at all. The absoluteDate is the number of days elapsed since the theoretical date Sunday, December 31, 0001 BCE.
 *  jDate.toJDate( { year: 5776, month: 4, day: 5, abs: 122548708 } ) - same as jDate.toJDate(jewishYear, jewishMonth, jewishDay, absoluteDate)
- 
+
 ****************************************************************************************************************/
 jDate.toJDate = function (arg, month, day, abs) {
     if (arguments.length === 0) {
@@ -466,7 +466,7 @@ jDate.yearCache = [];
 
 //Elapsed days since creation of the world until Rosh Hashana of the given year
 jDate.tDays = function (year) {
-    /*As this function is called many times, often on the same year for all types of calculations, 
+    /*As this function is called many times, often on the same year for all types of calculations,
     we save a list of years with their elapsed values.*/
     var cached = jDate.yearCache.first(function (y) {
         return y.year === year;
@@ -571,7 +571,7 @@ jDate.getHoldidays = function (jd, israel, hebrew) {
         else if (jMonth === 5 && jDay > 2 && jDay < 10) {
             list.push(!hebrew ? "Shabbos Chazon" : "שבת חזון");
         }
-        else if ((jMonth === (isLeapYear ? 12 : 11) && jDay > 23 && jDay < 30) ||
+        else if ((jMonth === (isLeapYear ? 12 : 11) && jDay > 24) ||
                 (jMonth === (isLeapYear ? 13 : 12) && jDay === 1)) {
             list.push(!hebrew ? "Parshas Shkalim" : "פרשת שקלים");
         }
