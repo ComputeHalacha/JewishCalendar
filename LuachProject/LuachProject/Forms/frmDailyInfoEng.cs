@@ -22,9 +22,10 @@ namespace LuachProject
         private DateTime _secularDateAtMidnight;
         private frmAddOccasionEng _frmAddOccasionEng;
         private IEnumerable<SpecialDay> _holidays;
-        private Font _lblOccasionFont;
+        private readonly Font _lblOccasionFont;
         private IEnumerable<UserOccasion> _occasions;
-        private DailyZmanim _dailyZmanim;
+        private readonly DailyZmanim _dailyZmanim;
+        private string _html;
         #endregion private fields
 
         #region constructor
@@ -168,8 +169,9 @@ namespace LuachProject
             html.Append("<br />");
             this.DisplayHolidays(html);
             this.DisplayZmanim(html);
-            this.webBrowser1.DocumentText = Properties.Resources.InfoHTMLEng
+            this._html = Properties.Resources.InfoHTMLEng
                 .Replace("{{BODY}}", html.ToString());
+            this.webBrowser1.DocumentText = this._html;
 
             this.tableLayoutPanel1.Controls.Clear();
             foreach (UserOccasion occ in this._occasions)
