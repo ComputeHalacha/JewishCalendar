@@ -84,7 +84,6 @@
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.Size = new System.Drawing.Size(1147, 541);
             this.webBrowser1.TabIndex = 0;
-            this.webBrowser1.WebBrowserShortcutsEnabled = false;
             // 
             // tableLayoutPanel1
             // 
@@ -103,7 +102,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1156, 79);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1156, 80);
             this.tableLayoutPanel1.TabIndex = 11;
             // 
             // label2
@@ -111,7 +110,7 @@
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.ForeColor = System.Drawing.Color.GhostWhite;
-            this.label2.Location = new System.Drawing.Point(-7, 107);
+            this.label2.Location = new System.Drawing.Point(-7, 108);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(1168, 17);
             this.label2.TabIndex = 14;
@@ -150,7 +149,7 @@
             // 
             // frmDailyInfoEng
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1156, 707);

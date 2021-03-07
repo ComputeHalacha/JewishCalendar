@@ -331,7 +331,7 @@ class JDate:
                 lst.append(Entry("שבת שובה", "Shabbos Shuva"))
             elif j_month == 5 and 2 < j_day < 10:
                 lst.append(Entry("שבת חזון", "Shabbos Chazon"))
-            elif ((j_month == (isleap_jyear and 12 or 11) and 23 < j_day < 30) or (
+            elif ((j_month == (isleap_jyear and 12 or 11) and j_day > 24) or (
                             j_month == (isleap_jyear and 13 or 12) and j_day == 1)):
                 lst.append(Entry("פרשת שקלים", "Parshas Shkalim"))
             elif j_month == (isleap_jyear and 13 or 12) and 7 < j_day < 14:

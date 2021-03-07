@@ -19,7 +19,7 @@ namespace ZmanimChart.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -85,16 +85,14 @@ namespace ZmanimChart.Properties {
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///    &lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///    &lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+        ///    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=Edge&quot; /&gt;
         ///    &lt;title&gt;&lt;/title&gt;
         ///    &lt;style type=&quot;text/css&quot;&gt;
-        ///        table { width:100%;border:solid 1px #000;border-collapse: collapse; font-size: 8pt; font-family: Tahoma; }
-        ///        tr:nth-child(2n+1) { background-color: #f1f1f1; }
-        ///        tr.special { background-color: #ddf; }
-        ///        td, th { border: solid 1px #777;padding:2px;text-align:center;vertical-align:middle; }        
-        ///        th{background-color:#ccc;}
-        ///    &lt;/style&gt;
-        ///&lt;/head&gt;
-        ///&lt;body&gt;      [rest of string was truncated]&quot;;.
+        ///        body{#--DIRECTION--#}
+        ///        table { #--TABLE_WIDTH--# border: solid 1px #000; border-collapse: collapse; font-size: 9pt; font-family: Tahoma; #--DIRECTION--# }
+        ///        tr:nth-child(2n+1) { background-color: #fafafa; }
+        ///        tr.special { backgroun [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string template {
             get {
