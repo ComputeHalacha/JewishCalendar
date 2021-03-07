@@ -17,7 +17,7 @@ namespace JewishCalendar
         /// <summary>
         /// To save on calculations, a table of years and their elapsed days values is saved in memory
         /// </summary>
-        private static Dictionary<int, int> _yearCache = new Dictionary<int, int>();
+        private static readonly Dictionary<int, int> _yearCache = new Dictionary<int, int>();
 
         /// <summary>
         /// Absolute date of start of Jewish calendar
