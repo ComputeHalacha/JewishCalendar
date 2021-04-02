@@ -271,21 +271,23 @@ namespace LuachProject
         /// <returns></returns>
         private static bool IsJewishMonthMatch(JewishDate occDate, JewishDate currDate)
         {
-            bool isOccLeap = JewishDateCalculations.IsJewishLeapYear(occDate.Year),
-                     isCurrLeap = JewishDateCalculations.IsJewishLeapYear(currDate.Year);
             int occMonth = occDate.Month,
-                currMonth = currDate.Month;
+                 currMonth = currDate.Month;
 
-            if (isOccLeap != isCurrLeap)
+            if (currMonth >= 12 && occMonth >= 12)
             {
-                if (isOccLeap && (occMonth == 13 && currMonth == 12) ||
-                   (isCurrLeap && (occMonth == 12 && currMonth == 13)))
+                bool isOccLeap = JewishDateCalculations.IsJewishLeapYear(occDate.Year),
+                         isCurrLeap = JewishDateCalculations.IsJewishLeapYear(currDate.Year);
+
+                if (isOccLeap != isCurrLeap)
                 {
-                    return true;
+                    return (isOccLeap && (occMonth == 13 && currMonth == 12) ||
+                           (isCurrLeap && (occMonth == 12 && currMonth == 13)));
+
                 }
             }
 
-            return occDate.Month == currDate.Month;
+            return occMonth == currMonth;
         }
 
         #endregion Public Methods
