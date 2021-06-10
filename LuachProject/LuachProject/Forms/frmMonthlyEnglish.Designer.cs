@@ -59,6 +59,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
+            this.printDialog1 = new System.Windows.Forms.PrintDialog();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -69,6 +72,7 @@
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // lblMonthName
@@ -88,9 +92,9 @@
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Font = new System.Drawing.Font("Tahoma", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel1.Location = new System.Drawing.Point(10, 9);
+            this.linkLabel1.Location = new System.Drawing.Point(41, 11);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(44, 14);
+            this.linkLabel1.Size = new System.Drawing.Size(35, 12);
             this.linkLabel1.TabIndex = 19;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "עברית";
@@ -142,7 +146,7 @@
             this.llShowDaily.LinkColor = System.Drawing.Color.SlateGray;
             this.llShowDaily.Location = new System.Drawing.Point(1329, 30);
             this.llShowDaily.Name = "llShowDaily";
-            this.llShowDaily.Size = new System.Drawing.Size(95, 14);
+            this.llShowDaily.Size = new System.Drawing.Size(77, 11);
             this.llShowDaily.TabIndex = 21;
             this.llShowDaily.TabStop = true;
             this.llShowDaily.Text = "Show Zmanim ˃";
@@ -234,7 +238,7 @@
             this.cmbLocation.Location = new System.Drawing.Point(3, 85);
             this.cmbLocation.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbLocation.Name = "cmbLocation";
-            this.cmbLocation.Size = new System.Drawing.Size(351, 24);
+            this.cmbLocation.Size = new System.Drawing.Size(351, 21);
             this.cmbLocation.Sorted = true;
             this.cmbLocation.TabIndex = 5;
             this.cmbLocation.SelectedIndexChanged += new System.EventHandler(this.cmbLocation_SelectedIndexChanged);
@@ -258,13 +262,13 @@
             this.jewishDatePicker1.Font = new System.Drawing.Font("Century Gothic", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.jewishDatePicker1.ForeColor = System.Drawing.Color.White;
             this.jewishDatePicker1.Language = JewishDatePicker.JewishDatePicker.Languages.English;
-            this.jewishDatePicker1.Location = new System.Drawing.Point(122, 2);
+            this.jewishDatePicker1.Location = new System.Drawing.Point(142, 2);
             this.jewishDatePicker1.Margin = new System.Windows.Forms.Padding(0);
             this.jewishDatePicker1.MaxDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MaxDate")));
             this.jewishDatePicker1.MinDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MinDate")));
             this.jewishDatePicker1.Name = "jewishDatePicker1";
             this.jewishDatePicker1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.jewishDatePicker1.Size = new System.Drawing.Size(343, 29);
+            this.jewishDatePicker1.Size = new System.Drawing.Size(323, 27);
             this.jewishDatePicker1.TabIndex = 17;
             this.jewishDatePicker1.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.Value")));
             // 
@@ -473,7 +477,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(1001, 6);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(11, 16);
+            this.label3.Size = new System.Drawing.Size(9, 14);
             this.label3.TabIndex = 24;
             this.label3.Text = "|";
             // 
@@ -483,7 +487,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(1123, 6);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(11, 16);
+            this.label4.Size = new System.Drawing.Size(9, 14);
             this.label4.TabIndex = 25;
             this.label4.Text = "|";
             // 
@@ -493,16 +497,39 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(1259, 6);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(11, 16);
+            this.label5.Size = new System.Drawing.Size(9, 14);
             this.label5.TabIndex = 26;
             this.label5.Text = "|";
             // 
+            // printDocument1
+            // 
+            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
+            // 
+            // printDialog1
+            // 
+            this.printDialog1.AllowCurrentPage = true;
+            this.printDialog1.AllowSomePages = true;
+            this.printDialog1.Document = this.printDocument1;
+            this.printDialog1.UseEXDialog = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox1.Image = global::LuachProject.Properties.Resources.print;
+            this.pictureBox1.Location = new System.Drawing.Point(6, 6);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox1.TabIndex = 27;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
             // frmMonthlyEnglish
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.ClientSize = new System.Drawing.Size(1408, 735);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -534,6 +561,7 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -570,5 +598,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Drawing.Printing.PrintDocument printDocument1;
+        private System.Windows.Forms.PrintDialog printDialog1;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

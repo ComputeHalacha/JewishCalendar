@@ -165,6 +165,7 @@ namespace LuachProject
         private void frmMonthlyEnglish_Load(object sender, EventArgs e)
         {
             Program.SetDoubleBuffered(this.pnlMain);
+            this.printDocument1.DefaultPageSettings.Landscape = true;
             this.InitLocation();
             if (this._todayJewishDate == null)
             {
@@ -474,6 +475,32 @@ namespace LuachProject
             Properties.Settings.Default.Save();
             this.SetShowSecondsLabel();
             this.Reload();
+        }
+
+        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            RectangleF bounds = e.PageSettings.PrintableArea;
+            using var bmp = new Bitmap(pnlMain.ClientSize.Width, pnlMain.ClientSize.Height);
+            pnlMain.DrawToBitmap(bmp, pnlMain.ClientRectangle);
+            e.Graphics.DrawImage(bmp,
+                bounds.Left,
+                bounds.Top + this.lblMonthName.Height,
+                bounds.Height - 50,
+                bounds.Width - (this.lblMonthName.Height) - 30);
+            e.Graphics.DrawString(this.lblMonthName.Text,
+                this.lblMonthName.Font,
+                new SolidBrush(this.lblMonthName.ForeColor),
+                (bounds.Width / 2),
+                bounds.Top);
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            DialogResult result = printDialog1.ShowDialog();
+            if (result is DialogResult.Yes or DialogResult.OK)
+            {
+                printDocument1.Print();
+            }
         }
 
         #endregion Event Handlers
@@ -958,6 +985,6 @@ namespace LuachProject
                 f.ShowDateData();
             }
         }
-        #endregion       
+        #endregion
     }
 }

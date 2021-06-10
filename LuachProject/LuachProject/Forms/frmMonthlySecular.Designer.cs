@@ -34,12 +34,13 @@
             this.llChangeLanguage = new System.Windows.Forms.LinkLabel();
             this.llToJewishCalendar = new System.Windows.Forms.LinkLabel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.llOccasionList = new System.Windows.Forms.LinkLabel();
             this.llShowDaily = new System.Windows.Forms.LinkLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.llOccasionList = new System.Windows.Forms.LinkLabel();
             this.splitContainer1 = new LuachProject.CuelessSplitContainer();
             this.splitContainer2 = new LuachProject.CuelessSplitContainer();
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlControls = new System.Windows.Forms.Panel();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.lblLocationHeader = new System.Windows.Forms.Label();
@@ -54,6 +55,9 @@
             this.btnNextYear = new System.Windows.Forms.Button();
             this.btnPreviousMonth = new System.Windows.Forms.Button();
             this.lblInstructions = new System.Windows.Forms.Label();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
+            this.printDialog1 = new System.Windows.Forms.PrintDialog();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -62,8 +66,10 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlControls.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // lblMonthName
@@ -71,9 +77,9 @@
             this.lblMonthName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblMonthName.Font = new System.Drawing.Font("Century Gothic", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMonthName.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblMonthName.Location = new System.Drawing.Point(77, 0);
+            this.lblMonthName.Location = new System.Drawing.Point(52, 0);
             this.lblMonthName.Name = "lblMonthName";
-            this.lblMonthName.Size = new System.Drawing.Size(1102, 45);
+            this.lblMonthName.Size = new System.Drawing.Size(1127, 45);
             this.lblMonthName.TabIndex = 1;
             this.lblMonthName.Text = "Month";
             this.lblMonthName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -85,7 +91,7 @@
             this.llChangeLanguage.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llChangeLanguage.Location = new System.Drawing.Point(0, 0);
             this.llChangeLanguage.Name = "llChangeLanguage";
-            this.llChangeLanguage.Size = new System.Drawing.Size(77, 45);
+            this.llChangeLanguage.Size = new System.Drawing.Size(52, 45);
             this.llChangeLanguage.TabIndex = 19;
             this.llChangeLanguage.TabStop = true;
             this.llChangeLanguage.Text = "עברית";
@@ -108,6 +114,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.pictureBox2);
             this.panel2.Controls.Add(this.llOccasionList);
             this.panel2.Controls.Add(this.llShowDaily);
             this.panel2.Controls.Add(this.lblMonthName);
@@ -118,21 +125,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1298, 45);
             this.panel2.TabIndex = 22;
-            // 
-            // llShowDaily
-            // 
-            this.llShowDaily.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.llShowDaily.Font = new System.Drawing.Font("Century Gothic", 6.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.llShowDaily.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.llShowDaily.LinkColor = System.Drawing.Color.SlateGray;
-            this.llShowDaily.Location = new System.Drawing.Point(1177, 28);
-            this.llShowDaily.Name = "llShowDaily";
-            this.llShowDaily.Size = new System.Drawing.Size(120, 19);
-            this.llShowDaily.TabIndex = 22;
-            this.llShowDaily.TabStop = true;
-            this.llShowDaily.Text = "Show Zmanim ˃";
-            this.llShowDaily.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.llShowDaily.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llShowDaily_LinkClick);
             // 
             // llOccasionList
             // 
@@ -148,6 +140,21 @@
             this.llOccasionList.Text = "List of Occasions";
             this.llOccasionList.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.llOccasionList.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llOccasionList_LinkClicked);
+            // 
+            // llShowDaily
+            // 
+            this.llShowDaily.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.llShowDaily.Font = new System.Drawing.Font("Century Gothic", 6.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.llShowDaily.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.llShowDaily.LinkColor = System.Drawing.Color.SlateGray;
+            this.llShowDaily.Location = new System.Drawing.Point(1177, 28);
+            this.llShowDaily.Name = "llShowDaily";
+            this.llShowDaily.Size = new System.Drawing.Size(120, 19);
+            this.llShowDaily.TabIndex = 22;
+            this.llShowDaily.TabStop = true;
+            this.llShowDaily.Text = "Show Zmanim ˃";
+            this.llShowDaily.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.llShowDaily.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llShowDaily_LinkClick);
             // 
             // splitContainer1
             // 
@@ -182,11 +189,12 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.pictureBox1);
             this.splitContainer2.Panel2.Controls.Add(this.pnlControls);
             this.splitContainer2.Panel2.Controls.Add(this.lblInstructions);
             this.splitContainer2.Panel2MinSize = 100;
             this.splitContainer2.Size = new System.Drawing.Size(966, 690);
-            this.splitContainer2.SplitterDistance = 561;
+            this.splitContainer2.SplitterDistance = 537;
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 1;
             this.splitContainer2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.splitContainer2_KeyDown);
@@ -198,12 +206,20 @@
             this.pnlMain.Location = new System.Drawing.Point(9, 0);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(957, 561);
+            this.pnlMain.Size = new System.Drawing.Size(957, 537);
             this.pnlMain.TabIndex = 0;
             this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
             this.pnlMain.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseClick);
             this.pnlMain.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseDoubleClick);
             this.pnlMain.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseMove);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(6, 4);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
+            this.pictureBox1.TabIndex = 20;
+            this.pictureBox1.TabStop = false;
             // 
             // pnlControls
             // 
@@ -218,9 +234,9 @@
             this.pnlControls.Controls.Add(this.btnNextYear);
             this.pnlControls.Controls.Add(this.btnPreviousMonth);
             this.pnlControls.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlControls.Location = new System.Drawing.Point(0, 8);
+            this.pnlControls.Location = new System.Drawing.Point(0, 25);
             this.pnlControls.Name = "pnlControls";
-            this.pnlControls.Size = new System.Drawing.Size(966, 120);
+            this.pnlControls.Size = new System.Drawing.Size(966, 127);
             this.pnlControls.TabIndex = 19;
             // 
             // dateTimePicker1
@@ -229,7 +245,7 @@
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePicker1.Location = new System.Drawing.Point(495, 5);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(371, 26);
+            this.dateTimePicker1.Size = new System.Drawing.Size(371, 22);
             this.dateTimePicker1.TabIndex = 19;
             this.dateTimePicker1.TabStop = false;
             // 
@@ -314,7 +330,7 @@
             this.cmbLocation.Location = new System.Drawing.Point(3, 84);
             this.cmbLocation.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbLocation.Name = "cmbLocation";
-            this.cmbLocation.Size = new System.Drawing.Size(351, 24);
+            this.cmbLocation.Size = new System.Drawing.Size(351, 21);
             this.cmbLocation.Sorted = true;
             this.cmbLocation.TabIndex = 9;
             this.cmbLocation.TabStop = false;
@@ -425,6 +441,27 @@
     "ent   |   Use the arrow keys to navigate through the days.";
             this.lblInstructions.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // printDocument1
+            // 
+            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
+            // 
+            // printDialog1
+            // 
+            this.printDialog1.Document = this.printDocument1;
+            this.printDialog1.UseEXDialog = true;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pictureBox2.Image = global::LuachProject.Properties.Resources.print;
+            this.pictureBox2.Location = new System.Drawing.Point(52, 0);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(25, 45);
+            this.pictureBox2.TabIndex = 28;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
+            // 
             // frmMonthlySecular
             // 
             this.BackColor = System.Drawing.Color.GhostWhite;
@@ -448,8 +485,10 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pnlControls.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -480,5 +519,9 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.LinkLabel llShowDaily;
         private System.Windows.Forms.LinkLabel llOccasionList;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Drawing.Printing.PrintDocument printDocument1;
+        private System.Windows.Forms.PrintDialog printDialog1;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }

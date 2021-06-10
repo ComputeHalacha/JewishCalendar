@@ -39,43 +39,31 @@ namespace LuachProject
 
         public DateTime CurrentDate
         {
-            get
-            {
-                return this._dateBeingDisplayed;
-            }
+            get => this._dateBeingDisplayed;
             set
             {
-                if (this._dateBeingDisplayed.Year != value.Year || this._dateBeingDisplayed.Month != value.Month)
-                {
-                    this.SetCurrentMonth(value);
-                    this.SetCaptionText();
-                    this.pnlMain.Invalidate();
-                }
+                if (this._dateBeingDisplayed.Year == value.Year &&
+                    this._dateBeingDisplayed.Month == value.Month) return;
+                this.SetCurrentMonth(value);
+                this.SetCaptionText();
+                this.pnlMain.Invalidate();
             }
         }
 
         public bool DisplayHebrew
         {
-            get
-            {
-                return this._displayHebrew;
-            }
+            get => this._displayHebrew;
             set
             {
-                if (this._displayHebrew != value)
-                {
-                    this._displayHebrew = value;
-                    this.SetControlsPerLanguage();
-                }
+                if (this._displayHebrew == value) return;
+                this._displayHebrew = value;
+                this.SetControlsPerLanguage();
             }
         }
 
         public Location LocationForZmanim
         {
-            get
-            {
-                return this._currentLocation;
-            }
+            get => this._currentLocation;
             set
             {
                 this._currentLocation = value;
@@ -96,10 +84,7 @@ namespace LuachProject
 
         public DateTime SelectedDate
         {
-            get
-            {
-                return this._selectedDay.GetValueOrDefault();
-            }
+            get => this._selectedDay.GetValueOrDefault();
             set
             {
                 if (value != null)
@@ -222,6 +207,7 @@ namespace LuachProject
         private void frmMonthlySecular_Load(object sender, EventArgs e)
         {
             Program.SetDoubleBuffered(this.pnlMain);
+            this.printDocument1.DefaultPageSettings.Landscape = true;
             this.SetLocationDataSource();
             if (!this._currentLocation.IsInIsrael)
             {
@@ -467,6 +453,32 @@ namespace LuachProject
                     }
                     break;
             }
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            DialogResult result = printDialog1.ShowDialog();
+            if (result is DialogResult.Yes or DialogResult.OK)
+            {
+                printDocument1.Print();
+            }
+        }
+
+        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            RectangleF bounds = e.PageSettings.PrintableArea;
+            using var bmp = new Bitmap(pnlMain.ClientSize.Width, pnlMain.ClientSize.Height);
+            pnlMain.DrawToBitmap(bmp, pnlMain.ClientRectangle);
+            e.Graphics.DrawImage(bmp,
+                bounds.Left,
+                bounds.Top + this.lblMonthName.Height,
+                bounds.Height - 50,
+                bounds.Width - (this.lblMonthName.Height) - 30);
+            e.Graphics.DrawString(this.lblMonthName.Text,
+                this.lblMonthName.Font,
+                new SolidBrush(this.lblMonthName.ForeColor),
+                (bounds.Width / 2),
+                bounds.Top);
         }
 
         #endregion Event Handlers
@@ -1114,6 +1126,6 @@ namespace LuachProject
                 }
             }
         }
-        #endregion        
+        #endregion
     }
 }
