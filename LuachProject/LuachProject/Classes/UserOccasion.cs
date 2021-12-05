@@ -281,9 +281,8 @@ namespace LuachProject
 
                 if (isOccLeap != isCurrLeap)
                 {
-                    return (isOccLeap && (occMonth == 13 && currMonth == 12) ||
-                           (isCurrLeap && (occMonth == 12 && currMonth == 13)));
-
+                    return (isOccLeap && currMonth == 12) ||
+                           (isCurrLeap && (occMonth == 12 && currMonth == 13));
                 }
             }
 

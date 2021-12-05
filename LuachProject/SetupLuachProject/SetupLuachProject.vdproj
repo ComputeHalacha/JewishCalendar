@@ -112,18 +112,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_EFB6850797CE7BAB38AD27F6899C19B2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E5409144022BC49105FD24A4D3FC71F0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_0ED5855A1712C76B96DEFF56B0FF83CC"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -143,6 +131,18 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_93978DB199B0BC777382FBAF31C41A32"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_EFB6850797CE7BAB38AD27F6899C19B2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E5409144022BC49105FD24A4D3FC71F0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -610,15 +610,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:The Luach Project"
-        "ProductCode" = "8:{BBB6962F-75E7-4155-A234-1B8FFD13EFA1}"
-        "PackageCode" = "8:{F0C5D6E5-9F37-401F-92F2-CC7E15132BAA}"
+        "ProductCode" = "8:{F094CA0D-CF6E-4E0D-9737-F99A0863B642}"
+        "PackageCode" = "8:{70F7C96E-7FB6-45B3-8A10-9989F36A23F4}"
         "UpgradeCode" = "8:{94EC422E-1AFA-46ED-A945-710704E8EE9F}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:2.4.1"
+        "ProductVersion" = "8:2.4.2"
         "Manufacturer" = "8:Compute Software Solutions"
         "ARPHELPTELEPHONE" = "8:732-707-7307"
         "ARPHELPLINK" = "8:"
