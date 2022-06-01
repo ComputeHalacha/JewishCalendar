@@ -116,7 +116,7 @@ namespace LuachProject
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            using (var sfd = new SaveFileDialog()
+            using var sfd = new SaveFileDialog()
             {
                 DefaultExt = "xml",
                 Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*",
@@ -125,81 +125,75 @@ namespace LuachProject
                 CreatePrompt = false,
                 OverwritePrompt = true,
                 FileName = "Luach Project Occasions_" + (Environment.UserName ?? "") + ".xml"
-            })
+            };
+            if (sfd.ShowDialog(this) == DialogResult.OK)
             {
-                if (sfd.ShowDialog(this) == DialogResult.OK)
+                var formatter = new System.Xml.Serialization.XmlSerializer(Properties.Settings.Default.UserOccasions.GetType());
+                using (var stream = new FileStream(sfd.FileName, FileMode.Create, FileAccess.Write, FileShare.None))
                 {
-                    var formatter = new System.Xml.Serialization.XmlSerializer(Properties.Settings.Default.UserOccasions.GetType());
-                    using (var stream = new FileStream(sfd.FileName, FileMode.Create, FileAccess.Write, FileShare.None))
-                    {
-                        formatter.Serialize(stream, Properties.Settings.Default.UserOccasions);
-                    }
-                    MessageBox.Show("Your occasions have been successfully exported to " + sfd.FileName,
-                        "Luach Project - Export Occasions");
+                    formatter.Serialize(stream, Properties.Settings.Default.UserOccasions);
                 }
+                MessageBox.Show("Your occasions have been successfully exported to " + sfd.FileName,
+                    "Luach Project - Export Occasions");
             }
         }
 
         private void llImportList_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            using (var sfd = new OpenFileDialog()
+            using var sfd = new OpenFileDialog()
             {
                 DefaultExt = "xml",
                 Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*",
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal),
                 RestoreDirectory = false,
                 FileName = "Luach Project Occasions" + (Environment.UserName ?? "") + ".xml"
-            })
+            };
+            if (sfd.ShowDialog(this) == DialogResult.OK && (!string.IsNullOrWhiteSpace(sfd.FileName)) && File.Exists(sfd.FileName))
             {
-                if (sfd.ShowDialog(this) == DialogResult.OK && (!string.IsNullOrWhiteSpace(sfd.FileName)) && File.Exists(sfd.FileName))
+                UserOccasionColection uoc = null;
+                var formatter = new System.Xml.Serialization.XmlSerializer(Properties.Settings.Default.UserOccasions.GetType());
+                using (var stream = new FileStream(sfd.FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    UserOccasionColection uoc = null;
-                    var formatter = new System.Xml.Serialization.XmlSerializer(Properties.Settings.Default.UserOccasions.GetType());
-                    using (var stream = new FileStream(sfd.FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    try
                     {
-                        try
-                        {
-                            uoc = (UserOccasionColection)formatter.Deserialize(stream);
-                        }
-                        catch
-                        {
-                            MessageBox.Show("We were not able to import any Occasions from " + sfd.FileName +
-                                ".\nPlease assure that the selected file is a valid Occasion file, and that it was not edited incorrectly.",
-                                "Luach Project - Import Occasions", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            //Let the user try again...
-                            llImportList_LinkClicked(sender, e);
-                            return;
-                        }
+                        uoc = (UserOccasionColection)formatter.Deserialize(stream);
                     }
-
-                    if (uoc != null && uoc.Count > 0)
+                    catch
                     {
-                        using (var fi = new frmImportOccasionsEng(uoc))
-                        {
-                            if (fi.ShowDialog() == DialogResult.OK)
-                            {
-                                Properties.Settings.Default.UserOccasions.AddRange(fi.OcassionList);
-                                Properties.Settings.Default.Save();
-                                ((dynamic)this.Owner).Reload();
-                                this.LoadList();
-                                MessageBox.Show(fi.OcassionList.Count.ToString() + " Occasions have been successfully imported from " + sfd.FileName,
-                                    "Luach Project - Import Occasions");
-                            }
-                            else
-                            {
-                                MessageBox.Show("No occasions were imported from " + sfd.FileName,
-                                    "Luach Project - Import Occasions", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
-                        }
-
+                        MessageBox.Show("We were not able to import any Occasions from " + sfd.FileName +
+                            ".\nPlease assure that the selected file is a valid Occasion file, and that it was not edited incorrectly.",
+                            "Luach Project - Import Occasions", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        //Let the user try again...
+                        llImportList_LinkClicked(sender, e);
                         return;
+                    }
+                }
+
+                if (uoc != null && uoc.Count > 0)
+                {
+                    using var fi = new frmImportOccasionsEng(uoc);
+                    if (fi.ShowDialog() == DialogResult.OK)
+                    {
+                        Properties.Settings.Default.UserOccasions.AddRange(fi.OcassionList);
+                        Properties.Settings.Default.Save();
+                        ((dynamic)this.Owner).Reload();
+                        this.LoadList();
+                        MessageBox.Show(fi.OcassionList.Count.ToString() + " Occasions have been successfully imported from " + sfd.FileName,
+                            "Luach Project - Import Occasions");
                     }
                     else
                     {
-                        MessageBox.Show("There weren't any occasions that we were able to import from " + sfd.FileName,
+                        MessageBox.Show("No occasions were imported from " + sfd.FileName,
                             "Luach Project - Import Occasions", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
                     }
+
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("There weren't any occasions that we were able to import from " + sfd.FileName,
+                        "Luach Project - Import Occasions", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
             }
         }

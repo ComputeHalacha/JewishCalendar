@@ -30,6 +30,6 @@ namespace LuachProject
 
         public static implicit operator Color(ColorXML colorXML) => colorXML.Color;
 
-        public static implicit operator ColorXML(Color color) => new ColorXML(color);
+        public static implicit operator ColorXML(Color color) => new(color);
     }
 }

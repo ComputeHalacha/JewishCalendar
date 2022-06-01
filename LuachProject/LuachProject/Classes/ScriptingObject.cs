@@ -10,7 +10,7 @@ namespace LuachProject
         public void showSefirah(int dayOfOmer, bool hebrew)
         {
             string lang = hebrew ? "heb" : "eng";
-            Process a = new Process();
+            Process a = new();
             a.StartInfo.FileName = System.IO.Path.Combine(Application.StartupPath, @"OmerReminder.exe");
             a.StartInfo.Arguments = $"-remind -omerDay {dayOfOmer} -lang {lang} -nusach {Properties.Settings.Default.Nusach}";
             a.Start();

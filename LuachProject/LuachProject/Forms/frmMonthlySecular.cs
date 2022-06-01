@@ -28,7 +28,7 @@ namespace LuachProject
         private bool _loading;
         private Point _pnlMouseLocation;
         private DateTime? _selectedDay;
-        private List<SingleDateInfo> _singleDateInfoList = new List<SingleDateInfo>();
+        private List<SingleDateInfo> _singleDateInfoList = new();
         private DateTime _todayDate = DateTime.Now.Date;
         private Font _userOccasionFont;
         private Font _zmanimFont;
@@ -525,7 +525,7 @@ namespace LuachProject
             var text = currDate.Day.ToString();
             var holidays = Zmanim.GetHolidays(jDate, this._currentLocation.IsInIsrael);
 
-            SingleDateInfo sdi = new SingleDateInfo(jDate, new RectangleF(rect.Location, rect.Size));
+            SingleDateInfo sdi = new(jDate, new RectangleF(rect.Location, rect.Size));
 
             this._singleDateInfoList.Add(sdi);
 
@@ -768,13 +768,11 @@ namespace LuachProject
                 return;
             }
 
-            using (var g = this.pnlMain.CreateGraphics())
-            {
-                var rect = sdi.RectangleF;
-                g.Clip = new Region(rect);
-                g.Clear(this.pnlMain.BackColor);
-                this.DrawSingleDay(g, sdi.JewishDate.GregorianDate.Date, rect.Width, rect.Height, rect.X, rect.Y);
-            }
+            using var g = this.pnlMain.CreateGraphics();
+            var rect = sdi.RectangleF;
+            g.Clip = new Region(rect);
+            g.Clear(this.pnlMain.BackColor);
+            this.DrawSingleDay(g, sdi.JewishDate.GregorianDate.Date, rect.Width, rect.Height, rect.X, rect.Y);
         }
 
         /// <summary>
@@ -819,12 +817,10 @@ namespace LuachProject
             this.ClearSelectedDay();
             if (this._selectedDay.GetValueOrDefault() != sdi.JewishDate.GregorianDate.Date)
             {
-                using (var g = this.pnlMain.CreateGraphics())
-                {
-                    g.Clip = new Region(sdi.RectangleF);
-                    g.FillRectangle(Program.SelectedDayBackgroundBrush, sdi.RectangleF);
-                    this._selectedDay = sdi.JewishDate.GregorianDate.Date;
-                }
+                using var g = this.pnlMain.CreateGraphics();
+                g.Clip = new Region(sdi.RectangleF);
+                g.FillRectangle(Program.SelectedDayBackgroundBrush, sdi.RectangleF);
+                this._selectedDay = sdi.JewishDate.GregorianDate.Date;
             }
 
             this.dateTimePicker1.Value = this._selectedDay.GetValueOrDefault();
@@ -837,8 +833,8 @@ namespace LuachProject
         private void SetCaptionText()
         {
             string caption;
-            JewishDate firstDayJMonth = new JewishDate(this._dateBeingDisplayed);
-            JewishDate lastDayJMonth = new JewishDate(
+            JewishDate firstDayJMonth = new(this._dateBeingDisplayed);
+            JewishDate lastDayJMonth = new(
                 new DateTime(this.CurrentDate.Year, this.CurrentDate.Month, this._currentMonthLength));
 
             if (DisplayHebrew)

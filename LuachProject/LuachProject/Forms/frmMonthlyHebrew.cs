@@ -29,7 +29,7 @@ namespace LuachProject
         private Point _pnlMouseLocation;
         private Font _secularDayFont;
         private JewishDate _selectedDay;
-        private List<SingleDateInfo> _singleDateInfoList = new List<SingleDateInfo>();
+        private List<SingleDateInfo> _singleDateInfoList = new();
         private JewishDate _todayJewishDate;
         private Font _userOccasionFont;
         private Font _zmanimFont;
@@ -293,6 +293,11 @@ namespace LuachProject
             this.Hide();
         }
 
+        private void llEmailReminders_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            new frmSettingsEng().Show();
+        }
+
         private void llShowDaily_LinkClick(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var sdi = this._singleDateInfoList.FirstOrDefault(t => t.JewishDate == this._selectedDay ||
@@ -306,7 +311,7 @@ namespace LuachProject
 
         private void llSefira_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process a = new Process();
+            Process a = new();
             string omerAppName = "OmerReminder.exe";
             a.StartInfo.FileName = System.IO.Path.Combine(Application.StartupPath, omerAppName);
             a.StartInfo.Arguments = "-location \"" + this._currentLocation.Name + "\"" + " -lang heb";
@@ -638,7 +643,7 @@ namespace LuachProject
             var text = currDate.Day.ToNumberHeb().Replace("'", "");
             var holidays = Zmanim.GetHolidays(currDate, this._currentLocation.IsInIsrael);
             var occasions = UserOccasionColection.FromSettings(currDate);
-            SingleDateInfo sdi = new SingleDateInfo(currDate, new RectangleF(rect.Location, rect.Size));
+            SingleDateInfo sdi = new(currDate, new RectangleF(rect.Location, rect.Size));
 
             this._singleDateInfoList.Add(sdi);
 
@@ -860,13 +865,11 @@ namespace LuachProject
             {
                 return;
             }
-            using (var g = this.pnlMain.CreateGraphics())
-            {
-                var rect = sdi.RectangleF;
-                g.Clip = new Region(rect);
-                g.Clear(this.pnlMain.BackColor);
-                this.DrawSingleDay(g, sdi.JewishDate, rect.Width, rect.Height, rect.X, rect.Y);
-            }
+            using var g = this.pnlMain.CreateGraphics();
+            var rect = sdi.RectangleF;
+            g.Clip = new Region(rect);
+            g.Clear(this.pnlMain.BackColor);
+            this.DrawSingleDay(g, sdi.JewishDate, rect.Width, rect.Height, rect.X, rect.Y);
         }
 
         private void SelectSingleDay(JewishDate jd)
@@ -896,12 +899,10 @@ namespace LuachProject
             this.ClearSelectedDay();
             if (this._selectedDay != sdi.JewishDate)
             {
-                using (var g = this.pnlMain.CreateGraphics())
-                {
-                    g.Clip = new Region(sdi.RectangleF);
-                    g.FillRectangle(Program.SelectedDayBackgroundBrush, sdi.RectangleF);
-                    this._selectedDay = sdi.JewishDate;
-                }
+                using var g = this.pnlMain.CreateGraphics();
+                g.Clip = new Region(sdi.RectangleF);
+                g.FillRectangle(Program.SelectedDayBackgroundBrush, sdi.RectangleF);
+                this._selectedDay = sdi.JewishDate;
             }
 
             this.jewishDatePicker1.Value = sdi.JewishDate;
@@ -1127,8 +1128,7 @@ namespace LuachProject
                 f.ShowDateData();
             }
         }
-        #endregion
 
-        
+        #endregion        
     }
 }

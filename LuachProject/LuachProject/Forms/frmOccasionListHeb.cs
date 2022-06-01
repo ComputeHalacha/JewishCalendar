@@ -116,7 +116,7 @@ namespace LuachProject
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            using (var sfd = new SaveFileDialog()
+            using var sfd = new SaveFileDialog()
             {
                 DefaultExt = "xml",
                 Filter = "קובצי XML (*.xml)|*.xml|כל סוגי הקבצים (*.*)|*.*",
@@ -125,82 +125,76 @@ namespace LuachProject
                 CreatePrompt = false,
                 OverwritePrompt = true,
                 FileName = "לוח_ייצוא_אירועים_" + (Environment.UserName ?? "") + ".xml"
-            })
+            };
+            if (sfd.ShowDialog(this) == DialogResult.OK)
             {
-                if (sfd.ShowDialog(this) == DialogResult.OK)
+                var formatter = new System.Xml.Serialization.XmlSerializer(Properties.Settings.Default.UserOccasions.GetType());
+                using (var stream = new FileStream(sfd.FileName, FileMode.Create, FileAccess.Write, FileShare.None))
                 {
-                    var formatter = new System.Xml.Serialization.XmlSerializer(Properties.Settings.Default.UserOccasions.GetType());
-                    using (var stream = new FileStream(sfd.FileName, FileMode.Create, FileAccess.Write, FileShare.None))
-                    {
-                        formatter.Serialize(stream, Properties.Settings.Default.UserOccasions);
-                    }
-                    MessageBox.Show("רשימת האירועים ייוצאו בהצלחה אל " + sfd.FileName,
-                        "לוח - ייצוא אירועים");
+                    formatter.Serialize(stream, Properties.Settings.Default.UserOccasions);
                 }
+                MessageBox.Show("רשימת האירועים ייוצאו בהצלחה אל " + sfd.FileName,
+                    "לוח - ייצוא אירועים");
             }
         }
 
         private void llImport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            using (var sfd = new OpenFileDialog()
+            using var sfd = new OpenFileDialog()
             {
                 DefaultExt = "xml",
                 Filter = "קובצי XML (*.xml)|*.xml|כל סוגי הקבצים (*.*)|*.*",
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal),
                 RestoreDirectory = false,
                 FileName = "לוח_ייצוא_אירועים_" + (Environment.UserName ?? "") + ".xml"
-            })
+            };
+            if (sfd.ShowDialog(this) == DialogResult.OK && (!string.IsNullOrWhiteSpace(sfd.FileName)) && File.Exists(sfd.FileName))
             {
-                if (sfd.ShowDialog(this) == DialogResult.OK && (!string.IsNullOrWhiteSpace(sfd.FileName)) && File.Exists(sfd.FileName))
+                UserOccasionColection uoc = null;
+                var formatter = new System.Xml.Serialization.XmlSerializer(Properties.Settings.Default.UserOccasions.GetType());
+                using (var stream = new FileStream(sfd.FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    UserOccasionColection uoc = null;
-                    var formatter = new System.Xml.Serialization.XmlSerializer(Properties.Settings.Default.UserOccasions.GetType());
-                    using (var stream = new FileStream(sfd.FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    try
                     {
-                        try
-                        {
-                            uoc = (UserOccasionColection)formatter.Deserialize(stream);
-                        }
-                        catch
-                        {
-                            MessageBox.Show("ייבוא אירועים מקובץ " + sfd.FileName +
-                                "נכשלה.\nאנא וודאו שהקובץ הוא רשימת אירועים שייוצאו מתוכנת לוח ושלא נעשו בו שינויים לא נכונים",
-                                "לוח - ייבוא אירועים", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            //Let the user try again...
-                            llImport_LinkClicked(sender, e);
-                            return;
-                        }
+                        uoc = (UserOccasionColection)formatter.Deserialize(stream);
                     }
-
-                    if (uoc != null && uoc.Count > 0)
+                    catch
                     {
-                        using (var fi = new frmImportOccasionsHeb(uoc))
-                        {
-                            if (fi.ShowDialog() == DialogResult.OK)
-                            {
-                                Properties.Settings.Default.UserOccasions.AddRange(fi.OcassionList);
-                                Properties.Settings.Default.Save();
-                                ((dynamic)this.Owner).Reload();
-                                this.LoadList();
-                                MessageBox.Show(fi.OcassionList.Count.ToString() + " אירועים הובאו בהצלחה מקובץ " + sfd.FileName,
-                                    "לוח - ייבוא אירועים");
-                            }
-                            else
-                            {
-                                MessageBox.Show("לא הובאו שום אירועים מקובץ " + sfd.FileName,
-                                    "לוח - ייבוא אירועים",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
-                        }
+                        MessageBox.Show("ייבוא אירועים מקובץ " + sfd.FileName +
+                            "נכשלה.\nאנא וודאו שהקובץ הוא רשימת אירועים שייוצאו מתוכנת לוח ושלא נעשו בו שינויים לא נכונים",
+                            "לוח - ייבוא אירועים", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        //Let the user try again...
+                        llImport_LinkClicked(sender, e);
+                        return;
+                    }
+                }
 
-                        return;                        
+                if (uoc != null && uoc.Count > 0)
+                {
+                    using var fi = new frmImportOccasionsHeb(uoc);
+                    if (fi.ShowDialog() == DialogResult.OK)
+                    {
+                        Properties.Settings.Default.UserOccasions.AddRange(fi.OcassionList);
+                        Properties.Settings.Default.Save();
+                        ((dynamic)this.Owner).Reload();
+                        this.LoadList();
+                        MessageBox.Show(fi.OcassionList.Count.ToString() + " אירועים הובאו בהצלחה מקובץ " + sfd.FileName,
+                            "לוח - ייבוא אירועים");
                     }
                     else
                     {
-                        MessageBox.Show("לא הצלחנו להביא שום אירועים מקובץ " + sfd.FileName,
-                            "לוח - ייבוא אירועים", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
+                        MessageBox.Show("לא הובאו שום אירועים מקובץ " + sfd.FileName,
+                            "לוח - ייבוא אירועים",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
+
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("לא הצלחנו להביא שום אירועים מקובץ " + sfd.FileName,
+                        "לוח - ייבוא אירועים", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
             }
         }
