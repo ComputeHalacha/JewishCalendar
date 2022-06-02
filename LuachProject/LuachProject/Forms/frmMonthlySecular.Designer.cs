@@ -34,6 +34,7 @@
             this.llChangeLanguage = new System.Windows.Forms.LinkLabel();
             this.llToJewishCalendar = new System.Windows.Forms.LinkLabel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.llOccasionList = new System.Windows.Forms.LinkLabel();
             this.llShowDaily = new System.Windows.Forms.LinkLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -57,8 +58,9 @@
             this.lblInstructions = new System.Windows.Forms.Label();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.llEmailReminders = new System.Windows.Forms.LinkLabel();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -69,7 +71,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlControls.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // lblMonthName
@@ -114,6 +115,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.llEmailReminders);
             this.panel2.Controls.Add(this.pictureBox2);
             this.panel2.Controls.Add(this.llOccasionList);
             this.panel2.Controls.Add(this.llShowDaily);
@@ -125,6 +127,18 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1298, 45);
             this.panel2.TabIndex = 22;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pictureBox2.Image = global::LuachProject.Properties.Resources.print;
+            this.pictureBox2.Location = new System.Drawing.Point(52, 0);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(25, 45);
+            this.pictureBox2.TabIndex = 28;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // llOccasionList
             // 
@@ -194,7 +208,7 @@
             this.splitContainer2.Panel2.Controls.Add(this.lblInstructions);
             this.splitContainer2.Panel2MinSize = 100;
             this.splitContainer2.Size = new System.Drawing.Size(966, 690);
-            this.splitContainer2.SplitterDistance = 537;
+            this.splitContainer2.SplitterDistance = 540;
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 1;
             this.splitContainer2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.splitContainer2_KeyDown);
@@ -206,7 +220,7 @@
             this.pnlMain.Location = new System.Drawing.Point(9, 0);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(957, 537);
+            this.pnlMain.Size = new System.Drawing.Size(957, 540);
             this.pnlMain.TabIndex = 0;
             this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
             this.pnlMain.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseClick);
@@ -234,7 +248,7 @@
             this.pnlControls.Controls.Add(this.btnNextYear);
             this.pnlControls.Controls.Add(this.btnPreviousMonth);
             this.pnlControls.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlControls.Location = new System.Drawing.Point(0, 25);
+            this.pnlControls.Location = new System.Drawing.Point(0, 22);
             this.pnlControls.Name = "pnlControls";
             this.pnlControls.Size = new System.Drawing.Size(966, 127);
             this.pnlControls.TabIndex = 19;
@@ -450,17 +464,20 @@
             this.printDialog1.Document = this.printDocument1;
             this.printDialog1.UseEXDialog = true;
             // 
-            // pictureBox2
+            // llEmailReminders
             // 
-            this.pictureBox2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pictureBox2.Image = global::LuachProject.Properties.Resources.print;
-            this.pictureBox2.Location = new System.Drawing.Point(52, 0);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(25, 45);
-            this.pictureBox2.TabIndex = 28;
-            this.pictureBox2.TabStop = false;
-            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
+            this.llEmailReminders.Dock = System.Windows.Forms.DockStyle.Right;
+            this.llEmailReminders.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.llEmailReminders.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.llEmailReminders.LinkColor = System.Drawing.Color.Goldenrod;
+            this.llEmailReminders.Location = new System.Drawing.Point(915, 0);
+            this.llEmailReminders.Name = "llEmailReminders";
+            this.llEmailReminders.Size = new System.Drawing.Size(125, 45);
+            this.llEmailReminders.TabIndex = 30;
+            this.llEmailReminders.TabStop = true;
+            this.llEmailReminders.Text = "Email Reminders";
+            this.llEmailReminders.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.llEmailReminders.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llEmailReminders_LinkClicked);
             // 
             // frmMonthlySecular
             // 
@@ -478,6 +495,7 @@
             this.Load += new System.EventHandler(this.frmMonthlySecular_Load);
             this.Resize += new System.EventHandler(this.frmMonthlyEnglish_Resize);
             this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -488,7 +506,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pnlControls.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -523,5 +540,6 @@
         private System.Drawing.Printing.PrintDocument printDocument1;
         private System.Windows.Forms.PrintDialog printDialog1;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.LinkLabel llEmailReminders;
     }
 }

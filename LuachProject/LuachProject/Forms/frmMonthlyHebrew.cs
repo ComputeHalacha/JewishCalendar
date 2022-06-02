@@ -295,7 +295,7 @@ namespace LuachProject
 
         private void llEmailReminders_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            new frmSettingsEng().Show();
+            new frmReminderSettingsHeb().Show(this);
         }
 
         private void llShowDaily_LinkClick(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1129,6 +1129,11 @@ namespace LuachProject
             }
         }
 
-        #endregion        
+        #endregion
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

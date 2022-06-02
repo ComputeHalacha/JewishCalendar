@@ -5,12 +5,20 @@ using System.Windows.Forms;
 
 namespace LuachProject
 {
-    public partial class frmSettingsEng : Form
+    public partial class frmReminderSettingsEng : Form
     {
 
-        public frmSettingsEng()
+        public frmReminderSettingsEng()
         {
             InitializeComponent();
+        }
+
+        private void frmSettingsEng_Load(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.ReminderTimeOfDay > DateTime.MinValue)
+            {
+                this.dateTimePicker1.Value = Properties.Settings.Default.ReminderTimeOfDay;
+            }
         }
 
         private void frmAddOccasionEng_FormClosing(object sender, FormClosingEventArgs e)
@@ -25,11 +33,17 @@ namespace LuachProject
             }
         }
 
-        private void btnAdd_Click(object sender, EventArgs e)
+        private void btnSaveAndExit_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Save();
             Program.SetDailyRemindersTask();
             this.Close();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Save();
+            Program.SetDailyRemindersTask();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -40,6 +54,11 @@ namespace LuachProject
         private void btnSend_Click(object sender, EventArgs e)
         {
             Program.SendUserOccasionEmailReminders();
+        }
+
+        private void groupBox3_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

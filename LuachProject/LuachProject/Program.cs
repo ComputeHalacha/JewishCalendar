@@ -183,7 +183,7 @@ namespace LuachProject
                         message.To.Add(new MailAddress(Properties.Settings.Default.SendToEmailAddress));
                         message.Subject = subject;
                         message.IsBodyHtml = false;
-                        message.Body = body.ToString();                        
+                        message.Body = body.ToString();
                         message.From = new MailAddress(Properties.Settings.Default.EmailFromAddress, Properties.Settings.Default.EmailFromName);
                         smtp.Port = int.Parse(Properties.Settings.Default.SmtpPort);
                         smtp.Host = Properties.Settings.Default.EmailServer;
@@ -223,55 +223,55 @@ namespace LuachProject
         public static void SetDailyRemindersTask()
         {
             using TaskService ts = new();
-            if (!Properties.Settings.Default.SendReminderOnEventDay && !Properties.Settings.Default.SendReminderOnDayBeforeEventDay)
+            //Always delete the previous one.
+            ts.RootFolder.DeleteTask(Program.RemindersTaskName, false);
+
+            if (Properties.Settings.Default.SendReminderOnEventDay || Properties.Settings.Default.SendReminderOnDayBeforeEventDay)
             {
-                ts.RootFolder.DeleteTask(Program.RemindersTaskName, false);
-                return;
-            }
-
-            try
-            {
-                bool isVistaPlus = Environment.OSVersion.Version.Major >= 6;
-                string path = Application.ExecutablePath;
-                string folder = Application.StartupPath;
-                using TaskDefinition td = ts.NewTask();
-                using DailyTrigger dt = new();
-
-                td.Actions.Add(path, "-uoc", folder);
-                dt.StartBoundary = (DateTime.Now.Date + Properties.Settings.Default.ReminderTimeOfDay.TimeOfDay);
-                dt.EndBoundary = dt.StartBoundary.AddYears(25);
-                dt.DaysInterval = 1;
-                td.Triggers.Add(dt);
-
-                if (isVistaPlus)
+                try
                 {
-                    td.Principal.LogonType = TaskLogonType.InteractiveToken;
-                    td.Principal.UserId = System.Threading.Thread.CurrentPrincipal.Identity.Name;
-                    td.RegistrationInfo.Date = DateTime.Now;
-                    td.RegistrationInfo.Author = "Compute Software Solutions, LLC.";
-                    td.RegistrationInfo.Version = new Version("6.1.3");
-                    td.RegistrationInfo.Description = "This task was created by the Luach application. " +
-                        "It runs each day at the time specified and sends an reminder email for any Events and Occasions that are set for this.";
-                    td.Settings.AllowDemandStart = true;
-                    td.Settings.AllowHardTerminate = true;
-                    td.Settings.StartWhenAvailable = true;
-                    td.Settings.DeleteExpiredTaskAfter = new TimeSpan(0, 0, 0, 1);
-                    td.Settings.DisallowStartIfOnBatteries = false;
-                    td.Settings.DisallowStartOnRemoteAppSession = false;
-                    td.Settings.ExecutionTimeLimit = new TimeSpan(1, 0, 0, 0, 0);
-                    td.Settings.RunOnlyIfNetworkAvailable = true;
-                    td.Settings.StopIfGoingOnBatteries = false;
-                    td.Settings.WakeToRun = true;
+                    bool isVistaPlus = Environment.OSVersion.Version.Major >= 6;
+                    string path = Application.ExecutablePath;
+                    string folder = Application.StartupPath;
+                    using TaskDefinition td = ts.NewTask();
+                    using DailyTrigger dt = new();
+
+                    td.Actions.Add(path, "-uoc", folder);
+                    dt.StartBoundary = (DateTime.Now.Date + Properties.Settings.Default.ReminderTimeOfDay.TimeOfDay);
+                    dt.EndBoundary = dt.StartBoundary.AddYears(75);
+                    dt.DaysInterval = 1;
+                    td.Triggers.Add(dt);
+
+                    if (isVistaPlus)
+                    {
+                        td.Principal.LogonType = TaskLogonType.InteractiveToken;
+                        td.Principal.UserId = System.Threading.Thread.CurrentPrincipal.Identity.Name;
+                        td.RegistrationInfo.Date = DateTime.Now;
+                        td.RegistrationInfo.Author = "Compute Software Solutions, LLC.";
+                        td.RegistrationInfo.Version = new Version("6.1.3");
+                        td.RegistrationInfo.Description = "This task was created by the Luach application. " +
+                            "It runs each day at the time specified and sends an reminder email for any Events and Occasions that are set for this.";
+                        td.Settings.AllowDemandStart = true;
+                        td.Settings.AllowHardTerminate = true;
+                        td.Settings.StartWhenAvailable = true;
+                        td.Settings.DeleteExpiredTaskAfter = new TimeSpan(0, 0, 0, 1);
+                        td.Settings.DisallowStartIfOnBatteries = false;
+                        td.Settings.DisallowStartOnRemoteAppSession = false;
+                        td.Settings.ExecutionTimeLimit = new TimeSpan(1, 0, 0, 0, 0);
+                        td.Settings.RunOnlyIfNetworkAvailable = true;
+                        td.Settings.StopIfGoingOnBatteries = false;
+                        td.Settings.WakeToRun = true;
+                    }
+                    ts.RootFolder.RegisterTaskDefinition(Program.RemindersTaskName, td);
                 }
-                ts.RootFolder.RegisterTaskDefinition(Program.RemindersTaskName, td);
-            }
-            catch (TSNotSupportedException nse)
-            {
-                throw nse;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
+                catch (TSNotSupportedException nse)
+                {
+                    throw nse;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
         }
 

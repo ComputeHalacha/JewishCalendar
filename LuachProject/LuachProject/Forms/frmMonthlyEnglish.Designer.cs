@@ -62,6 +62,8 @@
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.llEmailReminders = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -117,12 +119,13 @@
             // llSefira
             // 
             this.llSefira.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.llSefira.AutoSize = true;
             this.llSefira.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llSefira.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llSefira.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.llSefira.Location = new System.Drawing.Point(875, 6);
+            this.llSefira.Location = new System.Drawing.Point(807, 6);
             this.llSefira.Name = "llSefira";
-            this.llSefira.Size = new System.Drawing.Size(126, 17);
+            this.llSefira.Size = new System.Drawing.Size(90, 14);
             this.llSefira.TabIndex = 20;
             this.llSefira.TabStop = true;
             this.llSefira.Text = "Sefira Reminders";
@@ -192,7 +195,7 @@
             this.splitContainer2.Panel2.Controls.Add(this.label2);
             this.splitContainer2.Panel2MinSize = 155;
             this.splitContainer2.Size = new System.Drawing.Size(1081, 690);
-            this.splitContainer2.SplitterDistance = 534;
+            this.splitContainer2.SplitterDistance = 502;
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 19;
             this.splitContainer2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.splitContainer2_KeyDown);
@@ -204,7 +207,7 @@
             this.pnlMain.Location = new System.Drawing.Point(9, 0);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(1072, 534);
+            this.pnlMain.Size = new System.Drawing.Size(1072, 502);
             this.pnlMain.TabIndex = 0;
             this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
             this.pnlMain.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseClick);
@@ -223,7 +226,7 @@
             this.panel3.Controls.Add(this.button3);
             this.panel3.Controls.Add(this.button5);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 35);
+            this.panel3.Location = new System.Drawing.Point(0, 67);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1081, 120);
             this.panel3.TabIndex = 19;
@@ -444,12 +447,13 @@
             // llOpenOccasionList
             // 
             this.llOpenOccasionList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.llOpenOccasionList.AutoSize = true;
             this.llOpenOccasionList.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llOpenOccasionList.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llOpenOccasionList.LinkColor = System.Drawing.Color.Green;
-            this.llOpenOccasionList.Location = new System.Drawing.Point(1134, 5);
+            this.llOpenOccasionList.Location = new System.Drawing.Point(1163, 6);
             this.llOpenOccasionList.Name = "llOpenOccasionList";
-            this.llOpenOccasionList.Size = new System.Drawing.Size(125, 19);
+            this.llOpenOccasionList.Size = new System.Drawing.Size(92, 14);
             this.llOpenOccasionList.TabIndex = 22;
             this.llOpenOccasionList.TabStop = true;
             this.llOpenOccasionList.Text = "List of Occasions";
@@ -459,12 +463,13 @@
             // llShowSeconds
             // 
             this.llShowSeconds.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.llShowSeconds.AutoSize = true;
             this.llShowSeconds.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llShowSeconds.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llShowSeconds.LinkColor = System.Drawing.Color.Maroon;
-            this.llShowSeconds.Location = new System.Drawing.Point(1012, 5);
+            this.llShowSeconds.Location = new System.Drawing.Point(1048, 6);
             this.llShowSeconds.Name = "llShowSeconds";
-            this.llShowSeconds.Size = new System.Drawing.Size(111, 19);
+            this.llShowSeconds.Size = new System.Drawing.Size(82, 14);
             this.llShowSeconds.TabIndex = 23;
             this.llShowSeconds.TabStop = true;
             this.llShowSeconds.Text = "Show Seconds";
@@ -475,7 +480,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(1001, 6);
+            this.label3.Location = new System.Drawing.Point(909, 6);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(9, 14);
             this.label3.TabIndex = 24;
@@ -485,7 +490,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(1123, 6);
+            this.label4.Location = new System.Drawing.Point(1027, 6);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(9, 14);
             this.label4.TabIndex = 25;
@@ -495,7 +500,7 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(1259, 6);
+            this.label5.Location = new System.Drawing.Point(1267, 6);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(9, 14);
             this.label5.TabIndex = 26;
@@ -523,12 +528,40 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(1142, 6);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(9, 14);
+            this.label7.TabIndex = 29;
+            this.label7.Text = "|";
+            // 
+            // llEmailReminders
+            // 
+            this.llEmailReminders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.llEmailReminders.AutoSize = true;
+            this.llEmailReminders.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.llEmailReminders.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.llEmailReminders.LinkColor = System.Drawing.Color.Goldenrod;
+            this.llEmailReminders.Location = new System.Drawing.Point(930, 6);
+            this.llEmailReminders.Name = "llEmailReminders";
+            this.llEmailReminders.Size = new System.Drawing.Size(85, 14);
+            this.llEmailReminders.TabIndex = 28;
+            this.llEmailReminders.TabStop = true;
+            this.llEmailReminders.Text = "Email Reminders";
+            this.llEmailReminders.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.llEmailReminders.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llEmailReminders_LinkClicked);
+            // 
             // frmMonthlyEnglish
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.ClientSize = new System.Drawing.Size(1408, 735);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.llEmailReminders);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -601,5 +634,7 @@
         private System.Drawing.Printing.PrintDocument printDocument1;
         private System.Windows.Forms.PrintDialog printDialog1;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.LinkLabel llEmailReminders;
     }
 }

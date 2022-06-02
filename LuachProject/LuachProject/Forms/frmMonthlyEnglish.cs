@@ -503,6 +503,11 @@ namespace LuachProject
             }
         }
 
+        private void llEmailReminders_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            new frmReminderSettingsEng().Show(this);
+        }
+
         #endregion Event Handlers
 
         #region Private Functions
@@ -981,6 +986,6 @@ namespace LuachProject
                 f.ShowDateData();
             }
         }
-        #endregion
+        #endregion       
     }
 }

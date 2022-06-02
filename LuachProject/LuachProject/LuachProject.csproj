@@ -108,11 +108,17 @@
     <Compile Include="Classes\Toggle.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\frmSettingEng.cs">
+    <Compile Include="Forms\frmReminderSettingHeb.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmSettingEng.Designer.cs">
-      <DependentUpon>frmSettingEng.cs</DependentUpon>
+    <Compile Include="Forms\frmReminderSettingHeb.Designer.cs">
+      <DependentUpon>frmReminderSettingHeb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmReminderSettingEng.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmReminderSettingEng.Designer.cs">
+      <DependentUpon>frmReminderSettingEng.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmImportOccasionsHeb.cs">
       <SubType>Form</SubType>
@@ -183,8 +189,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\UserOccasion.cs" />
-    <EmbeddedResource Include="Forms\frmSettingEng.resx">
-      <DependentUpon>frmSettingEng.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmReminderSettingHeb.resx">
+      <DependentUpon>frmReminderSettingHeb.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmReminderSettingEng.resx">
+      <DependentUpon>frmReminderSettingEng.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmImportOccasionsHeb.resx">
