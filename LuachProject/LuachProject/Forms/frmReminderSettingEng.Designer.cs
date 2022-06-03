@@ -57,13 +57,14 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.toggleSendOnDay = new LuachProject.Classes.Toggle();
+            this.toggleSendDayBefore = new LuachProject.Classes.Toggle();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.toggle1 = new LuachProject.Classes.Toggle();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnSave = new System.Windows.Forms.Button();
-            this.toggleSendOnDay = new LuachProject.Classes.Toggle();
-            this.toggleSendDayBefore = new LuachProject.Classes.Toggle();
-            this.toggle1 = new LuachProject.Classes.Toggle();
+            this.label17 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -74,7 +75,7 @@
             // 
             this.btnCancel.BackColor = System.Drawing.SystemColors.Control;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(539, 493);
+            this.btnCancel.Location = new System.Drawing.Point(539, 534);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(110, 33);
@@ -86,7 +87,7 @@
             // btnSaveAndExit
             // 
             this.btnSaveAndExit.BackColor = System.Drawing.SystemColors.Control;
-            this.btnSaveAndExit.Location = new System.Drawing.Point(775, 493);
+            this.btnSaveAndExit.Location = new System.Drawing.Point(775, 534);
             this.btnSaveAndExit.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnSaveAndExit.Name = "btnSaveAndExit";
             this.btnSaveAndExit.Size = new System.Drawing.Size(110, 33);
@@ -132,7 +133,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Location = new System.Drawing.Point(291, 27);
+            this.label2.Location = new System.Drawing.Point(317, 27);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 15);
@@ -154,7 +155,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Location = new System.Drawing.Point(217, 91);
+            this.label5.Location = new System.Drawing.Point(169, 91);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(127, 15);
@@ -165,7 +166,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.BackColor = System.Drawing.Color.Transparent;
-            this.label6.Location = new System.Drawing.Point(183, 142);
+            this.label6.Location = new System.Drawing.Point(18, 160);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(63, 15);
@@ -176,7 +177,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Location = new System.Drawing.Point(22, 145);
+            this.label7.Location = new System.Drawing.Point(21, 94);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(71, 15);
@@ -187,7 +188,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.BackColor = System.Drawing.Color.Transparent;
-            this.label9.Location = new System.Drawing.Point(184, 27);
+            this.label9.Location = new System.Drawing.Point(224, 26);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(93, 15);
@@ -259,30 +260,30 @@
             // textBox3
             // 
             this.textBox3.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::LuachProject.Properties.Settings.Default, "EmailPassword", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox3.Location = new System.Drawing.Point(187, 163);
+            this.textBox3.Location = new System.Drawing.Point(22, 181);
             this.textBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(182, 22);
+            this.textBox3.Size = new System.Drawing.Size(347, 22);
             this.textBox3.TabIndex = 30;
             this.textBox3.Text = global::LuachProject.Properties.Settings.Default.EmailPassword;
             // 
             // textBox4
             // 
             this.textBox4.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::LuachProject.Properties.Settings.Default, "EmailUserName", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox4.Location = new System.Drawing.Point(22, 166);
+            this.textBox4.Location = new System.Drawing.Point(21, 115);
             this.textBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(145, 22);
+            this.textBox4.Size = new System.Drawing.Size(348, 22);
             this.textBox4.TabIndex = 28;
             this.textBox4.Text = global::LuachProject.Properties.Settings.Default.EmailUserName;
             // 
             // textBox2
             // 
             this.textBox2.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::LuachProject.Properties.Settings.Default, "EmailFromAddress", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox2.Location = new System.Drawing.Point(221, 112);
+            this.textBox2.Location = new System.Drawing.Point(173, 112);
             this.textBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(198, 22);
+            this.textBox2.Size = new System.Drawing.Size(243, 22);
             this.textBox2.TabIndex = 26;
             this.textBox2.Text = global::LuachProject.Properties.Settings.Default.EmailFromAddress;
             // 
@@ -292,17 +293,17 @@
             this.textBox1.Location = new System.Drawing.Point(11, 112);
             this.textBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(196, 22);
+            this.textBox1.Size = new System.Drawing.Size(154, 22);
             this.textBox1.TabIndex = 24;
             this.textBox1.Text = global::LuachProject.Properties.Settings.Default.EmailFromName;
             // 
             // txtPort
             // 
             this.txtPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::LuachProject.Properties.Settings.Default, "SmtpPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtPort.Location = new System.Drawing.Point(294, 48);
+            this.txtPort.Location = new System.Drawing.Point(320, 48);
             this.txtPort.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtPort.Name = "txtPort";
-            this.txtPort.Size = new System.Drawing.Size(75, 22);
+            this.txtPort.Size = new System.Drawing.Size(49, 22);
             this.txtPort.TabIndex = 22;
             this.txtPort.Text = global::LuachProject.Properties.Settings.Default.SmtpPort;
             // 
@@ -312,7 +313,7 @@
             this.txtServer.Location = new System.Drawing.Point(22, 48);
             this.txtServer.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtServer.Name = "txtServer";
-            this.txtServer.Size = new System.Drawing.Size(145, 22);
+            this.txtServer.Size = new System.Drawing.Size(198, 22);
             this.txtServer.TabIndex = 0;
             this.txtServer.Text = global::LuachProject.Properties.Settings.Default.EmailServer;
             // 
@@ -342,7 +343,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.label14.Location = new System.Drawing.Point(103, 145);
+            this.label14.Location = new System.Drawing.Point(102, 94);
             this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(61, 15);
@@ -353,7 +354,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.label15.Location = new System.Drawing.Point(254, 145);
+            this.label15.Location = new System.Drawing.Point(89, 163);
             this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(61, 15);
@@ -364,7 +365,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.label16.Location = new System.Drawing.Point(355, 91);
+            this.label16.Location = new System.Drawing.Point(307, 91);
             this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(61, 15);
@@ -385,71 +386,6 @@
             this.groupBox1.TabIndex = 43;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Reminder settings";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.txtServer);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.txtPort);
-            this.groupBox2.Controls.Add(this.label15);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.label14);
-            this.groupBox2.Controls.Add(this.textBox4);
-            this.groupBox2.Controls.Add(this.label13);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.textBox3);
-            this.groupBox2.Controls.Add(this.toggle1);
-            this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Location = new System.Drawing.Point(457, 11);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(394, 223);
-            this.groupBox2.TabIndex = 44;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "SMTP server details";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.txtSendToEmail);
-            this.groupBox3.Controls.Add(this.label11);
-            this.groupBox3.Controls.Add(this.label12);
-            this.groupBox3.Controls.Add(this.label16);
-            this.groupBox3.Controls.Add(this.label4);
-            this.groupBox3.Controls.Add(this.textBox1);
-            this.groupBox3.Controls.Add(this.textBox2);
-            this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Location = new System.Drawing.Point(14, 247);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(437, 156);
-            this.groupBox3.TabIndex = 44;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Email details";
-            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel1.Controls.Add(this.groupBox1);
-            this.panel1.Controls.Add(this.btnSend);
-            this.panel1.Controls.Add(this.groupBox3);
-            this.panel1.Controls.Add(this.groupBox2);
-            this.panel1.Location = new System.Drawing.Point(17, 42);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(868, 419);
-            this.panel1.TabIndex = 45;
-            // 
-            // btnSave
-            // 
-            this.btnSave.BackColor = System.Drawing.SystemColors.Control;
-            this.btnSave.Location = new System.Drawing.Point(657, 493);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(110, 33);
-            this.btnSave.TabIndex = 11;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = false;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // toggleSendOnDay
             // 
@@ -481,13 +417,35 @@
             this.toggleSendDayBefore.Text = "toggle1";
             this.toggleSendDayBefore.UseVisualStyleBackColor = true;
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.txtServer);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.txtPort);
+            this.groupBox2.Controls.Add(this.label15);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.label14);
+            this.groupBox2.Controls.Add(this.textBox4);
+            this.groupBox2.Controls.Add(this.label13);
+            this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Controls.Add(this.textBox3);
+            this.groupBox2.Controls.Add(this.toggle1);
+            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Location = new System.Drawing.Point(457, 11);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(394, 223);
+            this.groupBox2.TabIndex = 44;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "SMTP server details";
+            // 
             // toggle1
             // 
             this.toggle1.AutoSize = true;
             this.toggle1.Checked = global::LuachProject.Properties.Settings.Default.SendEmailEncrypted;
             this.toggle1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toggle1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::LuachProject.Properties.Settings.Default, "SendEmailEncrypted", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.toggle1.Location = new System.Drawing.Point(188, 44);
+            this.toggle1.Location = new System.Drawing.Point(228, 43);
             this.toggle1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.toggle1.Name = "toggle1";
             this.toggle1.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
@@ -496,14 +454,69 @@
             this.toggle1.Text = "toggle1";
             this.toggle1.UseVisualStyleBackColor = true;
             // 
-            // frmSettingsEng
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.txtSendToEmail);
+            this.groupBox3.Controls.Add(this.label11);
+            this.groupBox3.Controls.Add(this.label12);
+            this.groupBox3.Controls.Add(this.label16);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.textBox1);
+            this.groupBox3.Controls.Add(this.textBox2);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Location = new System.Drawing.Point(14, 247);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(437, 156);
+            this.groupBox3.TabIndex = 44;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Email details";
+            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.groupBox1);
+            this.panel1.Controls.Add(this.btnSend);
+            this.panel1.Controls.Add(this.groupBox3);
+            this.panel1.Controls.Add(this.groupBox2);
+            this.panel1.Location = new System.Drawing.Point(15, 80);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(868, 419);
+            this.panel1.TabIndex = 45;
+            // 
+            // btnSave
+            // 
+            this.btnSave.BackColor = System.Drawing.SystemColors.Control;
+            this.btnSave.Location = new System.Drawing.Point(657, 534);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(110, 33);
+            this.btnSave.TabIndex = 11;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Century Gothic", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label17.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label17.Location = new System.Drawing.Point(12, 27);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(312, 24);
+            this.label17.TabIndex = 47;
+            this.label17.Text = "Event Reminder Emails Settings";
+            // 
+            // frmReminderSettingsEng
             // 
             this.AcceptButton = this.btnSaveAndExit;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.GhostWhite;
+            this.BackColor = System.Drawing.Color.Lavender;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(898, 538);
+            this.ClientSize = new System.Drawing.Size(898, 579);
+            this.Controls.Add(this.label17);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnSaveAndExit);
@@ -511,11 +524,11 @@
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "frmSettingsEng";
+            this.Name = "frmReminderSettingsEng";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -531,6 +544,7 @@
             this.groupBox3.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -571,5 +585,6 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Label label17;
     }
 }

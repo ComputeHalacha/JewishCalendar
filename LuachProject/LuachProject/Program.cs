@@ -128,27 +128,32 @@ namespace LuachProject
                 JewishDate today = GetJewishToday();
                 var tommorrow = today + 1;
                 var hebrew = Properties.Settings.Default.LastLanguage.Contains("Hebrew");
-
+                var nl = Environment.NewLine;
+                var nlt = nl + '\t';
+                var hr = nl + new string('-', 100) + nl;
                 if (Properties.Settings.Default.SendReminderOnDayBeforeEventDay)
                 {
                     UserOccasionColection uoc = UserOccasionColection.FromSettings(tommorrow);
 
                     if (uoc.Any(o => o.SendEmailReminders))
                     {
-                        body.AppendLine(hebrew ? "מחר" : "Tommorrow");
+                        body.Append(hr + (hebrew 
+                            ? " מחר" + tommorrow.ToLongDateStringHeb() 
+                            : "Tommorrow " + tommorrow.ToLongDateString()) + hr);
                         subject += (hebrew ? "מחר הוא " : "Tommorrow is the ");
                         foreach (var oc in uoc.Where(o => o.SendEmailReminders))
                         {
                             count++;
                             string dateDiff = oc.GetAnniversaryString(tommorrow, hebrew);
-                            string tot = oc.Name +
-                               ((!string.IsNullOrWhiteSpace(dateDiff)) ? "\r\n" + dateDiff : "") +
-                               ((!string.IsNullOrWhiteSpace(oc.Notes)) ? "\r\nNotes:\r\n" + oc.Notes : "");
+                            string tot = nlt + oc.Name + nlt +
+                               ((!string.IsNullOrWhiteSpace(dateDiff)) ? dateDiff + nlt : "") +
+                               ((!string.IsNullOrWhiteSpace(oc.Notes)) ? $"Notes:{nlt}\t" + oc.Notes : "");
+                            body.Append(tot);
 
-                            body.AppendLine(tot);
                             subject += oc.Name + " - " + (!string.IsNullOrWhiteSpace(dateDiff)
                                 ? "(" + dateDiff + ")" : "");
                         }
+                        body.Append(hr);
                     }
                 }
                 if (Properties.Settings.Default.SendReminderOnEventDay)
@@ -157,25 +162,31 @@ namespace LuachProject
 
                     if (uoc.Any(o => o.SendEmailReminders))
                     {
-                        body.AppendLine(hebrew ? "היום" : "Today");
+                        body.Append(hr + (hebrew 
+                            ? " היום" + tommorrow.ToLongDateStringHeb() 
+                            : "Today " + today.ToLongDateString()) + hr);
                         subject += (!string.IsNullOrEmpty(subject) ? " - " : "") +
                             (hebrew ? "היום הוא " : "Today is the ");
                         foreach (var oc in uoc.Where(o => o.SendEmailReminders))
                         {
                             count++;
-                            string dateDiff = oc.GetAnniversaryString(tommorrow, hebrew),
-                            tot = oc.Name +
-                               ((!string.IsNullOrWhiteSpace(dateDiff)) ? "\r\n" + dateDiff : "") +
-                               ((!string.IsNullOrWhiteSpace(oc.Notes)) ? "\r\nNotes:\r\n" + oc.Notes : "");
+                            string dateDiff = oc.GetAnniversaryString(today, hebrew);
+                            string tot = nlt + oc.Name + nlt +
+                               ((!string.IsNullOrWhiteSpace(dateDiff)) ? dateDiff + nlt : "") +
+                               ((!string.IsNullOrWhiteSpace(oc.Notes)) ? $"Notes:{nlt}\t" + oc.Notes : "");
+                            body.Append(tot);
 
-                            body.AppendLine(tot);
                             subject += oc.Name + " - " + (!string.IsNullOrWhiteSpace(dateDiff)
                               ? "(" + dateDiff + ")" : "");
                         }
+                        body.Append(hr);
                     }
                 }
                 if (body.Length > 0 && subject.Length > 0)
                 {
+                    body.Insert(0, (hebrew
+                        ? "תזכורת אירוע מתוכנת לוח"
+                        : "Occasion Reminder Message from Luach") + nl);
                     try
                     {
                         MailMessage message = new();
