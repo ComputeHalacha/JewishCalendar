@@ -53,7 +53,7 @@ namespace LuachProject
                 Properties.Settings.Default.NeedsUpdate = false;
             }
 
-            if (args.Length > 0 && args[0] == "-uoc")
+            if (args != null && args.Contains("-uoc"))
             {
                 int sentReminders = SendUserOccasionEmailReminders();
                 Console.WriteLine($"Sent {sentReminders} email reminders");
@@ -137,8 +137,8 @@ namespace LuachProject
 
                     if (uoc.Any(o => o.SendEmailReminders))
                     {
-                        body.Append(hr + (hebrew 
-                            ? " מחר" + tommorrow.ToLongDateStringHeb() 
+                        body.Append(hr + (hebrew
+                            ? " מחר" + tommorrow.ToLongDateStringHeb()
                             : "Tommorrow " + tommorrow.ToLongDateString()) + hr);
                         subject += (hebrew ? "מחר הוא " : "Tommorrow is the ");
                         foreach (var oc in uoc.Where(o => o.SendEmailReminders))
@@ -162,8 +162,8 @@ namespace LuachProject
 
                     if (uoc.Any(o => o.SendEmailReminders))
                     {
-                        body.Append(hr + (hebrew 
-                            ? " היום" + tommorrow.ToLongDateStringHeb() 
+                        body.Append(hr + (hebrew
+                            ? " היום" + tommorrow.ToLongDateStringHeb()
                             : "Today " + today.ToLongDateString()) + hr);
                         subject += (!string.IsNullOrEmpty(subject) ? " - " : "") +
                             (hebrew ? "היום הוא " : "Today is the ");
@@ -229,6 +229,47 @@ namespace LuachProject
             }
 
             return new JewishDate();
+        }
+
+        public static bool SendTestEmail(out string outMessage)
+        {
+            var body = new StringBuilder();
+            var hebrew = Properties.Settings.Default.LastLanguage.Contains("Hebrew");
+            string subject = hebrew ? "מייל דמה מתוכנת לוח!" : "Tesr email from the Luach Application";
+            var nl = Environment.NewLine;
+            var hr = nl + new string('-', 100) + nl;
+
+            body.Append(hr + (hebrew
+                 ? "היום עשיתם שליחת מייל דמה מתוכנת לוח"
+                 : "Today you have sent a test email from the Luach Application") + hr);
+
+            body.Insert(0, (hebrew
+                ? "תזכורת אירוע מתוכנת לוח"
+                : "Occasion Reminder Message from Luach") + nl);
+            try
+            {
+                MailMessage message = new();
+                SmtpClient smtp = new();
+                message.To.Add(new MailAddress(Properties.Settings.Default.SendToEmailAddress));
+                message.Subject = subject;
+                message.IsBodyHtml = false;
+                message.Body = body.ToString();
+                message.From = new MailAddress(Properties.Settings.Default.EmailFromAddress, Properties.Settings.Default.EmailFromName);
+                smtp.Port = int.Parse(Properties.Settings.Default.SmtpPort);
+                smtp.Host = Properties.Settings.Default.EmailServer;
+                smtp.EnableSsl = true;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new NetworkCredential(Properties.Settings.Default.EmailUserName, Properties.Settings.Default.EmailPassword);
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.Send(message);
+                outMessage = "Success";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                outMessage = ex.Message;
+                return false;
+            }
         }
 
         public static void SetDailyRemindersTask()

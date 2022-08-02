@@ -1,7 +1,12 @@
 ﻿using JewishCalendar;
 using Microsoft.Win32.TaskScheduler;
 using System;
+using System.Linq;
+using System.Net.Mail;
+using System.Net;
+using System.Text;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace LuachProject
 {
@@ -56,7 +61,22 @@ namespace LuachProject
             Program.SendUserOccasionEmailReminders();
         }
 
-        private void groupBox3_Enter(object sender, EventArgs e)
+        private void btnTest_Click(object sender, EventArgs e)
+        {
+            if (!Program.SendTestEmail(out string outMessage))
+            {
+                this.lblTestResults.Text = "הפעולה נכשלה. " + outMessage;
+                this.lblTestResults.ForeColor = Color.Red;
+            }
+            else
+            {
+                this.lblTestResults.Text = "הפעולה הצליחה!";
+                this.lblTestResults.ForeColor = Color.Green;
+            }
+            this.lblTestResults.Visible = true;
+        }
+
+        private void lblTestResults_Click(object sender, EventArgs e)
         {
 
         }

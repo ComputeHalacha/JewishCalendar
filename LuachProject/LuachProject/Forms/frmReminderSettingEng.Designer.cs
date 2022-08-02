@@ -65,6 +65,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnSave = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
+            this.lblTestResults = new System.Windows.Forms.Label();
+            this.btnTest = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -208,16 +210,16 @@
             // 
             // btnSend
             // 
-            this.btnSend.BackColor = System.Drawing.Color.White;
+            this.btnSend.BackColor = System.Drawing.Color.CornflowerBlue;
             this.btnSend.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnSend.FlatAppearance.BorderSize = 0;
-            this.btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSend.Font = new System.Drawing.Font("Century Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.btnSend.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.btnSend.Location = new System.Drawing.Point(521, 296);
+            this.btnSend.ForeColor = System.Drawing.Color.Lavender;
+            this.btnSend.Location = new System.Drawing.Point(15, 534);
             this.btnSend.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(285, 57);
+            this.btnSend.Size = new System.Drawing.Size(285, 33);
             this.btnSend.TabIndex = 35;
             this.btnSend.Text = "Send a Reminder Email for today now";
             this.btnSend.UseVisualStyleBackColor = false;
@@ -470,14 +472,14 @@
             this.groupBox3.TabIndex = 44;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Email details";
-            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.lblTestResults);
+            this.panel1.Controls.Add(this.btnTest);
             this.panel1.Controls.Add(this.groupBox1);
-            this.panel1.Controls.Add(this.btnSend);
             this.panel1.Controls.Add(this.groupBox3);
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Location = new System.Drawing.Point(15, 80);
@@ -508,6 +510,36 @@
             this.label17.TabIndex = 47;
             this.label17.Text = "Event Reminder Emails Settings";
             // 
+            // lblTestResults
+            // 
+            this.lblTestResults.Font = new System.Drawing.Font("Tahoma", 7F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.lblTestResults.ForeColor = System.Drawing.Color.Green;
+            this.lblTestResults.Location = new System.Drawing.Point(478, 358);
+            this.lblTestResults.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTestResults.Name = "lblTestResults";
+            this.lblTestResults.Size = new System.Drawing.Size(355, 26);
+            this.lblTestResults.TabIndex = 48;
+            this.lblTestResults.Text = "You should not be seeing me...";
+            this.lblTestResults.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblTestResults.Visible = false;
+            // 
+            // btnTest
+            // 
+            this.btnTest.BackColor = System.Drawing.Color.White;
+            this.btnTest.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnTest.FlatAppearance.BorderSize = 0;
+            this.btnTest.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnTest.Font = new System.Drawing.Font("Century Gothic", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.btnTest.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.btnTest.Location = new System.Drawing.Point(478, 327);
+            this.btnTest.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(355, 26);
+            this.btnTest.TabIndex = 47;
+            this.btnTest.Text = "Send Test Email Now";
+            this.btnTest.UseVisualStyleBackColor = false;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
             // frmReminderSettingsEng
             // 
             this.AcceptButton = this.btnSaveAndExit;
@@ -517,6 +549,7 @@
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(898, 579);
             this.Controls.Add(this.label17);
+            this.Controls.Add(this.btnSend);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnSaveAndExit);
@@ -586,5 +619,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label lblTestResults;
+        private System.Windows.Forms.Button btnTest;
     }
 }
