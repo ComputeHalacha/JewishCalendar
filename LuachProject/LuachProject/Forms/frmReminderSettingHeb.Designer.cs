@@ -57,16 +57,17 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.toggleSendOnDay = new LuachProject.Classes.Toggle();
-            this.toggleSendDayBefore = new LuachProject.Classes.Toggle();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.toggle1 = new LuachProject.Classes.Toggle();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblTestResults = new System.Windows.Forms.Label();
             this.btnTest = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
+            this.toggleSendOnDay = new LuachProject.Classes.Toggle();
+            this.toggleSendDayBefore = new LuachProject.Classes.Toggle();
+            this.toggle1 = new LuachProject.Classes.Toggle();
+            this.btnSetAllToRemind = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -213,7 +214,7 @@
             this.btnSend.BackColor = System.Drawing.Color.CornflowerBlue;
             this.btnSend.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnSend.FlatAppearance.BorderSize = 0;
-            this.btnSend.Font = new System.Drawing.Font("Century Gothic", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.btnSend.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.btnSend.ForeColor = System.Drawing.Color.Lavender;
             this.btnSend.Location = new System.Drawing.Point(17, 480);
             this.btnSend.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -377,6 +378,7 @@
             // 
             this.groupBox1.Controls.Add(this.toggleSendOnDay);
             this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.btnSetAllToRemind);
             this.groupBox1.Controls.Add(this.toggleSendDayBefore);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.dateTimePicker1);
@@ -387,36 +389,6 @@
             this.groupBox1.TabIndex = 43;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "הגדרות תזכורת";
-            // 
-            // toggleSendOnDay
-            // 
-            this.toggleSendOnDay.AutoSize = true;
-            this.toggleSendOnDay.Checked = global::LuachProject.Properties.Settings.Default.SendReminderOnEventDay;
-            this.toggleSendOnDay.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toggleSendOnDay.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::LuachProject.Properties.Settings.Default, "SendReminderOnEventDay", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.toggleSendOnDay.Location = new System.Drawing.Point(330, 36);
-            this.toggleSendOnDay.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.toggleSendOnDay.Name = "toggleSendOnDay";
-            this.toggleSendOnDay.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.toggleSendOnDay.Size = new System.Drawing.Size(82, 30);
-            this.toggleSendOnDay.TabIndex = 20;
-            this.toggleSendOnDay.Text = "toggle1";
-            this.toggleSendOnDay.UseVisualStyleBackColor = true;
-            // 
-            // toggleSendDayBefore
-            // 
-            this.toggleSendDayBefore.AutoSize = true;
-            this.toggleSendDayBefore.Checked = global::LuachProject.Properties.Settings.Default.SendReminderOnDayBeforeEventDay;
-            this.toggleSendDayBefore.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toggleSendDayBefore.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::LuachProject.Properties.Settings.Default, "SendReminderOnDayBeforeEventDay", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.toggleSendDayBefore.Location = new System.Drawing.Point(330, 77);
-            this.toggleSendDayBefore.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.toggleSendDayBefore.Name = "toggleSendDayBefore";
-            this.toggleSendDayBefore.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.toggleSendDayBefore.Size = new System.Drawing.Size(82, 30);
-            this.toggleSendDayBefore.TabIndex = 18;
-            this.toggleSendDayBefore.Text = "toggle1";
-            this.toggleSendDayBefore.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -439,21 +411,6 @@
             this.groupBox2.TabIndex = 44;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "פרטי שרת SMTP";
-            // 
-            // toggle1
-            // 
-            this.toggle1.AutoSize = true;
-            this.toggle1.Checked = global::LuachProject.Properties.Settings.Default.SendEmailEncrypted;
-            this.toggle1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toggle1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::LuachProject.Properties.Settings.Default, "SendEmailEncrypted", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.toggle1.Location = new System.Drawing.Point(81, 53);
-            this.toggle1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.toggle1.Name = "toggle1";
-            this.toggle1.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.toggle1.Size = new System.Drawing.Size(82, 30);
-            this.toggle1.TabIndex = 32;
-            this.toggle1.Text = "toggle1";
-            this.toggle1.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
@@ -498,7 +455,6 @@
             this.lblTestResults.Text = "לא אמורים לראות אותי";
             this.lblTestResults.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblTestResults.Visible = false;
-            this.lblTestResults.Click += new System.EventHandler(this.lblTestResults_Click);
             // 
             // btnTest
             // 
@@ -539,6 +495,67 @@
             this.label17.Size = new System.Drawing.Size(257, 24);
             this.label17.TabIndex = 46;
             this.label17.Text = "הגדרות תזכורות אירועים במייל";
+            // 
+            // toggleSendOnDay
+            // 
+            this.toggleSendOnDay.AutoSize = true;
+            this.toggleSendOnDay.Checked = global::LuachProject.Properties.Settings.Default.SendReminderOnEventDay;
+            this.toggleSendOnDay.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toggleSendOnDay.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::LuachProject.Properties.Settings.Default, "SendReminderOnEventDay", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.toggleSendOnDay.Location = new System.Drawing.Point(330, 36);
+            this.toggleSendOnDay.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.toggleSendOnDay.Name = "toggleSendOnDay";
+            this.toggleSendOnDay.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.toggleSendOnDay.Size = new System.Drawing.Size(82, 30);
+            this.toggleSendOnDay.TabIndex = 20;
+            this.toggleSendOnDay.Text = "toggle1";
+            this.toggleSendOnDay.UseVisualStyleBackColor = true;
+            // 
+            // toggleSendDayBefore
+            // 
+            this.toggleSendDayBefore.AutoSize = true;
+            this.toggleSendDayBefore.Checked = global::LuachProject.Properties.Settings.Default.SendReminderOnDayBeforeEventDay;
+            this.toggleSendDayBefore.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toggleSendDayBefore.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::LuachProject.Properties.Settings.Default, "SendReminderOnDayBeforeEventDay", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.toggleSendDayBefore.Location = new System.Drawing.Point(330, 77);
+            this.toggleSendDayBefore.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.toggleSendDayBefore.Name = "toggleSendDayBefore";
+            this.toggleSendDayBefore.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.toggleSendDayBefore.Size = new System.Drawing.Size(82, 30);
+            this.toggleSendDayBefore.TabIndex = 18;
+            this.toggleSendDayBefore.Text = "toggle1";
+            this.toggleSendDayBefore.UseVisualStyleBackColor = true;
+            // 
+            // toggle1
+            // 
+            this.toggle1.AutoSize = true;
+            this.toggle1.Checked = global::LuachProject.Properties.Settings.Default.SendEmailEncrypted;
+            this.toggle1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toggle1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::LuachProject.Properties.Settings.Default, "SendEmailEncrypted", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.toggle1.Location = new System.Drawing.Point(81, 53);
+            this.toggle1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.toggle1.Name = "toggle1";
+            this.toggle1.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.toggle1.Size = new System.Drawing.Size(82, 30);
+            this.toggle1.TabIndex = 32;
+            this.toggle1.Text = "toggle1";
+            this.toggle1.UseVisualStyleBackColor = true;
+            // 
+            // btnSetAllToRemind
+            // 
+            this.btnSetAllToRemind.BackColor = System.Drawing.Color.White;
+            this.btnSetAllToRemind.FlatAppearance.BorderSize = 0;
+            this.btnSetAllToRemind.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSetAllToRemind.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.btnSetAllToRemind.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.btnSetAllToRemind.Location = new System.Drawing.Point(1, 176);
+            this.btnSetAllToRemind.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.btnSetAllToRemind.Name = "btnSetAllToRemind";
+            this.btnSetAllToRemind.Size = new System.Drawing.Size(237, 26);
+            this.btnSetAllToRemind.TabIndex = 11;
+            this.btnSetAllToRemind.Text = "להגדיר כל האירועים השמורים שישלחו תזכורת";
+            this.btnSetAllToRemind.UseVisualStyleBackColor = false;
+            this.btnSetAllToRemind.Click += new System.EventHandler(this.btnSetAllToRemind_Click);
             // 
             // frmReminderSettingsHeb
             // 
@@ -623,5 +640,6 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.Label lblTestResults;
+        private System.Windows.Forms.Button btnSetAllToRemind;
     }
 }

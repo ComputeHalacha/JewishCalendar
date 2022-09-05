@@ -58,7 +58,27 @@ namespace LuachProject
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            Program.SendUserOccasionEmailReminders();
+          if( Program.SendUserOccasionEmailReminders() > 0)
+            {
+                MessageBox.Show("המייל נשלח בהצלחה", "לוח - תזכורת מייל",
+                   MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("אין תזכורות להיום", "לוח - תזכורת מייל",
+                   MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnSetAllToRemind_Click(object sender, EventArgs e)
+        {
+            foreach(var uo in Properties.Settings.Default.UserOccasions)
+            {
+                uo.SendEmailReminders = true;
+            }
+            Properties.Settings.Default.Save();
+            MessageBox.Show("כל האירועים השמורים במערכת ישלחו תזכורות מייל.", "לוח - תזכורת מייל",
+                   MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnTest_Click(object sender, EventArgs e)
@@ -74,11 +94,6 @@ namespace LuachProject
                 this.lblTestResults.ForeColor = Color.Green;
             }
             this.lblTestResults.Visible = true;
-        }
-
-        private void lblTestResults_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

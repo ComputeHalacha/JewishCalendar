@@ -138,7 +138,7 @@ namespace LuachProject
                     if (uoc.Any(o => o.SendEmailReminders))
                     {
                         body.Append(hr + (hebrew
-                            ? " מחר" + tommorrow.ToLongDateStringHeb()
+                            ? "מחר " + tommorrow.ToLongDateStringHeb()
                             : "Tommorrow " + tommorrow.ToLongDateString()) + hr);
                         subject += (hebrew ? "מחר הוא " : "Tommorrow is the ");
                         foreach (var oc in uoc.Where(o => o.SendEmailReminders))
@@ -163,7 +163,7 @@ namespace LuachProject
                     if (uoc.Any(o => o.SendEmailReminders))
                     {
                         body.Append(hr + (hebrew
-                            ? " היום" + tommorrow.ToLongDateStringHeb()
+                            ? "היום " + tommorrow.ToLongDateStringHeb()
                             : "Today " + today.ToLongDateString()) + hr);
                         subject += (!string.IsNullOrEmpty(subject) ? " - " : "") +
                             (hebrew ? "היום הוא " : "Today is the ");
