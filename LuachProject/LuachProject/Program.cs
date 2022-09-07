@@ -53,8 +53,12 @@ namespace LuachProject
                 Properties.Settings.Default.NeedsUpdate = false;
             }
 
+            LoadLocations();
+
+
             if (args != null && args.Contains("-uoc"))
             {
+                Application.DoEvents();               
                 int sentReminders = SendUserOccasionEmailReminders();
                 Console.WriteLine($"Sent {sentReminders} email reminders");
                 Application.Exit();
@@ -63,7 +67,6 @@ namespace LuachProject
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            LoadLocations();
             Form form = null;
             if (args.Length > 0)
             {
@@ -108,8 +111,6 @@ namespace LuachProject
                 }
             }
 
-            JewishDate jd = new();
-            var ad = (jd.AbsoluteDate.ToString());
             Application.Run(form ?? new frmMonthlyEnglish());
         }
 
