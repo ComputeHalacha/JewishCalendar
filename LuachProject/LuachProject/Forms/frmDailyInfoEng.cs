@@ -161,6 +161,8 @@ namespace LuachProject
 
         internal void ShowDateData()
         {
+            var (DayNotes, TefillahNotes) = new DailyNotifications(this._dailyZmanim, true).GetNotifications();
+            
             this.Cursor = Cursors.WaitCursor;
             var html = new StringBuilder();
 
@@ -168,6 +170,7 @@ namespace LuachProject
             this.DisplayDateDiff(html);
             html.Append("<br />");
             this.DisplayHolidays(html);
+            this.DisplayNotifications(html);
             this.DisplayZmanim(html);
             this._html = Properties.Resources.InfoHTMLEng
                 .Replace("{{BODY}}", html.ToString());
@@ -347,6 +350,27 @@ namespace LuachProject
             {
                 this.AddLine(html, "Candle Lighting", (shkia - this._dailyZmanim.Location.CandleLighting).ToString(), wideDescription: false);
                 html.Append("<tr><td class=\"nobg\" colspan=\"3\">&nbsp;</td></tr>");
+            }
+        }
+
+        private void DisplayNotifications(StringBuilder html)
+        {
+            var (DayNotes, TefillahNotes) = new DailyNotifications(this._dailyZmanim, true).GetNotifications();
+            if (DayNotes.Count() > 0)
+            {
+                foreach (var h in DayNotes)
+                {
+                    html.AppendFormat("<div class=\"padWidth rosyBrown\">{0}</div>", h);
+                }
+            }
+            if (TefillahNotes.Count() > 0)
+            {
+                html.Append("<hr class='greenish' />");
+                foreach (var h in TefillahNotes)
+                {
+                    html.AppendFormat("<div class=\"padWidth greenish\">{0}</div>", h);
+                }
+                html.Append("<hr class='greenish' />");
             }
         }
 

@@ -20,10 +20,8 @@ namespace LuachProject
         private JewishDate _displayingJewishDate;
         private DateTime _displayingSecularDate;
         private DateTime _secularDateAtMidnight;
-        private frmAddOccasionHeb _frmAddOccasionHeb;
-        private IEnumerable<SpecialDay> _holidays;
-        private Font _lblOccasionFont;
-        private IEnumerable<UserOccasion> _occasions;
+        private frmAddOccasionHeb _frmAddOccasionHeb;        
+        private Font _lblOccasionFont;        
         private DailyZmanim _dailyZmanim;
         #endregion private fields
 
@@ -33,8 +31,6 @@ namespace LuachProject
             this._displayingJewishDate = jd;
             this.SetSecularDate();
             this._dailyZmanim = new DailyZmanim(this._secularDateAtMidnight, location);
-            this._holidays = Zmanim.GetHolidays(jd, location.IsInIsrael).Cast<SpecialDay>();
-            this._occasions = UserOccasionColection.FromSettings(jd);
 
             InitializeComponent();
 
@@ -57,9 +53,7 @@ namespace LuachProject
                 {
                     this._displayingJewishDate = value;
                     this.SetSecularDate();
-                    this._dailyZmanim.SecularDate = this._secularDateAtMidnight;
-                    this._holidays = Zmanim.GetHolidays(value, this._dailyZmanim.Location.IsInIsrael).Cast<SpecialDay>();
-                    this._occasions = UserOccasionColection.FromSettings(this._displayingJewishDate);
+                    this._dailyZmanim.SecularDate = this._secularDateAtMidnight;                                        
                     this.tableLayoutPanel1.Controls.Clear();
                     this.ShowDateData();
                 }
@@ -75,8 +69,7 @@ namespace LuachProject
             set
             {
                 this._dailyZmanim.SecularDate = this._displayingSecularDate;
-                this._dailyZmanim.Location = value;
-                this._holidays = Zmanim.GetHolidays(this._displayingJewishDate, this._dailyZmanim.Location.IsInIsrael).Cast<SpecialDay>();
+                this._dailyZmanim.Location = value;                
                 this.ShowDateData();
             }
         }
@@ -170,6 +163,9 @@ namespace LuachProject
             var shaaZmanis = this._dailyZmanim.ShaaZmanis;
             var shaaZmanis90 = this._dailyZmanim.ShaaZmanisMga;
             var html = new StringBuilder();
+            var holidays = Zmanim.GetHolidays(this._displayingJewishDate, this._dailyZmanim.Location.IsInIsrael).Cast<SpecialDay>();
+            var (DayNotes, TefillahNotes) = new DailyNotifications(this._dailyZmanim, false).GetNotifications();
+            var occasions = UserOccasionColection.FromSettings(this._displayingJewishDate);
 
             html.AppendFormat("<div class=\"padWidth royalBlue bold\">{0}</div>",
                 this._displayingJewishDate.ToLongDateStringHeb());
@@ -187,11 +183,11 @@ namespace LuachProject
             this.DisplayDateDiff(html);
 
             html.Append("<br />");
-            if (this._holidays.Count() > 0)
+            if (holidays.Count() > 0)
             {
-                foreach (var h in this._holidays)
+                foreach (var h in holidays)
                 {
-                    html.AppendFormat("<div class=\"padWidth\">{0}", h.NameHebrew);
+                    html.AppendFormat("<div class=\"padWidth bold\">{0}", h.NameHebrew);
                     if (h.NameEnglish == "Shabbos Mevarchim")
                     {
                         var nextMonth = this._displayingJewishDate + 12;
@@ -222,11 +218,26 @@ namespace LuachProject
                     }
                 }
             }
-
+            if (DayNotes.Count() > 0)
+            {
+                foreach (var h in DayNotes)
+                {
+                    html.AppendFormat("<div class=\"padWidth rosyBrown\">{0}</div>", h);
+                }
+            }
+            if (TefillahNotes.Count() > 0)
+            {
+                html.Append("<hr class='greenish' />");
+                foreach (var h in TefillahNotes)
+                {
+                    html.AppendFormat("<div class=\"padWidth greenish six\">{0}</div>", h);
+                }
+                html.Append("<hr class='greenish' />");
+            }
             html.Append("<table>");
 
             if (shkia != TimeOfDay.NoValue &&
-                    this._holidays.Any(h => h.DayType.IsSpecialDayType(SpecialDayTypes.HasCandleLighting)))
+                    holidays.Any(h => h.DayType.IsSpecialDayType(SpecialDayTypes.HasCandleLighting)))
             {
                 this.AddLine(html, "הדלקת נרות", (shkia - this._dailyZmanim.Location.CandleLighting).ToString24H(showSeconds),
                     wideDescription: false);
@@ -314,12 +325,12 @@ namespace LuachProject
                 .Replace("{{BODY}}", html.ToString());
 
             this.tableLayoutPanel1.Controls.Clear();
-            foreach (UserOccasion occ in this._occasions)
+            foreach (UserOccasion occ in occasions)
             {
                 this.AddOccasion(occ);
             }
 
-            var bg = (from o in this._occasions
+            var bg = (from o in occasions
                       where o.BackColor != Color.Empty
                       select o.BackColor).FirstOrDefault();
 
