@@ -356,9 +356,10 @@ namespace LuachProject
         private void DisplayNotifications(StringBuilder html)
         {
             var (DayNotes, TefillahNotes) = DailyNotifications.GetNotifications(this._dailyZmanim, true);
-            if (DayNotes.Count() > 0)
+            var dayNotes = DayNotes.Where(d => !this._holidays.Any(h => h.NameEnglish == d));
+            if (dayNotes.Count() > 0)
             {
-                foreach (var h in DayNotes)
+                foreach (var h in dayNotes)
                 {
                     html.AppendFormat("<div class=\"padWidth rosyBrown\">{0}</div>", h);
                 }

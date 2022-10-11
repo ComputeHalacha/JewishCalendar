@@ -187,7 +187,7 @@ namespace LuachProject
             {
                 foreach (var h in holidays)
                 {
-                    html.AppendFormat("<div class=\"padWidth bold\">{0}", h.NameHebrew);
+                    html.AppendFormat("<div class=\"padWidth rosyBrown bold\">{0}", h.NameHebrew);
                     if (h.NameEnglish == "Shabbos Mevarchim")
                     {
                         var nextMonth = this._displayingJewishDate + 12;
@@ -218,9 +218,11 @@ namespace LuachProject
                     }
                 }
             }
-            if (DayNotes.Count() > 0)
+
+            var dayNotes = DayNotes.Where(d => !holidays.Any(h => h.NameHebrew == d));
+            if (dayNotes.Count() > 0)
             {
-                foreach (var h in DayNotes)
+                foreach (var h in dayNotes)
                 {
                     html.AppendFormat("<div class=\"padWidth rosyBrown\">{0}</div>", h);
                 }
