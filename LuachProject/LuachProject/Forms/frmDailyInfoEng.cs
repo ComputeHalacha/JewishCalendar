@@ -242,7 +242,7 @@ namespace LuachProject
 
         private void DisplayDateDiff(StringBuilder html)
         {
-            JewishDate now = new JewishDate(this._dailyZmanim.Location);
+            JewishDate now = new(this._dailyZmanim.Location);
             int diffDays = this._displayingJewishDate.AbsoluteDate - now.AbsoluteDate;
 
             html.Append("<div class=\"padWidth\">");
@@ -500,7 +500,7 @@ namespace LuachProject
             {
                 this._frmAddOccasionEng.CloseStyle = frmAddOccasionEng.CloseStyles.Slide;
 
-                Point pointZero = new Point(this.ParentForm.Right, this.ParentForm.Bottom - this._frmAddOccasionEng.Height - 7);
+                Point pointZero = new(this.ParentForm.Right, this.ParentForm.Bottom - this._frmAddOccasionEng.Height - 7);
                 int a = 0;
 
                 this._frmAddOccasionEng.Location = pointZero;

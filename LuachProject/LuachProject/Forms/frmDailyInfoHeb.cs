@@ -470,7 +470,7 @@ namespace LuachProject
 
         private void DisplayDateDiff(StringBuilder html)
         {
-            JewishDate now = new JewishDate(this._dailyZmanim.Location);
+            JewishDate now = new(this._dailyZmanim.Location);
             int diffDays = this._displayingJewishDate.AbsoluteDate - now.AbsoluteDate;
 
             html.Append("<div class=\"padWidth\">");

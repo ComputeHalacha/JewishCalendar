@@ -28,7 +28,7 @@ namespace LuachProject
         private bool _loading;
         private Point _pnlMouseLocation;
         private DateTime? _selectedDay;
-        private List<SingleDateInfo> _singleDateInfoList = new List<SingleDateInfo>();
+        private List<SingleDateInfo> _singleDateInfoList = new();
         private DateTime _todayDate = DateTime.Now.Date;
         private Font _userOccasionFont;
         private Font _zmanimFont;
@@ -517,6 +517,14 @@ namespace LuachProject
             TextRenderer.DrawText(g, text, this._dayHeadersFont, Rectangle.Truncate(rect), Program.DayHeadersTextColor, Program.TextFormatFlags);
         }
 
+        private void llEmailReminders_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (this._displayHebrew)
+                new frmReminderSettingsHeb().Show(this);
+            else 
+                new frmReminderSettingsEng().Show(this);
+        }
+
         private SingleDateInfo DrawSingleDay(Graphics g, DateTime currDate, float width, float height, float currX, float currY)
         {
             var jDate = new JewishDate(currDate);
@@ -525,7 +533,7 @@ namespace LuachProject
             var text = currDate.Day.ToString();
             var holidays = Zmanim.GetHolidays(jDate, this._currentLocation.IsInIsrael);
 
-            SingleDateInfo sdi = new SingleDateInfo(jDate, new RectangleF(rect.Location, rect.Size));
+            SingleDateInfo sdi = new(jDate, new RectangleF(rect.Location, rect.Size));
 
             this._singleDateInfoList.Add(sdi);
 
@@ -652,18 +660,18 @@ namespace LuachProject
             rect.Height = TextRenderer.MeasureText(g, text, this._dayFont, rect.Size.ToSize(), Program.TextFormatFlags).Height;
             offsetTop += rect.Height;
 
-            TextRenderer.DrawText(g, text, this._dayFont, Rectangle.Truncate(rect), Program.DayTextColor, Program.TextFormatFlags);            
+            TextRenderer.DrawText(g, text, this._dayFont, Rectangle.Truncate(rect), Program.DayTextColor, Program.TextFormatFlags);
 
             //Jewish day will be on the right, so we move the rectangle over to the right of the box.
             //No need to resize the width.
             rect.X += rect.Width;
 
             TextRenderer.DrawText(
-                g, 
-                jDate.Day.ToNumberHeb().Replace("'", ""), 
-                this._jewishDayFont, 
-                Rectangle.Truncate(rect), 
-                Program.SecularDayColor, 
+                g,
+                jDate.Day.ToNumberHeb().Replace("'", ""),
+                this._jewishDayFont,
+                Rectangle.Truncate(rect),
+                Program.SecularDayColor,
                 Program.TextFormatFlags);
             //Move rectangle back over to the left of the box
             rect.X = currX;
@@ -685,11 +693,11 @@ namespace LuachProject
                 o.Rectangle = new RectangleF((rect.Width / 2) - (textSize.Width / 2), rect.Y, textSize.Width, textSize.Height);
                 TextRenderer.DrawText(
                     g,
-                    o.Name, 
-                    this._userOccasionFont, 
-                    Rectangle.Truncate(rect), 
-                    o.Color, 
-                    Program.TextFormatFlags);                
+                    o.Name,
+                    this._userOccasionFont,
+                    Rectangle.Truncate(rect),
+                    o.Color,
+                    Program.TextFormatFlags);
                 offsetTop += rect.Height;
             }
 
@@ -768,13 +776,11 @@ namespace LuachProject
                 return;
             }
 
-            using (var g = this.pnlMain.CreateGraphics())
-            {
-                var rect = sdi.RectangleF;
-                g.Clip = new Region(rect);
-                g.Clear(this.pnlMain.BackColor);
-                this.DrawSingleDay(g, sdi.JewishDate.GregorianDate.Date, rect.Width, rect.Height, rect.X, rect.Y);
-            }
+            using var g = this.pnlMain.CreateGraphics();
+            var rect = sdi.RectangleF;
+            g.Clip = new Region(rect);
+            g.Clear(this.pnlMain.BackColor);
+            this.DrawSingleDay(g, sdi.JewishDate.GregorianDate.Date, rect.Width, rect.Height, rect.X, rect.Y);
         }
 
         /// <summary>
@@ -819,12 +825,10 @@ namespace LuachProject
             this.ClearSelectedDay();
             if (this._selectedDay.GetValueOrDefault() != sdi.JewishDate.GregorianDate.Date)
             {
-                using (var g = this.pnlMain.CreateGraphics())
-                {
-                    g.Clip = new Region(sdi.RectangleF);
-                    g.FillRectangle(Program.SelectedDayBackgroundBrush, sdi.RectangleF);
-                    this._selectedDay = sdi.JewishDate.GregorianDate.Date;
-                }
+                using var g = this.pnlMain.CreateGraphics();
+                g.Clip = new Region(sdi.RectangleF);
+                g.FillRectangle(Program.SelectedDayBackgroundBrush, sdi.RectangleF);
+                this._selectedDay = sdi.JewishDate.GregorianDate.Date;
             }
 
             this.dateTimePicker1.Value = this._selectedDay.GetValueOrDefault();
@@ -837,8 +841,8 @@ namespace LuachProject
         private void SetCaptionText()
         {
             string caption;
-            JewishDate firstDayJMonth = new JewishDate(this._dateBeingDisplayed);
-            JewishDate lastDayJMonth = new JewishDate(
+            JewishDate firstDayJMonth = new(this._dateBeingDisplayed);
+            JewishDate lastDayJMonth = new(
                 new DateTime(this.CurrentDate.Year, this.CurrentDate.Month, this._currentMonthLength));
 
             if (DisplayHebrew)
@@ -886,7 +890,7 @@ namespace LuachProject
 
             this.lblMonthName.Text = caption;
             this.Text = (DisplayHebrew ? "לוח לועזי" : "Secular Calendar") + " - " + caption +
-                "       [" + (DisplayHebrew ? "גירסה " : "Version ") + 
+                "       [" + (DisplayHebrew ? "גירסה " : "Version ") +
                 System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + "]";
         }
 
@@ -934,6 +938,7 @@ namespace LuachProject
                 this.llChangeLanguage.Text = "English";
                 this.llToJewishCalendar.Text = "לוח עברי";
                 this.llOccasionList.Text = "רשימת אירועים";
+                this.llEmailReminders.Text = "תזכורות מייל";
                 this.cmbLocation.DisplayMember = "NameHebrew";
                 this.dateTimePicker1.Left = this.lblNavigationHeader.Left + 15;
                 this.dateTimePicker1.Format = DateTimePickerFormat.Custom;
@@ -979,6 +984,7 @@ namespace LuachProject
                 this.llChangeLanguage.Text = "עברית";
                 this.llToJewishCalendar.Text = "Jewish Calendar";
                 this.llOccasionList.Text = "List of Occasions";
+                this.llEmailReminders.Text = "Email Reminders";   
                 this.cmbLocation.DisplayMember = "Name";
                 this.dateTimePicker1.Left = this.lblNavigationHeader.Right - this.dateTimePicker1.Width - 15;
                 this.dateTimePicker1.Format = DateTimePickerFormat.Long;
@@ -1126,6 +1132,6 @@ namespace LuachProject
                 }
             }
         }
-        #endregion
+        #endregion        
     }
 }

@@ -98,6 +98,7 @@ namespace LuachProject
                         this.rbSecularMonthly.Checked = true;
                         break;
                 }
+                this.toggleSendReminder.Checked = this.UserOccasion.SendEmailReminders;
                 this.btnAdd.Text = "עדכן";
                 this.btnDelete.Visible = true;
                 this._selectedForeColor = this.UserOccasion.Color;
@@ -131,8 +132,8 @@ namespace LuachProject
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
             //I'm Not sure why 0, 0 doesn't work (not enough time to investigate and it works fine this way :))
-            RectangleF r = new RectangleF(-23, -22, this.Width + 30, this.Height + 22);
-            GraphicsPath path = new GraphicsPath();
+            RectangleF r = new(-23, -22, this.Width + 30, this.Height + 22);
+            GraphicsPath path = new();
 
             path.AddRectangle(r);
             e.Graphics.FillRectangle(new PathGradientBrush(path)
@@ -243,6 +244,8 @@ namespace LuachProject
                 this.UserOccasion.SecularDate = this.SecularDate;
                 this.UserOccasion.UserOccasionType = UserOccasionTypes.SecularDateRecurringMonthly;
             }
+
+            this.UserOccasion.SendEmailReminders = this.toggleSendReminder.Checked;
 
             if (!Properties.Settings.Default.UserOccasions.Contains(this.UserOccasion))
             {

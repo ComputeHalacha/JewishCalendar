@@ -53,6 +53,8 @@
             this.llClearBackColor = new System.Windows.Forms.LinkLabel();
             this.txtNotes = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.toggleSendReminders = new LuachProject.Classes.Toggle();
+            this.label8 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -74,7 +76,7 @@
             this.rbSecularMonthly.AutoSize = true;
             this.rbSecularMonthly.Location = new System.Drawing.Point(3, 123);
             this.rbSecularMonthly.Name = "rbSecularMonthly";
-            this.rbSecularMonthly.Size = new System.Drawing.Size(130, 20);
+            this.rbSecularMonthly.Size = new System.Drawing.Size(102, 18);
             this.rbSecularMonthly.TabIndex = 4;
             this.rbSecularMonthly.Text = "Secular Monthly";
             this.rbSecularMonthly.UseVisualStyleBackColor = true;
@@ -84,7 +86,7 @@
             this.rbSecularYearly.AutoSize = true;
             this.rbSecularYearly.Location = new System.Drawing.Point(3, 94);
             this.rbSecularYearly.Name = "rbSecularYearly";
-            this.rbSecularYearly.Size = new System.Drawing.Size(120, 20);
+            this.rbSecularYearly.Size = new System.Drawing.Size(96, 18);
             this.rbSecularYearly.TabIndex = 3;
             this.rbSecularYearly.Text = "Secular Yearly";
             this.rbSecularYearly.UseVisualStyleBackColor = true;
@@ -94,7 +96,7 @@
             this.rbJewishMonthly.AutoSize = true;
             this.rbJewishMonthly.Location = new System.Drawing.Point(3, 67);
             this.rbJewishMonthly.Name = "rbJewishMonthly";
-            this.rbJewishMonthly.Size = new System.Drawing.Size(123, 20);
+            this.rbJewishMonthly.Size = new System.Drawing.Size(100, 18);
             this.rbJewishMonthly.TabIndex = 2;
             this.rbJewishMonthly.Text = "Jewish Monthly";
             this.rbJewishMonthly.UseVisualStyleBackColor = true;
@@ -104,7 +106,7 @@
             this.rbJewishYearly.AutoSize = true;
             this.rbJewishYearly.Location = new System.Drawing.Point(3, 38);
             this.rbJewishYearly.Name = "rbJewishYearly";
-            this.rbJewishYearly.Size = new System.Drawing.Size(113, 20);
+            this.rbJewishYearly.Size = new System.Drawing.Size(94, 18);
             this.rbJewishYearly.TabIndex = 1;
             this.rbJewishYearly.Text = "Jewish Yearly";
             this.rbJewishYearly.UseVisualStyleBackColor = true;
@@ -115,7 +117,7 @@
             this.rbOneTime.Checked = true;
             this.rbOneTime.Location = new System.Drawing.Point(3, 9);
             this.rbOneTime.Name = "rbOneTime";
-            this.rbOneTime.Size = new System.Drawing.Size(146, 20);
+            this.rbOneTime.Size = new System.Drawing.Size(114, 18);
             this.rbOneTime.TabIndex = 0;
             this.rbOneTime.TabStop = true;
             this.rbOneTime.Text = "One time occasion";
@@ -132,11 +134,13 @@
             this.jewishDatePicker1.Language = JewishDatePicker.JewishDatePicker.Languages.English;
             this.jewishDatePicker1.Location = new System.Drawing.Point(515, 55);
             this.jewishDatePicker1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.jewishDatePicker1.MaxDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MaxDate")));
+            this.jewishDatePicker1.MinDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MinDate")));
             this.jewishDatePicker1.Name = "jewishDatePicker1";
             this.jewishDatePicker1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.jewishDatePicker1.Size = new System.Drawing.Size(247, 31);
+            this.jewishDatePicker1.Size = new System.Drawing.Size(247, 27);
             this.jewishDatePicker1.TabIndex = 7;
-            this.jewishDatePicker1.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.Value")));
+            this.jewishDatePicker1.Value = null;
             this.jewishDatePicker1.ValueChanged += new System.EventHandler(this.jewishDatePicker1_ValueChanged);
             // 
             // label1
@@ -145,15 +149,15 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Location = new System.Drawing.Point(515, 36);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(83, 16);
+            this.label1.Size = new System.Drawing.Size(67, 14);
             this.label1.TabIndex = 2;
             this.label1.Text = "Jewish Date";
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(515, 144);
+            this.dateTimePicker1.Location = new System.Drawing.Point(515, 119);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(247, 24);
+            this.dateTimePicker1.Size = new System.Drawing.Size(247, 21);
             this.dateTimePicker1.TabIndex = 8;
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
@@ -161,9 +165,9 @@
             // 
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Location = new System.Drawing.Point(515, 124);
+            this.label2.Location = new System.Drawing.Point(515, 99);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(90, 16);
+            this.label2.Size = new System.Drawing.Size(69, 14);
             this.label2.TabIndex = 4;
             this.label2.Text = "Secular Date";
             // 
@@ -196,7 +200,7 @@
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Location = new System.Drawing.Point(31, 36);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(201, 16);
+            this.label3.Size = new System.Drawing.Size(155, 14);
             this.label3.TabIndex = 7;
             this.label3.Text = "Occasion or Event description:";
             // 
@@ -204,7 +208,7 @@
             // 
             this.txtName.Location = new System.Drawing.Point(31, 56);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(427, 24);
+            this.txtName.Size = new System.Drawing.Size(427, 21);
             this.txtName.TabIndex = 0;
             // 
             // label4
@@ -213,7 +217,7 @@
             this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Location = new System.Drawing.Point(31, 187);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(141, 16);
+            this.label4.Size = new System.Drawing.Size(110, 14);
             this.label4.TabIndex = 9;
             this.label4.Text = "Occasion/event type:";
             // 
@@ -233,9 +237,9 @@
             // 
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Location = new System.Drawing.Point(515, 220);
+            this.label5.Location = new System.Drawing.Point(515, 230);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(84, 16);
+            this.label5.Size = new System.Drawing.Size(66, 14);
             this.label5.TabIndex = 11;
             this.label5.Text = "Color of text";
             // 
@@ -243,7 +247,7 @@
             // 
             this.btnColor.BackColor = System.Drawing.Color.SteelBlue;
             this.btnColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnColor.Location = new System.Drawing.Point(515, 240);
+            this.btnColor.Location = new System.Drawing.Point(515, 250);
             this.btnColor.Name = "btnColor";
             this.btnColor.Size = new System.Drawing.Size(145, 37);
             this.btnColor.TabIndex = 9;
@@ -254,7 +258,7 @@
             // 
             this.btnBGColor.BackColor = System.Drawing.Color.Transparent;
             this.btnBGColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnBGColor.Location = new System.Drawing.Point(666, 240);
+            this.btnBGColor.Location = new System.Drawing.Point(666, 250);
             this.btnBGColor.Name = "btnBGColor";
             this.btnBGColor.Size = new System.Drawing.Size(150, 37);
             this.btnBGColor.TabIndex = 10;
@@ -265,9 +269,9 @@
             // 
             this.label6.AutoSize = true;
             this.label6.BackColor = System.Drawing.Color.Transparent;
-            this.label6.Location = new System.Drawing.Point(666, 220);
+            this.label6.Location = new System.Drawing.Point(666, 230);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(151, 16);
+            this.label6.Size = new System.Drawing.Size(115, 14);
             this.label6.TabIndex = 13;
             this.label6.Text = "Day Background Color";
             // 
@@ -275,9 +279,9 @@
             // 
             this.llClearBackColor.AutoSize = true;
             this.llClearBackColor.BackColor = System.Drawing.Color.Transparent;
-            this.llClearBackColor.Location = new System.Drawing.Point(720, 280);
+            this.llClearBackColor.Location = new System.Drawing.Point(720, 290);
             this.llClearBackColor.Name = "llClearBackColor";
-            this.llClearBackColor.Size = new System.Drawing.Size(42, 16);
+            this.llClearBackColor.Size = new System.Drawing.Size(32, 14);
             this.llClearBackColor.TabIndex = 15;
             this.llClearBackColor.TabStop = true;
             this.llClearBackColor.Text = "Clear";
@@ -298,18 +302,41 @@
             this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.Location = new System.Drawing.Point(31, 94);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(186, 16);
+            this.label7.Size = new System.Drawing.Size(143, 14);
             this.label7.TabIndex = 17;
             this.label7.Text = "Occasion Details and Notes:";
+            // 
+            // toggleSendReminders
+            // 
+            this.toggleSendReminders.AutoSize = true;
+            this.toggleSendReminders.Location = new System.Drawing.Point(515, 182);
+            this.toggleSendReminders.Name = "toggleSendReminders";
+            this.toggleSendReminders.Padding = new System.Windows.Forms.Padding(6);
+            this.toggleSendReminders.Size = new System.Drawing.Size(73, 30);
+            this.toggleSendReminders.TabIndex = 18;
+            this.toggleSendReminders.Text = "toggle1";
+            this.toggleSendReminders.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.Transparent;
+            this.label8.Location = new System.Drawing.Point(515, 165);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(113, 14);
+            this.label8.TabIndex = 19;
+            this.label8.Text = "Send Email Reminders";
             // 
             // frmAddOccasionEng
             // 
             this.AcceptButton = this.btnAdd;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(848, 380);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.toggleSendReminders);
             this.Controls.Add(this.txtNotes);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.btnBGColor);
@@ -376,5 +403,7 @@
         private System.Windows.Forms.LinkLabel llClearBackColor;
         private System.Windows.Forms.TextBox txtNotes;
         private System.Windows.Forms.Label label7;
+        private Classes.Toggle toggleSendReminders;
+        private System.Windows.Forms.Label label8;
     }
 }

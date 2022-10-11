@@ -138,6 +138,8 @@ namespace LuachProject
                 Properties.Settings.Default.UserOccasions.Add(this.UserOccasion);
             }
 
+            this.UserOccasion.SendEmailReminders = this.toggleSendReminders.Checked;
+
             //Set the back-color for all occasions on that same day (Jewish/Secular according to occasion type)
             UserOccasionColection.FromSettings(this.JewishDate).ForEach(uo =>
                 uo.BackColor = this._selectedBackColor);
@@ -266,6 +268,8 @@ namespace LuachProject
                         this.rbSecularMonthly.Checked = true;
                         break;
                 }
+                this.toggleSendReminders.Checked = this.UserOccasion.SendEmailReminders;
+
                 this.btnAdd.Text = "Update";
                 this.btnDelete.Visible = true;
                 this._selectedForeColor = this.UserOccasion.Color;
@@ -299,8 +303,8 @@ namespace LuachProject
         private void frmAddOccasionEng_Paint(object sender, PaintEventArgs e)
         {
             //I'm Not sure why 0, 0 doesn't work (not enough time to investigate and it works fine this way :))
-            RectangleF r = new RectangleF(-23, -22, this.Width + 30, this.Height + 22);
-            GraphicsPath path = new GraphicsPath();
+            RectangleF r = new(-23, -22, this.Width + 30, this.Height + 22);
+            GraphicsPath path = new();
 
             path.AddRectangle(r);
             e.Graphics.FillRectangle(new PathGradientBrush(path)

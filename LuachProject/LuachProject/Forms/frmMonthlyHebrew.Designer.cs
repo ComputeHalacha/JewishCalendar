@@ -66,6 +66,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.llEmailReminders = new System.Windows.Forms.LinkLabel();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -124,7 +126,7 @@
             this.llSefirah.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llSefirah.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llSefirah.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.llSefirah.Location = new System.Drawing.Point(751, 2);
+            this.llSefirah.Location = new System.Drawing.Point(661, 2);
             this.llSefirah.Name = "llSefirah";
             this.llSefirah.Size = new System.Drawing.Size(141, 17);
             this.llSefirah.TabIndex = 4;
@@ -181,7 +183,7 @@
             this.llShowSeconds.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llShowSeconds.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llShowSeconds.LinkColor = System.Drawing.Color.Maroon;
-            this.llShowSeconds.Location = new System.Drawing.Point(905, 2);
+            this.llShowSeconds.Location = new System.Drawing.Point(918, 2);
             this.llShowSeconds.Name = "llShowSeconds";
             this.llShowSeconds.Size = new System.Drawing.Size(74, 16);
             this.llShowSeconds.TabIndex = 1;
@@ -255,7 +257,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(979, 2);
+            this.label3.Location = new System.Drawing.Point(994, 2);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(11, 13);
             this.label3.TabIndex = 8;
@@ -265,7 +267,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(892, 2);
+            this.label4.Location = new System.Drawing.Point(802, 2);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(11, 13);
             this.label4.TabIndex = 9;
@@ -368,12 +370,12 @@
             this.jewishDatePicker1.BackColor = System.Drawing.Color.LightSteelBlue;
             this.jewishDatePicker1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.jewishDatePicker1.ForeColor = System.Drawing.Color.White;
-            this.jewishDatePicker1.Location = new System.Drawing.Point(186, -3);
+            this.jewishDatePicker1.Location = new System.Drawing.Point(179, -3);
             this.jewishDatePicker1.Margin = new System.Windows.Forms.Padding(0);
             this.jewishDatePicker1.MaxDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MaxDate")));
             this.jewishDatePicker1.MinDate = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.MinDate")));
             this.jewishDatePicker1.Name = "jewishDatePicker1";
-            this.jewishDatePicker1.Size = new System.Drawing.Size(280, 26);
+            this.jewishDatePicker1.Size = new System.Drawing.Size(287, 26);
             this.jewishDatePicker1.TabIndex = 18;
             this.jewishDatePicker1.Value = ((JewishCalendar.JewishDate)(resources.GetObject("jewishDatePicker1.Value")));
             // 
@@ -567,12 +569,40 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(907, 2);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(11, 13);
+            this.label5.TabIndex = 22;
+            this.label5.Text = "|";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
+            // 
+            // llEmailReminders
+            // 
+            this.llEmailReminders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.llEmailReminders.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.llEmailReminders.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.llEmailReminders.LinkColor = System.Drawing.Color.Goldenrod;
+            this.llEmailReminders.Location = new System.Drawing.Point(817, 2);
+            this.llEmailReminders.Name = "llEmailReminders";
+            this.llEmailReminders.Size = new System.Drawing.Size(80, 17);
+            this.llEmailReminders.TabIndex = 21;
+            this.llEmailReminders.TabStop = true;
+            this.llEmailReminders.Text = "תזכורת במייל";
+            this.llEmailReminders.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.llEmailReminders.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llEmailReminders_LinkClicked);
+            // 
             // frmMonthlyHebrew
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.ClientSize = new System.Drawing.Size(1183, 736);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.llEmailReminders);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -651,5 +681,7 @@
         private System.Drawing.Printing.PrintDocument printDocument1;
         private System.Windows.Forms.PrintDialog printDialog1;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.LinkLabel llEmailReminders;
     }
 }

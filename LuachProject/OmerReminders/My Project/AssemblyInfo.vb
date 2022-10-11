@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Omer Reminder")>
 <Assembly: AssemblyCompany("Compute Software Solutions")>
 <Assembly: AssemblyProduct("Omer Reminder")>
-<Assembly: AssemblyCopyright("Copyright © Compute Software Solutions 2021")>
+<Assembly: AssemblyCopyright("Copyright © Compute Software Solutions 2022")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>

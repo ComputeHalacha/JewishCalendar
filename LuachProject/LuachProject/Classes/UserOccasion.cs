@@ -30,6 +30,7 @@ namespace LuachProject
         public System.Drawing.RectangleF Rectangle { get; set; }
         public DateTime SecularDate { get; set; }
         public UserOccasionTypes UserOccasionType { get; set; }
+        public bool SendEmailReminders { get; set; } = false;
         public string ToString(bool heb = false)
         {
             if (heb)
@@ -189,7 +190,7 @@ namespace LuachProject
         {
             DateTime now = DateTime.Now;
             DateTime retVal = now;
-            JewishDate todayJd = new JewishDate(now);
+            JewishDate todayJd = new(now);
 
             switch (this.UserOccasionType)
             {
