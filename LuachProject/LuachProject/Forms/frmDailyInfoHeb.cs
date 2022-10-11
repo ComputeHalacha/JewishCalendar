@@ -20,8 +20,8 @@ namespace LuachProject
         private JewishDate _displayingJewishDate;
         private DateTime _displayingSecularDate;
         private DateTime _secularDateAtMidnight;
-        private frmAddOccasionHeb _frmAddOccasionHeb;        
-        private Font _lblOccasionFont;        
+        private frmAddOccasionHeb _frmAddOccasionHeb;
+        private Font _lblOccasionFont;
         private DailyZmanim _dailyZmanim;
         #endregion private fields
 
@@ -53,7 +53,7 @@ namespace LuachProject
                 {
                     this._displayingJewishDate = value;
                     this.SetSecularDate();
-                    this._dailyZmanim.SecularDate = this._secularDateAtMidnight;                                        
+                    this._dailyZmanim.SecularDate = this._secularDateAtMidnight;
                     this.tableLayoutPanel1.Controls.Clear();
                     this.ShowDateData();
                 }
@@ -69,7 +69,7 @@ namespace LuachProject
             set
             {
                 this._dailyZmanim.SecularDate = this._displayingSecularDate;
-                this._dailyZmanim.Location = value;                
+                this._dailyZmanim.Location = value;
                 this.ShowDateData();
             }
         }
@@ -164,7 +164,7 @@ namespace LuachProject
             var shaaZmanis90 = this._dailyZmanim.ShaaZmanisMga;
             var html = new StringBuilder();
             var holidays = Zmanim.GetHolidays(this._displayingJewishDate, this._dailyZmanim.Location.IsInIsrael).Cast<SpecialDay>();
-            var (DayNotes, TefillahNotes) = new DailyNotifications(this._dailyZmanim, false).GetNotifications();
+            var (DayNotes, TefillahNotes) = DailyNotifications.GetNotifications(this._dailyZmanim, false);
             var occasions = UserOccasionColection.FromSettings(this._displayingJewishDate);
 
             html.AppendFormat("<div class=\"padWidth royalBlue bold\">{0}</div>",
