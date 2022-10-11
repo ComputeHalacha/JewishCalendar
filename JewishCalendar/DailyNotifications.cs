@@ -402,6 +402,7 @@ namespace JewishCalendar
                     if (day == 15)
                     {
                         AddDayNote("First Day of Pesach", "יו\"ט ראשון של פסח");
+                        AddTefillahNote("Ya`aleh V`yavo", "יעלה ויבא");
                         AddTefillahNote("Full Hallel", "הלל השלם");
                         if (isAfternoon)
                         {
@@ -421,6 +422,7 @@ namespace JewishCalendar
                         AddDayNote("Second Day of Pesach", "יו\"ט שני של פסח");
                         AddTefillahNote("Full Hallel", "הלל השלם");
                         AddTefillahNote("Morid Hatal", "מוריד הטל");
+                        AddTefillahNote("Ya`aleh V`yavo", "יעלה ויבא");
                         if (
                             showGaonShirShelYom &&
                             isDaytime &&
@@ -430,8 +432,9 @@ namespace JewishCalendar
                             AddTefillahNote("שיר של יום - קי\"ד - בצאת ישראל");
                         }
                     }
-                    else if ((new[] { 16, 17, 18, 19, 20, 21 }).Any(d => d == day))
+                    if ((new[] { 16, 17, 18, 19, 20, 21 }).Any(d => d == day))
                     {
+                        AddTefillahNote("Ya`aleh V`yavo", "יעלה ויבא");
                         if (day == 21)
                         {
                             AddDayNote("Shvi`i Shel Pesach", "שביעי של פםח");
@@ -450,8 +453,10 @@ namespace JewishCalendar
                         }
                         else
                         {
-                            AddDayNote("Chol Ha`moed Pesach", "פסח - חול המועד");
-                            AddTefillahNote("Ya`aleh Viyavo", "יעלה ויבא");
+                            if (israel || day != 16)
+                            {
+                                AddDayNote("Chol Ha`moed Pesach", "פסח - חול המועד");
+                            }
                             if (isMorning && dow != DayOfWeek.Saturday)
                                 noLaminatzeach();
                             if (
@@ -529,6 +534,7 @@ namespace JewishCalendar
                         else
                         {
                             AddDayNote("Acharon Shel Pesach", "אחרון של פסח");
+                            AddTefillahNote("Ya`aleh V`yavo", "יעלה ויבא");
                             if (isDaytime)
                             {
                                 AddTefillahNote("Yizkor", "יזכור");
@@ -547,6 +553,7 @@ namespace JewishCalendar
                   )
                     {
                         AddTefillahNote("Shir Hashirim", "מגילת שיר השירים");
+                        AddTefillahNote("Ya`aleh V`yavo", "יעלה ויבא");
                     }
                     break;
                 case 2: //Iyar
@@ -592,16 +599,20 @@ namespace JewishCalendar
                     {
                         noTachnun = true;
                     }
-                    if (day == 6 && isMorning)
+                    if (day == 6)
                     {
                         AddDayNote("Shavuos", "יום טוב של שבועות");
-                        AddTefillahNote("Full Hallel", "הלל השלם");
-                        AddTefillahNote("Megilas Rus", "מגילת רות");
-                        AddTefillahNote("Akdamus", "אקדמות");
-                        if (israel) AddTefillahNote("Yizkor", "יזכור");
-                        if (showGaonShirShelYom)
+                        AddTefillahNote("Ya`aleh V`yavo", "יעלה ויבא");
+                        if (isDaytime)
                         {
-                            AddTefillahNote("שיר של יום - י\"ט - ..השמים מספרים..");
+                            AddTefillahNote("Full Hallel", "הלל השלם");
+                            AddTefillahNote("Megilas Rus", "מגילת רות");
+                            AddTefillahNote("Akdamus", "אקדמות");
+                            if (israel) AddTefillahNote("Yizkor", "יזכור");
+                            if (showGaonShirShelYom)
+                            {
+                                AddTefillahNote("שיר של יום - י\"ט - ..השמים מספרים..");
+                            }
                         }
                     }
                     else if (day == 7)
@@ -617,6 +628,7 @@ namespace JewishCalendar
                         else
                         {
                             AddDayNote("Shavuos Second Day", "יום טוב של שבועות");
+                            AddTefillahNote("Ya`aleh V`yavo", "יעלה ויבא");
                             AddTefillahNote("Full Hallel", "הלל השלם");
                             AddTefillahNote("Yizkor", "יזכור");
                         }
@@ -744,6 +756,7 @@ namespace JewishCalendar
                     {
                         case 1:
                             AddDayNote("Rosh Hashana", "ראש השנה");
+                            AddTefillahNote("Ya`aleh V`yavo", "יעלה ויבא");
                             if (dow != DayOfWeek.Saturday && isDaytime)
                             {
                                 AddTefillahNote("Tekias Shofar", "תקיעת שופר");
@@ -759,6 +772,7 @@ namespace JewishCalendar
                             break;
                         case 2:
                             AddDayNote("Rosh Hashana", "ראש השנה");
+                            AddTefillahNote("Ya`aleh V`yavo", "יעלה ויבא");
                             if (isDaytime)
                             {
                                 AddTefillahNote("Tekias Shofar", "תקיעת שופר");
