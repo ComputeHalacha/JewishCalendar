@@ -37,6 +37,7 @@ namespace JewishCalendar
         private readonly Parsha[] sedras;
 
         private bool showEnglish;
+        private bool ignoreTime;
 
 
         /// <summary>
@@ -61,13 +62,13 @@ namespace JewishCalendar
                 (this.chatzosHalayla.Hour > 12 && this.time.Hours < 12); //Chatzos is before 0:00 (eg 23:58) and time is after 0:00
             this.isAfterAlos = this.alos <= this.time;
             this.isAfterShkia = this.shkia <= this.time;
-            this.isDaytime = this.isAfterAlos && !this.isAfterShkia;
+            this.isDaytime = (this.isAfterAlos || this.ignoreTime) && !this.isAfterShkia;
             this.isNightTime = !this.isDaytime;
-            this.isMorning = this.isDaytime && !this.isAfterChatzosHayom;
-            this.isAfternoon = this.isDaytime && this.isAfterChatzosHayom;
+            this.isMorning = (this.isDaytime || this.ignoreTime) && !this.isAfterChatzosHayom;
+            this.isAfternoon = (this.isDaytime || this.ignoreTime) && (this.isAfterChatzosHayom || this.ignoreTime);
             this.isYomTov = this.IsYomTovOrCholHamoed();
             this.isLeapYear = JewishDateCalculations.IsJewishLeapYear(this.jdate.Year);
-            this.noTachnun = this.isAfternoon && (this.dow == DayOfWeek.Friday || this.day == 29);
+            this.noTachnun = (this.isAfternoon || this.ignoreTime) && (this.dow == DayOfWeek.Friday || this.day == 29);
             this.showGaonShirShelYom = this.israel;
             this.sedras = Sedra.GetSedra(this.jdate, this.israel);
         }
@@ -75,23 +76,28 @@ namespace JewishCalendar
         /// <summary>
         /// Get the day and tefillah notifications for the given Jewish date and location
         /// </summary>
+        /// <param name="dailyZmanim"></param>
+        /// <param name="english"></param>
+        /// <param name="ignoreTime"></param>
         /// <returns></returns>
-        public static (string[] DayNotes, string[] TefillahNotes) GetNotifications(DailyZmanim dailyZmanim, bool english)
+        public static (string[] DayNotes, string[] TefillahNotes) GetNotifications(DailyZmanim dailyZmanim, bool english, bool ignoreTime)
         {
-            return new DailyNotifications(dailyZmanim).GetNotifications(english);
+            return new DailyNotifications(dailyZmanim).GetNotifications(english, ignoreTime);
         }
 
         /// <summary>
         /// Get the day and tefillah notifications for this Jewish date and location
         /// </summary>
         /// <param name="english"></param>
+        /// <param name="ignoreTime"></param>
         /// <returns></returns>
-        public (string[] DayNotes, string[] TefillahNotes) GetNotifications(bool english)
+        public (string[] DayNotes, string[] TefillahNotes) GetNotifications(bool english, bool ignoreTime)
         {
             this.dayNotes.Clear();
             this.tefillahNotes.Clear();
 
             this.showEnglish = english;
+            this.ignoreTime = ignoreTime;
 
             if (this.dow == DayOfWeek.Saturday)
             {
@@ -103,13 +109,13 @@ namespace JewishCalendar
             }
             this.GetAroundTheYearNotifications();
 
-            if (this.noTachnun && this.isDaytime && !this.isYomTov)
+            if ((this.noTachnun || this.ignoreTime) && (this.isDaytime || this.ignoreTime) && !this.isYomTov)
             {
                 if (this.dow != DayOfWeek.Saturday)
                 {
                     this.AddTefillahNote("No Tachnun", "א\"א תחנון");
                 }
-                else if (this.isAfternoon)
+                else if (this.isAfternoon || this.ignoreTime)
                 {
                     this.AddTefillahNote("No Tzidkascha", "א\"א צדקתך");
                 }
@@ -228,7 +234,7 @@ namespace JewishCalendar
             {
                 this.AddDayNote("Parshas Hachodesh", "פרשת החודש");
             }
-            if (this.isMorning && !this.isYomTov)
+            if ((this.isMorning || this.ignoreTime) && !this.isYomTov)
             {
                 if (this.sedras.Length > 0)
                 {
@@ -258,27 +264,28 @@ namespace JewishCalendar
             {
                 this.AddDayNote("Rosh Chodesh", "ראש חודש");
                 this.AddTefillahNote("Ya`aleh Viyavo", "יעלה ויבא");
-                if (this.showGaonShirShelYom && this.isDaytime)
+                if ((this.showGaonShirShelYom) && (this.isDaytime || this.ignoreTime))
                 {
                     this.AddTefillahNote("Barchi Nafshi", "שיר של יום - קי\"ד - ברכי נפשי");
                 }
                 //Rosh Chodesh Teves is during Chanuka
-                if (this.isDaytime && this.month != 10 && !(this.month == 9 && this.day == 30))
+                if ((this.isDaytime || this.ignoreTime) &&
+                    this.month != 10 && !(this.month == 9 && this.day == 30))
                 {
                     this.AddTefillahNote("Chatzi Hallel", "חצי הלל");
                 }
                 this.AddTefillahNote("No Av Harachamim", "א\"א אב הרחמים");
             }
-            else if (this.isYomTov)
+            else if (this.isYomTov || this.ignoreTime)
             {
                 this.AddTefillahNote("No Av Harachamim", "א\"א אב הרחמים");
-                if (this.showGaonShirShelYom && this.isDaytime)
+                if ((this.showGaonShirShelYom) && (this.isDaytime || this.ignoreTime))
                 {
                     this.AddTefillahNote("שיר של יום - מזמור שיר ליום השבת");
                 }
             }
             //Kriyas Hatora - Shabbos by mincha - besides for Yom Kippur
-            if (this.isAfternoon && !(this.month == 7 && this.day == 10))
+            if ((this.isAfternoon || this.ignoreTime) && !(this.month == 7 && this.day == 10))
             {
                 var sedra = Sedra.GetSedra(this.jdate + 1, this.israel);
                 this.AddTefillahNote(
@@ -286,7 +293,7 @@ namespace JewishCalendar
                     "קה\"ת במנחה פרשת " + sedra[0].nameHebrew);
             }
             if (
-                this.isAfternoon &&
+                (this.isAfternoon || this.ignoreTime) &&
                 ((this.month == 1 && this.day > 21) ||
                     (this.month <= 6 && !(this.month == 5 && (this.day == 8 || this.day == 9))))
             )
@@ -306,7 +313,7 @@ namespace JewishCalendar
         private void GetWeekDayNotifications()
         {
             //מוצאי שבת
-            if (this.isNightTime && this.dow == DayOfWeek.Sunday)
+            if ((this.isNightTime || this.ignoreTime) && this.dow == DayOfWeek.Sunday)
             {
                 //הבדלה בתפילה for מוצאי שבת
                 this.AddTefillahNote(
@@ -326,7 +333,7 @@ namespace JewishCalendar
             }
             //אתה חוננתנו for מוצאי יו"ט
             else if (
-                this.isNightTime &&
+                (this.isNightTime || this.ignoreTime) &&
                 ((this.month == 1 && (this.day == 16 || this.day == 22)) ||
                     (this.month == 3 && this.day == 7) ||
                     (this.month == 7 && ((new[] { 3, 11, 16, 23 }).Any(d => d == this.day))))
@@ -337,7 +344,7 @@ namespace JewishCalendar
             //Kriyas hatorah for Monday and Thursday
             //when it"s not chol hamoed, chanuka, purim, a fast day or rosh chodesh
             if (
-                this.isMorning &&
+                (this.isMorning || this.ignoreTime) &&
                 !this.isYomTov &&
                 (this.dow == DayOfWeek.Monday || this.dow == DayOfWeek.Thursday) &&
                 !this.HasOwnKriyasHatorah()
@@ -356,15 +363,15 @@ namespace JewishCalendar
                 this.noTachnun = true;
                 this.AddDayNote("Rosh Chodesh", "ראש חודש");
                 this.AddTefillahNote("Ya`aleh Viyavo", "יעלה ויבא");
-                if (this.showGaonShirShelYom && this.isDaytime)
+                if ((this.showGaonShirShelYom) && (this.isDaytime || this.ignoreTime))
                 {
                     this.AddTefillahNote("Barchi Nafshi", "שיר של יום - קי\"ד - ברכי נפשי");
                 }
                 //Rosh Chodesh Teves is during Chanuka
-                if (this.isDaytime && this.month != 10 && !(this.month == 9 && this.day == 30))
+                if ((this.isDaytime || this.ignoreTime) && this.month != 10 && !(this.month == 9 && this.day == 30))
                 {
                     this.AddTefillahNote("Chatzi Hallel", "חצי הלל");
-                    if (this.isMorning && this.dow != DayOfWeek.Saturday)
+                    if ((this.isMorning || this.ignoreTime) && this.dow != DayOfWeek.Saturday)
                     {
                         this.NoLaminatzeach();
                     }
@@ -375,7 +382,7 @@ namespace JewishCalendar
                 this.month != 6 &&
                 ((this.dow < DayOfWeek.Friday && this.day == 29) ||
                     (this.dow == DayOfWeek.Thursday && this.day == 28)) &&
-                this.isAfternoon
+                (this.isAfternoon || this.ignoreTime)
             )
             {
                 this.AddTefillahNote("Yom Kippur Kattan", "יו\"כ קטן");
@@ -401,7 +408,7 @@ namespace JewishCalendar
                         this.AddTefillahNote("Vesain Bracha", "ותן ברכה");
                     }
                     if (
-                        this.isMorning &&
+                        (this.isMorning || this.ignoreTime) &&
                         this.dow != DayOfWeek.Saturday &&
                         (new[] { 14, 16, 17, 18, 19, 20 }).Any(d => d == this.day)
                     )
@@ -417,13 +424,13 @@ namespace JewishCalendar
                         this.AddDayNote("First Day of Pesach", "יו\"ט ראשון של פסח");
                         this.AddTefillahNote("Ya`aleh V`yavo", "יעלה ויבא");
                         this.AddTefillahNote("Full Hallel", "הלל השלם");
-                        if (this.isAfternoon)
+                        if (this.isAfternoon || this.ignoreTime)
                         {
                             this.AddTefillahNote("Morid Hatal", "מוריד הטל");
                         }
                         if (
-                            this.showGaonShirShelYom &&
-                            this.isDaytime &&
+                            (this.showGaonShirShelYom) &&
+                            (this.isDaytime || this.ignoreTime) &&
                             this.dow != DayOfWeek.Saturday
                         )
                         {
@@ -437,8 +444,8 @@ namespace JewishCalendar
                         this.AddTefillahNote("Morid Hatal", "מוריד הטל");
                         this.AddTefillahNote("Ya`aleh V`yavo", "יעלה ויבא");
                         if (
-                            this.showGaonShirShelYom &&
-                            this.isDaytime &&
+                            (this.showGaonShirShelYom) &&
+                            (this.isDaytime || this.ignoreTime) &&
                             this.dow != DayOfWeek.Saturday
                         )
                         {
@@ -451,13 +458,13 @@ namespace JewishCalendar
                         if (this.day == 21)
                         {
                             this.AddDayNote("Shvi`i Shel Pesach", "שביעי של פםח");
-                            if (this.isDaytime)
+                            if (this.isDaytime || this.ignoreTime)
                             {
-                                if (this.israel)
+                                if (this.israel || this.ignoreTime)
                                 {
                                     this.AddTefillahNote("Yizkor", "יזכור");
                                 }
-                                if (this.showGaonShirShelYom && this.dow != DayOfWeek.Saturday)
+                                if ((this.showGaonShirShelYom) && this.dow != DayOfWeek.Saturday)
                                 {
                                     this.AddTefillahNote(
                                         "שיר של יום - י\"ח - למנצח לעבד ה\"");
@@ -470,11 +477,11 @@ namespace JewishCalendar
                             {
                                 this.AddDayNote("Chol Ha`moed Pesach", "פסח - חול המועד");
                             }
-                            if (this.isMorning && this.dow != DayOfWeek.Saturday)
+                            if ((this.isMorning || this.ignoreTime) && this.dow != DayOfWeek.Saturday)
                                 this.NoLaminatzeach();
                             if (
                                 this.showGaonShirShelYom &&
-                                this.isDaytime &&
+                                (this.isDaytime || this.ignoreTime) &&
                                 this.dow != DayOfWeek.Saturday
                             )
                             {
@@ -536,11 +543,11 @@ namespace JewishCalendar
                                 }
                             }
                         }
-                        if (this.isDaytime) this.AddTefillahNote("Half Hallel", "חצי הלל");
+                        if (this.isDaytime || this.ignoreTime) this.AddTefillahNote("Half Hallel", "חצי הלל");
                     }
                     if (this.day == 22)
                     {
-                        if (this.israel)
+                        if (this.israel || this.ignoreTime)
                         {
                             this.AddDayNote("Isru Chag", "איסרו חג");
                         }
@@ -548,13 +555,13 @@ namespace JewishCalendar
                         {
                             this.AddDayNote("Acharon Shel Pesach", "אחרון של פסח");
                             this.AddTefillahNote("Ya`aleh V`yavo", "יעלה ויבא");
-                            if (this.isDaytime)
+                            if (this.isDaytime || this.ignoreTime)
                             {
                                 this.AddTefillahNote("Yizkor", "יזכור");
                                 this.AddTefillahNote("Half Hallel", "חצי הלל");
                             }
                         }
-                        if (this.dow != DayOfWeek.Saturday && this.isMorning)
+                        if (this.dow != DayOfWeek.Saturday && (this.isMorning || this.ignoreTime))
                         {
                             this.NoLaminatzeach();
                         }
@@ -581,9 +588,9 @@ namespace JewishCalendar
                     //Pesach Sheini and Lag Ba"Omer
                     if (
                         this.day == 14 ||
-                        (this.day == 13 && this.isAfternoon) ||
+                        (this.day == 13 && (this.isAfternoon || this.ignoreTime)) ||
                         this.day == 18 ||
-                        (this.day == 17 && this.isAfternoon)
+                        (this.day == 17 && (this.isAfternoon || this.ignoreTime))
                     )
                     {
                         this.noTachnun = true;
@@ -594,7 +601,7 @@ namespace JewishCalendar
                     }
                     //Baha"b
                     if (
-                        this.isMorning &&
+                        (this.isMorning || this.ignoreTime) &&
                         ((this.dow == DayOfWeek.Monday && this.day > 3 && this.day < 13) ||
                             (this.dow == DayOfWeek.Thursday && this.day > 6 && this.day < 14) ||
                             (this.dow == DayOfWeek.Monday &&
@@ -616,12 +623,12 @@ namespace JewishCalendar
                     {
                         this.AddDayNote("Shavuos", "יום טוב של שבועות");
                         this.AddTefillahNote("Ya`aleh V`yavo", "יעלה ויבא");
-                        if (this.isDaytime)
+                        if (this.isDaytime || this.ignoreTime)
                         {
                             this.AddTefillahNote("Full Hallel", "הלל השלם");
                             this.AddTefillahNote("Megilas Rus", "מגילת רות");
                             this.AddTefillahNote("Akdamus", "אקדמות");
-                            if (this.israel) this.AddTefillahNote("Yizkor", "יזכור");
+                            if (this.israel || this.ignoreTime) this.AddTefillahNote("Yizkor", "יזכור");
                             if (this.showGaonShirShelYom)
                             {
                                 this.AddTefillahNote("שיר של יום - י\"ט - ..השמים מספרים..");
@@ -630,10 +637,10 @@ namespace JewishCalendar
                     }
                     else if (this.day == 7)
                     {
-                        if (this.israel)
+                        if (this.israel || this.ignoreTime)
                         {
                             this.AddDayNote("Issru Chag", "איסרו חג");
-                            if (this.isMorning && this.dow != DayOfWeek.Saturday)
+                            if ((this.isMorning || this.ignoreTime) && this.dow != DayOfWeek.Saturday)
                             {
                                 this.NoLaminatzeach();
                             }
@@ -649,25 +656,25 @@ namespace JewishCalendar
                     break;
                 case 4: //Tammuz
                     if (
-                        this.isDaytime &&
+                        (this.isDaytime || this.ignoreTime) &&
                         ((this.day == 17 && this.dow != DayOfWeek.Saturday) ||
                             (this.day == 18 && this.dow == DayOfWeek.Sunday))
                     )
                     {
-                        if (this.isDaytime)
+                        if (this.isDaytime || this.ignoreTime)
                         {
                             this.AddDayNote("Shiva Asar B`Tamuz", "י\"ז בתמוז");
                             this.AddTefillahNote("Avinu Malkeinu", "אבינו מלכנו");
                             this.AddTefillahNote("Aneinu", "עננו");
                         }
-                        if (this.isMorning)
+                        if (this.isMorning || this.ignoreTime)
                         {
                             this.AddTefillahNote("Selichos", "סליחות");
                         }
                     }
                     break;
                 case 5: //Av
-                    if (this.isAfternoon && this.day == 8 && this.dow != DayOfWeek.Friday)
+                    if ((this.isAfternoon || this.ignoreTime) && this.day == 8 && this.dow != DayOfWeek.Friday)
                     {
                         this.noTachnun = true;
                     }
@@ -677,11 +684,11 @@ namespace JewishCalendar
                   )
                     {
                         this.AddDayNote("Tish B`Av", "תשעה באב");
-                        if (this.isDaytime)
+                        if (this.isDaytime || this.ignoreTime)
                         {
                             this.AddTefillahNote("Kinos", "קינות");
                             this.AddTefillahNote("Aneinu", "עננו");
-                            if (this.isMorning && this.dow != DayOfWeek.Saturday)
+                            if ((this.isMorning || this.ignoreTime) && this.dow != DayOfWeek.Saturday)
                             {
                                 this.NoLaminatzeach();
                             }
@@ -689,14 +696,14 @@ namespace JewishCalendar
                         else
                         {
                             this.AddTefillahNote("Megilas Eicha", "מגילת איכה");
-                            if (this.isNightTime && this.dow == DayOfWeek.Sunday)
+                            if ((this.isNightTime || this.ignoreTime) && this.dow == DayOfWeek.Sunday)
                             {
                                 this.AddTefillahNote("No Vihi Noam", "א\"א ויהי נועם");
                             }
                         }
                         this.noTachnun = true;
                     }
-                    else if (this.isAfternoon && this.day == 14)
+                    else if ((this.isAfternoon || this.ignoreTime) && this.day == 14)
                     {
                         this.noTachnun = true;
                     }
@@ -711,7 +718,7 @@ namespace JewishCalendar
                     if (
                         this.day > 20 &&
                         this.dow != DayOfWeek.Saturday &&
-                        (this.isAfterChatzosHalayla || this.isMorning)
+                        (this.isAfterChatzosHalayla || this.isMorning || this.ignoreTime)
                     )
                     {
                         var startedSelichos = this.day >= 26;
@@ -770,14 +777,14 @@ namespace JewishCalendar
                         case 1:
                             this.AddDayNote("Rosh Hashana", "ראש השנה");
                             this.AddTefillahNote("Ya`aleh V`yavo", "יעלה ויבא");
-                            if (this.dow != DayOfWeek.Saturday && this.isDaytime)
+                            if (this.dow != DayOfWeek.Saturday && (this.isDaytime || this.ignoreTime))
                             {
                                 this.AddTefillahNote("Tekias Shofar", "תקיעת שופר");
                                 if (this.showGaonShirShelYom)
                                 {
                                     this.AddTefillahNote("שיר של יום - פ\"א - למנצח על הגתית");
                                 }
-                                if (this.isAfternoon)
+                                if (this.isAfternoon || this.ignoreTime)
                                 {
                                     this.AddDayNote("Tashlich", "תשליך");
                                 }
@@ -786,14 +793,14 @@ namespace JewishCalendar
                         case 2:
                             this.AddDayNote("Rosh Hashana", "ראש השנה");
                             this.AddTefillahNote("Ya`aleh V`yavo", "יעלה ויבא");
-                            if (this.isDaytime)
+                            if (this.isDaytime || this.ignoreTime)
                             {
                                 this.AddTefillahNote("Tekias Shofar", "תקיעת שופר");
                                 if (this.showGaonShirShelYom)
                                 {
                                     this.AddTefillahNote("שיר של יום - פ\"א - למנצח על הגתית");
                                 }
-                                if (this.dow == DayOfWeek.Sunday && this.isAfternoon)
+                                if (this.dow == DayOfWeek.Sunday && (this.isAfternoon || this.ignoreTime))
                                 {
                                     this.AddDayNote("Tashlich", "תשליך");
                                 }
@@ -802,12 +809,12 @@ namespace JewishCalendar
                         case 3:
                             if (this.dow != DayOfWeek.Saturday)
                             {
-                                if (this.isDaytime)
+                                if (this.isDaytime || this.ignoreTime)
                                 {
                                     this.AddDayNote("Fast of Tzom Gedalya", "צום גדליה");
                                     this.AddTefillahNote("Aneinu", "עננו");
                                 }
-                                if (this.isAfterChatzosHalayla || this.isMorning)
+                                if (this.isAfterChatzosHalayla || this.isMorning || this.ignoreTime)
                                 {
                                     this.AddTefillahNote("Selichos", "סליחות");
                                 }
@@ -817,12 +824,12 @@ namespace JewishCalendar
                         case 4:
                             if (this.dow == DayOfWeek.Sunday)
                             {
-                                if (this.isDaytime)
+                                if (this.isDaytime || this.ignoreTime)
                                 {
                                     this.AddDayNote("Fast of Tzom Gedalya", "צום גדליה");
                                     this.AddTefillahNote("Aneinu", "עננו");
                                 }
-                                if (this.isAfterChatzosHalayla || this.isMorning)
+                                if (this.isAfterChatzosHalayla || this.isMorning || this.ignoreTime)
                                 {
                                     this.AddTefillahNote("Selichos", "סליחות");
                                 }
@@ -831,7 +838,7 @@ namespace JewishCalendar
                             else if (this.dow != DayOfWeek.Saturday)
                             {
                                 this.AddTefillahNote("Hamelech Hamishpat", "המלך המשפט");
-                                if (this.isAfterChatzosHalayla || this.isMorning)
+                                if (this.isAfterChatzosHalayla || this.isMorning || this.ignoreTime)
                                 {
                                     this.AddTefillahNote("Selichos", "סליחות");
                                 }
@@ -839,7 +846,7 @@ namespace JewishCalendar
                             break;
                         case 9:
                             this.AddDayNote("Erev Yom Kippur", "ערב יום כיפור");
-                            if (this.isMorning)
+                            if (this.isMorning || this.ignoreTime)
                             {
                                 this.AddTefillahNote("No Mizmor L`Sodah", "א\"א מזמור לתודה");
                                 if (this.dow != DayOfWeek.Saturday)
@@ -851,11 +858,11 @@ namespace JewishCalendar
                                     this.AddTefillahNote("Avinu Malkeinu", "אבינו מלכנו");
                                 }
                             }
-                            else if (this.isAfternoon)
+                            else if (this.isAfternoon || this.ignoreTime)
                             {
                                 this.AddTefillahNote("Vidduy", "ודוי בעמידה");
                             }
-                            if (this.isDaytime && this.dow != DayOfWeek.Friday)
+                            if ((this.isDaytime || this.ignoreTime) && this.dow != DayOfWeek.Friday)
                             {
                                 this.AddTefillahNote("No Avinu Malkeinu", "א\"א אבינו מלכנו");
                             }
@@ -864,15 +871,15 @@ namespace JewishCalendar
                         case 10:
                             this.AddDayNote("Yom Kippur", "יום הכיפורים");
                             this.AddDayNote("לפני ה\" תטהרו");
-                            if (this.isDaytime)
+                            if (this.isDaytime || this.ignoreTime)
                             {
                                 this.AddTefillahNote("Yizkor", "יזכור");
-                                if (this.showGaonShirShelYom && this.dow != DayOfWeek.Saturday)
+                                if ((this.showGaonShirShelYom) && this.dow != DayOfWeek.Saturday)
                                 {
                                     this.AddTefillahNote("שיר של יום - ל\"ב - לדוד משכיל");
                                 }
                             }
-                            if (this.isAfternoon)
+                            if (this.isAfternoon || this.ignoreTime)
                             {
                                 //only Yom Kippur has its own Kriyas Hatorah
                                 this.AddTefillahNote("קה\"ת במנחה סוף פרשת אח\"מ");
@@ -881,7 +888,7 @@ namespace JewishCalendar
                         case 15:
                             this.AddDayNote("First day of Sukkos", "יו\"ט ראשון של סוכות");
                             this.AddTefillahNote("Ya`aleh V`yavo", "יעלה ויבא");
-                            if (this.isDaytime)
+                            if (this.isDaytime || this.ignoreTime)
                             {
                                 this.AddTefillahNote("Full Hallel", "הלל השלם");
                                 if (this.dow != DayOfWeek.Saturday)
@@ -919,7 +926,7 @@ namespace JewishCalendar
                                 this.AddDayNote("Chol Hamoed Sukkos", "סוכות - חול המועד");
                                 this.AddTefillahNote("Ya`aleh V`yavo", "יעלה ויבא");
                             }
-                            if (this.isDaytime)
+                            if (this.isDaytime || this.ignoreTime)
                             {
                                 this.AddTefillahNote("Full Hallel", "הלל השלם");
                                 switch (this.day)
@@ -1018,7 +1025,7 @@ namespace JewishCalendar
                                                     ? "אום נצורה"
                                                     : "אדון המושיע"));
                                         if (
-                                            this.showGaonShirShelYom &&
+                                            (this.showGaonShirShelYom) &&
                                             this.dow != DayOfWeek.Saturday
                                         )
                                         {
@@ -1038,7 +1045,7 @@ namespace JewishCalendar
                         case 21:
                             this.AddDayNote("Hoshana Raba", "הושעה רבה");
                             this.AddTefillahNote("Ya`aleh V`yavo", "יעלה ויבא");
-                            if (this.isNightTime)
+                            if (this.isNightTime || this.ignoreTime)
                             {
                                 this.AddTefillahNote("Mishneh Torah", "משנה תורה");
                             }
@@ -1062,18 +1069,18 @@ namespace JewishCalendar
                         case 22:
                             this.AddDayNote("Shmini Atzeres", "שמיני עצרת");
                             this.AddTefillahNote("Ya`aleh V`yavo", "יעלה ויבא");
-                            if (this.israel)
+                            if (this.israel || this.ignoreTime)
                             {
                                 this.AddDayNote("Simchas Torah", "שמחת תורה");
                                 this.AddTefillahNote("Hakafos", "הקפות");
                             }
-                            if (this.isDaytime)
+                            if (this.isDaytime || this.ignoreTime)
                             {
                                 this.AddTefillahNote("Full Hallel", "הלל השלם");
                                 this.AddTefillahNote("Yizkor", "יזכור");
                                 this.AddTefillahNote("Tefilas Geshem", "תפילת גשם");
                                 this.AddTefillahNote("משיב הרוח ומוריד הגשם");
-                                if (this.showGaonShirShelYom && this.dow != DayOfWeek.Saturday)
+                                if ((this.showGaonShirShelYom) && this.dow != DayOfWeek.Saturday)
                                 {
                                     this.AddTefillahNote("שיר של יום - י\"ב - למנצח על השמינית");
                                 }
@@ -1092,11 +1099,11 @@ namespace JewishCalendar
                         else
                         {
                             this.AddDayNote("Issru Chag", "איסרו חג");
-                            if (this.isNightTime)
+                            if (this.isNightTime || this.ignoreTime)
                             {
                                 this.AddDayNote("א גוטען ווינטער", "חורף טוב");
                             }
-                            else if (this.dow != DayOfWeek.Saturday && this.isMorning)
+                            else if (this.dow != DayOfWeek.Saturday && (this.isMorning || this.ignoreTime))
                             {
                                 this.NoLaminatzeach();
                             }
@@ -1122,7 +1129,7 @@ namespace JewishCalendar
                     break;
                 case 8: //Cheshvan
                     if (
-                        this.isDaytime &&
+                        (this.isDaytime || this.ignoreTime) &&
                         ((this.dow == DayOfWeek.Monday && this.day > 3 && this.day < 13) ||
                             (this.dow == DayOfWeek.Thursday && this.day > 6 && this.day < 14) ||
                             (this.dow == DayOfWeek.Monday && this.day > 10 && this.day < 18))
@@ -1150,7 +1157,7 @@ namespace JewishCalendar
                     else if (
                       this.day == 24 &&
                       this.dow != DayOfWeek.Saturday &&
-                      this.isAfternoon
+                      (this.isAfternoon || this.ignoreTime)
                   )
                     {
                         this.noTachnun = true;
@@ -1160,13 +1167,13 @@ namespace JewishCalendar
                         this.noTachnun = true;
                         this.AddDayNote("Chanukah", "חנוכה");
                         this.AddTefillahNote("Al Hanissim", "על הניסים");
-                        if (this.isDaytime)
+                        if (this.isDaytime || this.ignoreTime)
                         {
                             this.AddTefillahNote("Full Hallel", "הלל השלם");
-                            if (this.isMorning && this.dow != DayOfWeek.Saturday)
+                            if ((this.isMorning || this.ignoreTime) && this.dow != DayOfWeek.Saturday)
                                 this.NoLaminatzeach();
                             if (
-                                this.showGaonShirShelYom &&
+                                (this.showGaonShirShelYom) &&
                                 this.day != 30 &&
                                 this.dow != DayOfWeek.Saturday
                             )
@@ -1182,23 +1189,23 @@ namespace JewishCalendar
                         this.noTachnun = true;
                         this.AddDayNote("Chanukah", "חנוכה");
                         this.AddTefillahNote("Al Hanissim", "על הניסים");
-                        if (this.isDaytime)
+                        if (this.isDaytime || this.ignoreTime)
                         {
                             this.AddTefillahNote("Full Hallel", "הלל השלם");
-                            if (this.isMorning && this.dow != DayOfWeek.Saturday)
+                            if ((this.isMorning || this.ignoreTime) && this.dow != DayOfWeek.Saturday)
                             {
                                 this.NoLaminatzeach();
-                                if (this.day != 1 && this.showGaonShirShelYom)
+                                if (this.day != 1 && (this.showGaonShirShelYom))
                                 {
                                     this.AddTefillahNote("שיר של יום - ל\" - מזמור שיר חנוכת הבית");
                                 }
                             }
                         }
                     }
-                    else if (this.day == 10 && this.isDaytime)
+                    else if (this.day == 10 && (this.isDaytime || this.ignoreTime))
                     {
                         this.AddDayNote("Fast of Asara B`Teves", "עשרה בטבת");
-                        if (this.isMorning)
+                        if (this.isMorning || this.ignoreTime)
                         {
                             this.AddTefillahNote("Selichos", "סליחות");
                         }
@@ -1207,7 +1214,7 @@ namespace JewishCalendar
                     }
                     break;
                 case 11: //Shvat
-                    if (this.day == 14 && this.isAfternoon) this.noTachnun = true;
+                    if (this.day == 14 && (this.isAfternoon || this.ignoreTime)) this.noTachnun = true;
                     if (this.day == 15)
                     {
                         this.noTachnun = true;
@@ -1216,12 +1223,12 @@ namespace JewishCalendar
                     break;
                 case 12:
                 case 13:
-                    if (this.month == 12 && this.isLeapYear)
+                    if (this.month == 12 && (this.isLeapYear || this.ignoreTime))
                     {
                         //Adar Rishon in a leap year
                         if (
-                            ((this.day == 13 && this.isAfternoon) || (this.day == 14 || this.day == 14)) &&
-                            this.isDaytime
+                            ((this.day == 13 && (this.isAfternoon || this.ignoreTime)) || (this.day == 14 || this.day == 14)) &&
+                            (this.isDaytime || this.ignoreTime)
                         )
                         {
                             this.AddDayNote(
@@ -1236,7 +1243,7 @@ namespace JewishCalendar
 
                             );
                             this.noTachnun = true;
-                            if (this.isMorning && this.dow != DayOfWeek.Saturday)
+                            if ((this.isMorning || this.ignoreTime) && this.dow != DayOfWeek.Saturday)
                             {
                                 this.NoLaminatzeach();
                             }
@@ -1246,12 +1253,12 @@ namespace JewishCalendar
                     {
                         //The "real" Adar: the only one in a non-leap-year or Adar Sheini
                         if (
-                            this.isDaytime &&
+                            (this.isDaytime || this.ignoreTime) &&
                             ((this.day == 11 && this.dow == DayOfWeek.Thursday) ||
                                 (this.day == 13 && this.dow != DayOfWeek.Saturday))
                         )
                         {
-                            if (this.isMorning)
+                            if (this.isMorning || this.ignoreTime)
                             {
                                 this.AddDayNote("Fast of Ta`anis Esther", "תענית אסתר");
                                 this.AddTefillahNote("Selichos", "סליחות");
@@ -1266,7 +1273,7 @@ namespace JewishCalendar
                             if (this.day == 14)
                             {
                                 this.noTachnun = true;
-                                if (this.isMorning && this.dow != DayOfWeek.Saturday)
+                                if ((this.isMorning || this.ignoreTime) && this.dow != DayOfWeek.Saturday)
                                 {
                                     this.NoLaminatzeach();
                                 }
@@ -1297,7 +1304,7 @@ namespace JewishCalendar
                             else if (this.day == 15)
                             {
                                 this.noTachnun = true;
-                                if (this.isMorning && this.dow != DayOfWeek.Saturday)
+                                if ((this.isMorning || this.ignoreTime) && this.dow != DayOfWeek.Saturday)
                                 {
                                     this.NoLaminatzeach();
                                 }
@@ -1310,8 +1317,8 @@ namespace JewishCalendar
                                         this.AddDayNote("Megilas Esther", "מגילת אסתר");
                                     }
                                     if (
-                                        this.showGaonShirShelYom &&
-                                        this.isDaytime &&
+                                        (this.showGaonShirShelYom) &&
+                                        (this.isDaytime || this.ignoreTime) &&
                                         this.dow != DayOfWeek.Saturday
                                     )
                                     {

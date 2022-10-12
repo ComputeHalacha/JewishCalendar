@@ -161,8 +161,6 @@ namespace LuachProject
 
         internal void ShowDateData()
         {
-            var (DayNotes, TefillahNotes) = DailyNotifications.GetNotifications(this._dailyZmanim, true);
-
             this.Cursor = Cursors.WaitCursor;
             var html = new StringBuilder();
 
@@ -355,7 +353,10 @@ namespace LuachProject
 
         private void DisplayNotifications(StringBuilder html)
         {
-            var (DayNotes, TefillahNotes) = DailyNotifications.GetNotifications(this._dailyZmanim, true);
+            var (DayNotes, TefillahNotes) = DailyNotifications.GetNotifications(
+                 dailyZmanim: this._dailyZmanim,
+                 english: true,
+                 ignoreTime: true);
             var dayNotes = DayNotes.Where(d => !this._holidays.Any(h => h.NameEnglish == d));
             if (dayNotes.Count() > 0)
             {

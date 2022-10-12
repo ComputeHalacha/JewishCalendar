@@ -163,9 +163,16 @@ namespace LuachProject
             var shaaZmanis = this._dailyZmanim.ShaaZmanis;
             var shaaZmanis90 = this._dailyZmanim.ShaaZmanisMga;
             var html = new StringBuilder();
+            JewishDate now = new(this._dailyZmanim.Location);
+            int diffDays = this._displayingJewishDate.AbsoluteDate - now.AbsoluteDate;
             var holidays = Zmanim.GetHolidays(this._displayingJewishDate, this._dailyZmanim.Location.IsInIsrael).Cast<SpecialDay>();
-            var (DayNotes, TefillahNotes) = DailyNotifications.GetNotifications(this._dailyZmanim, false);
+            var (DayNotes, TefillahNotes) = DailyNotifications.GetNotifications(
+                    dailyZmanim: this._dailyZmanim, 
+                    english: false, 
+                    ignoreTime: true);
             var occasions = UserOccasionColection.FromSettings(this._displayingJewishDate);
+
+
 
             html.AppendFormat("<div class=\"padWidth royalBlue bold\">{0}</div>",
                 this._displayingJewishDate.ToLongDateStringHeb());
@@ -180,7 +187,7 @@ namespace LuachProject
                 html.Append("<div class=\"padWidth rosyBrown seven italic\">שים לב: תאריך הלועזי מתחיל בשעה 0:00</div>");
             }
 
-            this.DisplayDateDiff(html);
+            this.DisplayDateDiff(html, now, diffDays);
 
             html.Append("<br />");
             if (holidays.Count() > 0)
@@ -470,10 +477,8 @@ namespace LuachProject
             this._frmAddOccasionHeb.ResumeLayout();
         }
 
-        private void DisplayDateDiff(StringBuilder html)
+        private void DisplayDateDiff(StringBuilder html, JewishDate now, int diffDays)
         {
-            JewishDate now = new(this._dailyZmanim.Location);
-            int diffDays = this._displayingJewishDate.AbsoluteDate - now.AbsoluteDate;
 
             html.Append("<div class=\"padWidth\">");
 
