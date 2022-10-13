@@ -240,7 +240,7 @@ namespace JewishCalendar
                 {
                     this.AddTefillahNote(
                         $"Kriyas Hatorah Parshas {string.Join(" - ", this.sedras.Select(i => i.nameEng))}",
-                        $"קה\"ת פרשת { string.Join(" - ", this.sedras.Select(i => i.nameHebrew))}");
+                        $"קה\"ת פרשת {string.Join(" - ", this.sedras.Select(i => i.nameHebrew))}");
                 }
                 //All months but Tishrei have Shabbos Mevarchim on the Shabbos before Rosh Chodesh
                 if (this.month != 6 && this.day > 22 && this.day < 30)
@@ -303,9 +303,9 @@ namespace JewishCalendar
                 {
                     this.AddDayNote(
                         "Pirkei Avos - " + string.Join(" and ",
-                            prakim.Select(s => $"Perek { Utils.ToNumberHeb(s)}")),
+                            prakim.Select(s => $"Perek {Utils.ToNumberHeb(s)}")),
                         "פרקי אבות - " + string.Join(" ו ",
-                            prakim.Select(s => $"פרק { Utils.ToNumberHeb(s)}")));
+                            prakim.Select(s => $"פרק {Utils.ToNumberHeb(s)}")));
                 }
             }
         }
@@ -960,14 +960,12 @@ namespace JewishCalendar
                                             this.AddTefillahNote("שיר של יום - נ\" - מזמור לאסף");
                                         }
                                         break;
-                                    case 18:
+                                    case 18:                                       
                                         if (this.dow == DayOfWeek.Sunday)
                                         {
-                                            this.AddTefillahNote("Hoshanos", "הושענות");
-                                            if (
-                                                this.showGaonShirShelYom &&
-                                                this.dow != DayOfWeek.Saturday
-                                            )
+                                            this.AddTefillahNote((this.showEnglish ? "Hoshanos" : "הושענות") +
+                                                " - " + "אערוך שועי");
+                                            if (this.showGaonShirShelYom)
                                             {
                                                 this.AddTefillahNote("שיר של יום - נ\" - מזמור לאסף");
                                             }
@@ -976,15 +974,18 @@ namespace JewishCalendar
                                         {
                                             if (this.dow == DayOfWeek.Tuesday)
                                             {
-                                                this.AddTefillahNote("Hoshanos", "הושענות");
+                                                this.AddTefillahNote((this.showEnglish ? "Hoshanos" : "הושענות") +
+                                                " - " + "אבן שתיה");
                                             }
                                             else if (this.dow == DayOfWeek.Thursday)
                                             {
-                                                this.AddTefillahNote("Hoshanos", "הושענות");
+                                                this.AddTefillahNote((this.showEnglish ? "Hoshanos" : "הושענות") +
+                                                " - " + "אום אני חומה");
                                             }
                                             else if (this.dow == DayOfWeek.Friday)
                                             {
-                                                this.AddTefillahNote("Hoshanos", "הושענות");
+                                                this.AddTefillahNote((this.showEnglish ? "Hoshanos" : "הושענות") +
+                                                " - " + "א-ל למושעות");
                                             }
                                             if (
                                                 this.showGaonShirShelYom &&
