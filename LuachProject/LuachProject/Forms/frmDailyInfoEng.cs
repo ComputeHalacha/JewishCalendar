@@ -311,22 +311,6 @@ namespace LuachProject
                 foreach (var h in this._holidays)
                 {
                     html.AppendFormat("<div class=\"padWidth\">{0}", h.NameEnglish);
-                    if (h.NameEnglish == "Shabbos Mevarchim")
-                    {
-                        var nextMonth = this._displayingJewishDate + 12;
-                        html.AppendFormat(" - Chodesh {0}", nextMonth.MonthName);
-
-                        var molad = Molad.GetMolad(nextMonth.Month, nextMonth.Year);
-                        var dim = JewishDateCalculations.DaysInJewishMonth(this._displayingJewishDate.Year, this._displayingJewishDate.Month);
-                        var dow = dim - this._displayingJewishDate.Day;
-                        if (dim == 30)
-                        {
-                            dow--;
-                        }
-                        html.AppendFormat("<div>Molad: {0}</div>", molad.ToString(this._dailyZmanim.ShkiaAtElevation));
-                        html.AppendFormat("<div>Rosh Chodesh: {0}{1}</div>",
-                             Utils.DaysOfWeek[dow], (dim == 30 ? ", " + Utils.DaysOfWeek[(dow + 1) % 7] : ""));
-                    }
                     html.Append("</div>");
 
                     if (h.NameEnglish.Contains("Sefiras Ha'omer"))

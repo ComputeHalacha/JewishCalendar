@@ -431,7 +431,7 @@ namespace JewishCalendar
 
             if (jMonth != 6 && jDay > 22 && jDay < 30)
             {
-                list.Add(new SpecialDay("Shabbos Mevarchim", "מברכים החודש"));
+                list.Add(new SpecialDay("Shabbos Mevarchim", "שבת מברכין"));
             }
 
             SetPirkeiAvos(jDate, inIsrael, list);

@@ -31,7 +31,18 @@
         /// <summary>
         /// Returns the time of the molad as a string in the format: Monday Night, 8:33 PM and 12 Chalakim
         /// </summary>
-        /// <param name="nightfall">Used to determine when to display "Night" or "Motzai Shabbos" etc.</param>
+        /// <param name="location">Used to determine when to display "Night" or "Motzai Shabbos" etc.</param>
+        /// <returns></returns>
+        public string ToString(Location location)
+        {
+            TimeOfDay nightfall = Zmanim.GetShkia(this.JewishDate.GregorianDate, location);
+            return ToString(nightfall);
+        }
+
+        /// <summary>
+        /// Returns the time of the molad as a string in the format: Monday Night, 8:33 PM and 12 Chalakim
+        /// </summary>
+        /// <param name="nightfall"></param>
         /// <returns></returns>
         public string ToString(TimeOfDay nightfall)
         {
@@ -65,7 +76,18 @@
         /// <summary>
         /// Returns the time of the molad as a string in the format: ליל שני 20:33 12 חלקים
         /// </summary>
-        /// <param name="nightfall">Used to determine when to display "ליל/יום" or "מוצאי שב"ק" etc.</param>
+        /// <param name="location">Used to determine when to display "ליל/יום" or "מוצאי שב"ק" etc.</param>
+        /// <returns></returns>
+        public string ToStringHeb(Location location)
+        {
+            TimeOfDay nightfall = Zmanim.GetShkia(this.JewishDate.GregorianDate, location);
+            return ToStringHeb(nightfall);
+        }
+
+        /// <summary>
+        /// Returns the time of the molad as a string in the format: ליל שני 20:33 12 חלקים
+        /// </summary>
+        /// <param name="nightfall"></param>
         /// <returns></returns>
         public string ToStringHeb(TimeOfDay nightfall)
         {
@@ -80,11 +102,19 @@
             }
             else
             {
-                sb.AppendFormat("{0}{1}",
-                    this.Time >= nightfall ? "ליל" : "יום",
-                    Utils.JewishDOWNames[this.JewishDate.DayInWeek].Replace("יום", ""));
+                sb.Append(this.Time >= nightfall || this.Time.Hour < 5 ?
+                    "ליל" : "יום");
+                sb.Append(Utils.JewishDOWNames[this.JewishDate.DayInWeek].Replace("יום", ""));
+                if (this.Time.Hour >= 5 && this.Time.Hour < 12)
+                {
+                    sb.Append(" בבוקר ");
+                }
+                else if (this.Time.Hour >= 12 && this.Time < nightfall)
+                {
+                    sb.Append(" בצהריים ");
+                }
             }
-            sb.AppendFormat(" {0} {1} חלקים",
+            sb.AppendFormat(" {0} ו{1} חלקים",
                 this.Time.ToString24H(),
                 this.Chalakim);
 

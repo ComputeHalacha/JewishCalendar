@@ -246,12 +246,26 @@ namespace JewishCalendar
                 if (this.month != 6 && this.day > 22 && this.day < 30)
                 {
                     var nextMonth = this.jdate.AddMonths(1);
+                    AddTefillahNote(
+                        "Bircas Hachodesh of " + Utils.GetProperMonthName(nextMonth.Year, nextMonth.Month),
+                        "מברכין חודש " + Utils.GetProperMonthNameHeb(nextMonth.Year, nextMonth.Month));
+
+                    var molad = Molad.GetMolad(nextMonth.Month, nextMonth.Year);
                     this.AddTefillahNote(
-                        "The molad will be " +
-                            Molad.GetMolad(nextMonth.Year, nextMonth.Month).ToString(),
-                        "המולד יהיה ב" +
-                            Molad.GetMolad(nextMonth.Year, nextMonth.Month).ToStringHeb(this.shkia));
-                    this.AddTefillahNote("Bircas Hachodesh", "מברכים החודש");
+                        "The molad will be " + molad.ToString(this.location),
+                        "המולד יהיה ב" + molad.ToStringHeb(this.location));
+                    var dim = JewishDateCalculations.DaysInJewishMonth(this.jdate.Year, this.month);
+                    var dow = dim - this.day;
+                    if (dim == 30)
+                    {
+                        dow--;
+                    }
+                    this.AddTefillahNote(
+                        "Rosh Chodesh will be " + ((DayOfWeek)dow).ToString() +
+                            (dim == 30 ? ", " + ((DayOfWeek)((dow + 1) % 7)).ToString() : ""),
+                        "ראש חודש יהיה ב" + Utils.JewishDOWNames[dow] + 
+                            (dim == 30 ? ", " + Utils.JewishDOWNames[(dow + 1) % 7] : ""));
+
                     if (this.month != 1 && this.month != 2)
                     {
                         this.AddTefillahNote("No Av Harachamim", "א\"א אב הרחמים");
@@ -960,7 +974,7 @@ namespace JewishCalendar
                                             this.AddTefillahNote("שיר של יום - נ\" - מזמור לאסף");
                                         }
                                         break;
-                                    case 18:                                       
+                                    case 18:
                                         if (this.dow == DayOfWeek.Sunday)
                                         {
                                             this.AddTefillahNote((this.showEnglish ? "Hoshanos" : "הושענות") +
