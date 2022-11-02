@@ -109,7 +109,7 @@ namespace JewishCalendar
             }
             this.GetAroundTheYearNotifications();
 
-            if ((this.noTachnun || this.ignoreTime) && (this.isDaytime || this.ignoreTime) && !this.isYomTov)
+            if (this.noTachnun && (this.isDaytime || this.ignoreTime) && !this.isYomTov)
             {
                 if (this.dow != DayOfWeek.Saturday)
                 {
