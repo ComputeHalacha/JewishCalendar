@@ -480,7 +480,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:JewishCalendar, Version=2.4.1.0, Culture=neutral, PublicKeyToken=8fac88d87101b886, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:JewishCalendar, Version=2.6.1.0, Culture=neutral, PublicKeyToken=8fac88d87101b886, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_E5409144022BC49105FD24A4D3FC71F0"
@@ -616,15 +616,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:The Luach Project"
-        "ProductCode" = "8:{8126194A-36ED-4884-AE74-5C02BBF6BDEE}"
-        "PackageCode" = "8:{1344E98B-3578-4835-9B90-18AD7FAB358E}"
+        "ProductCode" = "8:{3C5D94DC-85F4-4758-AEFE-00B42E126448}"
+        "PackageCode" = "8:{9618B921-3017-416B-8E27-3A3EDF46C1CE}"
         "UpgradeCode" = "8:{94EC422E-1AFA-46ED-A945-710704E8EE9F}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:2.6.1"
+        "ProductVersion" = "8:2.7.2"
         "Manufacturer" = "8:Compute Software Solutions"
         "ARPHELPTELEPHONE" = "8:732-707-7307"
         "ARPHELPLINK" = "8:"

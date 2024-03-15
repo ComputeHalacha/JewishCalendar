@@ -69,12 +69,11 @@ namespace LuachProject.Properties {
         ///    &lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
         ///    &lt;style type=&quot;text/css&quot;&gt;
         ///        html, body { font-family: Century Gothic; font-size: 8.5pt; color: #696969; margin: 0; padding: 0; }
+        ///        .six { font-size: 6.7pt; }        
         ///        .seven { font-size: 7.3pt; }
         ///        .eight { font-size: 8pt; }
         ///        .nine { font-size: 9pt; }
-        ///        .bold { font-weight: bold; }
-        ///        .reg { font-weight: normal; }
-        ///     [rest of string was truncated]&quot;;.
+        ///        .bold { font-weight: bold; }        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string InfoHTMLEng {
             get {
@@ -91,11 +90,11 @@ namespace LuachProject.Properties {
         ///    &lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
         ///    &lt;style type=&quot;text/css&quot;&gt;
         ///        html, body { font-family: Tahoma; font-size: 8pt; color: #696969; margin: 0; padding: 0; direction: rtl; }
+        ///        .six { font-size: 6.7pt; }
         ///        .seven { font-size: 7.3pt; }
         ///        .nine { font-size: 9pt; }
         ///        .bold { font-weight: bold; }
-        ///        .reg { font-weight: normal; }
-        ///        .italic { font-style: ital [rest of string was truncated]&quot;;.
+        ///        .reg { font-weight: normal; } [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string InfoHTMLHeb {
             get {
