@@ -120,11 +120,9 @@ namespace JewishCalendar
                     this.AddTefillahNote("No Tzidkascha", "א\"א צדקתך");
                 }
                 else if (
-                  !(
-                      (this.month == 1 && this.day > 21) ||
-                      this.month == 2 ||
-                      (this.month == 3 && this.day < 6)
-                  )
+                  ((this.month != 1 || this.day < 21) &&
+                      this.month != 2 &&
+                      (this.month != 3 || this.day > 6))
               )
                 {
                     this.AddTefillahNote("No Av Harachamim", "א\"א אב הרחמים");
@@ -290,7 +288,7 @@ namespace JewishCalendar
                 }
                 this.AddTefillahNote("No Av Harachamim", "א\"א אב הרחמים");
             }
-            else if (this.isYomTov || this.ignoreTime)
+            else if (this.isYomTov)
             {
                 this.AddTefillahNote("No Av Harachamim", "א\"א אב הרחמים");
                 if ((this.showGaonShirShelYom) && (this.isDaytime || this.ignoreTime))
