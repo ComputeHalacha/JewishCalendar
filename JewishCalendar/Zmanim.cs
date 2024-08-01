@@ -380,8 +380,8 @@ namespace JewishCalendar
         {
             if (jDay == 30)
             {
-                int monthIndex = (jMonth == 12 && !isLeapYear) || jMonth == 13 ? 1 : jMonth + 1;
-                list.Add(new SpecialDay("Rosh Chodesh " + Utils.GetProperMonthName(jYear, jMonth),
+                int monthIndex = ((jMonth == 12 && !isLeapYear) || jMonth == 13) ? 1 : (jMonth + 1);
+                list.Add(new SpecialDay("Rosh Chodesh " + Utils.GetProperMonthName(jYear, monthIndex),
                    "ראש חודש " + Utils.GetProperMonthNameHeb(jYear, monthIndex),
                    SpecialDayTypes.MinorYomtov));
             }
