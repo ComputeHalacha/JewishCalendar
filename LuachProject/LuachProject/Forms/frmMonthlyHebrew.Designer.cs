@@ -126,7 +126,7 @@
             this.llSefirah.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llSefirah.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llSefirah.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.llSefirah.Location = new System.Drawing.Point(661, 2);
+            this.llSefirah.Location = new System.Drawing.Point(707, 2);
             this.llSefirah.Name = "llSefirah";
             this.llSefirah.Size = new System.Drawing.Size(141, 17);
             this.llSefirah.TabIndex = 4;
@@ -167,12 +167,12 @@
             this.llSearchOccasion.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llSearchOccasion.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llSearchOccasion.LinkColor = System.Drawing.Color.ForestGreen;
-            this.llSearchOccasion.Location = new System.Drawing.Point(992, 2);
+            this.llSearchOccasion.Location = new System.Drawing.Point(1051, 2);
             this.llSearchOccasion.Name = "llSearchOccasion";
-            this.llSearchOccasion.Size = new System.Drawing.Size(107, 16);
+            this.llSearchOccasion.Size = new System.Drawing.Size(48, 16);
             this.llSearchOccasion.TabIndex = 6;
             this.llSearchOccasion.TabStop = true;
-            this.llSearchOccasion.Text = "רשימת אירועים";
+            this.llSearchOccasion.Text = "אירועים";
             this.llSearchOccasion.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.llSearchOccasion.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llSearchOccasion_LinkClicked);
             // 
@@ -183,7 +183,7 @@
             this.llShowSeconds.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llShowSeconds.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llShowSeconds.LinkColor = System.Drawing.Color.Maroon;
-            this.llShowSeconds.Location = new System.Drawing.Point(918, 2);
+            this.llShowSeconds.Location = new System.Drawing.Point(964, 2);
             this.llShowSeconds.Name = "llShowSeconds";
             this.llShowSeconds.Size = new System.Drawing.Size(74, 16);
             this.llShowSeconds.TabIndex = 1;
@@ -257,7 +257,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(994, 2);
+            this.label3.Location = new System.Drawing.Point(1040, 2);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(11, 13);
             this.label3.TabIndex = 8;
@@ -267,7 +267,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(802, 2);
+            this.label4.Location = new System.Drawing.Point(848, 2);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(11, 13);
             this.label4.TabIndex = 9;
@@ -573,7 +573,7 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(907, 2);
+            this.label5.Location = new System.Drawing.Point(953, 2);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(11, 13);
             this.label5.TabIndex = 22;
@@ -586,7 +586,7 @@
             this.llEmailReminders.Font = new System.Drawing.Font("Century Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.llEmailReminders.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llEmailReminders.LinkColor = System.Drawing.Color.Goldenrod;
-            this.llEmailReminders.Location = new System.Drawing.Point(817, 2);
+            this.llEmailReminders.Location = new System.Drawing.Point(863, 2);
             this.llEmailReminders.Name = "llEmailReminders";
             this.llEmailReminders.Size = new System.Drawing.Size(80, 17);
             this.llEmailReminders.TabIndex = 21;

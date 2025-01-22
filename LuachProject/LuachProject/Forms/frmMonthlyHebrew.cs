@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 
 namespace LuachProject
@@ -32,6 +33,7 @@ namespace LuachProject
         private List<SingleDateInfo> _singleDateInfoList = new();
         private JewishDate _todayJewishDate;
         private Font _userOccasionFont;
+        private Font _userOccasionYearFont;
         private Font _zmanimFont;
         private readonly string _dailyInfoName = "frmDailyInfo";
 
@@ -144,6 +146,7 @@ namespace LuachProject
             this._zmanimFont = new Font(this.Font.FontFamily, 9, FontStyle.Regular);
             this._secularDayFont = new Font("Century Gothic", 8f);
             this._userOccasionFont = this._zmanimFont;
+            this._userOccasionYearFont = new Font(this._userOccasionFont.FontFamily, (this._userOccasionFont.SizeInPoints * 0.6F));
             this.jewishDatePicker1.MinDate = new JewishDate(3761, 11, 1, 13, new DateTime(1, 1, 13));
             this.jewishDatePicker1.MaxDate = new JewishDate(5999, 6, 1, 817656, new DateTime(2239, 9, 1));
             this.jewishDatePicker1.DataBindings.Add("Value",
@@ -740,10 +743,10 @@ namespace LuachProject
                 var ew = rect.Width / 3.3f;
                 g.FillClosedCurve(Program.DayHeadersBGBrush, new PointF[]
                 {
-                    new PointF(rect.X + ew, rect.Y + eh),
-                    new PointF(rect.X + (rect.Width - ew), rect.Y + eh),
-                    new PointF(rect.X + (rect.Width - ew), rect.Y + (rect.Height - eh)),
-                    new PointF(rect.X + ew, rect.Y + (rect.Height - eh))
+                    new(rect.X + ew, rect.Y + eh),
+                    new(rect.X + (rect.Width - ew), rect.Y + eh),
+                    new(rect.X + (rect.Width - ew), rect.Y + (rect.Height - eh)),
+                    new(rect.X + ew, rect.Y + (rect.Height - eh))
                 }, System.Drawing.Drawing2D.FillMode.Alternate, 3f);
             }
 
@@ -770,7 +773,21 @@ namespace LuachProject
             foreach (var o in occasions)
             {
                 //Get the text size for this occasions label.
-                var textSize = TextRenderer.MeasureText(g, o.Name, this._userOccasionFont, rect.Size.ToSize(), Program.TextFormatFlags);
+                var mainTextSize = TextRenderer.MeasureText(g, o.Name, this._userOccasionFont, rect.Size.ToSize(), Program.TextFormatFlags);
+                var textSize = mainTextSize;
+                var numberTextWidth = 0;
+                int number = 0;
+                if (Properties.Settings.Default.ShowYearBadge &&
+                    o.UserOccasionType.In(UserOccasionTypes.HebrewDateRecurringYearly, UserOccasionTypes.SecularDateRecurringYearly))
+                {
+                    number = o.GetNumberAnniversary(currDate);
+                }
+
+                if (number > 0)
+                {
+                    numberTextWidth = TextRenderer.MeasureText(g, number.ToString(), this._userOccasionYearFont).Width;
+                    textSize.Width += numberTextWidth;
+                }
 
                 //Move the Y position down to empty space.
                 rect.Y = currY + offsetTop;
@@ -778,6 +795,16 @@ namespace LuachProject
                 //Save the exact position of the occasion label so when the user clicks on it afterwards, we can open the occasion for editing.
                 //Note: the occasion labels are centered in the days box, so we need to find the beginning of the centered text.
                 o.Rectangle = new RectangleF(rect.X + ((rect.Width / 2) - (textSize.Width / 2)), rect.Y, textSize.Width, textSize.Height);
+
+                if (Properties.Settings.Default.ShowYearBadge && number > 0 && mainTextSize.Width <= (rect.Width * 0.666))
+                {
+                    var numRectangle = new Rectangle(Point.Truncate(new(rect.X + (mainTextSize.Width * 0.666F), rect.Y)), Size.Truncate(rect.Size));
+                    TextRenderer.DrawText(g, number.ToString(), this._userOccasionYearFont, numRectangle,
+                        (o.BackColor.Color == o.Color.Color ? Color.White : o.BackColor),
+                        (o.BackColor.Color == o.Color.Color ? Color.Black : o.Color));
+
+                }
+
                 TextRenderer.DrawText(g, o.Name, this._userOccasionFont, Rectangle.Truncate(rect), o.Color, Program.TextFormatFlags);
                 offsetTop += rect.Height;
             }

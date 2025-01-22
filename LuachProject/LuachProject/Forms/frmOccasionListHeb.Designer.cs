@@ -47,6 +47,7 @@
             this.llImport = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.cbShowBadges = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,7 +69,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 22);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(227, 17);
+            this.label3.Size = new System.Drawing.Size(177, 13);
             this.label3.TabIndex = 7;
             this.label3.Text = "חפש ע\"פ שם אירוע או חלק ממנה:";
             // 
@@ -78,7 +79,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtName.Location = new System.Drawing.Point(12, 42);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(830, 23);
+            this.txtName.Size = new System.Drawing.Size(830, 20);
             this.txtName.TabIndex = 0;
             this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
@@ -97,6 +98,7 @@
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
             this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(12, 71);
             this.listView1.Name = "listView1";
             this.listView1.RightToLeftLayout = true;
@@ -132,14 +134,14 @@
             this.toolStripSeparator1,
             this.deleteThisOccasionToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(262, 114);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(218, 98);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // goToDateToolStripMenuItem
             // 
             this.goToDateToolStripMenuItem.Name = "goToDateToolStripMenuItem";
             this.goToDateToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.goToDateToolStripMenuItem.Size = new System.Drawing.Size(261, 26);
+            this.goToDateToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.goToDateToolStripMenuItem.Text = "פתח תאריך האירוע";
             this.goToDateToolStripMenuItem.Click += new System.EventHandler(this.goToDateToolStripMenuItem_Click);
             // 
@@ -147,7 +149,7 @@
             // 
             this.goToUpcomingOccurenceToolStripMenuItem.Name = "goToUpcomingOccurenceToolStripMenuItem";
             this.goToUpcomingOccurenceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
-            this.goToUpcomingOccurenceToolStripMenuItem.Size = new System.Drawing.Size(261, 26);
+            this.goToUpcomingOccurenceToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.goToUpcomingOccurenceToolStripMenuItem.Text = "פתח תאריך הבא";
             this.goToUpcomingOccurenceToolStripMenuItem.Click += new System.EventHandler(this.goToUpcomingOccurenceToolStripMenuItem_Click);
             // 
@@ -155,20 +157,20 @@
             // 
             this.editThisOccasionToolStripMenuItem.Name = "editThisOccasionToolStripMenuItem";
             this.editThisOccasionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.editThisOccasionToolStripMenuItem.Size = new System.Drawing.Size(261, 26);
+            this.editThisOccasionToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.editThisOccasionToolStripMenuItem.Text = "ערוך פרטי האירוע";
             this.editThisOccasionToolStripMenuItem.Click += new System.EventHandler(this.editThisOccasionToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(258, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(214, 6);
             // 
             // deleteThisOccasionToolStripMenuItem
             // 
             this.deleteThisOccasionToolStripMenuItem.Name = "deleteThisOccasionToolStripMenuItem";
             this.deleteThisOccasionToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.deleteThisOccasionToolStripMenuItem.Size = new System.Drawing.Size(261, 26);
+            this.deleteThisOccasionToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.deleteThisOccasionToolStripMenuItem.Text = "מחק האירוע";
             this.deleteThisOccasionToolStripMenuItem.Click += new System.EventHandler(this.deleteThisOccasionToolStripMenuItem_Click);
             // 
@@ -191,7 +193,7 @@
             this.llExport.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llExport.Location = new System.Drawing.Point(803, 523);
             this.llExport.Name = "llExport";
-            this.llExport.Size = new System.Drawing.Size(38, 17);
+            this.llExport.Size = new System.Drawing.Size(31, 13);
             this.llExport.TabIndex = 19;
             this.llExport.TabStop = true;
             this.llExport.Text = "ייצוא";
@@ -204,7 +206,7 @@
             this.llImport.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.llImport.Location = new System.Drawing.Point(745, 523);
             this.llImport.Name = "llImport";
-            this.llImport.Size = new System.Drawing.Size(39, 17);
+            this.llImport.Size = new System.Drawing.Size(32, 13);
             this.llImport.TabIndex = 20;
             this.llImport.TabStop = true;
             this.llImport.Text = "ייבוא";
@@ -217,18 +219,31 @@
             this.label1.ForeColor = System.Drawing.Color.DimGray;
             this.label1.Location = new System.Drawing.Point(787, 523);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(13, 17);
+            this.label1.Size = new System.Drawing.Size(11, 13);
             this.label1.TabIndex = 22;
             this.label1.Text = "|";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // cbShowBadges
+            // 
+            this.cbShowBadges.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbShowBadges.AutoSize = true;
+            this.cbShowBadges.Location = new System.Drawing.Point(612, 18);
+            this.cbShowBadges.Name = "cbShowBadges";
+            this.cbShowBadges.Size = new System.Drawing.Size(230, 17);
+            this.cbShowBadges.TabIndex = 23;
+            this.cbShowBadges.Text = "הצג בלוח תווית שנה של אירועים שנתיים";
+            this.cbShowBadges.UseVisualStyleBackColor = true;
+            this.cbShowBadges.CheckedChanged += new System.EventHandler(this.cbShowBadges_CheckedChanged);
+            // 
             // frmOccasionListHeb
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.GhostWhite;
             this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(854, 620);
+            this.Controls.Add(this.cbShowBadges);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.llImport);
             this.Controls.Add(this.llExport);
@@ -272,5 +287,6 @@
         private System.Windows.Forms.ToolStripMenuItem editThisOccasionToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem deleteThisOccasionToolStripMenuItem;
+        private System.Windows.Forms.CheckBox cbShowBadges;
     }
 }

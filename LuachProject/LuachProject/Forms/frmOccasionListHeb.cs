@@ -31,6 +31,8 @@ namespace LuachProject
                 };
             }
 
+            this.cbShowBadges.Checked = Properties.Settings.Default.ShowYearBadge;
+
             this.LoadList();
         }
 
@@ -197,6 +199,13 @@ namespace LuachProject
                     return;
                 }
             }
+        }
+
+        private void cbShowBadges_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.ShowYearBadge = this.cbShowBadges.Checked;
+            Properties.Settings.Default.Save();
+            ((dynamic)this.Owner).Refresh();
         }
 
         private void LoadList()

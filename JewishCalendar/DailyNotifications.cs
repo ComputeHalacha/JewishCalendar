@@ -261,7 +261,7 @@ namespace JewishCalendar
                     this.AddTefillahNote(
                         "Rosh Chodesh will be " + ((DayOfWeek)dow).ToString() +
                             (dim == 30 ? ", " + ((DayOfWeek)((dow + 1) % 7)).ToString() : ""),
-                        "ראש חודש יהיה ב" + Utils.JewishDOWNames[dow] + 
+                        "ראש חודש יהיה ב" + Utils.JewishDOWNames[dow] +
                             (dim == 30 ? ", " + Utils.JewishDOWNames[(dow + 1) % 7] : ""));
 
                     if (this.month != 1 && this.month != 2)
@@ -703,6 +703,10 @@ namespace JewishCalendar
                             if ((this.isMorning || this.ignoreTime) && this.dow != DayOfWeek.Saturday)
                             {
                                 this.NoLaminatzeach();
+                            }
+                            if ((this.isAfternoon || this.ignoreTime) && this.dow != DayOfWeek.Saturday)
+                            {
+                                this.AddTefillahNote("Nacheim by Mincha", "נחם במנחה");
                             }
                         }
                         else
