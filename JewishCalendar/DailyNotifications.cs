@@ -212,6 +212,10 @@ namespace JewishCalendar
             {
                 this.AddDayNote("Shabbos Chazon", "שבת חזון");
             }
+            else if (this.month == 5 && this.day > 10 && this.day < 18)
+            {
+                this.AddDayNote("Shabbos Nachamu", "שבת נחמו");
+            }
             else if ((this.month == (this.isLeapYear ? 12 : 11) && this.day > 24) ||
               (this.month == (this.isLeapYear ? 13 : 12) && this.day == 1))
             {
@@ -225,12 +229,14 @@ namespace JewishCalendar
             {
                 this.AddDayNote("Parshas Parah", "פרשת פרה");
             }
-            else if (
-              (this.month == (this.isLeapYear ? 13 : 12) && this.day > 23 && this.day < 30) ||
-              (this.month == 1 && this.day == 1)
-          )
+            else if ((this.month == (this.isLeapYear ? 13 : 12) && this.day > 23 && this.day < 30) ||
+              (this.month == 1 && this.day == 1))
             {
                 this.AddDayNote("Parshas Hachodesh", "פרשת החודש");
+            }
+            if (this.sedras.Length > 0 && this.sedras.First().nameHebrew == "בשלח")
+            {
+                this.AddDayNote("Shabbos Shira", "שבת שירה");
             }
             if ((this.isMorning || this.ignoreTime) && !this.isYomTov)
             {

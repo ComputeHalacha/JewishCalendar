@@ -410,6 +410,10 @@ namespace JewishCalendar
             {
                 list.Add(new SpecialDay("Shabbos Chazon", "שבת חזון"));
             }
+            else if (jMonth == 5 && jDay > 10 && jDay < 18)
+            {
+                list.Add(new SpecialDay("Shabbos Nachamu", "שבת נחמו"));
+            }       
             else if ((jMonth == (isLeapYear ? 12 : 11) && jDay > 24) ||
                     (jMonth == (isLeapYear ? 13 : 12) && jDay == 1))
             {
@@ -428,7 +432,6 @@ namespace JewishCalendar
             {
                 list.Add(new SpecialDay("Parshas Hachodesh", "פרשת החודש"));
             }
-
             if (jMonth != 6 && jDay > 22 && jDay < 30)
             {
                 list.Add(new SpecialDay("Shabbos Mevarchim", "שבת מברכין"));
